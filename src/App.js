@@ -1,11 +1,9 @@
 import React from 'react';
-import Actions from './Actions';
-import IndividualActions from './IndividualActions';
+import Actions from './components/Actions';
 
 const App = () => (
   <div className='container'>
     <Actions />
-    <IndividualActions />
   </div>
 );
 

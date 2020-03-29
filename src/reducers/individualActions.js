@@ -16,7 +16,6 @@ export default (state = initialState, action) => {
         (accumulator, actionId) => ({ ...accumulator, [actionId]: 0 }),
         {}
       );
-      //console.log('initAllActionsWithYearZero', initAllActionsWithYearZero);
       const initAllParticipantsWithAllActionsWithYearZero = Object.keys(
         participants
       ).reduce(
@@ -26,10 +25,6 @@ export default (state = initialState, action) => {
         }),
         {}
       );
-      // console.log(
-      //   'initAllParticipantsWithAllActionsWithYearZero',
-      //   initAllParticipantsWithAllActionsWithYearZero
-      // );
 
       return {
         allParticipantIds: Object.keys(participants).map(participantId =>
@@ -67,10 +62,6 @@ export default (state = initialState, action) => {
     // }
     case SET_INDIVIDUAL_ACTIONS: {
       const { participantId, year, actionIds } = action.payload;
-      //console.log('actionsWithYearObject', actionsWithYearObject);
-      //console.log('oldState', state);
-      //console.log('...state.byParticipantIds', { ...state.byParticipantIds });
-      //console.log('...state[participantId]', { ...state.byParticipantIds[participantId] });
 
       const newState = {
         ...state,
@@ -88,7 +79,6 @@ export default (state = initialState, action) => {
           }
         }
       };
-      //console.log('newState', newState);
       return newState;
     }
     default:

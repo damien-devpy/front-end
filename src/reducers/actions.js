@@ -1,5 +1,5 @@
 const initialState = {
-  byIds: {
+  byId: {
     1: {
       name: 'SE DEPLACER A PIEDS OU A VÉLO',
       type: 'individual',

@@ -12,26 +12,11 @@ const onStoreChange = store => expectationsFn => done => {
   });
 };
 
-const assertIndividualActionsTakenByAParticipantOnASpecificYearAreUpdatedIntoTheStore = (
-  store,
-  params
-) => expected => done => {
-  onStoreChange(store)(() => {
-    // console.log(
-    //   'assertActionsEqualStoreChange',
-    //   JSON.stringify(store.getState())
-    // );
-    expect(
-      store.getState().individualActions.byIds[params.participantId][
-        params.year
-      ]
-    ).toEqual(expected);
-  })(done);
-};
-
 const assertAllIndividualActionsAreUpdatedIntoTheStore = store => expected => done => {
   onStoreChange(store)(() => {
-    expect(store.getState().individualActions.byIds).toEqual(expected);
+    expect(store.getState().individualActions).toEqual(
+      expected.individualActions
+    );
   })(done);
 };
 
@@ -42,22 +27,38 @@ export function dispatchAction(store) {
 describe('Individual Actions', () => {
   describe('Individual Actions Initialization', () => {
     it('should initialize every action with year 0', done => {
-      // const initState = {
-      //   individualActions: {
-      //     byIds: {},
-      //     allIds: []
-      //   }
-      // };
-      const store = createStore(
-        reducers,
-        /*initState,*/ applyMiddleware(thunk)
-      );
-      console.log('store actions ', store.getState().actions);
-      console.log('store participants ', store.getState().participants);
+      const initState = {
+        actions: {
+          byId: {
+            1: 'ACTION1',
+            2: 'ACTION2'
+          }
+        },
+        participants: {
+          byId: {
+            1: {},
+            2: {}
+          }
+        },
+        individualActions: {
+          byParticipantIds: {},
+          allParticipantIds: []
+        }
+      };
+      const store = createStore(reducers, initState, applyMiddleware(thunk));
+      //console.log('store actions ', store.getState().actions);
+      //console.log('store participants ', store.getState().participants);
+      const expected = {
+        individualActions: {
+          byParticipantIds: { 1: { 1: 0, 2: 0 }, 2: { 1: 0, 2: 0 } },
+          allParticipantIds: [1, 2]
+        }
+      };
+      assertAllIndividualActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(
         initActions(
-          store.getState().actions.byIds,
-          store.getState().participants.byIds
+          store.getState().actions.byId,
+          store.getState().participants.byId
         )
       );
     });
@@ -66,94 +67,96 @@ describe('Individual Actions', () => {
     it('should registered the individual actions', done => {
       const initState = {
         individualActions: {
-          byIds: {},
-          allIds: []
+          byParticipantIds: { 1: { 1: 0, 2: 0 } },
+          allParticipantIds: [1]
         }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
-      const expected = [1, 2];
-      assertIndividualActionsTakenByAParticipantOnASpecificYearAreUpdatedIntoTheStore(
-        store,
-        {
-          participantId: '1',
-          year: '2020'
+      const expected = {
+        individualActions: {
+          byParticipantIds: { 1: { 1: 2020, 2: 2020 } },
+          allParticipantIds: [1]
         }
-      )(expected)(done);
+      };
+      assertAllIndividualActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setActions(1, 2020, [1, 2]));
     });
 
     it('should registered new individual actions of a participant for a different year', done => {
       const initState = {
         individualActions: {
-          byIds: { '1': { '2020': [1, 2] } },
-          allIds: [1]
+          byParticipantIds: { 1: { 1: 2020, 2: 2020, 3: 0, 4: 0 } },
+          allParticipantIds: [1]
         }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
-      const expected = [3, 4];
-      assertIndividualActionsTakenByAParticipantOnASpecificYearAreUpdatedIntoTheStore(
-        store,
-        {
-          participantId: '1',
-          year: '2023'
+      const expected = {
+        individualActions: {
+          byParticipantIds: { 1: { 1: 2020, 2: 2020, 3: 2023, 4: 2023 } },
+          allParticipantIds: [1]
         }
-      )(expected)(done);
+      };
+      assertAllIndividualActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setActions(1, 2023, [3, 4]));
     });
 
     it('should NOT registered twice existing individual actions of a participant', done => {
       const initState = {
         individualActions: {
-          byIds: {},
-          allIds: []
+          byParticipantIds: { 1: { 1: 2020 } },
+          allParticipantIds: [1]
         }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
-      const expected = [1];
-      assertIndividualActionsTakenByAParticipantOnASpecificYearAreUpdatedIntoTheStore(
-        store,
-        {
-          participantId: '1',
-          year: '2020'
+      const expected = {
+        individualActions: {
+          byParticipantIds: { 1: { 1: 2020 } },
+          allParticipantIds: [1]
         }
-      )(expected)(done);
-      dispatchAction(store)(setActions(1, 2020, [1, 1]));
+      };
+      assertAllIndividualActionsAreUpdatedIntoTheStore(store)(expected)(done);
+      dispatchAction(store)(setActions(1, 2020, [1]));
     });
 
     it('should NOT registered twice existing individual actions of a participant for the same year', done => {
       const initState = {
         individualActions: {
-          byIds: { '1': { '2020': [1, 2] } },
-          allIds: [1]
+          byParticipantIds: { 1: { 1: 2020, 2: 2020 } },
+          allParticipantIds: [1]
         }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
-      const expected = [1, 2];
-      assertIndividualActionsTakenByAParticipantOnASpecificYearAreUpdatedIntoTheStore(
-        store,
-        {
-          participantId: '1',
-          year: '2020'
+      const expected = {
+        individualActions: {
+          byParticipantIds: { 1: { 1: 2020, 2: 2020 } },
+          allParticipantIds: [1]
         }
-      )(expected)(done);
+      };
+      assertAllIndividualActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setActions(1, 2020, [2]));
     });
 
     it('should registered individual actions for a different participant', done => {
       const initState = {
-        individualActions: { byIds: { 1: { 2020: [1, 2, 3, 4] } }, allIds: [1] }
+        individualActions: {
+          byParticipantIds: {
+            1: { 1: 2020, 2: 2020, 3: 2020, 4: 2020 },
+            2: { 1: 0, 2: 0, 3: 0, 4: 0 }
+          },
+          allParticipantIds: [1, 2]
+        }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
       const expected = {
-        1: { 2020: [1, 2, 3, 4] },
-        2: { 2020: [1, 3] }
-      };
-      assertAllIndividualActionsAreUpdatedIntoTheStore(store, {
         individualActions: {
-          byIds: { 1: { 2020: [1, 2, 3, 4] }, 2: { 2020: [1, 3] } },
-          allIds: [1, 2]
+          byParticipantIds: {
+            1: { 1: 2020, 2: 2020, 3: 2020, 4: 2020 },
+            2: { 1: 2020, 2: 0, 3: 2020, 4: 0 }
+          },
+          allParticipantIds: [1, 2]
         }
-      })(expected)(done);
+      };
+      assertAllIndividualActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setActions(2, 2020, [1, 3]));
     });
   });

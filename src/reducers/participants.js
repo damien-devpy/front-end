@@ -1,5 +1,5 @@
 const initialState = {
-  byIds: {
+  byId: {
     1: {
       firstName: 'François',
       lastName: 'Laugier',

@@ -10,7 +10,9 @@ const Actions = () => {
 
   return (
     <div>
+      <p>Test i18n library :</p>
       <p>Action 1: {action1}</p>
+      <p>Test Redux Store with some actions :</p>
       <Form>
         <Form.Group controlId='actionForm.CheckBoxAction'>
           {Object.keys(actions).map(key => (

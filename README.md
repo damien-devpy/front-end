@@ -31,3 +31,13 @@ $ yarn start
 ```bash
 $ npx styleguidist server
 ```
+
+## Test the React application
+
+Deploy a new version :
+
+```bash
+$ npm run deploy
+```
+
+It will deploy the application on [https://caplclimat.github.io/front-end](https://caplclimat.github.io/front-end/)

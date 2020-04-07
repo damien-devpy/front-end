@@ -47,18 +47,23 @@ export default {
     AC_Metha: 'DEVELOPPER LA METHANISATION',
     AC_CentTh: 'FERMER LES CENTRALES THERMIQUES',
     AC_EnrRen: 'DEVELOPPER LES ENERGIES RENOUVELABLES ELECTRIQUES',
-    AC_Educ: "INCLURE LES ENJEUX DE LA TRANSITION DANS L'ENSEIGNEMENT PUBLIC"
+    AC_Educ: "INCLURE LES ENJEUX DE LA TRANSITION DANS L'ENSEIGNEMENT PUBLIC",
   },
   common: {
-    environmentalInitiatives: 'ECOGESTES',
-    transport: 'TRANSPORT',
-    housing: 'LOGEMENT',
-    consumption: 'CONSO',
-    consumerGoods: 'BIENS DE CONSO',
-    influenceActions: "ACTIONS D'INFLUENCE",
-    awareness: 'SENSIBILISATION',
     activist: 'MILITANT',
+    awareness: 'SENSIBILISATION',
+    caplc: 'Comment Agir Pour Le Climat',
+    consumerGoods: 'BIENS DE CONSO',
+    consumption: 'CONSO',
+    copyright: '© 2020 CAPCL',
+    environmentalInitiatives: 'ECOGESTES',
+    home: 'Accueil',
+    housing: 'LOGEMENT',
+    influenceActions: "ACTIONS D'INFLUENCE",
     lobby: 'LOBBY',
-    professional: 'PRO'
-  }
+    professional: 'PRO',
+    results: 'Bilans',
+    simulation: 'Simulation en cours',
+    transport: 'TRANSPORT',
+  },
 };

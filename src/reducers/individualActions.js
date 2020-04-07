@@ -4,7 +4,7 @@ import {
 } from '../actions/individualActions';
 
 const initialState = {
-  byParticipantIds: { 1: { 1: 2020, 2: 2020, 3: 0, 4: 0 } },
+  byParticipantIds: { 1: { 1: [2020], 2: [2020], 3: [0], 4: [0] } },
   allParticipantIds: [1]
 };
 

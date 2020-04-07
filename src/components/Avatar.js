@@ -6,24 +6,24 @@ const STYLE = {
     XL: {
       WIDTH: '6.25rem',
       HEIGHT: '6.25rem',
-      FONT_SIZE: '2.5rem'
+      FONT_SIZE: '2.5rem',
     },
     L: {
       WIDTH: '3.5rem',
       HEIGHT: '3.5rem',
-      FONT_SIZE: '1.5rem'
+      FONT_SIZE: '1.5rem',
     },
     M: {
       WIDTH: '2.25rem',
       HEIGHT: '2.25rem',
-      FONT_SIZE: '1rem'
+      FONT_SIZE: '1rem',
     },
     S: {
       WIDTH: '1.5rem',
       HEIGHT: '1.5rem',
-      FONT_SIZE: '0.75rem'
-    }
-  }
+      FONT_SIZE: '0.75rem',
+    },
+  },
 };
 
 const dimensions = ({ size = 'large' }) => {
@@ -31,7 +31,7 @@ const dimensions = ({ size = 'large' }) => {
     small: 'S',
     medium: 'M',
     large: 'L',
-    extraLarge: 'XL'
+    extraLarge: 'XL',
   };
   return css`
     width: ${STYLE.SIZE[sizeChart[size]].WIDTH};
@@ -44,7 +44,7 @@ const initials = (name, maxInitials) =>
   name
     .split(' ')
     .slice(0, maxInitials)
-    .map(word => word.charAt(0).toUpperCase())
+    .map((word) => word.charAt(0).toUpperCase())
     .join('');
 
 const displayAvatar = (src, name, maxInitials) => {
@@ -54,7 +54,7 @@ const displayAvatar = (src, name, maxInitials) => {
   return <p>{name ? initials(name, maxInitials) : '?'}</p>;
 };
 
-export const Avatar = ({ src, name, maxInitials = 2, ...rest }) => (
+const Avatar = ({ src, name, maxInitials = 2, ...rest }) => (
   <StyledAvatar {...rest}>{displayAvatar(src, name, maxInitials)}</StyledAvatar>
 );
 
@@ -75,3 +75,5 @@ const StyledAvatar = styled.div`
   background: white;
   box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.5);
 `;
+
+export default Avatar;

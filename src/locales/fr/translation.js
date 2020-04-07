@@ -55,7 +55,7 @@ export default {
     caplc: 'Comment Agir Pour Le Climat',
     consumerGoods: 'BIENS DE CONSO',
     consumption: 'CONSO',
-    copyright: '© 2020 CAPCL',
+    copyright: '© 2020 CAPLC',
     environmentalInitiatives: 'ECOGESTES',
     home: 'Accueil',
     housing: 'LOGEMENT',

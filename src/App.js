@@ -9,7 +9,7 @@ import Results from './components/Results';
 const App = () => (
   <BrowserRouter>
     <Header
-      name='My Confinment workshop'
+      name='My Lockdown workshop'
       date='1 avril 2020'
       avatarName='Xavier Arques'
       avatarUrl='https://img.icons8.com/doodle/48/000000/user.png'

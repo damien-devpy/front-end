@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-const Results = ({ name, date }) => {
+const Simulation = () => {
   const { t } = useTranslation();
 
-  return <StyledResults>{t('common.results')}</StyledResults>;
+  return <StyledSimulation>{t('common.simulation')}</StyledSimulation>;
 };
-const StyledResults = styled.div`
+const StyledSimulation = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -16,4 +16,4 @@ const StyledResults = styled.div`
   margin: 10px 0;
 `;
 
-export default Results;
+export default Simulation;

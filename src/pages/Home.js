@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-const Home = ({ name, date }) => {
+const Home = () => {
   const { t } = useTranslation();
 
   return <StyledHome>{t('common.home')}</StyledHome>;

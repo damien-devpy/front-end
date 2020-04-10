@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Simulation from './components/Simulation';
+import Home from './pages/Home';
+import Simulation from './pages/Simulation';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Results from './components/Results';
+import Results from './pages/Results';
 
 const App = () => (
   <BrowserRouter>

@@ -11,18 +11,18 @@ const storage = getStorage();
 const buildHeaders = (forcedToken, customHeaders = {}) => {
   //const [token, sessionId] = [getAccessToken(), getSessionId()];
   const headers = Object.assign(customHeaders, {
-    //'yoss-token': forcedToken || token,
-    //'yoss-session-id': sessionId,
+    //'caplc-token': forcedToken || token,
+    //'caplc-session-id': sessionId,
   });
   return headers;
 };
 
 const handleHeaders = (response) => {
-  const sessionId = response.headers.get('yoss-session-id');
-  const current = storage.getItem('yoss-session-id');
+  const sessionId = response.headers.get('caplc-session-id');
+  const current = storage.getItem('caplc-session-id');
   if (sessionId && current !== sessionId) {
-    storage.removeItem('yoss-session-id');
-    storage.setItem('yoss-session-id', sessionId);
+    storage.removeItem('caplc-session-id');
+    storage.setItem('caplc-session-id', sessionId);
   }
   return response;
 };
@@ -91,10 +91,7 @@ export default function handleFetch(url, options = {}) {
     headers,
     ...rest,
   };
-  return fetch(
-    window.__YOSS__.config.REACT_APP_API_BASE_URL + url,
-    fetchOptions
-  )
+  return fetch(window.____.config.REACT_APP_API_BASE_URL + url, fetchOptions)
     .then(handleHeaders)
     .then(handleErrors)
     .then((response) => {

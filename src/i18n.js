@@ -13,22 +13,27 @@ i18n
     ns: ['translation', 'common'],
     resources: {
       en: { translation: enResources },
-      fr: { translation: frResources }
+      fr: { translation: frResources },
     },
     lng: 'fr',
     keySeparator: '.',
     interpolation: {
       escapeValue: false,
-      format: function(value, format) {
+      format: function (value, format) {
+        console.log('i18n value', value);
+        console.log('i18n format', format);
         if (format === 'uppercase') {
           return value.toUpperCase();
+        }
+        if (format === 'capitalize') {
+          return `${value.charAt(0).toUpperCase()} ${value.slice(1)}`;
         }
         if (value instanceof Date) {
           return dateFnsFormat(value, format);
         }
-        return value;
-      }
-    }
+        return value.toUpperCase();
+      },
+    },
   });
 
 export default i18n;

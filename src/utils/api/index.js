@@ -4,3 +4,8 @@ export const getCoaches = () =>
   handleFetch(`/coaches`, {
     useMock: true, // TO REMOVE AFTER BACKEND READY
   });
+
+  export const getFootprints = () =>
+  handleFetch(`/footprints`, {
+    useMock: true, // TO REMOVE AFTER BACKEND READY
+  });

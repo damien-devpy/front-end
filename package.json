@@ -13,6 +13,7 @@
     "formik": "^2.1.4",
     "i18next": "^19.3.4",
     "i18next-intervalplural-postprocessor": "^1.0.3",
+    "ramda": "^0.27.0",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
@@ -20,10 +21,14 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-table": "^7.0.4",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "uuid": "^7.0.3",
+    "wildstring": "^1.0.9",
+    "yup": "^0.28.3"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import actions from './actions';
-import individualActions from './individualActions';
+import coaches from './coaches';
 import participants from './participants';
 import rounds from './rounds';
 import years from './years';
 
 export default combineReducers({
   actions,
-  //individualActions,
+  coaches,
   participants,
   rounds,
   years,

@@ -38,6 +38,11 @@ const Header = ({ name, date, avatarUrl, avatarName }) => {
               {t('common.results')}
             </Button>
           </Link>
+          <Link to='/manage_participants'>
+            <Button active={location.pathname === '/manage_participants'}>
+              {t('common.manage')}
+            </Button>
+          </Link>
         </StyledLeftMenu>
         <StyledRightMenu>
           <Avatar src={avatarUrl} name={avatarName}></Avatar>

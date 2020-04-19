@@ -5,6 +5,7 @@ import Simulation from './pages/Simulation';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Results from './pages/Results';
+import ManageParticipants from './pages/ManageParticipants';
 
 const App = () => (
   <BrowserRouter>
@@ -19,6 +20,7 @@ const App = () => (
       <Route path='/home' component={Home} />
       <Route path='/simulation' component={Simulation} />
       <Route path='/results' component={Results} />
+      <Route path='/manage_participants' component={ManageParticipants} />
     </div>
     <Footer></Footer>
   </BrowserRouter>

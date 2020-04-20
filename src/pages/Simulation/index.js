@@ -1,70 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import {
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Bar,
-} from "recharts";
-const colors = [
-  ["#FF0000", "#C00001", "#700001", "#C33E01", "#FFCCFF"],
-  ["#1E4E79", "#2E75B6", "#7BD7EE"],
-  ["#7F6001", "#B58D0D", "#DEC268", "#FFCF34"],
-  ["#385723", "#70AD47", "#A9D18E"],
-  ["#ED7D31"],
-];
-
-const categories = (footprint) =>
-  footprint.map((sectorData) => Object.keys(sectorData).slice(1));
-
-const footprintDataBar = (footprint, t) => {
-  console.log("categs", categories(footprint));
-  return categories(footprint).map((sector, s) =>
-    sector.map((categ, c) => (
-      <Bar
-        name={t(`common.${categ}`)}
-        dataKey={categ}
-        stackId="a"
-        fill={colors[s][c]}
-      />
-    ))
-  );
-};
-
-const footprintGraph = (footprint, t) => (
-  <BarChart
-    width={600}
-    height={400}
-    data={footprint}
-    margin={{
-      top: 20,
-      right: 10,
-      left: 10,
-      bottom: 5,
-    }}
-    barCategoryGap="10"
-  >
-    <CartesianGrid strokeDasharray="3" />
-    <XAxis dataKey="sector" />
-    <YAxis dataKey="" />
-    <Tooltip />
-    <Legend />
-    {footprintDataBar(footprint, t)}
-  </BarChart>
-);
+import FootprintGraph from "./components/FootprintGraph";
+import EvolutionCarbon from "./components/EvolutionCarbon";
 
 const Simulation = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   console.log(footprintShaped);
   return (
     <StyledSimulation>
-      <h4> Empreinte Carbonne Moyenne des participants </h4>
-
-      {footprintGraph(footprintShaped, t)}
+      <div className="container center">
+        <h5> Evolution Carbone </h5>
+        <EvolutionCarbon data={evolutionData} />
+      </div>
+      <div className="container center">
+        <h5> Empreinte Carbonne Moyenne des participants </h5>
+        <FootprintGraph footprint={footprintShaped} />
+      </div>
     </StyledSimulation>
   );
 };
@@ -95,6 +47,81 @@ const footprintShaped = [
   },
   { sector: "Autres", clothing: 671.4, digital: 250, others_conso: 400 },
   { sector: "Services Publics", publicServices: 1000 },
+];
+
+const evolutionData = [
+  {
+    year: 2020,
+    player1: 17000,
+    player2: 14000,
+    player3: 10000,
+    player4: 9000,
+    player5: 5000,
+    player6: 4500,
+    player7: 8500,
+    player8: 7000,
+    player9: 6000,
+  },
+  {
+    year: 2025,
+    player1: 14000,
+    player2: 12000,
+    player3: 10000,
+    player4: 7000,
+    player5: 5000,
+    player6: 4000,
+    player7: 7500,
+    player8: 4000,
+    player9: 4000,
+  },
+  {
+    year: 2030,
+    player1: 14000,
+    player2: 12000,
+    player3: 10000,
+    player4: 7000,
+    player5: 5000,
+    player6: 4000,
+    player7: 7500,
+    player8: 4000,
+    player9: 4000,
+  },
+  {
+    year: 2033,
+    player1: 12000,
+    player2: 10000,
+    player3: 8000,
+    player4: 7000,
+    player5: 6000,
+    player6: 2500,
+    player7: 7000,
+    player8: 3000,
+    player9: 2000,
+  },
+  {
+    year: 2040,
+    player1: 8000,
+    player2: 7000,
+    player3: 5000,
+    player4: 4000,
+    player5: 5000,
+    player6: 2500,
+    player7: 7000,
+    player8: 3000,
+    player9: 2000,
+  },
+  {
+    year: 2050,
+    player1: 4000,
+    player2: 3000,
+    player3: 2000,
+    player4: 2000,
+    player5: 2000,
+    player6: 2500,
+    player7: 4000,
+    player8: 3000,
+    player9: 2000,
+  },
 ];
 // const renderLegend = (props) => {
 //   const { payload } = props;

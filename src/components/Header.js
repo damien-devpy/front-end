@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import Button from 'react-bootstrap/Button';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import Button from "react-bootstrap/Button";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-import Avatar from './Avatar';
+import Avatar from "./Avatar";
 // import Button from './Button';
-import { COLORS } from '../vars';
+import { COLORS } from "../vars";
 
 const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
     <StyledHeader>
       <StyledTop>
         <StyledTitle>
-          <p>{t('common.caplc')}</p>
+          <p>{t("common.caplc")}</p>
         </StyledTitle>
         <StyledWorkshop>
           <p>{name}</p>
@@ -25,36 +25,41 @@ const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
         <StyledRightMenu>
           <StyledNavDropDown
             title={
-              <div style={{ display: 'inline-block' }}>
+              <div style={{ display: "inline-block" }}>
                 <Avatar src={avatarUrl} name={avatarName}></Avatar>
               </div>
             }
-            id='basic-nav-dropdown'
+            id="basic-nav-dropdown"
           >
-            <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header>
-            <NavDropdown.Item href='/coaches'>
-              {t('common.coaches')}
+            <NavDropdown.Header>{t("common.admins")}</NavDropdown.Header>
+            <NavDropdown.Item href="/coaches">
+              {t("common.coaches")}
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item eventKey={3.2}>Another action</NavDropdown.Item>
           </StyledNavDropDown>
           <StyledWelcome>
             <p>
-              {t('common.welcome')} {firstName}
+              {t("common.welcome")} {firstName}
             </p>
             <p>{role}</p>
           </StyledWelcome>
         </StyledRightMenu>
       </StyledTop>
       <StyledLeftMenu>
-        <Link to='/home'>
-          <Button active={location.pathname === '/home'}>
-            {t('common.home')}
+        <Link to="/home">
+          <Button active={location.pathname === "/home"}>
+            {t("common.home")}
           </Button>
         </Link>
-        <Link to='/coaches'>
-          <Button active={location.pathname === '/coaches'}>
-            {t('common.coachesManagement')}
+        <Link to="/coaches">
+          <Button active={location.pathname === "/coaches"}>
+            {t("common.coachesManagement")}
+          </Button>
+        </Link>
+        <Link to="/simulation">
+          <Button active={location.pathname === "/simulation"}>
+            {t("common.simulation")}
           </Button>
         </Link>
         {/* <Link to='/results'>

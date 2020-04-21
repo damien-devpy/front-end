@@ -82,7 +82,7 @@ export default {
     workshop: "Atelier",
     workshops: "Ateliers",
     housingEquipment: "Equipement",
-    constructionAndMaintenance: "Contruction-Maintenance",
+    constructionAndMaintenance: "Contruction Maintenance",
     energies: "Energies",
     drinks: "Boissons",
     meatAndFish: "Viande et poisson",

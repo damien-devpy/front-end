@@ -123,22 +123,7 @@ const evolutionData = [
     player9: 2000,
   },
 ];
-// const renderLegend = (props) => {
-//   const { payload } = props;
-//   console.log(payload);
-//   const transData = payload.slice(0, 3);
-//   console.log("transData", transData);
-//   return (
-//     <div>
-//       <h5>Transport</h5>
-//       <ul>
-//         {transData.map((entry, index) => (
-//           <li key={`item-${index}`}>{entry.value}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
+
 // const footprintInitial = {
 //   transport: {
 //     plane: 750,

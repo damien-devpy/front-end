@@ -9,6 +9,8 @@ import {
   Legend,
   Bar,
 } from "recharts";
+import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
+
 
 const colors = [
   ["#FF0000", "#C00001", "#700001", "#C33E01", "#FFCCFF"],
@@ -34,6 +36,28 @@ const footprintDataBar = (footprint, t) => {
   );
 };
 
+const renderLegend = (props) => {
+  const { payload, footprint } = props;
+  console.log("payload", payload);
+  console.log("footprint", footprint );
+
+  var newProps = props
+  newProps.layout = "vertical";
+  return (
+      <div className="legend" style={{display: "table-row", width:"100%" }}> 
+    {footprint.map(sectorData => 
+      { newProps.payload = payload.filter((entry)=> Object.keys(sectorData).includes(entry.dataKey))
+     return ( <div className="legend-sector" style={{display: "table-cell", paddingRight: "20px", width: "auto", fontSize: 14}}> 
+      <h6> {sectorData.sector} </h6>
+      <DefaultLegendContent {...newProps} />
+          </div>)}
+          )
+      }
+      </div>
+          )
+          
+};
+
 const FootprintGraph = ({ footprint }) => {
   const { t } = useTranslation();
 
@@ -54,7 +78,7 @@ const FootprintGraph = ({ footprint }) => {
       <XAxis dataKey="sector" />
       <YAxis dataKey="" />
       <Tooltip />
-      <Legend />
+      <Legend layout = "vertical" footprint = {footprint} content = {renderLegend} />
       {footprintDataBar(footprint, t)}
     </BarChart>
   );

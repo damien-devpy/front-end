@@ -19,28 +19,30 @@ const CoachTable = ({ coaches, t }) => (
     <tbody>
       {coaches &&
         coaches.map(
-          ({
-            firstName,
-            lastName,
-            email,
-            role,
-            lastWorkshopDate,
-            numberOfWorkshops,
-            workshops,
-            sensitized,
-            actions,
-            city
-          }) => (
-            <tr>
+          (
+            {
+              firstName,
+              lastName,
+              email,
+              role,
+              lastWorkshopDate,
+              numberOfWorkshops,
+              sensitized,
+              action,
+              city
+            },
+            coachKey
+          ) => (
+            <tr key={coachKey}>
               <td>{firstName}</td>
               <td>{lastName}</td>
               <td>{lastWorkshopDate}</td>
               <td>{email}</td>
               <td>{role}</td>
               <td>{city}</td>
-              <td>{workshops}</td>
+              <td>{numberOfWorkshops}</td>
               <td>{sensitized}</td>
-              <td>{actions}</td>
+              <td>{action}</td>
             </tr>
           )
         )}

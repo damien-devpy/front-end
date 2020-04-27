@@ -76,6 +76,7 @@ export default {
     lobby: "LOBBY",
     loadError: "Erreur de chargement",
     loading: "Recherche ...",
+    model: "Modèle",
     newCoach: "Nouvel Animateur",
     newWorkshop: "Nouvel atelier",
     professional: "PRO",

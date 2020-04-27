@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
+import SubHeader from "./SubHeader";
 import { Container, NavDropdown, Navbar, Nav } from "react-bootstrap";
 
 import Avatar from "./Avatar";
@@ -49,39 +50,7 @@ const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
           </StyledWelcome>
         </StyledRightMenu>
       </StyledTop>
-      <Container>
-        <Navbar bg="light" expand="lg" className="rounded-lg my-3 p-1">
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link
-                href="/home"
-                style={{
-                  color: isActive("/home")
-                }}
-              >
-                {t("common.home")}
-              </Nav.Link>
-              <Nav.Link
-                href="/coaches"
-                style={{
-                  color: isActive("/coaches")
-                }}
-              >
-                {t("common.coachesManagement")}
-              </Nav.Link>
-              <Nav.Link
-                href="/workshops"
-                style={{
-                  color: isActive("/workshops")
-                }}
-              >
-                {t("common.workshopsManagment")}
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      </Container>
+      <SubHeader t={t} isActive={isActive} />
     </StyledHeader>
   );
 };

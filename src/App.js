@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Results from "./pages/Results";
 import Coaches from "./pages/Coaches/";
+import Workshops from "./pages/Workshops";
 
 const App = () => (
   <BrowserRouter>
@@ -23,6 +24,7 @@ const App = () => (
       <Route path="/simulation" component={Simulation} />
       <Route path="/results" component={Results} />
       <Route path="/coaches" component={Coaches} />
+      <Route path="/workshops" component={Workshops} />
     </div>
     {/* <Footer></Footer> */}
   </BrowserRouter>

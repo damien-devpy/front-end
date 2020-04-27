@@ -57,13 +57,14 @@ export default {
     awareness: "SENSIBILISATION",
     caplc: "Comment Agir Pour Le Climat",
     city: "Ville",
-    coach: "Coach",
+    coach: "Animateur",
     coaches: "Animateurs",
     coachesManagement: "Gestion des animateurs",
     consumerGoods: "BIENS DE CONSO",
     consumption: "CONSO",
     copyright: "© 2020 CAPLC",
     createAccount: "Créer compte",
+    date: "date",
     dateOfLastWorkshop: "Date dernier atelier",
     email: "Email",
     environmentalInitiatives: "ECOGESTES",
@@ -76,6 +77,7 @@ export default {
     loadError: "Erreur de chargement",
     loading: "Recherche ...",
     newCoach: "Nouvel Animateur",
+    newWorkshop: "Nouvel atelier",
     professional: "PRO",
     results: "Bilans",
     role: "Rôle",
@@ -84,6 +86,9 @@ export default {
     transport: "TRANSPORT",
     welcome: "Bienvenue",
     workshop: "Atelier",
-    workshops: "Ateliers"
+    workshopName: "Nom de l'atelier",
+    workshopStatus: "Statut",
+    workshops: "Ateliers",
+    workshopsManagment: "Gestion des ateliers"
   }
 };

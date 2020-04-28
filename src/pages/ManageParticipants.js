@@ -51,10 +51,8 @@ const ManageParticipants = ({ state, actions }) => {
     });
 
     return <div className="container">
-        <Form>
             <ParticipantsHeader />
             {participantItems}
-        </Form>
         <AddParticipant onAddNew={actions.onAddNew} />
     </div>;
 };

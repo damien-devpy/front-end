@@ -44,21 +44,21 @@ export const ParticipantItemForm = ({
   };
 
   const onBlur = (e) => {
-    updateParticipant(id, name, email, isValidName() && isValidEmail())    
+    updateParticipant(id, name, email, isValidName() && isValidEmail())
   };
 
   return (
     <Row onClick={handleItemClick} id={"participant" + id}>
       <Col>
         {/* <Form.Group> */}
-          <Form.Control plaintext={!isActive} readOnly={!isActive} value={name}
-            validated={isActive}
-            // isValid={!isNotValidName()}
-            isInvalid={!isValidName()}
-            onChange={onChangeName}
-            onBlur={onBlur}
-             required />
-          <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback>
+        <Form.Control plaintext={!isActive} readOnly={!isActive} value={name}
+          validated={isActive}
+          // isValid={!isNotValidName()}
+          isInvalid={!isValidName()}
+          onChange={onChangeName}
+          onBlur={onBlur}
+          required />
+        <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback>
         {/* </Form.Group> */}
       </Col>
       <Col>
@@ -87,16 +87,16 @@ export const ParticipantsHeader = () => {
     <StyledHeaderRow>
       <Row>
         <Col>
-          <Form.Control plaintext readOnly value={t('manageParticipants.nameSurname')} />
+          {t('manageParticipants.nameSurname')}
         </Col>
         <Col>
-          <Form.Control plaintext readOnly value={t('manageParticipants.email')} />
+          {t('manageParticipants.email')}
         </Col>
         <Col md="2">
-          <Form.Control plaintext readOnly value={t('manageParticipants.persona')} />
+          {t('manageParticipants.persona')}
         </Col>
-        <Col>
-          <Form.Control className="text-center" plaintext readOnly value={t('manageParticipants.status')} />
+        <Col className="text-center">
+          {t('manageParticipants.status')}
         </Col>
       </Row>
     </StyledHeaderRow>
@@ -128,6 +128,10 @@ export const StyledRow = styled.div`
 
 const StyledHeaderRow = styled.div`
   background-color: ${COLORS.GRAY.LIGHT};
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 export const StyledItem = styled.div`

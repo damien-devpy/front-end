@@ -25,6 +25,10 @@ const SubHeader = ({ t, isActive }) => {
               {t("common.workshops")}
             </Nav.Link>
             <Nav.Link
+              href='/manage_participants'>
+              {t('common.manageParticipants')}
+            </Nav.Link>
+            <Nav.Link
               disabled
               href="/model"
               style={{

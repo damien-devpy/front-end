@@ -1,4 +1,7 @@
-import { selectActionsFromBatch } from './actionsSelector';
+import {
+  selectActionsFromBatch,
+  selectActionsGroupedByBatch,
+} from './actionsSelector';
 
 describe('Workshop selectors', () => {
   const action1 = {
@@ -68,6 +71,24 @@ describe('Workshop selectors', () => {
     it('should return no action for a unknown batch', (done) => {
       const actionsFromBatch = selectActionsFromBatch(initState.actions, 10);
       expect(actionsFromBatch).toEqual({});
+      done();
+    });
+    it('should return actions grouped by batch', (done) => {
+      const actionsGroupedByBatch = selectActionsGroupedByBatch(
+        initState.actions
+      );
+      expect(actionsGroupedByBatch).toEqual({
+        1: {
+          ...action1,
+          ...action2,
+        },
+        2: {
+          ...action3,
+        },
+        3: {
+          ...action4,
+        },
+      });
       done();
     });
   });

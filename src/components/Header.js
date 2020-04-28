@@ -62,6 +62,11 @@ const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
             {t('common.results')}
           </Button>
         </Link> */}
+        <Link to='/manage_participants'>
+          <Button active={location.pathname === '/manage_participants'}>
+            {t('common.manageParticipants')}
+          </Button>
+        </Link>            
       </StyledLeftMenu>
     </StyledHeader>
   );

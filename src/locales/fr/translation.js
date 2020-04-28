@@ -78,8 +78,10 @@ export default {
     role: 'Rôle',
     simulation: 'Simulation en cours',
     transport: 'TRANSPORT',
-<<<<<<< HEAD
-    manage: "Gerer participants",
+    manageParticipants: "Gerer participants",
+    welcome: 'Bienvenue',
+    workshop: 'Atelier',
+    workshops: 'Ateliers',
   },
   manageParticipants: {
     nameSurname: "Nom Prenom",
@@ -87,18 +89,13 @@ export default {
     persona: "Persona",
     status: "Statut",
     addNew: "Ajouter Participant",
-    sendFormulaire: "Envoyer formulaire",
-    waiting: "En attente des resultats",
+    sendBCForm: "Envoyer formulaire",
+    sendByLink: "Copier le lien",
+    sendByEmail: "Envoyer un e-mail",
+    emailSent: "En attente des resultats",
     ready: "Pret",
-    missing: "Remplir info",
+    missingInfo: "Remplir info",
     overallStatus: "Participants prets",
-    seeBC: "voir Bilan Carbone",
-    sendFormulaireLink: "Copier Lien",
-    sendFormulaireEmail: "Par E-mail",
-=======
-    welcome: 'Bienvenue',
-    workshop: 'Atelier',
-    workshops: 'Ateliers',
->>>>>>> 6fb0d051bfbe1140ca81534db704fb48e14232e2
+    seeBC: "voir Bilan Carbone",    
   },
 };

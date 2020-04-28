@@ -1,4 +1,4 @@
-import { selectActionsFromGroup } from './workshopSelector';
+import { selectActionsFromBatch } from './actionsSelector';
 
 describe('Workshop selectors', () => {
   const action1 = {
@@ -8,7 +8,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 4,
-      groupId: 1,
+      batchId: 1,
     },
   };
   const action2 = {
@@ -18,7 +18,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 4,
-      groupId: 1,
+      batchId: 1,
     },
   };
   const action3 = {
@@ -28,7 +28,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 3,
-      groupId: 2,
+      batchId: 2,
     },
   };
   const action4 = {
@@ -38,7 +38,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 4,
-      groupId: 3,
+      batchId: 3,
     },
   };
   const initState = {
@@ -49,25 +49,25 @@ describe('Workshop selectors', () => {
       ...action4,
     },
   };
-  describe('Select actions from groups', () => {
-    it('should return only actions belonging to group 1', (done) => {
-      const actionsFromGroupOne = selectActionsFromGroup(initState.actions, 1);
-      expect(actionsFromGroupOne).toEqual({
+  describe('Select actions from batches', () => {
+    it('should return only actions belonging to batch 1', (done) => {
+      const actionsFromBatch = selectActionsFromBatch(initState.actions, 1);
+      expect(actionsFromBatch).toEqual({
         ...action1,
         ...action2,
       });
       done();
     });
-    it('should return only actions belonging to group 2', (done) => {
-      const actionsFromGroupOne = selectActionsFromGroup(initState.actions, 2);
-      expect(actionsFromGroupOne).toEqual({
+    it('should return only actions belonging to batch 2', (done) => {
+      const actionsFromBatch = selectActionsFromBatch(initState.actions, 2);
+      expect(actionsFromBatch).toEqual({
         ...action3,
       });
       done();
     });
-    it('should return no action for a unknown group', (done) => {
-      const actionsFromGroupOne = selectActionsFromGroup(initState.actions, 10);
-      expect(actionsFromGroupOne).toEqual({});
+    it('should return no action for a unknown batch', (done) => {
+      const actionsFromBatch = selectActionsFromBatch(initState.actions, 10);
+      expect(actionsFromBatch).toEqual({});
       done();
     });
   });

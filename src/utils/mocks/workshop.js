@@ -870,7 +870,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 4,
-        groupId: 1,
+        batchId: 1,
       },
       2: {
         name: 'FAIRE PLUS DE COVOITURAGE',
@@ -878,7 +878,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 4,
-        groupId: 1,
+        batchId: 1,
         operations: [
           {
             variable: 'km_per_day_car_commute',
@@ -892,7 +892,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
-        groupId: 2,
+        batchId: 2,
       },
       4: {
         name: "FAIRE DE L'ECO-CONDUITE",
@@ -900,7 +900,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 4,
-        groupId: 3,
+        batchId: 3,
       },
       5: {
         name: "ARRÊTER DE PRENDRE L'AVION",
@@ -908,7 +908,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 5,
-        groupId: 4,
+        batchId: 4,
       },
       6: {
         name: 'SE DEPLACER A PIEDS OU A VÉLO',
@@ -916,7 +916,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 4,
-        groupId: 5,
+        batchId: 5,
       },
       7: {
         name: 'BAISSER LE CHAUFFAGE',
@@ -924,7 +924,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 2,
-        groupId: 5,
+        batchId: 5,
       },
       8: {
         name: "CONSOMMER MOINS D'EAU CHAUDE SANITAIRE",
@@ -932,7 +932,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 2,
-        groupId: 6,
+        batchId: 6,
       },
       9: {
         name: "ÉCONOMISER DE L'ÉLECTRICITÉ",
@@ -940,7 +940,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 3,
-        groupId: 6,
+        batchId: 6,
       },
       10: {
         name: 'SE FOURNIR EN ÉLECTRICITÉ ALTERNATIVE',
@@ -948,7 +948,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
-        groupId: 7,
+        batchId: 7,
       },
       11: {
         name: 'MUTUALISER SON LOGEMENT',
@@ -956,10 +956,10 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 4,
-        groupId: 7,
+        batchId: 7,
       },
     },
-    actionsGroups: {
+    actionsBatches: {
       1: {
         name: 'Lot 1',
       },
@@ -998,6 +998,9 @@ export default {
   rounds: {
     byYear: {
       2020: {
+        actionsType: 'individual',
+        budget: 4,
+        actionIds: [1, 2, 3, 4],
         participants: {
           1: {
             carbonVariables: {
@@ -1071,6 +1074,8 @@ export default {
         },
       },
       2023: {
+        actionsType: 'collective',
+        budget: 4,
         participants: {
           1: {
             carbonVariables: {
@@ -1144,6 +1149,6 @@ export default {
         },
       },
     },
-    allYears: [2020],
+    allYears: [2020, 2023],
   },
 };

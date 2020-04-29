@@ -48,7 +48,9 @@ export const ParticipantItemForm = ({
   };
 
   return (
-    <Row onClick={handleItemClick} id={"participant" + id}>
+    <Row onClick={handleItemClick} id={"participant" + id} className="align-items-center">
+      <Col xs="1" className="text-center">
+        <Form.Label>{isActive ? <a href="#" title="Remove participant" className="badge lg">&#x1f5d1;</a> : ""}</Form.Label></Col>
       <Col>
         {/* <Form.Group> */}
         <Form.Control plaintext={!isActive} readOnly={!isActive} value={name}
@@ -57,8 +59,8 @@ export const ParticipantItemForm = ({
           isInvalid={!isValidName()}
           onChange={onChangeName}
           onBlur={onBlur}
-          required />
-        <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback>
+          required />          
+        {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
         {/* </Form.Group> */}
       </Col>
       <Col>
@@ -68,12 +70,12 @@ export const ParticipantItemForm = ({
           onChange={onChangeEmail}
           onBlur={onBlur}
           required />
-        <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback>
+        {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
       </Col>
       <Col md="2">
         <Persona isActive={isActive} />
-      </Col>
-      <Col className="text-center">
+      </Col>      
+      <Col className="text-center" onClick={(e) => {e.stopPropagation(); e.preventDefault();}}>
         <ParticipantStatus value={status} />
       </Col>
     </Row>
@@ -86,6 +88,7 @@ export const ParticipantsHeader = () => {
   return (
     <StyledHeaderRow>
       <Row>
+      <Col xs="1" className="text-center"></Col>
         <Col>
           {t('manageParticipants.nameSurname')}
         </Col>

@@ -41,7 +41,7 @@ export const ParticipantStatus = ({
                 <div>
                     <span className="badge alert-success" role="alert">
                         {t('manageParticipants.ready')}
-                    </span> <a href="" title={t('manageParticipants.seeBC')}>&#x1f50d;</a>
+                    </span> <a href="" title={t('manageParticipants.seeBC')} className="badge">&#x1f50d;</a>
                 </div>
             );
     }

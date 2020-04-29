@@ -1,10 +1,10 @@
-import * as R from 'ramda';
-import wildstring from 'wildstring';
+import * as R from "ramda";
+import wildstring from "wildstring";
 
-import getStorage from '../storage';
-import mock from '../mock';
+import getStorage from "../storage";
+import mock from "../mock";
 //import { getAccessToken, getSessionId } from '../auth';
-import { paramsToQuery } from '../helpers';
+import { paramsToQuery } from "../helpers";
 
 const storage = getStorage();
 
@@ -17,21 +17,21 @@ const buildHeaders = (forcedToken, customHeaders = {}) => {
   return headers;
 };
 
-const handleHeaders = (response) => {
-  const sessionId = response.headers.get('caplc-session-id');
-  const current = storage.getItem('caplc-session-id');
+const handleHeaders = response => {
+  const sessionId = response.headers.get("caplc-session-id");
+  const current = storage.getItem("caplc-session-id");
   if (sessionId && current !== sessionId) {
-    storage.removeItem('caplc-session-id');
-    storage.setItem('caplc-session-id', sessionId);
+    storage.removeItem("caplc-session-id");
+    storage.setItem("caplc-session-id", sessionId);
   }
   return response;
 };
 
-const handleErrors = async (response) => {
+const handleErrors = async response => {
   if (!response.ok) {
     const json = await response.json().catch(() => null);
     if (json) {
-      const message = R.path(['error', 'message'], json);
+      const message = R.path(["error", "message"], json);
       throw new Error(message || response.statusText);
     }
     throw new Error(response.statusText);
@@ -41,34 +41,34 @@ const handleErrors = async (response) => {
 
 export default function handleFetch(url, options = {}) {
   const {
-    method = 'GET',
+    method = "GET",
     useMock,
     mockOptions = {},
-    type = 'json',
+    type = "json",
     query,
     token,
     ...rest
   } = options;
-  if (method === 'GET' && query) {
+  if (method === "GET" && query) {
     const queryparams = paramsToQuery(query);
     url += queryparams;
   }
   if (
     rest.body &&
-    typeof rest.body !== 'string' &&
+    typeof rest.body !== "string" &&
     !(rest.body instanceof FormData)
   ) {
     rest.body = JSON.stringify(rest.body);
   }
   if (useMock) {
-    const matchingMockUrl = R.find((mockUrl) => wildstring.match(mockUrl, url))(
+    const matchingMockUrl = R.find(mockUrl => wildstring.match(mockUrl, url))(
       R.keys(mock)
     );
-    console.log('url', url);
-    console.log('matchingMockUrl', matchingMockUrl);
+    console.log("url", url);
+    console.log("matchingMockUrl", matchingMockUrl);
 
     if (matchingMockUrl) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         const result = R.is(Function)(mock[matchingMockUrl])
           ? mock[matchingMockUrl](mockOptions)
           : mock[matchingMockUrl];
@@ -77,7 +77,7 @@ export default function handleFetch(url, options = {}) {
           console.log(`mock`, {
             url: `/${method} ${url}`,
             params: mockOptions,
-            data: result,
+            data: result
           });
           resolve(result);
           clearTimeout(timeout);
@@ -89,20 +89,20 @@ export default function handleFetch(url, options = {}) {
   const fetchOptions = {
     method,
     headers,
-    ...rest,
+    ...rest
   };
   return fetch(window.____.config.REACT_APP_API_BASE_URL + url, fetchOptions)
     .then(handleHeaders)
     .then(handleErrors)
-    .then((response) => {
+    .then(response => {
       switch (type) {
-        case 'json':
+        case "json":
           return response.json();
-        case 'blob':
+        case "blob":
           return response.blob();
-        case 'text':
+        case "text":
           return response.text();
-        case 'empty':
+        case "empty":
         default:
           return response;
       }

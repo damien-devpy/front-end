@@ -1,43 +1,43 @@
 import { v4 as uuid } from "uuid";
 
 import {
-  ADD_COACH,
-  RETRIEVE_COACHES,
-  COACHES_RETRIEVED,
-  COACHES_LOAD_ERROR
-} from "../actions/coaches";
+  ADD_WORKSHOP,
+  RETRIEVE_WORKSHOPS,
+  WORKSHOPS_RETRIEVED,
+  WORKSHOPS_LOAD_ERROR
+} from "../actions/workshops";
 
 const initialState = {
   isLoading: false,
   loadError: false,
-  coaches: []
+  workshops: []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_COACH: {
-      const { coach } = action.payload;
-      coach.userId = uuid();
+    case ADD_WORKSHOP: {
+      const { workshop } = action.payload;
+      workshop.userId = uuid();
       return {
         ...state,
-        coaches: [...state.coaches, coach]
+        workshops: [...state.workshops, workshop]
       };
     }
-    case RETRIEVE_COACHES: {
+    case RETRIEVE_WORKSHOPS: {
       return {
         isLoading: true,
         loadErrorDetails: null
       };
     }
-    case COACHES_RETRIEVED: {
-      const { coaches } = action.payload;
+    case WORKSHOPS_RETRIEVED: {
+      const { workshops } = action.payload;
       return {
         isLoading: false,
         loadErrorDetails: null,
-        coaches
+        workshops
       };
     }
-    case COACHES_LOAD_ERROR: {
+    case WORKSHOPS_LOAD_ERROR: {
       return {
         isLoading: false,
         loadError: true,

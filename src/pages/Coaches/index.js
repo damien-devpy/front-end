@@ -17,8 +17,8 @@ const Coaches = () => {
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const handleSubmit = values => {
-    console.log("handleSubmit", values);
     dispatch(addCoach(values));
     setShow(false);
   };

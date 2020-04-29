@@ -25,6 +25,7 @@ const Coaches = () => {
   return (
     <div>
       <StyledHeader>
+        <h3>{t("common.coaches")}</h3>
         {!isLoading && (
           <Button variant="secondary" onClick={handleShow}>
             {t("common.addACoach")}
@@ -48,7 +49,7 @@ const Coaches = () => {
 
 const StyledHeader = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 export default Coaches;

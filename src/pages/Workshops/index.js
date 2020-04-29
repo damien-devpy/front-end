@@ -19,6 +19,7 @@ const Workshops = () => {
   return (
     <div>
       <StyledHeader>
+        <h3>{t("common.workshops")}</h3>
         <Button variant="secondary" onClick={handleShow}>
           {t("common.newWorkshop")}
         </Button>
@@ -34,7 +35,7 @@ export default Workshops;
 
 const StyledHeader = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 

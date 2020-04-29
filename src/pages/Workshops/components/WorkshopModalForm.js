@@ -1,15 +1,12 @@
 import React from "react";
 import { Formik } from "formik";
-import { InputGroup, Form, Col, Button } from "react-bootstrap";
+import { Form, Col, Button } from "react-bootstrap";
 import * as yup from "yup";
+import moment from "moment";
+
 const schema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  email: yup
-    .string()
-    .email()
-    .required(),
-  role: yup.string().required()
+  workshopName: yup.string().required(),
+  coachName: yup.string().required()
 });
 const WorkshopModalForm = ({ t, handleSubmit }) => {
   return (
@@ -17,52 +14,44 @@ const WorkshopModalForm = ({ t, handleSubmit }) => {
       validationSchema={schema}
       onSubmit={handleSubmit}
       initialValues={{
-        firstName: "",
-        lastName: "",
-        email: "",
-        role: t("common.coach")
+        date: moment(),
+        workshopName: "",
+        coachName: "",
+        status: "En préparation"
       }}
     >
-      {({
-        handleSubmit,
-        handleChange,
-        handleBlur,
-        values,
-        touched,
-        isValid,
-        errors
-      }) => (
+      {({ handleSubmit, handleChange, values, errors }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId="validationFormik01">
               <Form.Label>{t("common.workshopName")}</Form.Label>
               <Form.Control
                 type="text"
-                name="firstName"
-                value={values.firstName}
+                name="workshopName"
+                value={values.workshopName}
                 onChange={handleChange}
-                isInvalid={!!errors.firstName}
+                isInvalid={!!errors.workshopName}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.firstName}
+                {errors.workshopName}
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} controlId="validationFormik02">
               <Form.Label>{t("common.coach")}</Form.Label>
               <Form.Control
                 type="text"
-                name="lastName"
-                value={values.lastName}
+                name="coachName"
+                value={values.coachName}
                 onChange={handleChange}
-                isInvalid={!!errors.lastName}
+                isInvalid={!!errors.coachName}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.lastName}
+                {errors.coachName}
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
           <div style={{ textAlign: "right" }}>
-            <Button type="submit">{t("common.createAccount")}</Button>
+            <Button type="submit">{t("common.createWorkshop")}</Button>
           </div>
         </Form>
       )}

@@ -17,15 +17,20 @@ const WorkshopTable = ({ workshops, t }) => {
       <tbody>
         {workshops &&
           workshops.map(
-            ({ date, name, status, coachName, action }, workshopKey) => (
-              <tr key={workshopKey}>
-                <td>{moment(date).format("L")}</td>
-                <td>{name}</td>
-                <td>{status}</td>
-                <td>{coachName}</td>
-                <td>{action}</td>
-              </tr>
-            )
+            (
+              { date, workshopName, status, coachName, action },
+              workshopKey
+            ) => {
+              return (
+                <tr key={workshopKey}>
+                  <td>{moment(date).format("L")}</td>
+                  <td>{workshopName}</td>
+                  <td>{status}</td>
+                  <td>{coachName}</td>
+                  <td>{action}</td>
+                </tr>
+              );
+            }
           )}
       </tbody>
     </Table>

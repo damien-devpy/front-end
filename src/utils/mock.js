@@ -1,6 +1,8 @@
-import coaches from './mocks/coaches';
+import coaches from "./mocks/coaches";
+import workshops from "./mocks/workshops";
 
 export default {
-  [`/ping`]: 'pong',
+  [`/ping`]: "pong",
   [`/coaches`]: coaches,
+  [`/workshops`]: workshops
 };

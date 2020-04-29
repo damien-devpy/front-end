@@ -1,6 +1,6 @@
 import {
-  selectActionsFromBatch,
-  selectActionsGroupedByBatch,
+  selectIndividualActionsFromBatch,
+  selectIndividualActionsGroupedByBatch,
 } from './actionsSelector';
 
 describe('Workshop selectors', () => {
@@ -11,7 +11,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 4,
-      batchId: 1,
+      batch: 'I1',
     },
   };
   const action2 = {
@@ -21,7 +21,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 4,
-      batchId: 1,
+      batch: 'I1',
     },
   };
   const action3 = {
@@ -31,7 +31,7 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 3,
-      batchId: 2,
+      batch: 'I2',
     },
   };
   const action4 = {
@@ -41,7 +41,17 @@ describe('Workshop selectors', () => {
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
       cost: 4,
-      batchId: 3,
+      batch: 'I3',
+    },
+  };
+  const action5 = {
+    4: {
+      name: 'azerty',
+      type: 'collective',
+      category: 'ECOGESTES',
+      subCategory: 'TRANSPORT',
+      cost: 4,
+      batch: 'I3',
     },
   };
   const initState = {
@@ -52,40 +62,49 @@ describe('Workshop selectors', () => {
       ...action4,
     },
   };
-  describe('Select actions from batches', () => {
-    it('should return only actions belonging to batch 1', (done) => {
-      const actionsFromBatch = selectActionsFromBatch(initState.actions, 1);
+  describe('Select individual actions from batches', () => {
+    it('should return only individual actions belonging to batch I1', (done) => {
+      const actionsFromBatch = selectIndividualActionsFromBatch(
+        initState.actions,
+        'I1'
+      );
       expect(actionsFromBatch).toEqual({
         ...action1,
         ...action2,
       });
       done();
     });
-    it('should return only actions belonging to batch 2', (done) => {
-      const actionsFromBatch = selectActionsFromBatch(initState.actions, 2);
+    it('should return only individual actions belonging to batch I2', (done) => {
+      const actionsFromBatch = selectIndividualActionsFromBatch(
+        initState.actions,
+        'I2'
+      );
       expect(actionsFromBatch).toEqual({
         ...action3,
       });
       done();
     });
-    it('should return no action for a unknown batch', (done) => {
-      const actionsFromBatch = selectActionsFromBatch(initState.actions, 10);
+    it('should return no individual action for a unknown batch', (done) => {
+      const actionsFromBatch = selectIndividualActionsFromBatch(
+        initState.actions,
+        'I10'
+      );
       expect(actionsFromBatch).toEqual({});
       done();
     });
-    it('should return actions grouped by batch', (done) => {
-      const actionsGroupedByBatch = selectActionsGroupedByBatch(
+    it('should return individual actions grouped by batch', (done) => {
+      const actionsGroupedByBatch = selectIndividualActionsGroupedByBatch(
         initState.actions
       );
       expect(actionsGroupedByBatch).toEqual({
-        1: {
+        I1: {
           ...action1,
           ...action2,
         },
-        2: {
+        I2: {
           ...action3,
         },
-        3: {
+        I3: {
           ...action4,
         },
       });

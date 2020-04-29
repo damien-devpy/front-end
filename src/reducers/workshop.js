@@ -154,7 +154,6 @@ export default (state = initialState, action) => {
             ...globalCarbonVariables,
           })
       );
-      console.log(JSON.stringify(computedFootprint, null, 4));
       return {
         ...state,
         rounds: {
@@ -183,12 +182,13 @@ export default (state = initialState, action) => {
           .carbonVariables,
       };
       individualAction.operations.forEach((operation) => {
-        newCarbonVariables[
-          operation.variable
-        ] = jsonLogic.apply(operation.operation, {
-          ...state.rounds.byYear[yearFrom].participants[participantId]
-            .carbonVariables,
-        });
+        newCarbonVariables[operation.variable] = jsonLogic.apply(
+          operation.operation,
+          {
+            ...state.rounds.byYear[yearFrom].participants[participantId]
+              .carbonVariables,
+          }
+        );
       });
       return {
         ...state,

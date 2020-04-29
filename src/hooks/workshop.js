@@ -27,6 +27,6 @@ export const useWorkshop = (workshopId) => {
     return () => {
       mounted.current = false;
     };
-  }, [dispatch, workshopId]);
+  }, [dispatch]);
   return workshop;
 };

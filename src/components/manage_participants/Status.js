@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Button, ButtonGroup, Toast } from 'react-bootstrap'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export const ParticipantStatus = ({
     value,
@@ -10,13 +11,6 @@ export const ParticipantStatus = ({
     const { t } = useTranslation();
 
     const [show, setShow] = useState(false);
-
-    const copyToClipboard = (e) => {
-        var dummyContent = "this is to be copied to clipboard";
-        // var dummy = $('<input>').val(dummyContent).appendTo('body').select()
-        document.execCommand('copy')
-        setShow(true)
-    }
 
     switch (value) {
 
@@ -35,10 +29,12 @@ export const ParticipantStatus = ({
                         position: 'absolute',
                         top: 0,
                         right: -80,
-                    }} onClose={() => setShow(false)} show={show} delay={3000} animation={true} autohide><Toast.Body className="badge">Copied!</Toast.Body></Toast>
+                    }} onClose={() => setShow(false)} show={show} delay={2000} animation={true} autohide><Toast.Body className="badge">Copied!</Toast.Body></Toast>
                     <Dropdown.Menu>
                         <Dropdown.Item href="#/action-1">{t('manageParticipants.sendByEmail')}</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2" onClick={copyToClipboard}>{t('manageParticipants.sendByLink')}</Dropdown.Item>
+                        <CopyToClipboard text={value}
+                            onCopy={() => setShow(true)}><Dropdown.Item href="#/action-2">{t('manageParticipants.sendByLink')}</Dropdown.Item>
+                        </CopyToClipboard>
                     </Dropdown.Menu>
                 </Dropdown>
 

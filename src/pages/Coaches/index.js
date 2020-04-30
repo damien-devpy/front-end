@@ -17,14 +17,15 @@ const Coaches = () => {
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const handleSubmit = values => {
-    console.log("handleSubmit", values);
     dispatch(addCoach(values));
     setShow(false);
   };
   return (
     <div>
       <StyledHeader>
+        <h3>{t("common.coaches")}</h3>
         {!isLoading && (
           <Button variant="secondary" onClick={handleShow}>
             {t("common.addACoach")}
@@ -48,7 +49,7 @@ const Coaches = () => {
 
 const StyledHeader = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 export default Coaches;

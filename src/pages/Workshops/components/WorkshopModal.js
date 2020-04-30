@@ -12,7 +12,7 @@ const WorkshopModal = ({ t, show, handleClose, handleSubmit }) => {
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title>{t("common.newCoach")}</Modal.Title>
+        <Modal.Title>{t("common.newWorkshop")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <WorkshopModalForm t={t} handleSubmit={handleSubmit} />

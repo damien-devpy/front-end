@@ -1,16 +1,16 @@
-import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   coachesRetrieved,
   retrieveCoaches,
-  coachesLoadError,
-} from '../actions/coaches';
-import { getCoaches } from '../utils/api';
+  coachesLoadError
+} from "../actions/coaches";
+import { getCoaches } from "../utils/api";
 
 export const useCoaches = () => {
   const mounted = useRef(false);
   const dispatch = useDispatch();
-  const coaches = useSelector((state) => state.coaches);
+  const coaches = useSelector(state => state.coaches);
   useEffect(() => {
     const load = async () => {
       try {

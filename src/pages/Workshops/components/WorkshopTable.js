@@ -1,8 +1,8 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import moment from "moment";
 
-const WorkshopTable = ({ workshops, t }) => {
+const WorkshopTable = ({ workshops, t, handleDelete }) => {
   return (
     <Table borderless striped hover>
       <thead>
@@ -27,7 +27,25 @@ const WorkshopTable = ({ workshops, t }) => {
                   <td>{workshopName}</td>
                   <td>{status}</td>
                   <td>{coachName}</td>
-                  <td>{action}</td>
+                  <td>
+                    <Button variant="light mr-1">
+                      <span
+                        role="img"
+                        description={t("common.seeWorkshop")}
+                        style={{ textAlign: "center" }}
+                      >
+                        👀
+                      </span>
+                    </Button>
+                    <Button
+                      variant="light"
+                      onClick={() => handleDelete(workshopKey)}
+                    >
+                      <span role="img" description={t("common.deleteWorkshop")}>
+                        ❌
+                      </span>
+                    </Button>
+                  </td>
                 </tr>
               );
             }

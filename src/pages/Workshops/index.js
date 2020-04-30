@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useWorkshops } from "../../hooks/workshops";
-import { addWorkshop } from "../../actions/workshops";
+import { addWorkshop, deleteWorkshop } from "../../actions/workshops";
 import { useDispatch } from "react-redux";
 import WorkshopTable from "./components/WorkshopTable";
 import WorkshopModal from "./components/WorkshopModal";
@@ -20,7 +20,11 @@ const Workshops = () => {
     dispatch(addWorkshop(values));
     setShow(false);
   };
+  const handleDelete = workshopKey => {
+    dispatch(deleteWorkshop(workshopKey));
+  };
 
+  console.log("workshopssssss", workshops);
   return (
     <div>
       <StyledHeader>
@@ -35,7 +39,13 @@ const Workshops = () => {
       {loadError && <p>{t("common.loadError")}</p>}
       {isLoading && <Spinner animation="border"></Spinner>}
 
-      {workshops && <WorkshopTable t={t} workshops={workshops} />}
+      {workshops && (
+        <WorkshopTable
+          t={t}
+          workshops={workshops}
+          handleDelete={handleDelete}
+        />
+      )}
 
       <WorkshopModal
         t={t}

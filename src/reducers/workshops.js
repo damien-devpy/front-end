@@ -4,7 +4,8 @@ import {
   ADD_WORKSHOP,
   RETRIEVE_WORKSHOPS,
   WORKSHOPS_RETRIEVED,
-  WORKSHOPS_LOAD_ERROR
+  WORKSHOPS_LOAD_ERROR,
+  DELETE_WORKSHOP
 } from "../actions/workshops";
 
 const initialState = {
@@ -42,6 +43,15 @@ export default (state = initialState, action) => {
         isLoading: false,
         loadError: true,
         loadErrorDetails: action.payload
+      };
+    }
+    case DELETE_WORKSHOP: {
+      const { workshopKey } = action.payload;
+      return {
+        ...state,
+        workshops: [
+          ...state.workshops.filter((workshop, i) => i !== workshopKey)
+        ]
       };
     }
     default:

@@ -13,7 +13,7 @@ const NewNavbar = ({ avatarUrl }) => {
 
   return (
     <Navbar bg="light" expand="lg" bg="light" className="mb-4">
-      <Navbar.Brand href="/home" className="badge badge-light">
+      <Navbar.Brand href="/home" className="badge badge-light p-2">
         {t("common.caplc")}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

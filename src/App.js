@@ -24,14 +24,14 @@ const App = () => (
       firstName="Xavier"
       role="Animateur"
     ></Header> */}
-    <div className="container">
-      <Route exact path="/" component={Home} />
-      <Route path="/home" component={Home} />
-      <Route path="/simulation" component={Simulation} />
-      <Route path="/results" component={Results} />
-      <Route path="/coaches" component={Coaches} />
-      <Route path="/workshops" component={Workshops} />
-    </div>
+    {/* <div className="container"> */}
+    <Route exact path="/" component={Home} />
+    <Route path="/home" component={Home} />
+    <Route path="/simulation" component={Simulation} />
+    <Route path="/results" component={Results} />
+    <Route path="/coaches" component={Coaches} />
+    <Route path="/workshops" component={Workshops} />
+    {/* </div> */}
     {/* <Footer></Footer> */}
   </BrowserRouter>
 );

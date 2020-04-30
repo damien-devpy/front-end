@@ -18,12 +18,12 @@ const Coaches = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSubmit = values => {
+  const handleSubmit = (values) => {
     dispatch(addCoach(values));
     setShow(false);
   };
   return (
-    <div>
+    <div className="container">
       <StyledHeader>
         <h3>{t("common.coaches")}</h3>
         {!isLoading && (

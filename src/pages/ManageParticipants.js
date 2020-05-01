@@ -3,39 +3,45 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { COLORS, FONT } from '../vars';
-import { Form } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
+import { useDispatch } from 'react-redux'
+import { useParticipants } from '../hooks/participants'
 
 import { setParticipantNameEmail, addParticipant } from '../actions/participants';
 
 import { ParticipantItemForm, ParticipantsHeader } from '../components/manage_participants/ParticipantItemForm'
 
-const ManageParticipants = ({ state, actions }) => {
-
+const ManageParticipants = () => {
+    const { participants, isLoading, loadError } = useParticipants();
+    const dispatch = useDispatch();
+    
     // keep track of actived rows globally 
     const [active, setActive] = useState({});
 
-    const initActive = (state) => {
+    const initActive = (participants) => {
         // by default only rows that are missing required info are active
-        return Object.assign({}, ...state.participants.allIds.map(
-            id_ => ({ [id_]: !state.participants.byId[id_].isValid })))
+        return participants && Object.assign({}, ...participants.allIds.map(
+            id_ => ({ [id_]: !participants.byId[id_].isValid })))
     }
 
     useEffect(() => {
-        setActive(initActive(state));
-    }, [state])
+        participants && setActive(initActive(participants));
+    }, [participants])
 
     const onClick = (id) => {
-        // if previously another row was activated because it was clicked it will not be now
-        // (unless it misses required info)
-        let active_ = Object.assign({}, ...state.participants.allIds.map(
-            id_ => ({ [id_]: !state.participants.byId[id_].isValid })));
+        // if previously another row was activated because it was clicked, it will not be now
+        // unless it misses required info
+        let active_ = Object.assign({}, ...participants.allIds.map(
+            id_ => ({ [id_]: !participants.byId[id_].isValid })));
         active_[id] = true;
         setActive(active_);
     }
 
     const participantItems = [];
-    Object.keys(state.participants.byId).forEach((id) => {
-        let p = state.participants.byId[id];
+    console.log("ManageParticipants", participants)
+
+    participants && Object.keys(participants.byId).forEach((id) => {
+        let p = participants.byId[id];
         participantItems.push(<ParticipantItemForm
             id={id}
             firstName={p.firstName}
@@ -43,7 +49,9 @@ const ManageParticipants = ({ state, actions }) => {
             initEmail={p.email}
             status={p.status}
             key={id}
-            updateParticipant={actions.onEditNameEmail}
+            updateParticipant={(id, name, email, valid) => {
+                dispatch(setParticipantNameEmail(id, name, email, valid))
+            }}
             isActive={active[id]}
             isValid={p.isValid}
             onClick={onClick}
@@ -51,9 +59,12 @@ const ManageParticipants = ({ state, actions }) => {
     });
 
     return <div className="container">
+                {loadError && <p>Error</p>}
+        {isLoading && <Spinner animation="border"></Spinner>}
             <ParticipantsHeader />
             {participantItems}
-        <AddParticipant onAddNew={actions.onAddNew} />
+        <AddParticipant onAddNew={() => {
+            dispatch(addParticipant())}} />
     </div>;
 };
 
@@ -63,8 +74,9 @@ const StyledParticipants = styled.div`
 
 const AddParticipant = ({ onAddNew }) => {
     const { t } = useTranslation();
-
-    return <StyledAdd onClick={(e) => (onAddNew())}>
+    
+    return <StyledAdd onClick={(e) => {
+        onAddNew() }}>
         &#x2295; {t('manageParticipants.addNew')}
     </StyledAdd>
 }
@@ -79,23 +91,5 @@ export const StyledAdd = styled.div`
   border:2px dashed ${COLORS.GRAY.LIGHT};
 `;
 
-const mapStateToProps = (state) => ({
-    state: state
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    actions: {
-        onEditNameEmail: (id, name, email, valid) => {
-            dispatch(setParticipantNameEmail(id, name, email, valid))
-        },
-        onAddNew: () => {
-            dispatch(addParticipant());
-        }
-    }
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(ManageParticipants);
+export default ManageParticipants;
 

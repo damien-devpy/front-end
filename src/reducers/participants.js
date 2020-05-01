@@ -1,71 +1,77 @@
-import { useTranslation } from 'react-i18next';
 
 import {
-  INIT_PARTICIPANTS,
   SET_PARTICIPANT_NAME_EMAIL,
   ADD_PARTICIPANT,
+  RETRIEVE_PARTICIPANTS,
+  PARTICIPANTS_RETRIEVED,
+  PARTICIPANTS_LOAD_ERROR
 } from '../actions/participants';
 
-const MISSING_INFO = 'MISSING_INFO';
-const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
-const EMAIL_SENT = 'EMAIL_SENT';
-const BILAN_RECEIVED = 'BILAN_RECEIVED';
-
-//const { t } = useTranslation();
+export const MISSING_INFO = 'MISSING_INFO';
+export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
+export const EMAIL_SENT = 'EMAIL_SENT';
+export const BILAN_RECEIVED = 'BILAN_RECEIVED';
 
 const initialState = {
-  byId: {
-    1: {
-      firstName: 'François',
-      lastName: 'Laugier',
-      email: 'francois_laugier@outlook.com',
-      status: MUST_SEND_EMAIL,
-      isValid: true,
-    },
-    2: {
-      firstName: 'Xavier',
-      lastName: 'Arques',
-      email: 'xavarques@gmail.com',
-      status: BILAN_RECEIVED,
-      isValid: true,
-    }
-  },
-  allIds: [1, 2]
+  isLoading: false,
+  loadError: false,
+  participants: null,
 };
 
 // todo add SET_STATUS 
 
 export default (state = initialState, action) => {
-  
-  switch (action.type) {
-    case INIT_PARTICIPANTS: {
-      const { participants } = action.payload;
 
+  switch (action.type) {
+
+    case RETRIEVE_PARTICIPANTS: {
       return {
-        byId: participants
+        isLoading: true,
+        loadErrorDetails: null
+      };
+    }
+
+    case PARTICIPANTS_RETRIEVED: {
+      const { participants } = action.payload;
+      console.log("Reducer", action.payload)
+      return {
+        isLoading: false,
+        loadErrorDetails: null,
+        participants
+      };
+    }
+
+    case PARTICIPANTS_LOAD_ERROR: {
+      return {
+        isLoading: false,
+        loadError: true,
+        loadErrorDetails: action.payload
       };
     }
 
     case SET_PARTICIPANT_NAME_EMAIL: {
-      // todo pass directly first/last name?
       const { participantId, name, email, valid } = action.payload;
 
       console.log("Action set participant", participantId, name, email, valid)
+      // todo this should be handled correctly when there are > 1 spaces
       const [firstName, lastName] = name.split(/ /);
 
       const newState = {
         ...state,
-        byId: {
-          ...state.byId,
-          [participantId]: {
-            ...state.byId[participantId],
-            firstName: firstName,
-            lastName: lastName,  
-            email: email,
-            isValid: valid,   
-            status: 
-              state.byId[participantId].status === MISSING_INFO && valid ? 
-              MUST_SEND_EMAIL : state.byId[participantId].status       
+        participants: {
+          ...state.participants,
+          byId: {
+            ...state.participants.byId,
+            [participantId]: {
+              ...state.participants.byId[participantId],
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              isValid: valid,
+              status:
+                state.participants.byId[participantId].status === MISSING_INFO && valid ?
+                  MUST_SEND_EMAIL : state.participants.byId[participantId].status
+            }
           }
         }
       };
@@ -73,26 +79,27 @@ export default (state = initialState, action) => {
     }
 
     case ADD_PARTICIPANT: {
-      
+
       console.log("Action ADD participant")
-      const newId = state.allIds.length + 1
-      const newIds = Object.assign([], state.allIds)
+      const newId = state.participants.allIds.length + 1
+      const newIds = Object.assign([], state.participants.allIds)
       newIds.push(newId)
-      
-      const newState = {
+
+      const participants = {
         allIds: newIds,
         byId: {
-          ...state.byId,
+          ...state.participants.byId,
           [newId]: {
             firstName: "",
-            lastName: "",            
+            lastName: "",
             email: "",
             status: MISSING_INFO,
             isValid: false,
+            linkBC: null,
           }
         }
       };
-      return newState;
+      return { ...state, participants };
     }
     default:
       return state;

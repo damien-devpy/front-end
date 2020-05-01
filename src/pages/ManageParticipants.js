@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 import { COLORS, FONT } from '../vars';
 import { Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux'
 import { useParticipants } from '../hooks/participants'
+import { usePersonas } from '../hooks/personas'
 
 import { setParticipantNameEmail, addParticipant } from '../actions/participants';
 
@@ -13,6 +13,7 @@ import { ParticipantItemForm, ParticipantsHeader } from '../components/manage_pa
 
 const ManageParticipants = () => {
     const { participants, isLoading, loadError } = useParticipants();
+    const { personas, isLoadingPersonas, loadErrorPersonas } = usePersonas();
     const dispatch = useDispatch();
     
     // keep track of actived rows globally 
@@ -38,9 +39,9 @@ const ManageParticipants = () => {
     }
 
     const participantItems = [];
-    console.log("ManageParticipants", participants)
+    // console.log("ManageParticipants", participants, personas)
 
-    participants && Object.keys(participants.byId).forEach((id) => {
+    participants && personas && participants.allIds.forEach((id) => {
         let p = participants.byId[id];
         participantItems.push(<ParticipantItemForm
             id={id}
@@ -49,12 +50,14 @@ const ManageParticipants = () => {
             initEmail={p.email}
             status={p.status}
             key={id}
-            updateParticipant={(id, name, email, valid) => {
-                dispatch(setParticipantNameEmail(id, name, email, valid))
+            updateParticipant={(id, name, email, persona, valid) => {
+                dispatch(setParticipantNameEmail(id, name, email, persona, valid))
             }}
             isActive={active[id]}
             isValid={p.isValid}
             onClick={onClick}
+            personas={personas}
+            currentPersonaId={p.personaId}
         />);
     });
 

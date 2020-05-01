@@ -20,9 +20,9 @@ export const participantsLoadError = (error) => ({
   payload: error,
 });
 
-export const setParticipantNameEmail  = (participantId, name, email, valid) => ({
+export const setParticipantNameEmail  = (participantId, name, email, persona, valid) => ({
   type: SET_PARTICIPANT_NAME_EMAIL,
-  payload: { participantId, name, email, valid }
+  payload: { participantId, name, email, persona, valid }
 });
 
 export const addParticipant  = () => ({

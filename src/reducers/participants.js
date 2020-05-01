@@ -50,11 +50,12 @@ export default (state = initialState, action) => {
     }
 
     case SET_PARTICIPANT_NAME_EMAIL: {
-      const { participantId, name, email, valid } = action.payload;
+      const { participantId, name, email, persona, valid } = action.payload;
 
-      console.log("Action set participant", participantId, name, email, valid)
+      console.log("Action set participant", participantId, name, email, persona, valid)
       // todo this should be handled correctly when there are > 1 spaces
-      const [firstName, lastName] = name.split(/ /);
+      const [firstName, lastName] = name.split(/ /);    
+      const newPersona = persona ? persona : null;
 
       const newState = {
         ...state,
@@ -68,9 +69,12 @@ export default (state = initialState, action) => {
               lastName: lastName,
               email: email,
               isValid: valid,
+              personaId: newPersona,
               status:
-                state.participants.byId[participantId].status === MISSING_INFO && valid ?
-                  MUST_SEND_EMAIL : state.participants.byId[participantId].status
+                newPersona ? BILAN_RECEIVED :
+                (state.participants.byId[participantId].status === MISSING_INFO && valid ?
+                  MUST_SEND_EMAIL : state.participants.byId[participantId].status)
+                  
             }
           }
         }

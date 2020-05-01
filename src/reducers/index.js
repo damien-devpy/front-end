@@ -5,6 +5,7 @@ import participants from "./participants";
 import rounds from "./rounds";
 import years from "./years";
 import workshops from "./workshops";
+import personas from "./personas"
 
 export default combineReducers({
   actions,
@@ -12,5 +13,6 @@ export default combineReducers({
   participants,
   rounds,
   years,
-  workshops
+  workshops,
+  personas,
 });

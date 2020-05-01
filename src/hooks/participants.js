@@ -11,7 +11,7 @@ export const useParticipants = () => {
   const mounted = useRef(false);
   const dispatch = useDispatch();
   let participants = useSelector(state => state.participants);
-
+  
   useEffect(() => {
     const load = async () => {
       try {

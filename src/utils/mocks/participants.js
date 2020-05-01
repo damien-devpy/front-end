@@ -8,7 +8,8 @@ export default {
       email: 'francois_laugier@outlook.com',
       status: MUST_SEND_EMAIL,
       isValid: true,
-      linkBC: 'http//www'
+      linkBC: 'http//www',
+      personaId: null,
     },
     2: {
       firstName: 'Xavier',
@@ -16,7 +17,8 @@ export default {
       email: 'xavarques@gmail.com',
       status: BILAN_RECEIVED,
       isValid: true,
-      linkBC: 'http//www'
+      linkBC: 'http//www',
+      personaId: null,
     },
     3: {
       firstName: 'Ivan',
@@ -24,8 +26,18 @@ export default {
       email: 'ivan.dorne@gmail.com',
       status: EMAIL_SENT,
       isValid: true,
-      linkBC: 'http//www'
+      linkBC: 'http//www',
+      personaId: null,
+    },
+    4: {
+      firstName: 'Yvan',
+      lastName: 'Dornet',
+      email: 'ivan.dornet@gmail.com',
+      status: BILAN_RECEIVED,
+      isValid: true,
+      linkBC: 'http//www',
+      personaId: 2,
     }
   },
-  allIds: [1, 2, 3]
+  allIds: [1, 2, 3, 4]
 }

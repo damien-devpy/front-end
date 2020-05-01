@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { Button, Spinner } from 'react-bootstrap';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import { Button, Spinner } from "react-bootstrap";
 
-import FootprintGraph from './components/FootprintGraph';
-import EvolutionCarbon from './components/EvolutionCarbon';
-import { useWorkshop } from '../../hooks/workshop';
-import { addCoach } from '../../actions/coaches';
-import NewRoundModal from './components/NewRoundModal';
+import { useTranslation } from "react-i18next";
+import FootprintGraph from "./components/FootprintGraph";
+import EvolutionCarbon from "./components/EvolutionCarbon";
+import { Container, Row, Col } from "react-bootstrap";
+import { useWorkshop } from "../../hooks/workshop";
+import { addCoach } from "../../actions/coaches";
+import NewRoundModal from "./components/NewRoundModal";
+import "./components/simulationPage.css";
 
 const Simulation = () => {
   const { t } = useTranslation();
@@ -18,32 +20,46 @@ const Simulation = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (values) => {
-    console.log('handleSubmit', values);
+    console.log("handleSubmit", values);
     dispatch(addCoach(values));
     setShow(false);
   };
-  console.log('actions', actions);
+  console.log(footprintShaped);
   return (
     <div>
-      <StyledHeader>
-        {!isLoading && (
-          <Button variant='secondary' onClick={handleShow}>
-            {t('common.nextRound')}
-          </Button>
-        )}
-      </StyledHeader>
-      {loadError && <p>{t('common.loadError')}</p>}
-      {isLoading && <Spinner animation='border'></Spinner>}
-
       <StyledSimulation>
-        <div className='container center'>
-          <h5> Evolution Carbone </h5>
-          <EvolutionCarbon data={evolutionData} />
-        </div>
-        <div className='container center'>
-          <h5> Empreinte Carbonne Moyenne des participants </h5>
-          <FootprintGraph footprint={footprintShaped} />
-        </div>
+        <Container className="row-full">
+          <StyledHeader>
+            {!isLoading && (
+              <Button variant="secondary" onClick={handleShow}>
+                {t("common.nextRound")}
+              </Button>
+            )}
+          </StyledHeader>
+          {loadError && <p>{t("common.loadError")}</p>}
+          {isLoading && <Spinner animation="border"></Spinner>}
+          <Row style={{ height: "100vh" }}>
+            <Col sm={12} md={8} className="graph-col">
+              <Container className="graph-card">
+                <h4>
+                  Evolution du CO<span style={{ fontSize: "14px" }}>2</span> par
+                  personne
+                </h4>
+                <EvolutionCarbon data={evolutionData} />
+              </Container>
+            </Col>
+            <Col sm={12} md={4} className="graph-col">
+              <Container className="graph-card">
+                <h4> La population </h4>
+                <FootprintGraph footprint={footprintShaped} />
+              </Container>
+              <Container className="graph-card">
+                <h4> Les participants </h4>
+                <FootprintGraph footprint={footprintShaped} />
+              </Container>
+            </Col>
+          </Row>
+        </Container>
       </StyledSimulation>
       <NewRoundModal
         actions
@@ -54,11 +70,6 @@ const Simulation = () => {
     </div>
   );
 };
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-`;
 
 const StyledSimulation = styled.div`
   display: flex;
@@ -68,24 +79,29 @@ const StyledSimulation = styled.div`
   height: 100%;
   margin: 10px 0;
 `;
+const StyledHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+`;
 
 const footprintShaped = [
-  { sector: 'Transport', plane: 750, train: 59, bus: 150, car: 600 },
+  { sector: "Transport", plane: 750, train: 59, bus: 150, car: 600 },
   {
-    sector: 'Logement',
+    sector: "Logement",
     housingEquipment: 500,
     constructionAndMaintenance: 300,
     energies: 216,
   },
   {
-    sector: 'Alimentation',
+    sector: "Alimentation",
     drinks: 700,
     meatAndFish: 352.86375,
     eggsAndDairies: 71.66775,
     others_alim: 600,
   },
-  { sector: 'Autres', clothing: 671.4, digital: 250, others_conso: 400 },
-  { sector: 'Services Publics', publicServices: 1000 },
+  { sector: "Autres", clothing: 671.4, digital: 250, others_conso: 400 },
+  { sector: "Services Publics", publicServices: 1000 },
 ];
 
 const evolutionData = [
@@ -151,15 +167,15 @@ const evolutionData = [
   },
   {
     year: 2050,
-    // player1: 4000,
-    // player2: 3000,
-    // player3: 2000,
-    // player4: 2000,
-    // player5: 2000,
-    // player6: 2500,
-    // player7: 4000,
-    // player8: 3000,
-    // player9: 2000,
+    player1: 4000,
+    player2: 3000,
+    player3: 2000,
+    player4: 2000,
+    player5: 2000,
+    player6: 2500,
+    player7: 4000,
+    player8: 3000,
+    player9: 2000,
   },
 ];
 

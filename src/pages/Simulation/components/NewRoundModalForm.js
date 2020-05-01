@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Formik } from 'formik';
-import { InputGroup, Form, Col, Button, ButtonGroup } from 'react-bootstrap';
-import * as yup from 'yup';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Formik } from "formik";
+import { InputGroup, Form, Col, Button, ButtonGroup } from "react-bootstrap";
+import * as yup from "yup";
 
 import {
   selectIndividualActionsGroupedByBatch,
   selectCollectiveActionsGroupedByBatch,
-} from '../../../selectors/actionsSelector';
-import { useWorkshop } from '../../../hooks/workshop';
+} from "../../../selectors/actionsSelector";
+import { useWorkshop } from "../../../hooks/workshop";
 
 const schema = yup.object({
   actionType: yup.string().required(),
@@ -26,15 +26,15 @@ const NewRoundModalForm = ({ t, handleSubmit }) => {
   const collectiveActionsBatches = useSelector((state) =>
     selectCollectiveActionsGroupedByBatch(state.workshop.model.actions)
   );
-  console.log('individualActionsBatches', individualActionsBatches);
-  console.log('collectiveActionsBatches', collectiveActionsBatches);
+  console.log("individualActionsBatches", individualActionsBatches);
+  console.log("collectiveActionsBatches", collectiveActionsBatches);
 
   return (
     <Formik
       validationSchema={schema}
       onSubmit={handleSubmit}
       initialValues={{
-        actionType: 'individual',
+        actionType: "individual",
         year: 2020,
         budget: 4,
       }}
@@ -53,37 +53,37 @@ const NewRoundModalForm = ({ t, handleSubmit }) => {
         return (
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Row>
-              <Form.Group as={Col} controlId='validationFormik00'>
-                <ButtonGroup className='mr-2'>
+              <Form.Group as={Col} controlId="validationFormik00">
+                <ButtonGroup className="mr-2">
                   <Button
-                    variant='secondary'
-                    active={values.actionType === 'individual'}
-                    onClick={() => setFieldValue('actionType', 'individual')}
+                    variant="secondary"
+                    active={values.actionType === "individual"}
+                    onClick={() => setFieldValue("actionType", "individual")}
                   >
-                    {t('common.individualActions')}
+                    {t("common.individualActions")}
                   </Button>
                 </ButtonGroup>
-                <ButtonGroup className='mr-2'>
+                <ButtonGroup className="mr-2">
                   <Button
-                    variant='secondary'
-                    active={values.actionType === 'collective'}
-                    onClick={() => setFieldValue('actionType', 'collective')}
+                    variant="secondary"
+                    active={values.actionType === "collective"}
+                    onClick={() => setFieldValue("actionType", "collective")}
                   >
-                    {t('common.collectiveActions')}
+                    {t("common.collectiveActions")}
                   </Button>
                 </ButtonGroup>
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId='validationFormik02'>
-                <Form.Label>{t('common.batches')}</Form.Label>
-                <div key={`inline-checkbox`} className='mb-3'>
+              <Form.Group as={Col} controlId="validationFormik02">
+                <Form.Label>{t("common.batches")}</Form.Label>
+                <div key={`inline-checkbox`} className="mb-3">
                   {Object.keys(individualActionsBatches).map((batch) => (
                     <Form.Check
                       checked={values[batch]}
                       inline
                       label={batch}
-                      type='checkbox'
+                      type="checkbox"
                       id={batch}
                       key={batch}
                       onChange={() => setFieldValue(batch, !values[batch])}
@@ -115,8 +115,8 @@ const NewRoundModalForm = ({ t, handleSubmit }) => {
                 </Form.Group>
               ))} */}
             </Form.Row>
-            <div style={{ textAlign: 'right' }}>
-              <Button type='submit'>{t('common.validate')}</Button>
+            <div style={{ textAlign: "right" }}>
+              <Button type="submit">{t("common.validate")}</Button>
             </div>
           </Form>
         );

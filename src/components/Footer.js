@@ -1,18 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
   const { t } = useTranslation();
 
   return (
     <StyledFooter>
-      <p>{t('common.copyright')}</p>
+      <p>{t("common.copyright")}</p>
     </StyledFooter>
   );
 };
 const StyledFooter = styled.div`
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
   height: 2.5rem; /* Footer height */

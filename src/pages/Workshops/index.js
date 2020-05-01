@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import moment from "moment";
-
+import { useWorkshops } from "../../hooks/workshops";
+import { addWorkshop, deleteWorkshop } from "../../actions/workshops";
 import { useDispatch } from "react-redux";
 import WorkshopTable from "./components/WorkshopTable";
 import WorkshopModal from "./components/WorkshopModal";
@@ -10,22 +10,51 @@ import { Button, Spinner } from "react-bootstrap";
 
 const Workshops = () => {
   const { t } = useTranslation();
+  const { workshops, isLoading, loadError } = useWorkshops();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleSubmit = (values) => {
+    dispatch(addWorkshop(values));
+    setShow(false);
+  };
+  const handleDelete = (workshopKey) => {
+    dispatch(deleteWorkshop(workshopKey));
+  };
 
+  console.log("workshopssssss", workshops);
   return (
-    <div>
-      <StyledHeader>
-        <Button variant="secondary" onClick={handleShow}>
-          {t("common.newWorkshop")}
-        </Button>
-      </StyledHeader>
+    <div className="container">
+      <div>
+        <StyledHeader>
+          <h3>{t("common.workshops")}</h3>
+          {!isLoading && (
+            <Button variant="secondary" onClick={handleShow}>
+              {t("common.addAWorkshop")}
+            </Button>
+          )}
+        </StyledHeader>
 
-      <WorkshopTable t={t} workshops={fetchedWorkshops} />
-      <WorkshopModal t={t} show={show} handleClose={handleClose} />
+        {loadError && <p>{t("common.loadError")}</p>}
+        {isLoading && <Spinner animation="border"></Spinner>}
+
+        {workshops && (
+          <WorkshopTable
+            t={t}
+            workshops={workshops}
+            handleDelete={handleDelete}
+          />
+        )}
+
+        <WorkshopModal
+          t={t}
+          show={show}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 };
@@ -34,33 +63,6 @@ export default Workshops;
 
 const StyledHeader = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;
-
-const fetchedWorkshops = [
-  {
-    date: moment().subtract(3, "days"),
-    name: "DataForGood",
-    status: "En cours",
-    coachName: "François"
-  },
-  {
-    date: moment().subtract(12, "days"),
-    name: "L’Elysée",
-    status: "En préparation",
-    coachName: "Noé"
-  },
-  {
-    date: moment().subtract(1, "month"),
-    name: "LLL",
-    status: "Mail de fin à envoyer",
-    coachName: "Léa"
-  },
-  {
-    date: moment().subtract(2, "months"),
-    name: "Devant les enfants",
-    status: "Clôturé",
-    coachName: "François"
-  }
-];

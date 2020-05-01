@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   workshopRetrieved,
   retrieveWorkshop,
   workshopLoadError,
-} from '../actions/workshop';
-import { getWorkshop } from '../utils/api';
+} from "../actions/workshop";
+import { getWorkshop } from "../utils/api";
 
 export const useWorkshop = (workshopId) => {
   const mounted = useRef(false);
@@ -27,6 +27,6 @@ export const useWorkshop = (workshopId) => {
     return () => {
       mounted.current = false;
     };
-  }, [dispatch]);
+  }, [dispatch, workshopId]);
   return workshop;
 };

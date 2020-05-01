@@ -1,8 +1,10 @@
 import coaches from "./mocks/coaches";
+import footprints from "./mocks/footprints";
 import workshops from "./mocks/workshops";
 
 export default {
   [`/ping`]: "pong",
   [`/coaches`]: coaches,
-  [`/workshops`]: workshops
+  [`/footprints`]: footprints,
+  [`/workshops`]: workshops,
 };

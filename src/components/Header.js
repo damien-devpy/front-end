@@ -13,7 +13,7 @@ const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  const isActive = path =>
+  const isActive = (path) =>
     location.pathname === path ? `${COLORS.BROWN.DARK}` : null;
 
   return (

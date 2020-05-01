@@ -1,0 +1,29 @@
+.center {
+  text-align: center;
+}
+.row-full {
+  width: 100vw;
+  position: relative;
+  margin: 0;
+  justify-content: center;
+  max-width: fill-available;
+  max-height: 100vh;
+  /* height: 100px;
+  margin-top: 100px; */
+  /* left: 50%; */
+}
+
+.graph-col {
+  padding: 10px;
+}
+.graph-card {
+  margin-bottom: 20px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+h4,
+h5 {
+  text-align: center;
+  margin: 20px;
+}

@@ -16,43 +16,45 @@ const Workshops = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleSubmit = values => {
+  const handleSubmit = (values) => {
     dispatch(addWorkshop(values));
     setShow(false);
   };
-  const handleDelete = workshopKey => {
+  const handleDelete = (workshopKey) => {
     dispatch(deleteWorkshop(workshopKey));
   };
 
   console.log("workshopssssss", workshops);
   return (
-    <div>
-      <StyledHeader>
-        <h3>{t("common.workshops")}</h3>
-        {!isLoading && (
-          <Button variant="secondary" onClick={handleShow}>
-            {t("common.addAWorkshop")}
-          </Button>
+    <div className="container">
+      <div>
+        <StyledHeader>
+          <h3>{t("common.workshops")}</h3>
+          {!isLoading && (
+            <Button variant="secondary" onClick={handleShow}>
+              {t("common.addAWorkshop")}
+            </Button>
+          )}
+        </StyledHeader>
+
+        {loadError && <p>{t("common.loadError")}</p>}
+        {isLoading && <Spinner animation="border"></Spinner>}
+
+        {workshops && (
+          <WorkshopTable
+            t={t}
+            workshops={workshops}
+            handleDelete={handleDelete}
+          />
         )}
-      </StyledHeader>
 
-      {loadError && <p>{t("common.loadError")}</p>}
-      {isLoading && <Spinner animation="border"></Spinner>}
-
-      {workshops && (
-        <WorkshopTable
+        <WorkshopModal
           t={t}
-          workshops={workshops}
-          handleDelete={handleDelete}
+          show={show}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
         />
-      )}
-
-      <WorkshopModal
-        t={t}
-        show={show}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
-      />
+      </div>
     </div>
   );
 };

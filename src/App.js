@@ -25,7 +25,7 @@ const App = () => (
       firstName="Xavier"
       role="Animateur"
     ></Header> */}
-    <div className="container">
+    {/* <div className="container"> */}
       <Route exact path="/" component={Home} />
       <Route path="/home" component={Home} />
       <Route path="/simulation" component={Simulation} />
@@ -33,7 +33,7 @@ const App = () => (
       <Route path="/coaches" component={Coaches} />
       <Route path="/workshops" component={Workshops} />
       <Route path='/manage_participants' component={ManageParticipants} />
-    </div>
+    {/* </div> */}
     {/* <Footer></Footer> */}
   </BrowserRouter>
 );

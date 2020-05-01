@@ -36,11 +36,18 @@ const NewNavbar = ({ avatarUrl }) => {
             {t("common.workshops")}
           </Nav.Link>
           <Nav.Link
+                          style={{
+                            color: isActive("/manage_participants")
+                          }}
+              href='/manage_participants'>
+              {t('common.manageParticipants')}
+            </Nav.Link>
+          <Nav.Link
             disabled
             href="/model"
             style={{
               color: isActive("/model")
-            }}
+            }}            
           >
             {t("common.model")}
           </Nav.Link>

@@ -6,6 +6,8 @@ export default {
   coachId: 1234567890,
   creatorId: 1234567890,
   eventUrl: 'http://www.example.com',
+  startYear: 2020,
+  endYear: 2050,
   model: {
     footprintStructure: {
       transport: {
@@ -870,8 +872,9 @@ export default {
       },
       CF_PUBLIC_SERVICES: 1000,
     },
-    actions: {
-      1: {
+    actionCards: [
+      {
+        id: 1,
         name: 'SE DEPLACER A PIEDS OU A VÉLO',
         type: 'individual',
         category: 'ECOGESTES',
@@ -879,7 +882,8 @@ export default {
         cost: 3,
         batch: 'I1',
       },
-      2: {
+      {
+        id: 2,
         name: 'FAIRE PLUS DE COVOITURAGE',
         type: 'individual',
         category: 'ECOGESTES',
@@ -893,7 +897,8 @@ export default {
           },
         ],
       },
-      3: {
+      {
+        id: 3,
         name: 'FAIRE PLUS DE TÉLÉTRAVAIL',
         type: 'individual',
         category: 'ECOGESTES',
@@ -901,7 +906,8 @@ export default {
         cost: 3,
         batch: 'I1',
       },
-      4: {
+      {
+        id: 4,
         name: "FAIRE DE L'ECO-CONDUITE",
         type: 'individual',
         category: 'ECOGESTES',
@@ -909,7 +915,8 @@ export default {
         cost: 1,
         batch: 'I1',
       },
-      5: {
+      {
+        id: 5,
         name: "ARRÊTER DE PRENDRE L'AVION",
         type: 'individual',
         category: 'ECOGESTES',
@@ -917,7 +924,8 @@ export default {
         cost: 1,
         batch: 'I1',
       },
-      6: {
+      {
+        id: 6,
         name: 'SE DEPLACER A PIEDS OU A VÉLO',
         type: 'individual',
         category: 'ECOGESTES',
@@ -925,7 +933,8 @@ export default {
         cost: 3,
         batch: 'I1',
       },
-      7: {
+      {
+        id: 7,
         name: 'BAISSER LE CHAUFFAGE',
         type: 'individual',
         category: 'ECOGESTES',
@@ -933,7 +942,8 @@ export default {
         cost: 1,
         batch: 'I2',
       },
-      8: {
+      {
+        id: 8,
         name: "CONSOMMER MOINS D'EAU CHAUDE SANITAIRE",
         type: 'individual',
         category: 'ECOGESTES',
@@ -941,7 +951,8 @@ export default {
         cost: 1,
         batch: 'I2',
       },
-      9: {
+      {
+        id: 9,
         name: "ÉCONOMISER DE L'ÉLECTRICITÉ",
         type: 'individual',
         category: 'ECOGESTES',
@@ -949,7 +960,8 @@ export default {
         cost: 1,
         batch: 'I2',
       },
-      10: {
+      {
+        id: 10,
         name: 'SE FOURNIR EN ÉLECTRICITÉ ALTERNATIVE',
         type: 'individual',
         category: 'ECOGESTES',
@@ -957,7 +969,8 @@ export default {
         cost: 1,
         batch: 'I2',
       },
-      11: {
+      {
+        id: 11,
         name: 'MUTUALISER SON LOGEMENT',
         type: 'individual',
         category: 'ECOGESTES',
@@ -965,7 +978,8 @@ export default {
         cost: 3,
         batch: 'I2',
       },
-      12: {
+      {
+        id: 12,
         name: 'ALLONGER LA DURÉE DE VIE DES APPAREILS',
         type: 'individual',
         category: 'ECOGESTES',
@@ -973,7 +987,8 @@ export default {
         cost: 2,
         batch: 'I3',
       },
-      13: {
+      {
+        id: 13,
         name: 'ACHETER MOINS DE VÊTEMENTS NEUFS',
         type: 'individual',
         category: 'ECOGESTES',
@@ -981,7 +996,8 @@ export default {
         cost: 2,
         batch: 'I3',
       },
-      14: {
+      {
+        id: 14,
         name: "REDUIRE L'USAGE DU NUMERIQUE",
         type: 'individual',
         category: 'ECOGESTES',
@@ -989,7 +1005,8 @@ export default {
         cost: 1,
         batch: 'I3',
       },
-      15: {
+      {
+        id: 15,
         name: 'DEVENIR FLEXITARIEN',
         type: 'individual',
         category: 'ECOGESTES',
@@ -997,7 +1014,8 @@ export default {
         cost: 4,
         batch: 'I4',
       },
-      16: {
+      {
+        id: 16,
         name: 'REMPLACER LA VIANDE ROUGE PAR DE LA VIANDE BLANCHE',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1005,7 +1023,8 @@ export default {
         cost: 2,
         batch: 'I4',
       },
-      17: {
+      {
+        id: 17,
         name: "MANGER MOINS D'ŒUFS ET DE PRODUITS LAITIERS",
         type: 'individual',
         category: 'ECOGESTES',
@@ -1013,7 +1032,8 @@ export default {
         cost: 4,
         batch: 'I4',
       },
-      18: {
+      {
+        id: 18,
         name: 'FAIRE LA CUISINE',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1021,7 +1041,8 @@ export default {
         cost: 3,
         batch: 'I4',
       },
-      19: {
+      {
+        id: 19,
         name: 'MANGER LOCAL ET DE SAISON',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1029,7 +1050,8 @@ export default {
         cost: 1,
         batch: 'I4',
       },
-      20: {
+      {
+        id: 20,
         name: 'CONSOMMER MOINS DE BOISSONS',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1037,7 +1059,8 @@ export default {
         cost: 3,
         batch: 'I4',
       },
-      21: {
+      {
+        id: 21,
         name: 'RÉDUIRE LES EMBALLAGES ALIMENTAIRES',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1045,7 +1068,8 @@ export default {
         cost: 2,
         batch: 'I4',
       },
-      22: {
+      {
+        id: 22,
         name: 'MANGER BIO',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1053,175 +1077,231 @@ export default {
         cost: 2,
         batch: 'I4',
       },
-    },
-  },
-  participants: {
-    byId: {
-      1: {
-        surveyVariables: {
-          hours_urban_bus_per_week: 5,
-          km_car_commute_per_day: 25,
-        },
+    ],
+    actionCardBatches: [
+      {
+        id: 1,
+        name: 'Lot 1',
+        actions: [1, 2, 3],
       },
-      2: {},
-    },
-    allIds: [1, 2],
+    ],
   },
-  rounds: {
-    byYear: {
-      2020: {
-        actionsType: 'individual',
+  participants: [
+    {
+      id: 1,
+      firstName: 'Emmanuel',
+      lastName: 'Macron',
+      email: 'emacron@elysees.fr',
+      role: 'participant',
+      status: 'registered',
+      carbonFootprintId: '123456',
+      surveyVariables: {
+        hours_urban_bus_per_week: 5,
+        km_car_commute_per_day: 25,
+      },
+    },
+    {},
+  ],
+  rounds: [
+    {
+      year: 2020,
+      carbonInfo: [
+        {
+          participantId: 1,
+          carbonVariables: {
+            // food
+            meat_and_fish_conso_per_day: 0.5,
+            eggs_and_dairies_conso_per_day: 0.5,
+            fruits_and_vegetable_percentage_local: 0.5,
+            transformed_products_conso_per_week: 3,
+            alcohol_conso_glass_per_day: 1,
+            hot_drinks_conso_glass_per_day: 5,
+            juices_and_sodas_conso_glass_per_day: 2,
+
+            // transports
+            category_car_commute: 'URBAN',
+            motor_type_car_commute: 'FUEL',
+            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
+            km_per_day_car_commute: 2,
+            passengers_per_car_commute: 3,
+            hours_urban_bus_per_week: 1,
+            hours_coach_commute_per_week: 2,
+            hours_urban_train_per_week: 3,
+            coefficient_energy_efficient_driving: 1,
+
+            category_car_travel: 'URBAN',
+            motor_type_car_travel: 'FUEL',
+            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
+
+            km_per_year_car_travel: 8000,
+            passengers_per_car_travel: 3,
+
+            km_coach_travel: 1000,
+            km_country_train: 2000,
+            km_plane: 3000,
+            // housing
+            residents_per_housing: 3,
+            housing_surface_area: 60,
+            house_surface_area: 60,
+            flat_surface_area: 0,
+            number_big_appliances: 7,
+            number_small_appliances: 20,
+            housing_type: 'HOUSE',
+            electricity_provider: 'ALTERNATIVE',
+            maintainance_date: 'AFTER_2000',
+            energy_consumption_knowledge: true,
+            heating_system_energy_type: 'GAS',
+            cooking_appliances_energy_type: 'ELECTRICITY',
+            sanitory_hot_water_energy_type: 'FUEL_OIL',
+
+            elec_lightning_kwh: 100,
+            elec_water_heating_kwh: 100,
+            elec_cooking_kwh: 100,
+            elec_heating_kwh: 100,
+            fuel_water_heating_kwh: 100,
+            fuel_cooking_kwh: 100,
+            fuel_heating_kwh: 100,
+            gas_water_heating_kwh: 100,
+            gas_cooking_kwh: 100,
+            gas_heating_kwh: 100,
+            wood_water_heating_kwh: 100,
+            wood_cooking_kwh: 100,
+            wood_heating_kwh: 100,
+
+            // others
+            clothes_new_items: 30,
+            activities_per_month: 3,
+            number_small_devices: 2,
+            number_big_devices: 3,
+            internet_streaming_hours_per_week: 5,
+          },
+          carbonFootprint: {},
+        },
+      ],
+      roundConfig: {
+        actionType: 'individual',
         targetedYear: 2023,
         budget: 4,
         availableActionIds: [1, 2, 3, 4],
-        participants: {
-          1: {
-            carbonVariables: {
-              // food
-              meat_and_fish_conso_per_day: 0.5,
-              eggs_and_dairies_conso_per_day: 0.5,
-              fruits_and_vegetable_percentage_local: 0.5,
-              transformed_products_conso_per_week: 3,
-              alcohol_conso_glass_per_day: 1,
-              hot_drinks_conso_glass_per_day: 5,
-              juices_and_sodas_conso_glass_per_day: 2,
-
-              // transports
-              category_car_commute: 'URBAN',
-              motor_type_car_commute: 'FUEL',
-              age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
-              km_per_day_car_commute: 2,
-              passengers_per_car_commute: 3,
-              hours_urban_bus_per_week: 1,
-              hours_coach_commute_per_week: 2,
-              hours_urban_train_per_week: 3,
-              coefficient_energy_efficient_driving: 1,
-
-              category_car_travel: 'URBAN',
-              motor_type_car_travel: 'FUEL',
-              age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
-              km_per_year_car_travel: 8000,
-              passengers_per_car_travel: 3,
-
-              km_coach_travel: 1000,
-              km_country_train: 2000,
-              km_plane: 3000,
-              // housing
-              residents_per_housing: 3,
-              housing_surface_area: 60,
-              house_surface_area: 60,
-              flat_surface_area: 0,
-              number_big_appliances: 7,
-              number_small_appliances: 20,
-              housing_type: 'HOUSE',
-              electricity_provider: 'ALTERNATIVE',
-              maintainance_date: 'AFTER_2000',
-              energy_consumption_knowledge: true,
-              heating_system_energy_type: 'GAS',
-              cooking_appliances_energy_type: 'ELECTRICITY',
-              sanitory_hot_water_energy_type: 'FUEL_OIL',
-
-              elec_lightning_kwh: 100,
-              elec_water_heating_kwh: 100,
-              elec_cooking_kwh: 100,
-              elec_heating_kwh: 100,
-              fuel_water_heating_kwh: 100,
-              fuel_cooking_kwh: 100,
-              fuel_heating_kwh: 100,
-              gas_water_heating_kwh: 100,
-              gas_cooking_kwh: 100,
-              gas_heating_kwh: 100,
-              wood_water_heating_kwh: 100,
-              wood_cooking_kwh: 100,
-              wood_heating_kwh: 100,
-
-              // others
-              clothes_new_items: 30,
-              activities_per_month: 3,
-              number_small_devices: 2,
-              number_big_devices: 3,
-              internet_streaming_hours_per_week: 5,
-            },
-          },
-        },
       },
-      2023: {
-        actionsType: 'collective',
-        budget: 4,
-        participants: {
-          1: {
-            carbonVariables: {
-              // food
-              meat_and_fish_conso_per_day: 0.5,
-              eggs_and_dairies_conso_per_day: 0.5,
-              fruits_and_vegetable_percentage_local: 0.5,
-              transformed_products_conso_per_week: 3,
-              alcohol_conso_glass_per_day: 1,
-              hot_drinks_conso_glass_per_day: 5,
-              juices_and_sodas_conso_glass_per_day: 2,
-
-              // transports
-              category_car_commute: 'URBAN',
-              motor_type_car_commute: 'FUEL',
-              age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
-              km_per_day_car_commute: 2,
-              passengers_per_car_commute: 3,
-              hours_urban_bus_per_week: 1,
-              hours_coach_commute_per_week: 2,
-              hours_urban_train_per_week: 3,
-              coefficient_energy_efficient_driving: 1,
-
-              category_car_travel: 'URBAN',
-              motor_type_car_travel: 'FUEL',
-              age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
-              km_per_year_car_travel: 8000,
-              passengers_per_car_travel: 3,
-
-              km_coach_travel: 1000,
-              km_country_train: 2000,
-              km_plane: 3000,
-              // housing
-              residents_per_housing: 3,
-              housing_surface_area: 60,
-              house_surface_area: 60,
-              flat_surface_area: 0,
-              number_big_appliances: 7,
-              number_small_appliances: 20,
-              housing_type: 'HOUSE',
-              electricity_provider: 'ALTERNATIVE',
-              maintainance_date: 'AFTER_2000',
-              energy_consumption_knowledge: true,
-              heating_system_energy_type: 'GAS',
-              cooking_appliances_energy_type: 'ELECTRICITY',
-              sanitory_hot_water_energy_type: 'FUEL_OIL',
-
-              elec_lightning_kwh: 100,
-              elec_water_heating_kwh: 100,
-              elec_cooking_kwh: 100,
-              elec_heating_kwh: 100,
-              fuel_water_heating_kwh: 100,
-              fuel_cooking_kwh: 100,
-              fuel_heating_kwh: 100,
-              gas_water_heating_kwh: 100,
-              gas_cooking_kwh: 100,
-              gas_heating_kwh: 100,
-              wood_water_heating_kwh: 100,
-              wood_cooking_kwh: 100,
-              wood_heating_kwh: 100,
-
-              // others
-              clothes_new_items: 30,
-              activities_per_month: 3,
-              number_small_devices: 2,
-              number_big_devices: 3,
-              internet_streaming_hours_per_week: 5,
-            },
+      takenActions: {
+        individualActions: [
+          {
+            participantId: 1,
+            actionIds: [1, 2, 3],
           },
-        },
+          {
+            participantId: 2,
+            actionIds: [2, 3],
+          },
+        ],
       },
     },
-    allYears: [2020, 2023],
-  },
+    {
+      year: 2023,
+      carbonInfo: [
+        {
+          participantId: 1,
+          carbonVariables: {
+            // food
+            meat_and_fish_conso_per_day: 0.5,
+            eggs_and_dairies_conso_per_day: 0.5,
+            fruits_and_vegetable_percentage_local: 0.5,
+            transformed_products_conso_per_week: 3,
+            alcohol_conso_glass_per_day: 1,
+            hot_drinks_conso_glass_per_day: 5,
+            juices_and_sodas_conso_glass_per_day: 2,
+
+            // transports
+            category_car_commute: 'URBAN',
+            motor_type_car_commute: 'FUEL',
+            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
+            km_per_day_car_commute: 2,
+            passengers_per_car_commute: 3,
+            hours_urban_bus_per_week: 1,
+            hours_coach_commute_per_week: 2,
+            hours_urban_train_per_week: 3,
+            coefficient_energy_efficient_driving: 1,
+
+            category_car_travel: 'URBAN',
+            motor_type_car_travel: 'FUEL',
+            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
+
+            km_per_year_car_travel: 8000,
+            passengers_per_car_travel: 3,
+
+            km_coach_travel: 1000,
+            km_country_train: 2000,
+            km_plane: 3000,
+            // housing
+            residents_per_housing: 3,
+            housing_surface_area: 60,
+            house_surface_area: 60,
+            flat_surface_area: 0,
+            number_big_appliances: 7,
+            number_small_appliances: 20,
+            housing_type: 'HOUSE',
+            electricity_provider: 'ALTERNATIVE',
+            maintainance_date: 'AFTER_2000',
+            energy_consumption_knowledge: true,
+            heating_system_energy_type: 'GAS',
+            cooking_appliances_energy_type: 'ELECTRICITY',
+            sanitory_hot_water_energy_type: 'FUEL_OIL',
+
+            elec_lightning_kwh: 100,
+            elec_water_heating_kwh: 100,
+            elec_cooking_kwh: 100,
+            elec_heating_kwh: 100,
+            fuel_water_heating_kwh: 100,
+            fuel_cooking_kwh: 100,
+            fuel_heating_kwh: 100,
+            gas_water_heating_kwh: 100,
+            gas_cooking_kwh: 100,
+            gas_heating_kwh: 100,
+            wood_water_heating_kwh: 100,
+            wood_cooking_kwh: 100,
+            wood_heating_kwh: 100,
+
+            // others
+            clothes_new_items: 30,
+            activities_per_month: 3,
+            number_small_devices: 2,
+            number_big_devices: 3,
+            internet_streaming_hours_per_week: 5,
+          },
+          carbonFootprint: {},
+        },
+      ],
+      roundConfig: {
+        actionsType: 'collective',
+        targetedYear: 2026,
+        budget: 8,
+        availableActionIds: [41, 42, 43, 44],
+      },
+      takenActions: {
+        collectiveActions: [41, 42, 43],
+      },
+    },
+    {
+      year: 2026,
+      roundConfig: {
+        actionsType: 'individual',
+        targetedYear: 2029,
+        budget: 8,
+        availableActionIds: [5, 6, 7, 8],
+      },
+      takenActions: {
+        individualActions: [
+          {
+            participantId: 1,
+            actionIds: [5, 6],
+          },
+          {
+            participantId: 2,
+            actionIds: [5, 7, 8],
+          },
+        ],
+      },
+    },
+  ],
 };

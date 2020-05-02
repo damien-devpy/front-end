@@ -5,7 +5,7 @@ import { Navbar, Nav, Image } from "react-bootstrap";
 import { COLORS } from "../vars";
 import "../index.css";
 
-const NewNavbar = ({ avatarUrl }) => {
+const NewNavbar = ({ avatarUrl, links }) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -20,39 +20,20 @@ const NewNavbar = ({ avatarUrl }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="">
-          <Nav.Link
-            href="/coaches"
-            style={{
-              color: isActive("/coaches"),
-            }}
-          >
-            {t("common.coaches")}
-          </Nav.Link>
-          <Nav.Link
-            href="/workshops"
-            style={{
-              color: isActive("/workshops"),
-            }}
-          >
-            {t("common.workshops")}
-          </Nav.Link>
-          <Nav.Link
-            href="/simulation"
-            style={{
-              color: isActive("/simulation"),
-            }}
-          >
-            {t("common.simulation")}
-          </Nav.Link>
-          <Nav.Link
-            disabled
-            href="/model"
-            style={{
-              color: isActive("/model"),
-            }}
-          >
-            {t("common.model")}
-          </Nav.Link>
+          {links.map((link) => {
+            if (link == "exit") {
+              ("icone");
+            } else {
+              <Nav.Link
+                href={"/" + link}
+                style={{
+                  color: isActive("/" + link),
+                }}
+              >
+                {t("common." + link)}
+              </Nav.Link>;
+            }
+          })}
         </Nav>
         <Image className="ml-auto" src={avatarUrl} roundedCircle />
       </Navbar.Collapse>

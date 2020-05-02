@@ -11,11 +11,11 @@ import Workshops from "./pages/Workshops";
 
 const App = () => (
   <BrowserRouter>
-    <NewNavbar
+    {/* <NewNavbar
       avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
       firstName="Xavier"
       role="Animateur"
-    />
+    /> */}
     {/* <Header
       name="My Lockdown workshop"
       date="1 avril 2020"

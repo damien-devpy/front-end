@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import "./components/simulationPage.css";
-
-import { useTranslation } from "react-i18next";
+import NavbarWorkshop from "../../components/NavbarWorkshop";
 import FootprintGraph from "./components/FootprintGraph";
 import EvolutionCarbon from "./components/EvolutionCarbon";
 import { Container, Row, Col } from "react-bootstrap";
@@ -11,31 +10,38 @@ const Simulation = () => {
   // const { t } = useTranslation();
   console.log(footprintShaped);
   return (
-    <StyledSimulation>
-      <Container className="row-full">
-        <Row style={{ height: "100vh" }}>
-          <Col sm={12} md={8} className="graph-col">
-            <Container className="graph-card">
-              <h4>
-                Evolution du CO<span style={{ fontSize: "14px" }}>2</span> par
-                personne
-              </h4>
-              <EvolutionCarbon data={evolutionData} />
-            </Container>
-          </Col>
-          <Col sm={12} md={4} className="graph-col">
-            <Container className="graph-card">
-              <h4> La population </h4>
-              <FootprintGraph footprint={footprintShaped} />
-            </Container>
-            <Container className="graph-card">
-              <h4> Les participants </h4>
-              <FootprintGraph footprint={footprintShaped} />
-            </Container>
-          </Col>
-        </Row>
-      </Container>
-    </StyledSimulation>
+    <React.Fragment>
+      <NavbarWorkshop
+        avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
+        firstName="Xavier"
+        role="Animateur"
+      />
+      <StyledSimulation>
+        <Container className="row-full">
+          <Row style={{ height: "100vh" }}>
+            <Col sm={12} md={8} className="graph-col">
+              <Container className="graph-card">
+                <h4>
+                  Evolution du CO<span style={{ fontSize: "14px" }}>2</span> par
+                  personne
+                </h4>
+                <EvolutionCarbon data={evolutionData} />
+              </Container>
+            </Col>
+            <Col sm={12} md={4} className="graph-col">
+              <Container className="graph-card">
+                <h4> La population </h4>
+                <FootprintGraph footprint={footprintShaped} />
+              </Container>
+              <Container className="graph-card">
+                <h4> Les participants </h4>
+                <FootprintGraph footprint={footprintShaped} />
+              </Container>
+            </Col>
+          </Row>
+        </Container>
+      </StyledSimulation>
+    </React.Fragment>
   );
 };
 

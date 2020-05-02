@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Spinner } from "react-bootstrap";
 import { useCoaches } from "../../hooks/coaches";
 import { addCoach } from "../../actions/coaches";
+import NavbarHome from "../../components/NavbarHome";
 
 const Coaches = () => {
   const { t } = useTranslation();
@@ -23,27 +24,34 @@ const Coaches = () => {
     setShow(false);
   };
   return (
-    <div className="container">
-      <StyledHeader>
-        <h3>{t("common.coaches")}</h3>
-        {!isLoading && (
-          <Button variant="secondary" onClick={handleShow}>
-            {t("common.addACoach")}
-          </Button>
-        )}
-      </StyledHeader>
-
-      {loadError && <p>{t("common.loadError")}</p>}
-      {isLoading && <Spinner animation="border"></Spinner>}
-
-      {coaches && <CoachTable t={t} coaches={coaches} />}
-      <CoachModal
-        t={t}
-        show={show}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
+    <React.Fragment>
+      <NavbarHome
+        avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
+        firstName="Xavier"
+        role="Animateur"
       />
-    </div>
+      <div className="container">
+        <StyledHeader>
+          <h3>{t("common.coaches")}</h3>
+          {!isLoading && (
+            <Button variant="secondary" onClick={handleShow}>
+              {t("common.addACoach")}
+            </Button>
+          )}
+        </StyledHeader>
+
+        {loadError && <p>{t("common.loadError")}</p>}
+        {isLoading && <Spinner animation="border"></Spinner>}
+
+        {coaches && <CoachTable t={t} coaches={coaches} />}
+        <CoachModal
+          t={t}
+          show={show}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+        />
+      </div>
+    </React.Fragment>
   );
 };
 

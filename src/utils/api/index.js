@@ -13,3 +13,8 @@ export const getWorkshops = () =>
   handleFetch(`/footprints`, {
     useMock: true, // TO REMOVE AFTER BACKEND READY
   });
+
+  export const getWorkshop = () =>
+  handleFetch(`/workshop`, {
+    useMock: true, // TO REMOVE AFTER BACKEND READY
+  });

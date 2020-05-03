@@ -3,7 +3,7 @@ const initialState = {
     1: {
       firstName: 'François',
       lastName: 'Laugier',
-      email: 'francois_laugier@outlook.com'
+      email: 'francois_laugier@outlook.com', 
     },
     2: {
       firstName: 'Xavier',
@@ -13,6 +13,6 @@ const initialState = {
   }
 };
 
-export default (state = initialState) => {
-  return state;
+export default (state = initialState, action) => {
+  return state
 };

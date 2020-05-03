@@ -4,7 +4,7 @@ import "../index.css";
 import NewNavbar from "./NewNavbar.js";
 
 const NavbarHome = ({ avatarUrl }) => {
-  const links = ["coaches", "workshops", "simulation", "ressources"];
+  const links = ["coaches", "workshops", "simulation", "ressources", "participants"];
   return <NewNavbar links={links} avatarUrl={avatarUrl} />;
 };
 

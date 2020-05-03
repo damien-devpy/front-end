@@ -25,8 +25,13 @@ const SubHeader = ({ t, isActive }) => {
               {t("common.workshops")}
             </Nav.Link>
             <Nav.Link
-              href='/manage_participants'>
+              href='/participants'
+              style={{
+                color: isActive("/participants")
+              }}
+              >
               {t('common.manageParticipants')}
+              
             </Nav.Link>
             <Nav.Link
               disabled

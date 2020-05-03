@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { COLORS, FONT } from '../../vars';
+import { COLORS, FONT } from '../../../vars';
 import { ParticipantStatus } from './Status'
 import { Form, Row, Col } from 'react-bootstrap';
 import { useState } from 'react'
@@ -11,13 +11,14 @@ export const ParticipantItemForm = ({
   firstName,
   lastName,
   initEmail,
-  persona,
   status,
   isActive,
-  isValid,
   onClick,
   updateParticipant,
+  personas,
+  currentPersonaId
 }) => {
+  const { t } = useTranslation();
 
   const handleItemClick = (e) => {
     e.stopPropagation();
@@ -26,6 +27,7 @@ export const ParticipantItemForm = ({
 
   const [name, setName] = useState(firstName && lastName && firstName + " " + lastName);
   const [email, setEmail] = useState(initEmail);
+  const [persona, setPersona] = useState(currentPersonaId);
 
   const isValidName = () => {
     return name && name.split(/ /).length > 1 && name.split(/ /)[1]
@@ -44,11 +46,34 @@ export const ParticipantItemForm = ({
   };
 
   const onBlur = (e) => {
-    updateParticipant(id, name, email, isValidName() && isValidEmail())
+    updateParticipant(id, name, email, persona, isValidName() && isValidEmail())
   };
 
+  const Persona = ({ isActive }) => {  
+    let personaOptions = [];
+    personas.allIds.forEach(id => {
+      personaOptions.push(
+      <option id={id} value={id}>{personas.byId[id].pseudo}</option>
+      )  
+    });
+
+    return (
+      <Form.Control as="select" 
+      readOnly={!isActive} 
+      size="sm" 
+      id="dropdown" 
+      name="persona" 
+      disabled={!isActive}
+      value={persona ? persona : "None"}
+      onChange={(e) => {setPersona(e.target.selectedIndex)}}
+      >
+        <option value="None">None</option>
+        {personaOptions}
+      </Form.Control>);
+  }
+
   return (
-    <Row onClick={handleItemClick} id={"participant" + id} className="align-items-center">
+    <Row onClick={handleItemClick} id={"participant" + id} className="align-items-center"> 
       <Col xs="1" className="text-center">
         <Form.Label>{isActive ? <a href="#" title="Remove participant" className="badge lg">&#x1f5d1;</a> : ""}</Form.Label></Col>
       <Col>
@@ -105,19 +130,6 @@ export const ParticipantsHeader = () => {
     </StyledHeaderRow>
   );
 };
-
-const Persona = ({ isActive }) => {
-  const { t } = useTranslation();
-
-  return (
-    <Form.Control as="select" placeholder="Choose..." readOnly={!isActive} size="sm" id="dropdown" name="persona" disabled={!isActive}>
-      <option value="N/A">None</option>
-      <option value="1">Alice Merryweiser</option>
-      <option value="2">John</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </Form.Control>);
-}
 
 export const StyledRow = styled.div`
   cursor: pointer;

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { COLORS, FONT } from '../vars';
+import { COLORS, FONT } from '../../vars';
 import { Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux'
-import { useParticipants } from '../hooks/participants'
-import { usePersonas } from '../hooks/personas'
+import { useParticipants } from '../../hooks/participants'
+import { usePersonas } from '../../hooks/personas'
 
-import { setParticipantNameEmail, addParticipant } from '../actions/participants';
+import { setParticipantNameEmail, addParticipant } from '../../actions/participants';
 
-import { ParticipantItemForm, ParticipantsHeader } from '../components/manage_participants/ParticipantItemForm'
+import { ParticipantItemForm, ParticipantsHeader } from './components/ParticipantItemForm'
 
 const ManageParticipants = () => {
     const { participants, isLoading, loadError } = useParticipants();

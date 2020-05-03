@@ -8,7 +8,7 @@ import NewNavbar from "./components/NewNavbar";
 import Results from "./pages/Results";
 import Coaches from "./pages/Coaches/";
 import Workshops from "./pages/Workshops";
-import ManageParticipants from './pages/ManageParticipants';
+import Participants from './pages/Participants';
 
 const App = () => (
   <BrowserRouter>
@@ -32,7 +32,7 @@ const App = () => (
       <Route path="/results" component={Results} />
       <Route path="/coaches" component={Coaches} />
       <Route path="/workshops" component={Workshops} />
-      <Route path='/manage_participants' component={ManageParticipants} />
+      <Route path='/manage_participants' component={Participants} />
     {/* </div> */}
     {/* <Footer></Footer> */}
   </BrowserRouter>

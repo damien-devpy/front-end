@@ -4,7 +4,8 @@ import {
   ADD_PARTICIPANT,
   RETRIEVE_PARTICIPANTS,
   PARTICIPANTS_RETRIEVED,
-  PARTICIPANTS_LOAD_ERROR
+  PARTICIPANTS_LOAD_ERROR,
+  DELETE_PARTICIPANT
 } from '../actions/participants';
 
 export const MISSING_INFO = 'MISSING_INFO';
@@ -105,8 +106,22 @@ export default (state = initialState, action) => {
       };
       return { ...state, participants };
     }
+
+    case DELETE_PARTICIPANT: {
+      console.log("Action DELETE participant")
+      const { id } = action.payload;
+      return {
+        ...state,
+        participants: {
+          ...state.participants,
+          // this should be enough to remove participants, without removing any entries          
+          allIds: state.participants.allIds.filter((i) => i !== id), 
+        }
+      };
+    }
+
     default:
-      return state;
+      return state;   
   }
 };
 

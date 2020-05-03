@@ -3,6 +3,7 @@ export const ADD_PARTICIPANT = 'ADD_PARTICIPANT';
 export const RETRIEVE_PARTICIPANTS = 'RETRIEVE_PARTICIPANTS';
 export const PARTICIPANTS_RETRIEVED = 'PARTICIPANTS_RETRIEVED';
 export const PARTICIPANTS_LOAD_ERROR = 'PARTICIPANTS_LOAD_ERROR';
+export const DELETE_PARTICIPANT = 'DELETE_PARTICIPANT';
 
 
 export const participantsRetrieved = (participants) => ({
@@ -28,5 +29,10 @@ export const setParticipantNameEmail  = (participantId, name, email, persona, va
 export const addParticipant  = () => ({
   type: ADD_PARTICIPANT,
   payload: {}
+});
+
+export const deleteParticipant  = (id) => ({
+  type: DELETE_PARTICIPANT,
+  payload: {id}
 });
 

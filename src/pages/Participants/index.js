@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { useParticipants } from '../../hooks/participants'
 import { usePersonas } from '../../hooks/personas'
 
-import { setParticipantNameEmail, addParticipant } from '../../actions/participants';
+import { setParticipantNameEmail, addParticipant, deleteParticipant } from '../../actions/participants';
 
 import { ParticipantItemForm, ParticipantsHeader } from './components/ParticipantItemForm'
 
@@ -15,7 +15,7 @@ const ManageParticipants = () => {
     const { participants, isLoading, loadError } = useParticipants();
     const { personas, isLoadingPersonas, loadErrorPersonas } = usePersonas();
     const dispatch = useDispatch();
-    
+
     // keep track of actived rows globally 
     const [active, setActive] = useState({});
 
@@ -32,14 +32,14 @@ const ManageParticipants = () => {
     const onClick = (id) => {
         // if previously another row was activated because it was clicked, it will not be now
         // unless it misses required info
+        console.log("On CLICK row", id)
         let active_ = Object.assign({}, ...participants.allIds.map(
             id_ => ({ [id_]: !participants.byId[id_].isValid })));
-        active_[id] = true;
+        id && (active_[id] = true);
         setActive(active_);
     }
 
     const participantItems = [];
-    // console.log("ManageParticipants", participants, personas)
 
     participants && personas && participants.allIds.forEach((id) => {
         let p = participants.byId[id];
@@ -53,6 +53,9 @@ const ManageParticipants = () => {
             updateParticipant={(id, name, email, persona, valid) => {
                 dispatch(setParticipantNameEmail(id, name, email, persona, valid))
             }}
+            deleteParticipant={(id) => {
+                dispatch(deleteParticipant(id))
+            }}
             isActive={active[id]}
             isValid={p.isValid}
             onClick={onClick}
@@ -61,13 +64,17 @@ const ManageParticipants = () => {
         />);
     });
 
-    return <div className="container">
-                {loadError && <p>Error</p>}
-        {isLoading && <Spinner animation="border"></Spinner>}
+    // outer container to be able to handle clicks outside the rows, i.e. "lose focus" type of events
+    return <div className="container-fluid h-100 pb-5" onClick={(e) => onClick(null)}>  
+        <div className="container" >
+            {loadError && <p>Error</p>}
+            {isLoading && <Spinner animation="border"></Spinner>}
             <ParticipantsHeader />
             {participantItems}
-        <AddParticipant onAddNew={() => {
-            dispatch(addParticipant())}} />
+            <AddParticipant onAddNew={() => {
+                dispatch(addParticipant())
+            }} />
+        </div>
     </div>;
 };
 
@@ -77,9 +84,10 @@ const StyledParticipants = styled.div`
 
 const AddParticipant = ({ onAddNew }) => {
     const { t } = useTranslation();
-    
+
     return <StyledAdd onClick={(e) => {
-        onAddNew() }}>
+        onAddNew()
+    }}>
         &#x2295; {t('manageParticipants.addNew')}
     </StyledAdd>
 }

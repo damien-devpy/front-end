@@ -15,6 +15,7 @@ export const ParticipantItemForm = ({
   isActive,
   onClick,
   updateParticipant,
+  deleteParticipant,
   personas,
   currentPersonaId
 }) => {
@@ -24,6 +25,10 @@ export const ParticipantItemForm = ({
     e.stopPropagation();
     onClick(id);
   };
+
+  const handleDelete = (e) => { 
+    e.preventDefault(); deleteParticipant(id); e.stopPropagation();
+  }; 
 
   const [name, setName] = useState(firstName && lastName && firstName + " " + lastName);
   const [email, setEmail] = useState(initEmail);
@@ -46,26 +51,32 @@ export const ParticipantItemForm = ({
   };
 
   const onBlur = (e) => {
+    console.log("On BLUR")
     updateParticipant(id, name, email, persona, isValidName() && isValidEmail())
   };
 
-  const Persona = ({ isActive }) => {  
+  const Persona = ({ isActive }) => {
     let personaOptions = [];
     personas.allIds.forEach(id => {
       personaOptions.push(
-      <option id={id} value={id}>{personas.byId[id].pseudo}</option>
-      )  
+        <option id={id} value={id}>{personas.byId[id].pseudo}</option>
+      )
     });
 
     return (
-      <Form.Control as="select" 
-      readOnly={!isActive} 
-      size="sm" 
-      id="dropdown" 
-      name="persona" 
-      disabled={!isActive}
-      value={persona ? persona : "None"}
-      onChange={(e) => {setPersona(e.target.selectedIndex)}}
+      <Form.Control as="select"
+        readOnly={!isActive}
+        size="sm"
+        id="dropdown"
+        name="persona"
+        disabled={!isActive}
+        value={persona ? persona : "None"}
+        onChange={(e) => { 
+          setPersona(e.target.selectedIndex); 
+          updateParticipant(id, name, email, e.target.selectedIndex, isValidName() && isValidEmail());  
+          e.stopPropagation();        
+          onClick(id);
+          }}
       >
         <option value="None">None</option>
         {personaOptions}
@@ -73,9 +84,14 @@ export const ParticipantItemForm = ({
   }
 
   return (
-    <Row onClick={handleItemClick} id={"participant" + id} className="align-items-center"> 
+    <Row onClick={handleItemClick} id={"participant" + id} className="align-items-center">
       <Col xs="1" className="text-center">
-        <Form.Label>{isActive ? <a href="#" title="Remove participant" className="badge lg">&#x1f5d1;</a> : ""}</Form.Label></Col>
+        <Form.Label>
+          {isActive ?
+            <a href="#" title="Remove participant" className="badge lg"
+              onMouseDown={handleDelete}>&#x1f5d1;</a>
+            : ""}
+        </Form.Label></Col>
       <Col>
         {/* <Form.Group> */}
         <Form.Control plaintext={!isActive} readOnly={!isActive} value={name}
@@ -84,7 +100,7 @@ export const ParticipantItemForm = ({
           isInvalid={!isValidName()}
           onChange={onChangeName}
           onBlur={onBlur}
-          required />          
+          required />
         {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
         {/* </Form.Group> */}
       </Col>
@@ -99,8 +115,8 @@ export const ParticipantItemForm = ({
       </Col>
       <Col md="2">
         <Persona isActive={isActive} />
-      </Col>      
-      <Col className="text-center" onClick={(e) => {e.stopPropagation(); e.preventDefault();}}>
+      </Col>
+      <Col className="text-center" onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}>
         <ParticipantStatus value={status} />
       </Col>
     </Row>
@@ -113,7 +129,7 @@ export const ParticipantsHeader = () => {
   return (
     <StyledHeaderRow>
       <Row>
-      <Col xs="1" className="text-center"></Col>
+        <Col xs="1" className="text-center"></Col>
         <Col>
           {t('manageParticipants.nameSurname')}
         </Col>

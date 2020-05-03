@@ -25,9 +25,6 @@ const App = () => (
       firstName="Xavier"
       role="Animateur"
     ></Header> */}
-    {/* <div className="container"> */}
-      <Route exact path="/" component={Home} />
-      <Route path="/home" component={Home} />
     <div className="container">
       <Route exact path="/" component={Home} />
         <Route path="/home" component={Home} />

@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Navbar, Nav, Image } from "react-bootstrap";
 import { COLORS } from "../vars";
+// import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ExitIcon from "../assets/ExitIcon";
 import "../index.css";
 
 const NewNavbar = ({ avatarUrl, links }) => {
@@ -21,17 +23,29 @@ const NewNavbar = ({ avatarUrl, links }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="">
           {links.map((link) => {
-            if (link == "exit") {
-              ("icone");
+            if (link === "exit") {
+              console.log("Exit");
+              return (
+                <Nav.Link
+                  href={"/workshops"}
+                  style={{
+                    color: isActive("/workshops"),
+                  }}
+                >
+                  <ExitIcon height={30} width={30} />
+                </Nav.Link>
+              );
             } else {
-              <Nav.Link
-                href={"/" + link}
-                style={{
-                  color: isActive("/" + link),
-                }}
-              >
-                {t("common." + link)}
-              </Nav.Link>;
+              return (
+                <Nav.Link
+                  href={"/" + link}
+                  style={{
+                    color: isActive("/" + link),
+                  }}
+                >
+                  {t("common." + link)}
+                </Nav.Link>
+              );
             }
           })}
         </Nav>

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { Container } from "react-bootstrap";
 import NavbarHome from "../components/NavbarHome";
 const Home = () => {
   const { t } = useTranslation();

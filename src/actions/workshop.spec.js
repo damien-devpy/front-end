@@ -5,7 +5,7 @@ import {
   initNextRound,
   setCollectiveActions,
   setIndividualActions,
-} from './rounds';
+} from './workshop';
 import thunk from 'redux-thunk';
 
 const onStoreChange = (store) => (expectationsFn) => (done) => {
@@ -33,23 +33,27 @@ describe('Game', () => {
   describe('Game Initialization', () => {
     it('should initialize the rounds to a empty object  with only the first year', (done) => {
       const initState = {
-        rounds: {
-          byYear: { 2020: { collectiveActionIds: [1, 2] }, 2023: {} },
-          allYears: [2020, 2023],
-        },
+        workshop: {
+          rounds: {
+            byYear: { 2020: { collectiveActionIds: [1, 2] }, 2023: {} },
+            allYears: [2020, 2023],
+          },
+        }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
       const expected = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [],
-              influenceScore: 0,
-              participants: {},
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [],
+                influenceScore: 0,
+                participants: {},
+              },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       assertAllCollectiveActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(initFirstRound(2020));
@@ -58,34 +62,38 @@ describe('Game', () => {
   describe('Next round initialization', () => {
     it('should initialize the next round to an empty object without changing the existing rounds', (done) => {
       const initState = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [1, 2],
-              influenceScore: 17,
-              participants: { 1: { individualActionIds: [] } },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [1, 2],
+                influenceScore: 17,
+                participants: { 1: { individualActionIds: [] } },
+              },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
       const expected = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [1, 2],
-              influenceScore: 17,
-              participants: { 1: { individualActionIds: [] } },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [1, 2],
+                influenceScore: 17,
+                participants: { 1: { individualActionIds: [] } },
+              },
+              2023: {
+                collectiveActionIds: [],
+                influenceScore: 0,
+                participants: {},
+              },
             },
-            2023: {
-              collectiveActionIds: [],
-              influenceScore: 0,
-              participants: {},
-            },
+            allYears: [2020, 2023],
           },
-          allYears: [2020, 2023],
-        },
+        }
       };
       assertAllCollectiveActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(initNextRound(2023));
@@ -94,29 +102,33 @@ describe('Game', () => {
   describe('Collective actions', () => {
     it('should add collective actions to the specified year', (done) => {
       const initState = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [],
-              influenceScore: 17,
-              participants: { 1: { individualActionIds: [] } },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [],
+                influenceScore: 17,
+                participants: { 1: { individualActionIds: [] } },
+              },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
       const expected = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [1, 2],
-              influenceScore: 17,
-              participants: { 1: { individualActionIds: [] } },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [1, 2],
+                influenceScore: 17,
+                participants: { 1: { individualActionIds: [] } },
+              },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       assertAllCollectiveActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setCollectiveActions(2020, [1, 2]));
@@ -125,64 +137,72 @@ describe('Game', () => {
   describe('Individual actions', () => {
     it('should add individual actions to a participant for a specified year', (done) => {
       const initState = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [],
-              influenceScore: 17,
-              participants: { 1: { individualActionIds: [] } },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [],
+                influenceScore: 17,
+                participants: { 1: { individualActionIds: [] } },
+              },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
       const expected = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [],
-              influenceScore: 17,
-              participants: { 1: { individualActionIds: [1, 2, 3] } },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [],
+                influenceScore: 17,
+                participants: { 1: { individualActionIds: [1, 2, 3] } },
+              },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       assertAllCollectiveActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setIndividualActions(2020, 1, [1, 2, 3]));
     });
     it('should add individual actions to a participant for a specified year without changing actions of another particpant', (done) => {
       const initState = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [],
-              influenceScore: 17,
-              participants: {
-                1: { individualActionIds: [] },
-                2: { individualActionIds: [4, 5, 6, 7] },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [],
+                influenceScore: 17,
+                participants: {
+                  1: { individualActionIds: [] },
+                  2: { individualActionIds: [4, 5, 6, 7] },
+                },
               },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       const store = createStore(reducers, initState, applyMiddleware(thunk));
       const expected = {
-        rounds: {
-          byYear: {
-            2020: {
-              collectiveActionIds: [],
-              influenceScore: 17,
-              participants: {
-                1: { individualActionIds: [2, 3, 6] },
-                2: { individualActionIds: [4, 5, 6, 7] },
+        workshop: {
+          rounds: {
+            byYear: {
+              2020: {
+                collectiveActionIds: [],
+                influenceScore: 17,
+                participants: {
+                  1: { individualActionIds: [2, 3, 6] },
+                  2: { individualActionIds: [4, 5, 6, 7] },
+                },
               },
             },
+            allYears: [2020],
           },
-          allYears: [2020],
-        },
+        }
       };
       assertAllCollectiveActionsAreUpdatedIntoTheStore(store)(expected)(done);
       dispatchAction(store)(setIndividualActions(2020, 1, [2, 3, 6]));

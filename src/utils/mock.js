@@ -3,6 +3,7 @@ import footprints from "./mocks/footprints";
 import workshops from "./mocks/workshops";
 import participants from "./mocks/participants"
 import personas from "./mocks/personas"
+import workshop from './mocks/workshop';
 
 export default {
   [`/ping`]: "pong",
@@ -11,4 +12,5 @@ export default {
   [`/workshops`]: workshops,
   [`/participants`]: participants,
   [`/personas`]: personas,
+  [`/workshop`]: workshop,
 };

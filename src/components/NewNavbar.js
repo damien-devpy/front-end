@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Navbar, Nav, Image } from "react-bootstrap";
 import { COLORS } from "../vars";
+// import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ExitIcon from "../assets/ExitIcon";
 import "../index.css";
 
-const NewNavbar = ({ avatarUrl }) => {
+const NewNavbar = ({ avatarUrl, links }) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -20,6 +22,7 @@ const NewNavbar = ({ avatarUrl }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="">
+<<<<<<< HEAD
           <Nav.Link
             href="/coaches"
             style={{
@@ -60,6 +63,34 @@ const NewNavbar = ({ avatarUrl }) => {
           >
             {t("common.model")}
           </Nav.Link>
+=======
+          {links.map((link) => {
+            if (link === "exit") {
+              console.log("Exit");
+              return (
+                <Nav.Link
+                  href={"/workshops"}
+                  style={{
+                    color: isActive("/workshops"),
+                  }}
+                >
+                  <ExitIcon height={30} width={30} />
+                </Nav.Link>
+              );
+            } else {
+              return (
+                <Nav.Link
+                  href={"/" + link}
+                  style={{
+                    color: isActive("/" + link),
+                  }}
+                >
+                  {t("common." + link)}
+                </Nav.Link>
+              );
+            }
+          })}
+>>>>>>> 040c3c14dea9c33127b5b1ec5cc57cf8bb4d95b0
         </Nav>
         <Image className="ml-auto" src={avatarUrl} roundedCircle />
       </Navbar.Collapse>

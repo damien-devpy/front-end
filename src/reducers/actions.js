@@ -12,7 +12,13 @@ const initialState = {
       type: 'individual',
       category: 'ECOGESTES',
       subCategory: 'TRANSPORT',
-      cost: ''
+      cost: '',
+      operations: [
+        {
+          variable: 'km_per_day_car_commute',
+          operation: { '*': [{ var: 'km_per_day_car_commute' }, 0.5] },
+        },
+      ]
     },
     3: {
       name: 'FAIRE PLUS DE TÉLÉTRAVAIL',

@@ -33,6 +33,14 @@ const SubHeader = ({ t, isActive }) => {
             >
               {t("common.model")}
             </Nav.Link>
+            <Nav.Link
+              href="/workshop"
+              style={{
+                color: isActive("/workshop")
+              }}
+            >
+              {t("common.workshop")}
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -41,3 +49,4 @@ const SubHeader = ({ t, isActive }) => {
 };
 
 export default SubHeader;
+ 

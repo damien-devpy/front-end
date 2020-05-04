@@ -28,26 +28,42 @@ const colors = [
 
 const EvolutionCarbon = ({ data }) => {
   const dataKeysArray = Object.keys(data[0]).slice(1);
+  const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
 
-  const [opacity, setOpacity] = useState(
-    Object.fromEntries(dataKeysArray.map((key) => [key, 1]))
-  );
+  const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
     // {player1: 1, player2: 1, ...}
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
   );
 
-  const handleMouseEnter = (o) => {
+  const [width, setWidth] = useState(initialState);
+
+  const handleMouseOver = (o) => {
     const { dataKey } = o;
-    console.log(dataKeys);
-    console.log(dataKey);
-    console.log(dataKeys[dataKey.trim()].trim());
+    var w = width[dataKey];
+    setWidth(Object.fromEntries(Object.keys(width).map((key) => [key, 1])));
+    console.log("o", width);
+    setWidth({ ...width, [dataKey]: w + 3 });
+
+    setOpacity({ ...opacity, [dataKey]: 1 });
+    console.log(width);
+  };
+  const handleMouseOut = (o) => {
+    console.log("Mouse Out", o);
+    // const { dataKey } = o;
+    // var w = width[dataKey];
+    // setWidth({ ...width, [dataKey]: w - 2 });
+    // console.log(width);
+    setWidth(initialState);
+
+    // setOpacity({ ...opacity, [dataKey]: 1 });
+  };
+  const handleClick = (o) => {
+    const { dataKey } = o;
+    // console.log(dataKeys);
+    // console.log(dataKey);
+    // console.log(dataKeys[dataKey.trim()].trim());
     if (dataKeys[dataKey] === dataKey) {
-      // setOpacity(
-      //   Object.keys(opacity)
-      //     .filter((key) => key !== dataKey)
-      //     .forEach((key) => (opacity[key] = 0.5))
-      // );
       setOpacity({ ...opacity, [dataKey]: 0 });
       setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + " " });
     } else {
@@ -80,8 +96,9 @@ const EvolutionCarbon = ({ data }) => {
           align="left"
           verticalAlign="middle"
           layout="vertical"
-          onClick={handleMouseEnter}
-          // onMouseEnter={handleMouseEnter}
+          onClick={handleClick}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
         />
         {dataKeysArray.map((player, i) => {
           if (player.startsWith("avg")) {
@@ -93,7 +110,7 @@ const EvolutionCarbon = ({ data }) => {
                 stroke={colors[i]}
                 activeDot={{ r: 5 }}
                 isAnimationActive={false}
-                strokeWidth={5}
+                strokeWidth={width[player] + 4}
                 // onMouseEnter={}
               />
             );
@@ -103,6 +120,7 @@ const EvolutionCarbon = ({ data }) => {
                 type="monotone"
                 dataKey={dataKeys[player]}
                 strokeOpacity={opacity[player]}
+                strokeWidth={width[player]}
                 stroke={colors[i]}
                 activeDot={{ r: 6 }}
                 isAnimationActive={false}

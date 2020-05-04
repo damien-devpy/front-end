@@ -8,7 +8,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Simulation = () => {
   // const { t } = useTranslation();
-  console.log(footprintShaped);
+  // console.log(footprintShaped);
   return (
     <React.Fragment>
       <NavbarWorkshop

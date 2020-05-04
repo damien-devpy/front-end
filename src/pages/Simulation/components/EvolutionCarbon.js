@@ -48,10 +48,10 @@ const EvolutionCarbon = ({ data }) => {
       //     .filter((key) => key !== dataKey)
       //     .forEach((key) => (opacity[key] = 0.5))
       // );
-      setOpacity({ ...opacity, [dataKey]: 1 });
+      setOpacity({ ...opacity, [dataKey]: 0 });
       setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + " " });
     } else {
-      setOpacity({ ...opacity, [dataKey.trim()]: 0.5 });
+      setOpacity({ ...opacity, [dataKey.trim()]: 1 });
       setDataKeys({
         ...dataKeys,
         [dataKey.trim()]: dataKeys[dataKey.trim()].trim(),
@@ -81,7 +81,7 @@ const EvolutionCarbon = ({ data }) => {
           verticalAlign="middle"
           layout="vertical"
           onClick={handleMouseEnter}
-          onMouseEnter={handleMouseEnter}
+          // onMouseEnter={handleMouseEnter}
         />
         {dataKeysArray.map((player, i) => {
           if (player.startsWith("avg")) {

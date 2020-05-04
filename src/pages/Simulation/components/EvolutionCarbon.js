@@ -11,10 +11,10 @@ import {
   Legend,
 } from "recharts";
 
-const colors = [
+const colorsPalet = [
   "blue",
   "red",
-  "grey",
+  "purple",
   "green",
   "black",
   "brown",
@@ -29,12 +29,16 @@ const colors = [
 const EvolutionCarbon = ({ data }) => {
   const dataKeysArray = Object.keys(data[0]).slice(1);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
+  const curveColors = Object.fromEntries(
+    dataKeysArray.map((key, i) => [key, colorsPalet[i]])
+  );
 
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
     // {player1: 1, player2: 1, ...}
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
   );
+  const [colors, setColors] = useState(curveColors);
 
   const [width, setWidth] = useState(initialState);
 
@@ -42,11 +46,8 @@ const EvolutionCarbon = ({ data }) => {
     const { dataKey } = o;
     var w = width[dataKey];
     setWidth(Object.fromEntries(Object.keys(width).map((key) => [key, 1])));
-    console.log("o", width);
     setWidth({ ...width, [dataKey]: w + 3 });
-
     setOpacity({ ...opacity, [dataKey]: 1 });
-    console.log(width);
   };
   const handleMouseOut = (o) => {
     console.log("Mouse Out", o);
@@ -58,23 +59,30 @@ const EvolutionCarbon = ({ data }) => {
 
     // setOpacity({ ...opacity, [dataKey]: 1 });
   };
+
   const handleClick = (o) => {
-    const { dataKey } = o;
-    // console.log(dataKeys);
+    const disabled = "#d3d3d3";
+    const { dataKey, color } = o;
+    console.log("curve color", curveColors[dataKey.trim()]);
     // console.log(dataKey);
     // console.log(dataKeys[dataKey.trim()].trim());
     if (dataKeys[dataKey] === dataKey) {
-      setOpacity({ ...opacity, [dataKey]: 0 });
+      setOpacity({ ...opacity, [dataKey]: 0.5 });
+      setColors({ ...colors, [dataKey]: disabled });
       setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + " " });
     } else {
       setOpacity({ ...opacity, [dataKey.trim()]: 1 });
+      setColors({ ...colors, [dataKey.trim()]: curveColors[dataKey.trim()] });
+
       setDataKeys({
         ...dataKeys,
         [dataKey.trim()]: dataKeys[dataKey.trim()].trim(),
       });
     }
+    console.log(dataKeys);
   };
 
+  console.log("colors : ", colors);
   return (
     <ResponsiveContainer width="100%" minWidth={800} aspect={5.0 / 3.0}>
       <LineChart
@@ -96,6 +104,7 @@ const EvolutionCarbon = ({ data }) => {
           align="left"
           verticalAlign="middle"
           layout="vertical"
+          // formatter={colorOnClick}
           onClick={handleClick}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
@@ -107,9 +116,9 @@ const EvolutionCarbon = ({ data }) => {
                 type="monotone"
                 dataKey={dataKeys[player]}
                 strokeOpacity={opacity[player]}
-                stroke={colors[i]}
+                stroke={colors[player]}
                 activeDot={{ r: 5 }}
-                isAnimationActive={false}
+                // isAnimationActive={false}
                 strokeWidth={width[player] + 4}
                 // onMouseEnter={}
               />
@@ -121,7 +130,7 @@ const EvolutionCarbon = ({ data }) => {
                 dataKey={dataKeys[player]}
                 strokeOpacity={opacity[player]}
                 strokeWidth={width[player]}
-                stroke={colors[i]}
+                stroke={colors[player]}
                 activeDot={{ r: 6 }}
                 isAnimationActive={false}
                 // onMouseEnter={}

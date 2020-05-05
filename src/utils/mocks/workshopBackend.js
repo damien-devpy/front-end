@@ -8,6 +8,7 @@ export default {
   eventUrl: 'http://www.example.com',
   startYear: 2020,
   endYear: 2050,
+  yearIncrement: 3,
   model: {
     footprintStructure: {
       transport: {
@@ -1081,8 +1082,21 @@ export default {
     actionCardBatches: [
       {
         id: 1,
-        name: 'Lot 1',
-        actions: [1, 2, 3],
+        name: 'Ind1',
+        type: 'individual',
+        actionCardIds: [1, 2, 3],
+      },
+      {
+        id: 2,
+        name: 'Ind2',
+        type: 'individual',
+        actionCardIds: [4, 5, 6],
+      },
+      {
+        id: 3,
+        name: 'Col1',
+        type: 'collective',
+        actionCardIds: [20, 21],
       },
     ],
   },
@@ -1100,7 +1114,19 @@ export default {
         km_car_commute_per_day: 25,
       },
     },
-    {},
+    {
+      id: 2,
+      firstName: 'Brigitte',
+      lastName: 'Macron',
+      email: 'bmacron@elysees.fr',
+      role: 'participant',
+      status: 'registered',
+      carbonFootprintId: '123456678',
+      surveyVariables: {
+        hours_urban_bus_per_week: 5,
+        km_car_commute_per_day: 25,
+      },
+    },
   ],
   rounds: [
     {
@@ -1182,20 +1208,18 @@ export default {
         actionType: 'individual',
         targetedYear: 2023,
         budget: 4,
-        availableActionIds: [1, 2, 3, 4],
+        actionCardBatchIds: [1, 2],
       },
-      takenActions: {
-        individualActions: [
-          {
-            participantId: 1,
-            actionIds: [1, 2, 3],
-          },
-          {
-            participantId: 2,
-            actionIds: [2, 3],
-          },
-        ],
-      },
+      individualActions: [
+        {
+          participantId: 1,
+          actionIds: [1, 2, 3],
+        },
+        {
+          participantId: 2,
+          actionIds: [2, 3],
+        },
+      ],
     },
     {
       year: 2023,
@@ -1276,32 +1300,189 @@ export default {
         actionsType: 'collective',
         targetedYear: 2026,
         budget: 8,
-        availableActionIds: [41, 42, 43, 44],
+        actionCardBatchIds: [3],
       },
-      takenActions: {
-        collectiveActions: [41, 42, 43],
-      },
+      collectiveActions: { actionIds: [41, 42, 43] },
     },
     {
       year: 2026,
+      carbonInfo: [
+        {
+          participantId: 1,
+          carbonVariables: {
+            // food
+            meat_and_fish_conso_per_day: 0.5,
+            eggs_and_dairies_conso_per_day: 0.5,
+            fruits_and_vegetable_percentage_local: 0.5,
+            transformed_products_conso_per_week: 3,
+            alcohol_conso_glass_per_day: 1,
+            hot_drinks_conso_glass_per_day: 5,
+            juices_and_sodas_conso_glass_per_day: 2,
+
+            // transports
+            category_car_commute: 'URBAN',
+            motor_type_car_commute: 'FUEL',
+            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
+            km_per_day_car_commute: 2,
+            passengers_per_car_commute: 3,
+            hours_urban_bus_per_week: 1,
+            hours_coach_commute_per_week: 2,
+            hours_urban_train_per_week: 3,
+            coefficient_energy_efficient_driving: 1,
+
+            category_car_travel: 'URBAN',
+            motor_type_car_travel: 'FUEL',
+            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
+
+            km_per_year_car_travel: 8000,
+            passengers_per_car_travel: 3,
+
+            km_coach_travel: 1000,
+            km_country_train: 2000,
+            km_plane: 3000,
+            // housing
+            residents_per_housing: 3,
+            housing_surface_area: 60,
+            house_surface_area: 60,
+            flat_surface_area: 0,
+            number_big_appliances: 7,
+            number_small_appliances: 20,
+            housing_type: 'HOUSE',
+            electricity_provider: 'ALTERNATIVE',
+            maintainance_date: 'AFTER_2000',
+            energy_consumption_knowledge: true,
+            heating_system_energy_type: 'GAS',
+            cooking_appliances_energy_type: 'ELECTRICITY',
+            sanitory_hot_water_energy_type: 'FUEL_OIL',
+
+            elec_lightning_kwh: 100,
+            elec_water_heating_kwh: 100,
+            elec_cooking_kwh: 100,
+            elec_heating_kwh: 100,
+            fuel_water_heating_kwh: 100,
+            fuel_cooking_kwh: 100,
+            fuel_heating_kwh: 100,
+            gas_water_heating_kwh: 100,
+            gas_cooking_kwh: 100,
+            gas_heating_kwh: 100,
+            wood_water_heating_kwh: 100,
+            wood_cooking_kwh: 100,
+            wood_heating_kwh: 100,
+
+            // others
+            clothes_new_items: 30,
+            activities_per_month: 3,
+            number_small_devices: 2,
+            number_big_devices: 3,
+            internet_streaming_hours_per_week: 5,
+          },
+          carbonFootprint: {},
+        },
+        {
+          participantId: 2,
+          carbonVariables: {
+            // food
+            meat_and_fish_conso_per_day: 0.5,
+            eggs_and_dairies_conso_per_day: 0.5,
+            fruits_and_vegetable_percentage_local: 0.5,
+            transformed_products_conso_per_week: 3,
+            alcohol_conso_glass_per_day: 1,
+            hot_drinks_conso_glass_per_day: 5,
+            juices_and_sodas_conso_glass_per_day: 2,
+
+            // transports
+            category_car_commute: 'URBAN',
+            motor_type_car_commute: 'FUEL',
+            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
+            km_per_day_car_commute: 2,
+            passengers_per_car_commute: 3,
+            hours_urban_bus_per_week: 1,
+            hours_coach_commute_per_week: 2,
+            hours_urban_train_per_week: 3,
+            coefficient_energy_efficient_driving: 1,
+
+            category_car_travel: 'URBAN',
+            motor_type_car_travel: 'FUEL',
+            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
+
+            km_per_year_car_travel: 8000,
+            passengers_per_car_travel: 3,
+
+            km_coach_travel: 1000,
+            km_country_train: 2000,
+            km_plane: 3000,
+            // housing
+            residents_per_housing: 3,
+            housing_surface_area: 60,
+            house_surface_area: 60,
+            flat_surface_area: 0,
+            number_big_appliances: 7,
+            number_small_appliances: 20,
+            housing_type: 'HOUSE',
+            electricity_provider: 'ALTERNATIVE',
+            maintainance_date: 'AFTER_2000',
+            energy_consumption_knowledge: true,
+            heating_system_energy_type: 'GAS',
+            cooking_appliances_energy_type: 'ELECTRICITY',
+            sanitory_hot_water_energy_type: 'FUEL_OIL',
+
+            elec_lightning_kwh: 100,
+            elec_water_heating_kwh: 100,
+            elec_cooking_kwh: 100,
+            elec_heating_kwh: 100,
+            fuel_water_heating_kwh: 100,
+            fuel_cooking_kwh: 100,
+            fuel_heating_kwh: 100,
+            gas_water_heating_kwh: 100,
+            gas_cooking_kwh: 100,
+            gas_heating_kwh: 100,
+            wood_water_heating_kwh: 100,
+            wood_cooking_kwh: 100,
+            wood_heating_kwh: 100,
+
+            // others
+            clothes_new_items: 30,
+            activities_per_month: 3,
+            number_small_devices: 2,
+            number_big_devices: 3,
+            internet_streaming_hours_per_week: 5,
+          },
+          carbonFootprint: {},
+        },
+      ],
       roundConfig: {
         actionsType: 'individual',
         targetedYear: 2029,
         budget: 8,
-        availableActionIds: [5, 6, 7, 8],
+        actionCardBatchIds: [4, 5],
       },
-      takenActions: {
-        individualActions: [
-          {
-            participantId: 1,
-            actionIds: [5, 6],
-          },
-          {
-            participantId: 2,
-            actionIds: [5, 7, 8],
-          },
-        ],
+      individualActions: [
+        {
+          participantId: 1,
+          actionIds: [5, 6],
+        },
+        {
+          participantId: 2,
+          actionIds: [5, 7, 8],
+        },
+      ],
+    },
+    {
+      year: 2029,
+      carbonInfo: [
+        {
+          participantId: 1,
+          carbonVariables: {},
+          carbonFootprint: {},
+        },
+      ],
+      roundConfig: {
+        actionsType: 'collective',
+        targetedYear: 2032,
+        budget: 8,
+        actionCardBatchIds: [6],
       },
+      collectiveActions: { actionIds: [47, 48] },
     },
   ],
 };

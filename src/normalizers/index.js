@@ -6,6 +6,13 @@ const participant = new schema.Entity('participants');
 const actionCard = new schema.Entity('actionCards');
 const actionCardBatch = new schema.Entity('actionCardBatches');
 // Rounds
+const carbonInfo = new schema.Entity(
+  'carbonInfo',
+  {},
+  {
+    idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
+  }
+);
 const roundConfig = new schema.Entity(
   'roundConfig',
   {},
@@ -13,6 +20,7 @@ const roundConfig = new schema.Entity(
     idAttribute: (entity, parent) => `${parent.year}`,
   }
 );
+// Taken Actions
 const individualActions = new schema.Entity(
   'individualActions',
   {
@@ -29,13 +37,7 @@ const collectiveActions = new schema.Entity(
     idAttribute: (entity, parent) => `${parent.year}`,
   }
 );
-const carbonInfo = new schema.Entity(
-  'carbonInfo',
-  {},
-  {
-    idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
-  }
-);
+
 const round = new schema.Entity(
   'rounds',
   {
@@ -46,6 +48,7 @@ const round = new schema.Entity(
   },
   { idAttribute: 'year' }
 );
+
 export const workshopSchema = {
   rounds: [round],
   participants: [participant],
@@ -54,16 +57,3 @@ export const workshopSchema = {
     actionCardBatches: [actionCardBatch],
   },
 };
-// export const round = new schema.Entity("rounds", {}, { idAttribute: "year" });
-// export const participant = new schema.Entity("participants");
-// export const actionCard = new schema.Entity("actionCards");
-// export const actionCardBatch = new schema.Entity("actionCardBatch");
-// const mySchema = {
-//   rounds: [round],
-//   participants: [participant],
-//   model: {
-//     actionCards: [actionCard],
-//     actionCardBatches: [actionCardBatch],
-//   },
-// };
-//const normalizedData = normalize(workshop, workshopSchema);

@@ -1,6 +1,6 @@
 import {
   INIT_WORKSHOP,
-  INIT_NEXT_ROUND,
+  START_ROUND,
   SET_COLLECTIVE_ACTIONS,
   SET_INDIVIDUAL_ACTIONS,
   COMPUTE_FOOTPRINT,
@@ -74,14 +74,37 @@ export default (state = initialState, action) => {
         },
       };
     }
-    case INIT_NEXT_ROUND: {
-      const { year } = action.payload;
-      return state.rounds.allYears.includes(year)
-        ? state
-        : {
-            byYear: { ...state.rounds.byYear, [year]: initRoundObject() },
-            allYears: [...state.rounds.allYears, year],
-          };
+    case START_ROUND: {
+      const {
+        actionType,
+        currentYear,
+        targetedYear,
+        budget,
+        actionCardBatchIds,
+      } = action.payload;
+      console.log('START_ROUND');
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          roundConfig: {
+            ...state.entities.roundConfig,
+            [currentYear]: {
+              actionType,
+              targetedYear,
+              budget,
+              actionCardBatchIds,
+            },
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [currentYear]: {
+              ...state.entities.rounds[currentYear],
+              roundConfig: currentYear,
+            },
+          },
+        },
+      };
     }
     case SET_COLLECTIVE_ACTIONS: {
       const { year, collectiveActionIds } = action.payload;

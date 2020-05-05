@@ -1,39 +1,60 @@
-const selectActionsByTypeFromBatch = (actions, type, batch) =>
-  Object.keys(actions)
-    .filter(
-      (actionId) =>
-        actions[actionId].batch === batch && actions[actionId].type === type
-    )
+const selectActionsByTypeFromBatch = (
+  actionCards,
+  actionCardBatches,
+  type,
+  batchName
+) => {
+  if (!actionCards || !actionCardBatches) return {};
+  const actionCardBatchId = Object.keys(actionCardBatches)
+    .filter((id) => actionCardBatches[id].type === type)
+    .find((id) => actionCardBatches[id].name === batchName);
+  if (!actionCardBatchId) return {};
+  return actionCardBatches[actionCardBatchId].actionCardIds.reduce(
+    (accumulator, actionCardId) => ({
+      ...accumulator,
+      [actionCardId]: actionCards[actionCardId],
+    }),
+    {}
+  );
+};
+
+export const selectIndividualActionsFromBatch = (
+  actionCards,
+  actionCardBatches,
+  batchName
+) =>
+  selectActionsByTypeFromBatch(
+    actionCards,
+    actionCardBatches,
+    'individual',
+    batchName
+  );
+
+export const selectCollectiveActionsFromBatch = (
+  actionCards,
+  actionCardBatches,
+  batchName
+) =>
+  selectActionsByTypeFromBatch(
+    actionCards,
+    actionCardBatches,
+    'collective',
+    batchName
+  );
+
+const selectBatchesByType = (actionCardBatches, type) =>
+  Object.keys(actionCardBatches)
+    .filter((id) => actionCardBatches[id].type === type)
     .reduce(
-      (accumulator, actionId) => ({
+      (accumulator, actionCardBatchId) => ({
         ...accumulator,
-        [actionId]: actions[actionId],
+        [actionCardBatchId]: actionCardBatches[actionCardBatchId],
       }),
       {}
     );
 
-export const selectIndividualActionsFromBatch = (actions, batch) =>
-  selectActionsByTypeFromBatch(actions, 'individual', batch);
+export const selectIndividualBatches = (actionCardBatches) =>
+  selectBatchesByType(actionCardBatches, 'individual');
 
-export const selectCollectiveActionsFromBatch = (actions, batch) =>
-  selectActionsByTypeFromBatch(actions, 'collective', batch);
-
-const selectActionsByTypeGroupedByBatch = (actions, type) =>
-  Object.keys(actions)
-    .filter((actionId) => actions[actionId].type === type)
-    .reduce(
-      (accumulator, actionId) => ({
-        ...accumulator,
-        [actions[actionId].batch]: {
-          ...accumulator[actions[actionId].batch],
-          [actionId]: actions[actionId],
-        },
-      }),
-      {}
-    );
-
-export const selectIndividualActionsGroupedByBatch = (actions) =>
-  selectActionsByTypeGroupedByBatch(actions, 'individual');
-
-export const selectCollectiveActionsGroupedByBatch = (actions) =>
-  selectActionsByTypeGroupedByBatch(actions, 'collective');
+export const selectCollectiveBatches = (actionCardBatches) =>
+  selectBatchesByType(actionCardBatches, 'collective');

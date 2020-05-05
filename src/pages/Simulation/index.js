@@ -1,59 +1,52 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import { Button, Spinner } from "react-bootstrap";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { Button, Spinner } from 'react-bootstrap';
 
-import { useTranslation } from "react-i18next";
-import FootprintGraph from "./components/FootprintGraph";
-import EvolutionCarbon from "./components/EvolutionCarbon";
-import { Container, Row, Col } from "react-bootstrap";
-import { useWorkshop } from "../../hooks/workshop";
-import { addCoach } from "../../actions/coaches";
-import NewRoundModal from "./components/NewRoundModal";
-import "./components/simulationPage.css";
+import { useTranslation } from 'react-i18next';
+import FootprintGraph from './components/FootprintGraph';
+import EvolutionCarbon from './components/EvolutionCarbon';
+import { Container, Row, Col } from 'react-bootstrap';
+import { startRound } from '../../actions/workshop';
+import NewRoundModal from './components/NewRoundModal';
+import './components/simulationPage.css';
 
 const Simulation = () => {
   const { t } = useTranslation();
-  const { model: { actions } = {}, isLoading, loadError } = useWorkshop();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (values) => {
-    console.log("handleSubmit", values);
-    dispatch(addCoach(values));
+    dispatch(startRound(values));
     setShow(false);
   };
-  console.log(footprintShaped);
+  //console.log(footprintShaped);
   return (
     <div>
       <StyledSimulation>
-        <Container className="row-full">
+        <Container className='row-full'>
           <StyledHeader>
-            {!isLoading && (
-              <Button variant="secondary" onClick={handleShow}>
-                {t("common.nextRound")}
-              </Button>
-            )}
+            <Button variant='secondary' onClick={handleShow}>
+              {t('common.nextRound')}
+            </Button>
           </StyledHeader>
-          {loadError && <p>{t("common.loadError")}</p>}
-          {isLoading && <Spinner animation="border"></Spinner>}
-          <Row style={{ height: "100vh" }}>
-            <Col sm={12} md={8} className="graph-col">
-              <Container className="graph-card">
+          <Row style={{ height: '100vh' }}>
+            <Col sm={12} md={8} className='graph-col'>
+              <Container className='graph-card'>
                 <h4>
-                  Evolution du CO<span style={{ fontSize: "14px" }}>2</span> par
+                  Evolution du CO<span style={{ fontSize: '14px' }}>2</span> par
                   personne
                 </h4>
                 <EvolutionCarbon data={evolutionData} />
               </Container>
             </Col>
-            <Col sm={12} md={4} className="graph-col">
-              <Container className="graph-card">
+            <Col sm={12} md={4} className='graph-col'>
+              <Container className='graph-card'>
                 <h4> La population </h4>
                 <FootprintGraph footprint={footprintShaped} />
               </Container>
-              <Container className="graph-card">
+              <Container className='graph-card'>
                 <h4> Les participants </h4>
                 <FootprintGraph footprint={footprintShaped} />
               </Container>
@@ -62,7 +55,6 @@ const Simulation = () => {
         </Container>
       </StyledSimulation>
       <NewRoundModal
-        actions
         show={show}
         handleClose={handleClose}
         handleSubmit={handleSubmit}
@@ -86,22 +78,22 @@ const StyledHeader = styled.div`
 `;
 
 const footprintShaped = [
-  { sector: "Transport", plane: 750, train: 59, bus: 150, car: 600 },
+  { sector: 'Transport', plane: 750, train: 59, bus: 150, car: 600 },
   {
-    sector: "Logement",
+    sector: 'Logement',
     housingEquipment: 500,
     constructionAndMaintenance: 300,
     energies: 216,
   },
   {
-    sector: "Alimentation",
+    sector: 'Alimentation',
     drinks: 700,
     meatAndFish: 352.86375,
     eggsAndDairies: 71.66775,
     others_alim: 600,
   },
-  { sector: "Autres", clothing: 671.4, digital: 250, others_conso: 400 },
-  { sector: "Services Publics", publicServices: 1000 },
+  { sector: 'Autres', clothing: 671.4, digital: 250, others_conso: 400 },
+  { sector: 'Services Publics', publicServices: 1000 },
 ];
 
 const evolutionData = [

@@ -1,5 +1,5 @@
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
-export const INIT_NEXT_ROUND = 'INIT_NEXT_ROUND';
+export const START_ROUND = 'START_ROUND';
 export const SET_INDIVIDUAL_ACTIONS = 'SET_INDIVIDUAL_ACTIONS';
 export const SET_COLLECTIVE_ACTIONS = 'SET_COLLECTIVE_ACTIONS';
 export const COMPUTE_FOOTPRINT = 'COMPUTE_FOOTPRINT';
@@ -14,9 +14,9 @@ export const initWorkshop = (year) => ({
   payload: { year },
 });
 
-export const initNextRound = (year) => ({
-  type: INIT_NEXT_ROUND,
-  payload: { year },
+export const startRound = (payload) => ({
+  type: START_ROUND,
+  payload: payload,
 });
 
 export const setIndividualActions = (

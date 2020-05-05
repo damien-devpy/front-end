@@ -14,6 +14,14 @@ import {
 } from 'ramda';
 import { format } from 'date-fns';
 
+export const toggleArrayItem = (array, value) => {
+  const [...newArray] = array;
+  const i = newArray.indexOf(value);
+  if (i === -1) newArray.push(value);
+  else newArray.splice(i, 1);
+  return newArray;
+};
+
 export const truncate = (length) =>
   when(
     propSatisfies(gt(__, length), 'length'),

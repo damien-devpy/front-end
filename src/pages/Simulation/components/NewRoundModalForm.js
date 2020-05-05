@@ -1,42 +1,40 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Formik } from "formik";
-import { InputGroup, Form, Col, Button, ButtonGroup } from "react-bootstrap";
-import * as yup from "yup";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Formik } from 'formik';
+import { Form, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import {
-  selectIndividualActionsGroupedByBatch,
-  selectCollectiveActionsGroupedByBatch,
-} from "../../../selectors/actionsSelector";
-import { useWorkshop } from "../../../hooks/workshop";
+  selectIndividualBatches,
+  selectCollectiveBatches,
+} from '../../../selectors/actionsSelector';
+import { toggleArrayItem } from '../../../utils/helpers';
 
-const schema = yup.object({
-  actionType: yup.string().required(),
-  year: yup.number().required(),
-  budget: yup.number().min(1).max(10).required(),
-  batches: yup.array().required(),
-});
-const NewRoundModalForm = ({ t, handleSubmit }) => {
-  // const [actionType, setActionType] = useState('individual');
-  const { model: { actions } = {}, isLoading, loadError } = useWorkshop();
-
-  const individualActionsBatches = useSelector((state) =>
-    selectIndividualActionsGroupedByBatch(state.workshop.model.actions)
+const NewRoundModalForm = ({ handleSubmit }) => {
+  const { t } = useTranslation();
+  const { currentYear, startYear, endYear, yearIncrement } = useSelector(
+    (state) => state.workshop.result
   );
-  const collectiveActionsBatches = useSelector((state) =>
-    selectCollectiveActionsGroupedByBatch(state.workshop.model.actions)
+  const actionCards = useSelector(
+    (state) => state.workshop.entities.actionCards
   );
-  console.log("individualActionsBatches", individualActionsBatches);
-  console.log("collectiveActionsBatches", collectiveActionsBatches);
+  const individualBatches = useSelector((state) =>
+    selectIndividualBatches(state.workshop.entities.actionCardBatches)
+  );
+  const collectiveBatches = useSelector((state) =>
+    selectCollectiveBatches(state.workshop.entities.actionCardBatches)
+  );
 
   return (
     <Formik
-      validationSchema={schema}
       onSubmit={handleSubmit}
       initialValues={{
-        actionType: "individual",
-        year: 2020,
+        actionType: 'individual',
+        currentYear,
+        targetedYear: currentYear + yearIncrement,
         budget: 4,
+        batches: individualBatches,
+        actionCardBatchIds: [],
       }}
     >
       {({
@@ -49,75 +47,133 @@ const NewRoundModalForm = ({ t, handleSubmit }) => {
         isValid,
         errors,
       }) => {
-        console.log(values);
         return (
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Row>
-              <Form.Group as={Col} controlId="validationFormik00">
-                <ButtonGroup className="mr-2">
+              <Form.Group
+                as={Col}
+                className='d-flex justify-content-center'
+                controlId='validationFormik00'
+              >
+                <Button
+                  className='mr-2'
+                  variant='secondary'
+                  active={values.actionType === 'individual'}
+                  onClick={() => {
+                    setFieldValue('actionType', 'individual');
+                    setFieldValue('batches', individualBatches);
+                    setFieldValue('actionCardBatchIds', []);
+                  }}
+                >
+                  {t('common.individualActions')}
+                </Button>
+                <Button
+                  className='mr-2'
+                  variant='secondary'
+                  active={values.actionType === 'collective'}
+                  onClick={() => {
+                    setFieldValue('actionType', 'collective');
+                    setFieldValue('batches', collectiveBatches);
+                    setFieldValue('actionCardBatchIds', []);
+                  }}
+                >
+                  {t('common.collectiveActions')}
+                </Button>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row className='d-flex justify-content-center'>
+              <Form.Group as={Col}>
+                <Form.Label className='mr-2'>{t('common.toYear')}</Form.Label>
+                <ButtonGroup className='mr-2'>
                   <Button
-                    variant="secondary"
-                    active={values.actionType === "individual"}
-                    onClick={() => setFieldValue("actionType", "individual")}
+                    onClick={() => {
+                      values['targetedYear'] > currentYear + yearIncrement &&
+                        setFieldValue('targetedYear', --values['targetedYear']);
+                    }}
                   >
-                    {t("common.individualActions")}
+                    -
+                  </Button>
+                  <Button>{values['targetedYear']}</Button>
+                  <Button
+                    onClick={() => {
+                      values['targetedYear'] < endYear &&
+                        setFieldValue('targetedYear', ++values['targetedYear']);
+                    }}
+                  >
+                    +
                   </Button>
                 </ButtonGroup>
-                <ButtonGroup className="mr-2">
+              </Form.Group>
+              <Form.Group as={Col}>
+                <Form.Label className='mr-2'>{t('common.budget')}</Form.Label>
+                <ButtonGroup className='mr-2'>
                   <Button
-                    variant="secondary"
-                    active={values.actionType === "collective"}
-                    onClick={() => setFieldValue("actionType", "collective")}
+                    onClick={() => {
+                      values['budget'] > 1 &&
+                        setFieldValue('budget', values['budget'] - 1);
+                    }}
                   >
-                    {t("common.collectiveActions")}
+                    -
+                  </Button>
+                  <Button>{values['budget']}</Button>
+                  <Button
+                    onClick={() => {
+                      values['budget'] < 10 &&
+                        setFieldValue('budget', values['budget'] + 1);
+                    }}
+                  >
+                    +
                   </Button>
                 </ButtonGroup>
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId="validationFormik02">
-                <Form.Label>{t("common.batches")}</Form.Label>
-                <div key={`inline-checkbox`} className="mb-3">
-                  {Object.keys(individualActionsBatches).map((batch) => (
+              <Form.Group as={Col} controlId='validationFormik02'>
+                <Form.Label>{t('common.batches')}</Form.Label>
+                <div key={`inline-checkbox`} className='mb-3'>
+                  {Object.keys(values['batches']).map((batchId) => (
                     <Form.Check
-                      checked={values[batch]}
+                      checked={values['actionCardBatchIds'].includes(batchId)}
                       inline
-                      label={batch}
-                      type="checkbox"
-                      id={batch}
-                      key={batch}
-                      onChange={() => setFieldValue(batch, !values[batch])}
+                      label={values['batches'][batchId].name}
+                      type='checkbox'
+                      id={batchId}
+                      key={batchId}
+                      onChange={() =>
+                        setFieldValue(
+                          'actionCardBatchIds',
+                          toggleArrayItem(values['actionCardBatchIds'], batchId)
+                        )
+                      }
                     />
                   ))}
                 </div>
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              {Object.keys(individualActionsBatches).map(
-                (batch) =>
-                  values[batch] && (
-                    <Form.Group as={Col} key={batch}>
-                      {Object.keys(individualActionsBatches[batch]).map(
-                        (actionId) => (
-                          <p key={actionId}>{actions[actionId].name}</p>
+              {Object.keys(values['batches']).map(
+                (batchId) =>
+                  values['actionCardBatchIds'].includes(batchId) && (
+                    <Form.Group as={Col} key={batchId}>
+                      {values['batches'][batchId].actionCardIds.map(
+                        (actionCardId) => (
+                          <p key={actionCardId}>
+                            {actionCards[actionCardId].name}
+                          </p>
                         )
                       )}
                     </Form.Group>
                   )
               )}
-              {/* {selectedBatches.map((batch) => (
-                <Form.Group as={Col}>
-                  {Object.keys(individualActionsBatches[batch]).map(
-                    (actionId) => (
-                      <p>{actions[actionId].name}</p>
-                    )
-                  )}
-                </Form.Group>
-              ))} */}
             </Form.Row>
-            <div style={{ textAlign: "right" }}>
-              <Button type="submit">{t("common.validate")}</Button>
-            </div>
+            <Form.Row className='d-flex justify-content-end'>
+              <Button
+                type='submit'
+                disabled={!values['actionCardBatchIds'].length}
+              >
+                {t('common.validate')}
+              </Button>
+            </Form.Row>
           </Form>
         );
       }}

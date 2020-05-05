@@ -82,7 +82,6 @@ export default (state = initialState, action) => {
         budget,
         actionCardBatchIds,
       } = action.payload;
-      console.log('START_ROUND');
       return {
         ...state,
         entities: {

@@ -1,36 +1,35 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Button, Spinner } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
-import { useTranslation } from 'react-i18next';
+import './components/simulationPage.css';
+import NavbarWorkshop from '../../components/NavbarWorkshop';
 import FootprintGraph from './components/FootprintGraph';
 import EvolutionCarbon from './components/EvolutionCarbon';
-import { Container, Row, Col } from 'react-bootstrap';
-import { startRound } from '../../actions/workshop';
 import NewRoundModal from './components/NewRoundModal';
-import './components/simulationPage.css';
+import { startRound } from '../../actions/workshop';
 
 const Simulation = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
+  // console.log(footprintShaped);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleSubmit = (values) => {
     dispatch(startRound(values));
     setShow(false);
   };
-  //console.log(footprintShaped);
+  const handleShow = () => setShow(true);
   return (
-    <div>
+    <React.Fragment>
+      <NavbarWorkshop
+        avatarUrl='https://img.icons8.com/doodle/48/000000/user.png'
+        firstName='Xavier'
+        role='Animateur'
+      />
       <StyledSimulation>
         <Container className='row-full'>
-          <StyledHeader>
-            <Button variant='secondary' onClick={handleShow}>
-              {t('common.nextRound')}
-            </Button>
-          </StyledHeader>
           <Row style={{ height: '100vh' }}>
             <Col sm={12} md={8} className='graph-col'>
               <Container className='graph-card'>
@@ -59,7 +58,7 @@ const Simulation = () => {
         handleClose={handleClose}
         handleSubmit={handleSubmit}
       />
-    </div>
+    </React.Fragment>
   );
 };
 
@@ -96,7 +95,15 @@ const footprintShaped = [
   { sector: 'Services Publics', publicServices: 1000 },
 ];
 
-const evolutionData = [
+const players = (obj) => Object.keys(obj).filter((k) => k != 'year');
+const sum = (obj) =>
+  players(obj).reduce(
+    (accumulator, currentValue) => accumulator + obj[currentValue],
+    0
+  );
+const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
+
+var evolutionData = [
   {
     year: 2020,
     player1: 17000,
@@ -170,6 +177,10 @@ const evolutionData = [
     player9: 2000,
   },
 ];
+
+for (var i = 0; i < evolutionData.length; i++) {
+  evolutionData[i].avg_players = avg_players(evolutionData[i]);
+}
 
 // const footprintInitial = {
 //   transport: {

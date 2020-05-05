@@ -1,5 +1,5 @@
-import handleFetch from "./handleFetch";
-import { workshopSchema } from "../../normalizers";
+import handleFetch from './handleFetch';
+import { workshopSchema } from '../../normalizers';
 
 export const getCoaches = () =>
   handleFetch(`/coaches`, {

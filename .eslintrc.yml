@@ -2,16 +2,28 @@ env:
   browser: true
   es6: true
 extends:
+<<<<<<< HEAD
   - 'plugin:react/recommended'
+=======
+  - "plugin:react/recommended"
+>>>>>>> 82ae637e90b3bb255dd8038f2eb385d7d6ee47d0
   - airbnb
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
 parserOptions:
   ecmaFeatures:
+<<<<<<< HEAD
     jsx: true
+=======
+    jsx: false
+>>>>>>> 82ae637e90b3bb255dd8038f2eb385d7d6ee47d0
   ecmaVersion: 2018
   sourceType: module
 plugins:
   - react
+<<<<<<< HEAD
 rules: { 'react/jsx-filename-extension': off }
+=======
+rules: {}
+>>>>>>> 82ae637e90b3bb255dd8038f2eb385d7d6ee47d0

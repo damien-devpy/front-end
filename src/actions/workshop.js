@@ -8,6 +8,7 @@ export const WORKSHOP_RETRIEVED = 'WORKSHOP_RETRIEVED';
 export const RETRIEVE_WORKSHOP = 'RETRIEVE_WORKSHOP';
 export const WORKSHOP_LOAD_ERROR = 'WORKSHOP_LOAD_ERROR';
 export const COMPUTE_CARBON_VARIABLES = 'COMPUTE_CARBON_VARIABLES';
+export const VALIDATE_ROUND = 'VALIDATE_ROUND';
 
 export const initWorkshop = (year) => ({
   type: INIT_WORKSHOP,
@@ -70,4 +71,9 @@ export const workshopLoadError = (error) => ({
 export const computeCarbonVariables = (participantId) => ({
   type: COMPUTE_CARBON_VARIABLES,
   payload: { participantId },
+});
+
+export const validateRound = (year) => ({
+  type: VALIDATE_ROUND,
+  payload: { year },
 });

@@ -23,7 +23,7 @@ const categories = (footprint) =>
   footprint.map((sectorData) => Object.keys(sectorData).slice(1));
 
 const footprintDataBar = (footprint, t) => {
-  console.log("categs", categories(footprint));
+  // console.log("categs", categories(footprint));
   return categories(footprint).map((sector, s) =>
     sector.map((categ, c) => (
       <Bar
@@ -38,8 +38,8 @@ const footprintDataBar = (footprint, t) => {
 
 const renderLegend = (props) => {
   const { payload, footprint } = props;
-  console.log("payload", payload);
-  console.log("footprint", footprint);
+  // console.log("payload", payload);
+  // console.log("footprint", footprint);
 
   var newProps = props;
   newProps.layout = "vertical";

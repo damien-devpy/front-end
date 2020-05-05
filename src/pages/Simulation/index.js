@@ -73,7 +73,7 @@ const footprintShaped = [
   { sector: "Services Publics", publicServices: 1000 },
 ];
 
-const players = (obj) => Object.keys(obj).filter((k) => k != "year");
+const players = (obj) => Object.keys(obj).filter((k) => k !== "year");
 const sum = (obj) =>
   players(obj).reduce(
     (accumulator, currentValue) => accumulator + obj[currentValue],

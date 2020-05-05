@@ -35,7 +35,6 @@ const EvolutionCarbon = ({ data }) => {
 
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
-    // {player1: 1, player2: 1, ...}
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
   );
   const [colors, setColors] = useState(curveColors);
@@ -45,12 +44,11 @@ const EvolutionCarbon = ({ data }) => {
   const handleMouseOver = (o) => {
     const { dataKey } = o;
     var w = width[dataKey];
-    setWidth(Object.fromEntries(Object.keys(width).map((key) => [key, 1])));
     setWidth({ ...width, [dataKey]: w + 3 });
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
   const handleMouseOut = (o) => {
-    console.log("Mouse Out", o);
+    // console.log("Mouse Out", o);
     // const { dataKey } = o;
     // var w = width[dataKey];
     // setWidth({ ...width, [dataKey]: w - 2 });
@@ -63,7 +61,7 @@ const EvolutionCarbon = ({ data }) => {
   const handleClick = (o) => {
     const disabled = "#d3d3d3";
     const { dataKey, color } = o;
-    console.log("curve color", curveColors[dataKey.trim()]);
+    // console.log("curve color", curveColors[dataKey.trim()]);
     // console.log(dataKey);
     // console.log(dataKeys[dataKey.trim()].trim());
     if (dataKeys[dataKey] === dataKey) {
@@ -79,10 +77,8 @@ const EvolutionCarbon = ({ data }) => {
         [dataKey.trim()]: dataKeys[dataKey.trim()].trim(),
       });
     }
-    console.log(dataKeys);
   };
 
-  console.log("colors : ", colors);
   return (
     <ResponsiveContainer width="100%" minWidth={800} aspect={5.0 / 3.0}>
       <LineChart

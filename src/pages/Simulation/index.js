@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import './components/simulationPage.css';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
@@ -11,7 +12,7 @@ import NewRoundModal from './components/NewRoundModal';
 import { startRound } from '../../actions/workshop';
 
 const Simulation = () => {
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
   // console.log(footprintShaped);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -30,6 +31,11 @@ const Simulation = () => {
       />
       <StyledSimulation>
         <Container className='row-full'>
+          <Row className='d-flex justify-content-end mr-1'>
+            <Button variant='secondary' onClick={handleShow}>
+              {t('common.nextRound')}
+            </Button>
+          </Row>
           <Row style={{ height: '100vh' }}>
             <Col sm={12} md={8} className='graph-col'>
               <Container className='graph-card'>

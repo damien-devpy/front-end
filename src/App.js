@@ -25,9 +25,9 @@ const App = () => (
       firstName="Xavier"
       role="Animateur"
     ></Header> */}
-    <div className="container">
+    <div className="">
       <Route exact path="/" component={Home} />
-        <Route path="/home" component={Home} />
+      <Route path="/home" component={Home} />
       <Route path="/workshop" component={Workshop} />
       <Route path="/simulation" component={Simulation} />
       <Route path="/results" component={Results} />

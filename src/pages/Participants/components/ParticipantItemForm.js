@@ -1,10 +1,14 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { COLORS, FONT } from '../../../vars';
-import { ParticipantStatus } from './Status'
 import { Form, Row, Col } from 'react-bootstrap';
-import { useState } from 'react'
+import { COLORS } from '../../../vars';
+import { ParticipantStatus } from './Status';
+
+const isValidName = (input) => input && input.split(/ /).length > 1 && input.split(/ /)[1];
+
+const isValidEmail = (input) => input && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 
 export const ParticipantItemForm = ({
   id,
@@ -13,108 +17,127 @@ export const ParticipantItemForm = ({
   initEmail,
   status,
   isActive,
-  onClick,
+  handleClick,
   updateParticipant,
   deleteParticipant,
   personas,
-  currentPersonaId
+  currentPersonaId,
+  isValid,
 }) => {
-  const { t } = useTranslation();
+  useEffect(() => {
+    console.log('useEffect', id);
+    if ((name !== `${firstName} ${lastName}`) || (email !== initEmail) || (currentPersonaId !== persona)) {
+      console.log('Dispatching update ');
+      updateParticipant(name, email, persona, isValidName(name) && isValidEmail(email));
+    }
+  }, [isActive, isValid]); // if not active update store
 
   const handleItemClick = (e) => {
     e.stopPropagation();
-    onClick(id);
+    handleClick(id);
   };
 
-  const handleDelete = (e) => { 
-    e.preventDefault(); deleteParticipant(id); e.stopPropagation();
-  }; 
+  const handleDelete = (e) => {
+    e.preventDefault();
+    deleteParticipant();
+    e.stopPropagation();
+  };
 
-  const [name, setName] = useState(firstName && lastName && firstName + " " + lastName);
+  const [name, setName] = useState(firstName && lastName && `${firstName} ${lastName}`);
   const [email, setEmail] = useState(initEmail);
   const [persona, setPersona] = useState(currentPersonaId);
 
-  const isValidName = () => {
-    return name && name.split(/ /).length > 1 && name.split(/ /)[1]
-  };
-
-  const isValidEmail = () => {
-    return email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-  };
-
-  const onChangeName = (e) => {
+  const handleChangeName = (e) => {
     setName(e.target.value);
+    updateParticipant(e.target.value, email, persona,
+      isValidName(e.target.value) && isValidEmail(email));
   };
 
-  const onChangeEmail = (e) => {
+  const handleChangeEmail = (e) => {
     setEmail(e.target.value);
+    updateParticipant(name, e.target.value, persona,
+      isValidName(name) && isValidEmail(e.target.value));
   };
 
-  const onBlur = (e) => {
-    console.log("On BLUR")
-    updateParticipant(id, name, email, persona, isValidName() && isValidEmail())
+  const handleChangePersona = (e) => {
+    setPersona(e.target.selectedIndex);
+    updateParticipant(name, email, e.target.selectedIndex,
+      isValidName(name) && isValidEmail(email));
+    e.stopPropagation();
   };
 
-  const Persona = ({ isActive }) => {
-    let personaOptions = [];
-    personas.allIds.forEach(id => {
+  const PersonaDropdown = () => {
+    const personaOptions = [];
+    personas.allIds.forEach((i) => {
       personaOptions.push(
-        <option id={id} value={id}>{personas.byId[id].pseudo}</option>
-      )
+        <option id={i} value={i}>{personas.byId[i].pseudo}</option>,
+      );
     });
 
     return (
-      <Form.Control as="select"
+      <Form.Control
+        as="select"
         readOnly={!isActive}
         size="sm"
         id="dropdown"
         name="persona"
         disabled={!isActive}
-        value={persona ? persona : "None"}
-        onChange={(e) => { 
-          setPersona(e.target.selectedIndex); 
-          updateParticipant(id, name, email, e.target.selectedIndex, isValidName() && isValidEmail());  
-          e.stopPropagation();        
-          onClick(id);
-          }}
+        value={persona || 'None'}
+        onChange={handleChangePersona}
       >
         <option value="None">None</option>
         {personaOptions}
-      </Form.Control>);
-  }
+      </Form.Control>
+    );
+  };
 
   return (
-    <Row onClick={handleItemClick} id={"participant" + id} className="align-items-center">
+    <Row onClick={handleItemClick} id={`participant${id}`} className="align-items-bottom">
       <Col xs="1" className="text-center">
         <Form.Label>
-          {isActive ?
-            <a href="#" title="Remove participant" className="badge lg"
-              onMouseDown={handleDelete}>&#x1f5d1;</a>
-            : ""}
-        </Form.Label></Col>
+          {isActive
+            ? (
+              <button
+                type="button"
+                className="btn btn-link text-decoration-none"
+                title="Remove participant"
+                onMouseDown={handleDelete}
+              >
+              &#x1f5d1;              
+              </button>
+            )
+            : ''}
+        </Form.Label>
+      </Col>
       <Col>
         {/* <Form.Group> */}
-        <Form.Control plaintext={!isActive} readOnly={!isActive} value={name}
+        <Form.Control
+          plaintext={!isActive}
+          readOnly={!isActive}
+          value={name}
           validated={isActive}
           // isValid={!isNotValidName()}
-          isInvalid={!isValidName()}
-          onChange={onChangeName}
-          onBlur={onBlur}
-          required />
+          isInvalid={!isValidName(name)}
+          onChange={handleChangeName}
+          required
+        />
         {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
         {/* </Form.Group> */}
       </Col>
       <Col>
-        <Form.Control plaintext={!isActive} readOnly={!isActive} value={email}
+        <Form.Control
+          plaintext={!isActive}
+          readOnly={!isActive}
+          value={email}
           validated={isActive}
-          isInvalid={!isValidEmail()}
-          onChange={onChangeEmail}
-          onBlur={onBlur}
-          required />
+          isInvalid={!isValidEmail(email)}
+          onChange={handleChangeEmail}
+          required
+        />
         {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
       </Col>
       <Col md="2">
-        <Persona isActive={isActive} />
+        <PersonaDropdown />
       </Col>
       <Col className="text-center" onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}>
         <ParticipantStatus value={status} />
@@ -129,7 +152,7 @@ export const ParticipantsHeader = () => {
   return (
     <StyledHeaderRow>
       <Row>
-        <Col xs="1" className="text-center"></Col>
+        <Col xs="1" className="text-center" />
         <Col>
           {t('manageParticipants.nameSurname')}
         </Col>
@@ -147,45 +170,11 @@ export const ParticipantsHeader = () => {
   );
 };
 
-export const StyledRow = styled.div`
-  cursor: pointer;
-  background-color: ${COLORS.WHITE};
-  // display: flex;          display: -webkit-flex;
-  // flex-direction: row;    -webkit-flex-direction: row;
-  // flex-wrap: no-wrap;     -webkit-flex-wrap: no-wrap;
-  //padding-left: 15px;
-  //padding-right: 15px;
-`;
-
 const StyledHeaderRow = styled.div`
-  background-color: ${COLORS.GRAY.LIGHT};
+  //background-color: ${COLORS.GRAY.LIGHT};
   margin-top: 10px;
   margin-bottom: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  border-bottom:1pt solid ${COLORS.GRAY.LIGHT};
 `;
-
-export const StyledItem = styled.div`
-  background-color: ${COLORS.WHITE};
-  // display: flex;           display: -webkit-flex;
-  // flex-direction: row;     -webkit-flex-direction: row;
-  // flex: 1;            -webkit-flex: 1;
-  // margin: auto 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding-left: 0px;
-  padding-right: 0px;
-  // border:2px solid ${COLORS.AQUA.DARK};
-`;
-
-const StyledName = styled(StyledItem)``;
-const StyledEmail = styled(StyledItem)``;
-const StyledPersona = styled(StyledItem)``;
-const StyledStatus = styled(StyledItem)``;
-
-const StyledHeaderItem = styled(StyledItem)`
-  background-color: ${COLORS.GRAY.LIGHT};
-  // border:2px solid ${COLORS.AQUA.DARK};
-`;
-

@@ -1,96 +1,104 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { COLORS, FONT } from '../../vars';
 import { Spinner } from 'react-bootstrap';
-import { useDispatch } from 'react-redux'
-import { useParticipants } from '../../hooks/participants'
-import { usePersonas } from '../../hooks/personas'
+import { useDispatch } from 'react-redux';
+import { COLORS } from '../../vars';
+import { useParticipants } from '../../hooks/participants';
+import { usePersonas } from '../../hooks/personas';
+import NavbarHome from '../../components/NavbarHome';
 
 import { setParticipantNameEmail, addParticipant, deleteParticipant } from '../../actions/participants';
 
-import { ParticipantItemForm, ParticipantsHeader } from './components/ParticipantItemForm'
+import { ParticipantItemForm, ParticipantsHeader } from './components/ParticipantItemForm';
 
 const ManageParticipants = () => {
-    const { participants, isLoading, loadError } = useParticipants();
-    const { personas, isLoadingPersonas, loadErrorPersonas } = usePersonas();
-    const dispatch = useDispatch();
+  const { participants, isLoading, loadError } = useParticipants();
+  const { personas } = usePersonas();
+  const dispatch = useDispatch();
 
-    // keep track of actived rows globally 
-    const [active, setActive] = useState({});
+  // keep track of actived rows globally
+  const [active, setActive] = useState({});
 
-    const initActive = (participants) => {
-        // by default only rows that are missing required info are active
-        return participants && Object.assign({}, ...participants.allIds.map(
-            id_ => ({ [id_]: !participants.byId[id_].isValid })))
-    }
+  // by default only rows that are missing required info are active
+  const initActive = () => Object.assign({}, ...participants.allIds.map(
+    (i) => ({ [i]: !participants.byId[i].isValid }),
+  ));
 
-    useEffect(() => {
-        participants && setActive(initActive(participants));
-    }, [participants])
+  // update all rows only when the participants are added or deleted
+  useEffect(() => {
+    console.log('Use effect CONTAINER');
+    participants && setActive(initActive(participants));
+  }, [participants && participants.allIds]);
 
-    const onClick = (id) => {
-        // if previously another row was activated because it was clicked, it will not be now
-        // unless it misses required info
-        console.log("On CLICK row", id)
-        let active_ = Object.assign({}, ...participants.allIds.map(
-            id_ => ({ [id_]: !participants.byId[id_].isValid })));
-        id && (active_[id] = true);
-        setActive(active_);
-    }
+  const handleClick = (id) => {
+    // if previously another row was activated because it was clicked, it will not be now
+    // unless it misses required info
+    console.log('On CLICK row', id);
+    const newActive = Object.assign({}, ...participants.allIds.map(
+      (i) => ({ [i]: !participants.byId[i].isValid }),
+    ));
+    id && (newActive[id] = true);
+    setActive(newActive);
+  };
 
-    const participantItems = [];
+  const participantItems = [];
 
-    participants && personas && participants.allIds.forEach((id) => {
-        let p = participants.byId[id];
-        participantItems.push(<ParticipantItemForm
-            id={id}
-            firstName={p.firstName}
-            lastName={p.lastName}
-            initEmail={p.email}
-            status={p.status}
-            key={id}
-            updateParticipant={(id, name, email, persona, valid) => {
-                dispatch(setParticipantNameEmail(id, name, email, persona, valid))
-            }}
-            deleteParticipant={(id) => {
-                dispatch(deleteParticipant(id))
-            }}
-            isActive={active[id]}
-            isValid={p.isValid}
-            onClick={onClick}
-            personas={personas}
-            currentPersonaId={p.personaId}
-        />);
-    });
+  participants && personas && participants.allIds.forEach((id) => {
+    const p = participants.byId[id];
+    participantItems.push(<ParticipantItemForm
+      id={id}
+      firstName={p.firstName}
+      lastName={p.lastName}
+      initEmail={p.email}
+      status={p.status}
+      key={id}
+      updateParticipant={(name, email, persona, valid) => {
+        dispatch(setParticipantNameEmail(id, name, email, persona, valid));
+      }}
+      deleteParticipant={() => {
+        dispatch(deleteParticipant(id));
+      }}
+      isActive={active[id]}
+      isValid={p.isValid}
+      handleClick={handleClick}
+      personas={personas}
+      currentPersonaId={p.personaId}
+    />);
+  });
 
-    // outer container to be able to handle clicks outside the rows, i.e. "lose focus" type of events
-    return <div className="container-fluid h-100 pb-5" onClick={(e) => onClick(null)}>  
-        <div className="container" >
-            {loadError && <p>Error</p>}
-            {isLoading && <Spinner animation="border"></Spinner>}
-            <ParticipantsHeader />
-            {participantItems}
-            <AddParticipant onAddNew={() => {
-                dispatch(addParticipant())
-            }} />
-        </div>
-    </div>;
+  // outer container to be able to handle clicks outside the rows, i.e. "lose focus" type of events
+  return (
+    <div className="container-fluid h-100 pb-5" onClick={(e) => handleClick(null)}>
+      <NavbarHome />
+      <div className="container">
+        {loadError && <p>Error</p>}
+        {isLoading && <Spinner animation="border" />}
+        <ParticipantsHeader />
+        {participantItems}
+        <AddParticipant dispatchAddEvent={() => {
+          dispatch(addParticipant());
+        }}
+        />
+      </div>
+    </div>
+  );
 };
 
-const StyledParticipants = styled.div`
-  margin: 10px 0;
-`;
+const AddParticipant = ({ dispatchAddEvent }) => {
+  const { t } = useTranslation();
 
-const AddParticipant = ({ onAddNew }) => {
-    const { t } = useTranslation();
-
-    return <StyledAdd onClick={(e) => {
-        onAddNew()
-    }}>
-        &#x2295; {t('manageParticipants.addNew')}
+  return (
+    <StyledAdd onClick={dispatchAddEvent}>
+      &#x2295;
+      {' '}
+      {t('manageParticipants.addNew')}
     </StyledAdd>
-}
+  );
+};
 
 export const StyledAdd = styled.div`
   background-color: ${COLORS.WHITE};
@@ -103,4 +111,3 @@ export const StyledAdd = styled.div`
 `;
 
 export default ManageParticipants;
-

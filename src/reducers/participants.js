@@ -5,7 +5,7 @@ import {
   RETRIEVE_PARTICIPANTS,
   PARTICIPANTS_RETRIEVED,
   PARTICIPANTS_LOAD_ERROR,
-  DELETE_PARTICIPANT
+  DELETE_PARTICIPANT,
 } from '../actions/participants';
 
 export const MISSING_INFO = 'MISSING_INFO';
@@ -19,26 +19,24 @@ const initialState = {
   participants: null,
 };
 
-// todo add SET_STATUS 
+// todo add SET_STATUS
 
 export default (state = initialState, action) => {
-
   switch (action.type) {
-
     case RETRIEVE_PARTICIPANTS: {
       return {
         isLoading: true,
-        loadErrorDetails: null
+        loadErrorDetails: null,
       };
     }
 
     case PARTICIPANTS_RETRIEVED: {
       const { participants } = action.payload;
-      console.log("Reducer", action.payload)
+      console.log('Reducer', action.payload);
       return {
         isLoading: false,
         loadErrorDetails: null,
-        participants
+        participants,
       };
     }
 
@@ -46,17 +44,19 @@ export default (state = initialState, action) => {
       return {
         isLoading: false,
         loadError: true,
-        loadErrorDetails: action.payload
+        loadErrorDetails: action.payload,
       };
     }
 
     case SET_PARTICIPANT_NAME_EMAIL: {
-      const { participantId, name, email, persona, valid } = action.payload;
+      const {
+        participantId, name, email, persona, valid,
+      } = action.payload;
 
-      console.log("Action set participant", participantId, name, email, persona, valid)
+      console.log('Action set participant', participantId, name, email, persona, valid);
       // todo this should be handled correctly when there are > 1 spaces
-      const [firstName, lastName] = name.split(/ /);    
-      const newPersona = persona ? persona : null;
+      const [firstName, lastName] = name.split(/ /);
+      const newPersona = persona || null;
 
       const newState = {
         ...state,
@@ -66,62 +66,60 @@ export default (state = initialState, action) => {
             ...state.participants.byId,
             [participantId]: {
               ...state.participants.byId[participantId],
-              firstName: firstName,
-              lastName: lastName,
-              email: email,
+              firstName,
+              lastName,
+              email,
               isValid: valid,
               personaId: newPersona,
               status:
-                newPersona ? BILAN_RECEIVED :
-                (state.participants.byId[participantId].status === MISSING_INFO && valid ?
-                  MUST_SEND_EMAIL : state.participants.byId[participantId].status)
-                  
-            }
-          }
-        }
+                newPersona ? BILAN_RECEIVED
+                  : (state.participants.byId[participantId].status === MISSING_INFO && valid
+                    ? MUST_SEND_EMAIL : state.participants.byId[participantId].status),
+
+            },
+          },
+        },
       };
       return newState;
     }
 
     case ADD_PARTICIPANT: {
-
-      console.log("Action ADD participant")
-      const newId = state.participants.allIds.length + 1
-      const newIds = Object.assign([], state.participants.allIds)
-      newIds.push(newId)
+      console.log('Action ADD participant');
+      const newId = state.participants.allIds.length + 1;
+      const newIds = Object.assign([], state.participants.allIds);
+      newIds.push(newId);
 
       const participants = {
         allIds: newIds,
         byId: {
           ...state.participants.byId,
           [newId]: {
-            firstName: "",
-            lastName: "",
-            email: "",
+            firstName: '',
+            lastName: '',
+            email: '',
             status: MISSING_INFO,
             isValid: false,
             linkBC: null,
-          }
-        }
+          },
+        },
       };
       return { ...state, participants };
     }
 
     case DELETE_PARTICIPANT: {
-      console.log("Action DELETE participant")
+      console.log('Action DELETE participant');
       const { id } = action.payload;
       return {
         ...state,
         participants: {
           ...state.participants,
-          // this should be enough to remove participants, without removing any entries          
-          allIds: state.participants.allIds.filter((i) => i !== id), 
-        }
+          // this should be enough to remove participants, without removing any entries
+          allIds: state.participants.allIds.filter((i) => i !== id),
+        },
       };
     }
 
     default:
-      return state;   
+      return state;
   }
 };
-

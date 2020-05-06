@@ -124,7 +124,7 @@ export default {
     sendBCForm: 'Envoyer formulaire',
     sendByLink: 'Copier le lien',
     sendByEmail: 'Envoyer un e-mail',
-    emailSent: 'En attente des resultats',
+    emailSent: 'Attente des resultats',
     ready: 'Pret',
     missingInfo: 'Remplir info',
     overallStatus: 'Participants prets',

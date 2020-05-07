@@ -19,6 +19,32 @@ const initialState = {
   participants: null,
 };
 
+function computeStatus(valid, participant, newPersona) {
+  let newStatus = null;
+  if (!valid) {
+    newStatus = MISSING_INFO;
+  } else if (newPersona) {
+    newStatus = BILAN_RECEIVED;
+  } else {
+    switch (participant.status) { // old status
+      case MISSING_INFO: {
+        newStatus = MUST_SEND_EMAIL;
+        break;
+      }
+      default: {
+        if (participant.bilanCarbone) {
+          newStatus = BILAN_RECEIVED;
+        } else if (participant.linkBC) {
+          newStatus = EMAIL_SENT;
+        } else {
+          newStatus = MUST_SEND_EMAIL;
+        }
+      }
+    }
+  }
+  return newStatus;
+}
+
 // todo add SET_STATUS
 
 export default (state = initialState, action) => {
@@ -54,9 +80,11 @@ export default (state = initialState, action) => {
       } = action.payload;
 
       console.log('Action set participant', participantId, name, email, persona, valid);
-      // todo this should be handled correctly when there are > 1 spaces
-      const [firstName, lastName] = name.split(/ /);
+      let [firstName, ...lastName] = name.split(/ /);
+      lastName = lastName.join(' ');
+
       const newPersona = persona || null;
+      const newStatus = computeStatus(valid, state.participants.byId[participantId], newPersona);
 
       const newState = {
         ...state,
@@ -71,11 +99,7 @@ export default (state = initialState, action) => {
               email,
               isValid: valid,
               personaId: newPersona,
-              status:
-                newPersona ? BILAN_RECEIVED
-                  : (state.participants.byId[participantId].status === MISSING_INFO && valid
-                    ? MUST_SEND_EMAIL : state.participants.byId[participantId].status),
-
+              status: newStatus,
             },
           },
         },
@@ -100,6 +124,7 @@ export default (state = initialState, action) => {
             status: MISSING_INFO,
             isValid: false,
             linkBC: null,
+            bilanCarbone: null,
           },
         },
       };
@@ -123,3 +148,5 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+

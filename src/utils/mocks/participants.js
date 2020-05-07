@@ -8,7 +8,7 @@ export default {
       email: 'francois_laugier@outlook.com',
       status: MUST_SEND_EMAIL,
       isValid: true,
-      linkBC: 'http//www',
+      linkBC: null,
       personaId: null,
     },
     2: {

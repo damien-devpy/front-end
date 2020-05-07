@@ -19,7 +19,7 @@ export const toggleArrayItem = (array, value) => {
   const i = newArray.indexOf(value);
   if (i === -1) newArray.push(value);
   else newArray.splice(i, 1);
-  return newArray;
+  return newArray.sort();
 };
 
 export const truncate = (length) =>

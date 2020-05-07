@@ -8,20 +8,34 @@ import './components/simulationPage.css';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
 import FootprintGraph from './components/FootprintGraph';
 import EvolutionCarbon from './components/EvolutionCarbon';
-import NewRoundModal from './components/NewRoundModal';
+import CommonModal from '../../components/CommonModal';
 import { startRound } from '../../actions/workshop';
+import NewRoundModalForm from './components/NewRoundModalForm';
+import IndividualActions from './components/IndividualActions';
 
 const Simulation = () => {
   const { t } = useTranslation();
-  // console.log(footprintShaped);
-  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-  const handleClose = () => setShow(false);
-  const handleSubmit = (values) => {
+  // NewRoundModal
+  const [showNewRoundModal, setShowNewRoundModal] = useState(false);
+  const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
+  const handleSubmitNewRoundModal = (values) => {
     dispatch(startRound(values));
-    setShow(false);
+    setShowNewRoundModal(false);
+    setShowEntryOfIndividualActions(true);
   };
-  const handleShow = () => setShow(true);
+  const handleShowNewRoundModal = () => setShowNewRoundModal(true);
+  // EntryOfIndividualActions
+  const [
+    showEntryOfIndividualActions,
+    setShowEntryOfIndividualActions,
+  ] = useState(false);
+  const handleCloseEntryOfIndividualActions = () =>
+    setShowEntryOfIndividualActions(false);
+  const handleSubmitEntryOfIndividualActions = (values) => {
+    //dispatch(??(values));
+    setShowEntryOfIndividualActions(false);
+  };
   return (
     <React.Fragment>
       <NavbarWorkshop
@@ -32,7 +46,7 @@ const Simulation = () => {
       <StyledSimulation>
         <Container className='row-full'>
           <Row className='d-flex justify-content-end mr-1'>
-            <Button variant='secondary' onClick={handleShow}>
+            <Button variant='secondary' onClick={handleShowNewRoundModal}>
               {t('common.nextRound')}
             </Button>
           </Row>
@@ -59,11 +73,22 @@ const Simulation = () => {
           </Row>
         </Container>
       </StyledSimulation>
-      <NewRoundModal
-        show={show}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
-      />
+      <CommonModal
+        title={t('common.nextRound')}
+        show={showNewRoundModal}
+        handleClose={handleCloseNewRoundModal}
+      >
+        <NewRoundModalForm handleSubmit={handleSubmitNewRoundModal} />
+      </CommonModal>
+      <CommonModal
+        title={t('common.entryOfIndividualActions')}
+        show={showEntryOfIndividualActions}
+        handleClose={handleCloseEntryOfIndividualActions}
+      >
+        <IndividualActions
+          handleSubmit={handleSubmitEntryOfIndividualActions}
+        />
+      </CommonModal>
     </React.Fragment>
   );
 };

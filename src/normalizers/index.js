@@ -13,8 +13,8 @@ const carbonInfo = new schema.Entity(
     idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
   }
 );
-const roundConfig = new schema.Entity(
-  'roundConfig',
+const roundsConfig = new schema.Entity(
+  'roundsConfig',
   {},
   {
     idAttribute: (entity, parent) => `${parent.year}`,
@@ -42,7 +42,7 @@ const round = new schema.Entity(
   'rounds',
   {
     carbonInfo: [carbonInfo],
-    roundConfig,
+    roundsConfig,
     individualActions: [individualActions],
     collectiveActions,
   },

@@ -6,6 +6,11 @@ export default {
   coachId: 1234567890,
   creatorId: 1234567890,
   eventUrl: 'http://www.example.com',
+  startYear: 2020,
+  endYear: 2050,
+  currentYear: 2020,
+  yearIncrement: 3,
+  status: '',
   model: {
     footprintStructure: {
       name: 'transport',
@@ -1204,6 +1209,14 @@ export default {
       },
       {
         id: 2,
+        name: 'REMPLACER LA VOITURE PAR LES TRANSPORTS EN COMMUN',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'TRANSPORT',
+        cost: 3,
+      },
+      {
+        id: 3,
         name: 'FAIRE PLUS DE COVOITURAGE',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1217,7 +1230,7 @@ export default {
         ],
       },
       {
-        id: 3,
+        id: 4,
         name: 'FAIRE PLUS DE TÉLÉTRAVAIL',
         type: 'individual',
         category: 'ECOGESTES',
@@ -1239,7 +1252,7 @@ export default {
         ],
       },
       {
-        id: 4,
+        id: 5,
         name: "FAIRE DE L'ECO-CONDUITE",
         type: 'individual',
         category: 'ECOGESTES',
@@ -1293,20 +1306,12 @@ export default {
         ],
       },
       {
-        id: 5,
+        id: 6,
         name: "ARRÊTER DE PRENDRE L'AVION",
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 1,
-      },
-      {
-        id: 6,
-        name: 'SE DEPLACER A PIEDS OU A VÉLO',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'TRANSPORT',
-        cost: 3,
       },
       {
         id: 7,
@@ -1452,6 +1457,30 @@ export default {
       },
       {
         id: 3,
+        name: 'Ind3',
+        type: 'individual',
+        actionCardIds: [7, 8, 9],
+      },
+      {
+        id: 4,
+        name: 'Ind4',
+        type: 'individual',
+        actionCardIds: [10, 11, 12],
+      },
+      {
+        id: 5,
+        name: 'Ind5',
+        type: 'individual',
+        actionCardIds: [13, 14, 15],
+      },
+      {
+        id: 6,
+        name: 'Ind6',
+        type: 'individual',
+        actionCardIds: [16, 17, 18],
+      },
+      {
+        id: 10,
         name: 'Col1',
         type: 'collective',
         actionCardIds: [20, 21],
@@ -1937,12 +1966,12 @@ export default {
         },
       ],
       /*
-      roundConfig: {
+      roundsConfig: {
         actionType: 'individual',
         targetedYear: 2023,
         budget: 4,
         actionCardBatchIds: [1, 2],
-      },
+      },*/
       individualActions: [
         {
           participantId: 1,
@@ -1952,10 +1981,9 @@ export default {
           participantId: 2,
           actionIds: [2, 3],
         },
-      ],*/
+      ],
     },
 
-    /*
     {
       year: 2023,
       carbonInfo: [
@@ -2031,8 +2059,8 @@ export default {
           carbonFootprint: {},
         },
       ],
-      roundConfig: {
-        actionsType: 'collective',
+      roundsConfig: {
+        actionType: 'collective',
         targetedYear: 2026,
         budget: 8,
         actionCardBatchIds: [3],
@@ -2185,8 +2213,8 @@ export default {
           carbonFootprint: {},
         },
       ],
-      roundConfig: {
-        actionsType: 'individual',
+      roundsConfig: {
+        actionType: 'individual',
         targetedYear: 2029,
         budget: 8,
         actionCardBatchIds: [4, 5],
@@ -2211,13 +2239,13 @@ export default {
           carbonFootprint: {},
         },
       ],
-      roundConfig: {
-        actionsType: 'collective',
+      roundsConfig: {
+        actionType: 'collective',
         targetedYear: 2032,
         budget: 8,
         actionCardBatchIds: [6],
       },
       collectiveActions: { actionIds: [47, 48] },
-    },*/
+    },
   ],
 };

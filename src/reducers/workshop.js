@@ -86,8 +86,8 @@ export default (state = initialState, action) => {
         ...state,
         entities: {
           ...state.entities,
-          roundConfig: {
-            ...state.entities.roundConfig,
+          roundsConfig: {
+            ...state.entities.roundsConfig,
             [currentYear]: {
               actionType,
               targetedYear,
@@ -99,7 +99,7 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [currentYear]: {
               ...state.entities.rounds[currentYear],
-              roundConfig: currentYear,
+              roundsConfig: currentYear,
             },
           },
         },

@@ -9,7 +9,6 @@ import { Button, Spinner, Container, Card } from "react-bootstrap";
 import { useCoaches } from "../../hooks/coaches";
 import { addCoach } from "../../actions/coaches";
 import NavbarHome from "../../components/NavbarHome";
-
 const Coaches = () => {
   const { t } = useTranslation();
   const { coaches, isLoading, loadError } = useCoaches();

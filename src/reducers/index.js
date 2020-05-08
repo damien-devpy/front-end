@@ -1,17 +1,12 @@
-import actions from "./actions";
-import coaches from "./coaches";
-import participants from "./participants";
-import years from "./years";
+import { combineReducers } from 'redux';
+import coaches from './coaches';
+import participants from './participants';
+import personas from './personas';
 import workshop from './workshop';
-import workshops from "./workshops";
-import personas from "./personas"
-
-import { combineReducers } from "redux";
+import workshops from './workshops';
 
 export default combineReducers({
-  actions,
-  coaches,  
-  years,
+  coaches,
   participants,
   workshop,
   workshops,

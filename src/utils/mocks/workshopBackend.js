@@ -6,349 +6,118 @@ export default {
   coachId: 1234567890,
   creatorId: 1234567890,
   eventUrl: 'http://www.example.com',
+  startYear: 2020,
+  endYear: 2050,
+  currentYear: 2020,
+  yearIncrement: 3,
+  status: '',
   model: {
     footprintStructure: {
-      name: 'transport',
-      children: [
-        {
-          name: 'plane',
-          cfKey: 'cf_plane',
+      transport: {
+        plane: 'cf_plane',
+        train: {
+          urbanTrain: 'cf_urban_train',
+          mainlineTrain: 'cf_country_train',
         },
-        {
-          name: 'train',
-          children: [
-            {
-              name: 'urbanTrain',
-              cfKey: 'cf_urban_train',
-            },
-            {
-              name: 'countryTrain',
-              cfKey: 'cf_country_train',
-            },
-          ],
+        bus: {
+          urbanBus: 'cf_urban_bus',
+          coach: {
+            coach_commute: 'cf_coach_commute',
+            coach_travel: 'cf_coach_travel',
+          },
         },
-        {
-          name: 'bus',
-          children: [
-            {
-              name: 'coachCommute',
-              cfKey: 'cf_coach_commute',
-            },
-            {
-              name: 'coachTravel',
-              cfKey: 'cf_coach_travel',
-            },
-          ],
+        car: {
+          dailyCommutes: 'cf_car_commute',
+          exceptionalCommutes: 'cf_car_travel',
         },
-        {
-          name: 'car',
-          children: [
-            {
-              name: 'dailyCommutes',
-              cfKey: 'cf_car_commute',
-            },
-            {
-              name: 'exceptionalCommutes',
-              cfKey: 'cf_car_travel',
-            },
-          ],
+      },
+      housing: {
+        housingEquipment: {
+          appliances: {
+            smallAppliances: 'cf_small_appliances',
+            bigApplicances: 'cf_big_appliances',
+          },
+          furnitures: {
+            furnituresPerSurface: 'cf_furnitures',
+            furnituresMin: 'cf_furnitures_min',
+          },
         },
-        {
-          name: 'housing',
-          children: [
-            {
-              name: 'housingEquipment',
-              children: [
-                {
-                  name: 'appliances',
-                  children: [
-                    {
-                      name: 'smallAppliances',
-                      cfKey: 'cf_small_appliances',
-                    },
-                    {
-                      name: 'bigApplicances',
-                      cfKey: 'cf_big_appliances',
-                    },
-                  ],
-                },
-                {
-                  name: 'furnitures',
-                  children: [
-                    {
-                      name: 'furnituresPerSurface',
-                      cfKey: 'cf_furnitures',
-                    },
-                    {
-                      name: 'furnituresMin',
-                      cfKey: 'cf_furnitures_min',
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'constructionAndMaintenance',
-              children: [
-                {
-                  name: 'construction',
-                  children: [
-                    {
-                      name: 'houseConstruction',
-                      cfKey: 'cf_house_construction',
-                    },
-                    {
-                      name: 'flatConstruction',
-                      cfKey: 'cf_flat_construction',
-                    },
-                  ],
-                },
-                {
-                  name: 'construction',
-                  cfKey: 'cf_maintenance',
-                },
-              ],
-            },
-            {
-              name: 'energies',
-              children: [
-                {
-                  name: 'water',
-                  cfKey: 'cf_water',
-                },
-                {
-                  name: 'electricity',
-                  children: [
-                    {
-                      name: 'elecHeating',
-                      cfKey: 'cf_elec_heating',
-                    },
-                    {
-                      name: 'elecCooking',
-                      cfKey: 'cf_elec_cooking',
-                    },
-                    {
-                      name: 'elecWaterHeating',
-                      cfKey: 'cf_elec_water_heating',
-                    },
-                    {
-                      name: 'elecLightning',
-                      cfKey: 'cf_elec_lightning',
-                    },
-                  ],
-                },
-                {
-                  name: 'gas',
-                  children: [
-                    {
-                      name: 'gasHeating',
-                      cfKey: 'cf_gas_heating',
-                    },
-                    {
-                      name: 'gasCooking',
-                      cfKey: 'cf_gas_cooking',
-                    },
-                    {
-                      name: 'gasWaterHeating',
-                      cfKey: 'cf_gas_water_heating',
-                    },
-                  ],
-                },
-                {
-                  name: 'fuel',
-                  children: [
-                    {
-                      name: 'fuelHeating',
-                      cfKey: 'cf_fuel_heating',
-                    },
-                    {
-                      name: 'fuelCooking',
-                      cfKey: 'cf_fuel_cooking',
-                    },
-                    {
-                      name: 'fuelWaterHeating',
-                      cfKey: 'cf_fuel_water_heating',
-                    },
-                  ],
-                },
-                {
-                  name: 'wood',
-                  children: [
-                    {
-                      name: 'woodHeating',
-                      cfKey: 'cf_wood_heating',
-                    },
-                    {
-                      name: 'woodCooking',
-                      cfKey: 'cf_wood_cooking',
-                    },
-                    {
-                      name: 'woodWaterHeating',
-                      cfKey: 'cf_wood_water_heating',
-                    },
-                  ],
-                },
-                {
-                  name: 'districtHeating',
-                  cfKey: 'cf_district_heating',
-                },
-              ],
-            },
-          ],
+        constructionAndMaintenance: {
+          construction: {
+            houseConstruction: 'cf_house_construction',
+            flatConstruction: 'cf_flat_construction',
+          },
+          maintenance: 'cf_maintenance',
         },
-        {
-          name: 'food',
-          children: [
-            {
-              name: 'drinks',
-              children: [
-                {
-                  name: 'alcohol',
-                  cfKey: 'cf_alcohol',
-                },
-                {
-                  name: 'hotDrinks',
-                  cfKey: 'cf_hot_drinks',
-                },
-                {
-                  name: 'juicesAndSoda',
-                  cfKey: 'cf_juices_and_sodas',
-                },
-              ],
-            },
-            {
-              name: 'meatAndFish',
-              cfKey: 'cf_meat_and_fish',
-            },
-            {
-              name: 'eggsAndDairies',
-              cfKey: 'cf_eggs_and_dairies',
-            },
-            {
-              name: 'others',
-              children: [
-                {
-                  name: 'transformedProducts',
-                  cfKey: 'cf_transformed_products',
-                },
-                {
-                  name: 'groceriesAndStarches',
-                  cfKey: 'cf_starches_and_groceries',
-                },
-                {
-                  name: 'fruitsAndVegetables',
-                  children: [
-                    {
-                      name: 'localFruitsAndVegeteables',
-                      cfKey: 'cf_local_fruits_and_vegetables',
-                    },
-                    {
-                      name: 'importedFruitsAndVegeteables',
-                      cfKey: 'cf_imported_fruits_and_vegetables',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+        energies: {
+          water: 'cf_water',
+          electricity: {
+            elecHeating: 'cf_elec_heating',
+            elecCooking: 'cf_elec_cooking',
+            elecWaterHeating: 'cf_elec_water_heating',
+            elecLightning: 'cf_elec_lightning',
+          },
+          gas: {
+            gasHeating: 'cf_gas_heating',
+            gasCooking: 'cf_gas_cooking',
+            gasWaterHeating: 'cf_gas_water_heating',
+          },
+          fuel: {
+            fuelHeating: 'cf_fuel_heating',
+            fuelCooking: 'cf_fuel_cooking',
+            fuelWaterHeating: 'cf_fuel_water_heating',
+          },
+          wood: {
+            woodHeating: 'cf_wood_heating',
+            woodCooking: 'cf_wood_cooking',
+            woodWaterHeating: 'cf_wood_water_heating',
+          },
+          districtHeating: 'cf_heat_network',
         },
-        {
-          name: 'others',
-          children: [
-            {
-              name: 'clothing',
-              cfKey: 'cf_clothes',
-            },
-            {
-              name: 'digital',
-              children: [
-                {
-                  name: 'devices',
-                  children: [
-                    {
-                      name: 'smallDevices',
-                      cfKey: 'cf_small_devices_cradle_to_crate',
-                    },
-                    {
-                      name: 'bigDevices',
-                      cfKey: 'cf_big_devices_cradle_to_crate',
-                    },
-                  ],
-                },
-                {
-                  name: 'internetUsage',
-                  children: [
-                    {
-                      name: 'internetStreaming',
-                      cfKey: 'cf_internet_streaming',
-                    },
-                    {
-                      name: 'internetOthers',
-                      cfKey: 'cf_internet_others',
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'others',
-              children: [
-                {
-                  name: 'activities',
-                  children: [
-                    {
-                      name: 'activitiesElectricity',
-                      cfKey: 'cf_activities_electricity',
-                    },
-                    {
-                      name: 'activitiesGas',
-                      cfKey: 'cf_activities_gas',
-                    },
-                    {
-                      name: 'activitiesWithoutEnergy',
-                      cfKey: 'cf_activities_without_energy',
-                    },
-                  ],
-                },
-                {
-                  name: 'goodsAndServices',
-                  children: [
-                    {
-                      name: 'servicesElectricity',
-                      cfKey: 'cf_services_electricity',
-                    },
-                    {
-                      name: 'servicesGas',
-                      cfKey: 'cf_services_gas',
-                    },
-                    {
-                      name: 'servicesWithoutEnergy',
-                      cfKey: 'cf_services_without_energy',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+      },
+      food: {
+        drinks: {
+          alcohol: 'cf_alcohol',
+          hotDrinks: 'cf_hot_drinks',
+          juicesAndSoda: 'cf_juices_and_sodas',
         },
-        {
-          name: 'publicServices',
-          children: [
-            {
-              name: 'gasPublicServices',
-              cfKey: 'cf_gas_public_services',
-            },
-            {
-              name: 'elecPublicServices',
-              cfKey: 'cf_elec_public_services',
-            },
-            {
-              name: 'otherPublicServices',
-              cfKey: 'cf_other_public_services',
-            },
-          ],
+        meatAndFish: 'cf_meat_and_fish',
+        eggsAndDairies: 'cf_eggs_and_dairies',
+        others: {
+          fruitsAndVegetables: {
+            localFruitsAndVegeteables: 'cf_local_fruits_and_vegetables',
+            importedFruitsAndVegeteables: 'cf_imported_fruits_and_vegetables',
+          },
+          transformedProducts: 'cf_transformed_products',
+          groceriesAndStarches: 'cf_starches_and_groceries',
         },
-      ],
+      },
+      others: {
+        clothing: 'cf_clothes',
+        digital: {
+          devices: {
+            smallDevices: 'cf_small_devices_cradle_to_crate',
+            bigDevices: 'cf_big_devices_cradle_to_crate',
+          },
+          internetUsage: {
+            intrnetStreaming: 'cf_internet_streaming',
+            intrnetOthers: 'cf_internet_others',
+          },
+        },
+        others: {
+          activities: {
+            activitiesElectricity: 'cf_activities_electricity',
+            activitiesGas: 'cf_activities_gas',
+            activitiesWithoutEnergy: 'cf_activities_without_energy',
+          },
+          goods_and_services: {
+            servicesElectricity: 'cf_services_electricity',
+            servicesGas: 'cf_services_gas',
+            servicesWithoutEnergy: 'cf_services_without_energy',
+          },
+        },
+      },
+      publicServices: 'cf_public_services',
     },
     variableFormulas: {
       // transports
@@ -608,7 +377,6 @@ export default {
           },
         ],
       },
-      cf_district_heating: 0,
 
       // food
       cf_meat_and_fish: {
@@ -940,9 +708,7 @@ export default {
         ],
       },
       // public Services
-      cf_gas_public_services: { var: 'CF_GAS_PUBLIC_SERVICES' },
-      cf_elec_public_services: { var: 'CF_ELEC_PUBLIC_SERVICES' },
-      cf_other_public_services: { var: 'CF_OTHER_PUBLIC_SERVICES' },
+      cf_public_services: { var: 'CF_PUBLIC_SERVICES' },
 
       // others
       cf_clothes: {
@@ -1107,91 +873,7 @@ export default {
           FIFTEEN_YEARS_OR_OLDER: 1.164876711,
         },
       },
-      CF_GAS_PUBLIC_SERVICES: 336,
-      CF_ELEC_PUBLIC_SERVICES: 301,
-      CF_OTHER_PUBLIC_SERVICES: 363,
-    },
-    // TO BE REMOVE BY AUGUTIN => TO BE MERGED IN actionCards
-    actions: {
-      car_sharing: {
-        key: 'car_sharing',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'TRANSPORT',
-        cost: '',
-        operations: [
-          {
-            variable: 'km_per_day_car_commute',
-            operation: { '*': [{ var: 'km_per_day_car_commute' }, 0.5] },
-          },
-        ],
-      },
-      public_transport_instead_of_car: {
-        key: 'public_transport_instead_of_car',
-        operations: [
-          {
-            variable: 'km_car_commute_per_day',
-            operation: { '-': [{ var: 'km_car_commute_per_day' }, 0.5] },
-          },
-          {
-            variable: 'hours_urban_bus_per_week',
-            operation: {
-              '+': [
-                { var: 'hours_urban_bus_per_week' },
-                {
-                  '/': [
-                    {
-                      '*': [
-                        { var: 'km_car_commute_per_day' },
-                        0.25,
-                        { var: 'DAY_PER_WEEK' },
-                      ],
-                    },
-                    { var: 'MEAN_SPEED_URBAN_BUS' },
-                  ],
-                },
-              ],
-            },
-          },
-          {
-            variable: 'hours_urban_train_per_week',
-            operation: {
-              '+': [
-                { var: 'hours_urban_train_per_week' },
-                {
-                  '/': [
-                    {
-                      '*': [
-                        { var: 'km_car_commute_per_day' },
-                        0.25,
-                        { var: 'DAY_PER_WEEK' },
-                      ],
-                    },
-                    { var: 'MEAN_SPEED_URBAN_TRAIN' },
-                  ],
-                },
-              ],
-            },
-          },
-        ],
-      },
-      more_home_office: {
-        key: 'more_home_office',
-        operations: [
-          {
-            variable: 'km_car_commute_per_day',
-            operation: { '*': [{ var: 'km_car_commute_per_day' }, 0.7] },
-          },
-          {
-            variable: 'hours_urban_bus_per_week',
-            operation: { '*': [{ var: 'hours_urban_bus_per_week' }, 0.7] },
-          },
-          {
-            variable: 'hours_urban_train_per_week',
-            operation: { '*': [{ var: 'hours_urban_train_per_week' }, 0.7] },
-          },
-        ],
-      },
+      CF_PUBLIC_SERVICES: 1000,
     },
     actionCards: [
       {
@@ -1201,6 +883,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
+        batch: 'I1',
       },
       {
         id: 2,
@@ -1209,6 +892,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 2,
+        batch: 'I1',
         operations: [
           {
             variable: 'km_per_day_car_commute',
@@ -1223,20 +907,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
-        operations: [
-          {
-            variable: 'km_car_commute_per_day',
-            operation: { '*': [{ var: 'km_car_commute_per_day' }, 0.7] },
-          },
-          {
-            variable: 'hours_urban_bus_per_week',
-            operation: { '*': [{ var: 'hours_urban_bus_per_week' }, 0.7] },
-          },
-          {
-            variable: 'hours_urban_train_per_week',
-            operation: { '*': [{ var: 'hours_urban_train_per_week' }, 0.7] },
-          },
-        ],
+        batch: 'I1',
       },
       {
         id: 4,
@@ -1245,52 +916,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 1,
-        operations: [
-          {
-            variable: 'km_car_commute_per_day',
-            operation: { '-': [{ var: 'km_car_commute_per_day' }, 0.5] },
-          },
-          {
-            variable: 'hours_urban_bus_per_week',
-            operation: {
-              '+': [
-                { var: 'hours_urban_bus_per_week' },
-                {
-                  '/': [
-                    {
-                      '*': [
-                        { var: 'km_car_commute_per_day' },
-                        0.25,
-                        { var: 'DAY_PER_WEEK' },
-                      ],
-                    },
-                    { var: 'MEAN_SPEED_URBAN_BUS' },
-                  ],
-                },
-              ],
-            },
-          },
-          {
-            variable: 'hours_urban_train_per_week',
-            operation: {
-              '+': [
-                { var: 'hours_urban_train_per_week' },
-                {
-                  '/': [
-                    {
-                      '*': [
-                        { var: 'km_car_commute_per_day' },
-                        0.25,
-                        { var: 'DAY_PER_WEEK' },
-                      ],
-                    },
-                    { var: 'MEAN_SPEED_URBAN_TRAIN' },
-                  ],
-                },
-              ],
-            },
-          },
-        ],
+        batch: 'I1',
       },
       {
         id: 5,
@@ -1299,6 +925,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 1,
+        batch: 'I1',
       },
       {
         id: 6,
@@ -1307,6 +934,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
+        batch: 'I1',
       },
       {
         id: 7,
@@ -1315,6 +943,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
+        batch: 'I2',
       },
       {
         id: 8,
@@ -1323,6 +952,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
+        batch: 'I2',
       },
       {
         id: 9,
@@ -1331,6 +961,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
+        batch: 'I2',
       },
       {
         id: 10,
@@ -1339,6 +970,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
+        batch: 'I2',
       },
       {
         id: 11,
@@ -1347,6 +979,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 3,
+        batch: 'I2',
       },
       {
         id: 12,
@@ -1355,6 +988,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
+        batch: 'I3',
       },
       {
         id: 13,
@@ -1363,6 +997,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
+        batch: 'I3',
       },
       {
         id: 14,
@@ -1371,6 +1006,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 1,
+        batch: 'I3',
       },
       {
         id: 15,
@@ -1379,6 +1015,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
+        batch: 'I4',
       },
       {
         id: 16,
@@ -1387,6 +1024,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
+        batch: 'I4',
       },
       {
         id: 17,
@@ -1395,6 +1033,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
+        batch: 'I4',
       },
       {
         id: 18,
@@ -1403,6 +1042,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
+        batch: 'I4',
       },
       {
         id: 19,
@@ -1411,6 +1051,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 1,
+        batch: 'I4',
       },
       {
         id: 20,
@@ -1419,6 +1060,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
+        batch: 'I4',
       },
       {
         id: 21,
@@ -1427,6 +1069,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
+        batch: 'I4',
       },
       {
         id: 22,
@@ -1435,6 +1078,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
+        batch: 'I4',
       },
     ],
     actionCardBatches: [
@@ -1954,7 +1598,6 @@ export default {
         },
       ],*/
     },
-
     /*
     {
       year: 2023,

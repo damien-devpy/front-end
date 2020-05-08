@@ -1,4 +1,4 @@
-import { MUST_SEND_EMAIL, BILAN_RECEIVED, EMAIL_SENT } from '../../reducers/participants'
+import { MUST_SEND_EMAIL, BILAN_RECEIVED, EMAIL_SENT } from '../../reducers/participants';
 
 export default {
   byId: {
@@ -35,9 +35,9 @@ export default {
       email: 'ivan.dornet@gmail.com',
       status: BILAN_RECEIVED,
       isValid: true,
-      linkBC: 'http//www',
+      linkBC: null,
       personaId: 2,
-    }
+    },
   },
-  allIds: [1, 2, 3, 4]
-}
+  allIds: [1, 2, 3, 4],
+};

@@ -8,14 +8,15 @@ import {
   selectIndividualBatches,
   selectCollectiveBatches,
 } from '../../../selectors/actionsSelector';
+import { selectCheckedActionCardsBatchesFromRounds } from '../../../selectors/workshopSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
-  const { currentYear, startYear, endYear, yearIncrement } = useSelector(
+  const { currentYear, endYear, yearIncrement } = useSelector(
     (state) => state.workshop.result
   );
-  const actionCards = useSelector(
+  const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
   const individualBatches = useSelector((state) =>
@@ -24,12 +25,17 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   const collectiveBatches = useSelector((state) =>
     selectCollectiveBatches(state.workshop.entities.actionCardBatches)
   );
+  const checkedActionCardsBatches = useSelector((state) =>
+    selectCheckedActionCardsBatchesFromRounds(
+      state.workshop.entities.roundsConfig
+    )
+  );
 
   return (
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        actionType: 'individual',
+        actionCardType: 'individual',
         currentYear,
         targetedYear: currentYear + yearIncrement,
         budget: 4,
@@ -58,9 +64,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 <Button
                   className='mr-2'
                   variant='secondary'
-                  active={values.actionType === 'individual'}
+                  active={values.actionCardType === 'individual'}
                   onClick={() => {
-                    setFieldValue('actionType', 'individual');
+                    setFieldValue('actionCardType', 'individual');
                     setFieldValue('batches', individualBatches);
                     setFieldValue('actionCardBatchIds', []);
                   }}
@@ -70,9 +76,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 <Button
                   className='mr-2'
                   variant='secondary'
-                  active={values.actionType === 'collective'}
+                  active={values.actionCardType === 'collective'}
                   onClick={() => {
-                    setFieldValue('actionType', 'collective');
+                    setFieldValue('actionCardType', 'collective');
                     setFieldValue('batches', collectiveBatches);
                     setFieldValue('actionCardBatchIds', []);
                   }}
@@ -134,6 +140,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   {Object.keys(values['batches']).map((batchId) => (
                     <Form.Check
                       checked={values['actionCardBatchIds'].includes(batchId)}
+                      disabled={checkedActionCardsBatches.includes(batchId)}
                       inline
                       label={values['batches'][batchId].name}
                       type='checkbox'
@@ -158,7 +165,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       {values['batches'][batchId].actionCardIds.map(
                         (actionCardId) => (
                           <p key={actionCardId}>
-                            {actionCards[actionCardId].name}
+                            {actionCardsEntity[actionCardId].name}
                           </p>
                         )
                       )}

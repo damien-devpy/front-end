@@ -1,5 +1,5 @@
 import coaches from './mocks/coaches';
-import workshop from './mocks/workshopBackend';
+import workshop from './mocks/workshop';
 import footprints from './mocks/footprints';
 import workshops from './mocks/workshops';
 

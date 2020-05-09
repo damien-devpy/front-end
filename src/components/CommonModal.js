@@ -2,8 +2,7 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import NewRoundModalForm from './NewRoundModalForm';
-const NewRoundModal = ({ show, handleClose, handleSubmit }) => {
+const CommonModal = ({ title, show, handleClose, children }) => {
   const { t } = useTranslation();
   return (
     <Modal
@@ -14,13 +13,11 @@ const NewRoundModal = ({ show, handleClose, handleSubmit }) => {
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title>{t('common.nextRound')}</Modal.Title>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <NewRoundModalForm handleSubmit={handleSubmit} />
-      </Modal.Body>
+      <Modal.Body>{children}</Modal.Body>
     </Modal>
   );
 };
 
-export default NewRoundModal;
+export default CommonModal;

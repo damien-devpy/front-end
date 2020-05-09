@@ -1,40 +1,41 @@
 export const selectTakenIndividualActionsForParticipantAndYear = (
-  individualActions,
+  individualActionCards,
   participantId,
   year
 ) =>
   filterIndividualActionsForParticipantAndYear(
-    individualActions,
+    individualActionCards,
     participantId,
     year
   );
 
 export const selectAvailableIndividualActionsForParticipantAndYear = (
-  individualActions,
+  individualActionCards,
   participantId,
   year
 ) =>
   filterIndividualActionsForParticipantAndYear(
-    individualActions,
+    individualActionCards,
     participantId,
     year,
     true
   );
 const filterIndividualActionsForParticipantAndYear = (
-  individualActions,
+  individualActionCards,
   participantId,
   year,
   includeAvailableActions = false
 ) => {
   const individualParticipantActions =
-    individualActions.byParticipantIds[participantId];
+    individualActionCards.byParticipantIds[participantId];
   if (!individualParticipantActions) return {};
   const individualActionsForParticipantAndYearKeys = Object.keys(
     individualParticipantActions
   ).filter(
-    actionId =>
-      individualParticipantActions[actionId] === year ||
-      (includeAvailableActions && individualParticipantActions[actionId] === 0)
+    (actionCardId) =>
+      individualParticipantActions[actionCardId] === year ||
+      (includeAvailableActions &&
+        individualParticipantActions[actionCardId] === 0)
   );
   const individualActionsForParticipantAndYear = individualActionsForParticipantAndYearKeys.reduce(
     (accumulator, key) => {

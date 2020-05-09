@@ -1,6 +1,8 @@
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
 export const START_ROUND = 'START_ROUND';
 export const SET_INDIVIDUAL_ACTIONS = 'SET_INDIVIDUAL_ACTIONS';
+export const SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS =
+  'SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS';
 export const SET_COLLECTIVE_ACTIONS = 'SET_COLLECTIVE_ACTIONS';
 export const COMPUTE_FOOTPRINT = 'COMPUTE_FOOTPRINT';
 export const APPLY_INDIVIDUAL_ACTION = 'APPLY_INDIVIDUAL_ACTION';
@@ -23,10 +25,18 @@ export const startRound = (payload) => ({
 export const setIndividualActions = (
   year,
   participantId,
-  individualActionIds
+  individualActionCardIds
 ) => ({
   type: SET_INDIVIDUAL_ACTIONS,
-  payload: { year, participantId, individualActionIds },
+  payload: { year, participantId, individualActionCardIds },
+});
+
+export const setIndividualActionsForAllParticipants = (
+  year,
+  individualActionCards
+) => ({
+  type: SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
+  payload: { year, individualActionCards },
 });
 
 export const setCollectiveActions = (year, collectiveActionIds) => ({
@@ -45,11 +55,11 @@ export const applyIndividualAction = (
   yearFrom,
   yearTo,
   participantId,
-  actionId
+  actionCardId
 ) => {
   return {
     type: APPLY_INDIVIDUAL_ACTION,
-    payload: { yearFrom, yearTo, participantId, actionId },
+    payload: { yearFrom, yearTo, participantId, actionCardId },
   };
 };
 

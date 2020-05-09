@@ -3,6 +3,7 @@ import {
   START_ROUND,
   SET_COLLECTIVE_ACTIONS,
   SET_INDIVIDUAL_ACTIONS,
+  SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
   COMPUTE_FOOTPRINT,
   APPLY_INDIVIDUAL_ACTION,
   RETRIEVE_WORKSHOP,
@@ -76,7 +77,7 @@ export default (state = initialState, action) => {
     }
     case START_ROUND: {
       const {
-        actionType,
+        actionCardType,
         currentYear,
         targetedYear,
         budget,
@@ -86,10 +87,10 @@ export default (state = initialState, action) => {
         ...state,
         entities: {
           ...state.entities,
-          roundConfig: {
-            ...state.entities.roundConfig,
+          roundsConfig: {
+            ...state.entities.roundsConfig,
             [currentYear]: {
-              actionType,
+              actionCardType,
               targetedYear,
               budget,
               actionCardBatchIds,
@@ -99,7 +100,7 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [currentYear]: {
               ...state.entities.rounds[currentYear],
-              roundConfig: currentYear,
+              roundsConfig: currentYear,
             },
           },
         },
@@ -127,36 +128,60 @@ export default (state = initialState, action) => {
     }
     case SET_INDIVIDUAL_ACTIONS: {
       const { year, participantId, individualActionIds } = action.payload;
-      return !state.rounds.allYears.includes(year)
-        ? state
-        : {
-            ...state,
-            rounds: {
-              byYear: {
-                ...state.rounds.byYear,
-                [year]: {
-                  ...state.rounds.byYear[year],
-                  participants: {
-                    ...state.rounds.byYear[year]['participants'],
-                    [participantId]: {
-                      ...state.rounds.byYear[year]['participants'][
-                        participantId
-                      ],
-                      individualActionIds: [
-                        ...new Set([
-                          ...state.rounds.byYear[year]['participants'][
-                            participantId
-                          ].individualActionIds,
-                          ...individualActionIds,
-                        ]),
-                      ],
-                    },
-                  },
-                },
-              },
-              allYears: [...state.rounds.allYears],
+      return {
+        ...state,
+        result: {
+          ...state.result,
+          currentYear: state.entities.roundsConfig[year].targetedYear,
+        },
+        entities: {
+          ...state.entities,
+          individualActionCards: {
+            ...state.entities.individualActionCards,
+            [`${year}-${participantId}`]: {
+              participantId,
+              actionsIds: individualActionIds,
             },
-          };
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              ...state.entities.rounds[year],
+              individualActionCards: [
+                ...(state.entities.rounds[year].individualActionCards = []),
+                `${year}-${participantId}`,
+              ],
+            },
+          },
+        },
+      };
+    }
+    case SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS: {
+      const { year, individualActionCards } = action.payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          individualActionCards: {
+            ...state.entities.individualActionCards,
+            ...individualActionCards,
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              ...state.entities.rounds[year],
+              individualActionCards: [
+                ...(state.entities.rounds[year].individualActionCards = []),
+                ...Object.keys(individualActionCards),
+              ],
+            },
+          },
+        },
+        result: {
+          ...state.result,
+          currentYear: state.entities.roundsConfig[year].targetedYear,
+        },
+      };
     }
     case COMPUTE_FOOTPRINT: {
       const { participantId, year } = action.payload;

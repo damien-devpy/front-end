@@ -1,11 +1,11 @@
 import {
   INIT_INDIVIDUAL_ACTIONS,
-  SET_INDIVIDUAL_ACTIONS
+  SET_INDIVIDUAL_ACTIONS,
 } from '../actions/individualActions';
 
 const initialState = {
   byParticipantIds: { 1: { 1: [2020], 2: [2020], 3: [0], 4: [0] } },
-  allParticipantIds: [1]
+  allParticipantIds: [1],
 };
 
 export default (state = initialState, action) => {
@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case INIT_INDIVIDUAL_ACTIONS: {
       const { participants, actions } = action.payload;
       const initAllActionsWithYearZero = Object.keys(actions).reduce(
-        (accumulator, actionId) => ({ ...accumulator, [actionId]: 0 }),
+        (accumulator, actionCardId) => ({ ...accumulator, [actionCardId]: 0 }),
         {}
       );
       const initAllParticipantsWithAllActionsWithYearZero = Object.keys(
@@ -21,16 +21,16 @@ export default (state = initialState, action) => {
       ).reduce(
         (accumulator, participantId) => ({
           ...accumulator,
-          [participantId]: { ...initAllActionsWithYearZero }
+          [participantId]: { ...initAllActionsWithYearZero },
         }),
         {}
       );
 
       return {
-        allParticipantIds: Object.keys(participants).map(participantId =>
+        allParticipantIds: Object.keys(participants).map((participantId) =>
           parseInt(participantId)
         ),
-        byParticipantIds: initAllParticipantsWithAllActionsWithYearZero
+        byParticipantIds: initAllParticipantsWithAllActionsWithYearZero,
       };
     }
     // case SET_ACTIONS: {
@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
     //   };
     // }
     case SET_INDIVIDUAL_ACTIONS: {
-      const { participantId, year, actionIds } = action.payload;
+      const { participantId, year, actionCardIds } = action.payload;
 
       const newState = {
         ...state,
@@ -72,12 +72,15 @@ export default (state = initialState, action) => {
           ...state.byParticipantIds,
           [participantId]: {
             ...state.byParticipantIds[participantId],
-            ...actionIds.reduce(
-              (accumulator, actionId) => ({ ...accumulator, [actionId]: year }),
+            ...actionCardIds.reduce(
+              (accumulator, actionCardId) => ({
+                ...accumulator,
+                [actionCardId]: year,
+              }),
               {}
-            )
-          }
-        }
+            ),
+          },
+        },
       };
       return newState;
     }

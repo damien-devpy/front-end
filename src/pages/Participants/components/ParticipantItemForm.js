@@ -24,6 +24,8 @@ export const ParticipantItemForm = ({
   currentPersonaId,
   isValid,
 }) => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     console.log('useEffect', id);
     if ((name !== `${firstName} ${lastName}`) || (email !== initEmail) || (currentPersonaId !== persona)) {
@@ -85,7 +87,7 @@ export const ParticipantItemForm = ({
         value={persona || 'None'}
         onChange={handleChangePersona}
       >
-        <option value="None">None</option>
+        <option value='None'>{t('manageParticipants.nullPersona')}</option>
         {personaOptions}
       </Form.Control>
     );
@@ -100,7 +102,7 @@ export const ParticipantItemForm = ({
               <button
                 type="button"
                 className="btn btn-link text-decoration-none"
-                title="Remove participant"
+                title={t('manageParticipants.delete')}
                 onMouseDown={handleDelete}
               >
               &#x1f5d1;              

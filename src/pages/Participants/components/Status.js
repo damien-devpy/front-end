@@ -29,7 +29,8 @@ export const ParticipantStatus = ({
                         position: 'absolute',
                         top: 0,
                         right: -80,
-                    }} onClose={() => setShow(false)} show={show} delay={2000} animation={true} autohide><Toast.Body className="badge">Copied!</Toast.Body></Toast>
+                    }} onClose={() => setShow(false)} show={show} delay={2000} animation={true} autohide><Toast.Body className="badge">
+                        {show ? 'Copied!' : ''}</Toast.Body></Toast>
                     <Dropdown.Menu>
                         <Dropdown.Item href="#/action-1">{t('manageParticipants.sendByEmail')}</Dropdown.Item>
                         <CopyToClipboard text={value}

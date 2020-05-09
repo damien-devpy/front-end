@@ -21,17 +21,17 @@ const roundsConfig = new schema.Entity(
   }
 );
 // Taken Actions
-const individualActions = new schema.Entity(
-  'individualActions',
+const individualActionCards = new schema.Entity(
+  'individualActionCards',
   {
-    individualActions: [actionCard],
+    individualActionCards: [actionCard],
   },
   {
     idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
   }
 );
-const collectiveActions = new schema.Entity(
-  'collectiveActions',
+const collectiveActionCards = new schema.Entity(
+  'collectiveActionCards',
   {},
   {
     idAttribute: (entity, parent) => `${parent.year}`,
@@ -43,8 +43,8 @@ const round = new schema.Entity(
   {
     carbonInfo: [carbonInfo],
     roundsConfig,
-    individualActions: [individualActions],
-    collectiveActions,
+    individualActionCards: [individualActionCards],
+    collectiveActionCards,
   },
   { idAttribute: 'year' }
 );

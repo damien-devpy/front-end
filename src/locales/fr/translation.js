@@ -105,7 +105,6 @@ export default {
     participants: 'Participants',
     plane: 'Avion',
     professional: 'PRO',
-    professional: 'PRO',
     publicServices: 'Services Publics',
     ressources: 'Ressources',
     results: 'Bilans',

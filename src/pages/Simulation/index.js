@@ -12,7 +12,6 @@ import CommonModal from '../../components/CommonModal';
 import { startRound } from '../../actions/workshop';
 import NewRoundModalForm from './components/NewRoundModalForm';
 import IndividualActions from './components/IndividualActions';
-
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -32,10 +31,6 @@ const Simulation = () => {
   ] = useState(false);
   const handleCloseEntryOfIndividualActions = () =>
     setShowEntryOfIndividualActions(false);
-  const handleSubmitEntryOfIndividualActions = (values) => {
-    //dispatch(??(values));
-    setShowEntryOfIndividualActions(false);
-  };
   return (
     <React.Fragment>
       <NavbarWorkshop
@@ -85,9 +80,7 @@ const Simulation = () => {
         show={showEntryOfIndividualActions}
         handleClose={handleCloseEntryOfIndividualActions}
       >
-        <IndividualActions
-          handleSubmit={handleSubmitEntryOfIndividualActions}
-        />
+        <IndividualActions handleClose={handleCloseEntryOfIndividualActions} />
       </CommonModal>
     </React.Fragment>
   );

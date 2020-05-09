@@ -15,13 +15,19 @@ import {
 import { format } from 'date-fns';
 
 export const toggleArrayItem = (array, value) => {
+  if (!array) return [];
   const [...newArray] = array;
   const i = newArray.indexOf(value);
   if (i === -1) newArray.push(value);
   else newArray.splice(i, 1);
   return newArray.sort();
 };
-
+export const toggleArrayItemInMap = (map, key, value) => {
+  return {
+    ...map,
+    [key]: toggleArrayItem(map[key], value),
+  };
+};
 export const truncate = (length) =>
   when(
     propSatisfies(gt(__, length), 'length'),

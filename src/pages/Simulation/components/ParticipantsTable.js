@@ -1,9 +1,13 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 
-const ParticipantsTable = ({ workshopParticipants, entityParticipants, t }) => {
-  console.log('workshopParticipants', workshopParticipants);
-  console.log('participants', entityParticipants);
+const ParticipantsTable = ({
+  workshopParticipants,
+  entityParticipants,
+  selectedParticipantId,
+  handleSelect,
+  t,
+}) => {
   return (
     <Table borderless striped hover>
       <tbody>
@@ -13,8 +17,18 @@ const ParticipantsTable = ({ workshopParticipants, entityParticipants, t }) => {
             const { email, firstName, lastName } = entityParticipants[
               participantId
             ];
+            const style =
+              selectedParticipantId === participantId
+                ? {
+                    backgroundColor: 'gray',
+                  }
+                : {};
             return (
-              <tr key={email}>
+              <tr
+                key={email}
+                onClick={() => handleSelect(participantId)}
+                style={style}
+              >
                 <td>{firstName}</td>
                 <td>{lastName}</td>
               </tr>

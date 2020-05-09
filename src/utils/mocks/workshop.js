@@ -1965,25 +1965,25 @@ export default {
           },
         },
       ],
-      /*
+
       roundsConfig: {
-        actionType: 'individual',
+        actionCardType: 'individual',
         targetedYear: 2023,
         budget: 4,
         actionCardBatchIds: [1, 2],
-      },*/
-      individualActions: [
-        {
-          participantId: 1,
-          actionIds: [1, 2, 3],
-        },
-        {
-          participantId: 2,
-          actionIds: [2, 3],
-        },
-      ],
+      },
+      // individualActionCards: [
+      //   {
+      //     participantId: 1,
+      //     actionCardIds: [1, 2, 3],
+      //   },
+      //   {
+      //     participantId: 2,
+      //     actionCardIds: [2, 3],
+      //   },
+      // ],
     },
-
+    /*
     {
       year: 2023,
       carbonInfo: [
@@ -2060,12 +2060,12 @@ export default {
         },
       ],
       roundsConfig: {
-        actionType: 'collective',
+        actionCardType: 'collective',
         targetedYear: 2026,
         budget: 8,
         actionCardBatchIds: [3],
       },
-      collectiveActions: { actionIds: [41, 42, 43] },
+      collectiveActionCards: { actionCardIds: [41, 42, 43] },
     },
     {
       year: 2026,
@@ -2214,19 +2214,19 @@ export default {
         },
       ],
       roundsConfig: {
-        actionType: 'individual',
+        actionCardType: 'individual',
         targetedYear: 2029,
         budget: 8,
         actionCardBatchIds: [4, 5],
       },
-      individualActions: [
+      individualActionCards: [
         {
           participantId: 1,
-          actionIds: [5, 6],
+          actionCardIds: [5, 6],
         },
         {
           participantId: 2,
-          actionIds: [5, 7, 8],
+          actionCardIds: [5, 7, 8],
         },
       ],
     },
@@ -2240,12 +2240,13 @@ export default {
         },
       ],
       roundsConfig: {
-        actionType: 'collective',
+        actionCardType: 'collective',
         targetedYear: 2032,
         budget: 8,
         actionCardBatchIds: [6],
       },
-      collectiveActions: { actionIds: [47, 48] },
+      collectiveActionCards: { actionCardIds: [47, 48] },
     },
+    */
   ],
 };

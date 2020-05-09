@@ -5,35 +5,53 @@ import { Container, Form, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { toggleArrayItem } from '../../../utils/helpers';
-import { selectIndividualActionsFromParticipant } from '../../../selectors/workshopSelector';
+import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';
 
-const IndividualActionsForm = ({ participantId, handleSubmit }) => {
+const IndividualActionsForm = ({
+  currentRound,
+  participantId,
+  handleSubmit,
+}) => {
   const { t } = useTranslation();
-  const currentRound = useSelector(
-    (state) => state.workshop.result.currentYear
-  );
-  const roundConfig = useSelector(
-    (state) => state.workshop.entities.roundsConfig[currentRound]
-  );
+  // const roundConfig = useSelector(
+  //   (state) => state.workshop.entities.roundsConfig[currentRound]
+  // );
   const actionCardBatchesEntity = useSelector(
     (state) => state.workshop.entities.actionCardBatches
   );
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
-  const individualActionsFromParticipant = useSelector((state) =>
-    selectIndividualActionsFromParticipant(
+  const roundsConfigEntity = useSelector(
+    (state) => state.workshop.entities.roundsConfig
+  );
+  const individualActionCardsEntity = useSelector(
+    (state) => state.workshop.entities.individualActionCards
+  );
+  const individualActionCardsFromParticipant = useSelector((state) =>
+    selectIndividualActionCardsFromParticipant(
       participantId,
       state.workshop.entities.roundsConfig,
-      state.workshop.entities.individualActions
+      state.workshop.entities.individualActionCards
     )
   );
-  console.log(
-    'individualActionsFromParticipant',
-    individualActionsFromParticipant
-  );
+  const toggleIndividualActionCardsIdsInMap = (map, key, value) => {
+    const actionCardIds = map[key] && map[key].actionCardIds;
+    const result = {
+      ...map,
+      [key]: {
+        participantId: key,
+        actionCardIds: toggleArrayItem(actionCardIds, value),
+      },
+    };
+    return result;
+  };
+
   return (
-    <Formik onSubmit={handleSubmit} initialValues={{ actionCardIds: [] }}>
+    <Formik
+      onSubmit={handleSubmit}
+      initialValues={{ individualActionCards: { individualActionCardsEntity } }}
+    >
       {({
         handleSubmit,
         handleChange,
@@ -48,37 +66,59 @@ const IndividualActionsForm = ({ participantId, handleSubmit }) => {
         return (
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Row>
-              {roundConfig.actionCardBatchIds.map((actionCardBatchId) => {
-                const { name, actionCardIds } = actionCardBatchesEntity[
-                  actionCardBatchId
-                ];
-                return (
-                  <Form.Group as={Col} key={actionCardBatchId}>
-                    <Form.Label>{name}</Form.Label>
-                    {actionCardIds.map((actionCardId) => {
-                      const { name } = actionCardsEntity[actionCardId];
-                      return (
-                        <Form.Check
-                          style={{ fontSize: '0.5rem' }}
-                          type='switch'
-                          key={actionCardId}
-                          id={actionCardId}
-                          label={name}
-                          onChange={() =>
-                            setFieldValue(
-                              'actionCardIds',
-                              toggleArrayItem(
-                                values['actionCardIds'],
+              {Object.keys(roundsConfigEntity).map((roundConfigId) =>
+                roundsConfigEntity[roundConfigId].actionCardBatchIds.map(
+                  (actionCardBatchId) => {
+                    const { name, actionCardIds } = actionCardBatchesEntity[
+                      actionCardBatchId
+                    ];
+                    return (
+                      <Form.Group as={Col} key={actionCardBatchId}>
+                        <Form.Label>{name}</Form.Label>
+                        {actionCardIds.map((actionCardId) => {
+                          const { name } = actionCardsEntity[actionCardId];
+                          return (
+                            <Form.Check
+                              style={{ fontSize: '0.5rem' }}
+                              checked={
+                                individualActionCardsFromParticipant.includes(
+                                  actionCardId
+                                ) ||
+                                (values['individualActionCards'][
+                                  `${currentRound}-${participantId}`
+                                ] &&
+                                  values['individualActionCards'][
+                                    `${currentRound}-${participantId}`
+                                  ].actionCardIds.includes(actionCardId))
+                              }
+                              disabled={individualActionCardsFromParticipant.includes(
                                 actionCardId
-                              )
-                            )
-                          }
-                        />
-                      );
-                    })}
-                  </Form.Group>
-                );
-              })}
+                              )}
+                              type='switch'
+                              key={actionCardId}
+                              id={`switch-${actionCardId}`}
+                              label={name}
+                              onChange={() =>
+                                setFieldValue(
+                                  'individualActionCards',
+                                  toggleIndividualActionCardsIdsInMap(
+                                    values['individualActionCards'],
+                                    `${currentRound}-${participantId}`,
+                                    actionCardId
+                                  )
+                                )
+                              }
+                            />
+                          );
+                        })}
+                      </Form.Group>
+                    );
+                  }
+                )
+              )}
+            </Form.Row>
+            <Form.Row className='d-flex justify-content-end'>
+              <Button type='submit'>{t('common.validate')}</Button>
             </Form.Row>
           </Form>
         );

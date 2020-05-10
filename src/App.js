@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Results from './pages/Results';
 import Coaches from './pages/Coaches/';
 import Workshops from './pages/Workshops';
+import Participants from './pages/Participants';
 import { useWorkshop } from './hooks/workshop';
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
         <Route path='/results' component={Results} />
         <Route path='/coaches' component={Coaches} />
         <Route path='/workshops' component={Workshops} />
+        <Route path='/participants' component={Participants} />
       </div>
       {/* <Footer></Footer> */}
     </BrowserRouter>

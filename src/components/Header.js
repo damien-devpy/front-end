@@ -13,7 +13,7 @@ const Header = ({ name, date, avatarUrl, avatarName, firstName, role }) => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  const isActive = (path) =>
+  const isActive = path =>
     location.pathname === path ? `${COLORS.BROWN.DARK}` : null;
 
   return (
@@ -72,7 +72,6 @@ const StyledTop = styled.div`
   align-items: center;
   & > div, Nav {
     margin: 0.5rem 2rem;
-  ${"" /* background: ${COLORS.BROWN.STANDARD}; */}
 `;
 
 const StyledWorkshop = styled.div`

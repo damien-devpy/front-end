@@ -1,13 +1,13 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 
 const CoachTable = ({ coaches, t }) => (
-  <Table borderless striped hover>
+  <Table borderless className="table-responsive">
     <thead>
       <tr>
         <th>{t("common.firstName")}</th>
         <th>{t("common.lastName")}</th>
-        <th>{t("common.dateOfLastWorkshop")}</th>
+        <th>{t("common.lastWorkshop")}</th>
         <th>{t("common.email")}</th>
         <th>{t("common.role")}</th>
         <th>{t("common.city")}</th>
@@ -42,7 +42,13 @@ const CoachTable = ({ coaches, t }) => (
               <td>{city}</td>
               <td>{numberOfWorkshops}</td>
               <td>{sensitized}</td>
-              <td>{action}</td>
+              <td>
+                <Button variant="light">
+                  <span role="img" description={t("common.editCoach")}>
+                    ✏️
+                  </span>
+                </Button>
+              </td>
             </tr>
           )
         )}

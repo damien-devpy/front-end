@@ -1,53 +1,53 @@
 export const COLORS = {
-  PRIMARY: '#C57E56',
-  BLACK: '#000000',
-  WHITE: '#ffffff',
+  PRIMARY: "#BA947E",
+  BLACK: "#000000",
+  WHITE: "#ffffff",
   BROWN: {
-    DARK: '#c57e56',
-    STANDARD: '#ffb45b',
-    LIGHT: '',
+    DARK: "#c57e56",
+    STANDARD: "#BA947E",
+    LIGHT: "#FAF6F2"
   },
   GRAY: {
-    DARK: '#4e5665',
-    STANDARD: '#c7c7cd',
-    LIGHT: '#f3f3f3',
+    DARK: "#4e5665",
+    STANDARD: "#c7c7cd",
+    LIGHT: "#f3f3f3"
   },
   SILVER: {
-    DARK: '#adadad',
-    STANDARD: '#e2e2e2',
-    LIGHT: '#fafbfc',
+    DARK: "#adadad",
+    STANDARD: "#e2e2e2",
+    LIGHT: "#fafbfc"
   },
   YELLOW: {
-    DARK: '#e4d500',
-    STANDARD: '#feed00',
-    LIGHT: '#feed00',
+    DARK: "#e4d500",
+    STANDARD: "#feed00",
+    LIGHT: "#feed00"
   },
   ORANGE: {
-    DARK: '#f39c12',
-    STANDARD: '#f39c12',
-    LIGHT: '#f39c12',
+    DARK: "#f39c12",
+    STANDARD: "#f39c12",
+    LIGHT: "#f39c12"
   },
   RED: {
-    DARK: '#e74c3c',
-    STANDARD: '#e74c3c',
-    LIGHT: '#e74c3c',
+    DARK: "#e74c3c",
+    STANDARD: "#e74c3c",
+    LIGHT: "#e74c3c"
   },
   GREEN: {
-    DARK: '#00bc75',
-    STANDARD: '#00bc75',
-    LIGHT: '#00bc75',
+    DARK: "#00bc75",
+    STANDARD: "#00bc75",
+    LIGHT: "#00bc75"
   },
   BLUE: {
-    DARK: '#518bff',
-    STANDARD: '#518bff',
-    LIGHT: '#eff7ff',
+    DARK: "#518bff",
+    STANDARD: "#518bff",
+    LIGHT: "#eff7ff"
   },
   AQUA: {
-    DARK: '#d6e4ff',
-    STANDARD: '#e6efff',
-    LIGHT: '#eff7ff',
+    DARK: "#d6e4ff",
+    STANDARD: "#e6efff",
+    LIGHT: "#eff7ff"
   },
-  TRANSPARENT: 'transparent',
+  TRANSPARENT: "transparent"
 };
 
 export const FONT = {
@@ -57,6 +57,6 @@ export const FONT = {
     REGULAR: 400,
     MEDIUM: 500,
     SEMIBOLD: 600,
-    BOLD: 700,
-  },
+    BOLD: 700
+  }
 };

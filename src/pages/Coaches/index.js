@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
 import CoachTable from "./components/CoachTable";
 import CoachModal from "./components/CoachModal";
 import { COLORS } from "../../vars";

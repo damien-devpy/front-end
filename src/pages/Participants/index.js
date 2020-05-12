@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Container, Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { COLORS } from '../../vars';
 import { useParticipants } from '../../hooks/participants';
@@ -16,6 +16,8 @@ import { setParticipantNameEmail, addParticipant, deleteParticipant } from '../.
 import { ParticipantItemForm, ParticipantsHeader } from './components/ParticipantItemForm';
 
 const ManageParticipants = () => {
+  const { t } = useTranslation();
+
   const { participants, isLoading, loadError } = useParticipants();
   const { personas } = usePersonas();
   const dispatch = useDispatch();
@@ -72,9 +74,16 @@ const ManageParticipants = () => {
 
   // outer container to be able to handle clicks outside the rows, i.e. "lose focus" type of events
   return (
-    <div className="container-fluid h-100 pb-5" onClick={(e) => handleClick(null)}>
+    <Container>
       <NavbarHome />
-      <div className="container">
+      <Card
+        className="p-5 border-light shadow-sm"
+        style={{ borderRadius: 10 }}
+        onClick={(e) => handleClick(null)}
+      >
+        <h2>{t("common.participants")}</h2>
+        <hr />
+
         {loadError && <p>Error</p>}
         {isLoading && <Spinner animation="border" />}
         <ParticipantsHeader />
@@ -83,8 +92,8 @@ const ManageParticipants = () => {
           dispatch(addParticipant());
         }}
         />
-      </div>
-    </div>
+      </Card>
+    </Container>
   );
 };
 

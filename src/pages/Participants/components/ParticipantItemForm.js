@@ -178,5 +178,5 @@ const StyledHeaderRow = styled.div`
   margin-bottom: 10px;
   padding-bottom: 5px;
   font-weight: bold;
-  border-bottom:1pt solid ${COLORS.GRAY.LIGHT};
+  //border-bottom:1pt solid ${COLORS.GRAY.LIGHT};
 `;

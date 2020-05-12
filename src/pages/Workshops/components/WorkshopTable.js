@@ -4,7 +4,7 @@ import moment from "moment";
 
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
   return (
-    <Table borderless striped hover>
+    <Table borderless>
       <thead>
         <tr>
           <th>{t("common.date")}</th>

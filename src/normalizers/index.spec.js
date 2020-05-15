@@ -13,8 +13,8 @@ describe('Workshop', () => {
   // Rounds
   const carbonVariables = new schema.Entity('carbonVariables');
   const carbonFootprint = new schema.Entity('carbonFootprint');
-  const roundConfig = new schema.Entity(
-    'roundConfig',
+  const roundsConfig = new schema.Entity(
+    'roundsConfig',
     {},
     {
       idAttribute: (entity, parent) => `${parent.year}`,
@@ -47,7 +47,7 @@ describe('Workshop', () => {
     'rounds',
     {
       carbonInfo: [carbonInfo],
-      roundConfig,
+      roundsConfig,
       individualActions: [individualActions],
       collectiveActions,
     },

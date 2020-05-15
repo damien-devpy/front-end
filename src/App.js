@@ -1,42 +1,33 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Simulation from './pages/Simulation';
-import NewNavbar from './components/NewNavbar';
-import Workshop from './pages/Workshop';
-import Header from './components/Header';
-import Results from './pages/Results';
-import Coaches from './pages/Coaches/';
-import Workshops from './pages/Workshops';
-import { useWorkshop } from './hooks/workshop';
+import React, { useEffect } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Simulation from "./pages/Simulation";
+import Workshop from "./pages/Workshop";
+import Results from "./pages/Results";
+import Coaches from "./pages/Coaches/";
+import Workshops from "./pages/Workshops";
+import Participants from "./pages/Participants";
+import { useWorkshop } from "./hooks/workshop";
+import { COLORS } from "./vars";
 
 const App = () => {
   useWorkshop(1);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty("--bgColor", `${COLORS.BROWN.LIGHT}`);
+  }, []);
+
   return (
     <BrowserRouter>
-      {/* <NewNavbar
-      avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
-      firstName="Xavier"
-      role="Animateur"
-    /> */}
-      {/* <Header
-      name="My Lockdown workshop"
-      date="1 avril 2020"
-      avatarName="Xavier Arques"
-      avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
-      firstName="Xavier"
-      role="Animateur"
-    ></Header> */}
-      <div className=''>
-        <Route exact path='/' component={Home} />
-        <Route path='/home' component={Home} />
-        <Route path='/workshop' component={Workshop} />
-        <Route path='/simulation' component={Simulation} />
-        <Route path='/results' component={Results} />
-        <Route path='/coaches' component={Coaches} />
-        <Route path='/workshops' component={Workshops} />
-      </div>
-      {/* <Footer></Footer> */}
+      <Route exact path="/" component={Home} />
+      <Route path="/home" component={Home} />
+      <Route path="/workshop" component={Workshop} />
+      <Route path="/simulation" component={Simulation} />
+      <Route path="/results" component={Results} />
+      <Route path="/coaches" component={Coaches} />
+      <Route path="/workshops" component={Workshops} />
+      <Route path="/participants" component={Participants} />
     </BrowserRouter>
   );
 };

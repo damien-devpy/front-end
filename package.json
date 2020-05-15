@@ -1,5 +1,5 @@
 {
-  "homepage": "http://cAPLClimat.github.io/",
+  "homepage": "http://2tons.github.io/",
   "name": "front-end",
   "version": "0.1.0",
   "private": true,
@@ -20,6 +20,7 @@
     "ramda": "^0.27.0",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.0",
     "react-i18next": "^11.3.4",
     "react-redux": "^7.2.0",

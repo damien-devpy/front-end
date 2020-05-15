@@ -5,8 +5,9 @@ import { addWorkshop, deleteWorkshop } from "../../actions/workshops";
 import { useDispatch } from "react-redux";
 import WorkshopTable from "./components/WorkshopTable";
 import WorkshopModal from "./components/WorkshopModal";
+import { COLORS } from "../../vars";
 import { useTranslation } from "react-i18next";
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Spinner, Container, Card } from "react-bootstrap";
 import NavbarHome from "../../components/NavbarHome";
 const Workshops = () => {
   const { t } = useTranslation();
@@ -16,31 +17,36 @@ const Workshops = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleSubmit = (values) => {
+  const handleSubmit = values => {
     dispatch(addWorkshop(values));
     setShow(false);
   };
-  const handleDelete = (workshopKey) => {
+  const handleDelete = workshopKey => {
     dispatch(deleteWorkshop(workshopKey));
   };
 
-  console.log("workshopssssss", workshops);
   return (
-    <React.Fragment>
+    <>
       <NavbarHome></NavbarHome>
-      <div className="container">
-        <div>
+      <Container>
+        <Card
+          className="p-5 border-light shadow-sm"
+          style={{ borderRadius: 10 }}
+        >
           <StyledHeader>
-            <h3>{t("common.workshops")}</h3>
+            <h2>{t("common.workshops")}</h2>
             {!isLoading && (
-              <Button variant="secondary" onClick={handleShow}>
+              <StyledButton variant="secondary" onClick={handleShow}>
                 {t("common.addAWorkshop")}
-              </Button>
+              </StyledButton>
             )}
           </StyledHeader>
+          <hr style={{ margin: 0 }} />
 
           {loadError && <p>{t("common.loadError")}</p>}
-          {isLoading && <Spinner animation="border"></Spinner>}
+          {isLoading && (
+            <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+          )}
 
           {workshops && (
             <WorkshopTable
@@ -56,9 +62,9 @@ const Workshops = () => {
             handleClose={handleClose}
             handleSubmit={handleSubmit}
           />
-        </div>
-      </div>
-    </React.Fragment>
+        </Card>
+      </Container>
+    </>
   );
 };
 
@@ -68,4 +74,8 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+`;
+const StyledButton = styled(Button)`
+  background-color: ${COLORS.BROWN.STANDARD};
+  border-color: ${COLORS.BROWN.STANDARD};
 `;

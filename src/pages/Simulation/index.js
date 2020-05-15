@@ -1,28 +1,42 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import footprintData from "../../utils/mocks/footprintData";
+// import footprintData from "../../utils/mocks/footprintData";
 import { footprintDataToGraph } from "../../selectors/footprintSelectors";
+import "./components/simulationPage.css";
 import "./components/simulationPage.css";
 import NavbarWorkshop from "../../components/NavbarWorkshop";
 import FootprintGraph from "./components/FootprintGraph";
 import EvolutionCarbon from "./components/EvolutionCarbon";
-import NewRoundModal from "./components/NewRoundModal";
+import CommonModal from "../../components/CommonModal";
 import { startRound } from "../../actions/workshop";
-
+import NewRoundModalForm from "./components/NewRoundModalForm";
+import IndividualActions from "./components/IndividualActions";
 const Simulation = () => {
   const { t } = useTranslation();
-  // console.log(footprintShaped);
-  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-  const handleClose = () => setShow(false);
-  const handleSubmit = (values) => {
+  // NewRoundModal
+  const [showNewRoundModal, setShowNewRoundModal] = useState(false);
+  const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
+  const handleSubmitNewRoundModal = (values) => {
     dispatch(startRound(values));
-    setShow(false);
+    setShowNewRoundModal(false);
+    setShowEntryOfIndividualActions(true);
   };
-  const handleShow = () => setShow(true);
+  const handleShowNewRoundModal = () => setShowNewRoundModal(true);
+  // EntryOfIndividualActions
+  const [
+    showEntryOfIndividualActions,
+    setShowEntryOfIndividualActions,
+  ] = useState(false);
+  const handleCloseEntryOfIndividualActions = () =>
+    setShowEntryOfIndividualActions(false);
+  const footprintShaped = useSelector((state) =>
+    footprintDataToGraph(state.carbonInfo[currentRound])
+  );
+
   return (
     <React.Fragment>
       <NavbarWorkshop
@@ -33,7 +47,7 @@ const Simulation = () => {
       <StyledSimulation>
         <Container className="row-full">
           <Row className="d-flex justify-content-end mr-1">
-            <Button variant="secondary" onClick={handleShow}>
+            <Button variant="secondary" onClick={handleShowNewRoundModal}>
               {t("common.nextRound")}
             </Button>
           </Row>
@@ -60,11 +74,20 @@ const Simulation = () => {
           </Row>
         </Container>
       </StyledSimulation>
-      <NewRoundModal
-        show={show}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
-      />
+      <CommonModal
+        title={t("common.nextRound")}
+        show={showNewRoundModal}
+        handleClose={handleCloseNewRoundModal}
+      >
+        <NewRoundModalForm handleSubmit={handleSubmitNewRoundModal} />
+      </CommonModal>
+      <CommonModal
+        title={t("common.entryOfIndividualActions")}
+        show={showEntryOfIndividualActions}
+        handleClose={handleCloseEntryOfIndividualActions}
+      >
+        <IndividualActions handleClose={handleCloseEntryOfIndividualActions} />
+      </CommonModal>
     </React.Fragment>
   );
 };
@@ -82,8 +105,9 @@ const StyledHeader = styled.div`
   justify-content: flex-end;
   margin-bottom: 1rem;
 `;
-
-const footprintShaped = footprintDataToGraph(footprintData);
+const currentRound = "2020-1";
+// const footprintShaped = useSelector((state) => footprintDataToGraph(state.carbonInfo[currentRound]);
+// const footprintShaped = footprintDataToGraph(footprintData);
 // const footprintShaped = [
 //   { sector: "Transport", plane: 750, train: 59, bus: 150, car: 600 },
 //   {

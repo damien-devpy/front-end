@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
 import styled from "styled-components";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -33,8 +33,12 @@ const Simulation = () => {
   ] = useState(false);
   const handleCloseEntryOfIndividualActions = () =>
     setShowEntryOfIndividualActions(false);
+
+  const currentRound = useSelector(
+    (state) => state.workshop.result.currentYear
+  );
   const footprintShaped = useSelector((state) =>
-    footprintDataToGraph(state.carbonInfo[currentRound])
+    footprintDataToGraph(state.workshop.carbonInfo[currentRound])
   );
 
   return (
@@ -105,7 +109,7 @@ const StyledHeader = styled.div`
   justify-content: flex-end;
   margin-bottom: 1rem;
 `;
-const currentRound = "2020-1";
+// const currentRound = "2020-1";
 // const footprintShaped = useSelector((state) => footprintDataToGraph(state.carbonInfo[currentRound]);
 // const footprintShaped = footprintDataToGraph(footprintData);
 // const footprintShaped = [

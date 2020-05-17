@@ -4,8 +4,7 @@ import { Formik } from 'formik';
 import { Form, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import styled from 'styled-components';
-import { COLORS } from '../../../vars';
+import { ActionCardItemSimple } from './ActionCardItem';
 
 import {
   selectIndividualBatches,
@@ -167,10 +166,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     <Form.Group as={Col} sm="3" key={batchId}>
                       {values['batches'][batchId].actionCardIds.map(
                         (actionCardId) => (
-                          // <p key={actionCardId}>
-                          //   {actionCardsEntity[actionCardId].name}
-                          // </p>
-                          <ActionItemBadge key={actionCardId} text={actionCardsEntity[actionCardId].name} lot={batchId}/>
+                          <ActionCardItemSimple key={actionCardId} text={actionCardsEntity[actionCardId].name} lot={batchId}/>
                         )
                       )}
                     </Form.Group>
@@ -191,37 +187,5 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     </Formik>
   );
 };
-
-const ActionItemBadge = ({
-  id,
-  text,
-  lot
-}) => {
-  return <StyledItem
-      name={id}
-      className="m-1 pl-3 pr-3 p-1 btn-block rounded-lg"
-      lot={lot}
-      //onClick={(e) => {handleSelect(id)}}>
-      >
-      {text}
-      </StyledItem>           
-}
-
-const batchColors = {
-  1: COLORS.FIGMA_BROWN_RED,
-  2: COLORS.FIGMA_BLUE_LIGHT,
-  3: COLORS.FIGMA_YELLOW,
-  4: COLORS.FIGMA_GREEN,
-  5: COLORS.FIGMA_VIOLET,
-  6: COLORS.FIGMA_BLUE_DARK,
-}
-
-const StyledItem = styled.div`
-//cursor: pointer;
-color: black;
-font-size: 0.5rem;
-//   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white' };
-background: ${props => batchColors[props.lot]};
-`;
 
 export default NewRoundModalForm;

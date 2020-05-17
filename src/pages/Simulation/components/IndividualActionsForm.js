@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { Container, Form, Col, Button, ButtonGroup } from 'react-bootstrap';
@@ -6,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import { toggleArrayItem } from '../../../utils/helpers';
 import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';
-
+import { ActionCardItem } from './ActionCardItem'
 
 import styled from 'styled-components';
 import { COLORS } from '../../../vars';
@@ -39,6 +40,10 @@ const IndividualActionsForm = ({
       state.workshop.entities.individualActionCards
     )
   );
+  // initial active == expanded lot is the last lot of the current round
+  const [activeBatch, setActiveBatch] = useState(
+    roundsConfigEntity[Object.keys(roundsConfigEntity).slice(-1)[0]].actionCardBatchIds.slice(-1)[0])
+
   const toggleIndividualActionCardsIdsInMap = (map, key, value) => {
     const actionCardIds = map[key] && map[key].actionCardIds;
     const result = {
@@ -76,42 +81,43 @@ const IndividualActionsForm = ({
                     const { name, actionCardIds } = actionCardBatchesEntity[
                       actionCardBatchId
                     ];
-                    const lastRoundId = Object.keys(roundsConfigEntity).slice(-1)[0]
-                    const batchActive = roundConfigId === lastRoundId && actionCardBatchId === roundsConfigEntity[roundConfigId].actionCardBatchIds.slice(-1)[0]
                     return (
-                      <Form.Group as={Col} sm={batchActive ? "5": "3"} key={actionCardBatchId}>
-                        <LotBadge text={name} active={batchActive}/>
+                      <Form.Group as={Col} sm={actionCardBatchId === activeBatch ? "5" : "3"} key={actionCardBatchId}>
+                        <LotBadge
+                          text={name}
+                          active={actionCardBatchId === activeBatch}
+                          handleClick={() => setActiveBatch(actionCardBatchId)} />
                         {actionCardIds.map((actionCardId) => {
                           const { name } = actionCardsEntity[actionCardId];
                           return (
-                              <ActionItemBadge
-                                key={actionCardId}
-                                id={`switch-${actionCardId}`}
-                                text={name}
-                                lot={actionCardBatchId}
-                                active={batchActive}
-                                checked={
-                                  individualActionCardsFromParticipant.includes(
-                                    actionCardId
-                                  ) ||
-                                  (values['individualActionCards'][
+                            <ActionCardItem
+                              key={actionCardId}
+                              id={`switch-${actionCardId}`}
+                              text={name}
+                              lot={actionCardBatchId}
+                              active={actionCardBatchId === activeBatch}
+                              checked={
+                                individualActionCardsFromParticipant.includes(
+                                  actionCardId
+                                ) ||
+                                (values['individualActionCards'][
+                                  `${currentRound}-${participantId}`
+                                ] &&
+                                  values['individualActionCards'][
                                     `${currentRound}-${participantId}`
-                                  ] &&
-                                    values['individualActionCards'][
-                                      `${currentRound}-${participantId}`
-                                    ].actionCardIds.includes(actionCardId))
-                                }
-                                handleChange={() =>
-                                  setFieldValue(
-                                    'individualActionCards',
-                                    toggleIndividualActionCardsIdsInMap(
-                                      values['individualActionCards'],
-                                      `${currentRound}-${participantId}`,
-                                      actionCardId
-                                    )
+                                  ].actionCardIds.includes(actionCardId))
+                              }
+                              handleChange={() =>
+                                setFieldValue(
+                                  'individualActionCards',
+                                  toggleIndividualActionCardsIdsInMap(
+                                    values['individualActionCards'],
+                                    `${currentRound}-${participantId}`,
+                                    actionCardId
                                   )
-                                }
-                                />
+                                )
+                              }
+                            />
                           );
                         })}
                       </Form.Group>
@@ -130,56 +136,20 @@ const IndividualActionsForm = ({
   );
 };
 
-const ActionItemBadge = ({
-  id,
-  text,
-  lot,
-  active,
-  checked,
-  handleChange
-}) => {
-  return <StyledItem
-    name={id}
-    className="m-1 mb-2 p-1 btn-block rounded-lg d-flex shadow-sm"
-    lot={lot}
-    onClick={(e) => {handleChange()}}>
-        <span>{active ? text: text.substring(0, 10) + ".."}</span>
-{checked ? <span class="text-success float-right ml-auto">&#x25cf;</span> :
-          <span class="text-white float-right ml-auto">&#x25cf;</span> }
-  </StyledItem>
-}
-
 const LotBadge = ({
   id,
   text,
-  active
+  active,
+  handleClick
 }) => {
   return <StyledLot
     name={id}
     className="m-1 mb-3 p-1 btn-block text-center btn"
     active={active}
-  //onClick={(e) => {handleSelect(id)}}>
-  >
-  {text}
+    onClick={(e) => { handleClick() }}>
+    {text}
   </StyledLot>
 }
-
-const batchColors = {
-  1: COLORS.FIGMA_BROWN_RED,
-  2: COLORS.FIGMA_BLUE_LIGHT,
-  3: COLORS.FIGMA_YELLOW,
-  4: COLORS.FIGMA_GREEN,
-  5: COLORS.FIGMA_VIOLET,
-  6: COLORS.FIGMA_BLUE_DARK,
-}
-
-const StyledItem = styled.div`
-cursor: pointer;
-color: black;
-font-size: 0.7rem;
-//   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white'};
-background: ${props => batchColors[props.lot]};
-`;
 
 const StyledLot = styled.div`
 cursor: pointer;

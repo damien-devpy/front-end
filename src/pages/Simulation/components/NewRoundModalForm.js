@@ -164,7 +164,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               {Object.keys(values['batches']).map(
                 (batchId) =>
                   values['actionCardBatchIds'].includes(batchId) && (
-                    <Form.Group as={Col} key={batchId}>
+                    <Form.Group as={Col} sm="3" key={batchId}>
                       {values['batches'][batchId].actionCardIds.map(
                         (actionCardId) => (
                           // <p key={actionCardId}>
@@ -199,7 +199,7 @@ const ActionItemBadge = ({
 }) => {
   return <StyledItem
       name={id}
-      className="m-1 pl-3 pr-3 p-1 btn-block rounded-pill"
+      className="m-1 pl-3 pr-3 p-1 btn-block rounded-lg"
       lot={lot}
       //onClick={(e) => {handleSelect(id)}}>
       >
@@ -209,12 +209,15 @@ const ActionItemBadge = ({
 
 const batchColors = {
   1: COLORS.BLUE.STANDARD,
-  2: COLORS.GREEN.STANDARD
+  2: COLORS.GREEN.STANDARD,
+  3: COLORS.RED.LIGHT,
+  4: COLORS.YELLOW.LIGHT,
 }
 
 const StyledItem = styled.div`
 //cursor: pointer;
-color: white;
+color: black;
+font-size: 0.5rem;
 //   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white' };
 background: ${props => batchColors[props.lot]};
 `;

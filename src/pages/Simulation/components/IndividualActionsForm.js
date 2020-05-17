@@ -7,6 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { toggleArrayItem } from '../../../utils/helpers';
 import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';
 
+
+import styled from 'styled-components';
+import { COLORS } from '../../../vars';
+
 const IndividualActionsForm = ({
   currentRound,
   participantId,
@@ -72,43 +76,42 @@ const IndividualActionsForm = ({
                     const { name, actionCardIds } = actionCardBatchesEntity[
                       actionCardBatchId
                     ];
+                    const lastRoundId = Object.keys(roundsConfigEntity).slice(-1)[0]
+                    const batchActive = roundConfigId === lastRoundId && actionCardBatchId === roundsConfigEntity[roundConfigId].actionCardBatchIds.slice(-1)[0]
                     return (
-                      <Form.Group as={Col} key={actionCardBatchId}>
-                        <Form.Label>{name}</Form.Label>
+                      <Form.Group as={Col} sm={batchActive ? "5": "3"} key={actionCardBatchId}>
+                        <LotBadge text={name} active={batchActive}/>
                         {actionCardIds.map((actionCardId) => {
                           const { name } = actionCardsEntity[actionCardId];
                           return (
-                            <Form.Check
-                              style={{ fontSize: '0.5rem' }}
-                              checked={
-                                individualActionCardsFromParticipant.includes(
-                                  actionCardId
-                                ) ||
-                                (values['individualActionCards'][
-                                  `${currentRound}-${participantId}`
-                                ] &&
-                                  values['individualActionCards'][
-                                    `${currentRound}-${participantId}`
-                                  ].actionCardIds.includes(actionCardId))
-                              }
-                              disabled={individualActionCardsFromParticipant.includes(
-                                actionCardId
-                              )}
-                              type='switch'
-                              key={actionCardId}
-                              id={`switch-${actionCardId}`}
-                              label={name}
-                              onChange={() =>
-                                setFieldValue(
-                                  'individualActionCards',
-                                  toggleIndividualActionCardsIdsInMap(
-                                    values['individualActionCards'],
-                                    `${currentRound}-${participantId}`,
+                              <ActionItemBadge
+                                key={actionCardId}
+                                id={`switch-${actionCardId}`}
+                                text={name}
+                                lot={actionCardBatchId}
+                                active={batchActive}
+                                checked={
+                                  individualActionCardsFromParticipant.includes(
                                     actionCardId
+                                  ) ||
+                                  (values['individualActionCards'][
+                                    `${currentRound}-${participantId}`
+                                  ] &&
+                                    values['individualActionCards'][
+                                      `${currentRound}-${participantId}`
+                                    ].actionCardIds.includes(actionCardId))
+                                }
+                                handleChange={() =>
+                                  setFieldValue(
+                                    'individualActionCards',
+                                    toggleIndividualActionCardsIdsInMap(
+                                      values['individualActionCards'],
+                                      `${currentRound}-${participantId}`,
+                                      actionCardId
+                                    )
                                   )
-                                )
-                              }
-                            />
+                                }
+                                />
                           );
                         })}
                       </Form.Group>
@@ -126,5 +129,63 @@ const IndividualActionsForm = ({
     </Formik>
   );
 };
+
+const ActionItemBadge = ({
+  id,
+  text,
+  lot,
+  active,
+  checked,
+  handleChange
+}) => {
+  return <StyledItem
+    name={id}
+    className="m-1 p-1 btn-block rounded-lg"
+    lot={lot}
+    onClick={(e) => {handleChange()}}>
+        {active ? text: text.substring(0, 10)}
+        {checked ? <span class="text-success float-right">&#x25cf;</span> :
+          <span class="text-white float-right">&#x25cf;</span> }
+  </StyledItem>
+}
+
+const LotBadge = ({
+  id,
+  text,
+  active
+}) => {
+  return <StyledLot
+    name={id}
+    className="m-1 p-1 btn-block text-center btn"
+    active={active}
+  //onClick={(e) => {handleSelect(id)}}>
+  >
+{text}
+
+  </StyledLot>
+}
+
+const batchColors = {
+      1: COLORS.BLUE.STANDARD,
+  2: COLORS.GREEN.STANDARD,
+  3: COLORS.RED.LIGHT,
+  4: COLORS.YELLOW.LIGHT,
+}
+
+const StyledItem = styled.div`
+cursor: pointer;
+color: black;
+font-size: 0.7rem;
+//   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white'};
+background: ${props => batchColors[props.lot]};
+`;
+
+const StyledLot = styled.div`
+cursor: pointer;
+color: black;
+//font-size: 0.7rem;
+//   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white'};
+background: ${props => props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
+`;
 
 export default IndividualActionsForm;

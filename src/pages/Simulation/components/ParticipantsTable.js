@@ -54,7 +54,7 @@ const StyledItem = styled.div`
 cursor: pointer;
 color: white;
 //   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white' };
-background: ${props => props.selected ? COLORS.BLUE.STANDARD : COLORS.GRAY.STANDARD};
+background: ${props => props.selected ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;
 
 

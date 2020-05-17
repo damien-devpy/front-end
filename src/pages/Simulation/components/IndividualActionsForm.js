@@ -140,12 +140,12 @@ const ActionItemBadge = ({
 }) => {
   return <StyledItem
     name={id}
-    className="m-1 p-1 btn-block rounded-lg"
+    className="m-1 mb-2 p-1 btn-block rounded-lg d-flex shadow-sm"
     lot={lot}
     onClick={(e) => {handleChange()}}>
-        {active ? text: text.substring(0, 10)}
-        {checked ? <span class="text-success float-right">&#x25cf;</span> :
-          <span class="text-white float-right">&#x25cf;</span> }
+        <span>{active ? text: text.substring(0, 10) + ".."}</span>
+{checked ? <span class="text-success float-right ml-auto">&#x25cf;</span> :
+          <span class="text-white float-right ml-auto">&#x25cf;</span> }
   </StyledItem>
 }
 
@@ -156,20 +156,21 @@ const LotBadge = ({
 }) => {
   return <StyledLot
     name={id}
-    className="m-1 p-1 btn-block text-center btn"
+    className="m-1 mb-3 p-1 btn-block text-center btn"
     active={active}
   //onClick={(e) => {handleSelect(id)}}>
   >
-{text}
-
+  {text}
   </StyledLot>
 }
 
 const batchColors = {
-      1: COLORS.BLUE.STANDARD,
-  2: COLORS.GREEN.STANDARD,
-  3: COLORS.RED.LIGHT,
-  4: COLORS.YELLOW.LIGHT,
+  1: COLORS.FIGMA_BROWN_RED,
+  2: COLORS.FIGMA_BLUE_LIGHT,
+  3: COLORS.FIGMA_YELLOW,
+  4: COLORS.FIGMA_GREEN,
+  5: COLORS.FIGMA_VIOLET,
+  6: COLORS.FIGMA_BLUE_DARK,
 }
 
 const StyledItem = styled.div`

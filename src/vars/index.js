@@ -47,7 +47,13 @@ export const COLORS = {
     STANDARD: "#e6efff",
     LIGHT: "#eff7ff"
   },
-  TRANSPARENT: "transparent"
+  TRANSPARENT: "transparent",
+  FIGMA_YELLOW: "#FFC400",
+  FIGMA_BLUE_DARK: "#0064E5",
+  FIGMA_BLUE_LIGHT: "#3FA2F7",
+  FIGMA_BROWN_RED: "#BD5757",
+  FIGMA_GREEN: "#5A990A",
+  FIGMA_VIOLET: "#9D57BD",
 };
 
 export const FONT = {

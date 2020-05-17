@@ -14,6 +14,7 @@ const ParticipantsTable = ({
   const ParticipantItemBadge = ({
     id,
     firstName,
+    lastName,
     hearts,
     selected,
   }) => {
@@ -25,7 +26,7 @@ const ParticipantsTable = ({
         className="m-1 pl-3 pr-3 p-1 btn-block rounded-pill"
         selected={selected}
         onClick={(e) => {handleSelect(id)}}>
-        {firstName}<span className="float-right">{hearts} &#x2764;</span>
+        {firstName} {lastName.substring(0,1)}.<span className="float-right">1 &#10003; {hearts} &#x2764;</span>
         </StyledItem>           
   }
 
@@ -41,6 +42,7 @@ const ParticipantsTable = ({
               <ParticipantItemBadge 
                 id={participantId}
                 firstName={firstName}
+                lastName={lastName}
                 hearts={5}
                 selected={selectedParticipantId === participantId}                
               />
@@ -53,6 +55,7 @@ const ParticipantsTable = ({
 const StyledItem = styled.div`
 cursor: pointer;
 color: white;
+font-size: 0.8rem;
 //   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white' };
 background: ${props => props.selected ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;

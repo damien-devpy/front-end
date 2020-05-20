@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { Container, Form, Col, Button, ButtonGroup } from 'react-bootstrap';
@@ -6,6 +7,10 @@ import { useTranslation } from 'react-i18next';
 
 import { toggleArrayItem } from '../../../utils/helpers';
 import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';
+import { ActionCardItem } from './ActionCardItem'
+
+import styled from 'styled-components';
+import { COLORS } from '../../../vars';
 
 const IndividualActionsForm = ({
   currentRound,
@@ -35,6 +40,10 @@ const IndividualActionsForm = ({
       state.workshop.entities.individualActionCards
     )
   );
+  // initial active == expanded lot is the last lot of the current round
+  const [activeBatch, setActiveBatch] = useState(
+    roundsConfigEntity[Object.keys(roundsConfigEntity).slice(-1)[0]].actionCardBatchIds.slice(-1)[0])
+
   const toggleIndividualActionCardsIdsInMap = (map, key, value) => {
     const actionCardIds = map[key] && map[key].actionCardIds;
     const result = {
@@ -73,13 +82,20 @@ const IndividualActionsForm = ({
                       actionCardBatchId
                     ];
                     return (
-                      <Form.Group as={Col} key={actionCardBatchId}>
-                        <Form.Label>{name}</Form.Label>
+                      <Form.Group as={Col} sm={actionCardBatchId === activeBatch ? "5" : "3"} key={actionCardBatchId}>
+                        <LotBadge
+                          text={name}
+                          active={actionCardBatchId === activeBatch}
+                          handleClick={() => setActiveBatch(actionCardBatchId)} />
                         {actionCardIds.map((actionCardId) => {
                           const { name } = actionCardsEntity[actionCardId];
                           return (
-                            <Form.Check
-                              style={{ fontSize: '0.5rem' }}
+                            <ActionCardItem
+                              key={actionCardId}
+                              id={`switch-${actionCardId}`}
+                              text={name}
+                              lot={actionCardBatchId}
+                              active={actionCardBatchId === activeBatch}
                               checked={
                                 individualActionCardsFromParticipant.includes(
                                   actionCardId
@@ -91,14 +107,7 @@ const IndividualActionsForm = ({
                                     `${currentRound}-${participantId}`
                                   ].actionCardIds.includes(actionCardId))
                               }
-                              disabled={individualActionCardsFromParticipant.includes(
-                                actionCardId
-                              )}
-                              type='switch'
-                              key={actionCardId}
-                              id={`switch-${actionCardId}`}
-                              label={name}
-                              onChange={() =>
+                              handleChange={() =>
                                 setFieldValue(
                                   'individualActionCards',
                                   toggleIndividualActionCardsIdsInMap(
@@ -126,5 +135,28 @@ const IndividualActionsForm = ({
     </Formik>
   );
 };
+
+const LotBadge = ({
+  id,
+  text,
+  active,
+  handleClick
+}) => {
+  return <StyledLot
+    name={id}
+    className="m-1 mb-3 p-1 btn-block text-center btn"
+    active={active}
+    onClick={(e) => { handleClick() }}>
+    {text}
+  </StyledLot>
+}
+
+const StyledLot = styled.div`
+cursor: pointer;
+color: black;
+//font-size: 0.7rem;
+//   border: ${props => props.selected ? '3pt solid palegreen' : '3pt solid white'};
+background: ${props => props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
+`;
 
 export default IndividualActionsForm;

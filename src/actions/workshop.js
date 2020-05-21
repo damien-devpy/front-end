@@ -1,8 +1,7 @@
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
 export const START_ROUND = 'START_ROUND';
 export const SET_INDIVIDUAL_ACTIONS = 'SET_INDIVIDUAL_ACTIONS';
-export const SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS =
-  'SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS';
+export const SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS = 'SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS';
 export const SET_COLLECTIVE_ACTIONS = 'SET_COLLECTIVE_ACTIONS';
 export const COMPUTE_FOOTPRINT = 'COMPUTE_FOOTPRINT';
 export const APPLY_INDIVIDUAL_ACTION = 'APPLY_INDIVIDUAL_ACTION';
@@ -10,7 +9,9 @@ export const WORKSHOP_RETRIEVED = 'WORKSHOP_RETRIEVED';
 export const RETRIEVE_WORKSHOP = 'RETRIEVE_WORKSHOP';
 export const WORKSHOP_LOAD_ERROR = 'WORKSHOP_LOAD_ERROR';
 export const COMPUTE_CARBON_VARIABLES = 'COMPUTE_CARBON_VARIABLES';
-export const VALIDATE_ROUND = 'VALIDATE_ROUND';
+export const APPLY_INDIVIDUAL_ACTIONS = 'APPLY_INDIVIDUAL_ACTIONS';
+export const APPLY_COLLECTIVE_ACTIONS = 'APPLY_COLLECTIVE_ACTIONS';
+export const COMPUTE_FOOTPRINTS = 'COMPUTE_FOOTPRINTS';
 
 export const initWorkshop = (year) => ({
   type: INIT_WORKSHOP,
@@ -19,13 +20,13 @@ export const initWorkshop = (year) => ({
 
 export const startRound = (payload) => ({
   type: START_ROUND,
-  payload: payload,
+  payload,
 });
 
 export const setIndividualActions = (
   year,
   participantId,
-  individualActionCardIds
+  individualActionCardIds,
 ) => ({
   type: SET_INDIVIDUAL_ACTIONS,
   payload: { year, participantId, individualActionCardIds },
@@ -33,7 +34,7 @@ export const setIndividualActions = (
 
 export const setIndividualActionsForAllParticipants = (
   year,
-  individualActionCards
+  individualActionCards,
 ) => ({
   type: SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
   payload: { year, individualActionCards },
@@ -43,25 +44,6 @@ export const setCollectiveActions = (year, collectiveActionIds) => ({
   type: SET_COLLECTIVE_ACTIONS,
   payload: { year, collectiveActionIds },
 });
-
-export const computeFootprint = (year, participantId) => {
-  return {
-    type: COMPUTE_FOOTPRINT,
-    payload: { year, participantId },
-  };
-};
-
-export const applyIndividualAction = (
-  yearFrom,
-  yearTo,
-  participantId,
-  actionCardId
-) => {
-  return {
-    type: APPLY_INDIVIDUAL_ACTION,
-    payload: { yearFrom, yearTo, participantId, actionCardId },
-  };
-};
 
 export const workshopRetrieved = (workshop) => ({
   type: WORKSHOP_RETRIEVED,
@@ -83,7 +65,17 @@ export const computeCarbonVariables = (participantId) => ({
   payload: { participantId },
 });
 
-export const validateRound = (year) => ({
-  type: VALIDATE_ROUND,
+export const applyIndivdualActions = (year) => ({
+  type: APPLY_INDIVIDUAL_ACTIONS,
+  payload: { year },
+});
+
+export const applyCollectiveActions = (year) => ({
+  type: APPLY_COLLECTIVE_ACTIONS,
+  payload: { year },
+});
+
+export const computeFootprints = (year) => ({
+  type: COMPUTE_FOOTPRINTS,
   payload: { year },
 });

@@ -1,28 +1,63 @@
 import jsonLogic from 'json-logic-js';
-import { hierarchy } from 'd3-hierarchy';
 
 
-const applyOperation = (oldCarbonVariables, operation) => ({
-  ...oldCarbonVariables,
-  [operation.variable]: jsonLogic.apply(operation.operation, { ...oldCarbonVariables }),
-});
-
-const applyIndividualAction = (oldCarbonVariables, individualAction) => individualAction.operations.reduce(applyOperation, oldCarbonVariables);
-
-const applyIndividualActions = (oldCarbonVariables, individualActions) => individualActions.reduce(applyIndividualAction, oldCarbonVariables);
-
-const computeFootprint = (footprintStructure, variableFormulas, carbonVariables, globalCarbonVariables) => {
-  const footprint = hierarchy(footprintStructure);
-  footprint.each((node) => {
-    if (node.height === 0) {
-      node.data.value = jsonLogic.apply(variableFormulas[node.data.cfKey], { ...carbonVariables, ...globalCarbonVariables });
-      if (node.data.value === undefined) {
-        console.warn('Unable to compute cf value : ', node.data);
-      }
-    }
+const computeNewCarbonVariables = (
+  oldCarbonVariables, individualActions,
+) => {
+  const newCarbonVariables = {};
+  individualActions.forEach((individualAction) => {
+    individualAction.operations.forEach((operation) => {
+      newCarbonVariables[operation.variable] = jsonLogic.apply(
+        operation.operation, { ...oldCarbonVariables },
+      );
+    });
   });
-  return footprint.data;
+  return newCarbonVariables;
 };
 
+const applyFunctionToLeavesOfFootprintStructures = (node, func) => {
+  if (!node.children) {
+    return func(node);
+  }
+  return {
+    ...node,
+    children: node.children.map((child) => applyFunctionToLeavesOfFootprintStructures(child, func)),
+  };
+};
 
-export { applyIndividualActions, computeFootprint };
+const sumTree = (node, valueAccessor = (n) => n.value, key = 'value') => {
+  if (!node.children) {
+    return {
+      ...node,
+      [key]: valueAccessor(node),
+    };
+  }
+  const newNode = {
+    ...node,
+    children: node.children.map((child) => sumTree(child, valueAccessor)),
+  };
+  newNode[key] = newNode.children.reduce(
+    (S, child) => S + child[key],
+    0,
+  );
+  return newNode;
+};
+
+const computeFootprint = (
+  footprintStructure, variableFormulas, carbonVariables, globalCarbonVariables,
+) => applyFunctionToLeavesOfFootprintStructures(footprintStructure, (leave) => ({
+  ...leave,
+  value: jsonLogic.apply(
+    variableFormulas[leave.cfKey],
+    { ...carbonVariables, ...globalCarbonVariables },
+  ),
+}));
+
+const valueOnAllLevels = (footprintStructure) => sumTree(footprintStructure);
+
+export {
+  applyFunctionToLeavesOfFootprintStructures,
+  computeNewCarbonVariables,
+  computeFootprint,
+  valueOnAllLevels,
+};

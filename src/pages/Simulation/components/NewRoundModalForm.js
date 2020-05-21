@@ -4,6 +4,8 @@ import { Formik } from 'formik';
 import { Form, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+import { ActionCardItemSimple } from './ActionCardItem';
+
 import {
   selectIndividualBatches,
   selectCollectiveBatches,
@@ -161,12 +163,10 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               {Object.keys(values['batches']).map(
                 (batchId) =>
                   values['actionCardBatchIds'].includes(batchId) && (
-                    <Form.Group as={Col} key={batchId}>
+                    <Form.Group as={Col} sm="3" key={batchId}>
                       {values['batches'][batchId].actionCardIds.map(
                         (actionCardId) => (
-                          <p key={actionCardId}>
-                            {actionCardsEntity[actionCardId].name}
-                          </p>
+                          <ActionCardItemSimple key={actionCardId} text={actionCardsEntity[actionCardId].name} lot={batchId}/>
                         )
                       )}
                     </Form.Group>

@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { Button, Container, Row, Col, Spinner } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import footprintData from "../../utils/mocks/footprintData";
-import { footprintDataToGraph } from "../../selectors/footprintSelectors";
-import "./components/simulationPage.css";
-import { useWorkshop } from "../../hooks/workshop";
-import NavbarWorkshop from "../../components/NavbarWorkshop";
-import FootprintGraph from "./components/FootprintGraph";
-import EvolutionCarbon from "./components/EvolutionCarbon";
-import CommonModal from "../../components/CommonModal";
-import { startRound } from "../../actions/workshop";
-import NewRoundModalForm from "./components/NewRoundModalForm";
-import IndividualActions from "./components/IndividualActions";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import footprintData from '../../utils/mocks/footprintData';
+import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import './components/simulationPage.css';
+import { useWorkshop } from '../../hooks/workshop';
+import NavbarWorkshop from '../../components/NavbarWorkshop';
+import FootprintGraph from './components/FootprintGraph';
+import EvolutionCarbon from './components/EvolutionCarbon';
+import CommonModal from '../../components/CommonModal';
+import { startRound } from '../../actions/workshop';
+import NewRoundModalForm from './components/NewRoundModalForm';
+import IndividualActions from './components/IndividualActions';
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { workshop, isLoading, loadError } = useWorkshop();
-  console.log("workshop", workshop);
+  console.log('workshop', workshop);
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
@@ -36,12 +36,12 @@ const Simulation = () => {
   const handleCloseEntryOfIndividualActions = () =>
     setShowEntryOfIndividualActions(false);
 
-  // const currentRound = useSelector(
-  //   (state) => state.workshop.result.currentYear
-  // );
-  // const footprintShaped = useSelector((state) =>
-  //   footprintDataToGraph(state.workshop.carbonInfo[currentRound])
-  // );
+  const currentRound = useSelector(
+    (state) => state.workshop.result.currentYear
+  );
+  const footprintShaped = useSelector((state) =>
+    footprintDataToGraph(state.workshop.carbonInfo[currentRound])
+  );
 
   return (
     <React.Fragment>
@@ -54,19 +54,19 @@ const Simulation = () => {
         <Container className="row-full">
           <Row className="d-flex justify-content-end mr-1">
             <Button variant="secondary" onClick={handleShowNewRoundModal}>
-              {t("common.nextRound")}
+              {t('common.nextRound')}
             </Button>
           </Row>
-          {loadError && <p>{t("common.loadError")}</p>}
+          {loadError && <p>{t('common.loadError')}</p>}
           {isLoading && (
             <Spinner animation="border" className="pt-3 mx-auto mt-5" />
           )}
           {!isLoading && (
-            <Row style={{ height: "100vh" }}>
+            <Row style={{ height: '100vh' }}>
               <Col sm={12} md={8} className="graph-col">
                 <Container className="graph-card">
                   <h4>
-                    Evolution du CO<span style={{ fontSize: "14px" }}>2</span>{" "}
+                    Evolution du CO<span style={{ fontSize: '14px' }}>2</span>{' '}
                     par personne
                   </h4>
                   <EvolutionCarbon data={evolutionData} />
@@ -87,14 +87,14 @@ const Simulation = () => {
         </Container>
       </StyledSimulation>
       <CommonModal
-        title={t("common.nextRound")}
+        title={t('common.nextRound')}
         show={showNewRoundModal}
         handleClose={handleCloseNewRoundModal}
       >
         <NewRoundModalForm handleSubmit={handleSubmitNewRoundModal} />
       </CommonModal>
       <CommonModal
-        title={t("common.entryOfIndividualActions")}
+        title={t('common.entryOfIndividualActions')}
         show={showEntryOfIndividualActions}
         handleClose={handleCloseEntryOfIndividualActions}
       >
@@ -139,7 +139,7 @@ const footprintShaped = footprintDataToGraph(footprintData);
 //   { sector: "Services Publics", publicServices: 1000 },
 // ];
 
-const players = (obj) => Object.keys(obj).filter((k) => k !== "year");
+const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 const sum = (obj) =>
   players(obj).reduce(
     (accumulator, currentValue) => accumulator + obj[currentValue],

@@ -22,43 +22,36 @@ export const toggleArrayItem = (array, value) => {
   else newArray.splice(i, 1);
   return newArray.sort();
 };
-export const toggleArrayItemInMap = (map, key, value) => {
-  return {
-    ...map,
-    [key]: toggleArrayItem(map[key], value),
-  };
-};
-export const truncate = (length) =>
-  when(
-    propSatisfies(gt(__, length), 'length'),
-    pipe(take(length), append('…'), join(''))
-  );
+export const toggleArrayItemInMap = (map, key, value) => ({
+  ...map,
+  [key]: toggleArrayItem(map[key], value),
+});
+export const truncate = (length) => when(
+  propSatisfies(gt(__, length), 'length'),
+  pipe(take(length), append('…'), join('')),
+);
 
 export const formatDate = (date, options = {}) => {
   const { formatString = 'dd/MM/yyyy' } = options;
   return format(new Date(date), formatString);
 };
 
-export const waitFor = (time = 0) =>
-  new Promise((resolve) => setTimeout(time, resolve));
+export const waitFor = (time = 0) => new Promise((resolve) => setTimeout(time, resolve));
 
 /* eslint-disable no-useless-escape */
-export const slugify = (text) =>
-  text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, ''); // Trim - from end of text
+export const slugify = (text) => text
+  .toString()
+  .toLowerCase()
+  .replace(/\s+/g, '-') // Replace spaces with -
+  .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+  .replace(/\-\-+/g, '-') // Replace multiple - with single -
+  .replace(/^-+/, '') // Trim - from start of text
+  .replace(/-+$/, ''); // Trim - from end of text
 /* eslint-enable no-useless-escape */
 
-export const randomIn = (array) =>
-  array[Math.floor(Math.random() * array.length)];
+export const randomIn = (array) => array[Math.floor(Math.random() * array.length)];
 
-export const someIn = (array) =>
-  array.slice(0, Math.ceil(Math.random() * array.length));
+export const someIn = (array) => array.slice(0, Math.ceil(Math.random() * array.length));
 
 export const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -78,7 +71,7 @@ export const getUTCDate = (dateString = Date.now()) => {
     date.getUTCDate(),
     date.getUTCHours(),
     date.getUTCMinutes(),
-    date.getUTCSeconds()
+    date.getUTCSeconds(),
   );
 };
 
@@ -88,8 +81,8 @@ export const paramsToQuery = (params) => {
     if (params[key]) {
       arr.push(
         `${encodeURIComponent(key)}=${encodeURIComponent(
-          isType(Array)(params[key]) ? `[${params[key]}]` : params[key]
-        )}`
+          isType(Array)(params[key]) ? `[${params[key]}]` : params[key],
+        )}`,
       );
     }
   });
@@ -120,3 +113,5 @@ export const queryToParams = (query) => {
     return undefined;
   }, params);
 };
+
+export const makeYearParticipantKey = (year, participantId) => `${year}-${participantId}`;

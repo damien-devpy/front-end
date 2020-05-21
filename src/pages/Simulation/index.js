@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-// import footprintData from "../../utils/mocks/footprintData";
+import footprintData from "../../utils/mocks/footprintData";
 import { footprintDataToGraph } from "../../selectors/footprintSelectors";
 import "./components/simulationPage.css";
-import "./components/simulationPage.css";
+import { useWorkshop } from "../../hooks/workshop";
 import NavbarWorkshop from "../../components/NavbarWorkshop";
 import FootprintGraph from "./components/FootprintGraph";
 import EvolutionCarbon from "./components/EvolutionCarbon";
@@ -17,6 +17,8 @@ import IndividualActions from "./components/IndividualActions";
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { workshop, isLoading, loadError } = useWorkshop();
+  console.log("workshop", workshop);
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
@@ -34,12 +36,12 @@ const Simulation = () => {
   const handleCloseEntryOfIndividualActions = () =>
     setShowEntryOfIndividualActions(false);
 
-  const currentRound = useSelector(
-    (state) => state.workshop.result.currentYear
-  );
-  const footprintShaped = useSelector((state) =>
-    footprintDataToGraph(state.workshop.carbonInfo[currentRound])
-  );
+  // const currentRound = useSelector(
+  //   (state) => state.workshop.result.currentYear
+  // );
+  // const footprintShaped = useSelector((state) =>
+  //   footprintDataToGraph(state.workshop.carbonInfo[currentRound])
+  // );
 
   return (
     <React.Fragment>
@@ -55,27 +57,33 @@ const Simulation = () => {
               {t("common.nextRound")}
             </Button>
           </Row>
-          <Row style={{ height: "100vh" }}>
-            <Col sm={12} md={8} className="graph-col">
-              <Container className="graph-card">
-                <h4>
-                  Evolution du CO<span style={{ fontSize: "14px" }}>2</span> par
-                  personne
-                </h4>
-                <EvolutionCarbon data={evolutionData} />
-              </Container>
-            </Col>
-            <Col sm={12} md={4} className="graph-col">
-              <Container className="graph-card">
-                <h4> La population </h4>
-                <FootprintGraph footprint={footprintShaped} />
-              </Container>
-              <Container className="graph-card">
-                <h4> Les participants </h4>
-                <FootprintGraph footprint={footprintShaped} />
-              </Container>
-            </Col>
-          </Row>
+          {loadError && <p>{t("common.loadError")}</p>}
+          {isLoading && (
+            <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+          )}
+          {!isLoading && (
+            <Row style={{ height: "100vh" }}>
+              <Col sm={12} md={8} className="graph-col">
+                <Container className="graph-card">
+                  <h4>
+                    Evolution du CO<span style={{ fontSize: "14px" }}>2</span>{" "}
+                    par personne
+                  </h4>
+                  <EvolutionCarbon data={evolutionData} />
+                </Container>
+              </Col>
+              <Col sm={12} md={4} className="graph-col">
+                <Container className="graph-card">
+                  <h4> La population </h4>
+                  <FootprintGraph footprint={footprintShaped} />
+                </Container>
+                <Container className="graph-card">
+                  <h4> Les participants </h4>
+                  <FootprintGraph footprint={footprintShaped} />
+                </Container>
+              </Col>
+            </Row>
+          )}
         </Container>
       </StyledSimulation>
       <CommonModal
@@ -110,8 +118,8 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 // const currentRound = "2020-1";
-// const footprintShaped = useSelector((state) => footprintDataToGraph(state.carbonInfo[currentRound]);
-// const footprintShaped = footprintDataToGraph(footprintData);
+//
+const footprintShaped = footprintDataToGraph(footprintData);
 // const footprintShaped = [
 //   { sector: "Transport", plane: 750, train: 59, bus: 150, car: 600 },
 //   {

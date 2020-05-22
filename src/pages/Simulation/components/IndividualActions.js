@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -13,18 +12,16 @@ import {
   applyIndividualActions,
   computeFootprints,
 } from '../../../actions/workshop';
+import { selectNextRound } from '../../../selectors/workshopSelector';
 
 const IndividualActions = ({ handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const currentRound = useSelector(
     (state) => state.workshop.result.currentYear
   );
-  const nextRound = useSelector((state) => {
-    const config =
-      state.workshop.entities.roundsConfig[state.workshop.result.currentYear];
-    return config ? config.targetedYear : null;
-  });
+  const nextRound = useSelector((state) => selectNextRound(state.workshop));
   const workshopParticipants = useSelector(
     (state) => state.workshop.result.participants
   );
@@ -38,22 +35,28 @@ const IndividualActions = ({ handleClose }) => {
     console.log('handleParticipantSelect', id);
     setSelectedParticipantId(id);
   };
-  const handleSubmitEntryOfIndividualActions = (values) => {
-    console.log('handleSubmitEntryOfIndividualActions', values);
+
+  const individualActionCardsEntity = useSelector((state) =>
+    state.workshop.entities.individualActionCards
+      ? state.workshop.entities.individualActionCards
+      : {}
+  );
+
+  const [individualActionCards, setIndividualActionCards] = useState(
+    individualActionCardsEntity
+  );
+  const handleSubmitEntryOfIndividualActions = () => {
+    console.log('handleSubmitEntryOfIndividualActions', individualActionCards);
     dispatch(
       setIndividualActionsForAllParticipants(
         currentRound,
-        values.individualActionCards
+        individualActionCards
       )
     );
     dispatch(applyIndividualActions(currentRound));
     dispatch(computeFootprints(nextRound));
     handleClose();
   };
-  const individualActionCardsEntity = useSelector(
-    (state) => state.workshop.entities.individualActionCards
-  );
-
   const toggleIndividualActionCardsIdsInMap = (
     individualActionCardsMap,
     round,
@@ -74,65 +77,51 @@ const IndividualActions = ({ handleClose }) => {
     return result;
   };
 
+  const handleCardActionSelectionChange = (
+    currentRound,
+    participantId,
+    actionCardId
+  ) => {
+    setIndividualActionCards(
+      toggleIndividualActionCardsIdsInMap(
+        individualActionCards,
+        currentRound,
+        participantId,
+        actionCardId
+      )
+    );
+  };
+
   return (
-    <Formik
-      onSubmit={handleSubmitEntryOfIndividualActions}
-      initialValues={{
-        individualActionCards: { ...individualActionCardsEntity },
-      }}
-    >
-      {({ handleSubmit, values, setFieldValue }) => {
-        console.log('IndividualActionsForm values', values);
-        const handleCardActionSelectionChange = (
-          currentRound,
-          participantId,
-          actionCardId
-        ) => {
-          setFieldValue(
-            'individualActionCards',
-            toggleIndividualActionCardsIdsInMap(
-              values['individualActionCards'],
-              currentRound,
-              participantId,
-              actionCardId
-            )
-          );
-        };
-        return (
-          <Container className="row-full">
-            <Row style={{ height: '100vh' }}>
-              <Col sm={12} md={4}>
-                <Container>
-                  <h4>{t('common.participants')}</h4>
-                  <ParticipantsTable
-                    round={currentRound}
-                    workshopParticipants={workshopParticipants}
-                    participantsEntity={participantsEntity}
-                    individualActionCards={values['individualActionCards']}
-                    selectedParticipantId={selectedParticipantId}
-                    handleSelect={handleParticipantSelect}
-                  ></ParticipantsTable>
-                </Container>
-              </Col>
-              <Col sm={12} md={8}>
-                <Container>
-                  <h4>{t('common.batches')}</h4>
-                  <IndividualActionsForm
-                    currentRound={currentRound}
-                    participantId={selectedParticipantId}
-                    handleSubmit={handleSubmit}
-                    handleCardActionSelectionChange={
-                      handleCardActionSelectionChange
-                    }
-                    individualActionCards={values['individualActionCards']}
-                  ></IndividualActionsForm>
-                </Container>
-              </Col>
-            </Row>
+    <Container className="row-full">
+      <Row style={{ height: '100vh' }}>
+        <Col sm={12} md={4}>
+          <Container>
+            <h4>{t('common.participants')}</h4>
+            <ParticipantsTable
+              round={currentRound}
+              workshopParticipants={workshopParticipants}
+              participantsEntity={participantsEntity}
+              individualActionCards={individualActionCards}
+              selectedParticipantId={selectedParticipantId}
+              handleSelect={handleParticipantSelect}
+            ></ParticipantsTable>
           </Container>
-        );
-      }}
-    </Formik>
+        </Col>
+        <Col sm={12} md={8}>
+          <Container>
+            <h4>{t('common.batches')}</h4>
+            <IndividualActionsForm
+              currentRound={currentRound}
+              participantId={selectedParticipantId}
+              handleSubmit={handleSubmitEntryOfIndividualActions}
+              handleCardActionSelectionChange={handleCardActionSelectionChange}
+              individualActionCards={individualActionCards}
+            ></IndividualActionsForm>
+          </Container>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

@@ -21,8 +21,6 @@ const ParticipantsTable = ({
     hearts,
     selected,
   }) => {
-    console.log('Select button', selected);
-
     return (
       <StyledItem
         name={id}

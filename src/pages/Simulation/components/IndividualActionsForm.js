@@ -18,9 +18,6 @@ const IndividualActionsForm = ({
   individualActionCards,
 }) => {
   const { t } = useTranslation();
-  // const roundConfig = useSelector(
-  //   (state) => state.workshop.entities.roundsConfig[currentRound]
-  // );
   const actionCardBatchesEntity = useSelector(
     (state) => state.workshop.entities.actionCardBatches
   );
@@ -45,7 +42,7 @@ const IndividualActionsForm = ({
   );
 
   return (
-    <Form noValidate onSubmit={handleSubmit}>
+    <Form noValidate>
       <Form.Row>
         {Object.keys(roundsConfigEntity).map((roundConfigId) =>
           roundsConfigEntity[roundConfigId].actionCardBatchIds.map(
@@ -101,7 +98,7 @@ const IndividualActionsForm = ({
         )}
       </Form.Row>
       <Form.Row className="d-flex justify-content-end">
-        <Button type="submit">{t('common.validate')}</Button>
+        <Button onClick={handleSubmit}>{t('common.validate')}</Button>
       </Form.Row>
     </Form>
   );

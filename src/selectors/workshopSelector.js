@@ -31,3 +31,15 @@ export const selectCheckedActionCardsBatchesFromRounds = (roundsConfigEntity) =>
         : accumulator,
     []
   );
+
+export const getNumberOfTakenActionCards = (
+  individualActionCardsEntity,
+  round,
+  participantId
+) => {
+  const individualActionCardsId = `${round}-${participantId}`;
+  return individualActionCardsEntity[individualActionCardsId] &&
+    individualActionCardsEntity[individualActionCardsId].actionCardIds
+    ? individualActionCardsEntity[individualActionCardsId].actionCardIds.length
+    : 0;
+};

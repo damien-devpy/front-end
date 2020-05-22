@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import ParticipantsTable from './ParticipantsTable';
-import IndividualActionsForm from './IndividualActionsForm';
+import IndividualActionsFormik from './IndividualActionsFormik';
 import { setIndividualActionsForAllParticipants } from '../../../actions/workshop';
 
 const IndividualActions = ({ handleClose }) => {
@@ -37,7 +37,7 @@ const IndividualActions = ({ handleClose }) => {
     handleClose();
   };
   return (
-    <Container className='row-full'>
+    <Container className="row-full">
       <Row style={{ height: '100vh' }}>
         <Col sm={12} md={4}>
           <Container>
@@ -53,11 +53,11 @@ const IndividualActions = ({ handleClose }) => {
         <Col sm={12} md={8}>
           <Container>
             <h4>{t('common.batches')}</h4>
-            <IndividualActionsForm
+            <IndividualActionsFormik
               currentRound={currentRound}
               participantId={selectedParticipantId}
               handleSubmit={handleSubmitEntryOfIndividualActions}
-            ></IndividualActionsForm>
+            ></IndividualActionsFormik>
           </Container>
         </Col>
       </Row>

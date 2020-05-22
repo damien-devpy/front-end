@@ -1,5 +1,5 @@
 import { normalize, denormalize, schema } from 'normalizr';
-import workshop from '../utils/mocks/workshopBackend';
+import workshop from '../utils/mocks/workshop';
 
 describe('Workshop', () => {
   // Participants
@@ -18,7 +18,7 @@ describe('Workshop', () => {
     {},
     {
       idAttribute: (entity, parent) => `${parent.year}`,
-    }
+    },
   );
   const individualActions = new schema.Entity(
     'individualActions',
@@ -27,21 +27,21 @@ describe('Workshop', () => {
     },
     {
       idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
-    }
+    },
   );
   const collectiveActions = new schema.Entity(
     'collectiveActions',
     {},
     {
       idAttribute: (entity, parent) => `${parent.year}`,
-    }
+    },
   );
   const carbonInfo = new schema.Entity(
     'carbonInfo',
     {},
     {
       idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
-    }
+    },
   );
   const round = new schema.Entity(
     'rounds',
@@ -51,7 +51,7 @@ describe('Workshop', () => {
       individualActions: [individualActions],
       collectiveActions,
     },
-    { idAttribute: 'year' }
+    { idAttribute: 'year' },
   );
   const mySchema = {
     rounds: [round],
@@ -66,9 +66,9 @@ describe('Workshop', () => {
   };
   it('should normalize workshop', (done) => {
     const normalizedData = normalize(workshop, mySchema);
-    //console.log(normalizedData);
-    //console.log(JSON.stringify(normalizedData.result.model.actionCards));
-    //console.log(JSON.stringify(normalizedData.result.model.actionCardBatches));
+    // console.log(normalizedData);
+    // console.log(JSON.stringify(normalizedData.result.model.actionCards));
+    // console.log(JSON.stringify(normalizedData.result.model.actionCardBatches));
     // console.log(
     //   "entities.rounds",
     //   JSON.stringify(normalizedData.entities.rounds)
@@ -77,15 +77,14 @@ describe('Workshop', () => {
     //   "entities.carbonInfo",
     //   JSON.stringify(normalizedData.entities.carbonInfo)
     // );
-    console.log('normalizedData', JSON.stringify(normalizedData));
     done();
   });
   it('should denormalize workshop', (done) => {
     const normalizedData = normalize(workshop, mySchema);
-    const entities = normalizedData.entities;
+    const { entities } = normalizedData;
     const input = normalizedData.result;
     const denormalizedData = denormalize(input, mySchema, entities);
-    //console.log("denormalizedData", JSON.stringify(denormalizedData));
+    // console.log("denormalizedData", JSON.stringify(denormalizedData));
     expect(denormalizedData).toEqual(workshop);
     done();
   });

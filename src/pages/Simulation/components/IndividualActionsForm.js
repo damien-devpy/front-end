@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Form, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { Form, Col, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';

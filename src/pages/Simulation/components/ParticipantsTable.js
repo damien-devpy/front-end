@@ -7,7 +7,7 @@ import { getNumberOfTakenActionCards } from '../../../selectors/workshopSelector
 const ParticipantsTable = ({
   round,
   workshopParticipants,
-  entityParticipants,
+  participantsEntity,
   individualActionCards,
   selectedParticipantId,
   handleSelect,
@@ -44,9 +44,9 @@ const ParticipantsTable = ({
   return (
     <div>
       {workshopParticipants &&
-        entityParticipants &&
+        participantsEntity &&
         workshopParticipants.map((participantId) => {
-          const { email, firstName, lastName } = entityParticipants[
+          const { email, firstName, lastName } = participantsEntity[
             participantId
           ];
           const numberOfSelectedActions = getNumberOfTakenActionCards(

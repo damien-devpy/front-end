@@ -11,7 +11,7 @@ import EvolutionCarbon from './components/EvolutionCarbon';
 import CommonModal from '../../components/CommonModal';
 import { startRound } from '../../actions/workshop';
 import NewRoundModalForm from './components/NewRoundModalForm';
-import IndividualActionsFormik from './components/IndividualActionsFormik';
+import IndividualActions from './components/IndividualActions';
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -80,9 +80,7 @@ const Simulation = () => {
         show={showEntryOfIndividualActions}
         handleClose={handleCloseEntryOfIndividualActions}
       >
-        <IndividualActionsFormik
-          handleClose={handleCloseEntryOfIndividualActions}
-        />
+        <IndividualActions handleClose={handleCloseEntryOfIndividualActions} />
       </CommonModal>
     </React.Fragment>
   );
@@ -121,7 +119,7 @@ const footprintShaped = [
   { sector: 'Services Publics', publicServices: 1000 },
 ];
 
-const players = (obj) => Object.keys(obj).filter((k) => k != 'year');
+const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 const sum = (obj) =>
   players(obj).reduce(
     (accumulator, currentValue) => accumulator + obj[currentValue],

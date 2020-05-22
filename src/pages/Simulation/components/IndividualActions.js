@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
-import styled from 'styled-components';
 
 import { toggleArrayItem } from '../../../utils/helpers';
 import IndividualActionsForm from './IndividualActionsForm';
@@ -14,7 +13,6 @@ import {
   applyIndividualActions,
   computeFootprints,
 } from '../../../actions/workshop';
-import { COLORS } from '../../../vars';
 
 const IndividualActions = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -137,30 +135,5 @@ const IndividualActions = ({ handleClose }) => {
     </Formik>
   );
 };
-
-const LotBadge = ({ id, text, active, handleClick }) => {
-  return (
-    <StyledLot
-      name={id}
-      className="m-1 mb-3 p-1 btn-block text-center btn"
-      active={active}
-      onClick={(e) => {
-        handleClick();
-      }}
-    >
-      {text}
-    </StyledLot>
-  );
-};
-
-const StyledLot = styled.div`
-cursor: pointer;
-color: black;
-/* font-size: 0.7rem; */
-/* border: ${(props) =>
-  props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) =>
-  props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
-`;
 
 export default IndividualActions;

@@ -46,9 +46,7 @@ const ParticipantsTable = ({
       {workshopParticipants &&
         participantsEntity &&
         workshopParticipants.map((participantId) => {
-          const { email, firstName, lastName } = participantsEntity[
-            participantId
-          ];
+          const { firstName, lastName } = participantsEntity[participantId];
           const numberOfSelectedActions = getNumberOfTakenActionCards(
             individualActionCards,
             round,

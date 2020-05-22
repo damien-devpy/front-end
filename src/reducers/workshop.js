@@ -105,26 +105,6 @@ export default (state = initialState, action) => {
         },
       };
     }
-    case SET_COLLECTIVE_ACTIONS: {
-      const { year, collectiveActionIds } = action.payload;
-      return !state.rounds.allYears.includes(year)
-        ? state
-        : {
-            byYear: {
-              ...state.rounds.byYear,
-              [year]: {
-                ...state.rounds.byYear[year],
-                collectiveActionIds: [
-                  ...new Set([
-                    ...state.rounds.byYear[year].collectiveActionIds,
-                    ...collectiveActionIds,
-                  ]),
-                ],
-              },
-            },
-            allYears: [...state.rounds.allYears],
-          };
-    }
     case SET_INDIVIDUAL_ACTIONS: {
       const { year, participantId, individualActionIds } = action.payload;
       return {
@@ -172,6 +152,33 @@ export default (state = initialState, action) => {
               individualActionCards: [
                 ...(state.entities.rounds[year].individualActionCards || []),
                 ...Object.keys(individualActionCards),
+              ],
+            },
+          },
+        },
+        result: {
+          ...state.result,
+          currentYear: state.entities.roundsConfig[year].targetedYear,
+        },
+      };
+    }
+    case SET_COLLECTIVE_ACTIONS: {
+      const { year, collectiveActionCards } = action.payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          collectiveActionCards: {
+            ...state.entities.collectiveActionCards,
+            ...collectiveActionCards,
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              ...state.entities.rounds[year],
+              collectiveActionCards: [
+                ...(state.entities.rounds[year].collectiveActionCards || []),
+                ...Object.keys(collectiveActionCards),
               ],
             },
           },

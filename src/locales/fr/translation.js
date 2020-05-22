@@ -85,6 +85,7 @@ export default {
     eggsAndDairies: 'Oeufs et laitiers',
     email: 'Email',
     energies: 'Energies',
+    entryOfCollectiveActions: 'Saisie des actions collectives',
     entryOfIndividualActions: 'Saisie des actions individuelles',
     environmentalInitiatives: 'ECOGESTES',
     firstName: 'Prénom',

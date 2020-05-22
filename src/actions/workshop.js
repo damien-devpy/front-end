@@ -41,9 +41,9 @@ export const setIndividualActionsForAllParticipants = (
   payload: { year, individualActionCards },
 });
 
-export const setCollectiveActions = (year, collectiveActionIds) => ({
+export const setCollectiveActions = (year, collectiveActionCards) => ({
   type: SET_COLLECTIVE_ACTIONS,
-  payload: { year, collectiveActionIds },
+  payload: { year, collectiveActionCards },
 });
 
 export const workshopRetrieved = (workshop) => ({

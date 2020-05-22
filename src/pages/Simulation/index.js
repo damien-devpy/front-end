@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -11,26 +11,35 @@ import EvolutionCarbon from './components/EvolutionCarbon';
 import CommonModal from '../../components/CommonModal';
 import { startRound } from '../../actions/workshop';
 import NewRoundModalForm from './components/NewRoundModalForm';
-import IndividualActions from './components/IndividualActions';
+import ActionCardsEntry from './components/ActionCardsEntry';
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const currentRound = useSelector(
+    (state) =>
+      state.workshop &&
+      state.workshop.result &&
+      state.workshop.result.currentYear
+  );
+  const roundActionCardType = useSelector(
+    (state) =>
+      state.workshop &&
+      state.workshop.entities &&
+      state.workshop.entities.roundsConfig[currentRound] &&
+      state.workshop.entities.roundsConfig[currentRound].actionCardType
+  );
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
   const handleSubmitNewRoundModal = (values) => {
     dispatch(startRound(values));
     setShowNewRoundModal(false);
-    setShowEntryOfIndividualActions(true);
+    setShowEntryOfActionCards(true);
   };
   const handleShowNewRoundModal = () => setShowNewRoundModal(true);
-  // EntryOfIndividualActions
-  const [
-    showEntryOfIndividualActions,
-    setShowEntryOfIndividualActions,
-  ] = useState(false);
-  const handleCloseEntryOfIndividualActions = () =>
-    setShowEntryOfIndividualActions(false);
+  // EntryOfActionCards
+  const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
+  const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <React.Fragment>
       <NavbarWorkshop
@@ -76,11 +85,19 @@ const Simulation = () => {
         <NewRoundModalForm handleSubmit={handleSubmitNewRoundModal} />
       </CommonModal>
       <CommonModal
-        title={t('common.entryOfIndividualActions')}
-        show={showEntryOfIndividualActions}
-        handleClose={handleCloseEntryOfIndividualActions}
+        title={
+          roundActionCardType === 'individual'
+            ? t('common.entryOfIndividualActions')
+            : t('common.entryOfCollectiveActions')
+        }
+        show={showEntryOfActionCards}
+        handleClose={handleCloseEntryOfActionCards}
       >
-        <IndividualActions handleClose={handleCloseEntryOfIndividualActions} />
+        <ActionCardsEntry
+          handleClose={handleCloseEntryOfActionCards}
+          currentRound={currentRound}
+          roundActionCardType={roundActionCardType}
+        />
       </CommonModal>
     </React.Fragment>
   );

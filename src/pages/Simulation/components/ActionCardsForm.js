@@ -6,13 +6,13 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 import { ActionCardItem } from './ActionCardItem';
-
 import { COLORS } from '../../../vars';
 
-const IndividualActionsForm = ({
+const ActionCardsForm = ({
   handleSubmit,
   handleCardActionSelectionChange,
   handleCheckedActionCard,
+  roundIds,
 }) => {
   const { t } = useTranslation();
   const actionCardBatchesEntity = useSelector(
@@ -34,7 +34,7 @@ const IndividualActionsForm = ({
   return (
     <Form noValidate>
       <Form.Row>
-        {Object.keys(roundsConfigEntity).map((roundConfigId) =>
+        {roundIds.map((roundConfigId) =>
           roundsConfigEntity[roundConfigId].actionCardBatchIds.map(
             (actionCardBatchId) => {
               const { name, actionCardIds } = actionCardBatchesEntity[
@@ -105,4 +105,4 @@ background: ${(props) =>
   props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;
 
-export default IndividualActionsForm;
+export default ActionCardsForm;

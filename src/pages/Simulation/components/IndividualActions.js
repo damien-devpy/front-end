@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import { toggleArrayItem } from '../../../utils/helpers';
-import IndividualActionsForm from './IndividualActionsForm';
+import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
 import {
   setIndividualActionsForAllParticipants,
@@ -47,6 +47,7 @@ const IndividualActions = ({ handleClose }) => {
   const [individualActionCards, setIndividualActionCards] = useState(
     individualActionCardsEntity
   );
+  const [collectiveActionCards, setCollectiveActionCards] = useState({});
   const individualActionCardsFromParticipant = useSelector((state) =>
     selectIndividualActionCardsFromParticipant(
       selectedParticipantId,
@@ -72,7 +73,10 @@ const IndividualActions = ({ handleClose }) => {
     participantId,
     actionCardId
   ) => {
-    const individualActionCardsId = `${round}-${participantId}`;
+    const individualActionCardsId = makeYearParticipantKey(
+      round,
+      selectedParticipantId
+    );
     const actionCardIds =
       individualActionCardsMap[individualActionCardsId] &&
       individualActionCardsMap[individualActionCardsId].actionCardIds;
@@ -88,9 +92,29 @@ const IndividualActions = ({ handleClose }) => {
 
   const handleCardActionSelectionChange = (
     currentRound,
-    participantId,
-    actionCardId
+    actionCardId,
+    participantId
   ) => {
+    participantId
+      ? setIndividualActionCards(
+          toggleIndividualActionCardsIdsInMap(
+            individualActionCards,
+            currentRound,
+            participantId,
+            actionCardId
+          )
+        )
+      : setCollectiveActionCards();
+    // toggleCollectiveActionCardsIdsInMap(
+    //   collectiveActionCards,
+    //   currentRound,
+    //   actionCardId
+    // )
+  };
+
+  const handleCardActionSelectionChange2 = (currentRound, participantId) => (
+    actionCardId
+  ) =>
     setIndividualActionCards(
       toggleIndividualActionCardsIdsInMap(
         individualActionCards,
@@ -99,7 +123,7 @@ const IndividualActions = ({ handleClose }) => {
         actionCardId
       )
     );
-  };
+
   const isIndividualActionCardChecked = (actionCardId) =>
     individualActionCardsFromParticipant.includes(actionCardId) ||
     (individualActionCards[
@@ -128,14 +152,15 @@ const IndividualActions = ({ handleClose }) => {
         <Col sm={12} md={8}>
           <Container>
             <h4>{t('common.batches')}</h4>
-            <IndividualActionsForm
-              currentRound={currentRound}
-              participantId={selectedParticipantId}
+            <ActionCardsForm
               handleSubmit={handleSubmitEntryOfIndividualActions}
-              handleCardActionSelectionChange={handleCardActionSelectionChange}
+              handleCardActionSelectionChange={handleCardActionSelectionChange2(
+                currentRound,
+                selectedParticipantId
+              )}
               handleCheckedActionCard={isIndividualActionCardChecked}
               individualActionCards={individualActionCards}
-            ></IndividualActionsForm>
+            ></ActionCardsForm>
           </Container>
         </Col>
       </Row>

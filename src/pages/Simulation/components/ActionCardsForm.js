@@ -10,8 +10,6 @@ import { ActionCardItem } from './ActionCardItem';
 import { COLORS } from '../../../vars';
 
 const IndividualActionsForm = ({
-  currentRound,
-  participantId,
   handleSubmit,
   handleCardActionSelectionChange,
   handleCheckedActionCard,
@@ -64,11 +62,7 @@ const IndividualActionsForm = ({
                         active={actionCardBatchId === activeBatch}
                         checked={handleCheckedActionCard(actionCardId)}
                         handleChange={() =>
-                          handleCardActionSelectionChange(
-                            currentRound,
-                            participantId,
-                            actionCardId
-                          )
+                          handleCardActionSelectionChange(actionCardId)
                         }
                       />
                     );

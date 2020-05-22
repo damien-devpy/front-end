@@ -3,11 +3,10 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Col, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
-import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';
 import { ActionCardItem } from './ActionCardItem';
 
-import styled from 'styled-components';
 import { COLORS } from '../../../vars';
 
 const IndividualActionsForm = ({
@@ -15,7 +14,7 @@ const IndividualActionsForm = ({
   participantId,
   handleSubmit,
   handleCardActionSelectionChange,
-  individualActionCards,
+  handleCheckedActionCard,
 }) => {
   const { t } = useTranslation();
   const actionCardBatchesEntity = useSelector(
@@ -26,13 +25,6 @@ const IndividualActionsForm = ({
   );
   const roundsConfigEntity = useSelector(
     (state) => state.workshop.entities.roundsConfig
-  );
-  const individualActionCardsFromParticipant = useSelector((state) =>
-    selectIndividualActionCardsFromParticipant(
-      participantId,
-      state.workshop.entities.roundsConfig,
-      state.workshop.entities.individualActionCards
-    )
   );
   // initial active == expanded lot is the last lot of the current round
   const [activeBatch, setActiveBatch] = useState(
@@ -70,17 +62,7 @@ const IndividualActionsForm = ({
                         text={name}
                         lot={actionCardBatchId}
                         active={actionCardBatchId === activeBatch}
-                        checked={
-                          individualActionCardsFromParticipant.includes(
-                            actionCardId
-                          ) ||
-                          (individualActionCards[
-                            `${currentRound}-${participantId}`
-                          ] &&
-                            individualActionCards[
-                              `${currentRound}-${participantId}`
-                            ].actionCardIds.includes(actionCardId))
-                        }
+                        checked={handleCheckedActionCard(actionCardId)}
                         handleChange={() =>
                           handleCardActionSelectionChange(
                             currentRound,

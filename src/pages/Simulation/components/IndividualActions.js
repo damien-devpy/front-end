@@ -13,6 +13,8 @@ import {
   computeFootprints,
 } from '../../../actions/workshop';
 import { selectNextRound } from '../../../selectors/workshopSelector';
+import { selectIndividualActionCardsFromParticipant } from '../../../selectors/workshopSelector';
+import { makeYearParticipantKey } from '../../../utils/helpers';
 
 const IndividualActions = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -44,6 +46,13 @@ const IndividualActions = ({ handleClose }) => {
 
   const [individualActionCards, setIndividualActionCards] = useState(
     individualActionCardsEntity
+  );
+  const individualActionCardsFromParticipant = useSelector((state) =>
+    selectIndividualActionCardsFromParticipant(
+      selectedParticipantId,
+      state.workshop.entities.roundsConfig,
+      state.workshop.entities.individualActionCards
+    )
   );
   const handleSubmitEntryOfIndividualActions = () => {
     console.log('handleSubmitEntryOfIndividualActions', individualActionCards);
@@ -91,6 +100,14 @@ const IndividualActions = ({ handleClose }) => {
       )
     );
   };
+  const isIndividualActionCardChecked = (actionCardId) =>
+    individualActionCardsFromParticipant.includes(actionCardId) ||
+    (individualActionCards[
+      makeYearParticipantKey(currentRound, selectedParticipantId)
+    ] &&
+      individualActionCards[
+        makeYearParticipantKey(currentRound, selectedParticipantId)
+      ].actionCardIds.includes(actionCardId));
 
   return (
     <Container className="row-full">
@@ -116,6 +133,7 @@ const IndividualActions = ({ handleClose }) => {
               participantId={selectedParticipantId}
               handleSubmit={handleSubmitEntryOfIndividualActions}
               handleCardActionSelectionChange={handleCardActionSelectionChange}
+              handleCheckedActionCard={isIndividualActionCardChecked}
               individualActionCards={individualActionCards}
             ></IndividualActionsForm>
           </Container>

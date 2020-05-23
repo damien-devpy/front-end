@@ -103,15 +103,15 @@ describe('Test effect of redux actions related to model on the workshop state', 
         rounds: {
           2020: {
             year: 2020,
-            carbonVariables: [
-              '2020-1',
-              '2020-2',
-            ],
-            carbonFootprints: [
-              '2020-1',
-              '2020-2',
-            ],
+            globalCarbonVariables: 2020,
+            carbonVariables: ['2020-1', '2020-2'],
+            carbonFootprints: ['2020-1', '2020-2'],
             roundsConfig: '2020',
+          },
+          2023: {
+            year: 2023,
+            globalCarbonVariables: 2023,
+            carbonVariables: ['2023-1', '2023-2'],
           },
         },
         participants: {
@@ -167,20 +167,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
             },
           },
-          actionCards: [
-            1,
-          ],
-          actionCardBatches: [
-            1,
-          ],
+          actionCards: [1],
+          actionCardBatches: [1],
         },
-        participants: [
-          1,
-          2,
-        ],
-        rounds: [
-          2020,
-        ],
+        participants: [1, 2],
+        rounds: [2020],
       },
     };
     const action = {
@@ -326,15 +317,16 @@ describe('Test effect of redux actions related to model on the workshop state', 
         rounds: {
           2020: {
             year: 2020,
-            carbonVariables: [
-              '2020-1',
-              '2020-2',
-            ],
-            carbonFootprints: [
-              '2020-1',
-              '2020-2',
-            ],
+            globalCarbonVariables: 2020,
+            carbonVariables: ['2020-1', '2020-2'],
+            carbonFootprints: ['2020-1', '2020-2'],
             roundsConfig: '2020',
+          },
+          2023: {
+            year: 2023,
+            globalCarbonVariables: 2023,
+            carbonVariables: ['2023-1', '2023-2'],
+            carbonFootprints: ['2023-1', '2023-2'],
           },
         },
         participants: {
@@ -390,20 +382,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
             },
           },
-          actionCards: [
-            1,
-          ],
-          actionCardBatches: [
-            1,
-          ],
+          actionCards: [1],
+          actionCardBatches: [1],
         },
-        participants: [
-          1,
-          2,
-        ],
-        rounds: [
-          2020,
-        ],
+        participants: [1, 2],
+        rounds: [2020],
       },
     };
 
@@ -490,15 +473,12 @@ describe('Test effect of redux actions related to model on the workshop state', 
         rounds: {
           2020: {
             year: 2020,
-            carbonVariables: [
-              '2020-1',
-              '2020-2',
-            ],
-            carbonFootprints: [
-              '2020-1',
-              '2020-2',
-            ],
+            carbonVariables: ['2020-1', '2020-2'],
+            carbonFootprints: ['2020-1', '2020-2'],
             roundsConfig: '2020',
+          },
+          2023: {
+            year: 2023,
           },
         },
         participants: {
@@ -550,7 +530,9 @@ describe('Test effect of redux actions related to model on the workshop state', 
               },
               {
                 variable: 'km_bus',
-                operation: { '+': [{ var: 'km_bus' }, { '/': [{ var: 'km_plane' }, 2] }] },
+                operation: {
+                  '+': [{ var: 'km_bus' }, { '/': [{ var: 'km_plane' }, 2] }],
+                },
               },
             ],
           },
@@ -592,20 +574,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
             },
           },
-          actionCards: [
-            1,
-          ],
-          actionCardBatches: [
-            1,
-          ],
+          actionCards: [1],
+          actionCardBatches: [1],
         },
-        participants: [
-          1,
-          2,
-        ],
-        rounds: [
-          2020,
-        ],
+        participants: [1, 2],
+        rounds: [2020],
       },
     };
     const action = {
@@ -713,15 +686,13 @@ describe('Test effect of redux actions related to model on the workshop state', 
         rounds: {
           2020: {
             year: 2020,
-            carbonVariables: [
-              '2020-1',
-              '2020-2',
-            ],
-            carbonFootprints: [
-              '2020-1',
-              '2020-2',
-            ],
+            carbonVariables: ['2020-1', '2020-2'],
+            carbonFootprints: ['2020-1', '2020-2'],
             roundsConfig: '2020',
+          },
+          2023: {
+            year: 2023,
+            carbonVariables: ['2023-1', '2023-2'],
           },
         },
         participants: {
@@ -773,7 +744,9 @@ describe('Test effect of redux actions related to model on the workshop state', 
               },
               {
                 variable: 'km_bus',
-                operation: { '+': [{ var: 'km_bus' }, { '/': [{ var: 'km_plane' }, 2] }] },
+                operation: {
+                  '+': [{ var: 'km_bus' }, { '/': [{ var: 'km_plane' }, 2] }],
+                },
               },
             ],
           },
@@ -815,20 +788,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
             },
           },
-          actionCards: [
-            1,
-          ],
-          actionCardBatches: [
-            1,
-          ],
+          actionCards: [1],
+          actionCardBatches: [1],
         },
-        participants: [
-          1,
-          2,
-        ],
-        rounds: [
-          2020,
-        ],
+        participants: [1, 2],
+        rounds: [2020],
       },
     };
     const result = workshopReducer(initialState, action);
@@ -915,15 +879,14 @@ describe('Test effect of redux actions related to model on the workshop state', 
           rounds: {
             2020: {
               year: 2020,
-              carbonVariables: [
-                '2020-1',
-                '2020-2',
-              ],
-              carbonFootprints: [
-                '2020-1',
-                '2020-2',
-              ],
+              carbonVariables: ['2020-1', '2020-2'],
+              carbonFootprints: ['2020-1', '2020-2'],
+              globalCarbonVariables: 2020,
               roundsConfig: '2020',
+            },
+            2023: {
+              year: 2023,
+              roundsConfig: '2023',
             },
           },
           participants: {
@@ -998,20 +961,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
               },
             },
-            actionCards: [
-              'plane_forbidden',
-            ],
-            actionCardBatches: [
-              1,
-            ],
+            actionCards: ['plane_forbidden'],
+            actionCardBatches: [1],
           },
-          participants: [
-            1,
-            2,
-          ],
-          rounds: [
-            2020,
-          ],
+          participants: [1, 2],
+          rounds: [2020],
         },
       };
       const action = {
@@ -1119,15 +1073,16 @@ describe('Test effect of redux actions related to model on the workshop state', 
           rounds: {
             2020: {
               year: 2020,
-              carbonVariables: [
-                '2020-1',
-                '2020-2',
-              ],
-              carbonFootprints: [
-                '2020-1',
-                '2020-2',
-              ],
+              carbonVariables: ['2020-1', '2020-2'],
+              carbonFootprints: ['2020-1', '2020-2'],
+              globalCarbonVariables: 2020,
               roundsConfig: '2020',
+            },
+            2023: {
+              year: 2023,
+              carbonVariables: ['2023-1', '2023-2'],
+              globalCarbonVariables: 2023,
+              roundsConfig: '2023',
             },
           },
           participants: {
@@ -1202,20 +1157,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
               },
             },
-            actionCards: [
-              'plane_forbidden',
-            ],
-            actionCardBatches: [
-              1,
-            ],
+            actionCards: ['plane_forbidden'],
+            actionCardBatches: [1],
           },
-          participants: [
-            1,
-            2,
-          ],
-          rounds: [
-            2020,
-          ],
+          participants: [1, 2],
+          rounds: [2020],
         },
       };
       const result = workshopReducer(initialState, action);
@@ -1257,7 +1203,6 @@ describe('Test effect of redux actions related to model on the workshop state', 
               EI_BUS: 5,
               EI_PLANE: 100,
             },
-
           },
           carbonFootprints: {
             '2020-1': {
@@ -1310,15 +1255,14 @@ describe('Test effect of redux actions related to model on the workshop state', 
           rounds: {
             2020: {
               year: 2020,
-              carbonVariables: [
-                '2020-1',
-                '2020-2',
-              ],
-              carbonFootprints: [
-                '2020-1',
-                '2020-2',
-              ],
+              carbonVariables: ['2020-1', '2020-2'],
+              carbonFootprints: ['2020-1', '2020-2'],
+              globalCarbonVariables: 2020,
               roundsConfig: '2020',
+            },
+            2023: {
+              year: 2023,
+              roundsConfig: '2023',
             },
           },
           participants: {
@@ -1404,20 +1348,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
               },
             },
-            actionCards: [
-              'plane_forbidden',
-            ],
-            actionCardBatches: [
-              1,
-            ],
+            actionCards: ['plane_forbidden'],
+            actionCardBatches: [1],
           },
-          participants: [
-            1,
-            2,
-          ],
-          rounds: [
-            2020,
-          ],
+          participants: [1, 2],
+          rounds: [2020],
         },
       };
       const action = {
@@ -1473,7 +1408,6 @@ describe('Test effect of redux actions related to model on the workshop state', 
               EI_BUS: 5,
               EI_PLANE: 100,
             },
-
           },
           carbonFootprints: {
             '2020-1': {
@@ -1526,15 +1460,16 @@ describe('Test effect of redux actions related to model on the workshop state', 
           rounds: {
             2020: {
               year: 2020,
-              carbonVariables: [
-                '2020-1',
-                '2020-2',
-              ],
-              carbonFootprints: [
-                '2020-1',
-                '2020-2',
-              ],
+              carbonVariables: ['2020-1', '2020-2'],
+              carbonFootprints: ['2020-1', '2020-2'],
+              globalCarbonVariables: 2020,
               roundsConfig: '2020',
+            },
+            2023: {
+              year: 2023,
+              roundsConfig: '2023',
+              carbonVariables: ['2023-1', '2023-2'],
+              globalCarbonVariables: 2023,
             },
           },
           participants: {
@@ -1620,20 +1555,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
               },
             },
-            actionCards: [
-              'plane_forbidden',
-            ],
-            actionCardBatches: [
-              1,
-            ],
+            actionCards: ['plane_forbidden'],
+            actionCardBatches: [1],
           },
-          participants: [
-            1,
-            2,
-          ],
-          rounds: [
-            2020,
-          ],
+          participants: [1, 2],
+          rounds: [2020],
         },
       };
       const result = workshopReducer(initialState, action);

@@ -1,20 +1,21 @@
 import {
+  APPLY_COLLECTIVE_ACTIONS,
+  APPLY_INDIVIDUAL_ACTIONS,
+  COMPUTE_CARBON_VARIABLES,
+  COMPUTE_FOOTPRINTS,
+  INIT_ROUND,
   INIT_WORKSHOP,
-  START_ROUND,
+  RETRIEVE_WORKSHOP,
   SET_COLLECTIVE_ACTIONS,
   SET_INDIVIDUAL_ACTIONS,
   SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
-  RETRIEVE_WORKSHOP,
-  WORKSHOP_RETRIEVED,
+  START_ROUND,
   WORKSHOP_LOAD_ERROR,
-  COMPUTE_CARBON_VARIABLES,
-  APPLY_INDIVIDUAL_ACTIONS,
-  APPLY_COLLECTIVE_ACTIONS,
-  COMPUTE_FOOTPRINTS,
+  WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
 import {
-  computeNewCarbonVariables,
   computeFootprint,
+  computeNewCarbonVariables,
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
@@ -71,6 +72,22 @@ export default (state = initialState, action) => {
             [year]: initRoundObject(),
           },
           allYears: [year],
+        },
+      };
+    }
+    case INIT_ROUND: {
+      const { year } = action.payload;
+      const newRound = {
+        year,
+      };
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          rounds: {
+            [year]: newRound,
+            ...state.entities.rounds,
+          },
         },
       };
     }
@@ -203,11 +220,11 @@ export default (state = initialState, action) => {
           nextYear,
           participantId
         );
-        const individualActionCardsForParticipant =
-          state.entities.individualActionCards[yearParticipantKey];
-        const actionCardIds = individualActionCardsForParticipant
-          ? individualActionCardsForParticipant.actionCardIds
-          : [];
+        const actionCardIds =
+          state.entities.individualActionCards &&
+          state.entities.individualActionCards.actionCardIds
+            ? state.entities.individualActionCards.actionCardIds
+            : [];
         const takenActionCards = actionCardIds.map(
           (actionId) => state.entities.actionCards[actionId]
         );
@@ -234,6 +251,15 @@ export default (state = initialState, action) => {
             ...state.entities.globalCarbonVariables,
             [nextYear]: { ...state.entities.globalCarbonVariables[year] },
           },
+          rounds: {
+            ...state.entities.rounds,
+            [nextYear]: {
+              ...state.entities.rounds[nextYear],
+              carbonVariables: state.result.participants.map((participantId) =>
+                makeYearParticipantKey(nextYear, participantId)
+              ),
+            },
+          },
         },
       };
     }
@@ -244,8 +270,15 @@ export default (state = initialState, action) => {
       const currentCarbonVariables = state.entities.carbonVariables;
       const currentGlobalCarbonVariables = state.entities.globalCarbonVariables;
       const { participants } = state.result;
+      let actionCardIds;
 
-      const { actionCardIds } = state.entities.collectiveActionCards[year];
+      if (state.entities.collectiveActionCards) {
+        actionCardIds = state.entities.collectiveActionCards[year]
+          ? state.entities.collectiveActionCards[year].actionCardIds
+          : [];
+      } else {
+        actionCardIds = [];
+      }
 
       const takenActionCardsThatApplyToEveryone = actionCardIds
         .map((actionId) => state.entities.actionCards[actionId])
@@ -290,6 +323,16 @@ export default (state = initialState, action) => {
               ),
             },
           },
+          rounds: {
+            ...state.entities.rounds,
+            [nextYear]: {
+              ...state.entities.rounds[nextYear],
+              carbonVariables: state.result.participants.map((participantId) =>
+                makeYearParticipantKey(nextYear, participantId)
+              ),
+              globalCarbonVariables: nextYear,
+            },
+          },
         },
       };
     }
@@ -324,6 +367,15 @@ export default (state = initialState, action) => {
           carbonFootprints: {
             ...state.entities.carbonFootprints,
             ...newCarbonFootprints,
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              ...state.entities.rounds[year],
+              carbonFootprints: state.result.participants.map((participantId) =>
+                makeYearParticipantKey(year, participantId)
+              ),
+            },
           },
         },
       };

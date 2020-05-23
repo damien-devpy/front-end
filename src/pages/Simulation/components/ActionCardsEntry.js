@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 
 import {
-  applyCollectiveActions,
-  applyIndividualActions,
-  computeFootprints,
+  initRoundAndProcessModel,
   setCollectiveActions,
   setIndividualActionsForAllParticipants,
 } from '../../../actions/workshop';
+import {
+  makeYearParticipantKey,
+  toggleArrayItem,
+} from '../../../utils/helpers';
 import {
   selectCollectiveActionCards,
   selectCollectiveRoundIds,
@@ -17,11 +19,6 @@ import {
   selectIndividualRoundIds,
   selectNextRound,
 } from '../../../selectors/workshopSelector';
-
-import {
-  makeYearParticipantKey,
-  toggleArrayItem,
-} from '../../../utils/helpers';
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
 
@@ -94,15 +91,13 @@ const ActionCardsEntry = ({
         individualActionCards
       )
     );
-    dispatch(applyIndividualActions(currentRound));
-    dispatch(computeFootprints(nextRound));
+    dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
   };
   const handleSubmitEntryOfCollectiveActions = () => {
     console.log('handleSubmitEntryOfCollectiveActions', collectiveActionCards);
     dispatch(setCollectiveActions(currentRound, collectiveActionCards));
-    dispatch(applyCollectiveActions(currentRound));
-    dispatch(computeFootprints(nextRound));
+    dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
   };
   const toggleIndividualActionCardsIdsInMap = (

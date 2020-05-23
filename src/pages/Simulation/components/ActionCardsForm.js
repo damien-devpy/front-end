@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
+import { Button, Col, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { Form, Col, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { ActionCardItem } from './ActionCardItem';
@@ -37,9 +36,10 @@ const ActionCardsForm = ({
         {roundIds.map((roundConfigId) =>
           roundsConfigEntity[roundConfigId].actionCardBatchIds.map(
             (actionCardBatchId) => {
-              const { name, actionCardIds } = actionCardBatchesEntity[
-                actionCardBatchId
-              ];
+              const {
+                name: actionCardBatchName,
+                actionCardIds,
+              } = actionCardBatchesEntity[actionCardBatchId];
               return (
                 <Form.Group
                   as={Col}
@@ -47,17 +47,19 @@ const ActionCardsForm = ({
                   key={actionCardBatchId}
                 >
                   <LotBadge
-                    text={name}
+                    text={actionCardBatchName}
                     active={actionCardBatchId === activeBatch}
                     handleClick={() => setActiveBatch(actionCardBatchId)}
                   />
                   {actionCardIds.map((actionCardId) => {
-                    const { name } = actionCardsEntity[actionCardId];
+                    const { name: actionCardName } = actionCardsEntity[
+                      actionCardId
+                    ];
                     return (
                       <ActionCardItem
                         key={actionCardId}
                         id={`switch-${actionCardId}`}
-                        text={name}
+                        text={actionCardName}
                         lot={actionCardBatchId}
                         active={actionCardBatchId === activeBatch}
                         checked={handleCheckedActionCard(actionCardId)}
@@ -86,7 +88,7 @@ const LotBadge = ({ id, text, active, handleClick }) => {
       name={id}
       className="m-1 mb-3 p-1 btn-block text-center btn"
       active={active}
-      onClick={(e) => {
+      onClick={() => {
         handleClick();
       }}
     >

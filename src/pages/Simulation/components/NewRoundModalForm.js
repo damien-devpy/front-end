@@ -1,19 +1,18 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
-import { Form, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 import { ActionCardItemSimple } from './ActionCardItem';
-
 import {
-  selectIndividualBatches,
-  selectCollectiveBatches,
-} from '../../../selectors/actionsSelector';
-import {
-  selectCheckedIndividualActionCardsBatchesFromRounds,
   selectCheckedCollectiveActionCardsBatchesFromRounds,
+  selectCheckedIndividualActionCardsBatchesFromRounds,
 } from '../../../selectors/workshopSelector';
+import {
+  selectCollectiveBatches,
+  selectIndividualBatches,
+} from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
@@ -53,16 +52,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
         actionCardBatchIds: [],
       }}
     >
-      {({
-        handleSubmit,
-        handleChange,
-        handleBlur,
-        values,
-        setFieldValue,
-        touched,
-        isValid,
-        errors,
-      }) => {
+      {({ handleSubmit, values, setFieldValue }) => {
         return (
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Row>
@@ -117,17 +107,19 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 <ButtonGroup className="mr-2">
                   <Button
                     onClick={() => {
-                      values['targetedYear'] > currentYear + yearIncrement &&
-                        setFieldValue('targetedYear', --values['targetedYear']);
+                      if (values.targetedYear > currentYear + yearIncrement) {
+                        setFieldValue('targetedYear', values.targetedYear - 1);
+                      }
                     }}
                   >
                     -
                   </Button>
-                  <Button>{values['targetedYear']}</Button>
+                  <Button>{values.targetedYear}</Button>
                   <Button
                     onClick={() => {
-                      values['targetedYear'] < endYear &&
-                        setFieldValue('targetedYear', ++values['targetedYear']);
+                      if (values.targetedYear < endYear) {
+                        setFieldValue('targetedYear', values.targetedYear + 1);
+                      }
                     }}
                   >
                     +
@@ -139,17 +131,19 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 <ButtonGroup className="mr-2">
                   <Button
                     onClick={() => {
-                      values['budget'] > 1 &&
-                        setFieldValue('budget', values['budget'] - 1);
+                      if (values.budget > 1) {
+                        setFieldValue('budget', values.budget - 1);
+                      }
                     }}
                   >
                     -
                   </Button>
-                  <Button>{values['budget']}</Button>
+                  <Button>{values.budget}</Button>
                   <Button
                     onClick={() => {
-                      values['budget'] < 10 &&
-                        setFieldValue('budget', values['budget'] + 1);
+                      if (values.budget < 10) {
+                        setFieldValue('budget', values.budget + 1);
+                      }
                     }}
                   >
                     +
@@ -160,25 +154,25 @@ const NewRoundModalForm = ({ handleSubmit }) => {
             <Form.Row>
               <Form.Group as={Col} controlId="validationFormik02">
                 <Form.Label>{t('common.batches')}</Form.Label>
-                <div key={`inline-checkbox`} className="mb-3">
-                  {Object.keys(values['actionCardBatches']).map((batchId) => (
+                <div key="inline-checkbox" className="mb-3">
+                  {Object.keys(values.actionCardBatches).map((batchId) => (
                     <Form.Check
                       checked={
-                        values['actionCardBatchIds'].includes(batchId) ||
-                        values['checkedActionCardBatches'].includes(batchId)
+                        values.actionCardBatchIds.includes(batchId) ||
+                        values.checkedActionCardBatches.includes(batchId)
                       }
-                      disabled={values['checkedActionCardBatches'].includes(
+                      disabled={values.checkedActionCardBatches.includes(
                         batchId
                       )}
                       inline
-                      label={values['actionCardBatches'][batchId].name}
+                      label={values.actionCardBatches[batchId].name}
                       type="checkbox"
                       id={batchId}
                       key={batchId}
                       onChange={() =>
                         setFieldValue(
                           'actionCardBatchIds',
-                          toggleArrayItem(values['actionCardBatchIds'], batchId)
+                          toggleArrayItem(values.actionCardBatchIds, batchId)
                         )
                       }
                     />
@@ -187,11 +181,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              {Object.keys(values['actionCardBatches']).map(
+              {Object.keys(values.actionCardBatches).map(
                 (batchId) =>
-                  values['actionCardBatchIds'].includes(batchId) && (
+                  values.actionCardBatchIds.includes(batchId) && (
                     <Form.Group as={Col} sm="3" key={batchId}>
-                      {values['actionCardBatches'][batchId].actionCardIds.map(
+                      {values.actionCardBatches[batchId].actionCardIds.map(
                         (actionCardId) => (
                           <ActionCardItemSimple
                             key={actionCardId}
@@ -208,8 +202,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               <Button
                 type="submit"
                 disabled={
-                  !values['actionCardBatchIds'].length &&
-                  !values['checkedActionCardBatches'].length
+                  !values.actionCardBatchIds.length &&
+                  !values.checkedActionCardBatches.length
                 }
               >
                 {t('common.validate')}

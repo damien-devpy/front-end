@@ -60,12 +60,12 @@ const NewRoundModalForm = ({ handleSubmit }) => {
             <Form.Row>
               <Form.Group
                 as={Col}
-                className='d-flex justify-content-center'
-                controlId='validationFormik00'
+                className="d-flex justify-content-center"
+                controlId="validationFormik00"
               >
                 <Button
-                  className='mr-2'
-                  variant='secondary'
+                  className="mr-2"
+                  variant="secondary"
                   active={values.actionCardType === 'individual'}
                   onClick={() => {
                     setFieldValue('actionCardType', 'individual');
@@ -76,8 +76,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   {t('common.individualActions')}
                 </Button>
                 <Button
-                  className='mr-2'
-                  variant='secondary'
+                  className="mr-2"
+                  variant="secondary"
                   active={values.actionCardType === 'collective'}
                   onClick={() => {
                     setFieldValue('actionCardType', 'collective');
@@ -89,10 +89,10 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 </Button>
               </Form.Group>
             </Form.Row>
-            <Form.Row className='d-flex justify-content-center'>
+            <Form.Row className="d-flex justify-content-center">
               <Form.Group as={Col}>
-                <Form.Label className='mr-2'>{t('common.toYear')}</Form.Label>
-                <ButtonGroup className='mr-2'>
+                <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
+                <ButtonGroup className="mr-2">
                   <Button
                     onClick={() => {
                       values['targetedYear'] > currentYear + yearIncrement &&
@@ -113,8 +113,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 </ButtonGroup>
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label className='mr-2'>{t('common.budget')}</Form.Label>
-                <ButtonGroup className='mr-2'>
+                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
+                <ButtonGroup className="mr-2">
                   <Button
                     onClick={() => {
                       values['budget'] > 1 &&
@@ -136,16 +136,16 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId='validationFormik02'>
+              <Form.Group as={Col} controlId="validationFormik02">
                 <Form.Label>{t('common.batches')}</Form.Label>
-                <div key={`inline-checkbox`} className='mb-3'>
+                <div key={`inline-checkbox`} className="mb-3">
                   {Object.keys(values['batches']).map((batchId) => (
                     <Form.Check
                       checked={values['actionCardBatchIds'].includes(batchId)}
                       disabled={checkedActionCardsBatches.includes(batchId)}
                       inline
                       label={values['batches'][batchId].name}
-                      type='checkbox'
+                      type="checkbox"
                       id={batchId}
                       key={batchId}
                       onChange={() =>
@@ -166,17 +166,21 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     <Form.Group as={Col} sm="3" key={batchId}>
                       {values['batches'][batchId].actionCardIds.map(
                         (actionCardId) => (
-                          <ActionCardItemSimple key={actionCardId} text={actionCardsEntity[actionCardId].name} lot={batchId}/>
+                          <ActionCardItemSimple
+                            key={actionCardId}
+                            text={actionCardsEntity[actionCardId].name}
+                            lot={batchId}
+                          />
                         )
                       )}
                     </Form.Group>
                   )
               )}
             </Form.Row>
-            <Form.Row className='d-flex justify-content-end'>
+            <Form.Row className="d-flex justify-content-end">
               <Button
-                type='submit'
-                disabled={!values['actionCardBatchIds'].length}
+                type="submit"
+                // disabled={!values['actionCardBatchIds'].length}
               >
                 {t('common.validate')}
               </Button>

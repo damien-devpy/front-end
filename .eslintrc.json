@@ -10,6 +10,8 @@
   "plugins": ["sort-imports-es6-autofix"],
   "rules": {
     "jsx-a11y/href-no-hash": ["off"],
+    "react/prop-types": ["off"],
+    "no-shadow": ["warn"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "max-len": [
       "warn",

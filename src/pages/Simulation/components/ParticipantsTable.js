@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../../vars';
 
+import { COLORS } from '../../../vars';
 import { getNumberOfTakenActionCards } from '../../../selectors/workshopSelector';
 
 const ParticipantsTable = ({
@@ -11,7 +11,6 @@ const ParticipantsTable = ({
   individualActionCards,
   selectedParticipantId,
   handleSelect,
-  t,
 }) => {
   const ParticipantItemBadge = ({
     id,
@@ -27,7 +26,7 @@ const ParticipantsTable = ({
         value={id}
         className="m-1 pl-3 pr-3 p-1 btn-block rounded-pill"
         selected={selected}
-        onClick={(e) => {
+        onClick={() => {
           handleSelect(id);
         }}
       >

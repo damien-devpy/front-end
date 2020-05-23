@@ -47,10 +47,15 @@ export const selectCollectiveActionCards = (
       ]
     : [];
 
-export const selectCheckedActionCardsBatchesFromRounds = (roundsConfigEntity) =>
+export const selectCheckedActionCardsBatchesFromRounds = (
+  roundsConfigEntity,
+  actionCardType
+) =>
   Object.keys(roundsConfigEntity).reduce(
     (accumulator, roundConfigId) =>
-      roundsConfigEntity[roundConfigId].actionCardBatchIds
+      roundsConfigEntity[roundConfigId].actionCardBatchIds &&
+      (!actionCardType ||
+        actionCardType === roundsConfigEntity[roundConfigId].actionCardType)
         ? accumulator.concat(
             roundsConfigEntity[roundConfigId].actionCardBatchIds
           )
@@ -58,21 +63,31 @@ export const selectCheckedActionCardsBatchesFromRounds = (roundsConfigEntity) =>
     []
   );
 
+export const selectCheckedIndividualActionCardsBatchesFromRounds = (
+  roundsConfigEntity
+) =>
+  selectCheckedActionCardsBatchesFromRounds(roundsConfigEntity, 'individual');
+
+export const selectCheckedCollectiveActionCardsBatchesFromRounds = (
+  roundsConfigEntity
+) =>
+  selectCheckedActionCardsBatchesFromRounds(roundsConfigEntity, 'collective');
+
 export const selectNextRound = (workshop) => {
   const config = workshop.entities.roundsConfig[workshop.result.currentYear];
   return config ? config.targetedYear : null;
 };
 
-export const selectIndividualRoundIds = (roundsConfig) =>
-  Object.keys(roundsConfig).filter(
+export const selectIndividualRoundIds = (roundsConfigEntity) =>
+  Object.keys(roundsConfigEntity).filter(
     (roundConfigId) =>
-      roundsConfig[roundConfigId].actionCardType === 'individual'
+      roundsConfigEntity[roundConfigId].actionCardType === 'individual'
   );
 
-export const selectCollectiveRoundIds = (roundsConfig) =>
-  Object.keys(roundsConfig).filter(
+export const selectCollectiveRoundIds = (roundsConfigEntity) =>
+  Object.keys(roundsConfigEntity).filter(
     (roundConfigId) =>
-      roundsConfig[roundConfigId].actionCardType === 'collective'
+      roundsConfigEntity[roundConfigId].actionCardType === 'collective'
   );
 
 export const getNumberOfTakenActionCards = (

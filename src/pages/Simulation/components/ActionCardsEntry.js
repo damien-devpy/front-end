@@ -3,23 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 
-import { startOfToday } from 'date-fns';
 import {
   initRoundAndProcessModel,
   setCollectiveActions,
   setIndividualActionsForAllParticipants,
 } from '../../../actions/workshop';
 import {
+  makeYearParticipantKey,
+  toggleArrayItem,
+} from '../../../utils/helpers';
+import {
   selectCollectiveActionCards,
   selectCollectiveRoundIds,
   selectIndividualActionCardsFromParticipant,
   selectIndividualRoundIds,
-  selectNextRound } from '../../../selectors/workshopSelector';
-
-import {
-  makeYearParticipantKey,
-  toggleArrayItem,
-} from '../../../utils/helpers';
+  selectNextRound,
+} from '../../../selectors/workshopSelector';
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
 
@@ -142,14 +141,14 @@ const ActionCardsEntry = ({
     return result;
   };
 
-  const handleCardActionSelectionChange = (currentRound, participantId) => (
+  const handleCardActionSelectionChange = (round, participantId) => (
     actionCardId
   ) =>
     participantId
       ? setIndividualActionCards(
           toggleIndividualActionCardsIdsInMap(
             individualActionCards,
-            currentRound,
+            round,
             participantId,
             actionCardId
           )
@@ -157,7 +156,7 @@ const ActionCardsEntry = ({
       : setCollectiveActionCards(
           toggleCollectiveActionCardsIdsInMap(
             collectiveActionCards,
-            currentRound,
+            round,
             actionCardId
           )
         );

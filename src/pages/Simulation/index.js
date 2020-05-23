@@ -17,8 +17,9 @@ import IndividualActions from './components/IndividualActions';
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { workshop, isLoading, loadError } = useWorkshop();
-  console.log('workshop', workshop);
+  const { entities, result, isLoading, loadError } = useWorkshop(1);
+  console.log('entities', entities);
+  console.log('result', result);
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
@@ -37,11 +38,19 @@ const Simulation = () => {
     setShowEntryOfIndividualActions(false);
 
   const currentRound = useSelector(
-    (state) => state.workshop.result.currentYear
+    (state) => state.workshop.result && state.workshop.result.currentYear
   );
+  console.log('currentRound', currentRound);
+
   const footprintShaped = useSelector((state) =>
-    footprintDataToGraph(state.workshop.carbonInfo[currentRound])
+    footprintDataToGraph(
+      state.entities &&
+        state.entities.workshop &&
+        state.entities.workshop.carbonInfo,
+      currentRound
+    )
   );
+  console.log('footprintShaped', footprintShaped);
 
   return (
     <React.Fragment>

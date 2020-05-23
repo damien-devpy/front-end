@@ -1483,45 +1483,66 @@ export default {
         {
           participantId: 1,
           footprint: {
-            name: 'transport',
+            name: 'totalFootprint',
             children: [
-              { name: 'plane', cfKey: 'cf_plane', value: 750 },
               {
-                name: 'train',
-                children: [
-                  { name: 'urbanTrain', cfKey: 'cf_urban_train', value: null },
-                  {
-                    name: 'countryTrain',
-                    cfKey: 'cf_country_train',
-                    value: 20,
-                  },
-                ],
-              },
-              {
-                name: 'bus',
+                name: 'transports',
                 children: [
                   {
-                    name: 'coachCommute',
-                    cfKey: 'cf_coach_commute',
-                    value: 6.4,
-                  },
-                  { name: 'coachTravel', cfKey: 'cf_coach_travel', value: 40 },
-                ],
-              },
-              {
-                name: 'car',
-                children: [
-                  {
-                    name: 'dailyCommutes',
-                    cfKey: 'cf_car_commute',
-                    value: 26.62600601514667,
+                    name: 'plane',
+                    cfKey: 'cf_plane',
+                    value: 750,
                   },
                   {
-                    name: 'exceptionalCommutes',
-                    cfKey: 'cf_car_travel',
-                    value: 583.5836934826667,
+                    name: 'train',
+                    children: [
+                      {
+                        name: 'urbanTrain',
+                        cfKey: 'cf_urban_train',
+                        value: 39,
+                      },
+                      {
+                        name: 'countryTrain',
+                        cfKey: 'cf_country_train',
+                        value: 20,
+                      },
+                    ],
+                    value: 59,
+                  },
+                  {
+                    name: 'bus',
+                    children: [
+                      {
+                        name: 'coachCommute',
+                        cfKey: 'cf_coach_commute',
+                        value: 6.4,
+                      },
+                      {
+                        name: 'coachTravel',
+                        cfKey: 'cf_coach_travel',
+                        value: 40,
+                      },
+                    ],
+                    value: 46.4,
+                  },
+                  {
+                    name: 'car',
+                    children: [
+                      {
+                        name: 'dailyCommutes',
+                        cfKey: 'cf_car_commute',
+                        value: 53.25201203029334,
+                      },
+                      {
+                        name: 'exceptionalCommutes',
+                        cfKey: 'cf_car_travel',
+                        value: 583.5836934826667,
+                      },
+                    ],
+                    value: 636.8357055129601,
                   },
                 ],
+                value: 1492.23570551296,
               },
               {
                 name: 'housing',
@@ -1543,6 +1564,7 @@ export default {
                             value: 54.36666666666667,
                           },
                         ],
+                        value: 101.03333333333333,
                       },
                       {
                         name: 'furnitures',
@@ -1558,8 +1580,10 @@ export default {
                             value: 73.4044444,
                           },
                         ],
+                        value: 152.4044444,
                       },
                     ],
+                    value: 253.43777773333332,
                   },
                   {
                     name: 'constructionAndMaintenance',
@@ -1578,6 +1602,7 @@ export default {
                             value: 0,
                           },
                         ],
+                        value: 283.34,
                       },
                       {
                         name: 'construction',
@@ -1585,11 +1610,16 @@ export default {
                         value: 13.88,
                       },
                     ],
+                    value: 297.21999999999997,
                   },
                   {
                     name: 'energies',
                     children: [
-                      { name: 'water', cfKey: 'cf_water', value: 9.07536 },
+                      {
+                        name: 'water',
+                        cfKey: 'cf_water',
+                        value: 9.07536,
+                      },
                       {
                         name: 'electricity',
                         children: [
@@ -1614,6 +1644,7 @@ export default {
                             value: 1.3,
                           },
                         ],
+                        value: 5.2,
                       },
                       {
                         name: 'gas',
@@ -1634,6 +1665,7 @@ export default {
                             value: 22.7,
                           },
                         ],
+                        value: 68.1,
                       },
                       {
                         name: 'fuel',
@@ -1654,6 +1686,7 @@ export default {
                             value: 32.300000000000004,
                           },
                         ],
+                        value: 96.9,
                       },
                       {
                         name: 'wood',
@@ -1674,6 +1707,7 @@ export default {
                             value: 3,
                           },
                         ],
+                        value: 9,
                       },
                       {
                         name: 'districtHeating',
@@ -1681,8 +1715,10 @@ export default {
                         value: 0,
                       },
                     ],
+                    value: 188.27536,
                   },
                 ],
+                value: 738.9331377333333,
               },
               {
                 name: 'food',
@@ -1706,6 +1742,7 @@ export default {
                         value: 214.61999999999998,
                       },
                     ],
+                    value: 555.895,
                   },
                   {
                     name: 'meatAndFish',
@@ -1744,15 +1781,22 @@ export default {
                             value: 332.29600000000005,
                           },
                         ],
+                        value: 370.8660714285715,
                       },
                     ],
+                    value: 813.6996071428573,
                   },
                 ],
+                value: 1794.126107142857,
               },
               {
                 name: 'others',
                 children: [
-                  { name: 'clothing', cfKey: 'cf_clothes', value: 671.4 },
+                  {
+                    name: 'clothing',
+                    cfKey: 'cf_clothes',
+                    value: 671.4,
+                  },
                   {
                     name: 'digital',
                     children: [
@@ -1770,6 +1814,7 @@ export default {
                             value: 143.39999999999998,
                           },
                         ],
+                        value: 168.39999999999998,
                       },
                       {
                         name: 'internetUsage',
@@ -1785,8 +1830,10 @@ export default {
                             value: 48.66,
                           },
                         ],
+                        value: 81.16,
                       },
                     ],
+                    value: 249.55999999999997,
                   },
                   {
                     name: 'others',
@@ -1810,6 +1857,7 @@ export default {
                             value: 1.98,
                           },
                         ],
+                        value: 52.38,
                       },
                       {
                         name: 'goodsAndServices',
@@ -1830,10 +1878,13 @@ export default {
                             value: 211.92,
                           },
                         ],
+                        value: 344.99,
                       },
                     ],
+                    value: 397.37,
                   },
                 ],
+                value: 1318.33,
               },
               {
                 name: 'publicServices',
@@ -1854,52 +1905,75 @@ export default {
                     value: 363,
                   },
                 ],
+                value: 1000,
               },
             ],
+            value: 6343.62495038915,
           },
         },
         {
           participantId: 2,
           footprint: {
-            name: 'transport',
+            name: 'totalFootprint',
             children: [
-              { name: 'plane', cfKey: 'cf_plane', value: 750 },
               {
-                name: 'train',
-                children: [
-                  { name: 'urbanTrain', cfKey: 'cf_urban_train', value: null },
-                  {
-                    name: 'countryTrain',
-                    cfKey: 'cf_country_train',
-                    value: 20,
-                  },
-                ],
-              },
-              {
-                name: 'bus',
+                name: 'transports',
                 children: [
                   {
-                    name: 'coachCommute',
-                    cfKey: 'cf_coach_commute',
-                    value: 6.4,
-                  },
-                  { name: 'coachTravel', cfKey: 'cf_coach_travel', value: 40 },
-                ],
-              },
-              {
-                name: 'car',
-                children: [
-                  {
-                    name: 'dailyCommutes',
-                    cfKey: 'cf_car_commute',
-                    value: 26.62600601514667,
+                    name: 'plane',
+                    cfKey: 'cf_plane',
+                    value: 750,
                   },
                   {
-                    name: 'exceptionalCommutes',
-                    cfKey: 'cf_car_travel',
-                    value: 583.5836934826667,
+                    name: 'train',
+                    children: [
+                      {
+                        name: 'urbanTrain',
+                        cfKey: 'cf_urban_train',
+                        value: 39,
+                      },
+                      {
+                        name: 'countryTrain',
+                        cfKey: 'cf_country_train',
+                        value: 20,
+                      },
+                    ],
+                    value: 59,
+                  },
+                  {
+                    name: 'bus',
+                    children: [
+                      {
+                        name: 'coachCommute',
+                        cfKey: 'cf_coach_commute',
+                        value: 6.4,
+                      },
+                      {
+                        name: 'coachTravel',
+                        cfKey: 'cf_coach_travel',
+                        value: 40,
+                      },
+                    ],
+                    value: 46.4,
+                  },
+                  {
+                    name: 'car',
+                    children: [
+                      {
+                        name: 'dailyCommutes',
+                        cfKey: 'cf_car_commute',
+                        value: 53.25201203029334,
+                      },
+                      {
+                        name: 'exceptionalCommutes',
+                        cfKey: 'cf_car_travel',
+                        value: 583.5836934826667,
+                      },
+                    ],
+                    value: 636.8357055129601,
                   },
                 ],
+                value: 1492.23570551296,
               },
               {
                 name: 'housing',
@@ -1921,6 +1995,7 @@ export default {
                             value: 54.36666666666667,
                           },
                         ],
+                        value: 101.03333333333333,
                       },
                       {
                         name: 'furnitures',
@@ -1936,8 +2011,10 @@ export default {
                             value: 73.4044444,
                           },
                         ],
+                        value: 152.4044444,
                       },
                     ],
+                    value: 253.43777773333332,
                   },
                   {
                     name: 'constructionAndMaintenance',
@@ -1956,6 +2033,7 @@ export default {
                             value: 0,
                           },
                         ],
+                        value: 283.34,
                       },
                       {
                         name: 'construction',
@@ -1963,11 +2041,16 @@ export default {
                         value: 13.88,
                       },
                     ],
+                    value: 297.21999999999997,
                   },
                   {
                     name: 'energies',
                     children: [
-                      { name: 'water', cfKey: 'cf_water', value: 9.07536 },
+                      {
+                        name: 'water',
+                        cfKey: 'cf_water',
+                        value: 9.07536,
+                      },
                       {
                         name: 'electricity',
                         children: [
@@ -1992,6 +2075,7 @@ export default {
                             value: 1.3,
                           },
                         ],
+                        value: 5.2,
                       },
                       {
                         name: 'gas',
@@ -2012,6 +2096,7 @@ export default {
                             value: 22.7,
                           },
                         ],
+                        value: 68.1,
                       },
                       {
                         name: 'fuel',
@@ -2032,6 +2117,7 @@ export default {
                             value: 32.300000000000004,
                           },
                         ],
+                        value: 96.9,
                       },
                       {
                         name: 'wood',
@@ -2052,6 +2138,7 @@ export default {
                             value: 3,
                           },
                         ],
+                        value: 9,
                       },
                       {
                         name: 'districtHeating',
@@ -2059,8 +2146,10 @@ export default {
                         value: 0,
                       },
                     ],
+                    value: 188.27536,
                   },
                 ],
+                value: 738.9331377333333,
               },
               {
                 name: 'food',
@@ -2084,6 +2173,7 @@ export default {
                         value: 214.61999999999998,
                       },
                     ],
+                    value: 555.895,
                   },
                   {
                     name: 'meatAndFish',
@@ -2122,15 +2212,22 @@ export default {
                             value: 332.29600000000005,
                           },
                         ],
+                        value: 370.8660714285715,
                       },
                     ],
+                    value: 813.6996071428573,
                   },
                 ],
+                value: 1794.126107142857,
               },
               {
                 name: 'others',
                 children: [
-                  { name: 'clothing', cfKey: 'cf_clothes', value: 671.4 },
+                  {
+                    name: 'clothing',
+                    cfKey: 'cf_clothes',
+                    value: 671.4,
+                  },
                   {
                     name: 'digital',
                     children: [
@@ -2148,6 +2245,7 @@ export default {
                             value: 143.39999999999998,
                           },
                         ],
+                        value: 168.39999999999998,
                       },
                       {
                         name: 'internetUsage',
@@ -2163,8 +2261,10 @@ export default {
                             value: 48.66,
                           },
                         ],
+                        value: 81.16,
                       },
                     ],
+                    value: 249.55999999999997,
                   },
                   {
                     name: 'others',
@@ -2188,6 +2288,7 @@ export default {
                             value: 1.98,
                           },
                         ],
+                        value: 52.38,
                       },
                       {
                         name: 'goodsAndServices',
@@ -2208,10 +2309,13 @@ export default {
                             value: 211.92,
                           },
                         ],
+                        value: 344.99,
                       },
                     ],
+                    value: 397.37,
                   },
                 ],
+                value: 1318.33,
               },
               {
                 name: 'publicServices',
@@ -2232,8 +2336,10 @@ export default {
                     value: 363,
                   },
                 ],
+                value: 1000,
               },
             ],
+            value: 6343.62495038915,
           },
         },
       ],

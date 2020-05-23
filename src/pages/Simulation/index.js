@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import footprintData from '../../utils/mocks/footprintData';
-import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import {
+  footprintDataToGraph,
+  currentRound,
+} from '../../selectors/footprintSelectors';
 import './components/simulationPage.css';
 import { useWorkshop } from '../../hooks/workshop';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
 import FootprintGraph from './components/FootprintGraph';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import CommonModal from '../../components/CommonModal';
-import { startRound } from '../../actions/workshop';
+import { startRound, retrieveWorkshop } from '../../actions/workshop';
 import NewRoundModalForm from './components/NewRoundModalForm';
 import IndividualActions from './components/IndividualActions';
+
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const { workshop, isLoading, loadError } = useWorkshop();
   console.log('workshop', workshop);
   // NewRoundModal
@@ -35,13 +40,14 @@ const Simulation = () => {
   ] = useState(false);
   const handleCloseEntryOfIndividualActions = () =>
     setShowEntryOfIndividualActions(false);
-
-  const currentRound = useSelector(
-    (state) => state.workshop.result.currentYear
-  );
-  const footprintShaped = useSelector((state) =>
-    footprintDataToGraph(state.workshop.carbonInfo[currentRound])
-  );
+  // const currentRound = useSelector(
+  //   (state) => state.workshop.result.currentYear
+  // );
+  // const footprintShaped = useSelector((state) =>
+  //   footprintDataToGraph(
+  //     state.workshop.entities.carbonFootprints['2020-1'].footprint
+  //   )
+  // );
 
   return (
     <React.Fragment>
@@ -119,25 +125,24 @@ const StyledHeader = styled.div`
 `;
 // const currentRound = "2020-1";
 //
-const footprintShaped = footprintDataToGraph(footprintData);
-// const footprintShaped = [
-//   { sector: "Transport", plane: 750, train: 59, bus: 150, car: 600 },
-//   {
-//     sector: "Logement",
-//     housingEquipment: 500,
-//     constructionAndMaintenance: 300,
-//     energies: 216,
-//   },
-//   {
-//     sector: "Alimentation",
-//     drinks: 700,
-//     meatAndFish: 352.86375,
-//     eggsAndDairies: 71.66775,
-//     others_alim: 600,
-//   },
-//   { sector: "Autres", clothing: 671.4, digital: 250, others_conso: 400 },
-//   { sector: "Services Publics", publicServices: 1000 },
-// ];
+const footprintShaped = [
+  { sector: 'Transport', plane: 750, train: 59, bus: 150, car: 600 },
+  {
+    sector: 'Logement',
+    housingEquipment: 500,
+    constructionAndMaintenance: 300,
+    energies: 216,
+  },
+  {
+    sector: 'Alimentation',
+    drinks: 700,
+    meatAndFish: 352.86375,
+    eggsAndDairies: 71.66775,
+    others_alim: 600,
+  },
+  { sector: 'Autres', clothing: 671.4, digital: 250, others_conso: 400 },
+  { sector: 'Services Publics', publicServices: 1000 },
+];
 
 const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 const sum = (obj) =>

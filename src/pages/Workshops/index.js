@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { useWorkshops } from "../../hooks/workshops";
-import { addWorkshop, deleteWorkshop } from "../../actions/workshops";
-import { useDispatch } from "react-redux";
-import WorkshopTable from "./components/WorkshopTable";
-import WorkshopModal from "./components/WorkshopModal";
-import { COLORS } from "../../vars";
-import { useTranslation } from "react-i18next";
-import { Button, Spinner, Container, Card } from "react-bootstrap";
-import NavbarHome from "../../components/NavbarHome";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useWorkshops } from '../../hooks/workshops';
+import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
+import { useDispatch } from 'react-redux';
+import WorkshopTable from './components/WorkshopTable';
+import WorkshopModal from './components/WorkshopModal';
+import { COLORS } from '../../vars';
+import { useTranslation } from 'react-i18next';
+import { Button, Spinner, Container, Card } from 'react-bootstrap';
+import NavbarHome from '../../components/NavbarHome';
 const Workshops = () => {
   const { t } = useTranslation();
   const { workshops, isLoading, loadError } = useWorkshops();
@@ -17,11 +17,11 @@ const Workshops = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleSubmit = values => {
+  const handleSubmit = (values) => {
     dispatch(addWorkshop(values));
     setShow(false);
   };
-  const handleDelete = workshopKey => {
+  const handleDelete = (workshopKey) => {
     dispatch(deleteWorkshop(workshopKey));
   };
 
@@ -34,16 +34,16 @@ const Workshops = () => {
           style={{ borderRadius: 10 }}
         >
           <StyledHeader>
-            <h2>{t("common.workshops")}</h2>
+            <h2>{t('common.workshops')}</h2>
             {!isLoading && (
               <StyledButton variant="secondary" onClick={handleShow}>
-                {t("common.addAWorkshop")}
+                {t('common.addAWorkshop')}
               </StyledButton>
             )}
           </StyledHeader>
           <hr style={{ margin: 0 }} />
 
-          {loadError && <p>{t("common.loadError")}</p>}
+          {loadError && <p>{t('common.loadError')}</p>}
           {isLoading && (
             <Spinner animation="border" className="pt-3 mx-auto mt-5" />
           )}

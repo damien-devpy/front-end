@@ -13,6 +13,14 @@ export const COMPUTE_CARBON_VARIABLES = 'COMPUTE_CARBON_VARIABLES';
 export const APPLY_INDIVIDUAL_ACTIONS = 'APPLY_INDIVIDUAL_ACTIONS';
 export const APPLY_COLLECTIVE_ACTIONS = 'APPLY_COLLECTIVE_ACTIONS';
 export const COMPUTE_FOOTPRINTS = 'COMPUTE_FOOTPRINTS';
+export const INIT_ROUND = 'INIT_ROUND';
+export const SET_ACTIONS_FOR_CITIZENS = 'SET_ACTIONS_FOR_CITIZENS';
+export const COMPUTE_FOOTPRINTS_FOR_CITIZENS =
+  'COMPUTE_FOOTPRINTS_FOR_CITIZENS';
+export const APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS =
+  'APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS';
+export const APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS =
+  'APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS';
 
 export const initWorkshop = (year) => ({
   type: INIT_WORKSHOP,
@@ -61,6 +69,11 @@ export const workshopLoadError = (error) => ({
   payload: error,
 });
 
+export const initRound = (year) => ({
+  type: INIT_ROUND,
+  payload: { year },
+});
+
 export const computeCarbonVariables = (participantId) => ({
   type: COMPUTE_CARBON_VARIABLES,
   payload: { participantId },
@@ -80,3 +93,36 @@ export const computeFootprints = (year) => ({
   type: COMPUTE_FOOTPRINTS,
   payload: { year },
 });
+
+export const setActionsForCitizens = (year) => ({
+  type: SET_ACTIONS_FOR_CITIZENS,
+  payload: { year },
+});
+
+export const computeFootprintsForCitizen = (year) => ({
+  type: COMPUTE_FOOTPRINTS_FOR_CITIZENS,
+  payload: { year },
+});
+
+export const applyIndivdualActionsForCitizens = (year) => ({
+  type: APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS,
+  payload: { year },
+});
+
+export const applyCollectiveActionsForCitizens = (year) => ({
+  type: APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS,
+  payload: { year },
+});
+
+export const initRoundAndProcessModel = (yearFrom, yearTo) => {
+  return (dispatch) => {
+    dispatch(initRound(yearTo));
+    dispatch(applyIndividualActions(yearFrom));
+    dispatch(applyCollectiveActions(yearFrom));
+    dispatch(setActionsForCitizens(yearTo));
+    dispatch(applyIndivdualActionsForCitizens(yearTo));
+    dispatch(applyCollectiveActionsForCitizens(yearTo));
+    dispatch(computeFootprints(yearTo));
+    dispatch(computeFootprintsForCitizen(yearTo));
+  };
+};

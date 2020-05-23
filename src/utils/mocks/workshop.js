@@ -14,349 +14,350 @@ export default {
   model: {
     footprintStructure: {
       name: 'totalFootprint',
-      children: [{
-        name: 'transports',
-        children: [
-          {
-            name: 'plane',
-            cfKey: 'cf_plane',
-          },
-          {
-            name: 'train',
-            children: [
-              {
-                name: 'urbanTrain',
-                cfKey: 'cf_urban_train',
-              },
-              {
-                name: 'countryTrain',
-                cfKey: 'cf_country_train',
-              },
-            ],
-          },
-          {
-            name: 'bus',
-            children: [
-              {
-                name: 'coachCommute',
-                cfKey: 'cf_coach_commute',
-              },
-              {
-                name: 'coachTravel',
-                cfKey: 'cf_coach_travel',
-              },
-            ],
-          },
-          {
-            name: 'car',
-            children: [
-              {
-                name: 'dailyCommutes',
-                cfKey: 'cf_car_commute',
-              },
-              {
-                name: 'exceptionalCommutes',
-                cfKey: 'cf_car_travel',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'housing',
-        children: [
-          {
-            name: 'housingEquipment',
-            children: [
-              {
-                name: 'appliances',
-                children: [
-                  {
-                    name: 'smallAppliances',
-                    cfKey: 'cf_small_appliances',
-                  },
-                  {
-                    name: 'bigApplicances',
-                    cfKey: 'cf_big_appliances',
-                  },
-                ],
-              },
-              {
-                name: 'furnitures',
-                children: [
-                  {
-                    name: 'furnituresPerSurface',
-                    cfKey: 'cf_furnitures',
-                  },
-                  {
-                    name: 'furnituresMin',
-                    cfKey: 'cf_furnitures_min',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            name: 'constructionAndMaintenance',
-            children: [
-              {
-                name: 'construction',
-                children: [
-                  {
-                    name: 'houseConstruction',
-                    cfKey: 'cf_house_construction',
-                  },
-                  {
-                    name: 'flatConstruction',
-                    cfKey: 'cf_flat_construction',
-                  },
-                ],
-              },
-              {
-                name: 'construction',
-                cfKey: 'cf_maintenance',
-              },
-            ],
-          },
-          {
-            name: 'energies',
-            children: [
-              {
-                name: 'water',
-                cfKey: 'cf_water',
-              },
-              {
-                name: 'electricity',
-                children: [
-                  {
-                    name: 'elecHeating',
-                    cfKey: 'cf_elec_heating',
-                  },
-                  {
-                    name: 'elecCooking',
-                    cfKey: 'cf_elec_cooking',
-                  },
-                  {
-                    name: 'elecWaterHeating',
-                    cfKey: 'cf_elec_water_heating',
-                  },
-                  {
-                    name: 'elecLightning',
-                    cfKey: 'cf_elec_lightning',
-                  },
-                ],
-              },
-              {
-                name: 'gas',
-                children: [
-                  {
-                    name: 'gasHeating',
-                    cfKey: 'cf_gas_heating',
-                  },
-                  {
-                    name: 'gasCooking',
-                    cfKey: 'cf_gas_cooking',
-                  },
-                  {
-                    name: 'gasWaterHeating',
-                    cfKey: 'cf_gas_water_heating',
-                  },
-                ],
-              },
-              {
-                name: 'fuel',
-                children: [
-                  {
-                    name: 'fuelHeating',
-                    cfKey: 'cf_fuel_heating',
-                  },
-                  {
-                    name: 'fuelCooking',
-                    cfKey: 'cf_fuel_cooking',
-                  },
-                  {
-                    name: 'fuelWaterHeating',
-                    cfKey: 'cf_fuel_water_heating',
-                  },
-                ],
-              },
-              {
-                name: 'wood',
-                children: [
-                  {
-                    name: 'woodHeating',
-                    cfKey: 'cf_wood_heating',
-                  },
-                  {
-                    name: 'woodCooking',
-                    cfKey: 'cf_wood_cooking',
-                  },
-                  {
-                    name: 'woodWaterHeating',
-                    cfKey: 'cf_wood_water_heating',
-                  },
-                ],
-              },
-              {
-                name: 'districtHeating',
-                cfKey: 'cf_district_heating',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'food',
-        children: [
-          {
-            name: 'drinks',
-            children: [
-              {
-                name: 'alcohol',
-                cfKey: 'cf_alcohol',
-              },
-              {
-                name: 'hotDrinks',
-                cfKey: 'cf_hot_drinks',
-              },
-              {
-                name: 'juicesAndSoda',
-                cfKey: 'cf_juices_and_sodas',
-              },
-            ],
-          },
-          {
-            name: 'meatAndFish',
-            cfKey: 'cf_meat_and_fish',
-          },
-          {
-            name: 'eggsAndDairies',
-            cfKey: 'cf_eggs_and_dairies',
-          },
-          {
-            name: 'others',
-            children: [
-              {
-                name: 'transformedProducts',
-                cfKey: 'cf_transformed_products',
-              },
-              {
-                name: 'groceriesAndStarches',
-                cfKey: 'cf_starches_and_groceries',
-              },
-              {
-                name: 'fruitsAndVegetables',
-                children: [
-                  {
-                    name: 'localFruitsAndVegeteables',
-                    cfKey: 'cf_local_fruits_and_vegetables',
-                  },
-                  {
-                    name: 'importedFruitsAndVegeteables',
-                    cfKey: 'cf_imported_fruits_and_vegetables',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'others',
-        children: [
-          {
-            name: 'clothing',
-            cfKey: 'cf_clothes',
-          },
-          {
-            name: 'digital',
-            children: [
-              {
-                name: 'devices',
-                children: [
-                  {
-                    name: 'smallDevices',
-                    cfKey: 'cf_small_devices_cradle_to_crate',
-                  },
-                  {
-                    name: 'bigDevices',
-                    cfKey: 'cf_big_devices_cradle_to_crate',
-                  },
-                ],
-              },
-              {
-                name: 'internetUsage',
-                children: [
-                  {
-                    name: 'internetStreaming',
-                    cfKey: 'cf_internet_streaming',
-                  },
-                  {
-                    name: 'internetOthers',
-                    cfKey: 'cf_internet_others',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            name: 'others',
-            children: [
-              {
-                name: 'activities',
-                children: [
-                  {
-                    name: 'activitiesElectricity',
-                    cfKey: 'cf_activities_electricity',
-                  },
-                  {
-                    name: 'activitiesGas',
-                    cfKey: 'cf_activities_gas',
-                  },
-                  {
-                    name: 'activitiesWithoutEnergy',
-                    cfKey: 'cf_activities_without_energy',
-                  },
-                ],
-              },
-              {
-                name: 'goodsAndServices',
-                children: [
-                  {
-                    name: 'servicesElectricity',
-                    cfKey: 'cf_services_electricity',
-                  },
-                  {
-                    name: 'servicesGas',
-                    cfKey: 'cf_services_gas',
-                  },
-                  {
-                    name: 'servicesWithoutEnergy',
-                    cfKey: 'cf_services_without_energy',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'publicServices',
-        children: [
-          {
-            name: 'gasPublicServices',
-            cfKey: 'cf_gas_public_services',
-          },
-          {
-            name: 'elecPublicServices',
-            cfKey: 'cf_elec_public_services',
-          },
-          {
-            name: 'otherPublicServices',
-            cfKey: 'cf_other_public_services',
-          },
-        ],
-      },
+      children: [
+        {
+          name: 'transports',
+          children: [
+            {
+              name: 'plane',
+              cfKey: 'cf_plane',
+            },
+            {
+              name: 'train',
+              children: [
+                {
+                  name: 'urbanTrain',
+                  cfKey: 'cf_urban_train',
+                },
+                {
+                  name: 'countryTrain',
+                  cfKey: 'cf_country_train',
+                },
+              ],
+            },
+            {
+              name: 'bus',
+              children: [
+                {
+                  name: 'coachCommute',
+                  cfKey: 'cf_coach_commute',
+                },
+                {
+                  name: 'coachTravel',
+                  cfKey: 'cf_coach_travel',
+                },
+              ],
+            },
+            {
+              name: 'car',
+              children: [
+                {
+                  name: 'dailyCommutes',
+                  cfKey: 'cf_car_commute',
+                },
+                {
+                  name: 'exceptionalCommutes',
+                  cfKey: 'cf_car_travel',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'housing',
+          children: [
+            {
+              name: 'housingEquipment',
+              children: [
+                {
+                  name: 'appliances',
+                  children: [
+                    {
+                      name: 'smallAppliances',
+                      cfKey: 'cf_small_appliances',
+                    },
+                    {
+                      name: 'bigApplicances',
+                      cfKey: 'cf_big_appliances',
+                    },
+                  ],
+                },
+                {
+                  name: 'furnitures',
+                  children: [
+                    {
+                      name: 'furnituresPerSurface',
+                      cfKey: 'cf_furnitures',
+                    },
+                    {
+                      name: 'furnituresMin',
+                      cfKey: 'cf_furnitures_min',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'constructionAndMaintenance',
+              children: [
+                {
+                  name: 'construction',
+                  children: [
+                    {
+                      name: 'houseConstruction',
+                      cfKey: 'cf_house_construction',
+                    },
+                    {
+                      name: 'flatConstruction',
+                      cfKey: 'cf_flat_construction',
+                    },
+                  ],
+                },
+                {
+                  name: 'construction',
+                  cfKey: 'cf_maintenance',
+                },
+              ],
+            },
+            {
+              name: 'energies',
+              children: [
+                {
+                  name: 'water',
+                  cfKey: 'cf_water',
+                },
+                {
+                  name: 'electricity',
+                  children: [
+                    {
+                      name: 'elecHeating',
+                      cfKey: 'cf_elec_heating',
+                    },
+                    {
+                      name: 'elecCooking',
+                      cfKey: 'cf_elec_cooking',
+                    },
+                    {
+                      name: 'elecWaterHeating',
+                      cfKey: 'cf_elec_water_heating',
+                    },
+                    {
+                      name: 'elecLightning',
+                      cfKey: 'cf_elec_lightning',
+                    },
+                  ],
+                },
+                {
+                  name: 'gas',
+                  children: [
+                    {
+                      name: 'gasHeating',
+                      cfKey: 'cf_gas_heating',
+                    },
+                    {
+                      name: 'gasCooking',
+                      cfKey: 'cf_gas_cooking',
+                    },
+                    {
+                      name: 'gasWaterHeating',
+                      cfKey: 'cf_gas_water_heating',
+                    },
+                  ],
+                },
+                {
+                  name: 'fuel',
+                  children: [
+                    {
+                      name: 'fuelHeating',
+                      cfKey: 'cf_fuel_heating',
+                    },
+                    {
+                      name: 'fuelCooking',
+                      cfKey: 'cf_fuel_cooking',
+                    },
+                    {
+                      name: 'fuelWaterHeating',
+                      cfKey: 'cf_fuel_water_heating',
+                    },
+                  ],
+                },
+                {
+                  name: 'wood',
+                  children: [
+                    {
+                      name: 'woodHeating',
+                      cfKey: 'cf_wood_heating',
+                    },
+                    {
+                      name: 'woodCooking',
+                      cfKey: 'cf_wood_cooking',
+                    },
+                    {
+                      name: 'woodWaterHeating',
+                      cfKey: 'cf_wood_water_heating',
+                    },
+                  ],
+                },
+                {
+                  name: 'districtHeating',
+                  cfKey: 'cf_district_heating',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'food',
+          children: [
+            {
+              name: 'drinks',
+              children: [
+                {
+                  name: 'alcohol',
+                  cfKey: 'cf_alcohol',
+                },
+                {
+                  name: 'hotDrinks',
+                  cfKey: 'cf_hot_drinks',
+                },
+                {
+                  name: 'juicesAndSoda',
+                  cfKey: 'cf_juices_and_sodas',
+                },
+              ],
+            },
+            {
+              name: 'meatAndFish',
+              cfKey: 'cf_meat_and_fish',
+            },
+            {
+              name: 'eggsAndDairies',
+              cfKey: 'cf_eggs_and_dairies',
+            },
+            {
+              name: 'others',
+              children: [
+                {
+                  name: 'transformedProducts',
+                  cfKey: 'cf_transformed_products',
+                },
+                {
+                  name: 'groceriesAndStarches',
+                  cfKey: 'cf_starches_and_groceries',
+                },
+                {
+                  name: 'fruitsAndVegetables',
+                  children: [
+                    {
+                      name: 'localFruitsAndVegeteables',
+                      cfKey: 'cf_local_fruits_and_vegetables',
+                    },
+                    {
+                      name: 'importedFruitsAndVegeteables',
+                      cfKey: 'cf_imported_fruits_and_vegetables',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'others',
+          children: [
+            {
+              name: 'clothing',
+              cfKey: 'cf_clothes',
+            },
+            {
+              name: 'digital',
+              children: [
+                {
+                  name: 'devices',
+                  children: [
+                    {
+                      name: 'smallDevices',
+                      cfKey: 'cf_small_devices_cradle_to_crate',
+                    },
+                    {
+                      name: 'bigDevices',
+                      cfKey: 'cf_big_devices_cradle_to_crate',
+                    },
+                  ],
+                },
+                {
+                  name: 'internetUsage',
+                  children: [
+                    {
+                      name: 'internetStreaming',
+                      cfKey: 'cf_internet_streaming',
+                    },
+                    {
+                      name: 'internetOthers',
+                      cfKey: 'cf_internet_others',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'others',
+              children: [
+                {
+                  name: 'activities',
+                  children: [
+                    {
+                      name: 'activitiesElectricity',
+                      cfKey: 'cf_activities_electricity',
+                    },
+                    {
+                      name: 'activitiesGas',
+                      cfKey: 'cf_activities_gas',
+                    },
+                    {
+                      name: 'activitiesWithoutEnergy',
+                      cfKey: 'cf_activities_without_energy',
+                    },
+                  ],
+                },
+                {
+                  name: 'goodsAndServices',
+                  children: [
+                    {
+                      name: 'servicesElectricity',
+                      cfKey: 'cf_services_electricity',
+                    },
+                    {
+                      name: 'servicesGas',
+                      cfKey: 'cf_services_gas',
+                    },
+                    {
+                      name: 'servicesWithoutEnergy',
+                      cfKey: 'cf_services_without_energy',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'publicServices',
+          children: [
+            {
+              name: 'gasPublicServices',
+              cfKey: 'cf_gas_public_services',
+            },
+            {
+              name: 'elecPublicServices',
+              cfKey: 'cf_elec_public_services',
+            },
+            {
+              name: 'otherPublicServices',
+              cfKey: 'cf_other_public_services',
+            },
+          ],
+        },
       ],
     },
     variableFormulas: {
@@ -1482,45 +1483,66 @@ export default {
         {
           participantId: 1,
           footprint: {
-            name: 'transport',
+            name: 'totalFootprint',
             children: [
-              { name: 'plane', cfKey: 'cf_plane', value: 750 },
               {
-                name: 'train',
-                children: [
-                  { name: 'urbanTrain', cfKey: 'cf_urban_train', value: null },
-                  {
-                    name: 'countryTrain',
-                    cfKey: 'cf_country_train',
-                    value: 20,
-                  },
-                ],
-              },
-              {
-                name: 'bus',
+                name: 'transports',
                 children: [
                   {
-                    name: 'coachCommute',
-                    cfKey: 'cf_coach_commute',
-                    value: 6.4,
-                  },
-                  { name: 'coachTravel', cfKey: 'cf_coach_travel', value: 40 },
-                ],
-              },
-              {
-                name: 'car',
-                children: [
-                  {
-                    name: 'dailyCommutes',
-                    cfKey: 'cf_car_commute',
-                    value: 26.62600601514667,
+                    name: 'plane',
+                    cfKey: 'cf_plane',
+                    value: 750,
                   },
                   {
-                    name: 'exceptionalCommutes',
-                    cfKey: 'cf_car_travel',
-                    value: 583.5836934826667,
+                    name: 'train',
+                    children: [
+                      {
+                        name: 'urbanTrain',
+                        cfKey: 'cf_urban_train',
+                        value: 39,
+                      },
+                      {
+                        name: 'countryTrain',
+                        cfKey: 'cf_country_train',
+                        value: 20,
+                      },
+                    ],
+                    value: 59,
+                  },
+                  {
+                    name: 'bus',
+                    children: [
+                      {
+                        name: 'coachCommute',
+                        cfKey: 'cf_coach_commute',
+                        value: 6.4,
+                      },
+                      {
+                        name: 'coachTravel',
+                        cfKey: 'cf_coach_travel',
+                        value: 40,
+                      },
+                    ],
+                    value: 46.4,
+                  },
+                  {
+                    name: 'car',
+                    children: [
+                      {
+                        name: 'dailyCommutes',
+                        cfKey: 'cf_car_commute',
+                        value: 53.25201203029334,
+                      },
+                      {
+                        name: 'exceptionalCommutes',
+                        cfKey: 'cf_car_travel',
+                        value: 583.5836934826667,
+                      },
+                    ],
+                    value: 636.8357055129601,
                   },
                 ],
+                value: 1492.23570551296,
               },
               {
                 name: 'housing',
@@ -1542,6 +1564,7 @@ export default {
                             value: 54.36666666666667,
                           },
                         ],
+                        value: 101.03333333333333,
                       },
                       {
                         name: 'furnitures',
@@ -1557,8 +1580,10 @@ export default {
                             value: 73.4044444,
                           },
                         ],
+                        value: 152.4044444,
                       },
                     ],
+                    value: 253.43777773333332,
                   },
                   {
                     name: 'constructionAndMaintenance',
@@ -1577,6 +1602,7 @@ export default {
                             value: 0,
                           },
                         ],
+                        value: 283.34,
                       },
                       {
                         name: 'construction',
@@ -1584,11 +1610,16 @@ export default {
                         value: 13.88,
                       },
                     ],
+                    value: 297.21999999999997,
                   },
                   {
                     name: 'energies',
                     children: [
-                      { name: 'water', cfKey: 'cf_water', value: 9.07536 },
+                      {
+                        name: 'water',
+                        cfKey: 'cf_water',
+                        value: 9.07536,
+                      },
                       {
                         name: 'electricity',
                         children: [
@@ -1613,6 +1644,7 @@ export default {
                             value: 1.3,
                           },
                         ],
+                        value: 5.2,
                       },
                       {
                         name: 'gas',
@@ -1633,6 +1665,7 @@ export default {
                             value: 22.7,
                           },
                         ],
+                        value: 68.1,
                       },
                       {
                         name: 'fuel',
@@ -1653,6 +1686,7 @@ export default {
                             value: 32.300000000000004,
                           },
                         ],
+                        value: 96.9,
                       },
                       {
                         name: 'wood',
@@ -1673,6 +1707,7 @@ export default {
                             value: 3,
                           },
                         ],
+                        value: 9,
                       },
                       {
                         name: 'districtHeating',
@@ -1680,8 +1715,10 @@ export default {
                         value: 0,
                       },
                     ],
+                    value: 188.27536,
                   },
                 ],
+                value: 738.9331377333333,
               },
               {
                 name: 'food',
@@ -1705,6 +1742,7 @@ export default {
                         value: 214.61999999999998,
                       },
                     ],
+                    value: 555.895,
                   },
                   {
                     name: 'meatAndFish',
@@ -1743,15 +1781,22 @@ export default {
                             value: 332.29600000000005,
                           },
                         ],
+                        value: 370.8660714285715,
                       },
                     ],
+                    value: 813.6996071428573,
                   },
                 ],
+                value: 1794.126107142857,
               },
               {
                 name: 'others',
                 children: [
-                  { name: 'clothing', cfKey: 'cf_clothes', value: 671.4 },
+                  {
+                    name: 'clothing',
+                    cfKey: 'cf_clothes',
+                    value: 671.4,
+                  },
                   {
                     name: 'digital',
                     children: [
@@ -1769,6 +1814,7 @@ export default {
                             value: 143.39999999999998,
                           },
                         ],
+                        value: 168.39999999999998,
                       },
                       {
                         name: 'internetUsage',
@@ -1784,8 +1830,10 @@ export default {
                             value: 48.66,
                           },
                         ],
+                        value: 81.16,
                       },
                     ],
+                    value: 249.55999999999997,
                   },
                   {
                     name: 'others',
@@ -1809,6 +1857,7 @@ export default {
                             value: 1.98,
                           },
                         ],
+                        value: 52.38,
                       },
                       {
                         name: 'goodsAndServices',
@@ -1829,10 +1878,13 @@ export default {
                             value: 211.92,
                           },
                         ],
+                        value: 344.99,
                       },
                     ],
+                    value: 397.37,
                   },
                 ],
+                value: 1318.33,
               },
               {
                 name: 'publicServices',
@@ -1853,52 +1905,75 @@ export default {
                     value: 363,
                   },
                 ],
+                value: 1000,
               },
             ],
+            value: 6343.62495038915,
           },
         },
         {
           participantId: 2,
           footprint: {
-            name: 'transport',
+            name: 'totalFootprint',
             children: [
-              { name: 'plane', cfKey: 'cf_plane', value: 750 },
               {
-                name: 'train',
-                children: [
-                  { name: 'urbanTrain', cfKey: 'cf_urban_train', value: null },
-                  {
-                    name: 'countryTrain',
-                    cfKey: 'cf_country_train',
-                    value: 20,
-                  },
-                ],
-              },
-              {
-                name: 'bus',
+                name: 'transports',
                 children: [
                   {
-                    name: 'coachCommute',
-                    cfKey: 'cf_coach_commute',
-                    value: 6.4,
-                  },
-                  { name: 'coachTravel', cfKey: 'cf_coach_travel', value: 40 },
-                ],
-              },
-              {
-                name: 'car',
-                children: [
-                  {
-                    name: 'dailyCommutes',
-                    cfKey: 'cf_car_commute',
-                    value: 26.62600601514667,
+                    name: 'plane',
+                    cfKey: 'cf_plane',
+                    value: 750,
                   },
                   {
-                    name: 'exceptionalCommutes',
-                    cfKey: 'cf_car_travel',
-                    value: 583.5836934826667,
+                    name: 'train',
+                    children: [
+                      {
+                        name: 'urbanTrain',
+                        cfKey: 'cf_urban_train',
+                        value: 39,
+                      },
+                      {
+                        name: 'countryTrain',
+                        cfKey: 'cf_country_train',
+                        value: 20,
+                      },
+                    ],
+                    value: 59,
+                  },
+                  {
+                    name: 'bus',
+                    children: [
+                      {
+                        name: 'coachCommute',
+                        cfKey: 'cf_coach_commute',
+                        value: 6.4,
+                      },
+                      {
+                        name: 'coachTravel',
+                        cfKey: 'cf_coach_travel',
+                        value: 40,
+                      },
+                    ],
+                    value: 46.4,
+                  },
+                  {
+                    name: 'car',
+                    children: [
+                      {
+                        name: 'dailyCommutes',
+                        cfKey: 'cf_car_commute',
+                        value: 53.25201203029334,
+                      },
+                      {
+                        name: 'exceptionalCommutes',
+                        cfKey: 'cf_car_travel',
+                        value: 583.5836934826667,
+                      },
+                    ],
+                    value: 636.8357055129601,
                   },
                 ],
+                value: 1492.23570551296,
               },
               {
                 name: 'housing',
@@ -1920,6 +1995,7 @@ export default {
                             value: 54.36666666666667,
                           },
                         ],
+                        value: 101.03333333333333,
                       },
                       {
                         name: 'furnitures',
@@ -1935,8 +2011,10 @@ export default {
                             value: 73.4044444,
                           },
                         ],
+                        value: 152.4044444,
                       },
                     ],
+                    value: 253.43777773333332,
                   },
                   {
                     name: 'constructionAndMaintenance',
@@ -1955,6 +2033,7 @@ export default {
                             value: 0,
                           },
                         ],
+                        value: 283.34,
                       },
                       {
                         name: 'construction',
@@ -1962,11 +2041,16 @@ export default {
                         value: 13.88,
                       },
                     ],
+                    value: 297.21999999999997,
                   },
                   {
                     name: 'energies',
                     children: [
-                      { name: 'water', cfKey: 'cf_water', value: 9.07536 },
+                      {
+                        name: 'water',
+                        cfKey: 'cf_water',
+                        value: 9.07536,
+                      },
                       {
                         name: 'electricity',
                         children: [
@@ -1991,6 +2075,7 @@ export default {
                             value: 1.3,
                           },
                         ],
+                        value: 5.2,
                       },
                       {
                         name: 'gas',
@@ -2011,6 +2096,7 @@ export default {
                             value: 22.7,
                           },
                         ],
+                        value: 68.1,
                       },
                       {
                         name: 'fuel',
@@ -2031,6 +2117,7 @@ export default {
                             value: 32.300000000000004,
                           },
                         ],
+                        value: 96.9,
                       },
                       {
                         name: 'wood',
@@ -2051,6 +2138,7 @@ export default {
                             value: 3,
                           },
                         ],
+                        value: 9,
                       },
                       {
                         name: 'districtHeating',
@@ -2058,8 +2146,10 @@ export default {
                         value: 0,
                       },
                     ],
+                    value: 188.27536,
                   },
                 ],
+                value: 738.9331377333333,
               },
               {
                 name: 'food',
@@ -2083,6 +2173,7 @@ export default {
                         value: 214.61999999999998,
                       },
                     ],
+                    value: 555.895,
                   },
                   {
                     name: 'meatAndFish',
@@ -2121,15 +2212,22 @@ export default {
                             value: 332.29600000000005,
                           },
                         ],
+                        value: 370.8660714285715,
                       },
                     ],
+                    value: 813.6996071428573,
                   },
                 ],
+                value: 1794.126107142857,
               },
               {
                 name: 'others',
                 children: [
-                  { name: 'clothing', cfKey: 'cf_clothes', value: 671.4 },
+                  {
+                    name: 'clothing',
+                    cfKey: 'cf_clothes',
+                    value: 671.4,
+                  },
                   {
                     name: 'digital',
                     children: [
@@ -2147,6 +2245,7 @@ export default {
                             value: 143.39999999999998,
                           },
                         ],
+                        value: 168.39999999999998,
                       },
                       {
                         name: 'internetUsage',
@@ -2162,8 +2261,10 @@ export default {
                             value: 48.66,
                           },
                         ],
+                        value: 81.16,
                       },
                     ],
+                    value: 249.55999999999997,
                   },
                   {
                     name: 'others',
@@ -2187,6 +2288,7 @@ export default {
                             value: 1.98,
                           },
                         ],
+                        value: 52.38,
                       },
                       {
                         name: 'goodsAndServices',
@@ -2207,10 +2309,13 @@ export default {
                             value: 211.92,
                           },
                         ],
+                        value: 344.99,
                       },
                     ],
+                    value: 397.37,
                   },
                 ],
+                value: 1318.33,
               },
               {
                 name: 'publicServices',
@@ -2231,8 +2336,10 @@ export default {
                     value: 363,
                   },
                 ],
+                value: 1000,
               },
             ],
+            value: 6343.62495038915,
           },
         },
       ],
@@ -2244,7 +2351,7 @@ export default {
       },
 
       globalCarbonVariables: {
-      // Global
+        // Global
         WEEKS_PER_YEAR: 52,
         DAYS_PER_YEAR: 365,
         DAYS_PER_WEEK: 7,

@@ -1,29 +1,27 @@
-import React from 'react';
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Col, Container, Row } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
 
-import { toggleArrayItem } from '../../../utils/helpers';
+import { startOfToday } from 'date-fns';
+import {
+  initRoundAndProcessModel,
+  setCollectiveActions,
+  setIndividualActionsForAllParticipants,
+} from '../../../actions/workshop';
+import {
+  selectCollectiveActionCards,
+  selectCollectiveRoundIds,
+  selectIndividualActionCardsFromParticipant,
+  selectIndividualRoundIds,
+  selectNextRound } from '../../../selectors/workshopSelector';
+
+import {
+  makeYearParticipantKey,
+  toggleArrayItem,
+} from '../../../utils/helpers';
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
-import {
-  setIndividualActionsForAllParticipants,
-  setCollectiveActions,
-  applyIndividualActions,
-  applyCollectiveActions,
-  computeFootprints,
-} from '../../../actions/workshop';
-import { selectNextRound } from '../../../selectors/workshopSelector';
-import {
-  selectIndividualActionCardsFromParticipant,
-  selectCollectiveActionCards,
-  selectIndividualRoundIds,
-  selectCollectiveRoundIds,
-} from '../../../selectors/workshopSelector';
-
-import { makeYearParticipantKey } from '../../../utils/helpers';
-import { startOfToday } from 'date-fns';
 
 const ActionCardsEntry = ({
   currentRound,
@@ -94,15 +92,13 @@ const ActionCardsEntry = ({
         individualActionCards
       )
     );
-    dispatch(applyIndividualActions(currentRound));
-    dispatch(computeFootprints(nextRound));
+    dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
   };
   const handleSubmitEntryOfCollectiveActions = () => {
     console.log('handleSubmitEntryOfCollectiveActions', collectiveActionCards);
     dispatch(setCollectiveActions(currentRound, collectiveActionCards));
-    dispatch(applyCollectiveActions(currentRound));
-    dispatch(computeFootprints(nextRound));
+    dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
   };
   const toggleIndividualActionCardsIdsInMap = (
@@ -121,7 +117,7 @@ const ActionCardsEntry = ({
     const result = {
       ...individualActionCardsMap,
       [individualActionCardsId]: {
-        participantId: participantId,
+        participantId,
         actionCardIds: toggleArrayItem(actionCardIds, actionCardId),
       },
     };
@@ -194,7 +190,7 @@ const ActionCardsEntry = ({
                 individualActionCards={individualActionCards}
                 selectedParticipantId={selectedParticipantId}
                 handleSelect={handleParticipantSelect}
-              ></ParticipantsTable>
+              />
             </Container>
           </Col>
         )}
@@ -210,7 +206,7 @@ const ActionCardsEntry = ({
                 )}
                 handleCheckedActionCard={isIndividualActionCardChecked}
                 roundIds={individualRoundIds}
-              ></ActionCardsForm>
+              />
             )}
             {roundActionCardType === 'collective' && (
               <ActionCardsForm
@@ -220,7 +216,7 @@ const ActionCardsEntry = ({
                 )}
                 handleCheckedActionCard={isCollectiveActionCardChecked}
                 roundIds={collectiveRoundIds}
-              ></ActionCardsForm>
+              />
             )}
           </Container>
         </Col>

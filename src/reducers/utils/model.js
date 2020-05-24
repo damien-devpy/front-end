@@ -59,10 +59,23 @@ const computeSocialVariables = (oldSocialVariables) => {
   return { socialScore: 2, influenceScore: 2 };
 };
 
+const computeCitizenIndividualActionCards = (socialVariables) => {
+  return {
+    10: {
+      citizenId: 10,
+      actionCardIds: [1, 2, 3],
+    },
+    20: {
+      citizenId: 20,
+      actionCardIds: [2, 3],
+    },
+  };
+};
 export {
   applyFunctionToLeavesOfFootprintStructures,
   computeNewCarbonVariables,
   computeFootprint,
   valueOnAllLevels,
   computeSocialVariables,
+  computeCitizenIndividualActionCards,
 };

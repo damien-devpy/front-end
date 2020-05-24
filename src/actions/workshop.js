@@ -68,14 +68,14 @@ export const computeCarbonVariables = (participantId) => ({
   payload: { participantId },
 });
 
-export const applyIndividualActions = (year) => ({
+export const applyIndividualActions = (yearFrom, yearTo) => ({
   type: APPLY_INDIVIDUAL_ACTIONS,
-  payload: { year },
+  payload: { yearFrom, yearTo },
 });
 
-export const applyCollectiveActions = (year) => ({
+export const applyCollectiveActions = (yearFrom, yearTo) => ({
   type: APPLY_COLLECTIVE_ACTIONS,
-  payload: { year },
+  payload: { yearFrom, yearTo },
 });
 
 export const computeFootprints = (year) => ({
@@ -93,14 +93,14 @@ export const computeFootprintsForCitizen = (year) => ({
   payload: { year },
 });
 
-export const applyIndivdualActionsForCitizens = (year) => ({
+export const applyIndivdualActionsForCitizens = (yearFrom, yearTo) => ({
   type: APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS,
-  payload: { year },
+  payload: { yearFrom, yearTo },
 });
 
-export const applyCollectiveActionsForCitizens = (year) => ({
+export const applyCollectiveActionsForCitizens = (yearFrom, yearTo) => ({
   type: APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS,
-  payload: { year },
+  payload: { yearFrom, yearTo },
 });
 
 export const applySocialImpact = (year) => ({
@@ -111,12 +111,12 @@ export const applySocialImpact = (year) => ({
 export const initRoundAndProcessModel = (yearFrom, yearTo) => {
   return (dispatch) => {
     dispatch(initRound(yearTo));
-    dispatch(applyIndividualActions(yearFrom));
-    dispatch(applyCollectiveActions(yearFrom));
+    dispatch(applyIndividualActions(yearFrom, yearTo));
+    dispatch(applyCollectiveActions(yearFrom, yearTo));
     dispatch(setActionsForCitizens(yearTo));
     dispatch(applySocialImpact(yearTo));
-    dispatch(applyIndivdualActionsForCitizens(yearTo));
-    dispatch(applyCollectiveActionsForCitizens(yearTo));
+    dispatch(applyIndivdualActionsForCitizens(yearFrom, yearTo));
+    dispatch(applyCollectiveActionsForCitizens(yearFrom, yearTo));
     dispatch(computeFootprints(yearTo));
     dispatch(computeFootprintsForCitizen(yearTo));
   };

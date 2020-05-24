@@ -1364,7 +1364,7 @@ export default {
   ],
   citizens: [
     {
-      id: 1,
+      id: 10,
       firstName: 'John',
       lastName: 'Doe',
       surveyVariables: {
@@ -1377,7 +1377,7 @@ export default {
       },
     },
     {
-      id: 2,
+      id: 20,
       firstName: 'Jane',
       lastName: 'Doe',
       surveyVariables: {

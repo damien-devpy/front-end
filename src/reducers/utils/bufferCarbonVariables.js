@@ -218,7 +218,6 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     WOOD: woodKwh,
   };
 
-  console.log(energySurvey);
 
   // Average conso
   // BO12 : V_KwhMoyEcs
@@ -355,6 +354,38 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   }
   const elecLightningKwh = KwhElec;
 
+  // variables not treated in buffer
+  const {
+    fruitsAndVegetablePercentageLocal,
+    //
+    categoryCarCommute,
+    motorTypeCarCommute,
+    ageCategoryCarCommute,
+    kmCarCommutePerDay,
+    passengersPerCarCommute,
+    coefficientEnergyEfficientDriving,
+    //
+    categoryCarTravel,
+    motorTypeCarTravel,
+    ageCategoryCarTravel,
+    //
+    kmPerYearCarTravel,
+    passengersPerCarTravel,
+    //
+    kmCoachTravel,
+    kmCountryTrain,
+    kmPlane,
+    //
+    houseSurfaceArea,
+    flatSurfaceArea,
+    numberBigAppliances,
+    numberSmallAppliances,
+    //
+    electricityProvider,
+    numberSmallDevices,
+    numberBigDevices,
+  } = surveyVariables
+
   return {
     // Food & Drinks
     redMeatKgPerYear,
@@ -396,6 +427,36 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     elecCookingKwh,
     elecLightningKwh,
     elecWaterHeatingKwh,
+
+    // Autre
+    fruitsAndVegetablePercentageLocal,
+    //
+    categoryCarCommute,
+    motorTypeCarCommute,
+    ageCategoryCarCommute,
+    kmCarCommutePerDay,
+    passengersPerCarCommute,
+    coefficientEnergyEfficientDriving,
+    //
+    categoryCarTravel,
+    motorTypeCarTravel,
+    ageCategoryCarTravel,
+    //
+    kmPerYearCarTravel,
+    passengersPerCarTravel,
+    //
+    kmCoachTravel,
+    kmCountryTrain,
+    kmPlane,
+    //
+    houseSurfaceArea,
+    flatSurfaceArea,
+    numberBigAppliances,
+    numberSmallAppliances,
+    //
+    electricityProvider,
+    numberSmallDevices,
+    numberBigDevices,
   };
 };
 export default computeCarbonVariables;

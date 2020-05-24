@@ -7,7 +7,6 @@ import {
   INIT_WORKSHOP,
   RETRIEVE_WORKSHOP,
   SET_COLLECTIVE_ACTIONS,
-  SET_INDIVIDUAL_ACTIONS,
   SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
   START_ROUND,
   WORKSHOP_LOAD_ERROR,
@@ -117,36 +116,6 @@ export default (state = initialState, action) => {
             [currentYear]: {
               ...state.entities.rounds[currentYear],
               roundsConfig: currentYear,
-            },
-          },
-        },
-      };
-    }
-    case SET_INDIVIDUAL_ACTIONS: {
-      const { year, participantId, individualActionIds } = action.payload;
-      return {
-        ...state,
-        result: {
-          ...state.result,
-          currentYear: state.entities.roundsConfig[year].targetedYear,
-        },
-        entities: {
-          ...state.entities,
-          individualActionCards: {
-            ...state.entities.individualActionCards,
-            [`${year}-${participantId}`]: {
-              participantId,
-              actionsIds: individualActionIds,
-            },
-          },
-          rounds: {
-            ...state.entities.rounds,
-            [year]: {
-              ...state.entities.rounds[year],
-              individualActionCards: [
-                ...(state.entities.rounds[year].individualActionCards || []),
-                `${year}-${participantId}`,
-              ],
             },
           },
         },

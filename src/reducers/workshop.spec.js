@@ -583,7 +583,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
     };
     const action = {
       type: 'APPLY_INDIVIDUAL_ACTIONS',
-      payload: { year: 2020 },
+      payload: { yearFrom: 2020, yearTo: 2023 },
     };
     const expectedState = {
       entities: {
@@ -970,7 +970,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
       };
       const action = {
         type: 'APPLY_COLLECTIVE_ACTIONS',
-        payload: { year: 2020 },
+        payload: { yearFrom: 2020, yearTo: 2023 },
       };
       const expectedState = {
         entities: {
@@ -1357,7 +1357,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
       };
       const action = {
         type: 'APPLY_COLLECTIVE_ACTIONS',
-        payload: { year: 2020 },
+        payload: { yearFrom: 2020, yearTo: 2023 },
       };
       const expectedState = {
         entities: {

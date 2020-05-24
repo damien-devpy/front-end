@@ -193,8 +193,10 @@ export default (state = initialState, action) => {
         );
         const actionCardIds =
           state.entities.individualActionCards &&
-          state.entities.individualActionCards.actionCardIds
-            ? state.entities.individualActionCards.actionCardIds
+          state.entities.individualActionCards[yearParticipantKey] &&
+          state.entities.individualActionCards[yearParticipantKey].actionCardIds
+            ? state.entities.individualActionCards[yearParticipantKey]
+                .actionCardIds
             : [];
         const takenActionCards = actionCardIds.map(
           (actionId) => state.entities.actionCards[actionId]

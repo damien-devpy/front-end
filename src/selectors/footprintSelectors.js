@@ -6,48 +6,67 @@ const avg = (array) => {
   return sum / array.length;
 };
 
-export const currentRound = (state) => state.workshop.result.currentYear;
+export const currentRound = (state) =>
+  state.workshop.result && state.workshop.result.currentYear;
 
-const participantsAverageFootprint = (footprints) => {};
-const footprintStructure = (state) => {
-  state.workshop.model.footprintStructure;
-};
+// const footprintStructure = (state) => state.workshop.model.footprintStructure;
 
-const averageFootprints = (footprints) => {
-  const initFootprint = { avg: footprintStructure };
-  const nbParticipants = footprints.length;
+const averageFootprints = (footprints, footprintStructure) => {
   const keysParticipant = Object.keys(footprints);
-  const reducer = (acc, element, index) => {
-    acc.avg.value =
-      (acc.avg.value || 0) +
-      element[keysParticipant[index]].value / nbParticipants;
-    element[keysParticipant[index]].children.forEach((sector, i) => {
-      acc.avg.children[i].value =
-        (acc.avg.children[i].value || 0) + sector.value / nbParticipants;
+  console.log('footprints[key]', footprints[keysParticipant[0]]);
+  const nbParticipants = keysParticipant.length;
+
+  var element;
+  var footprintAverage = footprintStructure;
+  keysParticipant.forEach((key) => {
+    element = footprints[key].footprint;
+    // const reducer = (footprintAverage, element, index) => {
+    footprintAverage.value =
+      (footprintAverage.value || 0) + element.value / nbParticipants;
+    element.children.forEach((sector, i) => {
+      footprintAverage.children[i].value =
+        (footprintAverage.children[i].value || 0) +
+        Math.round(sector.value / nbParticipants);
+
       if (sector.children) {
-        sector.children.forEach(
-          (categ, j) =>
-            (acc.avg.children[i].children[j].value =
-              (acc.avg.children[i].children[j].value || 0) +
-              categ.value / nbParticipants)
-        );
+        sector.children.forEach((categ, j) => {
+          footprintAverage.children[i].children[j].value =
+            (footprintAverage.children[i].children[j].value || 0) +
+            Math.round(categ.value / nbParticipants);
+        });
       }
     });
-    return acc;
-  };
+  });
 
-  const avg_footprint = footprints.reduce(reducer, initFootprint);
-  console.log('avg_footprint : ', avg_footprint);
-  return avg_footprint;
+  console.log('footprintAverage : ', footprintAverage);
+  return footprintAverage;
 };
 
-export const globalAverageFootprint = (state) => {
+export const participantsAverageFootprint = (
+  carbonFootprints,
+  footprintStructure
+) => {
+  //need to remove OTHERS :  carbonFootprints.filter(key!="others")
+
+  return averageFootprints(carbonFootprints, footprintStructure);
+};
+export const globalAverageFootprint = (
+  carbonFootprints,
+  footprintStructure
+) => {
   // const currentRound = (state) => state.workshop.result.currentYear;
-  const carbonFootprints = state.workshop.entities.carbonFootprints;
-  averageFootprints(
-    carbonFootprints.filter((participant) => participant.includes(currentRound))
-  );
+  return averageFootprints(carbonFootprints, footprintStructure);
 };
+
+export const participantFootprint = (
+  carbonFootprints,
+  participantId,
+  currentRound
+) => {
+  const participantKey = toString(currentRound) + '-' + toString(participantId);
+  return carbonFootprints[participantKey].footprint;
+};
+
 export const footprintDataToGraph = (footprintData) => {
   var footprintArray = [];
 
@@ -61,57 +80,30 @@ export const footprintDataToGraph = (footprintData) => {
   return footprintArray;
 };
 
-// export const footprintShaped = useSelector((state) =>
-//   footprintDataToGraph(state.workshop.carbonInfo[currentRound])
-// );
-const footprints = {
-  '2020-01': {
-    name: 'totalFootprint',
-    value: 40,
-    children: [
-      {
-        name: 'transport',
-        value: 20,
-        children: [
-          { name: 'plane', value: 4 },
-          { name: 'car', value: 6 },
-          { name: 'bike', value: 10 },
-        ],
-      },
-      {
-        name: 'logement',
-        value: 20,
-        children: [
-          { name: 'building', value: 4 },
-          { name: 'housing', value: 6 },
-          { name: 'fondations', value: 10 },
-        ],
-      },
-    ],
-  },
-  '2020-02': {
-    name: 'totalFootprint',
-    value: 16,
-    children: [
-      {
-        name: 'transport',
-        value: 8,
-        children: [
-          { name: 'plane', value: 2 },
-          { name: 'car', value: 1 },
-          { name: 'bike', value: 5 },
-        ],
-      },
-      {
-        name: 'logement',
-        value: 8,
-        children: [
-          { name: 'building', value: 2 },
-          { name: 'housing', value: 1 },
-          { name: 'fondations', value: 5 },
-        ],
-      },
-    ],
-  },
+export const footprintDataToEvolutionGraph = (footprints) => {
+  // var rounds =  ALLER VOIR A LA PARTIE ROUNDS DU STATE POUR RECUPERER LES IDS DU ROUNDS;
+  // var total footptints : récupérer les totaux ds footprint à partir de ceux du rounds
+  // var = {year: round.year, round.carbonFootprints.forEach(key=> key.split("-")[1]: state.carbonFootprints[key].footprint.value) }
+  var evolutionObject = [];
+  Object.keys(footprints).forEach((key) =>
+    evolutionObject.push({
+      year: key.split('-')[0],
+      participantId: key.split('-')[1],
+      value: footprints[key].footprint.value,
+    })
+  );
+  evolutionObject = groupBy(evolutionObject, (e) => e.year);
 };
-var footprintStructure = footprints['2020-01'];
+function groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach((item) => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
+}

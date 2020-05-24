@@ -11,7 +11,7 @@ import {
 import './components/simulationPage.css';
 import { useWorkshop } from '../../hooks/workshop';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
-import FootprintGraph from './components/FootprintGraph';
+import FootprintGraphType from './components/FootprintGraphType';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import CommonModal from '../../components/CommonModal';
 import { startRound, retrieveWorkshop } from '../../actions/workshop';
@@ -22,8 +22,8 @@ const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { workshop, isLoading, loadError } = useWorkshop();
-  console.log('workshop', workshop);
+  const { entities, result, isLoading, loadError } = useWorkshop();
+  console.log('entities', entities);
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
@@ -40,9 +40,7 @@ const Simulation = () => {
   ] = useState(false);
   const handleCloseEntryOfIndividualActions = () =>
     setShowEntryOfIndividualActions(false);
-  // const currentRound = useSelector(
-  //   (state) => state.workshop.result.currentYear
-  // );
+
   // const footprintShaped = useSelector((state) =>
   //   footprintDataToGraph(
   //     state.workshop.entities.carbonFootprints['2020-1'].footprint
@@ -69,7 +67,7 @@ const Simulation = () => {
           )}
           {!isLoading && (
             <Row style={{ height: '100vh' }}>
-              <Col sm={12} md={8} className="graph-col">
+              <Col sm={12} md={7} className="graph-col">
                 <Container className="graph-card">
                   <h4>
                     Evolution du CO<span style={{ fontSize: '14px' }}>2</span>{' '}
@@ -78,14 +76,14 @@ const Simulation = () => {
                   <EvolutionCarbon data={evolutionData} />
                 </Container>
               </Col>
-              <Col sm={12} md={4} className="graph-col">
+              <Col sm={12} md={5} className="graph-col">
                 <Container className="graph-card">
-                  <h4> La population </h4>
-                  <FootprintGraph footprint={footprintShaped} />
+                  <h4> Moyenne nationale </h4>
+                  <FootprintGraphType type="globalAverage" />
                 </Container>
                 <Container className="graph-card">
                   <h4> Les participants </h4>
-                  <FootprintGraph footprint={footprintShaped} />
+                  <FootprintGraphType type="participantsAverage" />
                 </Container>
               </Col>
             </Row>

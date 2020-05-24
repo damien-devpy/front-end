@@ -6,6 +6,7 @@ import {
   APPLY_SOCIAL_IMPACT,
   COMPUTE_CARBON_VARIABLES,
   COMPUTE_FOOTPRINTS,
+  COMPUTE_FOOTPRINTS_FOR_CITIZENS,
   INIT_ROUND,
   INIT_WORKSHOP,
   RETRIEVE_WORKSHOP,
@@ -371,6 +372,50 @@ export default (state = initialState, action) => {
               ...state.entities.rounds[year],
               carbonFootprints: state.result.participants.map((participantId) =>
                 makeYearParticipantKey(year, participantId)
+              ),
+            },
+          },
+        },
+      };
+    }
+    case COMPUTE_FOOTPRINTS_FOR_CITIZENS: {
+      const { year } = action.payload;
+      const { citizenCarbonVariables, globalCarbonVariables } = state.entities;
+      const { citizens } = state.result;
+      const { footprintStructure, variableFormulas } = state.result.model;
+      const newCitizenCarbonFootprints = {};
+      citizens.forEach((citizenId) => {
+        const yearParticipantKey = makeYearParticipantKey(year, citizenId);
+        const citizenCarbonVariablesForParticipant =
+          citizenCarbonVariables[yearParticipantKey].variables;
+        const globalCarbonVariablesForYear = globalCarbonVariables[year];
+        newCitizenCarbonFootprints[yearParticipantKey] = {
+          ...newCitizenCarbonFootprints[yearParticipantKey],
+          citizenId,
+          footprint: valueOnAllLevels(
+            computeFootprint(
+              footprintStructure,
+              variableFormulas,
+              citizenCarbonVariablesForParticipant,
+              globalCarbonVariablesForYear
+            )
+          ),
+        };
+      });
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          citizenCarbonFootprints: {
+            ...state.entities.citizenCarbonFootprints,
+            ...newCitizenCarbonFootprints,
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              ...state.entities.rounds[year],
+              citizenCarbonFootprints: state.result.citizens.map((citizenId) =>
+                makeYearParticipantKey(year, citizenId)
               ),
             },
           },

@@ -19,6 +19,7 @@ import {
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
+import computeCarbonVariables from './utils/bufferCarbonVariables';
 
 const initialState = {};
 
@@ -27,16 +28,6 @@ const initRoundObject = () => ({
   participants: {},
   influenceScore: 0,
 });
-
-const computeCarbonVariables = (surveyVariables, globalVariables) => {
-  const { hours_urban_bus_per_week, km_car_commute_per_day } = surveyVariables;
-  const { MEAN_SPEED_URBAN_BUS, DAYS_PER_WEEK } = globalVariables;
-
-  const km_urban_bus_per_week = hours_urban_bus_per_week * MEAN_SPEED_URBAN_BUS;
-  const km_car_commute_per_week = km_car_commute_per_day * DAYS_PER_WEEK;
-
-  return { km_urban_bus_per_week, km_car_commute_per_week };
-};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -222,7 +213,7 @@ export default (state = initialState, action) => {
         );
         const actionCardIds =
           state.entities.individualActionCards &&
-          state.entities.individualActionCards.actionCardIds
+            state.entities.individualActionCards.actionCardIds
             ? state.entities.individualActionCards.actionCardIds
             : [];
         const takenActionCards = actionCardIds.map(

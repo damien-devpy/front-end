@@ -227,12 +227,34 @@ export default {
               ],
             },
             {
-              name: 'meatAndFish',
-              cfKey: 'cf_meat_and_fish',
+              name: 'meat',
+              children: [
+                {
+                  name: 'red_meat',
+                  cfKey: 'cf_red_meat',
+                },
+                {
+                  name: 'white_meat',
+                  cfKey: 'cf_white_meat',
+                },
+              ],
+            },
+            {
+              name: 'fish',
+              cfKey: 'cf_fish',
             },
             {
               name: 'eggsAndDairies',
-              cfKey: 'cf_eggs_and_dairies',
+              children: [
+                {
+                  name: 'eggs',
+                  cfKey: 'cf_eggs',
+                },
+                {
+                  name: 'dairies',
+                  cfKey: 'cf_dairies',
+                },
+              ],
             },
             {
               name: 'others',
@@ -361,642 +383,928 @@ export default {
       ],
     },
     variableFormulas: {
-      // transports
-      cf_car_commute: {
-        '/': [
-          {
-            '*': [
-              { var: 'km_per_day_car_commute' },
-              {
-                var: {
-                  cat: [
-                    'EI_CAR.',
-                    { var: 'category_car_commute' },
-                    '.',
-                    { var: 'motor_type_car_commute' },
-                  ],
-                },
-              },
-              {
-                var: {
-                  cat: [
-                    'MOTOR_AGING_FACTOR.',
-                    { var: 'motor_type_car_commute' },
-                    '.',
-                    { var: 'age_category_car_commute' },
-                  ],
-                },
-              },
-              { var: 'DAYS_PER_YEAR' },
-              { var: 'coefficient_energy_efficient_driving' },
-            ],
-          },
-          { var: 'passengers_per_car_commute' },
-        ],
-      },
-      cf_car_travel: {
-        '/': [
-          {
-            '*': [
-              { var: 'km_per_year_car_travel' },
-              {
-                var: {
-                  cat: [
-                    'EI_CAR.',
-                    { var: 'category_car_travel' },
-                    '.',
-                    { var: 'motor_type_car_travel' },
-                  ],
-                },
-              },
-              {
-                var: [
-                  {
-                    cat: [
-                      'MOTOR_AGING_FACTOR.',
-                      { var: 'motor_type_car_travel' },
-                      '.',
-                      { var: 'age_category_car_travel' },
-                    ],
-                  },
-                  1,
-                ],
-              },
-              { var: 'coefficient_energy_efficient_driving' },
-            ],
-          },
-          { var: 'passengers_per_car_travel' },
-        ],
-      },
-      cf_urban_bus: {
-        '*': [
-          { var: 'hours_urban_bus_per_week' },
-          { var: 'EI_URBAN_BUS' },
-          { var: 'MEAN_SPEED_URBAN_BUS' },
-          { var: 'WEEKS_PER_YEAR' },
-        ],
-      },
-      cf_coach_commute: {
-        '*': [
-          { var: 'hours_coach_commute_per_week' },
-          { var: 'EI_COACH' },
-          { var: 'MEAN_SPEED_COACH' },
-        ],
-      },
-      cf_coach_travel: {
-        '*': [{ var: 'km_coach_travel' }, { var: 'EI_COACH' }],
-      },
-      cf_urban_train: {
-        '*': [
-          { var: 'hours_urban_train_per_week' },
-          { var: 'MEAN_SPEED_URBAN_TRAIN' },
-          { var: 'EI_URBAN_TRAIN' },
-          { var: 'WEEKS_PER_YEAR' },
-        ],
-      },
-      cf_country_train: {
-        '*': [{ var: 'km_country_train' }, { var: 'EI_COUNTRY_TRAIN' }],
-      },
+      // ====================================================================================
+      // ============================ TRANSPORT ============================
+      // ====================================================================================
+
       cf_plane: {
-        '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
+        '*': [{
+          var: 'kmPlane'
+        }, {
+          var: 'EI_PLANE'
+        }]
       },
+
+      //==============================================================
+      cf_car_commute: {
+        '/': [{
+          '*': [{
+            var: 'kmPerYearCarCommute'
+          },
+          {
+            var: {
+              cat: ['EI_CAR.', {
+                var: 'categoryCarCommute'
+              }, '.', {
+                  var: 'motorTypeCarCommute'
+                }]
+            }
+          },
+          {
+            var: {
+              cat: ['MOTOR_AGING_FACTOR.', {
+                var: 'motorTypeCarCommute'
+              }, '.', {
+                  var: 'ageCategoryCarCommute'
+                }]
+            }
+          },
+          {
+            var: 'coefficientEnergyEfficientDriving'
+          },
+          ],
+        },
+        {
+          var: 'passengersPerCarCommute'
+        },
+        ],
+      },
+
+      cf_car_travel: {
+        '/': [{
+          '*': [{
+            var: 'kmPerYearCarTravel'
+          },
+          {
+            var: {
+              cat: ['EI_CAR.', {
+                var: 'categoryCarTravel'
+              }, '.', {
+                  var: 'motorTypeCarTravel'
+                }]
+            }
+          },
+          {
+            var: {
+              cat: ['MOTOR_AGING_FACTOR.', {
+                var: 'motorTypeCarTravel'
+              }, '.', {
+                  var: 'ageCategoryCarTravel'
+                }]
+            }
+          },
+          {
+            var: 'coefficientEnergyEfficientDriving'
+          },
+          ],
+        },
+        {
+          var: 'passengersPerCarTravel'
+        },
+        ],
+      },
+
+      //==============================================================
+
+      cf_urban_bus: {
+        '*': [{
+          var: 'distanceUrbanBusPerYear'
+        }, {
+          var: 'EI_URBAN_BUS'
+        }]
+      },
+
+      cf_coach_commute: {
+        '*': [{
+          var: 'distanceCoachCommitPerYear'
+        }, {
+          var: 'EI_COACH'
+        }]
+      },
+
+      cf_coach_travel: {
+        '*': [{
+          var: 'kmCoachTravel'
+        }, {
+          var: 'EI_COACH'
+        }]
+      },
+
+      //==============================================================
+
+      cf_urban_train: {
+        '*': [{
+          var: 'distanceUrbanTrainPerYear'
+        }, {
+          var: 'EI_URBAN_TRAIN'
+        }]
+      },
+
+      cf_country_train: {
+        '*': [{
+          var: 'kmCountryTrain'
+        }, {
+          var: 'EI_COUNTRY_TRAIN'
+        }]
+      },
+
+      // ====================================================================================
+      // ============================ HOUSING ============================
+      // ====================================================================================
+
       // housing
       cf_small_appliances: {
-        '/': [
-          {
-            '*': [
-              { var: 'number_small_appliances' },
-              { var: 'EI_SMALL_APPLIANCE' },
-            ],
-          },
-          { var: 'residents_per_housing' },
+        '/': [{
+          '*': [{
+            var: 'numberSmallAppliances'
+          }, {
+            var: 'EI_SMALL_APPLIANCE'
+          }]
+        },
+        {
+          var: 'residentsPerHousing'
+        },
         ],
       },
       cf_big_appliances: {
-        '/': [
-          {
-            '*': [
-              { var: 'number_big_appliances' },
-              { var: 'EI_BIG_APPLIANCE' },
-            ],
-          },
-          { var: 'residents_per_housing' },
+        '/': [{
+          '*': [{
+            var: 'numberBigAppliances'
+          }, {
+            var: 'EI_BIG_APPLIANCE'
+          }]
+        },
+        {
+          var: 'residentsPerHousing'
+        },
         ],
       },
       cf_water_heater: {
-        '/': [{ var: 'CF_WATER_HEATER' }, { var: 'residents_per_housing' }],
+        '/': [{
+          var: 'CF_WATER_HEATER'
+        }, {
+          var: 'residentsPerHousing'
+        }]
       },
+      //==============================================================
+
       cf_furnitures: {
-        '/': [
-          {
-            '*': [
-              {
-                '+': [
-                  { var: 'house_surface_area' },
-                  { var: 'flat_surface_area' },
-                ],
-              },
-              { var: 'EI_FURNITURES_PER_SQUARE_METER' },
-            ],
+        '/': [{
+          '*': [{
+            var: 'housingSurfaceArea'
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'EI_FURNITURES_PER_SQUARE_METER'
+          }
+          ],
+        },
+        {
+          var: 'residentsPerHousing'
+        },
         ],
       },
-      cf_furnitures_min: { var: 'CF_FURNITURES_MIN_ONE_RESIDENT' },
+      cf_furnitures_min: {
+        var: 'CF_FURNITURES_MIN_ONE_RESIDENT'
+      },
+
+      //==============================================================
 
       cf_house_construction: {
-        '/': [
-          {
-            '*': [
-              { var: 'house_surface_area' },
-              { var: 'EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER' },
-            ],
+        '/': [{
+          '*': [{
+            var: 'houseSurfaceArea'
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER'
+          }
+          ],
+        },
+        {
+          var: 'residentsPerHousing'
+        }
         ],
       },
       cf_flat_construction: {
-        '/': [
-          {
-            '*': [
-              { var: 'flat_surface_area' },
-              { var: 'EI_CONSTRUCTION_FLAT_PER_SQUARE_METER' },
-            ],
+        '/': [{
+          '*': [{
+            var: 'flatSurfaceArea'
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'EI_CONSTRUCTION_FLAT_PER_SQUARE_METER'
+          }
+          ],
+        },
+        {
+          var: 'residentsPerHousing'
+        }
         ],
       },
 
+      //==============================================================
       cf_maintenance: {
-        '/': [
-          {
-            '*': [
-              { var: 'housing_surface_area' },
-              { var: 'EI_MAINTENANCE_PER_SQUARE_METER' },
-            ],
+        '/': [{
+          '*': [{
+            var: 'housingSurfaceArea'
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'EI_MAINTENANCE_PER_SQUARE_METER'
+          }
+          ],
+        },
+        {
+          var: 'residentsPerHousing'
+        }
         ],
       },
+
+      //==============================================================
+
       cf_water: {
-        '*': [
-          { var: 'EI_WATER_PER_LITER' },
-          { var: 'WATER_CONSO_LITER_PER_DAY_PER_PERSON' },
-          { var: 'DAYS_PER_YEAR' },
+        '*': [{
+          var: 'EI_WATER_PER_LITER'
+        },
+        {
+          var: 'WATER_CONSO_LITER_PER_YEAR_PER_PERSON'
+        }
+        ]
+      },
+
+      //==============================================================
+
+      cf_wood_heating: {
+        '*': [{
+          var: 'woodHeatingKwh'
+        },
+        {
+          var: 'EI_WOOD_PER_KWH'
+        },
         ],
       },
-      cf_wood_heating: {
-        '*': [{ var: 'wood_heating_kwh' }, { var: 'EI_WOOD_PER_KWH' }],
-      },
+
       cf_wood_cooking: {
-        '*': [{ var: 'wood_cooking_kwh' }, { var: 'EI_WOOD_PER_KWH' }],
+        '*': [{
+          var: 'woodCookingKwh'
+        },
+        {
+          var: 'EI_WOOD_PER_KWH'
+        },
+        ],
       },
+
       cf_wood_water_heating: {
-        '*': [{ var: 'wood_water_heating_kwh' }, { var: 'EI_WOOD_PER_KWH' }],
+        '*': [{
+          var: 'woodWaterHeatingKwh'
+        },
+        {
+          var: 'EI_WOOD_PER_KWH'
+        },
+        ],
       },
 
       cf_gas_heating: {
-        '*': [{ var: 'gas_heating_kwh' }, { var: 'EI_GAS_PER_KWH' }],
+        '*': [{
+          var: 'gasHeatingKwh'
+        },
+        {
+          var: 'EI_GAS_PER_KWH'
+        },
+        ],
       },
+
       cf_gas_cooking: {
-        '*': [{ var: 'gas_cooking_kwh' }, { var: 'EI_GAS_PER_KWH' }],
+        '*': [{
+          var: 'gasCookingKwh'
+        },
+        {
+          var: 'EI_GAS_PER_KWH'
+        },
+        ],
       },
+
       cf_gas_water_heating: {
-        '*': [{ var: 'gas_water_heating_kwh' }, { var: 'EI_GAS_PER_KWH' }],
+        '*': [{
+          var: 'gasWaterHeatingKwh'
+        },
+        {
+          var: 'EI_GAS_PER_KWH'
+        },
+        ],
       },
 
       cf_fuel_heating: {
-        '*': [{ var: 'fuel_heating_kwh' }, { var: 'EI_FUEL_OIL_PER_KWH' }],
+        '*': [{
+          var: 'fuelHeatingKwh'
+        },
+        {
+          var: 'EI_FUEL_OIL_PER_KWH'
+        },
+        ],
       },
+
       cf_fuel_cooking: {
-        '*': [{ var: 'fuel_cooking_kwh' }, { var: 'EI_FUEL_OIL_PER_KWH' }],
+        '*': [{
+          var: 'fuelCookingKwh'
+        },
+        {
+          var: 'EI_FUEL_OIL_PER_KWH'
+        },
+        ],
       },
+
       cf_fuel_water_heating: {
-        '*': [
-          { var: 'fuel_water_heating_kwh' },
-          { var: 'EI_FUEL_OIL_PER_KWH' },
+        '*': [{
+          var: 'fuelWaterHeatingKwh'
+        },
+        {
+          var: 'EI_FUEL_OIL_PER_KWH'
+        },
         ],
       },
 
       cf_elec_heating: {
-        '*': [
-          { var: 'elec_heating_kwh' },
-          {
-            var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
-            },
+        '*': [{
+          var: 'elecHeatingKwh'
+        },
+        {
+          var: {
+            cat: ['EI_ELEC_PER_KWH.', {
+              var: 'electricityProvider'
+            }],
           },
+        },
         ],
       },
-      cf_elec_cooking: {
-        '*': [
-          { var: 'elec_cooking_kwh' },
-          {
-            var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
-            },
-          },
-        ],
-      },
-      cf_elec_water_heating: {
-        '*': [
-          { var: 'elec_water_heating_kwh' },
-          {
-            var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
-            },
-          },
-        ],
-      },
-      cf_elec_lightning: {
-        '*': [
-          { var: 'elec_lightning_kwh' },
-          {
-            var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
-            },
-          },
-        ],
-      },
-      cf_district_heating: 0,
 
-      // food
-      cf_meat_and_fish: {
-        '*': [
-          { var: 'meat_and_fish_conso_per_day' },
-          { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-          { var: 'EI_MEAT_AND_FISH' },
-          { var: 'DAYS_PER_YEAR' },
+      cf_elec_cooking: {
+        '*': [{
+          var: 'elecCookingKwh'
+        },
+        {
+          var: {
+            cat: ['EI_ELEC_PER_KWH.', {
+              var: 'electricityProvider'
+            }],
+          },
+        },
         ],
       },
-      cf_eggs_and_dairies: {
-        '*': [
-          { var: 'eggs_and_dairies_conso_per_day' },
-          { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-          { var: 'EI_EGGS_AND_DAIRIES' },
-          { var: 'DAYS_PER_YEAR' },
+
+      cf_elec_water_heating: {
+        '*': [{
+          var: 'elecWaterHeatingKwh'
+        },
+        {
+          var: {
+            cat: ['EI_ELEC_PER_KWH.', {
+              var: 'electricityProvider'
+            }],
+          },
+        },
         ],
       },
+
+      cf_elec_lightning: {
+        '*': [{
+          var: 'elecLightningKwh'
+        },
+        {
+          var: {
+            cat: ['EI_ELEC_PER_KWH.', {
+              var: 'electricityProvider'
+            }],
+          },
+        },
+        ],
+      },
+
+      // ====================================================================================
+      // ============================ FOOD ============================
+      // ====================================================================================
+
+      cf_red_meat: {
+        '*': [{
+          var: 'redMeatKgPerYear'
+        }, {
+          var: 'EI_RED_MEAT'
+        }]
+      },
+      cf_white_meat: {
+        '*': [{
+          var: 'whiteMeatKgPerYear'
+        }, {
+          var: 'EI_WHITE_MEAT'
+        }]
+      },
+      cf_fish: {
+        '*': [{
+          var: 'fishKgPerYear'
+        }, {
+          var: 'EI_FISH'
+        }]
+      },
+
+      // cf_meat_and_fish: {
+      //   '+': [{
+      //     '*': [{
+      //       var: 'redMeatKgPerYear'
+      //     }, {
+      //       var: 'EI_RED_MEAT'
+      //     }]
+      //   },
+      //   {
+      //     '*': [{
+      //       var: 'whiteMeatKgPerYear'
+      //     }, {
+      //       var: 'EI_WHITE_MEAT'
+      //     }]
+      //   },
+      //   {
+      //     '*': [{
+      //       var: 'fishKgPerYear'
+      //     }, {
+      //       var: 'EI_FISH'
+      //     }]
+      //   }
+      //   ]
+      // },
+
+      //==============================================================
+
+      // cf_eggs_and_dairies: {
+      //   '*': [
+      //     { var: 'eggsAndDairiesConsoPerDay' },
+      //     { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
+      //     { var: 'EI_EGGS_AND_DAIRIES' },
+      //     { var: 'DAYS_PER_YEAR' }],
+      // },
+
+      cf_eggs: {
+        '*': [{
+          var: 'eggsKgPerYear'
+        }, {
+          var: 'EI_EGGS'
+        }]
+      },
+
+      cf_dairies: {
+        '*': [{
+          var: 'dairiesKgPerYear'
+        }, {
+          var: 'EI_DAIRIES'
+        }]
+      },
+      //==============================================================
+
+      // cf_eggs_and_dairies: {
+      //   '+': [{
+      //     '*': [{
+      //       var: 'eggsKgPerYear'
+      //     }, {
+      //       var: 'EI_EGGS'
+      //     }]
+      //   },
+      //   {
+      //     '*': [{
+      //       var: 'dairiesKgPerYear'
+      //     }, {
+      //       var: 'EI_DAIRIES'
+      //     }]
+      //   },
+      //   ]
+      // },
+
       cf_transformed_products: {
-        '*': [
-          { var: 'transformed_products_conso_per_week' },
-          { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-          { var: 'EI_TRANSFORMED_PRODUCTS' },
-          { var: 'WEEKS_PER_YEAR' },
-        ],
+        '*': [{
+          var: 'transformedProductsKgPerYear'
+        }, {
+          var: 'EI_TRANSFORMED_PRODUCTS'
+        }]
       },
-      cf_local_fruits_and_vegetables: {
-        '*': [
-          {
-            max: [
-              {
-                '*': [
-                  {
-                    '+': [
-                      { var: 'FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY' },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'meat_and_fish_conso_per_day' },
-                                  { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'eggs_and_dairies_conso_per_day' },
-                                  { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              {
-                                var:
-                                  'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY',
-                              },
-                              {
-                                '*': [
-                                  {
-                                    '/': [
-                                      {
-                                        var:
-                                          'transformed_products_conso_per_week',
-                                      },
-                                      { var: 'DAYS_PER_WEEK' },
-                                    ],
-                                  },
-                                  { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  { var: 'fruits_and_vegetable_percentage_local' },
-                  { var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' },
-                ],
-              },
-              {
-                '*': [
-                  { var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY' },
-                  { var: 'fruits_and_vegetable_percentage_local' },
-                ],
-              },
-            ],
-          },
-          { var: 'DAYS_PER_YEAR' },
-        ],
-      },
-      cf_imported_fruits_and_vegetables: {
-        '*': [
-          {
-            max: [
-              {
-                '*': [
-                  {
-                    '+': [
-                      { var: 'FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY' },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'meat_and_fish_conso_per_day' },
-                                  { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'eggs_and_dairies_conso_per_day' },
-                                  { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              {
-                                var:
-                                  'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY',
-                              },
-                              {
-                                '*': [
-                                  {
-                                    '/': [
-                                      {
-                                        var:
-                                          'transformed_products_conso_per_week',
-                                      },
-                                      { var: 'DAYS_PER_WEEK' },
-                                    ],
-                                  },
-                                  { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  {
-                    '-': [1, { var: 'fruits_and_vegetable_percentage_local' }],
-                  },
-                  { var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' },
-                ],
-              },
-              {
-                '*': [
-                  { var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY' },
-                  {
-                    '-': [1, { var: 'fruits_and_vegetable_percentage_local' }],
-                  },
-                ],
-              },
-            ],
-          },
-          { var: 'DAYS_PER_YEAR' },
-        ],
-      },
+
       cf_starches_and_groceries: {
-        '*': [
-          {
-            max: [
-              {
-                '*': [
-                  {
-                    '+': [
-                      { var: 'STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY' },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'meat_and_fish_conso_per_day' },
-                                  { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'eggs_and_dairies_conso_per_day' },
-                                  { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              {
-                                var:
-                                  'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY',
-                              },
-                              {
-                                '*': [
-                                  {
-                                    '/': [
-                                      {
-                                        var:
-                                          'transformed_products_conso_per_week',
-                                      },
-                                      { var: 'DAYS_PER_WEEK' },
-                                    ],
-                                  },
-                                  { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  { var: 'EI_STARCHES_AND_GROCERIES' },
-                ],
-              },
-              { var: 'STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY' },
-            ],
-          },
-          { var: 'DAYS_PER_YEAR' },
-        ],
+        '*': [{
+          var: 'starchesAndGroceriesKgPerYear'
+        }, {
+          var: 'EI_STARCHES_AND_GROCERIES'
+        }]
       },
+      //==============================================================
+
+      // cf_local_fruits_and_vegetables: {
+      //   '*': [
+      //     {
+      //       max: [
+      //         {
+      //           '*': [
+      //             {
+      //               '+': [
+      //                 { var: 'FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY' },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { var: 'meatAndFishConsoPerDay' },
+      //                             { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
+      //                           ],
+      //                         },
+      //                       ],
+      //                     },
+      //                     { var: 'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { var: 'eggsAndDairiesConsoPerDay' },
+      //                             { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
+      //                           ],
+      //                         },
+      //                       ],
+      //                     },
+      //                     { var: 'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { '/': [{ var: 'transformedProductsConsoPerWeek' }, { var: 'DAYS_PER_WEEK' }] },
+      //                             { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
+      //                           ],
+      //                         }],
+      //                     },
+      //                     { var: 'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //               ],
+      //             },
+      //             { var: 'fruitsAndVegetablePercentageLocal' },
+      //             { var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' },
+      //           ],
+      //         },
+      //         {
+      //           '*': [
+      //             { var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY' },
+      //             { var: 'fruitsAndVegetablePercentageLocal' },
+      //           ],
+      //         },
+      //       ],
+      //     },
+      //     { var: 'DAYS_PER_YEAR' },
+      //   ],
+      // },
+      // cf_local_fruits_and_vegetables: {
+      //   // peut-être voudra-t-on changer la part de fruits importés
+      //   '*':[
+      //     {var : 'fruitsAndVegetablesKgPerYear'},
+      //     { '+' : [
+      //       {'*' : [{var : 'EI_LOCAL_FRUITS_AND_VEGETABLES'}, {var : 'fruitsAndVegetablePercentageLocal'}]},
+      //       {'*' : [{var : 'EI_IMPORTED_FRUITS_AND_VEGETABLES'}, {'-' : [1, {var :'fruitsAndVegetablePercentageLocal'}]}]}
+      //     ]}]
+      // },  
+
+      // cf_local_fruits_and_vegetables: {
+      //   '*': [{
+      //     max: [{
+      //       '*': [{
+      //         var: 'EI_LOCAL_FRUITS_AND_VEGETABLES'
+      //       }, {
+      //         var: 'fruitsAndVegetablesKgPerYear'
+      //       }]
+      //     },
+      //     {
+      //       var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_YEAR'
+      //     }
+      //     ]
+      //   },
+      //   {
+      //     var: 'fruitsAndVegetablePercentageLocal'
+      //   }
+      //   ]
+      // },
+
+      cf_local_fruits_and_vegetables: {
+        '*': [{
+          var: 'EI_LOCAL_FRUITS_AND_VEGETABLES'
+        }, {
+          var: 'fruitsAndVegetablesKgPerYear'
+        }, {
+          var: 'fruitsAndVegetablePercentageLocal'
+        }]
+      },
+
+      cf_imported_fruits_and_vegetables: {
+        '*': [{
+          var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES'
+        }, {
+          var: 'fruitsAndVegetablesKgPerYear'
+        }, {
+          '-': [1, {
+            var: 'fruitsAndVegetablePercentageLocal'
+          }]
+        }]
+      },
+
+      // cf_imported_fruits_and_vegetables: {
+      //   '*': [{
+      //     max: [{
+      //       '*': [{
+      //         var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES'
+      //       }, {
+      //         var: 'fruitsAndVegetablesKgPerYear'
+      //       }]
+      //     },
+      //     {
+      //       var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_YEAR'
+      //     }
+      //     ]
+      //   },
+      //   {
+      //     '-': [1, {
+      //       var: 'fruitsAndVegetablePercentageLocal'
+      //     }]
+      //   }
+      //   ]
+      // },
+
+      // cf_imported_fruits_and_vegetables: {
+      //   '*': [
+      //     {
+      //       max: [
+      //         {
+      //           '*': [
+      //             {
+      //               '+': [
+      //                 { var: 'FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY' },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { var: 'meatAndFishConsoPerDay' },
+      //                             { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
+      //                           ],
+      //                         },
+      //                       ],
+      //                     },
+      //                     { var: 'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { var: 'eggsAndDairiesConsoPerDay' },
+      //                             { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
+      //                           ],
+      //                         },
+      //                       ],
+      //                     },
+      //                     { var: 'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { '/': [{ var: 'transformedProductsConsoPerWeek' }, { var: 'DAYS_PER_WEEK' }] },
+      //                             { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
+      //                           ],
+      //                         }],
+      //                     },
+      //                     { var: 'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //               ],
+      //             },
+      //             { '-': [1, { var: 'fruitsAndVegetablePercentageLocal' }] },
+      //             { var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' },
+      //           ],
+      //         },
+      //         {
+      //           '*': [
+      //             { var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY' },
+      //             { '-': [1, { var: 'fruitsAndVegetablePercentageLocal' }] },
+      //           ],
+      //         },
+      //       ],
+      //     },
+      //     { var: 'DAYS_PER_YEAR' },
+      //   ],
+      // },
+
+      // cf_starches_and_groceries: {
+      //   '*': [
+      //     {
+      //       max: [
+      //         {
+      //           '*': [
+      //             {
+      //               '+': [
+      //                 { var: 'STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY' },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { var: 'meatAndFishConsoPerDay' },
+      //                             { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
+      //                           ],
+      //                         },
+      //                       ],
+      //                     },
+      //                     { var: 'STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { var: 'eggsAndDairiesConsoPerDay' },
+      //                             { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
+      //                           ],
+      //                         },
+      //                       ],
+      //                     },
+      //                     { var: 'STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //                 {
+      //                   '*': [
+      //                     {
+      //                       '-': [
+      //                         { var: 'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY' },
+      //                         {
+      //                           '*': [
+      //                             { '/': [{ var: 'transformedProductsConsoPerWeek' }, { var: 'DAYS_PER_WEEK' }] },
+      //                             { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
+      //                           ],
+      //                         }],
+      //                     },
+      //                     { var: 'STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE' },
+      //                   ],
+      //                 },
+      //               ],
+      //             },
+      //             { var: 'EI_STARCHES_AND_GROCERIES' },
+      //           ],
+      //         },
+      //         { var: 'STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY' },
+      //       ],
+      //     },
+      //     { var: 'DAYS_PER_YEAR' },
+      //   ],
+      // },
+
+
+      //==============================================================
+
       cf_alcohol: {
-        '*': [
-          { var: 'alcohol_conso_glass_per_day' },
-          { var: 'ALCOHOL_LITER_PER_GLASS' },
-          { var: 'EI_ALCOHOL' },
-          { var: 'DAYS_PER_YEAR' },
-        ],
+        '*': [{
+          var: 'alcoholConsoKgPerYear'
+        }, {
+          var: 'EI_ALCOHOL'
+        }]
       },
       cf_hot_drinks: {
-        '*': [
-          { var: 'hot_drinks_conso_glass_per_day' },
-          { var: 'HOT_DRINKS_LITER_PER_GLASS' },
-          { var: 'EI_HOT_DRINKS' },
-          { var: 'DAYS_PER_YEAR' },
-        ],
+        '*': [{
+          var: 'hotDrinksConsoKgPerYear'
+        }, {
+          var: 'EI_HOT_DRINKS'
+        }]
       },
       cf_juices_and_sodas: {
-        '*': [
-          { var: 'juices_and_sodas_conso_glass_per_day' },
-          { var: 'JUICES_AND_SODAS_LITER_PER_GLASS' },
-          { var: 'EI_JUICES_AND_SODAS' },
-          { var: 'DAYS_PER_YEAR' },
+        '*': [{
+          var: 'juicesAndSodasConsoKgPerYear'
+        }, {
+          var: 'EI_JUICES_AND_SODAS'
+        }]
+      },
+
+
+      //==============================================================
+
+      cf_small_devices_cradle_to_crate: {
+        '*': [{
+          var: 'numberSmallDevices'
+        },
+        {
+          var: 'EI_SMALL_DEVICES'
+        },
         ],
       },
-      // public Services
-      cf_gas_public_services: { var: 'CF_GAS_PUBLIC_SERVICES' },
-      cf_elec_public_services: { var: 'CF_ELEC_PUBLIC_SERVICES' },
-      cf_other_public_services: { var: 'CF_OTHER_PUBLIC_SERVICES' },
+      cf_big_devices_cradle_to_crate: {
+        '*': [{
+          var: 'numberBigDevices'
+        },
+        {
+          var: 'EI_BIG_DEVICES'
+        },
+        ],
+      },
+
+      //==============================================================
+
+
+      cf_internet_others: {
+        var: 'CF_INTERNET_OTHERS'
+      },
+      cf_internet_streaming: {
+        '*': [{
+          var: 'internetStreamingHoursPerYear'
+        },
+        {
+          var: 'EI_INTERNET_STREAMING'
+        }
+        ],
+      },
+
+      //==============================================================
 
       // others
       cf_clothes: {
-        '*': [{ var: 'clothes_new_items' }, { var: 'EI_CLOTHES_PER_ITEM' }],
-      },
-      cf_small_devices_cradle_to_crate: {
-        '*': [{ var: 'number_small_devices' }, { var: 'EI_SMALL_DEVICES' }],
-      },
-      cf_big_devices_cradle_to_crate: {
-        '*': [{ var: 'number_big_devices' }, { var: 'EI_BIG_DEVICES' }],
-      },
-      cf_internet_others: { var: 'CF_INTERNET_OTHERS' },
-      cf_internet_streaming: {
-        '*': [
-          { var: 'internet_streaming_hours_per_week' },
-          { var: 'WEEKS_PER_YEAR' },
-          { var: 'EI_INTERNET_STREAMING' },
+        '*': [{
+          var: 'clothesNewItems'
+        },
+        {
+          var: 'EI_CLOTHES_PER_ITEM'
+        },
         ],
       },
-      cf_services_electricity: { var: 'CF_SERVICES_ELECTRICITY' },
-      cf_services_gas: { var: 'CF_SERVICES_GAS' },
+
+      //==============================================================
+
+      cf_services_electricity: {
+        var: 'CF_SERVICES_ELECTRICITY'
+      },
+      cf_services_gas: {
+        var: 'CF_SERVICES_GAS'
+      },
       cf_services_without_energy: {
-        var: 'CF_GOODS_AND_SERVICES_WITHOUT_ENERGY',
+        var: 'CF_GOODS_AND_SERVICES_WITHOUT_ENERGY'
       },
       cf_activities_electricity: {
-        '*': [
-          { var: 'activities_per_month' },
-          { var: 'MONTHS_PER_YEAR' },
-          { var: 'EI_ACTIVITIES_ELEC' },
+        '*': [{
+          var: 'activitiesPerYear'
+        },
+        {
+          var: 'EI_ACTIVITIES_ELEC'
+        },
+
         ],
       },
       cf_activities_gas: {
-        '*': [
-          { var: 'activities_per_month' },
-          { var: 'MONTHS_PER_YEAR' },
-          { var: 'EI_ACTIVITIES_GAS' },
+        '*': [{
+          var: 'activitiesPerYear'
+        },
+        {
+          var: 'EI_ACTIVITIES_GAS'
+        },
         ],
       },
       cf_activities_without_energy: {
-        '*': [
-          { var: 'activities_per_month' },
-          { var: 'EI_ACTIVITIES_WITHOUT_ENERGY' },
+        '*': [{
+          var: 'activitiesPerYear'
+        },
+        {
+          var: 'EI_ACTIVITIES_WITHOUT_ENERGY'
+        },
         ],
       },
+
+
+      //==============================================================
+
+      // public Services
+      cf_public_services: {
+        var: 'CF_PUBLIC_SERVICES'
+      },
+
+
+      //==============================================================
     },
     actionCards: [
       {
@@ -1316,8 +1624,63 @@ export default {
       status: 'registered',
       carbonFootprintId: '123456',
       surveyVariables: {
-        hours_urban_bus_per_week: 5,
-        km_car_commute_per_day: 25,
+        meatAndFishConsoPerDay: 0.5,
+        eggsAndDairiesConsoPerDay: 0.5,
+        fruitsAndVegetablePercentageLocal: 0.5,
+        transformedProductsConsoPerWeek: 3,
+        alcoholConsoGlassPerDay: 1,
+        hotDrinksConsoGlassPerDay: 5,
+        juicesAndSodasConsoGlassPerDay: 2,
+
+        // transports
+        categoryCarCommute: 'URBAN',
+        motorTypeCarCommute: 'FUEL',
+        ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+        kmPerDayCarCommute: 2,
+        kmCarCommutePerDay: 25,
+        passengersPerCarCommute: 3,
+        hoursUrbanBusPerWeek: 1,
+        hoursCoachCommutePerWeek: 2,
+        hoursUrbanTrainPerWeek: 3,
+        coefficientEnergyEfficientDriving: 1,
+
+        categoryCarTravel: 'URBAN',
+        motorTypeCarTravel: 'FUEL',
+        ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+
+        kmPerYearCarTravel: 8000,
+        passengersPerCarTravel: 3,
+
+        kmCoachTravel: 1000,
+        kmCountryTrain: 2000,
+        kmPlane: 3000,
+
+        // housing
+        residentsPerHousing: 3,
+        housingSurfaceArea: 60,
+        houseSurfaceArea: 60,
+        flatSurfaceArea: 0,
+        numberBigAppliances: 7,
+        numberSmallAppliances: 20,
+        housingType: 'HOUSE',
+        electricityProvider: 'ALTERNATIVE',
+        maintainanceDate: 'AFTER_2000',
+        energyConsumptionKnowledge: true,
+        heatingSystemEnergyType: 'GAS',
+        cookingAppliancesEnergyType: 'ELECTRICITY',
+        sanitoryHotWaterEnergyType: 'FUEL_OIL',
+
+        gasKwh: 100,
+        woodKwh: 100,
+        fuelKwh: 100,
+        elecKwh: 100,
+
+        // others
+        clothesNewItems: 30,
+        activitiesPerMonth: 3,
+        numberSmallDevices: 2,
+        numberBigDevices: 3,
+        internetStreamingHoursPerWeek: 5,
       },
     },
     {
@@ -1329,8 +1692,63 @@ export default {
       status: 'registered',
       carbonFootprintId: '123456678',
       surveyVariables: {
-        hours_urban_bus_per_week: 5,
-        km_car_commute_per_day: 25,
+        meatAndFishConsoPerDay: 0.5,
+        eggsAndDairiesConsoPerDay: 0.5,
+        fruitsAndVegetablePercentageLocal: 0.5,
+        transformedProductsConsoPerWeek: 3,
+        alcoholConsoGlassPerDay: 1,
+        hotDrinksConsoGlassPerDay: 5,
+        juicesAndSodasConsoGlassPerDay: 2,
+
+        // transports
+        categoryCarCommute: 'URBAN',
+        motorTypeCarCommute: 'FUEL',
+        ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+        kmPerDayCarCommute: 2,
+        kmCarCommutePerDay: 25,
+        passengersPerCarCommute: 3,
+        hoursUrbanBusPerWeek: 1,
+        hoursCoachCommutePerWeek: 2,
+        hoursUrbanTrainPerWeek: 3,
+        coefficientEnergyEfficientDriving: 1,
+
+        categoryCarTravel: 'URBAN',
+        motorTypeCarTravel: 'FUEL',
+        ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+
+        kmPerYearCarTravel: 8000,
+        passengersPerCarTravel: 3,
+
+        kmCoachTravel: 1000,
+        kmCountryTrain: 2000,
+        kmPlane: 3000,
+
+        // housing
+        residentsPerHousing: 3,
+        housingSurfaceArea: 60,
+        houseSurfaceArea: 60,
+        flatSurfaceArea: 0,
+        numberBigAppliances: 7,
+        numberSmallAppliances: 20,
+        housingType: 'HOUSE',
+        electricityProvider: 'ALTERNATIVE',
+        maintainanceDate: 'AFTER_2000',
+        energyConsumptionKnowledge: true,
+        heatingSystemEnergyType: 'GAS',
+        cookingAppliancesEnergyType: 'ELECTRICITY',
+        sanitoryHotWaterEnergyType: 'FUEL_OIL',
+
+        gasKwh: 100,
+        woodKwh: 100,
+        fuelKwh: 100,
+        elecKwh: 100,
+
+        // others
+        clothesNewItems: 30,
+        activitiesPerMonth: 3,
+        numberSmallDevices: 2,
+        numberBigDevices: 3,
+        internetStreamingHoursPerWeek: 5,
       },
     },
   ],
@@ -2364,11 +2782,22 @@ export default {
 
         // Food
         EI_MEAT_AND_FISH: 12.89,
+        EI_RED_MEAT: 12.89,
+        EI_WHITE_MEAT: 12.89,
+        EI_FISH: 12.89,
         MEAT_AND_FISH_KG_PER_CONSO: 0.15,
         MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 0.13,
-        EI_EGGS_AND_DAIRIES: 3.57,
+        PART_OF_RED_MEAT: 0.33,
+        PART_OF_WHITE_MEAT: 0.33,
+        PART_OF_FISH: 0.33,
+
+        EI_EGGS: 3.57,
+        EI_DAIRIES: 3.57,
         EGGS_AND_DAIRIES_KG_PER_CONSO: 0.11,
         EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 0.22,
+        PART_OF_EGGS: 0.5,
+        PART_OF_DAIRIES: 0.5,
+
         EI_LOCAL_FRUITS_AND_VEGETABLES: 0.26,
         EI_IMPORTED_FRUITS_AND_VEGETABLES: 2.24,
         FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 0.16,
@@ -2379,18 +2808,24 @@ export default {
         EI_TRANSFORMED_PRODUCTS: 4.32,
         TRANSFORMED_PRODUCTS_KG_PER_CONSO: 0.3,
         TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 0.158,
+
         EI_STARCHES_AND_GROCERIES: 1.45,
         STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 0.16,
         STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 0.33,
         STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 0.5,
         STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 0.5,
         STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 0.5,
+
         EI_ALCOHOL: 2.09,
-        ALCOHOL_LITER_PER_GLASS: 0.3,
+        ALCOHOL_LITER_PER_GLASS: 0.30,
+        DENSITY_ALCOHOL: 1,
         EI_HOT_DRINKS: 3.08,
         HOT_DRINKS_LITER_PER_GLASS: 0.02,
+        DENSITY_HOT_DRINKS: 1,
         EI_JUICES_AND_SODAS: 1.47,
         JUICES_AND_SODAS_LITER_PER_GLASS: 0.2,
+        DENSITY_JUICES_SODA: 1,
+
         MEAN_SPEED_URBAN_TRAIN: 25,
         EI_URBAN_TRAIN: 0.01,
         EI_COUNTRY_TRAIN: 0.01,
@@ -2407,7 +2842,7 @@ export default {
         DEPRECIATION_DURATION: 30,
         EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
         EI_WATER_PER_LITER: 0.000168,
-        WATER_CONSO_LITER_PER_DAY_PER_PERSON: 148,
+        WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
         EI_ELEC_PER_KWH: {
           CONVENTIONAL: 0.116,
           ALTERNATIVE: 0.013,
@@ -2419,11 +2854,11 @@ export default {
         SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR: 711.4,
         COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 346.4,
         SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON: 0.05,
-        COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0.2,
+        COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0.20,
         LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
         EI_INTERNET_STREAMING: 0.125,
         CF_INTERNET_OTHERS: 48.66,
-        EI_BIG_DEVICES: 47.8,
+        EI_BIG_DEVICES: 47.80,
         EI_SMALL_DEVICES: 12.5,
         CF_SERVICES_GAS: 70.19,
         CF_SERVICES_ELECTRICITY: 62.88,
@@ -2468,10 +2903,18 @@ export default {
             BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1.101343381,
             FIFTEEN_YEARS_OR_OLDER: 1.164876711,
           },
+          ELECTRIC: {
+            TEN_YEARS_OR_YOUNGER: 1,
+            BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+            FIFTEEN_YEARS_OR_OLDER: 1,
+          },
+          HYBRID: {
+            TEN_YEARS_OR_YOUNGER: 1,
+            BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+            FIFTEEN_YEARS_OR_OLDER: 1,
+          },
         },
-        CF_GAS_PUBLIC_SERVICES: 336,
-        CF_ELEC_PUBLIC_SERVICES: 301,
-        CF_OTHER_PUBLIC_SERVICES: 363,
+        CF_PUBLIC_SERVICES: 1000,
       },
       // individualActionCards: [
       //   {

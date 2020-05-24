@@ -1,9 +1,9 @@
 import jsonLogic from 'json-logic-js';
 
-const computeNewCarbonVariables = (oldCarbonVariables, individualActions) => {
+const computeNewCarbonVariables = (oldCarbonVariables, actions) => {
   const newCarbonVariables = {};
-  individualActions.forEach((individualAction) => {
-    individualAction.operations.forEach((operation) => {
+  actions.forEach((action) => {
+    action.operations.forEach((operation) => {
       newCarbonVariables[
         operation.variable
       ] = jsonLogic.apply(operation.operation, { ...oldCarbonVariables });
@@ -24,21 +24,6 @@ const applyFunctionToLeavesOfFootprintStructures = (node, func) => {
   };
 };
 
-const sumTree = (node, valueAccessor = (n) => n.value, key = 'value') => {
-  if (!node.children) {
-    return {
-      ...node,
-      [key]: valueAccessor(node),
-    };
-  }
-  const newNode = {
-    ...node,
-    children: node.children.map((child) => sumTree(child, valueAccessor)),
-  };
-  newNode[key] = newNode.children.reduce((S, child) => S + child[key], 0);
-  return newNode;
-};
-
 const computeFootprint = (
   footprintStructure,
   variableFormulas,
@@ -53,11 +38,31 @@ const computeFootprint = (
     }),
   }));
 
+const sumTree = (node, valueAccessor = (n) => n.value, key = 'value') => {
+  if (!node.children) {
+    return {
+      ...node,
+      [key]: valueAccessor(node),
+    };
+  }
+  const newNode = {
+    ...node,
+    children: node.children.map((child) => sumTree(child, valueAccessor)),
+  };
+  newNode[key] = newNode.children.reduce((S, child) => S + child[key], 0);
+  return newNode;
+};
 const valueOnAllLevels = (footprintStructure) => sumTree(footprintStructure);
+
+const computeSocialVariables = (oldSocialVariables) => {
+  // TODO
+  return { socialScore: 2, influenceScore: 2 };
+};
 
 export {
   applyFunctionToLeavesOfFootprintStructures,
   computeNewCarbonVariables,
   computeFootprint,
   valueOnAllLevels,
+  computeSocialVariables,
 };

@@ -21,6 +21,7 @@ export const APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS =
   'APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS';
 export const APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS =
   'APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS';
+export const APPLY_SOCIAL_IMPACT = 'APPLY_SOCIAL_IMPACT';
 
 export const initWorkshop = (year) => ({
   type: INIT_WORKSHOP,
@@ -114,12 +115,18 @@ export const applyCollectiveActionsForCitizens = (year) => ({
   payload: { year },
 });
 
+export const applySocialImpact = (year) => ({
+  type: APPLY_SOCIAL_IMPACT,
+  payload: { year },
+});
+
 export const initRoundAndProcessModel = (yearFrom, yearTo) => {
   return (dispatch) => {
     dispatch(initRound(yearTo));
     dispatch(applyIndividualActions(yearFrom));
     dispatch(applyCollectiveActions(yearFrom));
     dispatch(setActionsForCitizens(yearTo));
+    dispatch(applySocialImpact(yearTo));
     dispatch(applyIndivdualActionsForCitizens(yearTo));
     dispatch(applyCollectiveActionsForCitizens(yearTo));
     dispatch(computeFootprints(yearTo));

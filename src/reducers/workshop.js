@@ -1,6 +1,7 @@
 import {
   APPLY_COLLECTIVE_ACTIONS,
   APPLY_INDIVIDUAL_ACTIONS,
+  APPLY_SOCIAL_IMPACT,
   COMPUTE_CARBON_VARIABLES,
   COMPUTE_FOOTPRINTS,
   INIT_ROUND,
@@ -16,6 +17,7 @@ import {
 import {
   computeFootprint,
   computeNewCarbonVariables,
+  computeSocialVariables,
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
@@ -331,6 +333,24 @@ export default (state = initialState, action) => {
                 makeYearParticipantKey(nextYear, participantId)
               ),
               globalCarbonVariables: nextYear,
+            },
+          },
+        },
+      };
+    }
+    case APPLY_SOCIAL_IMPACT: {
+      const { year } = action.payload;
+      const currentSocialVariables = state.entities.rounds.socialVariables;
+      const newSocialVariables = computeSocialVariables(currentSocialVariables);
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              ...state.entities.rounds[year],
+              socialVariables: newSocialVariables,
             },
           },
         },

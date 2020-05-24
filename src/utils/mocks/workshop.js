@@ -1334,6 +1334,62 @@ export default {
       },
     },
   ],
+  personas: [
+    {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      surveyVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+      carbonVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+    },
+    {
+      id: 2,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      surveyVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+      carbonVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+    },
+  ],
+  citizens: [
+    {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      surveyVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+      carbonVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+    },
+    {
+      id: 2,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      surveyVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+      carbonVariables: {
+        meat_per_day: 9000,
+        car_type: 'futuristic',
+      },
+    },
+  ],
   rounds: [
     {
       year: 2020,
@@ -3478,6 +3534,10 @@ export default {
         CF_ELEC_PUBLIC_SERVICES: 301,
         CF_OTHER_PUBLIC_SERVICES: 363,
       },
+      socialVariables: {
+        socialScore: 12,
+        influenceScore: 17,
+      },
       // individualActionCards: [
       //   {
       //     participantId: 1,
@@ -3754,61 +3814,5 @@ export default {
       collectiveActionCards: { actionCardIds: [47, 48] },
     },
     */
-  ],
-  personas: [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-    },
-    {
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-    },
-  ],
-  citizens: [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-    },
-    {
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-    },
   ],
 };

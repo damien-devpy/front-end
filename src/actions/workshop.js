@@ -1,11 +1,8 @@
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
 export const START_ROUND = 'START_ROUND';
-export const SET_INDIVIDUAL_ACTIONS = 'SET_INDIVIDUAL_ACTIONS';
 export const SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS =
   'SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS';
 export const SET_COLLECTIVE_ACTIONS = 'SET_COLLECTIVE_ACTIONS';
-export const COMPUTE_FOOTPRINT = 'COMPUTE_FOOTPRINT';
-export const APPLY_INDIVIDUAL_ACTION = 'APPLY_INDIVIDUAL_ACTION';
 export const WORKSHOP_RETRIEVED = 'WORKSHOP_RETRIEVED';
 export const RETRIEVE_WORKSHOP = 'RETRIEVE_WORKSHOP';
 export const WORKSHOP_LOAD_ERROR = 'WORKSHOP_LOAD_ERROR';
@@ -31,15 +28,6 @@ export const initWorkshop = (year) => ({
 export const startRound = (payload) => ({
   type: START_ROUND,
   payload,
-});
-
-export const setIndividualActions = (
-  year,
-  participantId,
-  individualActionCardIds
-) => ({
-  type: SET_INDIVIDUAL_ACTIONS,
-  payload: { year, participantId, individualActionCardIds },
 });
 
 export const setIndividualActionsForAllParticipants = (

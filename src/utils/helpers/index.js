@@ -120,3 +120,5 @@ export const queryToParams = (query) => {
 
 export const makeYearParticipantKey = (year, participantId) =>
   `${year}-${participantId}`;
+
+export const getYearAndParticipantFromKey = (key) => key.split('-');

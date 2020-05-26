@@ -1,4 +1,7 @@
 import jsonLogic from 'json-logic-js';
+import { getYearAndParticipantFromKey, makeYearParticipantKey} from '../../utils/helpers';
+
+const NB_MAX_HEARTS = 46;
 
 const computeNewCarbonVariables = (oldCarbonVariables, actions) => {
   const newCarbonVariables = {};
@@ -54,22 +57,81 @@ const sumTree = (node, valueAccessor = (n) => n.value, key = 'value') => {
 };
 const valueOnAllLevels = (footprintStructure) => sumTree(footprintStructure);
 
-const computeSocialVariables = (oldSocialVariables) => {
-  // TODO
-  return { socialScore: 2, influenceScore: 2 };
+const computeSocialVariables = (
+  oldSocialVariables,
+  individualActions,
+  collectiveActionCardIds,
+  actionCards
+) => {
+  let { socialScore, influenceScore } = oldSocialVariables;
+
+  individualActions.forEach((participantAction) => {
+    participantAction.actionCardIds.forEach((actionCardId) => {
+      socialScore += actionCards[actionCardId].peerInspirationScore;
+      socialScore += actionCards[actionCardId].peerAwarenessScore;
+      influenceScore += actionCards[actionCardId].systemicWeakSignals;
+      influenceScore += actionCards[actionCardId].systemicPressureScore;
+    });
+  });
+  collectiveActionCardIds.forEach((actionCardId) => {
+    socialScore += actionCards[actionCardId].peerInspirationScore;
+    socialScore += actionCards[actionCardId].peerAwarenessScore;
+    influenceScore += actionCards[actionCardId].systemicWeakSignals;
+    influenceScore += actionCards[actionCardId].systemicPressureScore;
+  });
+  return { socialScore, influenceScore };
 };
 
-const computeCitizenIndividualActionCards = (socialVariables) => {
-  return {
-    10: {
-      citizenId: 10,
-      actionCardIds: [1, 2, 3],
-    },
-    20: {
-      citizenId: 20,
-      actionCardIds: [2, 3],
-    },
-  };
+const getActionsTakenBeforeYear = (
+  citizenIndividualActionCards,
+  citizenId,
+  year
+) => {
+  let actionsTakenBeforeYear = [];
+  Object.keys(citizenIndividualActionCards).forEach((citizenYearKey) => {
+    const [yearForAction, citizenIdForAction] = getYearAndParticipantFromKey(
+      citizenYearKey
+    );
+    if (yearForAction < year && citizenId === citizenIdForAction) {
+      actionsTakenBeforeYear +=
+        citizenIndividualActionCards[citizenYearKey].actionCardIds;
+    }
+  });
+  return actionsTakenBeforeYear;
+};
+const computeCitizenIndividualActionCards = (
+  year,
+  socialVariables,
+  citizenIndividualActionCards,
+  citizens,
+  actionCards
+) => {
+  console.log(citizenIndividualActionCards);
+  const newCitizenIndividualActionCards = {};
+  citizens.forEach((citizen) => {
+    const alreadyTalenActionIds = getActionsTakenBeforeYear(
+      citizenIndividualActionCards,
+      citizen,
+      year
+    );
+    const newActionCardIds = [];
+    actionCards.forEach((actionCard) => {
+      if (
+        socialVariables.socialScore >
+          citizen.reluctancy + actionCard.reluctancyForCitizens &&
+        !alreadyTalenActionIds.includes(actionCard.id)
+      ) {
+        newActionCardIds.push(actionCard.id);
+      }
+    });
+    newCitizenIndividualActionCards[
+      makeYearParticipantKey(year, citizen.id)
+    ] = {
+      citizen: citizen.id,
+      actionCardIds: newActionCardIds,
+    };
+  });
+  return newCitizenIndividualActionCards;
 };
 export {
   applyFunctionToLeavesOfFootprintStructures,

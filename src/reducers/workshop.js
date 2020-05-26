@@ -317,17 +317,36 @@ export default (state = initialState, action) => {
       };
     }
     case APPLY_SOCIAL_IMPACT: {
-      const { year } = action.payload;
-      const currentSocialVariables = state.entities.rounds.socialVariables;
-      const newSocialVariables = computeSocialVariables(currentSocialVariables);
+      const { yearFrom, yearTo } = action.payload;
+      const { actionCards } = state.entities;
+      const currentSocialVariables =
+        state.entities.rounds[yearFrom].socialVariables;
+
+      const individualActionRecords =
+        state.entities.rounds[yearFrom].individualActionCards || [];
+      const individualActions = individualActionRecords.map(
+        (yearParticipantKey) =>
+          state.entities.individualActionCards[yearParticipantKey]
+      );
+      const collectiveActionCardIds =
+        state.entities.collectiveActionCards &&
+        state.entities.collectiveActionCards[yearFrom]
+          ? state.entities.collectiveActionCards[yearFrom].actionCardIds
+          : [];
+      const newSocialVariables = computeSocialVariables(
+        currentSocialVariables,
+        individualActions,
+        collectiveActionCardIds,
+        actionCards
+      );
       return {
         ...state,
         entities: {
           ...state.entities,
           rounds: {
             ...state.entities.rounds,
-            [year]: {
-              ...state.entities.rounds[year],
+            [yearTo]: {
+              ...state.entities.rounds[yearTo],
               socialVariables: newSocialVariables,
             },
           },
@@ -446,9 +465,14 @@ export default (state = initialState, action) => {
     }
     case SET_ACTIONS_FOR_CITIZENS: {
       const { year } = action.payload;
-      const { socialVariables } = state.entities.rounds[year];
-      const citizenIndividualActionCards = computeCitizenIndividualActionCards(
-        socialVariables
+      const newCitizenIndividualActionCards = computeCitizenIndividualActionCards(
+        year,
+        state.entities.rounds[year].socialVariables,
+        state.entities.citizenIndividualActionCards || {},
+        state.result.citizens.map((id) => state.entities.citizens[id]),
+        state.result.model.actionCards.map(
+          (id) => state.entities.actionCards[id]
+        )
       );
       return {
         ...state,
@@ -456,7 +480,7 @@ export default (state = initialState, action) => {
           ...state.entities,
           citizenIndividualActionCards: {
             ...state.entities.citizenIndividualActionCards,
-            ...citizenIndividualActionCards,
+            ...newCitizenIndividualActionCards,
           },
           rounds: {
             ...state.entities.rounds,
@@ -465,7 +489,7 @@ export default (state = initialState, action) => {
               citizenIndividualActionCards: [
                 ...(state.entities.rounds[year].citizenIndividualActionCards ||
                   []),
-                ...Object.keys(citizenIndividualActionCards),
+                ...Object.keys(newCitizenIndividualActionCards),
               ],
             },
           },

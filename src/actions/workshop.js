@@ -103,9 +103,9 @@ export const applyCollectiveActionsForCitizens = (yearFrom, yearTo) => ({
   payload: { yearFrom, yearTo },
 });
 
-export const applySocialImpact = (year) => ({
+export const applySocialImpact = (yearFrom, yearTo) => ({
   type: APPLY_SOCIAL_IMPACT,
-  payload: { year },
+  payload: { yearFrom, yearTo },
 });
 
 export const initRoundAndProcessModel = (yearFrom, yearTo) => {
@@ -113,8 +113,8 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
     dispatch(initRound(yearTo));
     dispatch(applyIndividualActions(yearFrom, yearTo));
     dispatch(applyCollectiveActions(yearFrom, yearTo));
+    dispatch(applySocialImpact(yearFrom, yearTo));
     dispatch(setActionsForCitizens(yearTo));
-    dispatch(applySocialImpact(yearTo));
     dispatch(applyIndivdualActionsForCitizens(yearFrom, yearTo));
     dispatch(applyCollectiveActionsForCitizens(yearFrom, yearTo));
     dispatch(computeFootprints(yearTo));

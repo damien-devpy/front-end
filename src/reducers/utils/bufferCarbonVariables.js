@@ -118,61 +118,52 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   } = surveyVariables;
   const {
     ALCOHOL_LITER_PER_GLASS,
-    DENSITY_ALCOHOL,
     HOT_DRINKS_LITER_PER_GLASS,
-    DENSITY_HOT_DRINKS,
     JUICES_AND_SODAS_LITER_PER_GLASS,
-    DENSITY_JUICES_SODA,
   } = globalVariables;
 
-  const alcoholConsoKgPerYear =
+  const alcoholConsoLitersPerYear =
     alcoholConsoGlassPerDay *
     ALCOHOL_LITER_PER_GLASS *
     DAYS_PER_YEAR *
-    DENSITY_ALCOHOL;
-  const hotDrinksConsoKgPerYear =
+  const hotDrinksConsoLitersPerYear =
     hotDrinksConsoGlassPerDay *
     HOT_DRINKS_LITER_PER_GLASS *
     DAYS_PER_YEAR *
-    DENSITY_HOT_DRINKS;
-  const juicesAndSodasConsoKgPerYear =
+  const juicesAndSodasConsoLitersPerYear =
     juicesAndSodasConsoGlassPerDay *
     JUICES_AND_SODAS_LITER_PER_GLASS *
     DAYS_PER_YEAR *
-    DENSITY_JUICES_SODA;
 
   // ====================================================================================
   // ============================ Transport ============================
   // ====================================================================================
 
   // Car commute
-  const { kmPerDayCarCommute } = surveyVariables;
-  const kmPerYearCarCommute = kmPerDayCarCommute * DAYS_PER_YEAR;
-
+  const { kmCarCommutePerDay } = surveyVariables;
+  const kmCarCommutePerYear = kmCarCommutePerDay * DAYS_PER_YEAR;
+  const coefficientEnergyEfficientDriving = 1;
   // Urban bus
   const { hoursUrbanBusPerWeek } = surveyVariables;
   const { MEAN_SPEED_URBAN_BUS } = globalVariables;
-  const distanceUrbanBusPerYear =
+  const kmUrbanBusPerYear =
     hoursUrbanBusPerWeek * WEEKS_PER_YEAR * MEAN_SPEED_URBAN_BUS;
 
   // Coach commute
   const { hoursCoachCommutePerWeek } = surveyVariables;
   const { MEAN_SPEED_COACH } = globalVariables;
-  const distanceCoachCommitPerYear =
-    hoursCoachCommutePerWeek * MEAN_SPEED_COACH;
+  const kmCoachCommutePerYear = hoursCoachCommutePerWeek * MEAN_SPEED_COACH;
 
   // Urban_train
   const { hoursUrbanTrainPerWeek } = surveyVariables;
   const { MEAN_SPEED_URBAN_TRAIN } = globalVariables;
-  const distanceUrbanTrainPerYear =
+  const kmUrbanTrainPerYear =
     hoursUrbanTrainPerWeek * MEAN_SPEED_URBAN_TRAIN * WEEKS_PER_YEAR;
 
   // ====================================================================================
   // ============================ INTERNET ============================
   // ====================================================================================
   const { internetStreamingHoursPerWeek } = surveyVariables;
-  const internetStreamingHoursPerYear =
-    WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
 
   const { activitiesPerMonth } = surveyVariables;
   const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
@@ -361,15 +352,13 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     categoryCarCommute,
     motorTypeCarCommute,
     ageCategoryCarCommute,
-    kmCarCommutePerDay,
     passengersPerCarCommute,
-    coefficientEnergyEfficientDriving,
     //
     categoryCarTravel,
     motorTypeCarTravel,
     ageCategoryCarTravel,
     //
-    kmPerYearCarTravel,
+    kmCarTravelPerYear,
     passengersPerCarTravel,
     //
     kmCoachTravel,
@@ -398,18 +387,19 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     fruitsAndVegetablesKgPerYear,
     starchesAndGroceriesKgPerYear,
 
-    alcoholConsoKgPerYear,
-    hotDrinksConsoKgPerYear,
-    juicesAndSodasConsoKgPerYear,
+    alcoholConsoLitersPerYear,
+    hotDrinksConsoLitersPerYear,
+    juicesAndSodasConsoLitersPerYear,
 
     // Transport
-    kmPerYearCarCommute,
-    distanceUrbanBusPerYear,
-    distanceCoachCommitPerYear,
-    distanceUrbanTrainPerYear,
+    kmCarCommutePerYear,
+    kmUrbanBusPerYear,
+    kmCoachCommutePerYear,
+    kmUrbanTrainPerYear,
+    coefficientEnergyEfficientDriving,
 
     // other
-    internetStreamingHoursPerYear,
+    internetStreamingHoursPerWeek,
     activitiesPerYear,
 
     // energy
@@ -433,15 +423,13 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     categoryCarCommute,
     motorTypeCarCommute,
     ageCategoryCarCommute,
-    kmCarCommutePerDay,
     passengersPerCarCommute,
-    coefficientEnergyEfficientDriving,
     //
     categoryCarTravel,
     motorTypeCarTravel,
     ageCategoryCarTravel,
     //
-    kmPerYearCarTravel,
+    kmCarTravelPerYear,
     passengersPerCarTravel,
     //
     kmCoachTravel,

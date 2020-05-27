@@ -46,8 +46,8 @@ const ActionCardsEntry = ({
   };
 
   const individualActionCardsEntity = useSelector((state) =>
-    state.workshop.entities.individualActionCards
-      ? state.workshop.entities.individualActionCards
+    state.workshop.entities.actionCards
+      ? state.workshop.entities.actionCards
       : {}
   );
 
@@ -176,10 +176,10 @@ const ActionCardsEntry = ({
       collectiveActionCards[currentRound].actionCardIds.includes(actionCardId));
 
   return (
-    <Container className="row-full">
-      <Row style={{ height: '100vh' }}>
+    <Container>
+      <Row>
         {roundActionCardType === 'individual' && (
-          <Col sm={12} md={4}>
+          <Col sm={4} md={4}>
             <Container>
               <h4>{t('common.participants')}</h4>
               <ParticipantsTable
@@ -188,12 +188,13 @@ const ActionCardsEntry = ({
                 participantsEntity={participantsEntity}
                 individualActionCards={individualActionCards}
                 selectedParticipantId={selectedParticipantId}
+                actionCardsEntity={individualActionCardsEntity}
                 handleSelect={handleParticipantSelect}
               />
             </Container>
           </Col>
         )}
-        <Col sm={12} md={8}>
+        <Col sm={8} md={8}>
           <Container>
             <h4>{t('common.batches')}</h4>
             {roundActionCardType === 'individual' && (

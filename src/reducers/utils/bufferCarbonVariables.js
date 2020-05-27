@@ -1,11 +1,9 @@
+const WEEKS_PER_YEAR = 51;
+const DAYS_PER_YEAR = 365;
+const DAYS_PER_WEEK = 7;
+const MONTHS_PER_YEAR = 12;
+
 const computeCarbonVariables = (surveyVariables, globalVariables) => {
-  // Converting constant
-  const {
-    WEEKS_PER_YEAR,
-    DAYS_PER_YEAR,
-    DAYS_PER_WEEK,
-    MONTHS_PER_YEAR,
-  } = globalVariables;
   // =================
   // ============================ Food ============================
   // =================
@@ -74,11 +72,11 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const fruitsAndVegetablesKgPerDay =
     FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY +
     (MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY - meatAndFishKgPerDay) *
-    FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE +
+      FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE +
     (EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY - eggsAndDairiesKgPerDay) *
-    FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE +
+      FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE +
     (TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY - transformedProductsKgPerDay) *
-    FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE;
+      FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE;
 
   // conversion to year
   const fruitsAndVegetablesKgPerYear =
@@ -100,11 +98,11 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const starchesAndGroceriesKgPerDay =
     STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY +
     (MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY - meatAndFishKgPerDay) *
-    STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE +
+      STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE +
     (EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY - eggsAndDairiesKgPerDay) *
-    STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE +
+      STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE +
     (TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY - transformedProductsKgPerDay) *
-    STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE;
+      STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE;
   const starchesAndGroceriesKgPerYear =
     DAYS_PER_YEAR *
     Math.max(
@@ -210,6 +208,9 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     EI_HOUSING_PER_SURFACE_AREA,
   } = globalVariables;
 
+  const houseSurfaceArea = housingType === 'HOUSE' ? housingSurfaceArea : 0;
+  const flatSurfaceArea = housingType === 'FLAT' ? housingSurfaceArea : 0;
+
   // dictionnary energy type conso
   const energySurvey = {
     ELECTRICITY: elecKwh,
@@ -217,7 +218,6 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     GAS: gasKwh,
     WOOD: woodKwh,
   };
-
 
   // Average conso
   // BO12 : V_KwhMoyEcs
@@ -376,15 +376,14 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     kmCountryTrain,
     kmPlane,
     //
-    houseSurfaceArea,
-    flatSurfaceArea,
     numberBigAppliances,
     numberSmallAppliances,
     //
     electricityProvider,
     numberSmallDevices,
     numberBigDevices,
-  } = surveyVariables
+    clothesNewItems,
+  } = surveyVariables;
 
   return {
     // Food & Drinks
@@ -449,6 +448,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     kmCountryTrain,
     kmPlane,
     //
+    residentsPerHousing,
     houseSurfaceArea,
     flatSurfaceArea,
     numberBigAppliances,
@@ -457,6 +457,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     electricityProvider,
     numberSmallDevices,
     numberBigDevices,
+    clothesNewItems,
   };
 };
 export default computeCarbonVariables;

@@ -18,6 +18,7 @@ import {
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
 import {
+  computeBudget,
   computeCitizenIndividualActionCards,
   computeFootprint,
   computeNewCarbonVariables,
@@ -348,6 +349,7 @@ export default (state = initialState, action) => {
             [yearTo]: {
               ...state.entities.rounds[yearTo],
               socialVariables: newSocialVariables,
+              budget: computeBudget(newSocialVariables.influenceScore),
             },
           },
         },

@@ -133,6 +133,11 @@ const computeCitizenIndividualActionCards = (
   });
   return newCitizenIndividualActionCards;
 };
+
+const computeBudget = (influenceScore) => {
+  return Math.min(Math.floor((influenceScore + 10) / 15 + 2));
+};
+
 export {
   applyFunctionToLeavesOfFootprintStructures,
   computeNewCarbonVariables,
@@ -140,4 +145,5 @@ export {
   valueOnAllLevels,
   computeSocialVariables,
   computeCitizenIndividualActionCards,
+  computeBudget,
 };

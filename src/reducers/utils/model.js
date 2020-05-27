@@ -5,6 +5,8 @@ const NB_MAX_HEARTS = 46;
 
 const computeNewCarbonVariables = (oldCarbonVariables, actions) => {
   const newCarbonVariables = {};
+  console.log(oldCarbonVariables);
+  console.log(actions);
   actions.forEach((action) => {
     action.operations.forEach((operation) => {
       newCarbonVariables[
@@ -12,6 +14,7 @@ const computeNewCarbonVariables = (oldCarbonVariables, actions) => {
       ] = jsonLogic.apply(operation.operation, { ...oldCarbonVariables });
     });
   });
+  console.log(newCarbonVariables);
   return newCarbonVariables;
 };
 

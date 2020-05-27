@@ -227,12 +227,34 @@ export default {
               ],
             },
             {
-              name: 'meatAndFish',
-              cfKey: 'cf_meat_and_fish',
+              name: 'meat',
+              children: [
+                {
+                  name: 'red_meat',
+                  cfKey: 'cf_red_meat',
+                },
+                {
+                  name: 'white_meat',
+                  cfKey: 'cf_white_meat',
+                },
+              ],
+            },
+            {
+              name: 'fish',
+              cfKey: 'cf_fish',
             },
             {
               name: 'eggsAndDairies',
-              cfKey: 'cf_eggs_and_dairies',
+              children: [
+                {
+                  name: 'eggs',
+                  cfKey: 'cf_eggs',
+                },
+                {
+                  name: 'dairies',
+                  cfKey: 'cf_dairies',
+                },
+              ],
             },
             {
               name: 'others',
@@ -361,19 +383,34 @@ export default {
       ],
     },
     variableFormulas: {
-      // transports
+      cf_plane: {
+        '*': [
+          {
+            var: 'kmPlane',
+          },
+          {
+            var: 'EI_PLANE',
+          },
+        ],
+      },
       cf_car_commute: {
         '/': [
           {
             '*': [
-              { var: 'km_per_day_car_commute' },
+              {
+                var: 'kmCarCommutePerYear',
+              },
               {
                 var: {
                   cat: [
                     'EI_CAR.',
-                    { var: 'category_car_commute' },
+                    {
+                      var: 'categoryCarCommute',
+                    },
                     '.',
-                    { var: 'motor_type_car_commute' },
+                    {
+                      var: 'motorTypeCarCommute',
+                    },
                   ],
                 },
               },
@@ -381,651 +418,679 @@ export default {
                 var: {
                   cat: [
                     'MOTOR_AGING_FACTOR.',
-                    { var: 'motor_type_car_commute' },
+                    {
+                      var: 'motorTypeCarCommute',
+                    },
                     '.',
-                    { var: 'age_category_car_commute' },
+                    {
+                      var: 'ageCategoryCarCommute',
+                    },
                   ],
                 },
               },
-              { var: 'DAYS_PER_YEAR' },
-              { var: 'coefficient_energy_efficient_driving' },
+              {
+                var: 'coefficientEnergyEfficientDriving',
+              },
             ],
           },
-          { var: 'passengers_per_car_commute' },
+          {
+            var: 'passengersPerCarCommute',
+          },
         ],
       },
       cf_car_travel: {
         '/': [
           {
             '*': [
-              { var: 'km_per_year_car_travel' },
+              {
+                var: 'kmCarTravelPerYear',
+              },
               {
                 var: {
                   cat: [
                     'EI_CAR.',
-                    { var: 'category_car_travel' },
+                    {
+                      var: 'categoryCarTravel',
+                    },
                     '.',
-                    { var: 'motor_type_car_travel' },
+                    {
+                      var: 'motorTypeCarTravel',
+                    },
                   ],
                 },
               },
               {
-                var: [
-                  {
-                    cat: [
-                      'MOTOR_AGING_FACTOR.',
-                      { var: 'motor_type_car_travel' },
-                      '.',
-                      { var: 'age_category_car_travel' },
-                    ],
-                  },
-                  1,
-                ],
+                var: {
+                  cat: [
+                    'MOTOR_AGING_FACTOR.',
+                    {
+                      var: 'motorTypeCarTravel',
+                    },
+                    '.',
+                    {
+                      var: 'ageCategoryCarTravel',
+                    },
+                  ],
+                },
               },
-              { var: 'coefficient_energy_efficient_driving' },
+              {
+                var: 'coefficientEnergyEfficientDriving',
+              },
             ],
           },
-          { var: 'passengers_per_car_travel' },
+          {
+            var: 'passengersPerCarTravel',
+          },
         ],
       },
       cf_urban_bus: {
         '*': [
-          { var: 'hours_urban_bus_per_week' },
-          { var: 'EI_URBAN_BUS' },
-          { var: 'MEAN_SPEED_URBAN_BUS' },
-          { var: 'WEEKS_PER_YEAR' },
+          {
+            var: 'kmUrbanBusPerYear',
+          },
+          {
+            var: 'EI_URBAN_BUS',
+          },
         ],
       },
       cf_coach_commute: {
         '*': [
-          { var: 'hours_coach_commute_per_week' },
-          { var: 'EI_COACH' },
-          { var: 'MEAN_SPEED_COACH' },
+          {
+            var: 'kmCoachCommutePerYear',
+          },
+          {
+            var: 'EI_COACH',
+          },
         ],
       },
+
       cf_coach_travel: {
-        '*': [{ var: 'km_coach_travel' }, { var: 'EI_COACH' }],
+        '*': [
+          {
+            var: 'kmCoachTravel',
+          },
+          {
+            var: 'EI_COACH',
+          },
+        ],
       },
       cf_urban_train: {
         '*': [
-          { var: 'hours_urban_train_per_week' },
-          { var: 'MEAN_SPEED_URBAN_TRAIN' },
-          { var: 'EI_URBAN_TRAIN' },
-          { var: 'WEEKS_PER_YEAR' },
+          {
+            var: 'kmUrbanTrainPerYear',
+          },
+          {
+            var: 'EI_URBAN_TRAIN',
+          },
         ],
       },
       cf_country_train: {
-        '*': [{ var: 'km_country_train' }, { var: 'EI_COUNTRY_TRAIN' }],
+        '*': [
+          {
+            var: 'kmCountryTrain',
+          },
+          {
+            var: 'EI_COUNTRY_TRAIN',
+          },
+        ],
       },
-      cf_plane: {
-        '*': [{ var: 'km_plane' }, { var: 'EI_PLANE' }],
-      },
-      // housing
       cf_small_appliances: {
         '/': [
           {
             '*': [
-              { var: 'number_small_appliances' },
-              { var: 'EI_SMALL_APPLIANCE' },
+              {
+                var: 'numberSmallAppliances',
+              },
+              {
+                var: 'EI_SMALL_APPLIANCE',
+              },
             ],
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'residentsPerHousing',
+          },
         ],
       },
       cf_big_appliances: {
         '/': [
           {
             '*': [
-              { var: 'number_big_appliances' },
-              { var: 'EI_BIG_APPLIANCE' },
+              {
+                var: 'numberBigAppliances',
+              },
+              {
+                var: 'EI_BIG_APPLIANCE',
+              },
             ],
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'residentsPerHousing',
+          },
         ],
       },
       cf_water_heater: {
-        '/': [{ var: 'CF_WATER_HEATER' }, { var: 'residents_per_housing' }],
+        '/': [
+          {
+            var: 'CF_WATER_HEATER',
+          },
+          {
+            var: 'residentsPerHousing',
+          },
+        ],
       },
       cf_furnitures: {
         '/': [
           {
             '*': [
               {
-                '+': [
-                  { var: 'house_surface_area' },
-                  { var: 'flat_surface_area' },
-                ],
+                '+': [{ var: 'houseSurfaceArea' }, { var: 'flatSurfaceArea' }],
               },
-              { var: 'EI_FURNITURES_PER_SQUARE_METER' },
+              {
+                var: 'EI_FURNITURES_PER_SQUARE_METER',
+              },
             ],
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'residentsPerHousing',
+          },
         ],
       },
-      cf_furnitures_min: { var: 'CF_FURNITURES_MIN_ONE_RESIDENT' },
-
+      cf_furnitures_min: {
+        var: 'CF_FURNITURES_MIN_ONE_RESIDENT',
+      },
       cf_house_construction: {
         '/': [
           {
             '*': [
-              { var: 'house_surface_area' },
-              { var: 'EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER' },
+              {
+                var: 'houseSurfaceArea',
+              },
+              {
+                var: 'EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER',
+              },
             ],
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'residentsPerHousing',
+          },
         ],
       },
       cf_flat_construction: {
         '/': [
           {
             '*': [
-              { var: 'flat_surface_area' },
-              { var: 'EI_CONSTRUCTION_FLAT_PER_SQUARE_METER' },
+              {
+                var: 'flatSurfaceArea',
+              },
+              {
+                var: 'EI_CONSTRUCTION_FLAT_PER_SQUARE_METER',
+              },
             ],
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'residentsPerHousing',
+          },
         ],
       },
-
       cf_maintenance: {
         '/': [
           {
             '*': [
-              { var: 'housing_surface_area' },
-              { var: 'EI_MAINTENANCE_PER_SQUARE_METER' },
+              {
+                '+': [{ var: 'houseSurfaceArea' }, { var: 'flatSurfaceArea' }],
+              },
+              {
+                var: 'EI_MAINTENANCE_PER_SQUARE_METER',
+              },
             ],
           },
-          { var: 'residents_per_housing' },
+          {
+            var: 'residentsPerHousing',
+          },
         ],
       },
       cf_water: {
         '*': [
-          { var: 'EI_WATER_PER_LITER' },
-          { var: 'WATER_CONSO_LITER_PER_DAY_PER_PERSON' },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'EI_WATER_PER_LITER',
+          },
+          {
+            var: 'WATER_CONSO_LITER_PER_YEAR_PER_PERSON',
+          },
         ],
       },
       cf_wood_heating: {
-        '*': [{ var: 'wood_heating_kwh' }, { var: 'EI_WOOD_PER_KWH' }],
+        '*': [
+          {
+            var: 'woodHeatingKwh',
+          },
+          {
+            var: 'EI_WOOD_PER_KWH',
+          },
+        ],
       },
       cf_wood_cooking: {
-        '*': [{ var: 'wood_cooking_kwh' }, { var: 'EI_WOOD_PER_KWH' }],
+        '*': [
+          {
+            var: 'woodCookingKwh',
+          },
+          {
+            var: 'EI_WOOD_PER_KWH',
+          },
+        ],
       },
       cf_wood_water_heating: {
-        '*': [{ var: 'wood_water_heating_kwh' }, { var: 'EI_WOOD_PER_KWH' }],
+        '*': [
+          {
+            var: 'woodWaterHeatingKwh',
+          },
+          {
+            var: 'EI_WOOD_PER_KWH',
+          },
+        ],
       },
-
       cf_gas_heating: {
-        '*': [{ var: 'gas_heating_kwh' }, { var: 'EI_GAS_PER_KWH' }],
+        '*': [
+          {
+            var: 'gasHeatingKwh',
+          },
+          {
+            var: 'EI_GAS_PER_KWH',
+          },
+        ],
       },
       cf_gas_cooking: {
-        '*': [{ var: 'gas_cooking_kwh' }, { var: 'EI_GAS_PER_KWH' }],
+        '*': [
+          {
+            var: 'gasCookingKwh',
+          },
+          {
+            var: 'EI_GAS_PER_KWH',
+          },
+        ],
       },
       cf_gas_water_heating: {
-        '*': [{ var: 'gas_water_heating_kwh' }, { var: 'EI_GAS_PER_KWH' }],
+        '*': [
+          {
+            var: 'gasWaterHeatingKwh',
+          },
+          {
+            var: 'EI_GAS_PER_KWH',
+          },
+        ],
       },
-
       cf_fuel_heating: {
-        '*': [{ var: 'fuel_heating_kwh' }, { var: 'EI_FUEL_OIL_PER_KWH' }],
+        '*': [
+          {
+            var: 'fuelHeatingKwh',
+          },
+          {
+            var: 'EI_FUEL_OIL_PER_KWH',
+          },
+        ],
       },
       cf_fuel_cooking: {
-        '*': [{ var: 'fuel_cooking_kwh' }, { var: 'EI_FUEL_OIL_PER_KWH' }],
+        '*': [
+          {
+            var: 'fuelCookingKwh',
+          },
+          {
+            var: 'EI_FUEL_OIL_PER_KWH',
+          },
+        ],
       },
       cf_fuel_water_heating: {
         '*': [
-          { var: 'fuel_water_heating_kwh' },
-          { var: 'EI_FUEL_OIL_PER_KWH' },
+          {
+            var: 'fuelWaterHeatingKwh',
+          },
+          {
+            var: 'EI_FUEL_OIL_PER_KWH',
+          },
         ],
       },
-
       cf_elec_heating: {
         '*': [
-          { var: 'elec_heating_kwh' },
+          {
+            var: 'elecHeatingKwh',
+          },
           {
             var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
+              cat: [
+                'EI_ELEC_PER_KWH.',
+                {
+                  var: 'electricityProvider',
+                },
+              ],
             },
           },
         ],
       },
       cf_elec_cooking: {
         '*': [
-          { var: 'elec_cooking_kwh' },
+          {
+            var: 'elecCookingKwh',
+          },
           {
             var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
+              cat: [
+                'EI_ELEC_PER_KWH.',
+                {
+                  var: 'electricityProvider',
+                },
+              ],
             },
           },
         ],
       },
       cf_elec_water_heating: {
         '*': [
-          { var: 'elec_water_heating_kwh' },
+          {
+            var: 'elecWaterHeatingKwh',
+          },
           {
             var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
+              cat: [
+                'EI_ELEC_PER_KWH.',
+                {
+                  var: 'electricityProvider',
+                },
+              ],
             },
           },
         ],
       },
       cf_elec_lightning: {
         '*': [
-          { var: 'elec_lightning_kwh' },
+          {
+            var: 'elecLightningKwh',
+          },
           {
             var: {
-              cat: ['EI_ELEC_PER_KWH.', { var: 'electricity_provider' }],
+              cat: [
+                'EI_ELEC_PER_KWH.',
+                {
+                  var: 'electricityProvider',
+                },
+              ],
             },
           },
         ],
       },
-      cf_district_heating: 0,
-
-      // food
-      cf_meat_and_fish: {
+      cf_red_meat: {
         '*': [
-          { var: 'meat_and_fish_conso_per_day' },
-          { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-          { var: 'EI_MEAT_AND_FISH' },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'redMeatKgPerYear',
+          },
+          {
+            var: 'EI_RED_MEAT',
+          },
         ],
       },
-      cf_eggs_and_dairies: {
+      cf_white_meat: {
         '*': [
-          { var: 'eggs_and_dairies_conso_per_day' },
-          { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-          { var: 'EI_EGGS_AND_DAIRIES' },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'whiteMeatKgPerYear',
+          },
+          {
+            var: 'EI_WHITE_MEAT',
+          },
+        ],
+      },
+      cf_fish: {
+        '*': [
+          {
+            var: 'fishKgPerYear',
+          },
+          {
+            var: 'EI_FISH',
+          },
+        ],
+      },
+      cf_eggs: {
+        '*': [
+          {
+            var: 'eggsKgPerYear',
+          },
+          {
+            var: 'EI_EGGS',
+          },
+        ],
+      },
+
+      cf_dairies: {
+        '*': [
+          {
+            var: 'dairiesKgPerYear',
+          },
+          {
+            var: 'EI_DAIRIES',
+          },
         ],
       },
       cf_transformed_products: {
         '*': [
-          { var: 'transformed_products_conso_per_week' },
-          { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-          { var: 'EI_TRANSFORMED_PRODUCTS' },
-          { var: 'WEEKS_PER_YEAR' },
+          {
+            var: 'transformedProductsKgPerYear',
+          },
+          {
+            var: 'EI_TRANSFORMED_PRODUCTS',
+          },
+        ],
+      },
+
+      cf_starches_and_groceries: {
+        '*': [
+          {
+            var: 'starchesAndGroceriesKgPerYear',
+          },
+          {
+            var: 'EI_STARCHES_AND_GROCERIES',
+          },
         ],
       },
       cf_local_fruits_and_vegetables: {
         '*': [
           {
-            max: [
-              {
-                '*': [
-                  {
-                    '+': [
-                      { var: 'FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY' },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'meat_and_fish_conso_per_day' },
-                                  { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'eggs_and_dairies_conso_per_day' },
-                                  { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              {
-                                var:
-                                  'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY',
-                              },
-                              {
-                                '*': [
-                                  {
-                                    '/': [
-                                      {
-                                        var:
-                                          'transformed_products_conso_per_week',
-                                      },
-                                      { var: 'DAYS_PER_WEEK' },
-                                    ],
-                                  },
-                                  { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  { var: 'fruits_and_vegetable_percentage_local' },
-                  { var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' },
-                ],
-              },
-              {
-                '*': [
-                  { var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY' },
-                  { var: 'fruits_and_vegetable_percentage_local' },
-                ],
-              },
-            ],
+            var: 'EI_LOCAL_FRUITS_AND_VEGETABLES',
           },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'fruitsAndVegetablesKgPerYear',
+          },
+          {
+            var: 'fruitsAndVegetablePercentageLocal',
+          },
         ],
       },
       cf_imported_fruits_and_vegetables: {
         '*': [
           {
-            max: [
-              {
-                '*': [
-                  {
-                    '+': [
-                      { var: 'FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY' },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'meat_and_fish_conso_per_day' },
-                                  { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'eggs_and_dairies_conso_per_day' },
-                                  { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              {
-                                var:
-                                  'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY',
-                              },
-                              {
-                                '*': [
-                                  {
-                                    '/': [
-                                      {
-                                        var:
-                                          'transformed_products_conso_per_week',
-                                      },
-                                      { var: 'DAYS_PER_WEEK' },
-                                    ],
-                                  },
-                                  { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  {
-                    '-': [1, { var: 'fruits_and_vegetable_percentage_local' }],
-                  },
-                  { var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' },
-                ],
-              },
-              {
-                '*': [
-                  { var: 'FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY' },
-                  {
-                    '-': [1, { var: 'fruits_and_vegetable_percentage_local' }],
-                  },
-                ],
-              },
-            ],
+            var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES',
           },
-          { var: 'DAYS_PER_YEAR' },
-        ],
-      },
-      cf_starches_and_groceries: {
-        '*': [
           {
-            max: [
+            var: 'fruitsAndVegetablesKgPerYear',
+          },
+          {
+            '-': [
+              1,
               {
-                '*': [
-                  {
-                    '+': [
-                      { var: 'STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY' },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'meat_and_fish_conso_per_day' },
-                                  { var: 'MEAT_AND_FISH_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              { var: 'EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY' },
-                              {
-                                '*': [
-                                  { var: 'eggs_and_dairies_conso_per_day' },
-                                  { var: 'EGGS_AND_DAIRIES_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                      {
-                        '*': [
-                          {
-                            '-': [
-                              {
-                                var:
-                                  'TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY',
-                              },
-                              {
-                                '*': [
-                                  {
-                                    '/': [
-                                      {
-                                        var:
-                                          'transformed_products_conso_per_week',
-                                      },
-                                      { var: 'DAYS_PER_WEEK' },
-                                    ],
-                                  },
-                                  { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
-                                ],
-                              },
-                            ],
-                          },
-                          {
-                            var:
-                              'STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  { var: 'EI_STARCHES_AND_GROCERIES' },
-                ],
+                var: 'fruitsAndVegetablePercentageLocal',
               },
-              { var: 'STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY' },
             ],
           },
-          { var: 'DAYS_PER_YEAR' },
         ],
       },
+      cf_district_heating: 0,
       cf_alcohol: {
         '*': [
-          { var: 'alcohol_conso_glass_per_day' },
-          { var: 'ALCOHOL_LITER_PER_GLASS' },
-          { var: 'EI_ALCOHOL' },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'alcoholConsoLitersPerYear',
+          },
+          {
+            var: 'EI_ALCOHOL',
+          },
         ],
       },
       cf_hot_drinks: {
         '*': [
-          { var: 'hot_drinks_conso_glass_per_day' },
-          { var: 'HOT_DRINKS_LITER_PER_GLASS' },
-          { var: 'EI_HOT_DRINKS' },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'hotDrinksConsoLitersPerYear',
+          },
+          {
+            var: 'EI_HOT_DRINKS',
+          },
         ],
       },
       cf_juices_and_sodas: {
         '*': [
-          { var: 'juices_and_sodas_conso_glass_per_day' },
-          { var: 'JUICES_AND_SODAS_LITER_PER_GLASS' },
-          { var: 'EI_JUICES_AND_SODAS' },
-          { var: 'DAYS_PER_YEAR' },
+          {
+            var: 'juicesAndSodasConsoLitersPerYear',
+          },
+          {
+            var: 'EI_JUICES_AND_SODAS',
+          },
         ],
-      },
-      // public Services
-      cf_gas_public_services: { var: 'CF_GAS_PUBLIC_SERVICES' },
-      cf_elec_public_services: { var: 'CF_ELEC_PUBLIC_SERVICES' },
-      cf_other_public_services: { var: 'CF_OTHER_PUBLIC_SERVICES' },
-
-      // others
-      cf_clothes: {
-        '*': [{ var: 'clothes_new_items' }, { var: 'EI_CLOTHES_PER_ITEM' }],
       },
       cf_small_devices_cradle_to_crate: {
-        '*': [{ var: 'number_small_devices' }, { var: 'EI_SMALL_DEVICES' }],
-      },
-      cf_big_devices_cradle_to_crate: {
-        '*': [{ var: 'number_big_devices' }, { var: 'EI_BIG_DEVICES' }],
-      },
-      cf_internet_others: { var: 'CF_INTERNET_OTHERS' },
-      cf_internet_streaming: {
         '*': [
-          { var: 'internet_streaming_hours_per_week' },
-          { var: 'WEEKS_PER_YEAR' },
-          { var: 'EI_INTERNET_STREAMING' },
+          {
+            var: 'numberSmallDevices',
+          },
+          {
+            var: 'EI_SMALL_DEVICES',
+          },
         ],
       },
-      cf_services_electricity: { var: 'CF_SERVICES_ELECTRICITY' },
-      cf_services_gas: { var: 'CF_SERVICES_GAS' },
+      cf_big_devices_cradle_to_crate: {
+        '*': [
+          {
+            var: 'numberBigDevices',
+          },
+          {
+            var: 'EI_BIG_DEVICES',
+          },
+        ],
+      },
+      cf_internet_others: {
+        var: 'CF_INTERNET_OTHERS',
+      },
+      cf_internet_streaming: {
+        '*': [
+          {
+            var: 'internetStreamingHoursPerWeek',
+          },
+          {
+            var: 'EI_INTERNET_STREAMING',
+          },
+        ],
+      },
+      cf_clothes: {
+        '*': [
+          {
+            var: 'clothesNewItems',
+          },
+          {
+            var: 'EI_CLOTHES_PER_ITEM',
+          },
+        ],
+      },
+      cf_services_electricity: {
+        var: 'CF_SERVICES_ELECTRICITY',
+      },
+      cf_services_gas: {
+        var: 'CF_SERVICES_GAS',
+      },
       cf_services_without_energy: {
         var: 'CF_GOODS_AND_SERVICES_WITHOUT_ENERGY',
       },
       cf_activities_electricity: {
         '*': [
-          { var: 'activities_per_month' },
-          { var: 'MONTHS_PER_YEAR' },
-          { var: 'EI_ACTIVITIES_ELEC' },
+          {
+            var: 'activitiesPerYear',
+          },
+          {
+            var: 'EI_ACTIVITIES_ELEC',
+          },
         ],
       },
       cf_activities_gas: {
         '*': [
-          { var: 'activities_per_month' },
-          { var: 'MONTHS_PER_YEAR' },
-          { var: 'EI_ACTIVITIES_GAS' },
+          {
+            var: 'activitiesPerYear',
+          },
+          {
+            var: 'EI_ACTIVITIES_GAS',
+          },
         ],
       },
       cf_activities_without_energy: {
         '*': [
-          { var: 'activities_per_month' },
-          { var: 'EI_ACTIVITIES_WITHOUT_ENERGY' },
+          {
+            var: 'activitiesPerYear',
+          },
+          {
+            var: 'EI_ACTIVITIES_WITHOUT_ENERGY',
+          },
         ],
+      },
+      cf_other_public_services: {
+        var: 'CF_OTHER_SERVICES',
+      },
+      cf_gas_public_services: {
+        var: 'CF_GAS_SERVICES',
+      },
+      cf_elec_public_services: {
+        var: 'CF_ELEC_SERVICES',
       },
     },
     actionCards: [
       {
         id: 1,
         name: 'SE DEPLACER A PIEDS OU A VÉLO',
+        key: 'moveWalkingOrBiking',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
-        operations: [],
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'kmCarCommutePerYear',
+            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.5] },
+          },
+        ],
       },
       {
         id: 2,
         name: 'REMPLACER LA VOITURE PAR LES TRANSPORTS EN COMMUN',
+        key: 'publicTransportsInsteadOfCar',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
-        operations: [],
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'kmCarCommutePerYear',
+            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.5] },
+          },
+          {
+            variable: 'kmCoachCommutePerYear',
+            operation: { '*': [{ var: 'kmCoachCommutePerYear' }, 0.5] },
+          },
+          {
+            variable: 'kmUrbanTrainPerYear',
+            operation: { '*': [{ var: 'kmUrbanTrainPerYear' }, 0.5] },
+          },
+        ],
       },
       {
         id: 3,
@@ -1033,11 +1098,16 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
+        key: 'carpooling',
         cost: 2,
         operations: [
           {
-            variable: 'km_per_day_car_commute',
-            operation: { '*': [{ var: 'km_per_day_car_commute' }, 0.5] },
+            variable: 'passengersPerCarCommute',
+            operation: { min: [{ var: 'passengersPerCarCommute' }, 2.4] },
+          },
+          {
+            variable: 'passengersPerCarTravel',
+            operation: { min: [{ var: 'passengersPerCarTravel' }, 2.4] },
           },
         ],
       },
@@ -1047,19 +1117,24 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
+        key: 'homeOffice',
         cost: 3,
         operations: [
           {
-            variable: 'km_car_commute_per_day',
-            operation: { '*': [{ var: 'km_car_commute_per_day' }, 0.7] },
+            variable: 'kmCarCommutePerYear',
+            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.7] },
           },
           {
-            variable: 'hours_urban_bus_per_week',
-            operation: { '*': [{ var: 'hours_urban_bus_per_week' }, 0.7] },
+            variable: 'kmCoachCommutePerYear',
+            operation: { '*': [{ var: 'kmCoachCommutePerYear' }, 0.7] },
           },
           {
-            variable: 'hours_urban_train_per_week',
-            operation: { '*': [{ var: 'hours_urban_train_per_week' }, 0.7] },
+            variable: 'kmUrbanBusPerYear',
+            operation: { '*': [{ var: 'kmUrbanBusPerYear' }, 0.7] },
+          },
+          {
+            variable: 'kmUrbanTrainPerYear',
+            operation: { '*': [{ var: 'kmUrbanTrainPerYear' }, 0.7] },
           },
         ],
       },
@@ -1069,51 +1144,12 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
+        key: 'efficientDriving',
         cost: 1,
         operations: [
           {
-            variable: 'km_car_commute_per_day',
-            operation: { '-': [{ var: 'km_car_commute_per_day' }, 0.5] },
-          },
-          {
-            variable: 'hours_urban_bus_per_week',
-            operation: {
-              '+': [
-                { var: 'hours_urban_bus_per_week' },
-                {
-                  '/': [
-                    {
-                      '*': [
-                        { var: 'km_car_commute_per_day' },
-                        0.25,
-                        { var: 'DAY_PER_WEEK' },
-                      ],
-                    },
-                    { var: 'MEAN_SPEED_URBAN_BUS' },
-                  ],
-                },
-              ],
-            },
-          },
-          {
-            variable: 'hours_urban_train_per_week',
-            operation: {
-              '+': [
-                { var: 'hours_urban_train_per_week' },
-                {
-                  '/': [
-                    {
-                      '*': [
-                        { var: 'km_car_commute_per_day' },
-                        0.25,
-                        { var: 'DAY_PER_WEEK' },
-                      ],
-                    },
-                    { var: 'MEAN_SPEED_URBAN_TRAIN' },
-                  ],
-                },
-              ],
-            },
+            variable: 'coefficientEnergyEfficientDriving',
+            operation: 0.75,
           },
         ],
       },
@@ -1123,13 +1159,20 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
+        key: 'stopPlane',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'kmPlane',
+            operation: 0,
+          },
+        ],
       },
       {
         id: 7,
@@ -1137,13 +1180,20 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
+        key: 'lowerHeating',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'kmCarCommutePerYear',
+            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.7] },
+          },
+        ],
       },
       {
         id: 8,
@@ -1152,12 +1202,30 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'woodHeatingKwh',
+            operation: { '*': [{ var: 'woodHeatingKwh' }, 0.86] },
+          },
+          {
+            variable: 'fuelHeatingKwh',
+            operation: { '*': [{ var: 'fuelHeatingKwh' }, 0.86] },
+          },
+          {
+            variable: 'elecHeatingKwh',
+            operation: { '*': [{ var: 'elecHeatingKwh' }, 0.86] },
+          },
+          {
+            variable: 'gasHeatingKwh',
+            operation: { '*': [{ var: 'gasHeatingKwh' }, 0.86] },
+          },
+        ],
       },
       {
         id: 9,
@@ -1166,12 +1234,19 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'electricitySaving',
+        operations: [
+          {
+            variable: 'elecLightningKwh',
+            operation: { '*': [{ var: 'elecLightningKwh' }, 0.8] },
+          },
+        ],
       },
       {
         id: 10,
@@ -1179,13 +1254,20 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
+        key: 'alternativeElectricityProvider',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'electricityProvider',
+            operation: 'ALTERNATIVE',
+          },
+        ],
       },
       {
         id: 11,
@@ -1193,13 +1275,20 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
+        key: 'houseSharing',
         cost: 3,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'residents_per_housing',
+            operation: { '+': [{ var: 'residents_per_housing' }, 1] },
+          },
+        ],
       },
       {
         id: 12,
@@ -1208,12 +1297,39 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'extend_goods_life',
+        operations: [
+          {
+            variable: 'numberSmallAppliances',
+            operation: {
+              '*': ['numberSmallAppliances', 0.5],
+            },
+          },
+          {
+            variable: 'numberBigAppliances',
+            operation: {
+              '*': ['numberBigAppliances', 0.5],
+            },
+          },
+          {
+            variable: 'numberSmallDevices',
+            operation: {
+              '*': ['numberSmallDevices', 0.5],
+            },
+          },
+          {
+            variable: 'numberBigDevices',
+            operation: {
+              '*': ['numberBigDevices', 0.5],
+            },
+          },
+        ],
       },
       {
         id: 13,
@@ -1222,12 +1338,19 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'lessClothes',
+        operations: [
+          {
+            variable: 'clothesNewItems',
+            operation: { '*': [{ var: 'clothesNewItems' }, 0.5] },
+          },
+        ],
       },
       {
         id: 14,
@@ -1236,12 +1359,19 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'lessStreaming',
+        operations: [
+          {
+            variable: 'internetStreamingHoursPerYear',
+            operation: { '*': [{ var: 'internetStreamingHoursPerYear' }, 0.5] },
+          },
+        ],
       },
       {
         id: 15,
@@ -1250,12 +1380,16 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'semiVegetarianism',
+        operations: [
+          // TODO
+        ],
       },
       {
         id: 16,
@@ -1263,13 +1397,29 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
+        key: 'lessRedMeat',
         cost: 2,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'redMeatKgPerYear',
+            operation: { '*': [{ var: 'redMeatKgPerYear' }, 0.8] },
+          },
+          {
+            variable: 'whiteMeatKgPerYear',
+            operation: {
+              '+': [
+                { var: 'redMeatKgPerYear' },
+                { '*': [{ var: 'redMeatKgPerYear' }, 0.8] },
+              ],
+            },
+          },
+        ],
       },
       {
         id: 17,
@@ -1278,12 +1428,16 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'lessEggsAndDairies',
+        operations: [
+          // TODO
+        ],
       },
       {
         id: 18,
@@ -1292,12 +1446,16 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'houseCooking',
+        operations: [
+          // TODO
+        ],
       },
       {
         id: 19,
@@ -1306,12 +1464,16 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 1,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'localFruitsAndVegetables',
+        operations: [
+          // TODO
+        ],
       },
       {
         id: 20,
@@ -1320,12 +1482,33 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'lessDrinks',
+        operations: [
+          {
+            variable: 'alcoholConsoLitersPerYear',
+            operation: {
+              '*': ['alcoholConsoLitersPerYear', 0.5],
+            },
+          },
+          {
+            variable: 'juicesAndSodasConsoLitersPerYear',
+            operation: {
+              '*': ['juicesAndSodasConsoLitersPerYear', 0.5],
+            },
+          },
+          {
+            variable: 'juicesAndSodasConsoLitersPerYear',
+            operation: {
+              '*': ['juicesAndSodasConsoLitersPerYear', 0.5],
+            },
+          },
+        ],
       },
       {
         id: 21,
@@ -1334,12 +1517,16 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        key: 'lessFoodPackaging',
+        operations: [
+          // TODO
+        ],
       },
       {
         id: 22,
@@ -1347,8 +1534,9 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
+        key: 'organicFood',
         cost: 2,
-        operations: [],
+
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1400,6 +1588,147 @@ export default {
         actionCardIds: [20, 21],
       },
     ],
+    globalCarbonVariables: {
+      EI_URBAN_BUS: 0.15,
+      MEAN_SPEED_URBAN_BUS: 12,
+      EI_COACH: 0.04,
+      MEAN_SPEED_COACH: 80,
+
+      // Food
+      EI_MEAT_AND_FISH: 12.89,
+      EI_RED_MEAT: 12.89,
+      EI_WHITE_MEAT: 12.89,
+      EI_FISH: 12.89,
+      MEAT_AND_FISH_KG_PER_CONSO: 0.15,
+      MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 0.13,
+      PART_OF_RED_MEAT: 0.33,
+      PART_OF_WHITE_MEAT: 0.33,
+      PART_OF_FISH: 0.33,
+
+      EI_EGGS: 3.57,
+      EI_DAIRIES: 3.57,
+      EGGS_AND_DAIRIES_KG_PER_CONSO: 0.11,
+      EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 0.22,
+      PART_OF_EGGS: 0.5,
+      PART_OF_DAIRIES: 0.5,
+
+      EI_LOCAL_FRUITS_AND_VEGETABLES: 0.26,
+      EI_IMPORTED_FRUITS_AND_VEGETABLES: 2.24,
+      FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 0.16,
+      FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY: 0.314,
+      FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
+      FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
+      FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
+      EI_TRANSFORMED_PRODUCTS: 4.32,
+      TRANSFORMED_PRODUCTS_KG_PER_CONSO: 0.3,
+      TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 0.158,
+
+      EI_STARCHES_AND_GROCERIES: 1.45,
+      STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 0.16,
+      STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 0.33,
+      STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 0.5,
+      STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 0.5,
+      STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 0.5,
+
+      EI_ALCOHOL: 2.09,
+      ALCOHOL_LITER_PER_GLASS: 0.3,
+      EI_HOT_DRINKS: 3.08,
+      HOT_DRINKS_LITER_PER_GLASS: 0.02,
+      EI_JUICES_AND_SODAS: 1.47,
+      JUICES_AND_SODAS_LITER_PER_GLASS: 0.2,
+
+      MEAN_SPEED_URBAN_TRAIN: 25,
+      EI_URBAN_TRAIN: 0.01,
+      EI_COUNTRY_TRAIN: 0.01,
+      PASSENGER_PER_TGV: 285,
+      PASSENGER_PER_TER: 80,
+      EI_PLANE: 0.25,
+      EI_BIG_APPLIANCE: 23.3,
+      EI_SMALL_APPLIANCE: 7,
+      CF_WATER_HEATER: 102.872,
+      EI_FURNITURES_PER_SQUARE_METER: 3.95,
+      CF_FURNITURES_MIN_ONE_RESIDENT: 73.4044444,
+      EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER: 14.167,
+      EI_CONSTRUCTION_FLAT_PER_SQUARE_METER: 17.5,
+      DEPRECIATION_DURATION: 30,
+      EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
+      EI_WATER_PER_LITER: 0.000168,
+      WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
+      EI_ELEC_PER_KWH: {
+        CONVENTIONAL: 0.116,
+        ALTERNATIVE: 0.013,
+      },
+      EI_GAS_PER_KWH: 0.227,
+      EI_FUEL_OIL_PER_KWH: 0.323,
+      EI_WOOD_PER_KWH: 0.03,
+      LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 1062.4,
+      SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR: 711.4,
+      COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 346.4,
+      SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON: 0.05,
+      COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0.2,
+      LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+      EI_INTERNET_STREAMING: 0.125,
+      CF_INTERNET_OTHERS: 48.66,
+      EI_BIG_DEVICES: 47.8,
+      EI_SMALL_DEVICES: 12.5,
+      CF_SERVICES_GAS: 70.19,
+      CF_SERVICES_ELECTRICITY: 62.88,
+      CF_GOODS_AND_SERVICES_WITHOUT_ENERGY: 211.92,
+      EI_ACTIVITIES_GAS: 0.74,
+      EI_ACTIVITIES_ELEC: 0.66,
+      EI_ACTIVITIES_WITHOUT_ENERGY: 0.66,
+      EI_CLOTHES_PER_ITEM: 22.38,
+
+      EI_HOUSING_PER_SURFACE_AREA: {
+        HOUSE: {
+          BEFORE_1975: 232.5,
+          BETWEEN_1975_AND_2000: 142.5,
+          AFTER_2000: 72.5,
+        },
+        FLAT: {
+          BEFORE_1975: 205.1,
+          BETWEEN_1975_AND_2000: 115.1,
+          AFTER_2000: 45.1,
+        },
+      },
+      EI_CAR: {
+        URBAN: {
+          FUEL: 0.232,
+          ELECTRIC: 0.09915,
+          HYBRID: 0.171,
+        },
+        BIG: {
+          FUEL: 0.2665,
+          ELECTRIC: 0.139,
+          HYBRID: 0.2245,
+        },
+        SPORT: {
+          FUEL: 0.344,
+          ELECTRIC: 0.3125,
+          HYBRID: 0.3125,
+        },
+      },
+      MOTOR_AGING_FACTOR: {
+        FUEL: {
+          TEN_YEARS_OR_YOUNGER: 0.943292608,
+          BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1.101343381,
+          FIFTEEN_YEARS_OR_OLDER: 1.164876711,
+        },
+        ELECTRIC: {
+          TEN_YEARS_OR_YOUNGER: 1,
+          BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+          FIFTEEN_YEARS_OR_OLDER: 1,
+        },
+        HYBRID: {
+          TEN_YEARS_OR_YOUNGER: 1,
+          BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+          FIFTEEN_YEARS_OR_OLDER: 1,
+        },
+      },
+      CF_GAS_SERVICES: 336,
+      CF_ELEC_SERVICES: 301,
+      CF_OTHER_SERVICES: 363,
+    },
   },
   participants: [
     {
@@ -1411,8 +1740,59 @@ export default {
       status: 'registered',
       carbonFootprintId: '123456',
       surveyVariables: {
-        hours_urban_bus_per_week: 5,
-        km_car_commute_per_day: 25,
+        meatAndFishConsoPerDay: 0.5,
+        eggsAndDairiesConsoPerDay: 0.5,
+        fruitsAndVegetablePercentageLocal: 0.5,
+        transformedProductsConsoPerWeek: 3,
+        alcoholConsoGlassPerDay: 1,
+        hotDrinksConsoGlassPerDay: 5,
+        juicesAndSodasConsoGlassPerDay: 2,
+
+        // transports
+        categoryCarCommute: 'URBAN',
+        motorTypeCarCommute: 'FUEL',
+        ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+        kmCarCommutePerDay: 25,
+        passengersPerCarCommute: 3,
+        hoursUrbanBusPerWeek: 1,
+        hoursCoachCommutePerWeek: 2,
+        hoursUrbanTrainPerWeek: 3,
+
+        categoryCarTravel: 'URBAN',
+        motorTypeCarTravel: 'FUEL',
+        ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+
+        kmCarTravelPerYear: 8000,
+        passengersPerCarTravel: 3,
+
+        kmCoachTravel: 1000,
+        kmCountryTrain: 2000,
+        kmPlane: 3000,
+
+        // housing
+        residentsPerHousing: 3,
+        housingSurfaceArea: 60,
+        numberBigAppliances: 7,
+        numberSmallAppliances: 20,
+        housingType: 'HOUSE',
+        electricityProvider: 'ALTERNATIVE',
+        maintainanceDate: 'AFTER_2000',
+        energyConsumptionKnowledge: true,
+        heatingSystemEnergyType: 'GAS',
+        cookingAppliancesEnergyType: 'ELECTRICITY',
+        sanitoryHotWaterEnergyType: 'FUEL_OIL',
+
+        gasKwh: 100,
+        woodKwh: 100,
+        fuelKwh: 100,
+        elecKwh: 100,
+
+        // others
+        clothesNewItems: 30,
+        activitiesPerMonth: 3,
+        numberSmallDevices: 2,
+        numberBigDevices: 3,
+        internetStreamingHoursPerWeek: 5,
       },
     },
     {
@@ -1424,8 +1804,59 @@ export default {
       status: 'registered',
       carbonFootprintId: '123456678',
       surveyVariables: {
-        hours_urban_bus_per_week: 5,
-        km_car_commute_per_day: 25,
+        meatAndFishConsoPerDay: 0.5,
+        eggsAndDairiesConsoPerDay: 0.5,
+        fruitsAndVegetablePercentageLocal: 0.5,
+        transformedProductsConsoPerWeek: 3,
+        alcoholConsoGlassPerDay: 1,
+        hotDrinksConsoGlassPerDay: 5,
+        juicesAndSodasConsoGlassPerDay: 2,
+
+        // transports
+        categoryCarCommute: 'URBAN',
+        motorTypeCarCommute: 'FUEL',
+        ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+        kmCarCommutePerDay: 25,
+        passengersPerCarCommute: 3,
+        hoursUrbanBusPerWeek: 1,
+        hoursCoachCommutePerWeek: 2,
+        hoursUrbanTrainPerWeek: 3,
+
+        categoryCarTravel: 'URBAN',
+        motorTypeCarTravel: 'FUEL',
+        ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+
+        kmCarTravelPerYear: 8000,
+        passengersPerCarTravel: 3,
+
+        kmCoachTravel: 1000,
+        kmCountryTrain: 2000,
+        kmPlane: 3000,
+
+        // housing
+        residentsPerHousing: 3,
+        housingSurfaceArea: 60,
+        numberBigAppliances: 7,
+        numberSmallAppliances: 20,
+        housingType: 'HOUSE',
+        electricityProvider: 'ALTERNATIVE',
+        maintainanceDate: 'AFTER_2000',
+        energyConsumptionKnowledge: true,
+        heatingSystemEnergyType: 'GAS',
+        cookingAppliancesEnergyType: 'ELECTRICITY',
+        sanitoryHotWaterEnergyType: 'FUEL_OIL',
+
+        gasKwh: 100,
+        woodKwh: 100,
+        fuelKwh: 100,
+        elecKwh: 100,
+
+        // others
+        clothesNewItems: 30,
+        activitiesPerMonth: 3,
+        numberSmallDevices: 2,
+        numberBigDevices: 3,
+        internetStreamingHoursPerWeek: 5,
       },
     },
   ],
@@ -1494,141 +1925,119 @@ export default {
         {
           participantId: 1,
           variables: {
-            // food
-            meat_and_fish_conso_per_day: 0.5,
-            eggs_and_dairies_conso_per_day: 0.5,
-            fruits_and_vegetable_percentage_local: 0.5,
-            transformed_products_conso_per_week: 3,
-            alcohol_conso_glass_per_day: 1,
-            hot_drinks_conso_glass_per_day: 5,
-            juices_and_sodas_conso_glass_per_day: 2,
-
-            // transports
-            category_car_commute: 'URBAN',
-            motor_type_car_commute: 'FUEL',
-            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
-            km_per_day_car_commute: 2,
-            passengers_per_car_commute: 3,
-            hours_urban_bus_per_week: 1,
-            hours_coach_commute_per_week: 2,
-            hours_urban_train_per_week: 3,
-            coefficient_energy_efficient_driving: 1,
-
-            category_car_travel: 'URBAN',
-            motor_type_car_travel: 'FUEL',
-            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
-            km_per_year_car_travel: 8000,
-            passengers_per_car_travel: 3,
-
-            km_coach_travel: 1000,
-            km_country_train: 2000,
-            km_plane: 3000,
-            // housing
-            residents_per_housing: 3,
-            housing_surface_area: 60,
-            house_surface_area: 60,
-            flat_surface_area: 0,
-            number_big_appliances: 7,
-            number_small_appliances: 20,
-            housing_type: 'HOUSE',
-            electricity_provider: 'ALTERNATIVE',
-            maintainance_date: 'AFTER_2000',
-            energy_consumption_knowledge: true,
-            heating_system_energy_type: 'GAS',
-            cooking_appliances_energy_type: 'ELECTRICITY',
-            sanitory_hot_water_energy_type: 'FUEL_OIL',
-
-            elec_lightning_kwh: 100,
-            elec_water_heating_kwh: 100,
-            elec_cooking_kwh: 100,
-            elec_heating_kwh: 100,
-            fuel_water_heating_kwh: 100,
-            fuel_cooking_kwh: 100,
-            fuel_heating_kwh: 100,
-            gas_water_heating_kwh: 100,
-            gas_cooking_kwh: 100,
-            gas_heating_kwh: 100,
-            wood_water_heating_kwh: 100,
-            wood_cooking_kwh: 100,
-            wood_heating_kwh: 100,
-
-            // others
-            clothes_new_items: 30,
-            activities_per_month: 3,
-            number_small_devices: 2,
-            number_big_devices: 3,
-            internet_streaming_hours_per_week: 5,
+            residentsPerHousing: 3,
+            redMeatKgPerYear: 9.033750000000001,
+            whiteMeatKgPerYear: 9.033750000000001,
+            fishKgPerYear: 9.033750000000001,
+            eggsKgPerYear: 10.0375,
+            dairiesKgPerYear: 10.0375,
+            transformedProductsKgPerYear: 45.9,
+            fruitsAndVegetablesKgPerYear: 296.6928571428572,
+            starchesAndGroceriesKgPerYear: 165.9707142857143,
+            alcoholConsoLitersPerYear: 109.5,
+            hotDrinksConsoLitersPerYear: 36.5,
+            juicesAndSodasConsoLitersPerYear: 146,
+            kmCarCommutePerYear: 730,
+            kmUrbanBusPerYear: 612,
+            kmCoachCommutePerYear: 160,
+            kmUrbanTrainPerYear: 3825,
+            internetStreamingHoursPerWeek: 255,
+            activitiesPerYear: 36,
+            woodHeatingKwh: 0,
+            woodCookingKwh: 0,
+            woodWaterHeatingKwh: 0,
+            gasHeatingKwh: 100,
+            gasCookingKwh: 0,
+            gasWaterHeatingKwh: 0,
+            fuelHeatingKwh: 0,
+            fuelCookingKwh: 0,
+            fuelWaterHeatingKwh: 0,
+            elecHeatingKwh: 0,
+            elecCookingKwh: 20.688007644529378,
+            elecLightningKwh: 79.31199235547062,
+            elecWaterHeatingKwh: 0,
+            fruitsAndVegetablePercentageLocal: 0.5,
+            categoryCarCommute: 'URBAN',
+            motorTypeCarCommute: 'FUEL',
+            ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+            kmCarCommutePerDay: 25,
+            passengersPerCarCommute: 3,
+            coefficientEnergyEfficientDriving: 1,
+            categoryCarTravel: 'URBAN',
+            motorTypeCarTravel: 'FUEL',
+            ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+            kmCarTravelPerYear: 8000,
+            passengersPerCarTravel: 3,
+            kmCoachTravel: 1000,
+            kmCountryTrain: 2000,
+            kmPlane: 3000,
+            houseSurfaceArea: 60,
+            flatSurfaceArea: 0,
+            numberBigAppliances: 7,
+            numberSmallAppliances: 20,
+            electricityProvider: 'ALTERNATIVE',
+            numberSmallDevices: 2,
+            numberBigDevices: 3,
+            clothesNewItems: 30,
           },
         },
         {
           participantId: 2,
           variables: {
-            // food
-            meat_and_fish_conso_per_day: 0.5,
-            eggs_and_dairies_conso_per_day: 0.5,
-            fruits_and_vegetable_percentage_local: 0.5,
-            transformed_products_conso_per_week: 3,
-            alcohol_conso_glass_per_day: 1,
-            hot_drinks_conso_glass_per_day: 5,
-            juices_and_sodas_conso_glass_per_day: 2,
-
-            // transports
-            category_car_commute: 'URBAN',
-            motor_type_car_commute: 'FUEL',
-            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
-            km_per_day_car_commute: 2,
-            passengers_per_car_commute: 3,
-            hours_urban_bus_per_week: 1,
-            hours_coach_commute_per_week: 2,
-            hours_urban_train_per_week: 3,
-            coefficient_energy_efficient_driving: 1,
-
-            category_car_travel: 'URBAN',
-            motor_type_car_travel: 'FUEL',
-            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
-            km_per_year_car_travel: 8000,
-            passengers_per_car_travel: 3,
-
-            km_coach_travel: 1000,
-            km_country_train: 2000,
-            km_plane: 3000,
-            // housing
-            residents_per_housing: 3,
-            housing_surface_area: 60,
-            house_surface_area: 60,
-            flat_surface_area: 0,
-            number_big_appliances: 7,
-            number_small_appliances: 20,
-            housing_type: 'HOUSE',
-            electricity_provider: 'ALTERNATIVE',
-            maintainance_date: 'AFTER_2000',
-            energy_consumption_knowledge: true,
-            heating_system_energy_type: 'GAS',
-            cooking_appliances_energy_type: 'ELECTRICITY',
-            sanitory_hot_water_energy_type: 'FUEL_OIL',
-
-            elec_lightning_kwh: 100,
-            elec_water_heating_kwh: 100,
-            elec_cooking_kwh: 100,
-            elec_heating_kwh: 100,
-            fuel_water_heating_kwh: 100,
-            fuel_cooking_kwh: 100,
-            fuel_heating_kwh: 100,
-            gas_water_heating_kwh: 100,
-            gas_cooking_kwh: 100,
-            gas_heating_kwh: 100,
-            wood_water_heating_kwh: 100,
-            wood_cooking_kwh: 100,
-            wood_heating_kwh: 100,
-
-            // others
-            clothes_new_items: 30,
-            activities_per_month: 3,
-            number_small_devices: 2,
-            number_big_devices: 3,
-            internet_streaming_hours_per_week: 5,
+            residentsPerHousing: 3,
+            redMeatKgPerYear: 9.033750000000001,
+            whiteMeatKgPerYear: 9.033750000000001,
+            fishKgPerYear: 9.033750000000001,
+            eggsKgPerYear: 10.0375,
+            dairiesKgPerYear: 10.0375,
+            transformedProductsKgPerYear: 45.9,
+            fruitsAndVegetablesKgPerYear: 296.6928571428572,
+            starchesAndGroceriesKgPerYear: 165.9707142857143,
+            alcoholConsoLitersPerYear: 109.5,
+            hotDrinksConsoLitersPerYear: 36.5,
+            juicesAndSodasConsoLitersPerYear: 146,
+            kmCarCommutePerYear: 730,
+            kmUrbanBusPerYear: 612,
+            kmCoachCommutePerYear: 160,
+            kmUrbanTrainPerYear: 3825,
+            internetStreamingHoursPerWeek: 255,
+            activitiesPerYear: 36,
+            woodHeatingKwh: 0,
+            woodCookingKwh: 0,
+            woodWaterHeatingKwh: 0,
+            gasHeatingKwh: 100,
+            gasCookingKwh: 0,
+            gasWaterHeatingKwh: 0,
+            fuelHeatingKwh: 0,
+            fuelCookingKwh: 0,
+            fuelWaterHeatingKwh: 0,
+            elecHeatingKwh: 0,
+            elecCookingKwh: 20.688007644529378,
+            elecLightningKwh: 79.31199235547062,
+            elecWaterHeatingKwh: 0,
+            fruitsAndVegetablePercentageLocal: 0.5,
+            categoryCarCommute: 'URBAN',
+            motorTypeCarCommute: 'FUEL',
+            ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+            kmCarCommutePerDay: 25,
+            passengersPerCarCommute: 3,
+            coefficientEnergyEfficientDriving: 1,
+            categoryCarTravel: 'URBAN',
+            motorTypeCarTravel: 'FUEL',
+            ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+            kmCarTravelPerYear: 8000,
+            passengersPerCarTravel: 3,
+            kmCoachTravel: 1000,
+            kmCountryTrain: 2000,
+            kmPlane: 3000,
+            houseSurfaceArea: 60,
+            flatSurfaceArea: 0,
+            numberBigAppliances: 7,
+            numberSmallAppliances: 20,
+            electricityProvider: 'ALTERNATIVE',
+            numberSmallDevices: 2,
+            numberBigDevices: 3,
+            clothesNewItems: 30,
           },
         },
       ],
@@ -1652,7 +2061,7 @@ export default {
                       {
                         name: 'urbanTrain',
                         cfKey: 'cf_urban_train',
-                        value: 39,
+                        value: 38.25,
                       },
                       {
                         name: 'countryTrain',
@@ -1660,7 +2069,7 @@ export default {
                         value: 20,
                       },
                     ],
-                    value: 59,
+                    value: 58.25,
                   },
                   {
                     name: 'bus',
@@ -1695,7 +2104,7 @@ export default {
                     value: 636.8357055129601,
                   },
                 ],
-                value: 1492.23570551296,
+                value: 1491.48570551296,
               },
               {
                 name: 'housing',
@@ -1779,25 +2188,25 @@ export default {
                           {
                             name: 'elecHeating',
                             cfKey: 'cf_elec_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecCooking',
                             cfKey: 'cf_elec_cooking',
-                            value: 1.3,
+                            value: 0.2689440993788819,
                           },
                           {
                             name: 'elecWaterHeating',
                             cfKey: 'cf_elec_water_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecLightning',
                             cfKey: 'cf_elec_lightning',
-                            value: 1.3,
+                            value: 1.031055900621118,
                           },
                         ],
-                        value: 5.2,
+                        value: 1.2999999999999998,
                       },
                       {
                         name: 'gas',
@@ -1810,15 +2219,15 @@ export default {
                           {
                             name: 'gasCooking',
                             cfKey: 'cf_gas_cooking',
-                            value: 22.7,
+                            value: 0,
                           },
                           {
                             name: 'gasWaterHeating',
                             cfKey: 'cf_gas_water_heating',
-                            value: 22.7,
+                            value: 0,
                           },
                         ],
-                        value: 68.1,
+                        value: 22.7,
                       },
                       {
                         name: 'fuel',
@@ -1826,20 +2235,20 @@ export default {
                           {
                             name: 'fuelHeating',
                             cfKey: 'cf_fuel_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelCooking',
                             cfKey: 'cf_fuel_cooking',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelWaterHeating',
                             cfKey: 'cf_fuel_water_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                         ],
-                        value: 96.9,
+                        value: 0,
                       },
                       {
                         name: 'wood',
@@ -1847,20 +2256,20 @@ export default {
                           {
                             name: 'woodHeating',
                             cfKey: 'cf_wood_heating',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodCooking',
                             cfKey: 'cf_wood_cooking',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodWaterHeating',
                             cfKey: 'cf_wood_water_heating',
-                            value: 3,
+                            value: 0,
                           },
                         ],
-                        value: 9,
+                        value: 0,
                       },
                       {
                         name: 'districtHeating',
@@ -1868,10 +2277,10 @@ export default {
                         value: 0,
                       },
                     ],
-                    value: 188.27536,
+                    value: 33.07536,
                   },
                 ],
-                value: 738.9331377333333,
+                value: 583.7331377333334,
               },
               {
                 name: 'food',
@@ -1882,29 +2291,56 @@ export default {
                       {
                         name: 'alcohol',
                         cfKey: 'cf_alcohol',
-                        value: 228.85499999999996,
+                        value: 228.855,
                       },
                       {
                         name: 'hotDrinks',
                         cfKey: 'cf_hot_drinks',
-                        value: 112.42000000000002,
+                        value: 112.42,
                       },
                       {
                         name: 'juicesAndSoda',
                         cfKey: 'cf_juices_and_sodas',
-                        value: 214.61999999999998,
+                        value: 214.62,
                       },
                     ],
                     value: 555.895,
                   },
                   {
-                    name: 'meatAndFish',
-                    cfKey: 'cf_meat_and_fish',
-                    value: 352.86375,
+                    name: 'meat',
+                    children: [
+                      {
+                        name: 'red_meat',
+                        cfKey: 'cf_red_meat',
+                        value: 116.44503750000003,
+                      },
+                      {
+                        name: 'white_meat',
+                        cfKey: 'cf_white_meat',
+                        value: 116.44503750000003,
+                      },
+                    ],
+                    value: 232.89007500000005,
+                  },
+                  {
+                    name: 'fish',
+                    cfKey: 'cf_fish',
+                    value: 116.44503750000003,
                   },
                   {
                     name: 'eggsAndDairies',
-                    cfKey: 'cf_eggs_and_dairies',
+                    children: [
+                      {
+                        name: 'eggs',
+                        cfKey: 'cf_eggs',
+                        value: 35.833875,
+                      },
+                      {
+                        name: 'dairies',
+                        cfKey: 'cf_dairies',
+                        value: 35.833875,
+                      },
+                    ],
                     value: 71.66775,
                   },
                   {
@@ -1913,7 +2349,7 @@ export default {
                       {
                         name: 'transformedProducts',
                         cfKey: 'cf_transformed_products',
-                        value: 202.176,
+                        value: 198.288,
                       },
                       {
                         name: 'groceriesAndStarches',
@@ -1937,10 +2373,10 @@ export default {
                         value: 370.8660714285715,
                       },
                     ],
-                    value: 813.6996071428573,
+                    value: 809.8116071428572,
                   },
                 ],
-                value: 1794.126107142857,
+                value: 1786.7094696428571,
               },
               {
                 name: 'others',
@@ -1975,7 +2411,7 @@ export default {
                           {
                             name: 'internetStreaming',
                             cfKey: 'cf_internet_streaming',
-                            value: 32.5,
+                            value: 31.875,
                           },
                           {
                             name: 'internetOthers',
@@ -1983,10 +2419,10 @@ export default {
                             value: 48.66,
                           },
                         ],
-                        value: 81.16,
+                        value: 80.535,
                       },
                     ],
-                    value: 249.55999999999997,
+                    value: 248.93499999999997,
                   },
                   {
                     name: 'others',
@@ -2007,10 +2443,10 @@ export default {
                           {
                             name: 'activitiesWithoutEnergy',
                             cfKey: 'cf_activities_without_energy',
-                            value: 1.98,
+                            value: 23.76,
                           },
                         ],
-                        value: 52.38,
+                        value: 74.16000000000001,
                       },
                       {
                         name: 'goodsAndServices',
@@ -2034,10 +2470,10 @@ export default {
                         value: 344.99,
                       },
                     ],
-                    value: 397.37,
+                    value: 419.15000000000003,
                   },
                 ],
-                value: 1318.33,
+                value: 1339.485,
               },
               {
                 name: 'publicServices',
@@ -2061,7 +2497,7 @@ export default {
                 value: 1000,
               },
             ],
-            value: 6343.62495038915,
+            value: 6201.413312889151,
           },
         },
         {
@@ -2083,7 +2519,7 @@ export default {
                       {
                         name: 'urbanTrain',
                         cfKey: 'cf_urban_train',
-                        value: 39,
+                        value: 38.25,
                       },
                       {
                         name: 'countryTrain',
@@ -2091,7 +2527,7 @@ export default {
                         value: 20,
                       },
                     ],
-                    value: 59,
+                    value: 58.25,
                   },
                   {
                     name: 'bus',
@@ -2126,7 +2562,7 @@ export default {
                     value: 636.8357055129601,
                   },
                 ],
-                value: 1492.23570551296,
+                value: 1491.48570551296,
               },
               {
                 name: 'housing',
@@ -2210,25 +2646,25 @@ export default {
                           {
                             name: 'elecHeating',
                             cfKey: 'cf_elec_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecCooking',
                             cfKey: 'cf_elec_cooking',
-                            value: 1.3,
+                            value: 0.2689440993788819,
                           },
                           {
                             name: 'elecWaterHeating',
                             cfKey: 'cf_elec_water_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecLightning',
                             cfKey: 'cf_elec_lightning',
-                            value: 1.3,
+                            value: 1.031055900621118,
                           },
                         ],
-                        value: 5.2,
+                        value: 1.2999999999999998,
                       },
                       {
                         name: 'gas',
@@ -2241,15 +2677,15 @@ export default {
                           {
                             name: 'gasCooking',
                             cfKey: 'cf_gas_cooking',
-                            value: 22.7,
+                            value: 0,
                           },
                           {
                             name: 'gasWaterHeating',
                             cfKey: 'cf_gas_water_heating',
-                            value: 22.7,
+                            value: 0,
                           },
                         ],
-                        value: 68.1,
+                        value: 22.7,
                       },
                       {
                         name: 'fuel',
@@ -2257,20 +2693,20 @@ export default {
                           {
                             name: 'fuelHeating',
                             cfKey: 'cf_fuel_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelCooking',
                             cfKey: 'cf_fuel_cooking',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelWaterHeating',
                             cfKey: 'cf_fuel_water_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                         ],
-                        value: 96.9,
+                        value: 0,
                       },
                       {
                         name: 'wood',
@@ -2278,20 +2714,20 @@ export default {
                           {
                             name: 'woodHeating',
                             cfKey: 'cf_wood_heating',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodCooking',
                             cfKey: 'cf_wood_cooking',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodWaterHeating',
                             cfKey: 'cf_wood_water_heating',
-                            value: 3,
+                            value: 0,
                           },
                         ],
-                        value: 9,
+                        value: 0,
                       },
                       {
                         name: 'districtHeating',
@@ -2299,10 +2735,10 @@ export default {
                         value: 0,
                       },
                     ],
-                    value: 188.27536,
+                    value: 33.07536,
                   },
                 ],
-                value: 738.9331377333333,
+                value: 583.7331377333334,
               },
               {
                 name: 'food',
@@ -2313,29 +2749,56 @@ export default {
                       {
                         name: 'alcohol',
                         cfKey: 'cf_alcohol',
-                        value: 228.85499999999996,
+                        value: 228.855,
                       },
                       {
                         name: 'hotDrinks',
                         cfKey: 'cf_hot_drinks',
-                        value: 112.42000000000002,
+                        value: 112.42,
                       },
                       {
                         name: 'juicesAndSoda',
                         cfKey: 'cf_juices_and_sodas',
-                        value: 214.61999999999998,
+                        value: 214.62,
                       },
                     ],
                     value: 555.895,
                   },
                   {
-                    name: 'meatAndFish',
-                    cfKey: 'cf_meat_and_fish',
-                    value: 352.86375,
+                    name: 'meat',
+                    children: [
+                      {
+                        name: 'red_meat',
+                        cfKey: 'cf_red_meat',
+                        value: 116.44503750000003,
+                      },
+                      {
+                        name: 'white_meat',
+                        cfKey: 'cf_white_meat',
+                        value: 116.44503750000003,
+                      },
+                    ],
+                    value: 232.89007500000005,
+                  },
+                  {
+                    name: 'fish',
+                    cfKey: 'cf_fish',
+                    value: 116.44503750000003,
                   },
                   {
                     name: 'eggsAndDairies',
-                    cfKey: 'cf_eggs_and_dairies',
+                    children: [
+                      {
+                        name: 'eggs',
+                        cfKey: 'cf_eggs',
+                        value: 35.833875,
+                      },
+                      {
+                        name: 'dairies',
+                        cfKey: 'cf_dairies',
+                        value: 35.833875,
+                      },
+                    ],
                     value: 71.66775,
                   },
                   {
@@ -2344,7 +2807,7 @@ export default {
                       {
                         name: 'transformedProducts',
                         cfKey: 'cf_transformed_products',
-                        value: 202.176,
+                        value: 198.288,
                       },
                       {
                         name: 'groceriesAndStarches',
@@ -2368,10 +2831,10 @@ export default {
                         value: 370.8660714285715,
                       },
                     ],
-                    value: 813.6996071428573,
+                    value: 809.8116071428572,
                   },
                 ],
-                value: 1794.126107142857,
+                value: 1786.7094696428571,
               },
               {
                 name: 'others',
@@ -2406,7 +2869,7 @@ export default {
                           {
                             name: 'internetStreaming',
                             cfKey: 'cf_internet_streaming',
-                            value: 32.5,
+                            value: 31.875,
                           },
                           {
                             name: 'internetOthers',
@@ -2414,10 +2877,10 @@ export default {
                             value: 48.66,
                           },
                         ],
-                        value: 81.16,
+                        value: 80.535,
                       },
                     ],
-                    value: 249.55999999999997,
+                    value: 248.93499999999997,
                   },
                   {
                     name: 'others',
@@ -2438,10 +2901,10 @@ export default {
                           {
                             name: 'activitiesWithoutEnergy',
                             cfKey: 'cf_activities_without_energy',
-                            value: 1.98,
+                            value: 23.76,
                           },
                         ],
-                        value: 52.38,
+                        value: 74.16000000000001,
                       },
                       {
                         name: 'goodsAndServices',
@@ -2465,10 +2928,10 @@ export default {
                         value: 344.99,
                       },
                     ],
-                    value: 397.37,
+                    value: 419.15000000000003,
                   },
                 ],
-                value: 1318.33,
+                value: 1339.485,
               },
               {
                 name: 'publicServices',
@@ -2492,7 +2955,7 @@ export default {
                 value: 1000,
               },
             ],
-            value: 6343.62495038915,
+            value: 6201.413312889151,
           },
         },
       ],
@@ -2500,147 +2963,125 @@ export default {
         {
           citizenId: 10,
           variables: {
-            // food
-            meat_and_fish_conso_per_day: 0.5,
-            eggs_and_dairies_conso_per_day: 0.5,
-            fruits_and_vegetable_percentage_local: 0.5,
-            transformed_products_conso_per_week: 3,
-            alcohol_conso_glass_per_day: 1,
-            hot_drinks_conso_glass_per_day: 5,
-            juices_and_sodas_conso_glass_per_day: 2,
-
-            // transports
-            category_car_commute: 'URBAN',
-            motor_type_car_commute: 'FUEL',
-            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
-            km_per_day_car_commute: 2,
-            passengers_per_car_commute: 3,
-            hours_urban_bus_per_week: 1,
-            hours_coach_commute_per_week: 2,
-            hours_urban_train_per_week: 3,
-            coefficient_energy_efficient_driving: 1,
-
-            category_car_travel: 'URBAN',
-            motor_type_car_travel: 'FUEL',
-            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
-            km_per_year_car_travel: 8000,
-            passengers_per_car_travel: 3,
-
-            km_coach_travel: 1000,
-            km_country_train: 2000,
-            km_plane: 3000,
-            // housing
-            residents_per_housing: 3,
-            housing_surface_area: 60,
-            house_surface_area: 60,
-            flat_surface_area: 0,
-            number_big_appliances: 7,
-            number_small_appliances: 20,
-            housing_type: 'HOUSE',
-            electricity_provider: 'ALTERNATIVE',
-            maintainance_date: 'AFTER_2000',
-            energy_consumption_knowledge: true,
-            heating_system_energy_type: 'GAS',
-            cooking_appliances_energy_type: 'ELECTRICITY',
-            sanitory_hot_water_energy_type: 'FUEL_OIL',
-
-            elec_lightning_kwh: 100,
-            elec_water_heating_kwh: 100,
-            elec_cooking_kwh: 100,
-            elec_heating_kwh: 100,
-            fuel_water_heating_kwh: 100,
-            fuel_cooking_kwh: 100,
-            fuel_heating_kwh: 100,
-            gas_water_heating_kwh: 100,
-            gas_cooking_kwh: 100,
-            gas_heating_kwh: 100,
-            wood_water_heating_kwh: 100,
-            wood_cooking_kwh: 100,
-            wood_heating_kwh: 100,
-
-            // others
-            clothes_new_items: 30,
-            activities_per_month: 3,
-            number_small_devices: 2,
-            number_big_devices: 3,
-            internet_streaming_hours_per_week: 5,
+            residentsPerHousing: 3,
+            redMeatKgPerYear: 9.033750000000001,
+            whiteMeatKgPerYear: 9.033750000000001,
+            fishKgPerYear: 9.033750000000001,
+            eggsKgPerYear: 10.0375,
+            dairiesKgPerYear: 10.0375,
+            transformedProductsKgPerYear: 45.9,
+            fruitsAndVegetablesKgPerYear: 296.6928571428572,
+            starchesAndGroceriesKgPerYear: 165.9707142857143,
+            alcoholConsoLitersPerYear: 109.5,
+            hotDrinksConsoLitersPerYear: 36.5,
+            juicesAndSodasConsoLitersPerYear: 146,
+            kmCarCommutePerYear: 730,
+            kmUrbanBusPerYear: 612,
+            kmCoachCommutePerYear: 160,
+            kmUrbanTrainPerYear: 3825,
+            internetStreamingHoursPerWeek: 255,
+            activitiesPerYear: 36,
+            woodHeatingKwh: 0,
+            woodCookingKwh: 0,
+            woodWaterHeatingKwh: 0,
+            gasHeatingKwh: 100,
+            gasCookingKwh: 0,
+            gasWaterHeatingKwh: 0,
+            fuelHeatingKwh: 0,
+            fuelCookingKwh: 0,
+            fuelWaterHeatingKwh: 0,
+            elecHeatingKwh: 0,
+            elecCookingKwh: 20.688007644529378,
+            elecLightningKwh: 79.31199235547062,
+            elecWaterHeatingKwh: 0,
+            fruitsAndVegetablePercentageLocal: 0.5,
+            categoryCarCommute: 'URBAN',
+            motorTypeCarCommute: 'FUEL',
+            ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+            kmCarCommutePerDay: 25,
+            passengersPerCarCommute: 3,
+            coefficientEnergyEfficientDriving: 1,
+            categoryCarTravel: 'URBAN',
+            motorTypeCarTravel: 'FUEL',
+            ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+            kmCarTravelPerYear: 8000,
+            passengersPerCarTravel: 3,
+            kmCoachTravel: 1000,
+            kmCountryTrain: 2000,
+            kmPlane: 3000,
+            houseSurfaceArea: 60,
+            flatSurfaceArea: 0,
+            numberBigAppliances: 7,
+            numberSmallAppliances: 20,
+            electricityProvider: 'ALTERNATIVE',
+            numberSmallDevices: 2,
+            numberBigDevices: 3,
+            clothesNewItems: 30,
           },
         },
         {
           citizenId: 20,
           variables: {
-            // food
-            meat_and_fish_conso_per_day: 0.5,
-            eggs_and_dairies_conso_per_day: 0.5,
-            fruits_and_vegetable_percentage_local: 0.5,
-            transformed_products_conso_per_week: 3,
-            alcohol_conso_glass_per_day: 1,
-            hot_drinks_conso_glass_per_day: 5,
-            juices_and_sodas_conso_glass_per_day: 2,
-
-            // transports
-            category_car_commute: 'URBAN',
-            motor_type_car_commute: 'FUEL',
-            age_category_car_commute: 'TEN_YEARS_OR_YOUNGER',
-            km_per_day_car_commute: 2,
-            passengers_per_car_commute: 3,
-            hours_urban_bus_per_week: 1,
-            hours_coach_commute_per_week: 2,
-            hours_urban_train_per_week: 3,
-            coefficient_energy_efficient_driving: 1,
-
-            category_car_travel: 'URBAN',
-            motor_type_car_travel: 'FUEL',
-            age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
-            km_per_year_car_travel: 8000,
-            passengers_per_car_travel: 3,
-
-            km_coach_travel: 1000,
-            km_country_train: 2000,
-            km_plane: 3000,
-            // housing
-            residents_per_housing: 3,
-            housing_surface_area: 60,
-            house_surface_area: 60,
-            flat_surface_area: 0,
-            number_big_appliances: 7,
-            number_small_appliances: 20,
-            housing_type: 'HOUSE',
-            electricity_provider: 'ALTERNATIVE',
-            maintainance_date: 'AFTER_2000',
-            energy_consumption_knowledge: true,
-            heating_system_energy_type: 'GAS',
-            cooking_appliances_energy_type: 'ELECTRICITY',
-            sanitory_hot_water_energy_type: 'FUEL_OIL',
-
-            elec_lightning_kwh: 100,
-            elec_water_heating_kwh: 100,
-            elec_cooking_kwh: 100,
-            elec_heating_kwh: 100,
-            fuel_water_heating_kwh: 100,
-            fuel_cooking_kwh: 100,
-            fuel_heating_kwh: 100,
-            gas_water_heating_kwh: 100,
-            gas_cooking_kwh: 100,
-            gas_heating_kwh: 100,
-            wood_water_heating_kwh: 100,
-            wood_cooking_kwh: 100,
-            wood_heating_kwh: 100,
-
-            // others
-            clothes_new_items: 30,
-            activities_per_month: 3,
-            number_small_devices: 2,
-            number_big_devices: 3,
-            internet_streaming_hours_per_week: 5,
+            residentsPerHousing: 3,
+            redMeatKgPerYear: 9.033750000000001,
+            whiteMeatKgPerYear: 9.033750000000001,
+            fishKgPerYear: 9.033750000000001,
+            eggsKgPerYear: 10.0375,
+            dairiesKgPerYear: 10.0375,
+            transformedProductsKgPerYear: 45.9,
+            fruitsAndVegetablesKgPerYear: 296.6928571428572,
+            starchesAndGroceriesKgPerYear: 165.9707142857143,
+            alcoholConsoLitersPerYear: 109.5,
+            hotDrinksConsoLitersPerYear: 36.5,
+            juicesAndSodasConsoLitersPerYear: 146,
+            kmCarCommutePerYear: 730,
+            kmUrbanBusPerYear: 612,
+            kmCoachCommutePerYear: 160,
+            kmUrbanTrainPerYear: 3825,
+            internetStreamingHoursPerWeek: 255,
+            activitiesPerYear: 36,
+            woodHeatingKwh: 0,
+            woodCookingKwh: 0,
+            woodWaterHeatingKwh: 0,
+            gasHeatingKwh: 100,
+            gasCookingKwh: 0,
+            gasWaterHeatingKwh: 0,
+            fuelHeatingKwh: 0,
+            fuelCookingKwh: 0,
+            fuelWaterHeatingKwh: 0,
+            elecHeatingKwh: 0,
+            elecCookingKwh: 20.688007644529378,
+            elecLightningKwh: 79.31199235547062,
+            elecWaterHeatingKwh: 0,
+            fruitsAndVegetablePercentageLocal: 0.5,
+            categoryCarCommute: 'URBAN',
+            motorTypeCarCommute: 'FUEL',
+            ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+            kmCarCommutePerDay: 25,
+            passengersPerCarCommute: 3,
+            coefficientEnergyEfficientDriving: 1,
+            categoryCarTravel: 'URBAN',
+            motorTypeCarTravel: 'FUEL',
+            ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+            kmCarTravelPerYear: 8000,
+            passengersPerCarTravel: 3,
+            kmCoachTravel: 1000,
+            kmCountryTrain: 2000,
+            kmPlane: 3000,
+            houseSurfaceArea: 60,
+            flatSurfaceArea: 0,
+            numberBigAppliances: 7,
+            numberSmallAppliances: 20,
+            electricityProvider: 'ALTERNATIVE',
+            numberSmallDevices: 2,
+            numberBigDevices: 3,
+            clothesNewItems: 30,
           },
         },
       ],
       citizenCarbonFootprints: [
         {
-          citizenId: 1,
+          citizenId: 10,
           footprint: {
             name: 'totalFootprint',
             children: [
@@ -2658,7 +3099,7 @@ export default {
                       {
                         name: 'urbanTrain',
                         cfKey: 'cf_urban_train',
-                        value: 39,
+                        value: 38.25,
                       },
                       {
                         name: 'countryTrain',
@@ -2666,7 +3107,7 @@ export default {
                         value: 20,
                       },
                     ],
-                    value: 59,
+                    value: 58.25,
                   },
                   {
                     name: 'bus',
@@ -2701,7 +3142,7 @@ export default {
                     value: 636.8357055129601,
                   },
                 ],
-                value: 1492.23570551296,
+                value: 1491.48570551296,
               },
               {
                 name: 'housing',
@@ -2785,25 +3226,25 @@ export default {
                           {
                             name: 'elecHeating',
                             cfKey: 'cf_elec_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecCooking',
                             cfKey: 'cf_elec_cooking',
-                            value: 1.3,
+                            value: 0.2689440993788819,
                           },
                           {
                             name: 'elecWaterHeating',
                             cfKey: 'cf_elec_water_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecLightning',
                             cfKey: 'cf_elec_lightning',
-                            value: 1.3,
+                            value: 1.031055900621118,
                           },
                         ],
-                        value: 5.2,
+                        value: 1.2999999999999998,
                       },
                       {
                         name: 'gas',
@@ -2816,15 +3257,15 @@ export default {
                           {
                             name: 'gasCooking',
                             cfKey: 'cf_gas_cooking',
-                            value: 22.7,
+                            value: 0,
                           },
                           {
                             name: 'gasWaterHeating',
                             cfKey: 'cf_gas_water_heating',
-                            value: 22.7,
+                            value: 0,
                           },
                         ],
-                        value: 68.1,
+                        value: 22.7,
                       },
                       {
                         name: 'fuel',
@@ -2832,20 +3273,20 @@ export default {
                           {
                             name: 'fuelHeating',
                             cfKey: 'cf_fuel_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelCooking',
                             cfKey: 'cf_fuel_cooking',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelWaterHeating',
                             cfKey: 'cf_fuel_water_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                         ],
-                        value: 96.9,
+                        value: 0,
                       },
                       {
                         name: 'wood',
@@ -2853,20 +3294,20 @@ export default {
                           {
                             name: 'woodHeating',
                             cfKey: 'cf_wood_heating',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodCooking',
                             cfKey: 'cf_wood_cooking',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodWaterHeating',
                             cfKey: 'cf_wood_water_heating',
-                            value: 3,
+                            value: 0,
                           },
                         ],
-                        value: 9,
+                        value: 0,
                       },
                       {
                         name: 'districtHeating',
@@ -2874,10 +3315,10 @@ export default {
                         value: 0,
                       },
                     ],
-                    value: 188.27536,
+                    value: 33.07536,
                   },
                 ],
-                value: 738.9331377333333,
+                value: 583.7331377333334,
               },
               {
                 name: 'food',
@@ -2888,29 +3329,56 @@ export default {
                       {
                         name: 'alcohol',
                         cfKey: 'cf_alcohol',
-                        value: 228.85499999999996,
+                        value: 228.855,
                       },
                       {
                         name: 'hotDrinks',
                         cfKey: 'cf_hot_drinks',
-                        value: 112.42000000000002,
+                        value: 112.42,
                       },
                       {
                         name: 'juicesAndSoda',
                         cfKey: 'cf_juices_and_sodas',
-                        value: 214.61999999999998,
+                        value: 214.62,
                       },
                     ],
                     value: 555.895,
                   },
                   {
-                    name: 'meatAndFish',
-                    cfKey: 'cf_meat_and_fish',
-                    value: 352.86375,
+                    name: 'meat',
+                    children: [
+                      {
+                        name: 'red_meat',
+                        cfKey: 'cf_red_meat',
+                        value: 116.44503750000003,
+                      },
+                      {
+                        name: 'white_meat',
+                        cfKey: 'cf_white_meat',
+                        value: 116.44503750000003,
+                      },
+                    ],
+                    value: 232.89007500000005,
+                  },
+                  {
+                    name: 'fish',
+                    cfKey: 'cf_fish',
+                    value: 116.44503750000003,
                   },
                   {
                     name: 'eggsAndDairies',
-                    cfKey: 'cf_eggs_and_dairies',
+                    children: [
+                      {
+                        name: 'eggs',
+                        cfKey: 'cf_eggs',
+                        value: 35.833875,
+                      },
+                      {
+                        name: 'dairies',
+                        cfKey: 'cf_dairies',
+                        value: 35.833875,
+                      },
+                    ],
                     value: 71.66775,
                   },
                   {
@@ -2919,7 +3387,7 @@ export default {
                       {
                         name: 'transformedProducts',
                         cfKey: 'cf_transformed_products',
-                        value: 202.176,
+                        value: 198.288,
                       },
                       {
                         name: 'groceriesAndStarches',
@@ -2943,10 +3411,10 @@ export default {
                         value: 370.8660714285715,
                       },
                     ],
-                    value: 813.6996071428573,
+                    value: 809.8116071428572,
                   },
                 ],
-                value: 1794.126107142857,
+                value: 1786.7094696428571,
               },
               {
                 name: 'others',
@@ -2981,7 +3449,7 @@ export default {
                           {
                             name: 'internetStreaming',
                             cfKey: 'cf_internet_streaming',
-                            value: 32.5,
+                            value: 31.875,
                           },
                           {
                             name: 'internetOthers',
@@ -2989,10 +3457,10 @@ export default {
                             value: 48.66,
                           },
                         ],
-                        value: 81.16,
+                        value: 80.535,
                       },
                     ],
-                    value: 249.55999999999997,
+                    value: 248.93499999999997,
                   },
                   {
                     name: 'others',
@@ -3013,10 +3481,10 @@ export default {
                           {
                             name: 'activitiesWithoutEnergy',
                             cfKey: 'cf_activities_without_energy',
-                            value: 1.98,
+                            value: 23.76,
                           },
                         ],
-                        value: 52.38,
+                        value: 74.16000000000001,
                       },
                       {
                         name: 'goodsAndServices',
@@ -3040,10 +3508,10 @@ export default {
                         value: 344.99,
                       },
                     ],
-                    value: 397.37,
+                    value: 419.15000000000003,
                   },
                 ],
-                value: 1318.33,
+                value: 1339.485,
               },
               {
                 name: 'publicServices',
@@ -3067,11 +3535,11 @@ export default {
                 value: 1000,
               },
             ],
-            value: 6343.62495038915,
+            value: 6201.413312889151,
           },
         },
         {
-          citizenId: 2,
+          citizenId: 20,
           footprint: {
             name: 'totalFootprint',
             children: [
@@ -3089,7 +3557,7 @@ export default {
                       {
                         name: 'urbanTrain',
                         cfKey: 'cf_urban_train',
-                        value: 39,
+                        value: 38.25,
                       },
                       {
                         name: 'countryTrain',
@@ -3097,7 +3565,7 @@ export default {
                         value: 20,
                       },
                     ],
-                    value: 59,
+                    value: 58.25,
                   },
                   {
                     name: 'bus',
@@ -3132,7 +3600,7 @@ export default {
                     value: 636.8357055129601,
                   },
                 ],
-                value: 1492.23570551296,
+                value: 1491.48570551296,
               },
               {
                 name: 'housing',
@@ -3216,25 +3684,25 @@ export default {
                           {
                             name: 'elecHeating',
                             cfKey: 'cf_elec_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecCooking',
                             cfKey: 'cf_elec_cooking',
-                            value: 1.3,
+                            value: 0.2689440993788819,
                           },
                           {
                             name: 'elecWaterHeating',
                             cfKey: 'cf_elec_water_heating',
-                            value: 1.3,
+                            value: 0,
                           },
                           {
                             name: 'elecLightning',
                             cfKey: 'cf_elec_lightning',
-                            value: 1.3,
+                            value: 1.031055900621118,
                           },
                         ],
-                        value: 5.2,
+                        value: 1.2999999999999998,
                       },
                       {
                         name: 'gas',
@@ -3247,15 +3715,15 @@ export default {
                           {
                             name: 'gasCooking',
                             cfKey: 'cf_gas_cooking',
-                            value: 22.7,
+                            value: 0,
                           },
                           {
                             name: 'gasWaterHeating',
                             cfKey: 'cf_gas_water_heating',
-                            value: 22.7,
+                            value: 0,
                           },
                         ],
-                        value: 68.1,
+                        value: 22.7,
                       },
                       {
                         name: 'fuel',
@@ -3263,20 +3731,20 @@ export default {
                           {
                             name: 'fuelHeating',
                             cfKey: 'cf_fuel_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelCooking',
                             cfKey: 'cf_fuel_cooking',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                           {
                             name: 'fuelWaterHeating',
                             cfKey: 'cf_fuel_water_heating',
-                            value: 32.300000000000004,
+                            value: 0,
                           },
                         ],
-                        value: 96.9,
+                        value: 0,
                       },
                       {
                         name: 'wood',
@@ -3284,20 +3752,20 @@ export default {
                           {
                             name: 'woodHeating',
                             cfKey: 'cf_wood_heating',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodCooking',
                             cfKey: 'cf_wood_cooking',
-                            value: 3,
+                            value: 0,
                           },
                           {
                             name: 'woodWaterHeating',
                             cfKey: 'cf_wood_water_heating',
-                            value: 3,
+                            value: 0,
                           },
                         ],
-                        value: 9,
+                        value: 0,
                       },
                       {
                         name: 'districtHeating',
@@ -3305,10 +3773,10 @@ export default {
                         value: 0,
                       },
                     ],
-                    value: 188.27536,
+                    value: 33.07536,
                   },
                 ],
-                value: 738.9331377333333,
+                value: 583.7331377333334,
               },
               {
                 name: 'food',
@@ -3319,29 +3787,56 @@ export default {
                       {
                         name: 'alcohol',
                         cfKey: 'cf_alcohol',
-                        value: 228.85499999999996,
+                        value: 228.855,
                       },
                       {
                         name: 'hotDrinks',
                         cfKey: 'cf_hot_drinks',
-                        value: 112.42000000000002,
+                        value: 112.42,
                       },
                       {
                         name: 'juicesAndSoda',
                         cfKey: 'cf_juices_and_sodas',
-                        value: 214.61999999999998,
+                        value: 214.62,
                       },
                     ],
                     value: 555.895,
                   },
                   {
-                    name: 'meatAndFish',
-                    cfKey: 'cf_meat_and_fish',
-                    value: 352.86375,
+                    name: 'meat',
+                    children: [
+                      {
+                        name: 'red_meat',
+                        cfKey: 'cf_red_meat',
+                        value: 116.44503750000003,
+                      },
+                      {
+                        name: 'white_meat',
+                        cfKey: 'cf_white_meat',
+                        value: 116.44503750000003,
+                      },
+                    ],
+                    value: 232.89007500000005,
+                  },
+                  {
+                    name: 'fish',
+                    cfKey: 'cf_fish',
+                    value: 116.44503750000003,
                   },
                   {
                     name: 'eggsAndDairies',
-                    cfKey: 'cf_eggs_and_dairies',
+                    children: [
+                      {
+                        name: 'eggs',
+                        cfKey: 'cf_eggs',
+                        value: 35.833875,
+                      },
+                      {
+                        name: 'dairies',
+                        cfKey: 'cf_dairies',
+                        value: 35.833875,
+                      },
+                    ],
                     value: 71.66775,
                   },
                   {
@@ -3350,7 +3845,7 @@ export default {
                       {
                         name: 'transformedProducts',
                         cfKey: 'cf_transformed_products',
-                        value: 202.176,
+                        value: 198.288,
                       },
                       {
                         name: 'groceriesAndStarches',
@@ -3374,10 +3869,10 @@ export default {
                         value: 370.8660714285715,
                       },
                     ],
-                    value: 813.6996071428573,
+                    value: 809.8116071428572,
                   },
                 ],
-                value: 1794.126107142857,
+                value: 1786.7094696428571,
               },
               {
                 name: 'others',
@@ -3412,7 +3907,7 @@ export default {
                           {
                             name: 'internetStreaming',
                             cfKey: 'cf_internet_streaming',
-                            value: 32.5,
+                            value: 31.875,
                           },
                           {
                             name: 'internetOthers',
@@ -3420,10 +3915,10 @@ export default {
                             value: 48.66,
                           },
                         ],
-                        value: 81.16,
+                        value: 80.535,
                       },
                     ],
-                    value: 249.55999999999997,
+                    value: 248.93499999999997,
                   },
                   {
                     name: 'others',
@@ -3444,10 +3939,10 @@ export default {
                           {
                             name: 'activitiesWithoutEnergy',
                             cfKey: 'cf_activities_without_energy',
-                            value: 1.98,
+                            value: 23.76,
                           },
                         ],
-                        value: 52.38,
+                        value: 74.16000000000001,
                       },
                       {
                         name: 'goodsAndServices',
@@ -3471,10 +3966,10 @@ export default {
                         value: 344.99,
                       },
                     ],
-                    value: 397.37,
+                    value: 419.15000000000003,
                   },
                 ],
-                value: 1318.33,
+                value: 1339.485,
               },
               {
                 name: 'publicServices',
@@ -3498,7 +3993,7 @@ export default {
                 value: 1000,
               },
             ],
-            value: 6343.62495038915,
+            value: 6201.413312889151,
           },
         },
       ],
@@ -3509,12 +4004,6 @@ export default {
         actionCardBatchIds: [1, 2],
       },
       globalCarbonVariables: {
-        // Global
-        WEEKS_PER_YEAR: 52,
-        DAYS_PER_YEAR: 365,
-        DAYS_PER_WEEK: 7,
-        MONTHS_PER_YEAR: 12,
-
         EI_URBAN_BUS: 0.15,
         MEAN_SPEED_URBAN_BUS: 12,
         EI_COACH: 0.04,
@@ -3522,11 +4011,22 @@ export default {
 
         // Food
         EI_MEAT_AND_FISH: 12.89,
+        EI_RED_MEAT: 12.89,
+        EI_WHITE_MEAT: 12.89,
+        EI_FISH: 12.89,
         MEAT_AND_FISH_KG_PER_CONSO: 0.15,
         MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 0.13,
-        EI_EGGS_AND_DAIRIES: 3.57,
+        PART_OF_RED_MEAT: 0.33,
+        PART_OF_WHITE_MEAT: 0.33,
+        PART_OF_FISH: 0.33,
+
+        EI_EGGS: 3.57,
+        EI_DAIRIES: 3.57,
         EGGS_AND_DAIRIES_KG_PER_CONSO: 0.11,
         EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 0.22,
+        PART_OF_EGGS: 0.5,
+        PART_OF_DAIRIES: 0.5,
+
         EI_LOCAL_FRUITS_AND_VEGETABLES: 0.26,
         EI_IMPORTED_FRUITS_AND_VEGETABLES: 2.24,
         FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 0.16,
@@ -3537,18 +4037,21 @@ export default {
         EI_TRANSFORMED_PRODUCTS: 4.32,
         TRANSFORMED_PRODUCTS_KG_PER_CONSO: 0.3,
         TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 0.158,
+
         EI_STARCHES_AND_GROCERIES: 1.45,
         STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 0.16,
         STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 0.33,
         STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 0.5,
         STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 0.5,
         STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 0.5,
+
         EI_ALCOHOL: 2.09,
         ALCOHOL_LITER_PER_GLASS: 0.3,
         EI_HOT_DRINKS: 3.08,
         HOT_DRINKS_LITER_PER_GLASS: 0.02,
         EI_JUICES_AND_SODAS: 1.47,
         JUICES_AND_SODAS_LITER_PER_GLASS: 0.2,
+
         MEAN_SPEED_URBAN_TRAIN: 25,
         EI_URBAN_TRAIN: 0.01,
         EI_COUNTRY_TRAIN: 0.01,
@@ -3565,7 +4068,7 @@ export default {
         DEPRECIATION_DURATION: 30,
         EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
         EI_WATER_PER_LITER: 0.000168,
-        WATER_CONSO_LITER_PER_DAY_PER_PERSON: 148,
+        WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
         EI_ELEC_PER_KWH: {
           CONVENTIONAL: 0.116,
           ALTERNATIVE: 0.013,
@@ -3626,10 +4129,20 @@ export default {
             BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1.101343381,
             FIFTEEN_YEARS_OR_OLDER: 1.164876711,
           },
+          ELECTRIC: {
+            TEN_YEARS_OR_YOUNGER: 1,
+            BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+            FIFTEEN_YEARS_OR_OLDER: 1,
+          },
+          HYBRID: {
+            TEN_YEARS_OR_YOUNGER: 1,
+            BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+            FIFTEEN_YEARS_OR_OLDER: 1,
+          },
         },
-        CF_GAS_PUBLIC_SERVICES: 336,
-        CF_ELEC_PUBLIC_SERVICES: 301,
-        CF_OTHER_PUBLIC_SERVICES: 363,
+        CF_GAS_SERVICES: 336,
+        CF_ELEC_SERVICES: 301,
+        CF_OTHER_SERVICES: 363,
       },
       socialVariables: {
         socialScore: 12,

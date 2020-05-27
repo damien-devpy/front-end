@@ -213,7 +213,7 @@ export default (state = initialState, action) => {
         );
         const actionCardIds =
           state.entities.individualActionCards &&
-            state.entities.individualActionCards.actionCardIds
+          state.entities.individualActionCards.actionCardIds
             ? state.entities.individualActionCards.actionCardIds
             : [];
         const takenActionCards = actionCardIds.map(
@@ -372,24 +372,23 @@ export default (state = initialState, action) => {
       };
     }
     case COMPUTE_CARBON_VARIABLES: {
-      const { participantId } = action.payload;
-      const { surveyVariables } = state.participants.byId[participantId];
-      const globalVariables = state.model.globalCarbonVariables;
-      const newCarbonVariables = computeCarbonVariables(
-        surveyVariables,
-        globalVariables
-      );
+      const { globalCarbonVariables } = state.result.model;
+      const newParticipants = {};
+      state.result.participants.forEach((participantId) => {
+        const participant = state.entities.participants[participantId];
+        newParticipants[participantId] = {
+          ...participant,
+          carbonVariables: computeCarbonVariables(
+            participant.surveyVariables,
+            globalCarbonVariables
+          ),
+        };
+      });
       return {
         ...state,
-        participants: {
-          byId: {
-            ...state.participants.byId,
-            [participantId]: {
-              ...state.participants.byId[participantId],
-              carbonVariables: newCarbonVariables,
-            },
-            allIds: [...state.participants.allIds],
-          },
+        entities: {
+          ...state.entities,
+          participants: newParticipants,
         },
       };
     }

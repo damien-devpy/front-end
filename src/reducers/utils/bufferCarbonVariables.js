@@ -123,17 +123,13 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   } = globalVariables;
 
   const alcoholConsoLitersPerYear =
-    alcoholConsoGlassPerDay *
-    ALCOHOL_LITER_PER_GLASS *
-    DAYS_PER_YEAR *
+    alcoholConsoGlassPerDay * ALCOHOL_LITER_PER_GLASS * DAYS_PER_YEAR;
   const hotDrinksConsoLitersPerYear =
-    hotDrinksConsoGlassPerDay *
-    HOT_DRINKS_LITER_PER_GLASS *
-    DAYS_PER_YEAR *
+    hotDrinksConsoGlassPerDay * HOT_DRINKS_LITER_PER_GLASS * DAYS_PER_YEAR;
   const juicesAndSodasConsoLitersPerYear =
     juicesAndSodasConsoGlassPerDay *
     JUICES_AND_SODAS_LITER_PER_GLASS *
-    DAYS_PER_YEAR *
+    DAYS_PER_YEAR;
 
   // ====================================================================================
   // ============================ Transport ============================

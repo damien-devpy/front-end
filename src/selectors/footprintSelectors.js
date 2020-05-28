@@ -87,6 +87,7 @@ export const computeEvolutionGraph = (rounds, carbonFootprints) => {
   //rounds = state.workshop.entities.rounds
   // carbonFootprints = state.workshop.entities.carbonFootprints
   Object.keys(rounds).forEach((year) => {
+    obj = {};
     obj['year'] = rounds[year].year;
     rounds[year].carbonFootprints.forEach((key) => {
       player = key.split('-')[1];

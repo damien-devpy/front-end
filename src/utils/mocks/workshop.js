@@ -1114,7 +1114,12 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 1,
-        operations: [],
+        operations: [
+          {
+            variable: 'km_plane',
+            operation: 0,
+          },
+        ],
       },
       {
         id: 7,

@@ -126,7 +126,10 @@ const FootprintGraph = ({ footprint }) => {
           tickFormatter={(label) => t(`common.${label}`)}
           // type="number"
         />
-        <YAxis dataKey="" label="kCO2" dy={20} dx={30} />
+        <YAxis
+          dataKey=""
+          label={{ value: 'kCO2', angle: -90, position: 'insideLeft' }}
+        />
         <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
         <Legend
           layout="vertical"

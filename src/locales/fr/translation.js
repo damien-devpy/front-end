@@ -89,6 +89,7 @@ export default {
     entryOfIndividualActions: 'Saisie des actions individuelles',
     environmentalInitiatives: 'ECOGESTES',
     firstName: 'Prénom',
+    food: 'Alimentation',
     home: 'Accueil',
     housing: 'Logement',
     housingEquipment: 'Equipement',

@@ -14,27 +14,38 @@ export const currentRound = (state) =>
 const averageFootprints = (footprints, footprintStructure) => {
   const keysParticipant = Object.keys(footprints);
   console.log('footprints[key]', footprints[keysParticipant[0]]);
-  const nbParticipants = keysParticipant.length;
 
+  const nbParticipants = keysParticipant.length;
   var element;
-  var footprintAverage = footprintStructure;
+  var footprintAverage = JSON.parse(JSON.stringify(footprintStructure));
+  footprintAverage['value'] = 0;
+
   keysParticipant.forEach((key) => {
     element = footprints[key].footprint;
-    // const reducer = (footprintAverage, element, index) => {
-    footprintAverage.value =
+    footprintAverage['value'] =
       (footprintAverage.value || 0) + element.value / nbParticipants;
+
     element.children.forEach((sector, i) => {
-      footprintAverage.children[i].value =
+      footprintAverage.children[i]['value'] =
         (footprintAverage.children[i].value || 0) +
         Math.round(sector.value / nbParticipants);
-
+      // var sectorAverage = { name: '', value: 0 };
+      // sectorAverage.value = sectorAverage.value + Math.round(sector.value / nbParticipants);
+      // sectorAverage['name'] = sector.name;
+      // sectorAverage['children'] = [];
       if (sector.children) {
+        // var categAverage = { name: '', value: 0 };
         sector.children.forEach((categ, j) => {
-          footprintAverage.children[i].children[j].value =
+          // categAverage.value =
+          //   categAverage.value + Math.round(categ.value / nbParticipants);
+          // categAverage.name = categ.name;
+          footprintAverage.children[i].children[j]['value'] =
             (footprintAverage.children[i].children[j].value || 0) +
             Math.round(categ.value / nbParticipants);
+          // sectorAverage.children.push(categAverage);
         });
       }
+      // footprintAverage.children.push(sectorAverage);
     });
   });
 
@@ -46,15 +57,17 @@ export const participantsAverageFootprint = (
   carbonFootprints,
   footprintStructure
 ) => {
-  //need to remove OTHERS :  carbonFootprints.filter(key!="others")
+  const participantsKeys = Object.keys(carbonFootprints).filter(
+    (key) => key != 'citizen'
+  );
+  const participantsFootprint = carbonFootprints; //participantsKeys
 
-  return averageFootprints(carbonFootprints, footprintStructure);
+  return averageFootprints(participantsFootprint, footprintStructure);
 };
 export const globalAverageFootprint = (
   carbonFootprints,
   footprintStructure
 ) => {
-  // const currentRound = (state) => state.workshop.result.currentYear;
   return averageFootprints(carbonFootprints, footprintStructure);
 };
 

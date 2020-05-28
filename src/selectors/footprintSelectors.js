@@ -67,7 +67,7 @@ export const participantFootprint = (
   return carbonFootprints[participantKey].footprint;
 };
 
-export const footprintDataToGraph = (footprintData, round) => {
+export const footprintDataToGraph = (footprintData) => {
   var footprintArray = [];
 
   footprintData.children.forEach((sectorData) => {
@@ -80,30 +80,21 @@ export const footprintDataToGraph = (footprintData, round) => {
   return footprintArray;
 };
 
-export const footprintDataToEvolutionGraph = (footprints) => {
-  // var rounds =  ALLER VOIR A LA PARTIE ROUNDS DU STATE POUR RECUPERER LES IDS DU ROUNDS;
-  // var total footptints : récupérer les totaux ds footprint à partir de ceux du rounds
-  // var = {year: round.year, round.carbonFootprints.forEach(key=> key.split("-")[1]: state.carbonFootprints[key].footprint.value) }
-  var evolutionObject = [];
-  Object.keys(footprints).forEach((key) =>
-    evolutionObject.push({
-      year: key.split('-')[0],
-      participantId: key.split('-')[1],
-      value: footprints[key].footprint.value,
-    })
-  );
-  evolutionObject = groupBy(evolutionObject, (e) => e.year);
-};
-function groupBy(list, keyGetter) {
-  const map = new Map();
-  list.forEach((item) => {
-    const key = keyGetter(item);
-    const collection = map.get(key);
-    if (!collection) {
-      map.set(key, [item]);
-    } else {
-      collection.push(item);
-    }
+export const computeEvolutionGraph = (rounds, carbonFootprints) => {
+  var evolutionData = [];
+  var obj = {};
+  var player;
+  //rounds = state.workshop.entities.rounds
+  // carbonFootprints = state.workshop.entities.carbonFootprints
+  Object.keys(rounds).forEach((year) => {
+    obj['year'] = rounds[year].year;
+    rounds[year].carbonFootprints.forEach((key) => {
+      player = key.split('-')[1];
+      obj[player] = carbonFootprints[key].footprint.value;
+    });
+    evolutionData.push(obj);
   });
-  return map;
-}
+  return evolutionData;
+};
+// var total footptints : récupérer les totaux ds footprint à partir de ceux du rounds
+// var = {year: round.year, round.carbonFootprints.forEach(key=> key.split("-")[1]: state.carbonFootprints[key].footprint.value) }

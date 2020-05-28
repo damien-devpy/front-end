@@ -123,11 +123,8 @@ const StyledHeader = styled.div`
 `;
 // const currentRound = "2020-1";
 //
-const footprintShaped = [
-  { sector: 'Transport', plane: 750, train: 59, bus: 150, car: 600 },
+const evolutionData = [
   {
-    sector: 'Logement',
-
     year: 2020,
     player1: 17000,
     player2: 14000,
@@ -200,6 +197,14 @@ const footprintShaped = [
     player9: 2000,
   },
 ];
+
+const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
+const sum = (obj) =>
+  players(obj).reduce(
+    (accumulator, currentValue) => accumulator + obj[currentValue],
+    0
+  );
+const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
 for (var i = 0; i < evolutionData.length; i++) {
   evolutionData[i].avg_players = avg_players(evolutionData[i]);

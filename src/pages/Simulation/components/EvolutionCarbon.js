@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
 // import { useTranslation } from "react-i18next";
 import {
   ResponsiveContainer,
@@ -9,25 +11,30 @@ import {
   YAxis,
   Tooltip,
   Legend,
-} from "recharts";
+} from 'recharts';
 
 const colorsPalet = [
-  "blue",
-  "red",
-  "purple",
-  "green",
-  "black",
-  "brown",
-  "lightblue",
-  "darkgreen",
-  "darkblue",
-  "pink",
-  "yellow",
-  "orange",
+  'blue',
+  'red',
+  'purple',
+  'green',
+  'black',
+  'brown',
+  'lightblue',
+  'darkgreen',
+  'darkblue',
+  'pink',
+  'yellow',
+  'orange',
 ];
 
-const EvolutionCarbon = ({ data }) => {
-  const dataKeysArray = Object.keys(data[0]).slice(1);
+const EvolutionCarbon = () => {
+  const rounds = useSelector((state) => state.workshop.entities.rounds);
+  const carbonFootprints = useSelector(
+    (state) => state.workshop.entities.carbonFootprints
+  );
+  const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
+  const dataKeysArray = Object.keys(evolutionData[0]).slice(1);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
@@ -59,7 +66,7 @@ const EvolutionCarbon = ({ data }) => {
   };
 
   const handleClick = (o) => {
-    const disabled = "#d3d3d3";
+    const disabled = '#d3d3d3';
     const { dataKey, color } = o;
     // console.log("curve color", curveColors[dataKey.trim()]);
     // console.log(dataKey);
@@ -67,7 +74,7 @@ const EvolutionCarbon = ({ data }) => {
     if (dataKeys[dataKey] === dataKey) {
       setOpacity({ ...opacity, [dataKey]: 0.5 });
       setColors({ ...colors, [dataKey]: disabled });
-      setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + " " });
+      setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + ' ' });
     } else {
       setOpacity({ ...opacity, [dataKey.trim()]: 1 });
       setColors({ ...colors, [dataKey.trim()]: curveColors[dataKey.trim()] });
@@ -84,7 +91,7 @@ const EvolutionCarbon = ({ data }) => {
       <LineChart
         minWidth={200}
         minHeight={100}
-        data={data}
+        data={evolutionData}
         margin={{
           top: 5,
           right: 10,
@@ -93,7 +100,7 @@ const EvolutionCarbon = ({ data }) => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" type="number" domain={["dataMin", "dataMax"]} />
+        <XAxis dataKey="year" type="number" domain={['dataMin', 'dataMax']} />
         <YAxis />
         <Tooltip />
         <Legend
@@ -106,7 +113,7 @@ const EvolutionCarbon = ({ data }) => {
           onMouseOut={handleMouseOut}
         />
         {dataKeysArray.map((player, i) => {
-          if (player.startsWith("avg")) {
+          if (player.startsWith('avg')) {
             return (
               <Line
                 type="monotone"

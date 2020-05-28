@@ -42,7 +42,7 @@ const Navbar = ({ avatarUrl, links }) => {
                     backgroundColor: isActive('/' + link)
                       ? COLORS.PRIMARY
                       : null,
-                    color: isActive('/' + link) ? 'white' : '#575757',
+                    color: isActive('/' + link) ? 'white' : '#616162',
                   }}
                 >
                   <small className="font-weight-bold">

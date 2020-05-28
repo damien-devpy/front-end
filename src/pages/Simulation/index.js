@@ -31,6 +31,7 @@ const Simulation = () => {
   );
   const roundActionCardType = useSelector(
     (state) =>
+      currentRound &&
       state.workshop &&
       state.workshop.entities &&
       state.workshop.entities.roundsConfig[currentRound] &&

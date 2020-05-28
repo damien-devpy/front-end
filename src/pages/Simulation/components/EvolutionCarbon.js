@@ -30,7 +30,7 @@ const colorsPalet = [
 const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 const sum = (obj) =>
   players(obj).reduce(
-    (accumulator, currentValue) => accumulator + obj[currentValue],
+    (accumulator, currentValue) => accumulator + parseInt(obj[currentValue]),
     0
   );
 const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;

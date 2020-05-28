@@ -67,7 +67,7 @@ export const participantFootprint = (
   return carbonFootprints[participantKey].footprint;
 };
 
-export const footprintDataToGraph = (footprintData) => {
+export const footprintDataToGraph = (footprintData, round) => {
   var footprintArray = [];
 
   footprintData.children.forEach((sectorData) => {

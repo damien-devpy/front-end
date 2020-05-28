@@ -21,9 +21,9 @@ import IndividualActions from './components/IndividualActions';
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const { entities, result, isLoading, loadError } = useWorkshop();
+  const { entities, result, isLoading, loadError } = useWorkshop(1);
   console.log('entities', entities);
+  console.log('result', result);
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
@@ -127,31 +127,7 @@ const footprintShaped = [
   { sector: 'Transport', plane: 750, train: 59, bus: 150, car: 600 },
   {
     sector: 'Logement',
-    housingEquipment: 500,
-    constructionAndMaintenance: 300,
-    energies: 216,
-  },
-  {
-    sector: 'Alimentation',
-    drinks: 700,
-    meatAndFish: 352.86375,
-    eggsAndDairies: 71.66775,
-    others_alim: 600,
-  },
-  { sector: 'Autres', clothing: 671.4, digital: 250, others_conso: 400 },
-  { sector: 'Services Publics', publicServices: 1000 },
-];
 
-const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
-const sum = (obj) =>
-  players(obj).reduce(
-    (accumulator, currentValue) => accumulator + obj[currentValue],
-    0
-  );
-const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
-
-var evolutionData = [
-  {
     year: 2020,
     player1: 17000,
     player2: 14000,

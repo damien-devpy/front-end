@@ -14,39 +14,40 @@ import NavbarWorkshop from '../../components/NavbarWorkshop';
 import FootprintGraphType from './components/FootprintGraphType';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import CommonModal from '../../components/CommonModal';
-import { startRound, retrieveWorkshop } from '../../actions/workshop';
+import { startRound } from '../../actions/workshop';
 import NewRoundModalForm from './components/NewRoundModalForm';
-import IndividualActions from './components/IndividualActions';
-
+import ActionCardsEntry from './components/ActionCardsEntry';
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { entities, result, isLoading, loadError } = useWorkshop(1);
   console.log('entities', entities);
   console.log('result', result);
+  const currentRound = useSelector(
+    (state) =>
+      state.workshop &&
+      state.workshop.result &&
+      state.workshop.result.currentYear
+  );
+  const roundActionCardType = useSelector(
+    (state) =>
+      state.workshop &&
+      state.workshop.entities &&
+      state.workshop.entities.roundsConfig[currentRound] &&
+      state.workshop.entities.roundsConfig[currentRound].actionCardType
+  );
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
   const handleSubmitNewRoundModal = (values) => {
     dispatch(startRound(values));
     setShowNewRoundModal(false);
-    setShowEntryOfIndividualActions(true);
+    setShowEntryOfActionCards(true);
   };
   const handleShowNewRoundModal = () => setShowNewRoundModal(true);
-  // EntryOfIndividualActions
-  const [
-    showEntryOfIndividualActions,
-    setShowEntryOfIndividualActions,
-  ] = useState(false);
-  const handleCloseEntryOfIndividualActions = () =>
-    setShowEntryOfIndividualActions(false);
-
-  // const footprintShaped = useSelector((state) =>
-  //   footprintDataToGraph(
-  //     state.workshop.entities.carbonFootprints['2020-1'].footprint
-  //   )
-  // );
-
+  // EntryOfActionCards
+  const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
+  const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <React.Fragment>
       <NavbarWorkshop
@@ -98,11 +99,19 @@ const Simulation = () => {
         <NewRoundModalForm handleSubmit={handleSubmitNewRoundModal} />
       </CommonModal>
       <CommonModal
-        title={t('common.entryOfIndividualActions')}
-        show={showEntryOfIndividualActions}
-        handleClose={handleCloseEntryOfIndividualActions}
+        title={
+          roundActionCardType === 'individual'
+            ? t('common.entryOfIndividualActions')
+            : t('common.entryOfCollectiveActions')
+        }
+        show={showEntryOfActionCards}
+        handleClose={handleCloseEntryOfActionCards}
       >
-        <IndividualActions handleClose={handleCloseEntryOfIndividualActions} />
+        <ActionCardsEntry
+          handleClose={handleCloseEntryOfActionCards}
+          currentRound={currentRound}
+          roundActionCardType={roundActionCardType}
+        />
       </CommonModal>
     </React.Fragment>
   );
@@ -121,9 +130,35 @@ const StyledHeader = styled.div`
   justify-content: flex-end;
   margin-bottom: 1rem;
 `;
-// const currentRound = "2020-1";
-//
-const evolutionData = [
+
+const footprintShaped = [
+  { sector: 'Transport', plane: 750, train: 59, bus: 150, car: 600 },
+  {
+    sector: 'Logement',
+    housingEquipment: 500,
+    constructionAndMaintenance: 300,
+    energies: 216,
+  },
+  {
+    sector: 'Alimentation',
+    drinks: 700,
+    meatAndFish: 352.86375,
+    eggsAndDairies: 71.66775,
+    others_alim: 600,
+  },
+  { sector: 'Autres', clothing: 671.4, digital: 250, others_conso: 400 },
+  { sector: 'Services Publics', publicServices: 1000 },
+];
+
+const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
+const sum = (obj) =>
+  players(obj).reduce(
+    (accumulator, currentValue) => accumulator + obj[currentValue],
+    0
+  );
+const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
+
+var evolutionData = [
   {
     year: 2020,
     player1: 17000,

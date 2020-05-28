@@ -198,16 +198,4 @@ const evolutionData = [
   },
 ];
 
-const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
-const sum = (obj) =>
-  players(obj).reduce(
-    (accumulator, currentValue) => accumulator + obj[currentValue],
-    0
-  );
-const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
-
-for (var i = 0; i < evolutionData.length; i++) {
-  evolutionData[i].avg_players = avg_players(evolutionData[i]);
-}
-
 export default Simulation;

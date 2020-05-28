@@ -90,7 +90,7 @@ export const computeEvolutionGraph = (rounds, carbonFootprints) => {
     obj['year'] = rounds[year].year;
     rounds[year].carbonFootprints.forEach((key) => {
       player = key.split('-')[1];
-      obj[player] = carbonFootprints[key].footprint.value;
+      obj[player] = carbonFootprints[key].footprint.value.toFixed(0);
     });
     evolutionData.push(obj);
   });

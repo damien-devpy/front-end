@@ -27,19 +27,33 @@ const colorsPalet = [
   'yellow',
   'orange',
 ];
+const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
+const sum = (obj) =>
+  players(obj).reduce(
+    (accumulator, currentValue) => accumulator + obj[currentValue],
+    0
+  );
+const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
 const EvolutionCarbon = () => {
+  // Compute data
   const rounds = useSelector((state) => state.workshop.entities.rounds);
   const carbonFootprints = useSelector(
     (state) => state.workshop.entities.carbonFootprints
   );
+
   const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
-  const dataKeysArray = Object.keys(evolutionData[0]).slice(1);
+  //  Add average players
+  for (var i = 0; i < evolutionData.length; i++) {
+    evolutionData[i].avg_players = avg_players(evolutionData[i]);
+  }
+
+  const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
   );
-
+  console.log('evolutionData : ', evolutionData);
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))

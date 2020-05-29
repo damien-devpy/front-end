@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { COLORS } from '../../../vars';
-import { getNumberOfTakenActionCards } from '../../../selectors/workshopSelector';
+import {
+  getCostOfTakenActionCards,
+  getNumberOfTakenActionCards,
+} from '../../../selectors/workshopSelector';
 
 const ParticipantsTable = ({
   round,
@@ -10,7 +13,9 @@ const ParticipantsTable = ({
   participantsEntity,
   individualActionCards,
   selectedParticipantId,
+  actionCardsEntity,
   handleSelect,
+  initBudgetParParticipant,
 }) => {
   const ParticipantItemBadge = ({
     id,
@@ -49,6 +54,14 @@ const ParticipantsTable = ({
             round,
             participantId
           );
+          const hearts =
+            initBudgetParParticipant[participantId] -
+            getCostOfTakenActionCards(
+              individualActionCards,
+              actionCardsEntity,
+              round,
+              participantId
+            );
           return (
             <ParticipantItemBadge
               id={participantId}
@@ -56,7 +69,7 @@ const ParticipantsTable = ({
               firstName={firstName}
               lastName={lastName}
               numberOfSelectedActions={numberOfSelectedActions}
-              hearts={5}
+              hearts={hearts}
               selected={selectedParticipantId === participantId}
             />
           );

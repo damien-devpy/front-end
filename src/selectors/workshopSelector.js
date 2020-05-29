@@ -102,3 +102,25 @@ export const getNumberOfTakenActionCards = (
     ? individualActionCardsEntity[individualActionCardsId].actionCardIds.length
     : 0;
 };
+
+export const getCostOfTakenActionCards = (
+  individualActionCards,
+  actionCardsEntity,
+  round,
+  participantId
+) => {
+  if (!individualActionCards) return 0;
+  const id = `${round}-${participantId}`;
+  console.log('Action cards entity', actionCardsEntity);
+  console.log(
+    'Participant action Cards',
+    individualActionCards[id] && individualActionCards[id].actionCardIds
+  );
+  return actionCardsEntity &&
+    individualActionCards[id] &&
+    individualActionCards[id].actionCardIds
+    ? individualActionCards[id].actionCardIds
+        .map((cardId) => actionCardsEntity[cardId].cost)
+        .reduce((a, b) => a + b, 0)
+    : 0;
+};

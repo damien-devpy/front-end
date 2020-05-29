@@ -22,6 +22,34 @@ import {
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
 
+const computeInitRoundBudget = (
+  roundsConfig,
+  prevChoices,
+  participantIds,
+  actionCards
+) => {
+  const rounds = Object.keys(roundsConfig);
+  const roundBudgets = rounds.map((round) => roundsConfig[round].budget);
+  const totalBudget = roundBudgets.reduce((a, b) => a + b, 0);
+  const initBudgets = {};
+  // console.log('Total init budget', totalBudget);
+  participantIds.forEach((id) => {
+    initBudgets[id] = totalBudget;
+  });
+  // console.log('Prev choices', prevChoices)
+  rounds.forEach((round) => {
+    participantIds.forEach((id) => {
+      const cardIds = prevChoices ? prevChoices[`${round}-${id}`] : null;
+      console.log(round, id, `${round}-${id}`, cardIds);
+      cardIds &&
+        cardIds.actionCardIds.forEach((cardId) => {
+          initBudgets[id] -= actionCards[cardId].cost;
+        });
+    });
+  });
+  return initBudgets;
+};
+
 const ActionCardsEntry = ({
   currentRound,
   roundActionCardType,
@@ -45,9 +73,14 @@ const ActionCardsEntry = ({
     setSelectedParticipantId(id);
   };
 
+  const actionCardsEntity = useSelector(
+    (state) => state.workshop.entities.actionCards
+  );
+
+  // these are choices (from prev rounds), not cards per se
   const individualActionCardsEntity = useSelector((state) =>
-    state.workshop.entities.actionCards
-      ? state.workshop.entities.actionCards
+    state.workshop.entities.individualActionCards
+      ? state.workshop.entities.individualActionCards
       : {}
   );
 
@@ -57,6 +90,16 @@ const ActionCardsEntry = ({
       : {}
   );
 
+  const budgetParParticipant = useSelector((state) =>
+    computeInitRoundBudget(
+      state.workshop.entities.roundsConfig,
+      state.workshop.entities.individualActionCards,
+      Object.keys(state.workshop.entities.participants),
+      state.workshop.entities.actionCards
+    )
+  );
+
+  // these are current choices (for this round), not cards per se
   const [individualActionCards, setIndividualActionCards] = useState(
     individualActionCardsEntity
   );
@@ -188,8 +231,9 @@ const ActionCardsEntry = ({
                 participantsEntity={participantsEntity}
                 individualActionCards={individualActionCards}
                 selectedParticipantId={selectedParticipantId}
-                actionCardsEntity={individualActionCardsEntity}
+                actionCardsEntity={actionCardsEntity}
                 handleSelect={handleParticipantSelect}
+                initBudgetParParticipant={budgetParParticipant}
               />
             </Container>
           </Col>

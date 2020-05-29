@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import {
   getCostOfChosenActionCards,
+  getInitRoundBudget,
   selectCollectiveChoices,
   selectCollectiveRoundIds,
   selectIndividualChoicesForParticipant,
@@ -22,34 +23,6 @@ import {
 } from '../../../utils/helpers';
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
-
-// computes number of hearts = budget per participant at the beginning of each round
-const computeInitRoundBudget = (
-  roundsConfig,
-  previousChoices,
-  participantIds,
-  actionCards
-) => {
-  const rounds = Object.keys(roundsConfig);
-  const roundBudgets = rounds.map((round) => roundsConfig[round].budget);
-  const totalBudget = roundBudgets.reduce((a, b) => a + b, 0);
-  const initBudgets = {};
-  participantIds.forEach((id) => {
-    initBudgets[id] = totalBudget;
-  });
-  rounds.forEach((round) => {
-    participantIds.forEach((id) => {
-      const cardIds = previousChoices
-        ? previousChoices[makeYearParticipantKey(round, id)]
-        : null;
-      cardIds &&
-        cardIds.actionCardIds.forEach((cardId) => {
-          initBudgets[id] -= actionCards[cardId].cost;
-        });
-    });
-  });
-  return initBudgets;
-};
 
 const ActionCardsEntry = ({
   currentRound,
@@ -92,7 +65,7 @@ const ActionCardsEntry = ({
   );
 
   const budgetPerParticipant = useSelector((state) =>
-    computeInitRoundBudget(
+    getInitRoundBudget(
       state.workshop.entities.roundsConfig,
       state.workshop.entities.individualChoices,
       Object.keys(state.workshop.entities.participants),

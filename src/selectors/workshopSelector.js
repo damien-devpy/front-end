@@ -119,3 +119,31 @@ export const getCostOfChosenActionCards = (
         .reduce((a, b) => a + b, 0)
     : 0;
 };
+
+// computes number of hearts = budget per participant at the beginning of each round
+export const getInitRoundBudget = (
+  roundsConfig,
+  previousChoices,
+  participantIds,
+  actionCards
+) => {
+  const rounds = Object.keys(roundsConfig);
+  const roundBudgets = rounds.map((round) => roundsConfig[round].budget);
+  const totalBudget = roundBudgets.reduce((a, b) => a + b, 0);
+  const initBudgets = {};
+  participantIds.forEach((id) => {
+    initBudgets[id] = totalBudget;
+  });
+  rounds.forEach((round) => {
+    participantIds.forEach((id) => {
+      const cardIds = previousChoices
+        ? previousChoices[makeYearParticipantKey(round, id)]
+        : null;
+      cardIds &&
+        cardIds.actionCardIds.forEach((cardId) => {
+          initBudgets[id] -= actionCards[cardId].cost;
+        });
+    });
+  });
+  return initBudgets;
+};

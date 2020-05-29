@@ -93,6 +93,7 @@ const categoryColors = {
   'BIENS DE CONSO': COLORS.FIGMA_YELLOW, // '#C89600'
 };
 
+// just for test at the moment
 const cardIcons = {
   1: '🚲',
   2: '🚇',

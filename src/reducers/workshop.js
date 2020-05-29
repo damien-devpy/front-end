@@ -19,7 +19,21 @@ import {
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
 
-const initialState = {};
+const initialState = {
+  isLoading: true,
+  entities: {
+    carbonFootprints: {
+      '2020-1': {
+        footprint: [
+          {
+            name: 'transport',
+            children: {},
+          },
+        ],
+      },
+    },
+  },
+};
 
 const initRoundObject = () => ({
   collectiveActionIds: [],
@@ -190,9 +204,10 @@ export default (state = initialState, action) => {
           participantId
         );
         const actionCardIds =
-          state.entities.individualActionCards &&
-          state.entities.individualActionCards.actionCardIds
-            ? state.entities.individualActionCards.actionCardIds
+          state.entities.individualActionCards[yearParticipantKey] &&
+          state.entities.individualActionCards[yearParticipantKey].actionCardIds
+            ? state.entities.individualActionCards[yearParticipantKey]
+                .actionCardIds
             : [];
         const takenActionCards = actionCardIds.map(
           (actionId) => state.entities.actionCards[actionId]
@@ -232,79 +247,79 @@ export default (state = initialState, action) => {
         },
       };
     }
-    case APPLY_COLLECTIVE_ACTIONS: {
-      const { year } = action.payload;
-      const currentRoundConfig = state.entities.roundsConfig[year];
-      const nextYear = currentRoundConfig.targetedYear;
-      const currentCarbonVariables = state.entities.carbonVariables;
-      const currentGlobalCarbonVariables = state.entities.globalCarbonVariables;
-      const { participants } = state.result;
-      let actionCardIds;
+    // case APPLY_COLLECTIVE_ACTIONS: {
+    //   const { year } = action.payload;
+    //   const currentRoundConfig = state.entities.roundsConfig[year];
+    //   const nextYear = currentRoundConfig.targetedYear;
+    //   const currentCarbonVariables = state.entities.carbonVariables;
+    //   const currentGlobalCarbonVariables = state.entities.globalCarbonVariables;
+    //   const { participants } = state.result;
+    //   let actionCardIds;
 
-      if (state.entities.collectiveActionCards) {
-        actionCardIds = state.entities.collectiveActionCards[year]
-          ? state.entities.collectiveActionCards[year].actionCardIds
-          : [];
-      } else {
-        actionCardIds = [];
-      }
+    //   if (state.entities.collectiveActionCards) {
+    //     actionCardIds = state.entities.collectiveActionCards[year]
+    //       ? state.entities.collectiveActionCards[year].actionCardIds
+    //       : [];
+    //   } else {
+    //     actionCardIds = [];
+    //   }
 
-      const takenActionCardsThatApplyToEveryone = actionCardIds
-        .map((actionId) => state.entities.actionCards[actionId])
-        .filter((a) => a.type === 'everyone');
-      const newCarbonVariables = {};
-      participants.forEach((participantId) => {
-        const yearParticipantKey = makeYearParticipantKey(year, participantId);
-        const nextYearParticipantKey = makeYearParticipantKey(
-          nextYear,
-          participantId
-        );
-        newCarbonVariables[nextYearParticipantKey] = {
-          participantId,
-          variables: {
-            ...currentCarbonVariables[yearParticipantKey].variables,
-            ...computeNewCarbonVariables(
-              currentCarbonVariables[yearParticipantKey].variables,
-              takenActionCardsThatApplyToEveryone
-            ),
-          },
-        };
-      });
-      const takenActionCardsThatApplyGlobally = actionCardIds
-        .map((actionId) => state.entities.actionCards[actionId])
-        .filter((a) => a.type === 'global');
+    //   const takenActionCardsThatApplyToEveryone = actionCardIds
+    //     .map((actionId) => state.entities.actionCards[actionId])
+    //     .filter((a) => a.type === 'everyone');
+    //   const newCarbonVariables = {};
+    //   participants.forEach((participantId) => {
+    //     const yearParticipantKey = makeYearParticipantKey(year, participantId);
+    //     const nextYearParticipantKey = makeYearParticipantKey(
+    //       nextYear,
+    //       participantId
+    //     );
+    //     newCarbonVariables[nextYearParticipantKey] = {
+    //       participantId,
+    //       variables: {
+    //         ...currentCarbonVariables[yearParticipantKey].variables,
+    //         ...computeNewCarbonVariables(
+    //           currentCarbonVariables[yearParticipantKey].variables,
+    //           takenActionCardsThatApplyToEveryone
+    //         ),
+    //       },
+    //     };
+    //   });
+    //   const takenActionCardsThatApplyGlobally = actionCardIds
+    //     .map((actionId) => state.entities.actionCards[actionId])
+    //     .filter((a) => a.type === 'global');
 
-      return {
-        ...state,
-        entities: {
-          ...state.entities,
-          carbonVariables: {
-            ...state.entities.carbonVariables,
-            ...newCarbonVariables,
-          },
-          globalCarbonVariables: {
-            ...state.entities.globalCarbonVariables,
-            [nextYear]: {
-              ...state.entities.globalCarbonVariables[year],
-              ...computeNewCarbonVariables(
-                currentGlobalCarbonVariables[year],
-                takenActionCardsThatApplyGlobally
-              ),
-            },
-          },
-          rounds: {
-            ...state.entities.rounds,
-            [nextYear]: {
-              ...state.entities.rounds[nextYear],
-              carbonVariables: state.result.participants.map((participantId) =>
-                makeYearParticipantKey(nextYear, participantId)
-              ),
-              globalCarbonVariables: nextYear,
-            },
-          },
-        },
-      };
-    }
+    //   return {
+    //     ...state,
+    //     entities: {
+    //       ...state.entities,
+    //       carbonVariables: {
+    //         ...state.entities.carbonVariables,
+    //         ...newCarbonVariables,
+    //       },
+    //       globalCarbonVariables: {
+    //         ...state.entities.globalCarbonVariables,
+    //         [nextYear]: {
+    //           ...state.entities.globalCarbonVariables[year],
+    //           ...computeNewCarbonVariables(
+    //             currentGlobalCarbonVariables[year],
+    //             takenActionCardsThatApplyGlobally
+    //           ),
+    //         },
+    //       },
+    //       rounds: {
+    //         ...state.entities.rounds,
+    //         [nextYear]: {
+    //           ...state.entities.rounds[nextYear],
+    //           carbonVariables: state.result.participants.map((participantId) =>
+    //             makeYearParticipantKey(nextYear, participantId)
+    //           ),
+    //           globalCarbonVariables: nextYear,
+    //         },
+    //       },
+    //     },
+    //   };
+    // }
     case COMPUTE_FOOTPRINTS: {
       const { year } = action.payload;
       const { carbonVariables, globalCarbonVariables } = state.entities;

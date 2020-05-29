@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
 // import { useTranslation } from "react-i18next";
 import {
   ResponsiveContainer,
@@ -9,33 +11,51 @@ import {
   YAxis,
   Tooltip,
   Legend,
-} from "recharts";
+} from 'recharts';
 
 const colorsPalet = [
-  "blue",
-  "red",
-  "purple",
-  "green",
-  "black",
-  "brown",
-  "lightblue",
-  "darkgreen",
-  "darkblue",
-  "pink",
-  "yellow",
-  "orange",
+  'blue',
+  'red',
+  'purple',
+  'green',
+  'black',
+  'brown',
+  'lightblue',
+  'darkgreen',
+  'darkblue',
+  'pink',
+  'yellow',
+  'orange',
 ];
+const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
+const sum = (obj) =>
+  players(obj).reduce(
+    (accumulator, currentValue) => accumulator + parseInt(obj[currentValue]),
+    0
+  );
+const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
-const EvolutionCarbon = ({ data }) => {
-  const dataKeysArray = Object.keys(data[0]).slice(1);
+const EvolutionCarbon = () => {
+  // Compute data
+  const rounds = useSelector((state) => state.workshop.entities.rounds);
+  const carbonFootprints = useSelector(
+    (state) => state.workshop.entities.carbonFootprints
+  );
+
+  const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
+  //  Add average players
+  for (var i = 0; i < evolutionData.length; i++) {
+    evolutionData[i].avg_players = avg_players(evolutionData[i]);
+  }
+
+  const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
   );
-
+  console.log('evolutionData : ', evolutionData);
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
-    // {player1: 1, player2: 1, ...}
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
   );
   const [colors, setColors] = useState(curveColors);
@@ -45,12 +65,11 @@ const EvolutionCarbon = ({ data }) => {
   const handleMouseOver = (o) => {
     const { dataKey } = o;
     var w = width[dataKey];
-    setWidth(Object.fromEntries(Object.keys(width).map((key) => [key, 1])));
     setWidth({ ...width, [dataKey]: w + 3 });
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
   const handleMouseOut = (o) => {
-    console.log("Mouse Out", o);
+    // console.log("Mouse Out", o);
     // const { dataKey } = o;
     // var w = width[dataKey];
     // setWidth({ ...width, [dataKey]: w - 2 });
@@ -61,15 +80,15 @@ const EvolutionCarbon = ({ data }) => {
   };
 
   const handleClick = (o) => {
-    const disabled = "#d3d3d3";
+    const disabled = '#d3d3d3';
     const { dataKey, color } = o;
-    console.log("curve color", curveColors[dataKey.trim()]);
+    // console.log("curve color", curveColors[dataKey.trim()]);
     // console.log(dataKey);
     // console.log(dataKeys[dataKey.trim()].trim());
     if (dataKeys[dataKey] === dataKey) {
       setOpacity({ ...opacity, [dataKey]: 0.5 });
       setColors({ ...colors, [dataKey]: disabled });
-      setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + " " });
+      setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + ' ' });
     } else {
       setOpacity({ ...opacity, [dataKey.trim()]: 1 });
       setColors({ ...colors, [dataKey.trim()]: curveColors[dataKey.trim()] });
@@ -79,16 +98,14 @@ const EvolutionCarbon = ({ data }) => {
         [dataKey.trim()]: dataKeys[dataKey.trim()].trim(),
       });
     }
-    console.log(dataKeys);
   };
 
-  console.log("colors : ", colors);
   return (
     <ResponsiveContainer width="100%" minWidth={800} aspect={5.0 / 3.0}>
       <LineChart
         minWidth={200}
         minHeight={100}
-        data={data}
+        data={evolutionData}
         margin={{
           top: 5,
           right: 10,
@@ -97,7 +114,7 @@ const EvolutionCarbon = ({ data }) => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" type="number" domain={["dataMin", "dataMax"]} />
+        <XAxis dataKey="year" type="number" domain={['dataMin', 'dataMax']} />
         <YAxis />
         <Tooltip />
         <Legend
@@ -110,7 +127,7 @@ const EvolutionCarbon = ({ data }) => {
           onMouseOut={handleMouseOut}
         />
         {dataKeysArray.map((player, i) => {
-          if (player.startsWith("avg")) {
+          if (player.startsWith('avg')) {
             return (
               <Line
                 type="monotone"

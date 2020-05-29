@@ -235,7 +235,7 @@ export default {
               cfKey: 'cf_eggs_and_dairies',
             },
             {
-              name: 'others',
+              name: 'othersFood',
               children: [
                 {
                   name: 'transformedProducts',
@@ -301,7 +301,7 @@ export default {
               ],
             },
             {
-              name: 'others',
+              name: 'othersConso',
               children: [
                 {
                   name: 'activities',
@@ -359,6 +359,7 @@ export default {
           ],
         },
       ],
+      value: 0,
     },
     variableFormulas: {
       // transports
@@ -1114,7 +1115,12 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 1,
-        operations: [],
+        operations: [
+          {
+            variable: 'km_plane',
+            operation: 0,
+          },
+        ],
       },
       {
         id: 7,
@@ -1755,7 +1761,7 @@ export default {
                     value: 71.66775,
                   },
                   {
-                    name: 'others',
+                    name: 'othersFood',
                     children: [
                       {
                         name: 'transformedProducts',
@@ -1836,7 +1842,7 @@ export default {
                     value: 249.55999999999997,
                   },
                   {
-                    name: 'others',
+                    name: 'othersConso',
                     children: [
                       {
                         name: 'activities',
@@ -2186,7 +2192,7 @@ export default {
                     value: 71.66775,
                   },
                   {
-                    name: 'others',
+                    name: 'othersFood',
                     children: [
                       {
                         name: 'transformedProducts',
@@ -2267,7 +2273,7 @@ export default {
                     value: 249.55999999999997,
                   },
                   {
-                    name: 'others',
+                    name: 'othersConso',
                     children: [
                       {
                         name: 'activities',

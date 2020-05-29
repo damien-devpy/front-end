@@ -3,19 +3,19 @@ import styled from 'styled-components';
 
 import { COLORS } from '../../../vars';
 import {
-  getCostOfTakenActionCards,
-  getNumberOfTakenActionCards,
+  getCostOfChosenActionCards,
+  getNumberOfChosenActionCards,
 } from '../../../selectors/workshopSelector';
 
 const ParticipantsTable = ({
   round,
   workshopParticipants,
   participantsEntity,
-  individualActionCards,
+  individualChoices,
   selectedParticipantId,
   actionCardsEntity,
   handleSelect,
-  initBudgetParParticipant,
+  initBudgetPerParticipant,
 }) => {
   const ParticipantItemBadge = ({
     id,
@@ -48,16 +48,17 @@ const ParticipantsTable = ({
       {workshopParticipants &&
         participantsEntity &&
         workshopParticipants.map((participantId) => {
+          // might make sense to simplify the component by taking the two functions outside
           const { firstName, lastName } = participantsEntity[participantId];
-          const numberOfSelectedActions = getNumberOfTakenActionCards(
-            individualActionCards,
+          const numberOfSelectedActions = getNumberOfChosenActionCards(
+            individualChoices,
             round,
             participantId
           );
           const hearts =
-            initBudgetParParticipant[participantId] -
-            getCostOfTakenActionCards(
-              individualActionCards,
+            initBudgetPerParticipant[participantId] -
+            getCostOfChosenActionCards(
+              individualChoices,
               actionCardsEntity,
               round,
               participantId

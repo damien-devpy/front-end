@@ -1,21 +1,21 @@
 import { makeYearParticipantKey } from '../utils/helpers';
 
-export const selectIndividualActionCardsFromParticipant = (
+export const selectIndividualChoicesForParticipant = (
   participantId,
   roundsConfigEntity,
-  individualActionCardsEntity
+  individualChoicesEntity
 ) =>
-  individualActionCardsEntity
+  individualChoicesEntity
     ? [
         ...new Set(
           Object.keys(roundsConfigEntity).reduce(
             (accumulator, year) =>
               roundsConfigEntity[year].actionCardType === 'individual' &&
-              individualActionCardsEntity[
+              individualChoicesEntity[
                 makeYearParticipantKey(year, participantId)
               ]
                 ? accumulator.concat(
-                    individualActionCardsEntity[
+                    individualChoicesEntity[
                       makeYearParticipantKey(year, participantId)
                     ].actionCardIds
                   )
@@ -26,19 +26,19 @@ export const selectIndividualActionCardsFromParticipant = (
       ]
     : [];
 
-export const selectCollectiveActionCards = (
+export const selectCollectiveChoices = (
   roundsConfigEntity,
-  collectiveActionCardsEntity
+  collectiveChoicesEntity
 ) =>
-  collectiveActionCardsEntity
+  collectiveChoicesEntity
     ? [
         ...new Set(
           Object.keys(roundsConfigEntity).reduce(
             (accumulator, year) =>
               roundsConfigEntity[year].actionCardType === 'collective' &&
-              collectiveActionCardsEntity[year]
+              collectiveChoicesEntity[year]
                 ? accumulator.concat(
-                    collectiveActionCardsEntity[year].actionCardIds
+                    collectiveChoicesEntity[year].actionCardIds
                   )
                 : accumulator,
             []
@@ -90,36 +90,31 @@ export const selectCollectiveRoundIds = (roundsConfigEntity) =>
       roundsConfigEntity[roundConfigId].actionCardType === 'collective'
   );
 
-export const getNumberOfTakenActionCards = (
-  individualActionCardsEntity,
+export const getNumberOfChosenActionCards = (
+  individualChoices,
   round,
   participantId
 ) => {
-  if (!individualActionCardsEntity) return 0;
-  const individualActionCardsId = `${round}-${participantId}`;
-  return individualActionCardsEntity[individualActionCardsId] &&
-    individualActionCardsEntity[individualActionCardsId].actionCardIds
-    ? individualActionCardsEntity[individualActionCardsId].actionCardIds.length
+  if (!individualChoices) return 0;
+  const participantChoicesId = makeYearParticipantKey(round, participantId);
+  return individualChoices[participantChoicesId] &&
+    individualChoices[participantChoicesId].actionCardIds
+    ? individualChoices[participantChoicesId].actionCardIds.length
     : 0;
 };
 
-export const getCostOfTakenActionCards = (
-  individualActionCards,
+export const getCostOfChosenActionCards = (
+  individualChoices,
   actionCardsEntity,
   round,
   participantId
 ) => {
-  if (!individualActionCards) return 0;
-  const id = `${round}-${participantId}`;
-  console.log('Action cards entity', actionCardsEntity);
-  console.log(
-    'Participant action Cards',
-    individualActionCards[id] && individualActionCards[id].actionCardIds
-  );
+  if (!individualChoices) return 0;
+  const id = makeYearParticipantKey(round, participantId);
   return actionCardsEntity &&
-    individualActionCards[id] &&
-    individualActionCards[id].actionCardIds
-    ? individualActionCards[id].actionCardIds
+    individualChoices[id] &&
+    individualChoices[id].actionCardIds
+    ? individualChoices[id].actionCardIds
         .map((cardId) => actionCardsEntity[cardId].cost)
         .reduce((a, b) => a + b, 0)
     : 0;

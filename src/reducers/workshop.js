@@ -6,8 +6,8 @@ import {
   INIT_ROUND,
   INIT_WORKSHOP,
   RETRIEVE_WORKSHOP,
-  SET_COLLECTIVE_ACTIONS,
-  SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
+  SET_COLLECTIVE_CHOICES,
+  SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
   START_ROUND,
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_RETRIEVED,
@@ -135,23 +135,23 @@ export default (state = initialState, action) => {
         },
       };
     }
-    case SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS: {
-      const { year, individualActionCards } = action.payload;
+    case SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS: {
+      const { year, individualChoices } = action.payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          individualActionCards: {
-            ...state.entities.individualActionCards,
-            ...individualActionCards,
+          individualChoices: {
+            ...state.entities.individualChoices,
+            ...individualChoices,
           },
           rounds: {
             ...state.entities.rounds,
             [year]: {
               ...state.entities.rounds[year],
-              individualActionCards: [
-                ...(state.entities.rounds[year].individualActionCards || []),
-                ...Object.keys(individualActionCards),
+              individualChoices: [
+                ...(state.entities.rounds[year].individualChoices || []),
+                ...Object.keys(individualChoices),
               ],
             },
           },
@@ -162,23 +162,23 @@ export default (state = initialState, action) => {
         },
       };
     }
-    case SET_COLLECTIVE_ACTIONS: {
-      const { year, collectiveActionCards } = action.payload;
+    case SET_COLLECTIVE_CHOICES: {
+      const { year, collectiveChoices } = action.payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          collectiveActionCards: {
-            ...state.entities.collectiveActionCards,
-            ...collectiveActionCards,
+          collectiveChoices: {
+            ...state.entities.collectiveChoices,
+            ...collectiveChoices,
           },
           rounds: {
             ...state.entities.rounds,
             [year]: {
               ...state.entities.rounds[year],
-              collectiveActionCards: [
-                ...(state.entities.rounds[year].collectiveActionCards || []),
-                ...Object.keys(collectiveActionCards),
+              collectiveChoices: [
+                ...(state.entities.rounds[year].collectiveChoices || []),
+                ...Object.keys(collectiveChoices),
               ],
             },
           },
@@ -204,10 +204,9 @@ export default (state = initialState, action) => {
           participantId
         );
         const actionCardIds =
-          state.entities.individualActionCards[yearParticipantKey] &&
-          state.entities.individualActionCards[yearParticipantKey].actionCardIds
-            ? state.entities.individualActionCards[yearParticipantKey]
-                .actionCardIds
+          state.entities.individualChoices[yearParticipantKey] &&
+          state.entities.individualChoices[yearParticipantKey].actionCardIds
+            ? state.entities.individualChoices[yearParticipantKey].actionCardIds
             : [];
         const takenActionCards = actionCardIds.map(
           (actionId) => state.entities.actionCards[actionId]
@@ -256,9 +255,9 @@ export default (state = initialState, action) => {
     //   const { participants } = state.result;
     //   let actionCardIds;
 
-    //   if (state.entities.collectiveActionCards) {
-    //     actionCardIds = state.entities.collectiveActionCards[year]
-    //       ? state.entities.collectiveActionCards[year].actionCardIds
+    //   if (state.entities.collectiveChoices) {
+    //     actionCardIds = state.entities.collectiveChoices[year]
+    //       ? state.entities.collectiveChoices[year].actionCardIds
     //       : [];
     //   } else {
     //     actionCardIds = [];

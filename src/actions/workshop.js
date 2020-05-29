@@ -1,8 +1,8 @@
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
 export const START_ROUND = 'START_ROUND';
-export const SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS =
+export const SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS =
   'SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS';
-export const SET_COLLECTIVE_ACTIONS = 'SET_COLLECTIVE_ACTIONS';
+export const SET_COLLECTIVE_CHOICES = 'SET_COLLECTIVE_ACTIONS';
 export const WORKSHOP_RETRIEVED = 'WORKSHOP_RETRIEVED';
 export const RETRIEVE_WORKSHOP = 'RETRIEVE_WORKSHOP';
 export const WORKSHOP_LOAD_ERROR = 'WORKSHOP_LOAD_ERROR';
@@ -29,17 +29,17 @@ export const startRound = (payload) => ({
   payload,
 });
 
-export const setIndividualActionsForAllParticipants = (
+export const setIndividualChoicesForAllParticipants = (
   year,
-  individualActionCards
+  individualChoices
 ) => ({
-  type: SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS,
-  payload: { year, individualActionCards },
+  type: SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
+  payload: { year, individualChoices },
 });
 
-export const setCollectiveActions = (year, collectiveActionCards) => ({
-  type: SET_COLLECTIVE_ACTIONS,
-  payload: { year, collectiveActionCards },
+export const setCollectiveChoices = (year, collectiveChoices) => ({
+  type: SET_COLLECTIVE_CHOICES,
+  payload: { year, collectiveChoices },
 });
 
 export const workshopRetrieved = (workshop) => ({

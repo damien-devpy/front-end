@@ -194,6 +194,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                             category={
                               actionCardsEntity[actionCardId].subCategory
                             }
+                            cost={actionCardsEntity[actionCardId].cost}
                           />
                         )
                       )}

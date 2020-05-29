@@ -63,6 +63,7 @@ const ActionCardsForm = ({
                         category={actionCardsEntity[actionCardId].subCategory}
                         active={actionCardBatchId === activeBatch}
                         checked={handleCheckedActionCard(actionCardId)}
+                        cost={actionCardsEntity[actionCardId].cost}
                         handleChange={() =>
                           handleCardActionSelectionChange(actionCardId)
                         }

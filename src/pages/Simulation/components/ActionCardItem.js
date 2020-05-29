@@ -9,6 +9,7 @@ export const ActionCardItem = ({
   category,
   active,
   checked,
+  cost,
   handleChange,
 }) => {
   return (
@@ -22,8 +23,13 @@ export const ActionCardItem = ({
     >
       {active ? (
         <div className="row align-items-center">
-          <div className="col-1 mr-1"><span className="emoji">{cardIcons[id]}</span></div>
-          <div className="col">{text.toLowerCase()}</div>
+          <div className="col-1 mr-1">
+            <span className="emoji">{cardIcons[id]}</span>
+          </div>
+          <div className="col">
+            {text.toLowerCase()}
+            {/* <span className="badge badge-danger">{cost}</span> */}
+          </div>
         </div>
       ) : (
         <div className="col-1 pl-1 mr-1">
@@ -55,11 +61,7 @@ export const ActionCardItem = ({
 //   );
 // };
 
-export const ActionCardItemSimple = ({
-  id,
-  text,
-  category,
-}) => {
+export const ActionCardItemSimple = ({ id, text, category, cost }) => {
   return (
     <StyledItemSimple
       name={id}
@@ -69,7 +71,8 @@ export const ActionCardItemSimple = ({
       <div className="col-1 pl-1 mr-1">
         <span className="emoji">{cardIcons[id]}</span>
       </div>
-      <div className="col">{text.toLowerCase()}</div>
+      <div className="col">{text.toLowerCase()}</div>      
+      <span className="badge badge-danger float-right ml-auto mr-1">{cost}</span>
     </StyledItemSimple>
   );
 };

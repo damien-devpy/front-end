@@ -49,18 +49,6 @@ export const ActionCardItem = ({
 // used in NewRound modal
 // when/if we allow to choose not ony lots but also cards in each lot,
 // we won't need this and can just use ActionItem
-// export const ActionCardItemSimple = ({ id, text, category }) => {
-//   return (
-//     <StyledItemSimple
-//       name={id}
-//       className="m-1 pl-3 pr-3 p-1 btn-block rounded-lg shadow-sm"
-//       category={category}
-//     >
-//       {text}
-//     </StyledItemSimple>
-//   );
-// };
-
 export const ActionCardItemSimple = ({ id, text, category, cost }) => {
   return (
     <StyledItemSimple

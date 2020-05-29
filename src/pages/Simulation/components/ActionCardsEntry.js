@@ -4,6 +4,14 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 
 import {
+  getCostOfTakenActionCards,
+  selectCollectiveActionCards,
+  selectCollectiveRoundIds,
+  selectIndividualActionCardsFromParticipant,
+  selectIndividualRoundIds,
+  selectNextRound,
+} from '../../../selectors/workshopSelector';
+import {
   initRoundAndProcessModel,
   setCollectiveActions,
   setIndividualActionsForAllParticipants,
@@ -12,13 +20,6 @@ import {
   makeYearParticipantKey,
   toggleArrayItem,
 } from '../../../utils/helpers';
-import {
-  selectCollectiveActionCards,
-  selectCollectiveRoundIds,
-  selectIndividualActionCardsFromParticipant,
-  selectIndividualRoundIds,
-  selectNextRound,
-} from '../../../selectors/workshopSelector';
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
 
@@ -39,8 +40,10 @@ const computeInitRoundBudget = (
   // console.log('Prev choices', prevChoices)
   rounds.forEach((round) => {
     participantIds.forEach((id) => {
-      const cardIds = prevChoices ? prevChoices[`${round}-${id}`] : null;
-      console.log(round, id, `${round}-${id}`, cardIds);
+      const cardIds = prevChoices
+        ? prevChoices[makeYearParticipantKey(round, id)]
+        : null;
+      // console.log(round, id, `${round}-${id}`, cardIds);
       cardIds &&
         cardIds.actionCardIds.forEach((cardId) => {
           initBudgets[id] -= actionCards[cardId].cost;
@@ -151,19 +154,26 @@ const ActionCardsEntry = ({
   ) => {
     const individualActionCardsId = makeYearParticipantKey(
       round,
-      selectedParticipantId
+      participantId
     );
     const actionCardIds =
       individualActionCardsMap[individualActionCardsId] &&
       individualActionCardsMap[individualActionCardsId].actionCardIds;
-    const result = {
+    const updatedChoices = {
       ...individualActionCardsMap,
       [individualActionCardsId]: {
         participantId,
         actionCardIds: toggleArrayItem(actionCardIds, actionCardId),
       },
     };
-    return result;
+    const validChoice =
+      getCostOfTakenActionCards(
+        updatedChoices,
+        actionCardsEntity,
+        round,
+        participantId
+      ) <= budgetParParticipant[participantId];
+    return validChoice ? updatedChoices : individualActionCardsMap;
   };
 
   const toggleCollectiveActionCardsIdsInMap = (

@@ -1,19 +1,18 @@
 import * as R from 'ramda';
-import wildstring from 'wildstring';
 import { normalize } from 'normalizr';
+import wildstring from 'wildstring';
 
+import { getAccessToken, getSessionId } from '../auth';
+import { paramsToQuery } from '../helpers';
 import getStorage from '../storage';
 import mock from '../mock';
-//import { getAccessToken, getSessionId } from '../auth';
-import { paramsToQuery } from '../helpers';
 
 const storage = getStorage();
 
 const buildHeaders = (forcedToken, customHeaders = {}) => {
-  //const [token, sessionId] = [getAccessToken(), getSessionId()];
+  const token = getAccessToken();
   const headers = Object.assign(customHeaders, {
-    //'caplc-token': forcedToken || token,
-    //'caplc-session-id': sessionId,
+    Authorization: forcedToken || token,
   });
   return headers;
 };

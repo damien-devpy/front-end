@@ -1717,7 +1717,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1728,19 +1727,19 @@ export default {
           {
             variable: 'alcoholConsoLitersPerYear',
             operation: {
-              '*': ['alcoholConsoLitersPerYear', 0.5],
+              '*': [{ var: 'alcoholConsoLitersPerYear' }, 0.5],
             },
           },
           {
             variable: 'juicesAndSodasConsoLitersPerYear',
             operation: {
-              '*': ['juicesAndSodasConsoLitersPerYear', 0.5],
+              '*': [{ var: 'juicesAndSodasConsoLitersPerYear' }, 0.5],
             },
           },
           {
             variable: 'hotDrinksConsoLitersPerYear',
             operation: {
-              '*': ['hotDrinksConsoLitersPerYear', 0.5],
+              '*': [{ var: 'hotDrinksConsoLitersPerYear' }, 0.5],
             },
           },
         ],
@@ -1779,6 +1778,60 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           // TODO
+        ],
+      },
+      {
+        id: 23,
+        name: "INTERDIRE L'AVION",
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'forbiddenPlane',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'kmPlane',
+            operation: 0,
+          },
+        ],
+      },
+      {
+        id: 24,
+        name: 'RENOVER LES BÂTIMENTS DU TERTIAIRE',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'tertiaryBuildingsRenovation',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'CF_GAS_SERVICES',
+            operation: { '*': [{ var: 'CF_GAS_SERVICES' }, 0.464] },
+          },
+          {
+            variable: 'CF_ELEC_SERVICES',
+            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.464] },
+          },
+          {
+            variable: 'EI_ACTIVITIES_GAS',
+            operation: { '*': [{ var: 'EI_ACTIVITIES_GAS' }, 0.464] },
+          },
+          {
+            variable: 'EI_ACTIVITIES_ELEC',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.464],
+            },
+          },
         ],
       },
     ],
@@ -1820,10 +1873,16 @@ export default {
         actionCardIds: [16, 17, 18],
       },
       {
+        id: 7,
+        name: 'Ind7',
+        type: 'individual',
+        actionCardIds: [19, 20, 21, 22],
+      },
+      {
         id: 10,
         name: 'Col1',
         type: 'collective',
-        actionCardIds: [20, 21],
+        actionCardIds: [23, 24],
       },
     ],
     globalCarbonVariables: {

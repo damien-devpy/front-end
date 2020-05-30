@@ -12,13 +12,13 @@ describe('Workshop selector', () => {
       '2023': {
         actionCardType: 'collective',
         targetedYear: 2026,
-        budget: 4,
+        budget: 5,
         actionCardBatchIds: ['10'],
       },
       '2026': {
         actionCardType: 'individual',
         targetedYear: 2029,
-        budget: 4,
+        budget: 6,
         actionCardBatchIds: ['2'],
       },
     };
@@ -43,19 +43,15 @@ describe('Workshop selector', () => {
     };
     const actionCardsEntity = {
       '2': {
-        id: 2,
         cost: 3,
       },
       '3': {
-        id: 3,
         cost: 2,
       },
       '4': {
-        id: 4,
         cost: 3,
       },
       '6': {
-        id: 6,
         cost: 1,
       },
     };
@@ -65,9 +61,9 @@ describe('Workshop selector', () => {
       participantIds,
       actionCardsEntity
     );
-    // cost for participant 1 = action 2.cost + action 4.cost = 6
-    expect(roundBudget[1]).toEqual(6);
-    // cost for participant 2 = action 3.cost + action 6.cost = 9
-    expect(roundBudget[2]).toEqual(9);
+    // remaing budget for participant 1 = (2020.budget + 2026.budget) - (2.cost + 4.cost) = 10 - 6 = 4
+    expect(roundBudget[1]).toEqual(4);
+    // cost for participant 2 = (2020.budget + 2026.budget) - (3.cost + 6.cost) = 10 - 3 = 7
+    expect(roundBudget[2]).toEqual(7);
   });
 });

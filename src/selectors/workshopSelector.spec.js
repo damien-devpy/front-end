@@ -93,7 +93,7 @@ describe('Workshop selector', () => {
     ).toEqual(0);
   });
 
-  it('should calculate cost of chosen actions cards given participant and round', () => {
+  it('should calculate the number of cards chosen by a participant in a given round (i.e year)', () => {
     expect(
       getNumberOfChosenActionCards(individualChoicesEntity, '2020', '1')
     ).toEqual(1);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useWorkshops } from '../../hooks/workshops';
 import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
+import AddIcon from '../../assets/AddIcon';
 import { useDispatch } from 'react-redux';
 import WorkshopTable from './components/WorkshopTable';
 import WorkshopModal from './components/WorkshopModal';
@@ -37,7 +38,9 @@ const Workshops = () => {
             <h2>{t('common.workshops')}</h2>
             {!isLoading && (
               <StyledButton variant="secondary" onClick={handleShow}>
-                {t('common.addAWorkshop')}
+                <AddIcon height={20} width={20} fill={'white'} />
+                {'   '}
+                {t('common.newWorkshop')}
               </StyledButton>
             )}
           </StyledHeader>

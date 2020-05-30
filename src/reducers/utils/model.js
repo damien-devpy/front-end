@@ -1,12 +1,20 @@
 import jsonLogic from 'json-logic-js';
 
-const computeNewCarbonVariables = (oldCarbonVariables, individualActions) => {
+const computeNewCarbonVariables = (
+  oldCarbonVariables,
+  individualActions,
+  globalVariables = {}
+) => {
   const newCarbonVariables = {};
   individualActions.forEach((individualAction) => {
     individualAction.operations.forEach((operation) => {
-      newCarbonVariables[
-        operation.variable
-      ] = jsonLogic.apply(operation.operation, { ...oldCarbonVariables });
+      newCarbonVariables[operation.variable] = jsonLogic.apply(
+        operation.operation,
+        {
+          ...oldCarbonVariables,
+          ...globalVariables,
+        }
+      );
     });
   });
   return newCarbonVariables;

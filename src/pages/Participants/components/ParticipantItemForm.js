@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { Form, Row, Col } from 'react-bootstrap';
 import { COLORS } from '../../../vars';
-import { ParticipantStatus } from './Status';
+import { ParticipantStatus } from './ParticipantStatus';
 
-const isValidName = (input) => input && input.split(/ /).length > 1 && input.split(/ /)[1];
+const isValidName = (input) =>
+  input && input.split(/ /).length > 1 && input.split(/ /)[1];
 
-const isValidEmail = (input) => input && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
+const isValidEmail = (input) =>
+  input && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 
 export const ParticipantItemForm = ({
   id,
@@ -28,9 +30,19 @@ export const ParticipantItemForm = ({
 
   useEffect(() => {
     console.log('useEffect', id);
-    if ((name !== `${firstName} ${lastName}`) || (email !== initEmail) || (currentPersonaId !== persona)) {
+    if (
+      name !== `${firstName} ${lastName}` ||
+      email !== initEmail ||
+      currentPersonaId !== persona
+    ) {
       console.log('Dispatching update ');
-      updateParticipant(name, email, persona, isValidName(name) && isValidEmail(email));
+      console.log('isValidName', isValidName(name));
+      updateParticipant(
+        name,
+        email,
+        persona,
+        isValidName(name) && isValidEmail(email)
+      );
     }
   }, [isActive, isValid]); // if not active update store
 
@@ -45,26 +57,40 @@ export const ParticipantItemForm = ({
     e.stopPropagation();
   };
 
-  const [name, setName] = useState(firstName && lastName && `${firstName} ${lastName}`);
+  const [name, setName] = useState(
+    firstName && lastName && `${firstName} ${lastName}`
+  );
   const [email, setEmail] = useState(initEmail);
   const [persona, setPersona] = useState(currentPersonaId);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
-    updateParticipant(e.target.value, email, persona,
-      isValidName(e.target.value) && isValidEmail(email));
+    updateParticipant(
+      e.target.value,
+      email,
+      persona,
+      isValidName(e.target.value) && isValidEmail(email)
+    );
   };
 
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
-    updateParticipant(name, e.target.value, persona,
-      isValidName(name) && isValidEmail(e.target.value));
+    updateParticipant(
+      name,
+      e.target.value,
+      persona,
+      isValidName(name) && isValidEmail(e.target.value)
+    );
   };
 
   const handleChangePersona = (e) => {
     setPersona(e.target.selectedIndex);
-    updateParticipant(name, email, e.target.selectedIndex,
-      isValidName(name) && isValidEmail(email));
+    updateParticipant(
+      name,
+      email,
+      e.target.selectedIndex,
+      isValidName(name) && isValidEmail(email)
+    );
     e.stopPropagation();
   };
 
@@ -72,7 +98,9 @@ export const ParticipantItemForm = ({
     const personaOptions = [];
     personas.allIds.forEach((i) => {
       personaOptions.push(
-        <option id={i} value={i}>{personas.byId[i].pseudo}</option>,
+        <option id={i} value={i}>
+          {personas.byId[i].pseudo}
+        </option>
       );
     });
 
@@ -87,28 +115,36 @@ export const ParticipantItemForm = ({
         value={persona || 'None'}
         onChange={handleChangePersona}
       >
-        <option value='None'>{t('manageParticipants.nullPersona')}</option>
+        <option value="None">{t('manageParticipants.nullPersona')}</option>
         {personaOptions}
       </Form.Control>
     );
   };
 
   return (
-    <Row onClick={handleItemClick} id={`participant${id}`} className="align-items-bottom">
+    <Row
+      onClick={handleItemClick}
+      id={`participant${id}`}
+      className="align-items-bottom"
+      style={{
+        margin: '15px 0px 15px 15px',
+        borderBottom: `1px solid ${COLORS.GRAY.LIGHT}`,
+      }}
+    >
       <Col xs="1" className="text-center">
         <Form.Label>
-          {isActive
-            ? (
-              <button
-                type="button"
-                className="btn btn-link text-decoration-none"
-                title={t('manageParticipants.delete')}
-                onMouseDown={handleDelete}
-              >
-              &#x1f5d1;              
-              </button>
-            )
-            : ''}
+          {isActive ? (
+            <button
+              type="button"
+              className="btn btn-link text-decoration-none"
+              title={t('manageParticipants.delete')}
+              onMouseDown={handleDelete}
+            >
+              &#x1f5d1;
+            </button>
+          ) : (
+            ''
+          )}
         </Form.Label>
       </Col>
       <Col>
@@ -141,7 +177,13 @@ export const ParticipantItemForm = ({
       <Col md="2">
         <PersonaDropdown />
       </Col>
-      <Col className="text-center" onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}>
+      <Col
+        className="text-center"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
         <ParticipantStatus value={status} />
       </Col>
     </Row>
@@ -155,18 +197,10 @@ export const ParticipantsHeader = () => {
     <StyledHeaderRow>
       <Row>
         <Col xs="1" className="text-center" />
-        <Col>
-          {t('manageParticipants.nameSurname')}
-        </Col>
-        <Col>
-          {t('manageParticipants.email')}
-        </Col>
-        <Col md="2">
-          {t('manageParticipants.persona')}
-        </Col>
-        <Col className="text-center">
-          {t('manageParticipants.status')}
-        </Col>
+        <Col>{t('manageParticipants.nameSurname')}</Col>
+        <Col>{t('manageParticipants.email')}</Col>
+        <Col md="2">{t('manageParticipants.persona')}</Col>
+        <Col className="text-center">{t('manageParticipants.status')}</Col>
       </Row>
     </StyledHeaderRow>
   );
@@ -175,8 +209,8 @@ export const ParticipantsHeader = () => {
 const StyledHeaderRow = styled.div`
   //background-color: ${COLORS.GRAY.LIGHT};
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom:30px;
   padding-bottom: 5px;
   font-weight: bold;
-  border-bottom:1pt solid ${COLORS.GRAY.LIGHT};
+  border-bottom:1px solid #E2E0E0};
 `;

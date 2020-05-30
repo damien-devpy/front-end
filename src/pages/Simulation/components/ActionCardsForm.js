@@ -43,10 +43,10 @@ const ActionCardsForm = ({
               return (
                 <Form.Group
                   as={Col}
-                  sm={actionCardBatchId === activeBatch ? '5' : '3'}
+                  sm={actionCardBatchId === activeBatch ? '5' : '2'}
                   key={actionCardBatchId}
                 >
-                  <LotBadge
+                  <BatchBadge
                     text={actionCardBatchName}
                     active={actionCardBatchId === activeBatch}
                     handleClick={() => setActiveBatch(actionCardBatchId)}
@@ -58,11 +58,12 @@ const ActionCardsForm = ({
                     return (
                       <ActionCardItem
                         key={actionCardId}
-                        id={`switch-${actionCardId}`}
+                        id={actionCardId}
                         text={actionCardName}
-                        lot={actionCardBatchId}
+                        category={actionCardsEntity[actionCardId].subCategory}
                         active={actionCardBatchId === activeBatch}
                         checked={handleCheckedActionCard(actionCardId)}
+                        cost={actionCardsEntity[actionCardId].cost}
                         handleChange={() =>
                           handleCardActionSelectionChange(actionCardId)
                         }
@@ -82,9 +83,9 @@ const ActionCardsForm = ({
   );
 };
 
-const LotBadge = ({ id, text, active, handleClick }) => {
+const BatchBadge = ({ id, text, active, handleClick }) => {
   return (
-    <StyledLot
+    <StyledBatch
       name={id}
       className="m-1 mb-3 p-1 btn-block text-center btn"
       active={active}
@@ -93,11 +94,11 @@ const LotBadge = ({ id, text, active, handleClick }) => {
       }}
     >
       {text}
-    </StyledLot>
+    </StyledBatch>
   );
 };
 
-const StyledLot = styled.div`
+const StyledBatch = styled.div`
 cursor: pointer;
 color: black;
 /* font-size: 0.7rem; */

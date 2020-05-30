@@ -32,7 +32,7 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
                   <td>{status}</td>
                   <td>{coachName}</td>
                   <td>
-                    <Link to="/simulation">
+                    <Link to="/participants">
                       <Button variant="light mr-1">
                         <EnterIcon height={20} width={20} />
                       </Button>

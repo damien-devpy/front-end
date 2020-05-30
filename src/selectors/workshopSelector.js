@@ -1,4 +1,4 @@
-import { makeYearParticipantKey } from '../utils/helpers';
+import { makeYearParticipantKey, sumArray } from '../utils/helpers';
 
 export const selectIndividualChoicesForParticipant = (
   participantId,
@@ -91,57 +91,64 @@ export const selectCollectiveRoundIds = (roundsConfigEntity) =>
   );
 
 export const getNumberOfChosenActionCards = (
-  individualChoices,
+  individualChoicesEntity,
   round,
   participantId
 ) => {
-  if (!individualChoices) return 0;
+  if (!individualChoicesEntity) return 0;
   const participantChoicesId = makeYearParticipantKey(round, participantId);
-  return individualChoices[participantChoicesId] &&
-    individualChoices[participantChoicesId].actionCardIds
-    ? individualChoices[participantChoicesId].actionCardIds.length
+  return individualChoicesEntity[participantChoicesId] &&
+    individualChoicesEntity[participantChoicesId].actionCardIds
+    ? individualChoicesEntity[participantChoicesId].actionCardIds.length
     : 0;
 };
 
 export const getCostOfChosenActionCards = (
-  individualChoices,
+  individualChoicesEntity,
   actionCardsEntity,
   round,
   participantId
 ) => {
-  if (!individualChoices) return 0;
+  if (!individualChoicesEntity) return 0;
   const id = makeYearParticipantKey(round, participantId);
   return actionCardsEntity &&
-    individualChoices[id] &&
-    individualChoices[id].actionCardIds
-    ? individualChoices[id].actionCardIds
-        .map((cardId) => actionCardsEntity[cardId].cost)
-        .reduce((a, b) => a + b, 0)
+    individualChoicesEntity[id] &&
+    individualChoicesEntity[id].actionCardIds
+    ? sumArray(
+        individualChoicesEntity[id].actionCardIds.map(
+          (cardId) => actionCardsEntity[cardId].cost
+        )
+      )
     : 0;
 };
 
 // computes number of hearts = budget per participant at the beginning of each round
 export const getInitRoundBudget = (
-  roundsConfig,
-  previousChoices,
+  roundsConfigEntity,
+  inidividualChoicesEntity,
   participantIds,
-  actionCards
+  actionCardsEntity
 ) => {
-  const rounds = Object.keys(roundsConfig);
-  const roundBudgets = rounds.map((round) => roundsConfig[round].budget);
-  const totalBudget = roundBudgets.reduce((a, b) => a + b, 0);
+  const rounds = Object.keys(roundsConfigEntity);
+  const individualRounds = rounds.filter(
+    (round) => roundsConfigEntity[round].actionCardType === 'individual'
+  );
+  const roundBudgets = individualRounds.map(
+    (round) => roundsConfigEntity[round].budget
+  );
+  const totalBudget = sumArray(roundBudgets);
   const initBudgets = {};
   participantIds.forEach((id) => {
     initBudgets[id] = totalBudget;
   });
   rounds.forEach((round) => {
     participantIds.forEach((id) => {
-      const cardIds = previousChoices
-        ? previousChoices[makeYearParticipantKey(round, id)]
+      const cardIds = inidividualChoicesEntity
+        ? inidividualChoicesEntity[makeYearParticipantKey(round, id)]
         : null;
       cardIds &&
         cardIds.actionCardIds.forEach((cardId) => {
-          initBudgets[id] -= actionCards[cardId].cost;
+          initBudgets[id] -= actionCardsEntity[cardId].cost;
         });
     });
   });

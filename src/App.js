@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Route exact path="/" component={Home} />
+      <Route exact path="/" component={Workshops} />
       <Route path="/home" component={Home} />
       <Route path="/simulation" component={Simulation} />
       <Route path="/results" component={Results} />

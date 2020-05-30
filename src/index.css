@@ -42,3 +42,7 @@ code {
 .btn-brown {
   background-color: var(--bgColor);
 }
+
+.workshop_title {
+  color: #ba947e;
+}

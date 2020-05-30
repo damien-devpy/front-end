@@ -5,8 +5,8 @@ import Navbar from './Navbar.js';
 
 const NavbarHome = ({ avatarUrl }) => {
   const links = [
-    'coaches',
     'workshops',
+    'coaches',
     // 'simulation',
     'ressources',
     // 'participants',

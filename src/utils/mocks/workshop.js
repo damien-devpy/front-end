@@ -257,7 +257,7 @@ export default {
               ],
             },
             {
-              name: 'others',
+              name: 'othersFood',
               children: [
                 {
                   name: 'transformedProducts',
@@ -323,7 +323,7 @@ export default {
               ],
             },
             {
-              name: 'others',
+              name: 'othersConso',
               children: [
                 {
                   name: 'activities',
@@ -381,6 +381,7 @@ export default {
           ],
         },
       ],
+      value: 0,
     },
     variableFormulas: {
       cf_plane: {
@@ -857,7 +858,6 @@ export default {
           },
         ],
       },
-
       cf_dairies: {
         '*': [
           {
@@ -878,7 +878,6 @@ export default {
           },
         ],
       },
-
       cf_starches_and_groceries: {
         '*': [
           {
@@ -902,6 +901,7 @@ export default {
           },
         ],
       },
+
       cf_imported_fruits_and_vegetables: {
         '*': [
           {
@@ -977,7 +977,7 @@ export default {
       cf_internet_streaming: {
         '*': [
           {
-            var: 'internetStreamingHoursPerWeek',
+            var: 'internetStreamingHoursPerYear',
           },
           {
             var: 'EI_INTERNET_STREAMING',
@@ -1084,11 +1084,21 @@ export default {
           },
           {
             variable: 'kmCoachCommutePerYear',
-            operation: { '*': [{ var: 'kmCoachCommutePerYear' }, 0.5] },
+            operation: {
+              '+': [
+                { var: 'kmCoachCommutePerYear' },
+                { '*': [0.5, { var: 'kmCarCommutePerYear' }, 0.5] },
+              ],
+            },
           },
           {
             variable: 'kmUrbanTrainPerYear',
-            operation: { '*': [{ var: 'kmUrbanTrainPerYear' }, 0.5] },
+            operation: {
+              '+': [
+                { var: 'kmUrbanTrainPerYear' },
+                { '*': [0.5, { var: 'kmCarCommutePerYear' }, 0.5] },
+              ],
+            },
           },
         ],
       },
@@ -1103,11 +1113,11 @@ export default {
         operations: [
           {
             variable: 'passengersPerCarCommute',
-            operation: { min: [{ var: 'passengersPerCarCommute' }, 2.4] },
+            operation: { max: [{ var: 'passengersPerCarCommute' }, 2.4] },
           },
           {
             variable: 'passengersPerCarTravel',
-            operation: { min: [{ var: 'passengersPerCarTravel' }, 2.4] },
+            operation: { max: [{ var: 'passengersPerCarTravel' }, 2.4] },
           },
         ],
       },
@@ -1161,12 +1171,6 @@ export default {
         subCategory: 'TRANSPORT',
         key: 'stopPlane',
         cost: 1,
-
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
         operations: [
           {
             variable: 'kmPlane',
@@ -1190,26 +1194,6 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           {
-            variable: 'kmCarCommutePerYear',
-            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.7] },
-          },
-        ],
-      },
-      {
-        id: 8,
-        name: "CONSOMMER MOINS D'EAU CHAUDE SANITAIRE",
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'LOGEMENT',
-        cost: 1,
-
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
-        operations: [
-          {
             variable: 'woodHeatingKwh',
             operation: { '*': [{ var: 'woodHeatingKwh' }, 0.86] },
           },
@@ -1224,6 +1208,34 @@ export default {
           {
             variable: 'gasHeatingKwh',
             operation: { '*': [{ var: 'gasHeatingKwh' }, 0.86] },
+          },
+        ],
+      },
+      {
+        id: 8,
+        name: "CONSOMMER MOINS D'EAU CHAUDE SANITAIRE",
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'LOGEMENT',
+        cost: 1,
+        key: 'lessHotWater',
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'woodWaterHeatingKwh',
+            operation: { '*': [{ var: 'woodWaterHeatingKwh' }, 0.58] },
+          },
+          {
+            variable: 'elecWaterHeatingKwh',
+            operation: { '*': [{ var: 'elecWaterHeatingKwh' }, 0.58] },
+          },
+          {
+            variable: 'gasWaterHeatingKwh',
+            operation: { '*': [{ var: 'gasWaterHeatingKwh' }, 0.58] },
           },
         ],
       },
@@ -1308,25 +1320,25 @@ export default {
           {
             variable: 'numberSmallAppliances',
             operation: {
-              '*': ['numberSmallAppliances', 0.5],
+              '*': [{ var: 'numberSmallAppliances' }, 0.5],
             },
           },
           {
             variable: 'numberBigAppliances',
             operation: {
-              '*': ['numberBigAppliances', 0.5],
+              '*': [{ var: 'numberBigAppliances' }, 0.5],
             },
           },
           {
             variable: 'numberSmallDevices',
             operation: {
-              '*': ['numberSmallDevices', 0.5],
+              '*': [{ var: 'numberSmallDevices' }, 0.5],
             },
           },
           {
             variable: 'numberBigDevices',
             operation: {
-              '*': ['numberBigDevices', 0.5],
+              '*': [{ var: 'numberBigDevices' }, 0.5],
             },
           },
         ],
@@ -1388,7 +1400,80 @@ export default {
         reluctancyForCitizens: 1,
         key: 'semiVegetarianism',
         operations: [
-          // TODO
+          {
+            variable: 'redMeatKgPerYear',
+            operation: { '*': [{ var: 'redMeatKgPerYear' }, { '/': [2, 7] }] },
+          },
+          {
+            variable: 'whiteMeatKgPerYear',
+            operation: {
+              '*': [{ var: 'whiteMeatKgPerYear' }, { '/': [2, 7] }],
+            },
+          },
+          {
+            variable: 'fishKgPerYear',
+            operation: {
+              '*': [{ var: 'fishKgPerYear' }, { '/': [2, 7] }],
+            },
+          },
+          {
+            variable: 'fruitsAndVegetablesKgPerYear',
+            operation: {
+              '+': [
+                { var: 'fruitsAndVegetablesKgPerYear' },
+                {
+                  '*': [
+                    0.5,
+                    {
+                      var:
+                        'FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
+                    },
+                    {
+                      '*': [
+                        {
+                          '+': [
+                            { var: 'redMeatKgPerYear' },
+                            { var: 'whiteMeatKgPerYear' },
+                            { var: 'fishKgPerYear' },
+                          ],
+                        },
+                        { '/': [2, 7] },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            variable: 'starchesAndGroceriesKgPerYear',
+            operation: {
+              '+': [
+                { var: 'starchesAndGroceriesKgPerYear' },
+                {
+                  '*': [
+                    0.5,
+                    {
+                      var:
+                        'STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE',
+                    },
+                    {
+                      '*': [
+                        {
+                          '+': [
+                            { var: 'redMeatKgPerYear' },
+                            { var: 'whiteMeatKgPerYear' },
+                            { var: 'fishKgPerYear' },
+                          ],
+                        },
+                        { '/': [2, 7] },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         ],
       },
       {
@@ -1408,13 +1493,13 @@ export default {
         operations: [
           {
             variable: 'redMeatKgPerYear',
-            operation: { '*': [{ var: 'redMeatKgPerYear' }, 0.8] },
+            operation: { '*': [{ var: 'redMeatKgPerYear' }, 0.2] },
           },
           {
             variable: 'whiteMeatKgPerYear',
             operation: {
               '+': [
-                { var: 'redMeatKgPerYear' },
+                { var: 'whiteMeatKgPerYear' },
                 { '*': [{ var: 'redMeatKgPerYear' }, 0.8] },
               ],
             },
@@ -1436,7 +1521,70 @@ export default {
         reluctancyForCitizens: 1,
         key: 'lessEggsAndDairies',
         operations: [
-          // TODO
+          {
+            variable: 'eggsKgPerYear',
+            operation: { '/': [{ var: 'eggsKgPerYear' }, 3] },
+          },
+          {
+            variable: 'dairiesKgPerYear',
+            operation: { '/': [{ var: 'dairiesKgPerYear' }, 3] },
+          },
+          {
+            variable: 'fruitsAndVegetablesKgPerYear',
+            operation: {
+              '+': [
+                { var: 'fruitsAndVegetablesKgPerYear' },
+                {
+                  '*': [
+                    0.5,
+                    {
+                      var:
+                        'FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
+                    },
+                    {
+                      '/': [
+                        {
+                          '+': [
+                            { var: 'eggsKgPerYear' },
+                            { var: 'dairiesKgPerYear' },
+                          ],
+                        },
+                        3,
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            variable: 'starchesAndGroceriesKgPerYear',
+            operation: {
+              '+': [
+                { var: 'starchesAndGroceriesKgPerYear' },
+                {
+                  '*': [
+                    0.5,
+                    {
+                      var:
+                        'STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE',
+                    },
+                    {
+                      '/': [
+                        {
+                          '+': [
+                            { var: 'eggsKgPerYear' },
+                            { var: 'dairiesKgPerYear' },
+                          ],
+                        },
+                        3,
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         ],
       },
       {
@@ -1454,7 +1602,89 @@ export default {
         reluctancyForCitizens: 1,
         key: 'houseCooking',
         operations: [
-          // TODO
+          {
+            var: 'transformedProductsKgPerYear',
+            operation: {
+              min: [
+                { var: 'transformedProductsKgPerYear' },
+                {
+                  '*': [
+                    { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
+                    { var: 'WEEKS_PER_YEAR' },
+                    1,
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            var: 'starchesAndGroceriesKgPerYear',
+            operation: {
+              '+': [
+                { var: 'starchesAndGroceriesKgPerYear' },
+                {
+                  '*': [
+                    0.5,
+                    {
+                      var:
+                        'STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
+                    },
+                    {
+                      '-': [
+                        { var: 'transformedProductsKgPerYear' },
+                        {
+                          min: [
+                            { var: 'transformedProductsKgPerYear' },
+                            {
+                              '*': [
+                                { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
+                                { var: 'WEEKS_PER_YEAR' },
+                                1,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            var: 'fruitsAndVegetablesKgPerYear',
+            operation: {
+              '+': [
+                { var: 'fruitsAndVegetablesKgPerYear' },
+                {
+                  '*': [
+                    0.5,
+                    {
+                      var:
+                        'FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE',
+                    },
+                    {
+                      '-': [
+                        { var: 'transformedProductsKgPerYear' },
+                        {
+                          min: [
+                            { var: 'transformedProductsKgPerYear' },
+                            {
+                              '*': [
+                                { var: 'TRANSFORMED_PRODUCTS_KG_PER_CONSO' },
+                                { var: 'WEEKS_PER_YEAR' },
+                                1,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         ],
       },
       {
@@ -1472,7 +1702,12 @@ export default {
         reluctancyForCitizens: 1,
         key: 'localFruitsAndVegetables',
         operations: [
-          // TODO
+          {
+            variable: 'fruitsAndVegetablePercentageLocal',
+            operation: {
+              max: [0.9, { var: 'fruitsAndVegetablePercentageLocal' }],
+            },
+          },
         ],
       },
       {
@@ -1503,9 +1738,9 @@ export default {
             },
           },
           {
-            variable: 'juicesAndSodasConsoLitersPerYear',
+            variable: 'hotDrinksConsoLitersPerYear',
             operation: {
-              '*': ['juicesAndSodasConsoLitersPerYear', 0.5],
+              '*': ['hotDrinksConsoLitersPerYear', 0.5],
             },
           },
         ],
@@ -1542,6 +1777,9 @@ export default {
         systemicWeakSignals: 1,
         systemicPressureScore: 1,
         reluctancyForCitizens: 1,
+        operations: [
+          // TODO
+        ],
       },
     ],
     actionCardBatches: [
@@ -1941,7 +2179,7 @@ export default {
             kmUrbanBusPerYear: 612,
             kmCoachCommutePerYear: 160,
             kmUrbanTrainPerYear: 3825,
-            internetStreamingHoursPerWeek: 255,
+            internetStreamingHoursPerYear: 255,
             activitiesPerYear: 36,
             woodHeatingKwh: 0,
             woodCookingKwh: 0,
@@ -2000,7 +2238,7 @@ export default {
             kmUrbanBusPerYear: 612,
             kmCoachCommutePerYear: 160,
             kmUrbanTrainPerYear: 3825,
-            internetStreamingHoursPerWeek: 255,
+            internetStreamingHoursPerYear: 255,
             activitiesPerYear: 36,
             woodHeatingKwh: 0,
             woodCookingKwh: 0,
@@ -2979,7 +3217,7 @@ export default {
             kmUrbanBusPerYear: 612,
             kmCoachCommutePerYear: 160,
             kmUrbanTrainPerYear: 3825,
-            internetStreamingHoursPerWeek: 255,
+            internetStreamingHoursPerYear: 255,
             activitiesPerYear: 36,
             woodHeatingKwh: 0,
             woodCookingKwh: 0,
@@ -3038,7 +3276,7 @@ export default {
             kmUrbanBusPerYear: 612,
             kmCoachCommutePerYear: 160,
             kmUrbanTrainPerYear: 3825,
-            internetStreamingHoursPerWeek: 255,
+            internetStreamingHoursPerYear: 255,
             activitiesPerYear: 36,
             woodHeatingKwh: 0,
             woodCookingKwh: 0,
@@ -3382,7 +3620,7 @@ export default {
                     value: 71.66775,
                   },
                   {
-                    name: 'others',
+                    name: 'othersFood',
                     children: [
                       {
                         name: 'transformedProducts',
@@ -3463,7 +3701,7 @@ export default {
                     value: 248.93499999999997,
                   },
                   {
-                    name: 'others',
+                    name: 'othersConso',
                     children: [
                       {
                         name: 'activities',
@@ -3840,7 +4078,7 @@ export default {
                     value: 71.66775,
                   },
                   {
-                    name: 'others',
+                    name: 'othersFood',
                     children: [
                       {
                         name: 'transformedProducts',
@@ -3921,7 +4159,7 @@ export default {
                     value: 248.93499999999997,
                   },
                   {
-                    name: 'others',
+                    name: 'othersConso',
                     children: [
                       {
                         name: 'activities',

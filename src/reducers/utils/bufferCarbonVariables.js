@@ -159,11 +159,11 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   // ====================================================================================
   // ============================ INTERNET ============================
   // ====================================================================================
-  const { internetStreamingHoursPerWeek } = surveyVariables;
+  const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
+  const internetStreamingHoursPerYear =
+    WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
 
-  const { activitiesPerMonth } = surveyVariables;
   const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
-
   // ====================================================================================
   // ============================ ENERGY ============================
   // ====================================================================================
@@ -395,7 +395,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     coefficientEnergyEfficientDriving,
 
     // other
-    internetStreamingHoursPerWeek,
+    internetStreamingHoursPerYear,
     activitiesPerYear,
 
     // energy

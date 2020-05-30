@@ -1,11 +1,17 @@
-import React from "react";
-import "../index.css";
+import React from 'react';
+import '../index.css';
 
-import NewNavbar from "./NewNavbar.js";
+import Navbar from './Navbar.js';
 
 const NavbarHome = ({ avatarUrl }) => {
-  const links = ["coaches", "workshops", "simulation", "ressources", "participants"];
-  return <NewNavbar links={links} avatarUrl={avatarUrl} />;
+  const links = [
+    'workshops',
+    'coaches',
+    // 'simulation',
+    'ressources',
+    // 'participants',
+  ];
+  return <Navbar links={links} avatarUrl={avatarUrl} />;
 };
 
 export default NavbarHome;

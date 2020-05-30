@@ -3,15 +3,24 @@ import { getYearAndParticipantFromKey, makeYearParticipantKey} from '../../utils
 
 const NB_MAX_HEARTS = 46;
 
-const computeNewCarbonVariables = (oldCarbonVariables, actions) => {
+const computeNewCarbonVariables = (
+  oldCarbonVariables,
+  actions,
+  globalVariables = {}
+) => {
   const newCarbonVariables = {};
   console.log(oldCarbonVariables);
   console.log(actions);
+  console.log(globalVariables);
   actions.forEach((action) => {
     action.operations.forEach((operation) => {
-      newCarbonVariables[
-        operation.variable
-      ] = jsonLogic.apply(operation.operation, { ...oldCarbonVariables });
+      newCarbonVariables[operation.variable] = jsonLogic.apply(
+        operation.operation,
+        {
+          ...oldCarbonVariables,
+          ...globalVariables,
+        }
+      );
     });
   });
   console.log(newCarbonVariables);

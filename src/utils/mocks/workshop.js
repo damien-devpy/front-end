@@ -3182,7 +3182,7 @@ export default {
         CF_ELEC_SERVICES: 301,
         CF_OTHER_SERVICES: 363,
       },
-      // individualActionCards: [
+      // individualChoices: [
       //   {
       //     participantId: 1,
       //     actionCardIds: [1, 2, 3],
@@ -3275,7 +3275,7 @@ export default {
         budget: 8,
         actionCardBatchIds: [3],
       },
-      collectiveActionCards: { actionCardIds: [41, 42, 43] },
+      collectiveChoices: { actionCardIds: [41, 42, 43] },
     },
     {
       year: 2026,
@@ -3429,7 +3429,7 @@ export default {
         budget: 8,
         actionCardBatchIds: [4, 5],
       },
-      individualActionCards: [
+      individualChoices: [
         {
           participantId: 1,
           actionCardIds: [5, 6],
@@ -3455,7 +3455,7 @@ export default {
         budget: 8,
         actionCardBatchIds: [6],
       },
-      collectiveActionCards: { actionCardIds: [47, 48] },
+      collectiveChoices: { actionCardIds: [47, 48] },
     },
     */
   ],

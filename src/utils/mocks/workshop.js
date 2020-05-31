@@ -1834,6 +1834,26 @@ export default {
           },
         ],
       },
+      {
+        id: 25,
+        name: "INTERDIRE Le camion",
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'forbiddenPlane',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'kmPlane',
+            operation: 0,
+          },
+        ],
+      },
     ],
     actionCardBatches: [
       {
@@ -1882,7 +1902,7 @@ export default {
         id: 10,
         name: 'Col1',
         type: 'collective',
-        actionCardIds: [23, 24],
+        actionCardIds: [23, 24, 25],
       },
     ],
     globalCarbonVariables: {

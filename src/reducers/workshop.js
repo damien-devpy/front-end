@@ -343,6 +343,9 @@ export default (state = initialState, action) => {
         collectiveActionCardIds,
         actionCards
       );
+      const newBudget = computeBudget(newSocialVariables.influenceScore);
+      console.log('newSocialVariables', newSocialVariables);
+      console.log('newBudget', newBudget);
       return {
         ...state,
         entities: {
@@ -352,7 +355,7 @@ export default (state = initialState, action) => {
             [yearTo]: {
               ...state.entities.rounds[yearTo],
               socialVariables: newSocialVariables,
-              budget: computeBudget(newSocialVariables.influenceScore),
+              budget: newBudget,
             },
           },
         },

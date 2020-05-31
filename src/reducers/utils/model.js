@@ -2,6 +2,11 @@ import jsonLogic from 'json-logic-js';
 import { getYearAndParticipantFromKey, makeYearParticipantKey} from '../../utils/helpers';
 
 const NB_MAX_HEARTS = 46;
+const NB_PARTICIPANTS = 2;
+const PERCENTAGE_CITIZENS = 0.9;
+const NB_TOTAL_PERSONS_SIMULATED = NB_PARTICIPANTS / (1 - PERCENTAGE_CITIZENS);
+const NB_CITIZENS_SIMULATED = NB_TOTAL_PERSONS_SIMULATED - NB_PARTICIPANTS;
+const MAX_INFLUENCE_SCORE = 10;
 
 const computeNewCarbonVariables = (
   oldCarbonVariables,
@@ -9,9 +14,6 @@ const computeNewCarbonVariables = (
   globalVariables = {}
 ) => {
   const newCarbonVariables = {};
-  console.log(oldCarbonVariables);
-  console.log(actions);
-  console.log(globalVariables);
   actions.forEach((action) => {
     action.operations.forEach((operation) => {
       newCarbonVariables[operation.variable] = jsonLogic.apply(
@@ -23,7 +25,6 @@ const computeNewCarbonVariables = (
       );
     });
   });
-  console.log(newCarbonVariables);
   return newCarbonVariables;
 };
 
@@ -79,10 +80,16 @@ const computeSocialVariables = (
 
   individualActions.forEach((participantAction) => {
     participantAction.actionCardIds.forEach((actionCardId) => {
-      socialScore += actionCards[actionCardId].peerInspirationScore;
-      socialScore += actionCards[actionCardId].peerAwarenessScore;
-      influenceScore += actionCards[actionCardId].systemicWeakSignals;
-      influenceScore += actionCards[actionCardId].systemicPressureScore;
+      socialScore +=
+        actionCards[actionCardId].peerInspirationScore /
+        (NB_TOTAL_PERSONS_SIMULATED * NB_MAX_HEARTS);
+      socialScore +=
+        actionCards[actionCardId].peerAwarenessScore / NB_CITIZENS_SIMULATED;
+      influenceScore +=
+        actionCards[actionCardId].systemicWeakSignals /
+        (NB_TOTAL_PERSONS_SIMULATED * NB_MAX_HEARTS);
+      influenceScore +=
+        actionCards[actionCardId].systemicPressureScore / MAX_INFLUENCE_SCORE;
     });
   });
   collectiveActionCardIds.forEach((actionCardId) => {
@@ -118,7 +125,6 @@ const computeCitizenIndividualActionCards = (
   citizens,
   actionCards
 ) => {
-  console.log(citizenIndividualActionCards);
   const newCitizenIndividualActionCards = {};
   citizens.forEach((citizen) => {
     const alreadyTalenActionIds = getActionsTakenBeforeYear(
@@ -128,6 +134,7 @@ const computeCitizenIndividualActionCards = (
     );
     const newActionCardIds = [];
     actionCards.forEach((actionCard) => {
+      console.log(citizen.reluctancy);
       if (
         socialVariables.socialScore >
           citizen.reluctancy + actionCard.reluctancyForCitizens &&

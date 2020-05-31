@@ -1110,6 +1110,11 @@ export default {
         subCategory: 'TRANSPORT',
         key: 'carpooling',
         cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
         operations: [
           {
             variable: 'passengersPerCarCommute',
@@ -1129,6 +1134,11 @@ export default {
         subCategory: 'TRANSPORT',
         key: 'homeOffice',
         cost: 3,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1156,6 +1166,11 @@ export default {
         subCategory: 'TRANSPORT',
         key: 'efficientDriving',
         cost: 1,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
         operations: [
           {
             variable: 'coefficientEnergyEfficientDriving',
@@ -1171,6 +1186,11 @@ export default {
         subCategory: 'TRANSPORT',
         key: 'stopPlane',
         cost: 1,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
         operations: [
           {
             variable: 'kmPlane',
@@ -1186,7 +1206,6 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'lowerHeating',
         cost: 1,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1246,7 +1265,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1268,7 +1286,6 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'alternativeElectricityProvider',
         cost: 1,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1289,7 +1306,6 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'houseSharing',
         cost: 3,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1309,7 +1325,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1350,7 +1365,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1371,7 +1385,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 1,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1392,7 +1405,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1484,7 +1496,6 @@ export default {
         subCategory: 'BIENS DE CONSO',
         key: 'lessRedMeat',
         cost: 2,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1513,7 +1524,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1594,7 +1604,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1694,7 +1703,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 1,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1751,7 +1759,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,
@@ -1770,7 +1777,6 @@ export default {
         subCategory: 'BIENS DE CONSO',
         key: 'organicFood',
         cost: 2,
-
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
         systemicWeakSignals: 1,

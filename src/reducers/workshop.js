@@ -255,10 +255,9 @@ export default (state = initialState, action) => {
     }
     case APPLY_COLLECTIVE_ACTIONS: {
       const { yearFrom, yearTo } = action.payload;
-      const currentCarbonVariables = state.entities.carbonVariables;
       const currentGlobalCarbonVariables = state.entities.globalCarbonVariables;
       const { participants } = state.result;
-
+      
       const actionCardIds = pathOr(
         [],
         ['entities', 'collectiveActionCards', yearFrom, 'actionCardIds'],
@@ -274,12 +273,17 @@ export default (state = initialState, action) => {
           yearTo,
           participantId
         );
+        const currentVariables = pathOr(
+          {},
+          ['entities', 'carbonVariables', nextYearParticipantKey, 'variables'],
+          state
+        );
         newCarbonVariables[nextYearParticipantKey] = {
           participantId,
           variables: {
-            ...currentCarbonVariables[nextYearParticipantKey].variables,
+            ...currentVariables,
             ...computeNewCarbonVariables(
-              currentCarbonVariables[nextYearParticipantKey].variables,
+              currentVariables,
               takenActionCardsThatApplyToEveryone
             ),
           },

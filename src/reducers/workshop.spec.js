@@ -817,6 +817,20 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 km_plane: 2000,
               },
             },
+            '2023-1': {
+              participantId: 1,
+              variables: {
+                km_bus: 200,
+                km_plane: 2000,
+              },
+            },
+            '2023-2': {
+              participantId: 2,
+              variables: {
+                km_bus: 200,
+                km_plane: 2000,
+              },
+            },
           },
           globalCarbonVariables: {
             2020: {
@@ -1179,6 +1193,20 @@ describe('Test effect of redux actions related to model on the workshop state', 
               },
             },
             '2020-2': {
+              participantId: 2,
+              variables: {
+                km_bus: 200,
+                km_plane: 2000,
+              },
+            },
+            '2023-1': {
+              participantId: 1,
+              variables: {
+                km_bus: 200,
+                km_plane: 2000,
+              },
+            },
+            '2023-2': {
               participantId: 2,
               variables: {
                 km_bus: 200,

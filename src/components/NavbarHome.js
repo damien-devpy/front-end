@@ -1,9 +1,10 @@
 import React from 'react';
+
 import '../index.css';
 
-import Navbar from './Navbar.js';
+import Navbar from './Navbar';
 
-const NavbarHome = ({ avatarUrl }) => {
+const NavbarHome = () => {
   const links = [
     'workshops',
     'coaches',
@@ -11,7 +12,7 @@ const NavbarHome = ({ avatarUrl }) => {
     'ressources',
     // 'participants',
   ];
-  return <Navbar links={links} avatarUrl={avatarUrl} />;
+  return <Navbar links={links} />;
 };
 
 export default NavbarHome;

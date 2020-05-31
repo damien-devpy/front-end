@@ -1,20 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import { useTranslation } from "react-i18next";
-import NavbarHome from "../components/NavbarHome";
+import React from 'react';
+import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+
+import NavbarHome from '../components/NavbarHome';
 
 const Results = () => {
   const { t } = useTranslation();
 
   return (
-    <React.Fragment>
-      <NavbarHome
-        avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
-        firstName="Xavier"
-        role="Animateur"
-      ></NavbarHome>
-      <StyledResults>{t("common.results")}</StyledResults>
-    </React.Fragment>
+    <>
+      <NavbarHome />
+      <StyledResults>{t('common.results')}</StyledResults>
+    </>
   );
 };
 const StyledResults = styled.div`

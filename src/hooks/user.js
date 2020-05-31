@@ -2,40 +2,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
 import {
-  coachesLoadError,
-  coachesRetrieved,
-  retrieveCoaches,
-} from '../actions/coaches';
-import { getCoaches } from '../utils/api';
+  currentUserLoadError,
+  currentUserRetrieved,
+  retrieveCurrentUser,
+} from '../actions/user';
+import { login } from '../utils/api';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useCoaches = () => {
+export const useUser = (credentials) => {
   const mounted = useRef(false);
   const dispatch = useDispatch();
-  const coaches = useSelector((state) => state.coaches);
+  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     const load = async () => {
       try {
-        const result = await getCoaches();
-        console.log('useCoaches', coaches);
+        const result = await login(credentials);
 
         if (mounted.current) {
-          dispatch(coachesRetrieved(result));
+          dispatch(currentUserRetrieved(result));
         }
         return result;
       } catch (e) {
         if (mounted.current) {
-          dispatch(coachesLoadError(e));
+          dispatch(currentUserLoadError(e));
         }
       }
     };
     mounted.current = true;
-    dispatch(retrieveCoaches());
+    dispatch(retrieveCurrentUser());
     load();
 
     return () => {
       mounted.current = false;
     };
-  }, [dispatch]);
-  return coaches;
+  }, [credentials, dispatch]);
+  return user;
 };

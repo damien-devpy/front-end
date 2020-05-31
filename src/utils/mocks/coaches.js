@@ -82,7 +82,7 @@ const names = [
 export default names.map((name, index) => {
   const [firstName, lastName] = name.split(' ');
   return {
-    userId: uuid(),
+    id: uuid(),
     firstName,
     lastName,
     email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${DOMAIN_NAME}`

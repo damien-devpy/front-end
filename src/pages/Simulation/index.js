@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import footprintData from '../../utils/mocks/footprintData';
-import {
-  footprintDataToGraph,
-  currentRound,
-} from '../../selectors/footprintSelectors';
+
 import './components/simulationPage.css';
-import { useWorkshop } from '../../hooks/workshop';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
-import FootprintGraphType from './components/FootprintGraphType';
-import EvolutionCarbon from './components/EvolutionCarbon';
-import CommonModal from '../../components/CommonModal';
-import { startRound } from '../../actions/workshop';
-import NewRoundModalForm from './components/NewRoundModalForm';
 import ActionCardsEntry from './components/ActionCardsEntry';
+import CommonModal from '../../components/CommonModal';
+import EvolutionCarbon from './components/EvolutionCarbon';
+import FootprintGraphType from './components/FootprintGraphType';
+import NavbarWorkshop from '../../components/NavbarWorkshop';
+import NewRoundModalForm from './components/NewRoundModalForm';
+import { startRound } from '../../actions/workshop';
+import { useWorkshop } from '../../hooks/workshop';
+
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -40,6 +37,7 @@ const Simulation = () => {
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
+  const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
   const handleSubmitNewRoundModal = (values) => {
     dispatch(startRound(values));
     setShowNewRoundModal(false);
@@ -47,15 +45,10 @@ const Simulation = () => {
   };
   const handleShowNewRoundModal = () => setShowNewRoundModal(true);
   // EntryOfActionCards
-  const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
-    <React.Fragment>
-      <NavbarWorkshop
-        avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
-        firstName="Xavier"
-        role="Animateur"
-      />
+    <>
+      <NavbarWorkshop />
       <StyledSimulation>
         <Container className="row-full">
           <Row className="d-flex justify-content-end mr-1">
@@ -114,7 +107,7 @@ const Simulation = () => {
           roundActionCardType={roundActionCardType}
         />
       </CommonModal>
-    </React.Fragment>
+    </>
   );
 };
 

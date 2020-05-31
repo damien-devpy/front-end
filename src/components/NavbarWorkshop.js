@@ -1,8 +1,9 @@
-import Navbar from './Navbar.js';
 import React from 'react';
 
-const NavbarWorkshop = ({ avatarUrl }) => {
+import Navbar from './Navbar';
+
+const NavbarWorkshop = () => {
   const links = ['exit', 'participants', 'data_tab', 'simulation', 'results'];
-  return <Navbar links={links} avatarUrl={avatarUrl} />;
+  return <Navbar links={links} />;
 };
 export default NavbarWorkshop;

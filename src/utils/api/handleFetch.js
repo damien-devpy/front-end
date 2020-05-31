@@ -1,37 +1,26 @@
 import * as R from 'ramda';
-import { normalize } from 'normalizr';
 import wildstring from 'wildstring';
+import { normalize } from 'normalizr';
 
-import { getAccessToken, getSessionId } from '../auth';
-import { paramsToQuery } from '../helpers';
-import getStorage from '../storage';
 import mock from '../mock';
+import { getAccessToken } from '../auth';
+import { paramsToQuery } from '../helpers';
 
-const storage = getStorage();
+export const API_BASE_URL = 'https://api-2tons.pg3.xyz/api/v1';
 
 const buildHeaders = (forcedToken, customHeaders = {}) => {
   const token = getAccessToken();
   const headers = Object.assign(customHeaders, {
-    Authorization: forcedToken || token,
+    Authorization: `Bearer ${forcedToken || token}`,
   });
   return headers;
-};
-
-const handleHeaders = (response) => {
-  const sessionId = response.headers.get('caplc-session-id');
-  const current = storage.getItem('caplc-session-id');
-  if (sessionId && current !== sessionId) {
-    storage.removeItem('caplc-session-id');
-    storage.setItem('caplc-session-id', sessionId);
-  }
-  return response;
 };
 
 const handleErrors = async (response) => {
   if (!response.ok) {
     const json = await response.json().catch(() => null);
     if (json) {
-      const message = R.path(['error', 'message'], json);
+      const message = R.path(['msg'], json);
       throw new Error(message || response.statusText);
     }
     throw new Error(response.statusText);
@@ -87,19 +76,20 @@ export default function handleFetch(url, options = {}) {
       });
     }
   }
+
   const headers = buildHeaders(token, options.headers);
   const fetchOptions = {
     method,
     headers,
     ...rest,
   };
-  return fetch(window.____.config.REACT_APP_API_BASE_URL + url, fetchOptions)
-    .then(handleHeaders)
+  return fetch(`${API_BASE_URL}${url}`, fetchOptions)
     .then(handleErrors)
     .then((response) => {
       switch (type) {
         case 'json':
           return response.json();
+
         case 'blob':
           return response.blob();
         case 'text':

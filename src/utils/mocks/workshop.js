@@ -1819,8 +1819,8 @@ export default {
             operation: { '*': [{ var: 'CF_GAS_SERVICES' }, 0.464] },
           },
           {
-            variable: 'EI_ELEC_SERVICES',
-            operation: { '*': [{ var: 'EI_ELEC_SERVICES' }, 0.464] },
+            variable: 'CF_ELEC_SERVICES',
+            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.464] },
           },
           {
             variable: 'EI_ACTIVITIES_GAS',
@@ -1836,7 +1836,7 @@ export default {
       },
       {
         id: 25,
-        name: "VEHICULE INDIVIDUEL BAS CARBONNE",
+        name: 'VEHICULE INDIVIDUEL BAS CARBONE',
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1849,18 +1849,22 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           {
-            variable: 'kmPlane',
-            operation: 0,
+            variable: 'categoryCarCommute',
+            operation: 'LOW_CARBON',
+          },
+          {
+            variable: 'categoryCarTravel',
+            operation: 'LOW_CARBON',
           },
         ],
       },
       {
         id: 26,
-        name: "DÉVELOPPER ET RÉHABILITER LE RESEAU FÉRRÉ",
+        name: 'DÉVELOPPER ET RÉHABILITER LE RESEAU FÉRRÉ',
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'developRailways',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -1870,21 +1874,11 @@ export default {
         operations: [
           {
             variable: 'kmCarCommutePerYear',
-            operations: [
-              {
-                variable: 'kmCarCommutePerYear',
-                operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.8] },
-              },
-            ],
+            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.8] },
           },
           {
             variable: 'kmCarTravelPerYear',
-            operations: [
-              {
-                variable: 'kmCarTravelPerYear',
-                operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.8] },
-              },
-            ],
+            operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.8] },
           },
           {
             variable: 'kmUrbanTrainPerYear',
@@ -1897,22 +1891,18 @@ export default {
           },
           {
             variable: 'kmCountryTrain',
-            operations: [
-              {
-                variable: 'kmCountryTrain',
-                operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.2] },
-              },
-            ],
+            operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.2] },
           },
         ],
       },
       {
         id: 27,
-        name: "DÉVELOPPER UNE OFFRE DE VÉHICULES SERVICIELS ET LES AIRES DE COVOITURAGE ",
+        name:
+          'DÉVELOPPER UNE OFFRE DE VÉHICULES SERVICIELS ET LES AIRES DE COVOITURAGE ',
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'globalCarSharing',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -1932,11 +1922,11 @@ export default {
       },
       {
         id: 28,
-        name: "RÉNOVER LES LOGEMENTS",
+        name: 'RÉNOVER LES LOGEMENTS',
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'renovateHousing',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -1947,44 +1937,37 @@ export default {
           {
             variable: 'woodHeatingKwh',
             operation: {
-              "if": [
-                { ">": [{ "var": "woodHeatingKwh" }, 1] }, 40.0, // sup à 1 pour éviter le != 0 (erreur numérique ?)
-              ]
-            }
+              min: [{ var: 'woodHeatingKwh' }, 40.0],
+            },
           },
           {
             variable: 'gasHeatingKwh',
             operation: {
-              "if": [
-                { ">": [{ "var": "gasHeatingKwh" }, 1] }, 40.0,
-              ]
-            }
+              min: [{ var: 'gasHeatingKwh' }, 40.0],
+            },
           },
           {
             variable: 'fuelHeatingKwh',
             operation: {
-              "if": [
-                { ">": [{ "var": "fuelHeatingKwh" }, 1] }, 40.0,
-              ]
-            }
+              min: [{ var: 'fuelHeatingKwh' }, 40.0],
+            },
           },
           {
             variable: 'elecHeatingKwh',
             operation: {
-              "if": [
-                { ">": [{ "var": "elecHeatingKwh" }, 1] }, 40.0,
-              ]
-            }
-          }
+              min: [{ var: 'elecHeatingKwh' }, 40.0],
+            },
+          },
         ],
       },
       {
         id: 29,
-        name: "DÉPLOYER LES SYSTEMES DE CHAUFFAGE BAS CARBONE DANS LES LOGEMENTS ",
+        name:
+          'DÉPLOYER LES SYSTEMES DE CHAUFFAGE BAS CARBONE DANS LES LOGEMENTS ',
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'lowCarbonHeating',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -1993,42 +1976,61 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           {
-            variable: 'heatingSystemEnergyType',
-            operation: 'ELECTRICITY',
+            variable: 'woodHeatingKwh',
+            operation: 0,
           },
           {
-            variable: 'sanitoryHotWaterEnergyType',
-            operation: 'ELECTRICITY',
+            variable: 'gasHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'fuelHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'elecHeatingKwh',
+            operation: {
+              '+': [
+                { var: 'elecHeatingKwh' },
+                { var: 'woodHeatingKwh' },
+                { var: 'gasHeatingKwh' },
+                { var: 'fuelHeatingKwh' },
+              ],
+            },
+          },
+          {
+            variable: 'woodWaterHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'gasWaterHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'fuelWaterHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'elecWaterHeatingKwh',
+            operation: {
+              '+': [
+                { var: 'elecWaterHeatingKwh' },
+                { var: 'woodWaterHeatingKwh' },
+                { var: 'gasWaterHeatingKwh' },
+                { var: 'fuelWaterHeatingKwh' },
+              ],
+            },
           },
         ],
       },
       {
         id: 30,
-        name: "PRODUIRE DES APPAREILS ELECTROMENAGERS ET D'ECLAIRAGE PEU CONSOMMATEURS D'ENERGIE",
+        name:
+          "PRODUIRE DES APPAREILS ELECTROMENAGERS ET D'ECLAIRAGE PEU CONSOMMATEURS D'ENERGIE",
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
-        cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
-        operations: [
-          {
-            variable: 'elecLightningKwh',
-            operation: { '*': [{ var: 'elecLightningKwh' }, 0.5] },
-          },
-        ],
-      },
-      {
-        id: 31,
-        name: "RÉNOVER LES BÂTIMENTS DU TERTIAIRE",
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'lowCarbonAppliances',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -2048,7 +2050,7 @@ export default {
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'tertiaryElectricityEconomies',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -2057,18 +2059,24 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           {
-            variable: 'elecLightningKwh',
-            operation: { '*': [{ var: 'elecLightningKwh' }, 0.5] },
+            variable: 'CF_ELEC_SERVICES',
+            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.6] },
+          },
+          {
+            variable: 'EI_ACTIVITIES_ELEC',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.6],
+            },
           },
         ],
       },
       {
         id: 33,
-        name: "LUTTER CONTRE LE GASPILLAGE ALIMENTAIRE",
+        name: 'LUTTER CONTRE LE GASPILLAGE ALIMENTAIRE',
         type: 'global',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
+        key: 'lessFoodWaste',
         cost: 2,
         peerInspirationScore: 1,
         peerAwarenessScore: 1,
@@ -2090,19 +2098,23 @@ export default {
           },
           {
             variable: 'EI_EGGS',
-            operation: { '*': [{ var: 'EI_FISH' }, 0.98] },
+            operation: { '*': [{ var: 'EI_EGGS' }, 0.98] },
           },
           {
             variable: 'EI_DAIRIES',
-            operation: { '*': [{ var: 'EI_FISH' }, 0.98] },
+            operation: { '*': [{ var: 'EI_DAIRIES' }, 0.98] },
           },
           {
             variable: 'EI_LOCAL_FRUITS_AND_VEGETABLES',
-            operation: { '*': [{ var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' }, 0.98] },
+            operation: {
+              '*': [{ var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' }, 0.98],
+            },
           },
           {
             variable: 'EI_IMPORTED_FRUITS_AND_VEGETABLES',
-            operation: { '*': [{ var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' }, 0.98] },
+            operation: {
+              '*': [{ var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' }, 0.98],
+            },
           },
           {
             variable: 'EI_TRANSFORMED_PRODUCTS',
@@ -2125,12 +2137,107 @@ export default {
             operation: { '*': [{ var: 'EI_JUICES_AND_SODAS' }, 0.98] },
           },
         ],
-      }
-
+      },
+      {
+        id: 34,
+        name: 'DEVELOPPER LA METHANISATION',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'anaerobicDigestion',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'EI_GAS_PER_KWH',
+            operation: {
+              '*': [{ var: 'EI_GAS_PER_KWH' }, 0.1],
+            },
+          },
+          {
+            variable: 'EI_ACTIVITIES_GAS',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.1],
+            },
+          },
+          {
+            variable: 'CF_ELEC_SERVICES',
+            operation: {
+              '*': [{ var: 'CF_ELEC_SERVICES' }, 0.1],
+            },
+          },
+        ],
+      },
+      {
+        id: 35,
+        name: 'FERMER LES CENTRALES THERMIQUES',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'closeThermalPowerStations',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'EI_ELEC_PER_KWH',
+            operation: 0.04,
+          },
+          {
+            variable: 'CF_ELEC_SERVICES',
+            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.39] },
+          },
+          {
+            variable: 'EI_ACTIVITIES_ELEC',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.39],
+            },
+          },
+        ],
+      },
+      {
+        id: 36,
+        name: 'DEVELOPPER LES ENERGIES RENOUVELABLES ELECTRIQUES',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'renewableElectricty',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [
+          {
+            variable: 'EI_ELEC_PER_KWH',
+            operation: { '*': [{ var: 'EI_ELEC_PER_KWH' }, 1] },
+          },
+        ],
+      },
+      {
+        id: 37,
+        name: "INCLURE LES ENJEUX DE LA TRANSITION DANS L'ENSEIGNEMENT PUBLIC",
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'renewableElectricty',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 1,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 1,
+        reluctancyForCitizens: 1,
+        operations: [],
+      },
     ],
-
-
-
     actionCardBatches: [
       {
         id: 1,
@@ -2178,7 +2285,25 @@ export default {
         id: 10,
         name: 'Col1',
         type: 'collective',
-        actionCardIds: [23, 24, 25],
+        actionCardIds: [23, 24, 25, 26],
+      },
+      {
+        id: 11,
+        name: 'Col2',
+        type: 'collective',
+        actionCardIds: [27, 28, 29, 30],
+      },
+      {
+        id: 12,
+        name: 'Col3',
+        type: 'collective',
+        actionCardIds: [30, 32, 33, 34],
+      },
+      {
+        id: 13,
+        name: 'Col4',
+        type: 'collective',
+        actionCardIds: [35, 36, 37],
       },
     ],
     globalCarbonVariables: {
@@ -2299,6 +2424,11 @@ export default {
           FUEL: 0.344,
           ELECTRIC: 0.3125,
           HYBRID: 0.3125,
+        },
+        LOW_CARBON: {
+          FUEL: 0.1,
+          ELECTRIC: 0.1,
+          HYBRID: 0.1,
         },
       },
       MOTOR_AGING_FACTOR: {
@@ -4714,6 +4844,11 @@ export default {
             FUEL: 0.344,
             ELECTRIC: 0.3125,
             HYBRID: 0.3125,
+          },
+          LOW_CARBON: {
+            FUEL: 0.1,
+            ELECTRIC: 0.1,
+            HYBRID: 0.1,
           },
         },
         MOTOR_AGING_FACTOR: {

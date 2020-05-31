@@ -1,7 +1,13 @@
 import React from 'react';
-import { Container, Image, Nav, Navbar as NavigBar } from 'react-bootstrap';
+import styled from 'styled-components';
+import {
+  Container,
+  Nav,
+  NavDropdown,
+  Navbar as NavigBar,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Avatar from './Avatar';
@@ -9,16 +15,26 @@ import { COLORS } from '../vars';
 // import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import '../index.css';
 import ExitIcon from '../assets/ExitIcon';
+import { logout } from '../utils/auth';
+import { logoutCurrentUser } from '../actions/user';
 
-const Navbar = ({ links }) => {
+const Navbar = ({ links = [] }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { user: { firstName, lastName } = {} } = useSelector(
+  const { user: { firstName = '', lastName = '' } = {} } = useSelector(
     (state) => state.currentUser
   );
+  const avatarName =
+    firstName || lastName ? `${firstName} ${lastName}` : undefined;
+  const dispatch = useDispatch();
 
   const isActive = (path) =>
     location.pathname === path ? `badge rounded-lg navbar-link` : null;
+
+  const handleLogout = () => {
+    logout();
+    dispatch(logoutCurrentUser());
+  };
 
   return (
     <NavigBar
@@ -58,16 +74,33 @@ const Navbar = ({ links }) => {
               )
             )}
           </Nav>
-          <Avatar className="ml-auto" name={`${firstName} ${lastName}`} />
+          <StyledNavDropDown
+            className="ml-auto"
+            title={
+              <div style={{ display: 'inline-block' }}>
+                <Avatar name={avatarName} />
+              </div>
+            }
+            id="basic-nav-dropdown"
+          >
+            <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header>
+            <NavDropdown.Item href="/coaches">
+              {t('common.coaches')}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item eventKey={3.2} onClick={handleLogout}>
+              {t('common.logout')}
+            </NavDropdown.Item>
+          </StyledNavDropDown>
         </NavigBar.Collapse>
       </Container>
     </NavigBar>
   );
 };
-// const StyledLink = styled(Nav.Link)`
-//   &:hover {
-//     background-color: ${COLORS.BROWN.STANDARD};
-//     color: white;
-//   }
-// `;
+
+const StyledNavDropDown = styled(NavDropdown)`
+  .dropdown-toggle::after {
+    content: none;
+  }
+`;
 export default Navbar;

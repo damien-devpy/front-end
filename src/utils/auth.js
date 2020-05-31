@@ -30,6 +30,5 @@ export const getAuthStatus = () => {
 };
 
 export const logout = () => {
-  window.postMessage({ type: '2tons::signedOut' }, '*');
   storage.clear();
 };

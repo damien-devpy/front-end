@@ -1,7 +1,7 @@
 import * as yup from 'yup';
+import React from 'react';
 import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import { Formik } from 'formik';
-import React from 'react';
 
 const schema = yup.object({
   firstName: yup.string().required(),

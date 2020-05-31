@@ -89,7 +89,6 @@ export default function handleFetch(url, options = {}) {
       switch (type) {
         case 'json':
           return response.json();
-
         case 'blob':
           return response.blob();
         case 'text':

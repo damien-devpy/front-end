@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import Coaches from './pages/Coaches';
+import CommonModal from './components/CommonModal';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Navbar from './components/Navbar';
 import Participants from './pages/Participants';
 import Results from './pages/Results';
 import Simulation from './pages/Simulation';
@@ -26,6 +29,7 @@ const AppRouter = () => (
 );
 
 const App = () => {
+  const { t } = useTranslation();
   const [token, setToken] = useState(getAccessToken());
   const { signedIn, isLoading } = useAuthentication(token);
   useEffect(() => {
@@ -43,7 +47,15 @@ const App = () => {
   if (signedIn) {
     return <AppRouter />;
   }
-  return <Login handleLogin={handleLogin} />;
+
+  return (
+    <>
+      <Navbar />;
+      <CommonModal title={t('common.login')} show>
+        <Login handleLogin={handleLogin} />
+      </CommonModal>
+    </>
+  );
 };
 
 export default App;

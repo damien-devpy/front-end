@@ -1,5 +1,5 @@
-import { Button, Table } from 'react-bootstrap';
 import React from 'react';
+import { Button, Table } from 'react-bootstrap';
 
 const CoachTable = ({ coaches, t }) => (
   <Table borderless className="table-responsive">

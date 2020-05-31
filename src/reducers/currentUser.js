@@ -2,29 +2,28 @@ import {
   AUTHENTICATE_CURRENT_USER,
   CURRENT_USER_LOAD_ERROR,
   CURRENT_USER_RETRIEVED,
-  RETRIEVE_CURRENT_USER,
+  LOGOUT_CURRENT_USER,
 } from '../actions/user';
 
 const initialState = {
   isLoading: true,
   loadError: false,
+  loadErrorDetails: null,
   signedIn: false,
-  user: [],
+  user: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case AUTHENTICATE_CURRENT_USER: {
       return {
-        isLoading: true,
-        loadErrorDetails: null,
-        signedIn: false,
-        user: {},
+        ...initialState,
       };
     }
-    case RETRIEVE_CURRENT_USER: {
+    case LOGOUT_CURRENT_USER: {
       return {
-        isLoading: true,
+        isLoading: false,
+        loadError: false,
         loadErrorDetails: null,
         signedIn: false,
         user: {},

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import CoachModal from './components/CoachModal';
 import CoachTable from './components/CoachTable';
 import NavbarHome from '../../components/NavbarHome';
-import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { COLORS } from '../../vars';
 import { addCoach } from '../../actions/coaches';
 import { useCoaches } from '../../hooks/coaches';

@@ -29,9 +29,17 @@ const ManageParticipants = () => {
     (state) => state.workshop.result && state.workshop.result.title
   );
   const { t } = useTranslation();
-  const { participants, isLoading, loadError } = useParticipants();
-  const { personas } = usePersonas();
+  //const { participants, isLoading, loadError } = useParticipants();
+  const participants = useSelector(
+    (state) => state.workshop.result && state.workshop.entities.participants
+  );
+  //const { personas } = usePersonas();
+  const personas = useSelector(
+    (state) => state.workshop.result && state.workshop.result.personas
+  );
   const dispatch = useDispatch();
+
+  console.log("Personas", personas);
 
   // keep track of actived rows globally
   const [active, setActive] = useState({});
@@ -40,8 +48,8 @@ const ManageParticipants = () => {
   const initActive = () =>
     Object.assign(
       {},
-      ...participants.allIds.map((i) => ({
-        [i]: !participants.byId[i].isValid,
+      ...Object.keys(participants).map((id) => ({
+        [id]: !participants[id].isValid,
       }))
     );
 
@@ -49,7 +57,7 @@ const ManageParticipants = () => {
   useEffect(() => {
     console.log('Use effect CONTAINER');
     participants && setActive(initActive(participants));
-  }, [participants && participants.allIds]);
+  }, [participants]);
 
   const handleClick = (id) => {
     // if previously another row was activated because it was clicked, it will not be now
@@ -57,8 +65,8 @@ const ManageParticipants = () => {
     console.log('On CLICK row', id);
     const newActive = Object.assign(
       {},
-      ...participants.allIds.map((i) => ({
-        [i]: !participants.byId[i].isValid,
+      ...Object.keys(participants).map((i) => ({
+        [i]: !participants[i].isValid,
       }))
     );
     id && (newActive[id] = true);
@@ -69,8 +77,8 @@ const ManageParticipants = () => {
 
   participants &&
     personas &&
-    participants.allIds.forEach((id) => {
-      const p = participants.byId[id];
+    Object.keys(participants).forEach((id) => {
+      const p = participants[id];
       participantItems.push(
         <ParticipantItemForm
           id={id}
@@ -113,8 +121,8 @@ const ManageParticipants = () => {
           </StyledHeader>
 
           <div className="container">
-            {loadError && <p>Error</p>}
-            {isLoading && <Spinner animation="border" />}
+            {/* {loadError && <p>Error</p>} */}
+            {/* {isLoading && <Spinner animation="border" />} */}
             <ParticipantsHeader />
             {participantItems}
             <AddParticipant

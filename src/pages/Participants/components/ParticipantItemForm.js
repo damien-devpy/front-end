@@ -96,10 +96,17 @@ export const ParticipantItemForm = ({
 
   const PersonaDropdown = () => {
     const personaOptions = [];
-    personas.allIds.forEach((i) => {
+    // personas.forEach((i) => {
+    //   personaOptions.push(
+    //     <option id={i} value={i}>
+    //       {personas.byId[i].pseudo}
+    //     </option>
+    //   );
+    // });
+    personas.forEach(persona => {
       personaOptions.push(
-        <option id={i} value={i}>
-          {personas.byId[i].pseudo}
+        <option id={persona.personaId} value={persona.personaId}>
+          {persona.firstName + persona.lastName}
         </option>
       );
     });

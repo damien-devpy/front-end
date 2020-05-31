@@ -76,5 +76,10 @@ export const ParticipantStatus = ({ value }) => {
           </a>
         </div>
       );
+
+    default:
+      return (<span className="badge alert-danger">
+      missing status
+    </span>)
   }
 };

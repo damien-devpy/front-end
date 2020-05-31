@@ -1,5 +1,8 @@
 import jsonLogic from 'json-logic-js';
-import { getYearAndParticipantFromKey, makeYearParticipantKey} from '../../utils/helpers';
+import {
+  getYearAndParticipantFromKey,
+  makeYearParticipantKey,
+} from '../../utils/helpers';
 
 const NB_MAX_HEARTS = 46;
 const NB_PARTICIPANTS = 2;

@@ -148,6 +148,12 @@ export default {
     delete: 'Enléver participant',
     nullPersona: 'Aucun',
   },
+  simulation: {
+    co2_evolution: 'Evolution du CO',
+    per_person: 'par personne',
+    global_average: 'Moyenne national',
+    the_participants: 'Les participants',
+  },
   transports: {
     car: 'Voiture',
     plane: 'Avion',

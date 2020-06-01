@@ -169,5 +169,10 @@ const StyledHeader = styled.div`
 const StyledButton = styled(Button)`
   background-color: ${COLORS.BROWN.STANDARD};
   border-color: ${COLORS.BROWN.STANDARD};
+  transition: 0.3s
+  :hover {
+    color: ${COLORS.BROWN.STANDARD};
+    background-color: white;
+  }
 `;
 export default ManageParticipants;

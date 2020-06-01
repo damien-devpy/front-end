@@ -160,6 +160,8 @@ export default {
   food: {
     drinks: 'Boissons',
     eggsAndDairies: 'Oeufs et laitiers',
+    fish: 'Poisson',
+    meat: 'Viandes',
     meatAndFish: 'Viandes et poissons',
     othersFood: 'Autres',
   },

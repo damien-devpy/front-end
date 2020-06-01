@@ -26,6 +26,9 @@ const Simulation = () => {
       state.workshop.result &&
       state.workshop.result.currentYear
   );
+  const workshopTitle = useSelector(
+    (state) => state.workshop.result && state.workshop.result.title
+  );
   const roundActionCardType = useSelector(
     (state) =>
       currentRound &&
@@ -49,6 +52,15 @@ const Simulation = () => {
   return (
     <>
       <NavbarWorkshop />
+      <h4 className="workshop_title">{workshopTitle}</h4>
+      <h5>
+        Nous sommes en ...{'  '}
+        <span style={{ fontSize: 25, fontWeight: 'bold' }}>
+          {' '}
+          {currentRound}
+        </span>
+      </h5>
+
       <StyledSimulation>
         <Container className="row-full">
           <Row className="d-flex justify-content-end mr-1">

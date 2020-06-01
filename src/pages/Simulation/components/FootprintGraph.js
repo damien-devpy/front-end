@@ -1,22 +1,23 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
 import {
-  ResponsiveContainer,
+  Bar,
   BarChart,
   CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  Legend,
-  Bar,
 } from 'recharts';
 import { hierarchy } from 'd3-hierarchy';
-import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
+
 const colors = {
   transports: ['#FF0000', '#C00001', '#700001', '#FF5A5C', '#FFCCFF'],
   housing: ['#1E4E79', '#2E75B6', '#7BD7EE'],
-  food: ['#7F6001', '#B58D0D', '#DEC268', '#FFCF34'],
+  food: ['#7F6001', '#B58D0D', '#DEC268', '#E0AC00', '#FFCF34'],
   others: ['#385723', '#70AD47', '#A9D18E'],
   publicServices: ['#B37850', '#ED7D31', '#FCAC76'],
 };
@@ -32,7 +33,7 @@ const colors = {
 //   }
 // };
 const categories = (footprint) => {
-  var categs = footprint.reduce((obj, sectorData) => {
+  const categs = footprint.reduce((obj, sectorData) => {
     obj[sectorData.name] = Object.keys(sectorData)
       .filter((key) => key != 'name')
       .sort();
@@ -43,7 +44,7 @@ const categories = (footprint) => {
 
 const footprintDataBar = (footprint, t) => {
   console.log('categories(footprint)', categories(footprint));
-  var graphBars = [];
+  const graphBars = [];
   Object.keys(categories(footprint)).forEach((sector, s) =>
     categories(footprint)[sector].forEach((categ, c) => {
       graphBars.push(
@@ -64,7 +65,7 @@ const renderLegend = (props) => {
   // console.log('payload', payload);
   // console.log('footprint', footprint);
 
-  var newProps = props;
+  const newProps = props;
   newProps.layout = 'vertical';
   return (
     <div className="legend" style={{ display: 'table-row', width: '100%' }}>

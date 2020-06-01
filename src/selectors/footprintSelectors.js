@@ -11,37 +11,39 @@ export const currentRound = (state) =>
 
 // const footprintStructure = (state) => state.workshop.model.footprintStructure;
 
-const averageFootprints = (footprints, footprintStructure) => {
+const averageFootprints = (footprints, initFootprint, weight) => {
   const keysParticipant = Object.keys(footprints);
   console.log('footprints[key]', footprints[keysParticipant[0]]);
 
-  const nbParticipants = keysParticipant.length;
+  if (!weight) {
+    var weight = 1 / keysParticipant.length;
+  }
+
   var element;
-  var footprintAverage = JSON.parse(JSON.stringify(footprintStructure));
-  footprintAverage['value'] = 0;
+  var footprintAverage = JSON.parse(JSON.stringify(initFootprint));
 
   keysParticipant.forEach((key) => {
     element = footprints[key].footprint;
     footprintAverage['value'] =
-      (footprintAverage.value || 0) + element.value / nbParticipants;
+      (footprintAverage.value || 0) + element.value * weight;
 
     element.children.forEach((sector, i) => {
       footprintAverage.children[i]['value'] =
         (footprintAverage.children[i].value || 0) +
-        Math.round(sector.value / nbParticipants);
+        Math.round(sector.value * weight);
       // var sectorAverage = { name: '', value: 0 };
-      // sectorAverage.value = sectorAverage.value + Math.round(sector.value / nbParticipants);
+      // sectorAverage.value = sectorAverage.value + Math.round(sector.value * weight);
       // sectorAverage['name'] = sector.name;
       // sectorAverage['children'] = [];
       if (sector.children) {
         // var categAverage = { name: '', value: 0 };
         sector.children.forEach((categ, j) => {
           // categAverage.value =
-          //   categAverage.value + Math.round(categ.value / nbParticipants);
+          //   categAverage.value + Math.round(categ.value * weightParticipant);
           // categAverage.name = categ.name;
           footprintAverage.children[i].children[j]['value'] =
             (footprintAverage.children[i].children[j].value || 0) +
-            Math.round(categ.value / nbParticipants);
+            Math.round(categ.value * weight);
           // sectorAverage.children.push(categAverage);
         });
       }
@@ -57,18 +59,32 @@ export const participantsAverageFootprint = (
   carbonFootprints,
   footprintStructure
 ) => {
-  const participantsKeys = Object.keys(carbonFootprints).filter(
-    (key) => key != 'citizen'
-  );
-  const participantsFootprint = carbonFootprints; //participantsKeys
-
-  return averageFootprints(participantsFootprint, footprintStructure);
+  return averageFootprints(carbonFootprints, footprintStructure);
 };
 export const globalAverageFootprint = (
   carbonFootprints,
+  citizenFootprints,
   footprintStructure
 ) => {
-  return averageFootprints(carbonFootprints, footprintStructure);
+  const nbParticipants = Object.keys(carbonFootprints).length;
+
+  const weightCitizen = 0.9 / nbParticipants;
+  const weightParticipant = 0.1 / nbParticipants;
+  var allFootprints = {};
+
+  const participantAverage = averageFootprints(
+    carbonFootprints,
+    footprintStructure,
+    weightParticipant
+  );
+  const globalAverage = averageFootprints(
+    citizenFootprints,
+    participantAverage,
+    weightCitizen
+  );
+  console.log('globalAverage', globalAverage);
+
+  return globalAverage;
 };
 
 export const participantFootprint = (

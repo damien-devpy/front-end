@@ -1052,7 +1052,7 @@ export default {
         id: 1,
         name: 'SE DEPLACER A PIEDS OU A VÉLO',
         key: 'moveWalkingOrBiking',
-        type: 'individual',
+        impactType: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
@@ -1072,6 +1072,7 @@ export default {
         id: 2,
         name: 'REMPLACER LA VOITURE PAR LES TRANSPORTS EN COMMUN',
         key: 'publicTransportsInsteadOfCar',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
@@ -1109,6 +1110,7 @@ export default {
       {
         id: 3,
         name: 'FAIRE PLUS DE COVOITURAGE',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
@@ -1133,6 +1135,7 @@ export default {
       {
         id: 4,
         name: 'FAIRE PLUS DE TÉLÉTRAVAIL',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
@@ -1165,6 +1168,7 @@ export default {
       {
         id: 5,
         name: "FAIRE DE L'ECO-CONDUITE",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
@@ -1185,6 +1189,7 @@ export default {
       {
         id: 6,
         name: "ARRÊTER DE PRENDRE L'AVION",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
@@ -1205,6 +1210,7 @@ export default {
       {
         id: 7,
         name: 'BAISSER LE CHAUFFAGE',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
@@ -1237,6 +1243,7 @@ export default {
       {
         id: 8,
         name: "CONSOMMER MOINS D'EAU CHAUDE SANITAIRE",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
@@ -1265,6 +1272,7 @@ export default {
       {
         id: 9,
         name: "ÉCONOMISER DE L'ÉLECTRICITÉ",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
@@ -1285,6 +1293,7 @@ export default {
       {
         id: 10,
         name: 'SE FOURNIR EN ÉLECTRICITÉ ALTERNATIVE',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
@@ -1305,6 +1314,7 @@ export default {
       {
         id: 11,
         name: 'MUTUALISER SON LOGEMENT',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
@@ -1325,6 +1335,7 @@ export default {
       {
         id: 12,
         name: 'ALLONGER LA DURÉE DE VIE DES APPAREILS',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'CONSO',
@@ -1365,6 +1376,7 @@ export default {
       {
         id: 13,
         name: 'ACHETER MOINS DE VÊTEMENTS NEUFS',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'CONSO',
@@ -1385,6 +1397,7 @@ export default {
       {
         id: 14,
         name: "REDUIRE L'USAGE DU NUMERIQUE",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'CONSO',
@@ -1405,6 +1418,7 @@ export default {
       {
         id: 15,
         name: 'DEVENIR FLEXITARIEN',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1495,6 +1509,7 @@ export default {
       {
         id: 16,
         name: 'REMPLACER LA VIANDE ROUGE PAR DE LA VIANDE BLANCHE',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1524,6 +1539,7 @@ export default {
       {
         id: 17,
         name: "MANGER MOINS D'ŒUFS ET DE PRODUITS LAITIERS",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1604,6 +1620,7 @@ export default {
       {
         id: 18,
         name: 'FAIRE LA CUISINE',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1703,6 +1720,7 @@ export default {
       {
         id: 19,
         name: 'MANGER LOCAL ET DE SAISON',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1725,6 +1743,7 @@ export default {
       {
         id: 20,
         name: 'CONSOMMER MOINS DE BOISSONS',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1759,6 +1778,7 @@ export default {
       {
         id: 21,
         name: 'RÉDUIRE LES EMBALLAGES ALIMENTAIRES',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1777,6 +1797,7 @@ export default {
       {
         id: 22,
         name: 'MANGER BIO',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1794,6 +1815,7 @@ export default {
       {
         id: 23,
         name: 'SENSIBILISER SON ENTOURAGE',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1809,6 +1831,7 @@ export default {
       {
         id: 24,
         name: 'ENRICHIR SES CONNAISSANCES',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1824,6 +1847,7 @@ export default {
       {
         id: 25,
         name: 'ORGANISER UN ÉVÉNEMENT DE SENSIBILISATION',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1839,6 +1863,7 @@ export default {
       {
         id: 26,
         name: 'PARTICIPER A UN ÉVÉNEMENT DE SENSIBILISATION',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1854,6 +1879,7 @@ export default {
       {
         id: 27,
         name: 'ORGANISER UN ÉVÉNEMENT MILITANT',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1869,6 +1895,7 @@ export default {
       {
         id: 28,
         name: 'PARTICIPER À UN ÉVÉNEMENT MILITANT',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1884,6 +1911,7 @@ export default {
       {
         id: 29,
         name: 'FAIRE DU LOBBYING AUPRÈS DES DÉCIDEURS',
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1899,6 +1927,7 @@ export default {
       {
         id: 30,
         name: "S'IMPLIQUER DANS UN PROJET A IMPACT POSITIF",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1915,6 +1944,7 @@ export default {
         id: 31,
         name:
           "TRAVAILLER DANS L'ACCOMPAGNEMENT D'UNE CHAÎNE DE VALEUR CARBONÉE",
+        impactType: 'individual',
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
@@ -1930,7 +1960,8 @@ export default {
       {
         id: 32,
         name: 'VEHICULE INDIVIDUEL BAS CARBONE',
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'lowCarbonVehicule',
@@ -1954,7 +1985,8 @@ export default {
       {
         id: 33,
         name: 'DÉVELOPPER ET RÉHABILITER LE RESEAU FÉRRÉ',
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'developRailways',
@@ -1991,7 +2023,8 @@ export default {
       {
         id: 34,
         name: "INTERDIRE L'AVION",
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'forbiddenPlane',
@@ -2012,7 +2045,8 @@ export default {
         id: 35,
         name:
           'DÉVELOPPER UNE OFFRE DE VÉHICULES SERVICIELS ET LES AIRES DE COVOITURAGE ',
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'globalCarSharing',
@@ -2036,7 +2070,8 @@ export default {
       {
         id: 36,
         name: 'RÉNOVER LES LOGEMENTS',
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'renovateHousing',
@@ -2077,7 +2112,8 @@ export default {
         id: 37,
         name:
           'DÉPLOYER LES SYSTEMES DE CHAUFFAGE BAS CARBONE DANS LES LOGEMENTS ',
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'lowCarbonHeating',
@@ -2140,7 +2176,8 @@ export default {
         id: 38,
         name:
           "PRODUIRE DES APPAREILS ELECTROMENAGERS ET D'ECLAIRAGE PEU CONSOMMATEURS D'ENERGIE",
-        type: 'everyone',
+        impactType: 'everyone',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'lowCarbonAppliances',
@@ -2160,7 +2197,8 @@ export default {
       {
         id: 39,
         name: 'RENOVER LES BÂTIMENTS DU TERTIAIRE',
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'tertiaryBuildingsRenovation',
@@ -2194,7 +2232,8 @@ export default {
       {
         id: 40,
         name: "ÉVITER LES GASPILLAGES D'ÉLECTRICITE DANS LE TERTIAIRE",
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'tertiaryElectricityEconomies',
@@ -2220,7 +2259,8 @@ export default {
       {
         id: 41,
         name: 'LUTTER CONTRE LE GASPILLAGE ALIMENTAIRE',
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'lessFoodWaste',
@@ -2288,7 +2328,8 @@ export default {
       {
         id: 42,
         name: 'DEVELOPPER LA METHANISATION',
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'anaerobicDigestion',
@@ -2322,7 +2363,8 @@ export default {
       {
         id: 43,
         name: 'FERMER LES CENTRALES THERMIQUES',
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'closeThermalPowerStations',
@@ -2352,7 +2394,8 @@ export default {
       {
         id: 44,
         name: 'DEVELOPPER LES ENERGIES RENOUVELABLES ELECTRIQUES',
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'renewableElectricty',
@@ -2372,7 +2415,8 @@ export default {
       {
         id: 45,
         name: "INCLURE LES ENJEUX DE LA TRANSITION DANS L'ENSEIGNEMENT PUBLIC",
-        type: 'global',
+        impactType: 'global',
+        type: 'collective',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'renewableElectricty',

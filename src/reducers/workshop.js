@@ -266,7 +266,7 @@ export default (state = initialState, action) => {
 
       const takenActionCardsThatApplyToEveryone = actionCardIds
         .map((actionId) => state.entities.actionCards[actionId])
-        .filter((a) => a.type === 'everyone');
+        .filter((a) => a.impactType === 'everyone');
       const newCarbonVariables = {};
       participants.forEach((participantId) => {
         const nextYearParticipantKey = makeYearParticipantKey(
@@ -292,7 +292,7 @@ export default (state = initialState, action) => {
 
       const takenActionCardsThatApplyGlobally = actionCardIds
         .map((actionId) => state.entities.actionCards[actionId])
-        .filter((a) => a.type === 'global');
+        .filter((a) => a.impactType === 'global');
 
       return {
         ...state,
@@ -579,7 +579,7 @@ export default (state = initialState, action) => {
 
       const takenActionCardsThatApplyToEveryone = actionCardIds
         .map((actionId) => state.entities.actionCards[actionId])
-        .filter((a) => a.type === 'everyone');
+        .filter((a) => a.impactType === 'everyone');
 
       const newCitizenCarbonVariables = {};
       citizens.forEach((citizenId) => {

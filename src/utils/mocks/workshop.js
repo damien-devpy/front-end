@@ -1616,7 +1616,7 @@ export default {
         key: 'houseCooking',
         operations: [
           {
-            var: 'transformedProductsKgPerYear',
+            variable: 'transformedProductsKgPerYear',
             operation: {
               min: [
                 { var: 'transformedProductsKgPerYear' },
@@ -1631,7 +1631,7 @@ export default {
             },
           },
           {
-            var: 'starchesAndGroceriesKgPerYear',
+            variable: 'starchesAndGroceriesKgPerYear',
             operation: {
               '+': [
                 { var: 'starchesAndGroceriesKgPerYear' },
@@ -1665,7 +1665,7 @@ export default {
             },
           },
           {
-            var: 'fruitsAndVegetablesKgPerYear',
+            variable: 'fruitsAndVegetablesKgPerYear',
             operation: {
               '+': [
                 { var: 'fruitsAndVegetablesKgPerYear' },

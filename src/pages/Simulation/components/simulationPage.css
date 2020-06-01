@@ -31,7 +31,14 @@ h5 {
   font-size: 10px;
 }
 
-.primaryButton.active {
+.activable.active {
+  background-color: white !important;
+  color: #9a7967 !important;
+  border-color: #ba947e !important;
+  font-weight: bolder;
+}
+
+.activable.focus {
   background-color: white !important;
   color: #9a7967 !important;
   border-color: #ba947e !important;

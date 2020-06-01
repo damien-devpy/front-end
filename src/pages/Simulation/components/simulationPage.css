@@ -30,3 +30,10 @@ h5 {
 .legend-sector {
   font-size: 10px;
 }
+
+.primaryButton.active {
+  background-color: white !important;
+  color: #9a7967 !important;
+  border-color: #ba947e !important;
+  font-weight: bolder;
+}

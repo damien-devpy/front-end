@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, useSSR } from 'react-i18next';
 import React from 'react';
 
 import { ActionCardItemSimple } from './ActionCardItem';
@@ -14,6 +14,10 @@ import {
   selectIndividualBatches,
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
+
+import styled from 'styled-components';
+import '../components/simulationPage.css';
+import { COLORS } from '../../../vars';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -61,8 +65,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 className="d-flex justify-content-center"
                 controlId="validationFormik00"
               >
-                <Button
-                  className="mr-2"
+                <StyledButton
+                  className="mr-2 primaryButton"
                   variant="secondary"
                   active={values.actionCardType === 'individual'}
                   onClick={() => {
@@ -79,9 +83,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.individualActions')}
-                </Button>
-                <Button
-                  className="mr-2"
+                </StyledButton>
+                <StyledButton
+                  className="mr-2 primaryButton"
                   variant="secondary"
                   active={values.actionCardType === 'collective'}
                   onClick={() => {
@@ -98,7 +102,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.collectiveActions')}
-                </Button>
+                </StyledButton>
               </Form.Group>
             </Form.Row>
             <Form.Row className="d-flex justify-content-center">
@@ -216,4 +220,14 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   );
 };
 
+const StyledButton = styled(Button)`
+  background-color: ${COLORS.BROWN.STANDARD};
+  border-color: ${COLORS.BROWN.STANDARD};
+  transition: 0.3s;
+  :hover {
+    color: ${COLORS.BROWN.STANDARD};
+    background-color: white;
+    border-color: ${COLORS.BROWN.STANDARD};
+  }
+`;
 export default NewRoundModalForm;

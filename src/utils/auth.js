@@ -1,5 +1,3 @@
-import jwtDecode from 'jwt-decode';
-
 import getStorage from './storage';
 
 const storage = getStorage();
@@ -15,18 +13,6 @@ export const setAccessToken = (token) => {
     return true;
   }
   return false;
-};
-
-export const getAuthStatus = () => {
-  try {
-    const token = getAccessToken();
-    const data = jwtDecode(token);
-    return { data, isLoggedIn: true };
-  } catch (err) {
-    return {
-      isLoggedIn: false,
-    };
-  }
 };
 
 export const logout = () => {

@@ -758,10 +758,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -775,10 +776,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -792,10 +794,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -809,10 +812,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -1052,11 +1056,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 3,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 20,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1071,12 +1075,12 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
-        cost: 3,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        cost: 2,
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 50,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1109,20 +1113,20 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         key: 'carpooling',
-        cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        cost: 3,
+        peerInspirationScore: 3,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 45,
         operations: [
           {
             variable: 'passengersPerCarCommute',
-            operation: { max: [{ var: 'passengersPerCarCommute' }, 2.4] },
+            operation: { max: [{ var: 'passengersPerCarCommute' }, 3] },
           },
           {
             variable: 'passengersPerCarTravel',
-            operation: { max: [{ var: 'passengersPerCarTravel' }, 2.4] },
+            operation: { max: [{ var: 'passengersPerCarTravel' }, 3] },
           },
         ],
       },
@@ -1133,12 +1137,12 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         key: 'homeOffice',
-        cost: 3,
+        cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 10,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1167,10 +1171,10 @@ export default {
         key: 'efficientDriving',
         cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 5,
         operations: [
           {
             variable: 'coefficientEnergyEfficientDriving',
@@ -1185,12 +1189,12 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         key: 'stopPlane',
-        cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        cost: 3,
+        peerInspirationScore: 3,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 35,
         operations: [
           {
             variable: 'kmPlane',
@@ -1207,10 +1211,10 @@ export default {
         key: 'lowerHeating',
         cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 5,
         operations: [
           {
             variable: 'woodHeatingKwh',
@@ -1236,13 +1240,13 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
-        cost: 1,
         key: 'lessHotWater',
+        cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 15,
         operations: [
           {
             variable: 'woodWaterHeatingKwh',
@@ -1266,10 +1270,10 @@ export default {
         subCategory: 'LOGEMENT',
         cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 15,
         key: 'electricitySaving',
         operations: [
           {
@@ -1287,10 +1291,10 @@ export default {
         key: 'alternativeElectricityProvider',
         cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 40,
         operations: [
           {
             variable: 'electricityProvider',
@@ -1306,11 +1310,11 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'houseSharing',
         cost: 3,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 3,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 50,
         operations: [
           {
             variable: 'residents_per_housing',
@@ -1325,11 +1329,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 20,
         key: 'extend_goods_life',
         operations: [
           {
@@ -1365,11 +1369,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 30,
         key: 'lessClothes',
         operations: [
           {
@@ -1386,10 +1390,10 @@ export default {
         subCategory: 'CONSO',
         cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 10,
         key: 'lessStreaming',
         operations: [
           {
@@ -1405,11 +1409,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 4,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 4,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 30,
         key: 'semiVegetarianism',
         operations: [
           {
@@ -1496,11 +1500,11 @@ export default {
         subCategory: 'BIENS DE CONSO',
         key: 'lessRedMeat',
         cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 20,
         operations: [
           {
             variable: 'redMeatKgPerYear',
@@ -1524,11 +1528,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 4,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 4,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 16,
         key: 'lessEggsAndDairies',
         operations: [
           {
@@ -1604,11 +1608,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 3,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 15,
         key: 'houseCooking',
         operations: [
           {
@@ -1704,10 +1708,10 @@ export default {
         subCategory: 'BIENS DE CONSO',
         cost: 1,
         peerInspirationScore: 1,
-        peerAwarenessScore: 1,
+        peerAwarenessScore: 0,
         systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 5,
         key: 'localFruitsAndVegetables',
         operations: [
           {
@@ -1725,11 +1729,11 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 3,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 25,
         key: 'lessDrinks',
         operations: [
           {
@@ -1759,11 +1763,12 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 15,
         key: 'lessFoodPackaging',
         operations: [
           // TODO
@@ -1777,28 +1782,225 @@ export default {
         subCategory: 'BIENS DE CONSO',
         key: 'organicFood',
         cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 10,
         operations: [
           // TODO
         ],
       },
       {
         id: 23,
+        name: 'SENSIBILISER SON ENTOURAGE',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'renewableElectricty',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0.5,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 24,
+        name: 'ENRICHIR SES CONNAISSANCES',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'improveKnowledge',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0.5,
+        systemicWeakSignals: 1,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 25,
+        name: 'ORGANISER UN ÉVÉNEMENT DE SENSIBILISATION',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'organizeEventAwareness',
+        cost: 3,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 2,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 26,
+        name: 'PARTICIPER A UN ÉVÉNEMENT DE SENSIBILISATION',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'participateEventAwareness',
+        cost: 2,
+        peerInspirationScore: 1,
+        peerAwarenessScore: 2,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 27,
+        name: 'ORGANISER UN ÉVÉNEMENT MILITANT',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'organizeEventActivism',
+        cost: 3,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 3,
+        systemicPressureScore: 3,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 28,
+        name: 'PARTICIPER À UN ÉVÉNEMENT MILITANT',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'participateEventActivism',
+        cost: 2,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 3,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 29,
+        name: 'FAIRE DU LOBBYING AUPRÈS DES DÉCIDEURS',
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'lobbying',
+        cost: 2,
+        peerInspirationScore: 2,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 2,
+        systemicPressureScore: 3,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 30,
+        name: "S'IMPLIQUER DANS UN PROJET A IMPACT POSITIF",
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'projectPositiveImpact',
+        cost: 4,
+        peerInspirationScore: 4,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 4,
+        systemicPressureScore: 4,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 31,
+        name:
+          "TRAVAILLER DANS L'ACCOMPAGNEMENT D'UNE CHAÎNE DE VALEUR CARBONÉE",
+        type: 'individual',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'valueChain',
+        cost: 2,
+        peerInspirationScore: 4,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 4,
+        systemicPressureScore: 4,
+        reluctancyForCitizens: 1000,
+        operations: [],
+      },
+      {
+        id: 32,
+        name: 'VEHICULE INDIVIDUEL BAS CARBONE',
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'lowCarbonVehicule',
+        cost: 4,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'categoryCarCommute',
+            operation: 'LOW_CARBON',
+          },
+          {
+            variable: 'categoryCarTravel',
+            operation: 'LOW_CARBON',
+          },
+        ],
+      },
+      {
+        id: 33,
+        name: 'DÉVELOPPER ET RÉHABILITER LE RESEAU FÉRRÉ',
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'developRailways',
+        cost: 3,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'kmCarCommutePerYear',
+            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.8] },
+          },
+          {
+            variable: 'kmCarTravelPerYear',
+            operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.8] },
+          },
+          {
+            variable: 'kmUrbanTrainPerYear',
+            operation: {
+              '+': [
+                { var: 'kmUrbanTrainPerYear' },
+                { '*': [{ var: 'kmCarCommutePerYear' }, 0.2] },
+              ],
+            },
+          },
+          {
+            variable: 'kmCountryTrain',
+            operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.2] },
+          },
+        ],
+      },
+      {
+        id: 34,
         name: "INTERDIRE L'AVION",
         type: 'everyone',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'forbiddenPlane',
-        cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
         operations: [
           {
             variable: 'kmPlane',
@@ -1807,18 +2009,167 @@ export default {
         ],
       },
       {
-        id: 24,
+        id: 35,
+        name:
+          'DÉVELOPPER UNE OFFRE DE VÉHICULES SERVICIELS ET LES AIRES DE COVOITURAGE ',
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'globalCarSharing',
+        cost: 2,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'passengersPerCarCommute',
+            operation: { max: [{ var: 'passengersPerCarCommute' }, 2.4] },
+          },
+          {
+            variable: 'passengersPerCarTravel',
+            operation: { max: [{ var: 'passengersPerCarTravel' }, 2.4] },
+          },
+        ],
+      },
+      {
+        id: 36,
+        name: 'RÉNOVER LES LOGEMENTS',
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'renovateHousing',
+        cost: 3,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'woodHeatingKwh',
+            operation: {
+              min: [{ var: 'woodHeatingKwh' }, 40.0],
+            },
+          },
+          {
+            variable: 'gasHeatingKwh',
+            operation: {
+              min: [{ var: 'gasHeatingKwh' }, 40.0],
+            },
+          },
+          {
+            variable: 'fuelHeatingKwh',
+            operation: {
+              min: [{ var: 'fuelHeatingKwh' }, 40.0],
+            },
+          },
+          {
+            variable: 'elecHeatingKwh',
+            operation: {
+              min: [{ var: 'elecHeatingKwh' }, 40.0],
+            },
+          },
+        ],
+      },
+      {
+        id: 37,
+        name:
+          'DÉPLOYER LES SYSTEMES DE CHAUFFAGE BAS CARBONE DANS LES LOGEMENTS ',
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'lowCarbonHeating',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'woodHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'gasHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'fuelHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'elecHeatingKwh',
+            operation: {
+              '+': [
+                { var: 'elecHeatingKwh' },
+                { var: 'woodHeatingKwh' },
+                { var: 'gasHeatingKwh' },
+                { var: 'fuelHeatingKwh' },
+              ],
+            },
+          },
+          {
+            variable: 'woodWaterHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'gasWaterHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'fuelWaterHeatingKwh',
+            operation: 0,
+          },
+          {
+            variable: 'elecWaterHeatingKwh',
+            operation: {
+              '+': [
+                { var: 'elecWaterHeatingKwh' },
+                { var: 'woodWaterHeatingKwh' },
+                { var: 'gasWaterHeatingKwh' },
+                { var: 'fuelWaterHeatingKwh' },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        id: 38,
+        name:
+          "PRODUIRE DES APPAREILS ELECTROMENAGERS ET D'ECLAIRAGE PEU CONSOMMATEURS D'ENERGIE",
+        type: 'everyone',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'lowCarbonAppliances',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'elecLightningKwh',
+            operation: { '*': [{ var: 'elecLightningKwh' }, 0.5] },
+          },
+        ],
+      },
+      {
+        id: 39,
         name: 'RENOVER LES BÂTIMENTS DU TERTIAIRE',
         type: 'global',
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         key: 'tertiaryBuildingsRenovation',
-        cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 1,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 1,
-        reluctancyForCitizens: 1,
+        cost: 3,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
         operations: [
           {
             variable: 'CF_GAS_SERVICES',
@@ -1839,6 +2190,199 @@ export default {
             },
           },
         ],
+      },
+      {
+        id: 40,
+        name: "ÉVITER LES GASPILLAGES D'ÉLECTRICITE DANS LE TERTIAIRE",
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'tertiaryElectricityEconomies',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'CF_ELEC_SERVICES',
+            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.6] },
+          },
+          {
+            variable: 'EI_ACTIVITIES_ELEC',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.6],
+            },
+          },
+        ],
+      },
+      {
+        id: 41,
+        name: 'LUTTER CONTRE LE GASPILLAGE ALIMENTAIRE',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'lessFoodWaste',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'EI_RED_MEAT',
+            operation: { '*': [{ var: 'EI_RED_MEAT' }, 0.98] },
+          },
+          {
+            variable: 'EI_WHITE_MEAT',
+            operation: { '*': [{ var: 'EI_WHITE_MEAT' }, 0.98] },
+          },
+          {
+            variable: 'EI_FISH',
+            operation: { '*': [{ var: 'EI_FISH' }, 0.98] },
+          },
+          {
+            variable: 'EI_EGGS',
+            operation: { '*': [{ var: 'EI_EGGS' }, 0.98] },
+          },
+          {
+            variable: 'EI_DAIRIES',
+            operation: { '*': [{ var: 'EI_DAIRIES' }, 0.98] },
+          },
+          {
+            variable: 'EI_LOCAL_FRUITS_AND_VEGETABLES',
+            operation: {
+              '*': [{ var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' }, 0.98],
+            },
+          },
+          {
+            variable: 'EI_IMPORTED_FRUITS_AND_VEGETABLES',
+            operation: {
+              '*': [{ var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' }, 0.98],
+            },
+          },
+          {
+            variable: 'EI_TRANSFORMED_PRODUCTS',
+            operation: { '*': [{ var: 'EI_TRANSFORMED_PRODUCTS' }, 0.98] },
+          },
+          {
+            variable: 'EI_STARCHES_AND_GROCERIES',
+            operation: { '*': [{ var: 'EI_STARCHES_AND_GROCERIES' }, 0.98] },
+          },
+          {
+            variable: 'EI_ALCOHOL',
+            operation: { '*': [{ var: 'EI_ALCOHOL' }, 0.98] },
+          },
+          {
+            variable: 'EI_HOT_DRINKS',
+            operation: { '*': [{ var: 'EI_HOT_DRINKS' }, 0.98] },
+          },
+          {
+            variable: 'EI_JUICES_AND_SODAS',
+            operation: { '*': [{ var: 'EI_JUICES_AND_SODAS' }, 0.98] },
+          },
+        ],
+      },
+      {
+        id: 42,
+        name: 'DEVELOPPER LA METHANISATION',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'anaerobicDigestion',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'EI_GAS_PER_KWH',
+            operation: {
+              '*': [{ var: 'EI_GAS_PER_KWH' }, 0.1],
+            },
+          },
+          {
+            variable: 'EI_ACTIVITIES_GAS',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_GAS' }, 0.1],
+            },
+          },
+          {
+            variable: 'CF_GAS_SERVICES',
+            operation: {
+              '*': [{ var: 'CF_GAS_SERVICES' }, 0.1],
+            },
+          },
+        ],
+      },
+      {
+        id: 43,
+        name: 'FERMER LES CENTRALES THERMIQUES',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'closeThermalPowerStations',
+        cost: 1,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'EI_ELEC_CONVENTIONAL_PER_KWH',
+            operation: 0.04,
+          },
+          {
+            variable: 'CF_ELEC_SERVICES',
+            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.39] },
+          },
+          {
+            variable: 'EI_ACTIVITIES_ELEC',
+            operation: {
+              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.39],
+            },
+          },
+        ],
+      },
+      {
+        id: 44,
+        name: 'DEVELOPPER LES ENERGIES RENOUVELABLES ELECTRIQUES',
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'renewableElectricty',
+        cost: 2,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 0,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [
+          {
+            variable: 'EI_ELEC_CONVENTIONAL_PER_KWH',
+            operation: { '*': [{ var: 'EI_ELEC_CONVENTIONAL_PER_KWH' }, 1] },
+          },
+        ],
+      },
+      {
+        id: 45,
+        name: "INCLURE LES ENJEUX DE LA TRANSITION DANS L'ENSEIGNEMENT PUBLIC",
+        type: 'global',
+        category: 'ECOGESTES',
+        subCategory: 'BIENS DE CONSO',
+        key: 'renewableElectricty',
+        cost: 2,
+        peerInspirationScore: 0,
+        peerAwarenessScore: 30,
+        systemicWeakSignals: 0,
+        systemicPressureScore: 0,
+        reluctancyForCitizens: 1000,
+        operations: [],
       },
     ],
     actionCardBatches: [
@@ -1885,10 +2429,40 @@ export default {
         actionCardIds: [19, 20, 21, 22],
       },
       {
+        id: 8,
+        name: 'Ind8',
+        type: 'individual',
+        actionCardIds: [23, 24, 25, 26],
+      },
+      {
+        id: 9,
+        name: 'Ind9',
+        type: 'individual',
+        actionCardIds: [27, 28, 29, 30, 31],
+      },
+      {
         id: 10,
         name: 'Col1',
         type: 'collective',
-        actionCardIds: [23, 24],
+        actionCardIds: [32, 33, 34, 35],
+      },
+      {
+        id: 11,
+        name: 'Col2',
+        type: 'collective',
+        actionCardIds: [36, 37, 38, 39],
+      },
+      {
+        id: 12,
+        name: 'Col3',
+        type: 'collective',
+        actionCardIds: [40, 41, 42, 43],
+      },
+      {
+        id: 13,
+        name: 'Col4',
+        type: 'collective',
+        actionCardIds: [44, 45],
       },
     ],
     globalCarbonVariables: {
@@ -1957,10 +2531,8 @@ export default {
       EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
       EI_WATER_PER_LITER: 0.000168,
       WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-      EI_ELEC_PER_KWH: {
-        CONVENTIONAL: 0.116,
-        ALTERNATIVE: 0.013,
-      },
+      EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
+      EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
       EI_GAS_PER_KWH: 0.227,
       EI_FUEL_OIL_PER_KWH: 0.323,
       EI_WOOD_PER_KWH: 0.03,
@@ -2009,6 +2581,11 @@ export default {
           FUEL: 0.344,
           ELECTRIC: 0.3125,
           HYBRID: 0.3125,
+        },
+        LOW_CARBON: {
+          FUEL: 0.1,
+          ELECTRIC: 0.1,
+          HYBRID: 0.1,
         },
       },
       MOTOR_AGING_FACTOR: {
@@ -4372,10 +4949,8 @@ export default {
         EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
         EI_WATER_PER_LITER: 0.000168,
         WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-        EI_ELEC_PER_KWH: {
-          CONVENTIONAL: 0.116,
-          ALTERNATIVE: 0.013,
-        },
+        EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
+        EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
         EI_GAS_PER_KWH: 0.227,
         EI_FUEL_OIL_PER_KWH: 0.323,
         EI_WOOD_PER_KWH: 0.03,
@@ -4424,6 +4999,11 @@ export default {
             FUEL: 0.344,
             ELECTRIC: 0.3125,
             HYBRID: 0.3125,
+          },
+          LOW_CARBON: {
+            FUEL: 0.1,
+            ELECTRIC: 0.1,
+            HYBRID: 0.1,
           },
         },
         MOTOR_AGING_FACTOR: {
@@ -4477,7 +5057,7 @@ export default {
             alcohol_conso_glass_per_day: 1,
             hot_drinks_conso_glass_per_day: 5,
             juices_and_sodas_conso_glass_per_day: 2,
-
+ 
             // transports
             category_car_commute: 'URBAN',
             motor_type_car_commute: 'FUEL',
@@ -4488,14 +5068,14 @@ export default {
             hours_coach_commute_per_week: 2,
             hours_urban_train_per_week: 3,
             coefficient_energy_efficient_driving: 1,
-
+ 
             category_car_travel: 'URBAN',
             motor_type_car_travel: 'FUEL',
             age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
+ 
             km_per_year_car_travel: 8000,
             passengers_per_car_travel: 3,
-
+ 
             km_coach_travel: 1000,
             km_country_train: 2000,
             km_plane: 3000,
@@ -4513,7 +5093,7 @@ export default {
             heating_system_energy_type: 'GAS',
             cooking_appliances_energy_type: 'ELECTRICITY',
             sanitory_hot_water_energy_type: 'FUEL_OIL',
-
+ 
             elec_lightning_kwh: 100,
             elec_water_heating_kwh: 100,
             elec_cooking_kwh: 100,
@@ -4527,7 +5107,7 @@ export default {
             wood_water_heating_kwh: 100,
             wood_cooking_kwh: 100,
             wood_heating_kwh: 100,
-
+ 
             // others
             clothes_new_items: 30,
             activities_per_month: 3,
@@ -4560,7 +5140,7 @@ export default {
             alcohol_conso_glass_per_day: 1,
             hot_drinks_conso_glass_per_day: 5,
             juices_and_sodas_conso_glass_per_day: 2,
-
+ 
             // transports
             category_car_commute: 'URBAN',
             motor_type_car_commute: 'FUEL',
@@ -4571,14 +5151,14 @@ export default {
             hours_coach_commute_per_week: 2,
             hours_urban_train_per_week: 3,
             coefficient_energy_efficient_driving: 1,
-
+ 
             category_car_travel: 'URBAN',
             motor_type_car_travel: 'FUEL',
             age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
+ 
             km_per_year_car_travel: 8000,
             passengers_per_car_travel: 3,
-
+ 
             km_coach_travel: 1000,
             km_country_train: 2000,
             km_plane: 3000,
@@ -4596,7 +5176,7 @@ export default {
             heating_system_energy_type: 'GAS',
             cooking_appliances_energy_type: 'ELECTRICITY',
             sanitory_hot_water_energy_type: 'FUEL_OIL',
-
+ 
             elec_lightning_kwh: 100,
             elec_water_heating_kwh: 100,
             elec_cooking_kwh: 100,
@@ -4610,7 +5190,7 @@ export default {
             wood_water_heating_kwh: 100,
             wood_cooking_kwh: 100,
             wood_heating_kwh: 100,
-
+ 
             // others
             clothes_new_items: 30,
             activities_per_month: 3,
@@ -4631,7 +5211,7 @@ export default {
             alcohol_conso_glass_per_day: 1,
             hot_drinks_conso_glass_per_day: 5,
             juices_and_sodas_conso_glass_per_day: 2,
-
+ 
             // transports
             category_car_commute: 'URBAN',
             motor_type_car_commute: 'FUEL',
@@ -4642,14 +5222,14 @@ export default {
             hours_coach_commute_per_week: 2,
             hours_urban_train_per_week: 3,
             coefficient_energy_efficient_driving: 1,
-
+ 
             category_car_travel: 'URBAN',
             motor_type_car_travel: 'FUEL',
             age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
-
+ 
             km_per_year_car_travel: 8000,
             passengers_per_car_travel: 3,
-
+ 
             km_coach_travel: 1000,
             km_country_train: 2000,
             km_plane: 3000,
@@ -4667,7 +5247,7 @@ export default {
             heating_system_energy_type: 'GAS',
             cooking_appliances_energy_type: 'ELECTRICITY',
             sanitory_hot_water_energy_type: 'FUEL_OIL',
-
+ 
             elec_lightning_kwh: 100,
             elec_water_heating_kwh: 100,
             elec_cooking_kwh: 100,
@@ -4681,7 +5261,7 @@ export default {
             wood_water_heating_kwh: 100,
             wood_cooking_kwh: 100,
             wood_heating_kwh: 100,
-
+ 
             // others
             clothes_new_items: 30,
             activities_per_month: 3,

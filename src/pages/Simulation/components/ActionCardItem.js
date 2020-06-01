@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { COLORS } from '../../../vars';
-
 export const ActionCardItem = ({
   id,
   text,
@@ -26,7 +25,7 @@ export const ActionCardItem = ({
           <div className="col-1 mr-1">
             <span className="emoji">{cardIcons[id]}</span>
           </div>
-          <div className="col">
+          <div className="col card_label">
             {text.toLowerCase()}
             {/* <span className="badge badge-danger">{cost}</span> */}
           </div>
@@ -59,8 +58,10 @@ export const ActionCardItemSimple = ({ id, text, category, cost }) => {
       <div className="col-1 pl-1 mr-1">
         <span className="emoji">{cardIcons[id]}</span>
       </div>
-      <div className="col">{text.toLowerCase()}</div>      
-      <span className="badge badge-danger float-right ml-auto mr-1">{cost}</span>
+      <div className="col">{text.toLowerCase()}</div>
+      <span className="badge badge-danger float-right ml-auto mr-1">
+        {cost}
+      </span>
     </StyledItemSimple>
   );
 };
@@ -105,13 +106,14 @@ const StyledItem = styled.div`
 cursor: pointer;
 color: black;
 font-size: 0.8rem;
+color: white;
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
 background: ${(props) => categoryColors[props.category]};
 `;
 
 const StyledItemSimple = styled.div`
-  color: black;
+  color: white;
   font-size: 0.7rem;
   background: ${(props) => categoryColors[props.category]};
 `;

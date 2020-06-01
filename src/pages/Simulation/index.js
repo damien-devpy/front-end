@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Button, Container, Row, Col, Spinner, Card } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import footprintData from '../../utils/mocks/footprintData';
 import {
@@ -28,6 +28,9 @@ const Simulation = () => {
       state.workshop &&
       state.workshop.result &&
       state.workshop.result.currentYear
+  );
+  const workshopTitle = useSelector(
+    (state) => state.workshop.result && state.workshop.result.title
   );
   const roundActionCardType = useSelector(
     (state) =>
@@ -56,6 +59,15 @@ const Simulation = () => {
         firstName="Xavier"
         role="Animateur"
       />
+      <h4 class="workshop_title">{workshopTitle}</h4>
+      <h5>
+        Nous sommes en ...{'  '}
+        <span style={{ fontSize: 25, fontWeight: 'bold' }}>
+          {' '}
+          {currentRound}
+        </span>
+      </h5>
+
       <StyledSimulation>
         <Container className="row-full">
           <Row className="d-flex justify-content-end mr-1">

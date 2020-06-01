@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
-import { useTranslation, useSSR } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import React from 'react';
 
 import { ActionCardItemSimple } from './ActionCardItem';

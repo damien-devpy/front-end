@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
+@font-face {
+  font-family: 'EmojiFont1'; /*a name to be used later*/
+  /* src: url('http://domain.com/fonts/font.ttf'); URL to font */
+  src: url('assets/NotoEmoji-Regular.ttf')
+}
+
+@font-face {
+  font-family: 'EmojiFont2'; /*a name to be used later*/
+  /* src: url('http://domain.com/fonts/font.ttf'); URL to font */
+  src: url('assets/Symbola-AjYx.ttf')
+}
+
 :root {
   --bgColor: #ffffff;
 }
@@ -22,6 +36,12 @@ h3 {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, Roboto, monospace;
+}
+
+.emoji {
+  font-family: "EmojiFont1", "EmojiFont2";
+  color: white ;
+  font-size: 1.5rem;
 }
 
 .center {

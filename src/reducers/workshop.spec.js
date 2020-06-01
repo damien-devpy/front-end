@@ -537,7 +537,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             ],
           },
         },
-        individualActionCards: {
+        individualChoices: {
           '2020-1': {
             key: '2020-1',
             participantId: 1,
@@ -751,7 +751,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             ],
           },
         },
-        individualActionCards: {
+        individualChoices: {
           '2020-1': {
             key: '2020-1',
             participantId: 1,
@@ -944,7 +944,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               ],
             },
           },
-          collectiveActionCards: {
+          collectiveChoices: {
             2020: {
               key: 2020,
               actionCardIds: ['plane_forbidden'],
@@ -1140,7 +1140,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               ],
             },
           },
-          collectiveActionCards: {
+          collectiveChoices: {
             2020: {
               key: 2020,
               actionCardIds: ['plane_forbidden'],
@@ -1345,7 +1345,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               ],
             },
           },
-          collectiveActionCards: {
+          collectiveChoices: {
             2020: {
               key: 2020,
               actionCardIds: ['clean_bus'],
@@ -1552,7 +1552,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               ],
             },
           },
-          collectiveActionCards: {
+          collectiveChoices: {
             2020: {
               key: 2020,
               actionCardIds: ['clean_bus'],

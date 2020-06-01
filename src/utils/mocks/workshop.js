@@ -758,10 +758,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -775,10 +776,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -792,10 +794,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -809,10 +812,11 @@ export default {
           {
             var: {
               cat: [
-                'EI_ELEC_PER_KWH.',
+                'EI_',
                 {
                   var: 'electricityProvider',
                 },
+                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -2187,7 +2191,7 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           {
-            variable: 'EI_ELEC_PER_KWH',
+            variable: 'EI_ELEC_CONVENTIONAL_PER_KWH',
             operation: 0.04,
           },
           {
@@ -2217,8 +2221,8 @@ export default {
         reluctancyForCitizens: 1,
         operations: [
           {
-            variable: 'EI_ELEC_PER_KWH',
-            operation: { '*': [{ var: 'EI_ELEC_PER_KWH' }, 1] },
+            variable: 'EI_ELEC_CONVENTIONAL_PER_KWH',
+            operation: { '*': [{ var: 'EI_ELEC_CONVENTIONAL_PER_KWH' }, 1] },
           },
         ],
       },
@@ -2372,10 +2376,8 @@ export default {
       EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
       EI_WATER_PER_LITER: 0.000168,
       WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-      EI_ELEC_PER_KWH: {
-        CONVENTIONAL: 0.116,
-        ALTERNATIVE: 0.013,
-      },
+      EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
+      EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
       EI_GAS_PER_KWH: 0.227,
       EI_FUEL_OIL_PER_KWH: 0.323,
       EI_WOOD_PER_KWH: 0.03,
@@ -4792,10 +4794,8 @@ export default {
         EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
         EI_WATER_PER_LITER: 0.000168,
         WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-        EI_ELEC_PER_KWH: {
-          CONVENTIONAL: 0.116,
-          ALTERNATIVE: 0.013,
-        },
+        EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
+        EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
         EI_GAS_PER_KWH: 0.227,
         EI_FUEL_OIL_PER_KWH: 0.323,
         EI_WOOD_PER_KWH: 0.03,

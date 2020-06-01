@@ -2,15 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { COLORS } from '../../../vars';
-import { getNumberOfTakenActionCards } from '../../../selectors/workshopSelector';
+import {
+  getCostOfChosenActionCards,
+  getNumberOfChosenActionCards,
+} from '../../../selectors/workshopSelector';
 
 const ParticipantsTable = ({
   round,
   workshopParticipants,
   participantsEntity,
-  individualActionCards,
+  individualChoices,
   selectedParticipantId,
+  actionCardsEntity,
   handleSelect,
+  initBudgetPerParticipant,
 }) => {
   const ParticipantItemBadge = ({
     id,
@@ -43,12 +48,21 @@ const ParticipantsTable = ({
       {workshopParticipants &&
         participantsEntity &&
         workshopParticipants.map((participantId) => {
+          // might make sense to simplify the component by taking the two functions outside
           const { firstName, lastName } = participantsEntity[participantId];
-          const numberOfSelectedActions = getNumberOfTakenActionCards(
-            individualActionCards,
+          const numberOfSelectedActions = getNumberOfChosenActionCards(
+            individualChoices,
             round,
             participantId
           );
+          const hearts =
+            initBudgetPerParticipant[participantId] -
+            getCostOfChosenActionCards(
+              individualChoices,
+              actionCardsEntity,
+              round,
+              participantId
+            );
           return (
             <ParticipantItemBadge
               id={participantId}
@@ -56,7 +70,7 @@ const ParticipantsTable = ({
               firstName={firstName}
               lastName={lastName}
               numberOfSelectedActions={numberOfSelectedActions}
-              hearts={5}
+              hearts={hearts}
               selected={selectedParticipantId === participantId}
             />
           );

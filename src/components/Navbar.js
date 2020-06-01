@@ -23,7 +23,7 @@ const Navbar = ({ avatarUrl, links }) => {
       className="mb-4"
     >
       <Container>
-        <NavigBar.Brand href="/home">
+        <NavigBar.Brand href="/workshops">
           <span className="font-weight-bold">2tons</span>
         </NavigBar.Brand>
         <NavigBar.Toggle aria-controls="basic-navbar-nav" />

@@ -16,7 +16,7 @@ import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
 const colors = {
   transports: ['#FF0000', '#C00001', '#700001', '#FF5A5C', '#FFCCFF'],
   housing: ['#1E4E79', '#2E75B6', '#7BD7EE'],
-  food: ['#7F6001', '#B58D0D', '#DEC268', '#FFCF34'],
+  food: ['#7F6001', '#B58D0D', '#DEC268', '#E0AC00', '#FFCF34'],
   others: ['#385723', '#70AD47', '#A9D18E'],
   publicServices: ['#B37850', '#ED7D31', '#FCAC76'],
 };

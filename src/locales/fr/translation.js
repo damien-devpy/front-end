@@ -157,9 +157,11 @@ export default {
   },
   food: {
     eggsAndDairies: 'Oeufs et laitiers',
-    meatAndFish: 'Viandes et poissons',
+    meat: 'Viandes',
+    fish: 'Poisson',
     drinks: 'Boissons',
     othersFood: 'Autres',
+    meatAndFish: 'Viandes et poissons',
   },
   housing: {
     constructionAndMaintenance: 'Contruction Maintenance',

@@ -108,4 +108,5 @@ background: ${(props) =>
   props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;
 
+const StyledButton = styled(Button);
 export default ActionCardsForm;

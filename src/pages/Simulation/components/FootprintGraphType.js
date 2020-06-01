@@ -26,14 +26,21 @@ const FootprintGraphType = ({ type, participantId }) => {
   const currentRound = useSelector(
     (state) => state.workshop.result && state.workshop.result.currentYear
   );
+
   console.log('Current Round : ', currentRound);
   const carbonFootprints = useSelector(
     (state) =>
       state.workshop.entities && state.workshop.entities.carbonFootprints
   );
   const keysCurrentRound = Object.keys(carbonFootprints).filter((key) =>
-    toString(key).includes(toString(currentRound))
+    key.toString().includes(currentRound.toString())
   );
+  // const keysCurrentRound = useSelector(
+  //   (state) =>
+  //     state.workshop.result &&
+  //     state.workshop.result.rounds &&
+  //     state.workshop.result.rounds[currentRound]
+  // );
   console.log('carbonFootprints : ', carbonFootprints);
 
   console.log('keysCurrentRound : ', keysCurrentRound);

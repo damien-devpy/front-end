@@ -261,7 +261,8 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   }
   const woodWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'WOOD') * KwhEcs;
   const gasWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'GAS') * KwhEcs;
-  const fuelWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'FUEL') * KwhEcs;
+  const fuelWaterHeatingKwh =
+    (sanitoryHotWaterEnergyType === 'FUEL_OIL') * KwhEcs;
   const elecWaterHeatingKwh =
     (sanitoryHotWaterEnergyType === 'ELECTRICITY') * KwhEcs;
 
@@ -370,7 +371,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     clothesNewItems,
   } = surveyVariables;
 
-  return {
+  const carbonVariables = {
     // Food & Drinks
     redMeatKgPerYear,
     whiteMeatKgPerYear,
@@ -443,5 +444,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     numberBigDevices,
     clothesNewItems,
   };
+  console.log(carbonVariables);
+  return carbonVariables;
 };
 export default computeCarbonVariables;

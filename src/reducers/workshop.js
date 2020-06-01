@@ -77,14 +77,40 @@ export default (state = initialState, action) => {
       };
     }
     case INIT_WORKSHOP: {
-      const { year } = action.payload;
+      const year = action.payload;
       return {
         ...state,
-        rounds: {
-          byYear: {
-            [year]: initRoundObject(),
+        entities: {
+          ...state.entities,
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              year,
+            },
           },
-          allYears: [year],
+          carbonVariables: {
+            ...(state.entities.carbonVariables || {}),
+            ...state.result.participants.reduce(
+              (o, participantId) => ({
+                ...o,
+                [makeYearParticipantKey(year, participantId)]: {
+                  participantId,
+                  variables: computeCarbonVariables(
+                    state.entities.participants[participantId].surveyVariables,
+                    state.result.model.globalCarbonVariables
+                  ),
+                },
+              }),
+              {}
+            ),
+          },
+          globalCarbonVariables: {
+            [year]: { ...state.result.model.globalCarbonVariables },
+          },
+        },
+        result: {
+          ...state.result,
+          rounds: [2020],
         },
       };
     }

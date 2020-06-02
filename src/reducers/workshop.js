@@ -1,4 +1,9 @@
 import {
+  ADD_PARTICIPANT,
+  DELETE_PARTICIPANT,
+  SET_PARTICIPANT_NAME_EMAIL,
+} from '../actions/participants'
+import {
   APPLY_COLLECTIVE_ACTIONS,
   APPLY_INDIVIDUAL_ACTIONS,
   COMPUTE_CARBON_VARIABLES,
@@ -12,6 +17,7 @@ import {
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
+
 import {
   computeFootprint,
   computeNewCarbonVariables,
@@ -19,6 +25,39 @@ import {
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
 import computeCarbonVariables from './utils/bufferCarbonVariables';
+
+export const MISSING_INFO = 'MISSING_INFO';
+export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
+export const EMAIL_SENT = 'EMAIL_SENT';
+export const BILAN_RECEIVED = 'registered';
+
+function computeStatus(valid, participant, newPersona) {
+  let newStatus = null;
+  if (!valid) {
+    newStatus = MISSING_INFO;
+  } else if (newPersona) {
+    newStatus = BILAN_RECEIVED;
+  } else {
+    switch (
+      participant.status // old status
+    ) {
+      case MISSING_INFO: {
+        newStatus = MUST_SEND_EMAIL;
+        break;
+      }
+      default: {
+        if (participant.bilanCarbone) {
+          newStatus = BILAN_RECEIVED;
+        } else if (participant.linkBC) {
+          newStatus = EMAIL_SENT;
+        } else {
+          newStatus = MUST_SEND_EMAIL;
+        }
+      }
+    }
+  }
+  return newStatus;
+}
 
 const initialState = {
   isLoading: true,
@@ -376,6 +415,95 @@ export default (state = initialState, action) => {
         },
       };
     }
+
+    case ADD_PARTICIPANT: {
+      console.log('Action ADD participant');
+      const oldParticipants = state.entities.participants;
+      const newId = Number(Object.keys(oldParticipants).sort().slice(-1)[0]) + 1;
+      console.log(Object.keys(oldParticipants).sort()[-1], newId);
+
+      const participants = {
+        ...oldParticipants,
+        [newId]: {
+          id: newId,
+          firstName: '',
+          lastName: '',
+          email: '',
+          status: MISSING_INFO,
+          isValid: false,
+          linkBC: null,
+          bilanCarbone: null,
+        },
+      };
+      return {
+        ...state,
+        entities: { ...state.entities, participants },
+      };
+    }
+
+    case DELETE_PARTICIPANT: {
+      console.log('Action DELETE participant');
+      const { id } = action.payload;
+      const oldParticipants = state.entities.participants;
+      const participants = Object.keys(oldParticipants).reduce(
+        (filtered, i) => {
+          if (i !== id) filtered[i] = oldParticipants[i];
+          return filtered;
+        },
+        {}
+      );
+      // console.log(Object.keys(state.entities.participants), participants)
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          participants,
+        },
+      };
+    }
+
+    case SET_PARTICIPANT_NAME_EMAIL: {
+      const { participantId, name, email, persona, valid } = action.payload;
+
+      console.log(
+        'Action set participant',
+        participantId,
+        name,
+        email,
+        persona,
+        valid
+      );
+      let [firstName, ...lastName] = name.split(/ /);
+      lastName = lastName.join(' ');
+
+      const newPersona = persona || null;
+      const newStatus = computeStatus(
+        valid,
+        state.entities.participants[participantId],
+        newPersona
+      );
+
+      const newState = {
+        ...state,
+        entities: {
+          ...state.entities,
+          participants: {
+            ...state.entities.participants,
+            [participantId]: {
+              ...state.entities.participants[participantId],
+              firstName,
+              lastName,
+              email,
+              isValid: valid,
+              personaId: newPersona,
+              status: newStatus,
+            },
+          },
+        },
+      };
+      return newState;
+    }
+
     default:
       return state;
   }

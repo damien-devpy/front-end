@@ -109,7 +109,12 @@ export const footprintDataToGraph = (footprintData) => {
   return footprintArray;
 };
 
-export const computeEvolutionGraph = (rounds, carbonFootprints) => {
+export const computeEvolutionGraph = (
+  rounds,
+  carbonFootprints,
+  citizenFootprints,
+  footprintStructure
+) => {
   var evolutionData = [];
   var obj = {};
   var player;
@@ -118,10 +123,28 @@ export const computeEvolutionGraph = (rounds, carbonFootprints) => {
   Object.keys(rounds).forEach((year) => {
     obj = {};
     obj['year'] = rounds[year].year;
+    var roundCarbonFootprints = {};
+    var roundCitizenFootprints = {};
+
     rounds[year].carbonFootprints.forEach((key) => {
+      roundCarbonFootprints[key] = carbonFootprints[key];
       player = key.split('-')[1];
       obj[player] = carbonFootprints[key].footprint.value.toFixed(0);
     });
+
+    rounds[year].citizenCarbonFootprints.forEach(
+      (key) => (roundCitizenFootprints[key] = citizenFootprints[key])
+    );
+
+    obj['avg_participants'] = participantsAverageFootprint(
+      roundCarbonFootprints,
+      footprintStructure
+    ).value.toFixed(0);
+    obj['avg_global'] = globalAverageFootprint(
+      roundCarbonFootprints,
+      roundCitizenFootprints,
+      footprintStructure
+    ).value.toFixed(0);
     evolutionData.push(obj);
   });
   return evolutionData;

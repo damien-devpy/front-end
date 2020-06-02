@@ -63,7 +63,7 @@ const FootprintGraphType = ({ type, participantId }) => {
 
   console.log('currentCitizenFootprints', currentCitizenFootprints);
 
-  var carbonFootprint = footprintStructure;
+  var carbonFootprint = {};
   switch (type) {
     case 'participantsAverage':
       carbonFootprint = participantsAverageFootprint(

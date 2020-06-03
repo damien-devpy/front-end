@@ -129,7 +129,9 @@ export const computeEvolutionGraph = (
     rounds[year].carbonFootprints.forEach((key) => {
       roundCarbonFootprints[key] = carbonFootprints[key];
       player = key.split('-')[1];
-      obj[player] = carbonFootprints[key].footprint.value.toFixed(0);
+      obj[player] =
+        carbonFootprints[key].footprint &&
+        carbonFootprints[key].footprint.value.toFixed(0);
     });
 
     rounds[year].citizenCarbonFootprints.forEach(

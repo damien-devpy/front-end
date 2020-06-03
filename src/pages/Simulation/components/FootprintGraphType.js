@@ -6,6 +6,8 @@ import {
   participantsAverageFootprint,
   participantFootprint,
 } from '../../../selectors/footprintSelectors';
+import { pathOr } from 'ramda';
+
 import FootprintGraph from './FootprintGraph';
 
 const filter_obj = (allowed, raw) => {
@@ -28,6 +30,7 @@ const FootprintGraphType = ({ type, participantId }) => {
   );
 
   console.log('Current Round : ', currentRound);
+
   const carbonFootprints = useSelector(
     (state) =>
       state.workshop.entities && state.workshop.entities.carbonFootprints
@@ -37,12 +40,16 @@ const FootprintGraphType = ({ type, participantId }) => {
       state.workshop.entities && state.workshop.entities.citizenCarbonFootprints
   );
 
-  const participantsKeysCurrentRound = Object.keys(
-    carbonFootprints
-  ).filter((key) => key.includes(currentRound.toString()));
-  const citizensKeysCurrentRound = Object.keys(
-    citizenFootprints
-  ).filter((key) => key.includes(currentRound.toString()));
+  const participantsKeysCurrentRound =
+    currentRound &&
+    Object.keys(carbonFootprints).filter((key) =>
+      key.includes(currentRound.toString())
+    );
+  const citizensKeysCurrentRound =
+    currentRound &&
+    Object.keys(citizenFootprints).filter((key) =>
+      key.includes(currentRound.toString())
+    );
   // const keysCurrentRound = useSelector(
   //   (state) =>
   //     state.workshop.result &&
@@ -53,11 +60,13 @@ const FootprintGraphType = ({ type, participantId }) => {
   console.log('keys : ', Object.keys(carbonFootprints));
 
   const currentCarbonFootprints =
+    participantsKeysCurrentRound &&
     carbonFootprints &&
     filter_obj(participantsKeysCurrentRound, carbonFootprints);
   console.log('currentCarbonFootprints : ', currentCarbonFootprints);
 
   const currentCitizenFootprints =
+    citizensKeysCurrentRound &&
     citizenFootprints &&
     filter_obj(citizensKeysCurrentRound, citizenFootprints);
 
@@ -66,18 +75,25 @@ const FootprintGraphType = ({ type, participantId }) => {
   var carbonFootprint = {};
   switch (type) {
     case 'participantsAverage':
-      carbonFootprint = participantsAverageFootprint(
-        currentCarbonFootprints,
-        footprintStructure
-      );
+      carbonFootprint =
+        currentCarbonFootprints &&
+        footprintStructure &&
+        participantsAverageFootprint(
+          currentCarbonFootprints,
+          footprintStructure
+        );
       break;
 
     case 'globalAverage':
-      carbonFootprint = globalAverageFootprint(
-        currentCarbonFootprints,
-        currentCitizenFootprints,
-        footprintStructure
-      );
+      carbonFootprint =
+        currentCarbonFootprints &&
+        currentCitizenFootprints &&
+        footprintStructure &&
+        globalAverageFootprint(
+          currentCarbonFootprints,
+          currentCitizenFootprints,
+          footprintStructure
+        );
       break;
 
     case 'participant':

@@ -1,20 +1,24 @@
-import { MUST_SEND_EMAIL, BILAN_RECEIVED, EMAIL_SENT } from '../../reducers/participants';
+import {
+  MUST_SEND_EMAIL,
+  BILAN_RECEIVED,
+  EMAIL_SENT,
+} from '../../reducers/participants';
 
 export default {
   byId: {
     1: {
-      firstName: 'François',
-      lastName: 'Laugier',
-      email: 'francois_laugier@outlook.com',
+      firstName: 'Emmanuel',
+      lastName: 'M',
+      email: 'manu@outlook.com',
       status: MUST_SEND_EMAIL,
       isValid: true,
       linkBC: null,
       personaId: null,
     },
     2: {
-      firstName: 'Xavier',
-      lastName: 'Arques',
-      email: 'xavarques@gmail.com',
+      firstName: 'Brigitte',
+      lastName: 'M',
+      email: 'brigitte@gmail.com',
       status: BILAN_RECEIVED,
       isValid: true,
       linkBC: 'http//www',

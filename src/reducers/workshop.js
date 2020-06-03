@@ -21,7 +21,7 @@ import {
 } from '../actions/workshop';
 import {
   computeBudget,
-  computeCitizenIndividualActionCards,
+  computeCitizenIndividualChoices,
   computeFootprint,
   computeNewCarbonVariables,
   computeSocialVariables,
@@ -44,12 +44,6 @@ const initialState = {
     },
   },
 };
-
-const initRoundObject = () => ({
-  collectiveActionIds: [],
-  participants: {},
-  influenceScore: 0,
-});
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -375,8 +369,6 @@ export default (state = initialState, action) => {
         actionCards
       );
       const newBudget = computeBudget(newSocialVariables.influenceScore);
-      console.log('newSocialVariables', newSocialVariables);
-      console.log('newBudget', newBudget);
       return {
         ...state,
         entities: {
@@ -503,7 +495,7 @@ export default (state = initialState, action) => {
     }
     case SET_ACTIONS_FOR_CITIZENS: {
       const { year } = action.payload;
-      const newCitizenIndividualActionCards = computeCitizenIndividualActionCards(
+      const newCitizenIndividualActionCards = computeCitizenIndividualChoices(
         year,
         state.entities.rounds[year].socialVariables,
         state.entities.citizenIndividualActionCards || {},

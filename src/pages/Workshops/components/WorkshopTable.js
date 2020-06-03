@@ -1,10 +1,11 @@
 import React from 'react';
-import { Table, Button } from 'react-bootstrap';
 import moment from 'moment';
-import EnterIcon from '../../../assets/EnterIcon';
-import DeleteIcon from '../../../assets/DeleteIcon';
-// import { useWorkshop } from '../../../hooks/workshop';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
+// import { useWorkshop } from '../../../hooks/workshop';
+import DeleteIcon from '../../../assets/DeleteIcon';
+import EnterIcon from '../../../assets/EnterIcon';
 
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
   return (
@@ -20,35 +21,27 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
       </thead>
       <tbody>
         {workshops &&
-          workshops.map(
-            (
-              { date, workshopName, status, coachName, action },
-              workshopKey
-            ) => {
-              return (
-                <tr key={workshopKey}>
-                  <td>{moment(date).format('L')}</td>
-                  <td>{workshopName}</td>
-                  <td>{status}</td>
-                  <td>{coachName}</td>
-                  <td>
-                    <Link to="/participants">
-                      <Button variant="light mr-1">
-                        <EnterIcon height={20} width={20} />
-                      </Button>
-                    </Link>
-
-                    <Button
-                      variant="light"
-                      onClick={() => handleDelete(workshopKey)}
-                    >
-                      <DeleteIcon height={20} width={20} />
+          workshops.map(({ id, date, name, status, coachName, action }) => {
+            return (
+              <tr key={id}>
+                <td>{moment(date).format('L')}</td>
+                <td>{name}</td>
+                <td>{status}</td>
+                <td>{coachName}</td>
+                <td>
+                  <Link to="/participants">
+                    <Button variant="light mr-1">
+                      <EnterIcon height={20} width={20} />
                     </Button>
-                  </td>
-                </tr>
-              );
-            }
-          )}
+                  </Link>
+
+                  <Button variant="light" onClick={() => handleDelete(id)}>
+                    <DeleteIcon height={20} width={20} />
+                  </Button>
+                </td>
+              </tr>
+            );
+          })}
       </tbody>
     </Table>
   );

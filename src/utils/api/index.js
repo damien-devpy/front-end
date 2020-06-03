@@ -26,7 +26,7 @@ export const getPersonas = () =>
 
 export const getWorkshops = () =>
   handleFetch(`/workshops`, {
-    // useMock: true, // TO REMOVE AFTER BACKEND READY
+    useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
 export const getFootprints = () =>

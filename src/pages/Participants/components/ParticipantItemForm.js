@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { Col, Form, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { Form, Row, Col } from 'react-bootstrap';
+
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import { COLORS } from '../../../vars';
-import { ParticipantStatus } from './ParticipantStatus';
+import ParticipantStatus from './ParticipantStatus';
 
 const isValidName = (input) =>
   input && input.split(/ /).length > 1 && input.split(/ /)[1];
 
 const isValidEmail = (input) =>
-  input && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
+  input && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(input);
 
 export const ParticipantItemForm = ({
   id,
@@ -28,15 +30,21 @@ export const ParticipantItemForm = ({
 }) => {
   const { t } = useTranslation();
 
+  const [name, setName] = useState(
+    firstName && lastName && `${firstName} ${lastName}`
+  );
+  const [email, setEmail] = useState(initEmail);
+  const [persona, setPersona] = useState(currentPersonaId);
+
   useEffect(() => {
-    console.log('useEffect', id);
+    // console.log('useEffect', id);
     if (
       name !== `${firstName} ${lastName}` ||
       email !== initEmail ||
       currentPersonaId !== persona
     ) {
-      console.log('Dispatching update ');
-      console.log('isValidName', isValidName(name));
+      // console.log('Dispatching update ');
+      // console.log('isValidName', isValidName(name));
       updateParticipant(
         name,
         email,
@@ -56,12 +64,6 @@ export const ParticipantItemForm = ({
     deleteParticipant();
     e.stopPropagation();
   };
-
-  const [name, setName] = useState(
-    firstName && lastName && `${firstName} ${lastName}`
-  );
-  const [email, setEmail] = useState(initEmail);
-  const [persona, setPersona] = useState(currentPersonaId);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -84,11 +86,12 @@ export const ParticipantItemForm = ({
   };
 
   const handleChangePersona = (e) => {
-    setPersona(e.target.selectedIndex);
+    const index = e.target.selectedIndex - 1;
+    setPersona(personas[index].personaId);
     updateParticipant(
       name,
       email,
-      e.target.selectedIndex,
+      personas[index].personaId,
       isValidName(name) && isValidEmail(email)
     );
     e.stopPropagation();
@@ -96,10 +99,10 @@ export const ParticipantItemForm = ({
 
   const PersonaDropdown = () => {
     const personaOptions = [];
-    personas.allIds.forEach((i) => {
+    personas.forEach((persona) => {
       personaOptions.push(
-        <option id={i} value={i}>
-          {personas.byId[i].pseudo}
+        <option id={persona.personaId} value={persona.personaId}>
+          {persona.firstName + persona.lastName}
         </option>
       );
     });
@@ -125,11 +128,12 @@ export const ParticipantItemForm = ({
     <Row
       onClick={handleItemClick}
       id={`participant${id}`}
-      className="align-items-bottom"
-      style={{
-        margin: '15px 0px 15px 15px',
-        borderBottom: `1px solid ${COLORS.GRAY.LIGHT}`,
-      }}
+      className="align-items-bottom mb-2 mt-2"
+      // version Noe - margin left makes columns not aligned
+      // style={{
+      //   margin: '15px 0px 15px 15px',
+      //   borderBottom: `1px solid ${COLORS.GRAY.LIGHT}`,
+      // }}
     >
       <Col xs="1" className="text-center">
         <Form.Label>
@@ -148,19 +152,15 @@ export const ParticipantItemForm = ({
         </Form.Label>
       </Col>
       <Col>
-        {/* <Form.Group> */}
         <Form.Control
           plaintext={!isActive}
           readOnly={!isActive}
           value={name}
           validated={isActive}
-          // isValid={!isNotValidName()}
           isInvalid={!isValidName(name)}
           onChange={handleChangeName}
           required
         />
-        {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
-        {/* </Form.Group> */}
       </Col>
       <Col>
         <Form.Control
@@ -172,7 +172,6 @@ export const ParticipantItemForm = ({
           onChange={handleChangeEmail}
           required
         />
-        {/* <Form.Control.Feedback type="invalid">Please fill in</Form.Control.Feedback> */}
       </Col>
       <Col md="2">
         <PersonaDropdown />

@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { Button, Container, Row, Col, Spinner, Card } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import footprintData from '../../utils/mocks/footprintData';
-import {
-  footprintDataToGraph,
-  currentRound,
-} from '../../selectors/footprintSelectors';
 import './components/simulationPage.css';
-import { useWorkshop } from '../../hooks/workshop';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
-import FootprintGraphType from './components/FootprintGraphType';
-import EvolutionCarbon from './components/EvolutionCarbon';
-import CommonModal from '../../components/CommonModal';
+import { Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  currentRound,
+  footprintDataToGraph,
+} from '../../selectors/footprintSelectors';
 import { startRound } from '../../actions/workshop';
-import NewRoundModalForm from './components/NewRoundModalForm';
+import { useTranslation } from 'react-i18next';
+import { useWorkshop } from '../../hooks/workshop';
 import ActionCardsEntry from './components/ActionCardsEntry';
+import CommonModal from '../../components/CommonModal';
+import EvolutionCarbon from './components/EvolutionCarbon';
+import FootprintGraphType from './components/FootprintGraphType';
+import NavbarWorkshop from '../../components/NavbarWorkshop';
+import NewRoundModalForm from './components/NewRoundModalForm';
+import React, { useEffect, useState } from 'react';
+import footprintData from '../../utils/mocks/footprintData';
+import styled from 'styled-components';
+
 const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { entities, result, isLoading, loadError } = useWorkshop(1);
-  console.log('entities', entities);
-  console.log('result', result);
+  
   const currentRound = useSelector(
     (state) =>
       state.workshop &&
@@ -53,13 +52,13 @@ const Simulation = () => {
   const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
-    <React.Fragment>
+    <>
       <NavbarWorkshop
         avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
         firstName="Xavier"
         role="Animateur"
       />
-      <h4 class="workshop_title">{workshopTitle}</h4>
+      <h4 className="workshop_title">{workshopTitle}</h4>
       <h5>
         Nous sommes en ...{'  '}
         <span style={{ fontSize: 25, fontWeight: 'bold' }}>
@@ -75,33 +74,27 @@ const Simulation = () => {
               {t('common.nextRound')}
             </Button>
           </Row>
-          {loadError && <p>{t('common.loadError')}</p>}
-          {isLoading && (
-            <Spinner animation="border" className="pt-3 mx-auto mt-5" />
-          )}
-          {!isLoading && (
-            <Row style={{ height: '100vh' }}>
-              <Col sm={12} md={7} className="graph-col">
-                <Container className="graph-card">
-                  <h4>
-                    Evolution du CO<span style={{ fontSize: '14px' }}>2</span>{' '}
-                    par personne
-                  </h4>
-                  <EvolutionCarbon data={evolutionData} />
-                </Container>
-              </Col>
-              <Col sm={12} md={5} className="graph-col">
-                <Container className="graph-card">
-                  <h4> Moyenne nationale </h4>
-                  <FootprintGraphType type="globalAverage" />
-                </Container>
-                <Container className="graph-card">
-                  <h4> Les participants </h4>
-                  <FootprintGraphType type="participantsAverage" />
-                </Container>
-              </Col>
-            </Row>
-          )}
+          <Row style={{ height: '100vh' }}>
+            <Col sm={12} md={7} className="graph-col">
+              <Container className="graph-card">
+                <h4>
+                  Evolution du CO<span style={{ fontSize: '14px' }}>2</span>{' '}
+                  par personne
+                </h4>
+                <EvolutionCarbon data={evolutionData} />
+              </Container>
+            </Col>
+            <Col sm={12} md={5} className="graph-col">
+              <Container className="graph-card">
+                <h4> Moyenne nationale </h4>
+                <FootprintGraphType type="globalAverage" />
+              </Container>
+              <Container className="graph-card">
+                <h4> Les participants </h4>
+                <FootprintGraphType type="participantsAverage" />
+              </Container>
+            </Col>
+          </Row>
         </Container>
       </StyledSimulation>
       <CommonModal
@@ -126,7 +119,7 @@ const Simulation = () => {
           roundActionCardType={roundActionCardType}
         />
       </CommonModal>
-    </React.Fragment>
+    </>
   );
 };
 

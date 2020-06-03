@@ -33,15 +33,14 @@ const ActionCardsEntry = ({
   const dispatch = useDispatch();
 
   const nextRound = useSelector((state) => selectNextRound(state.workshop));
-  const workshopParticipants = useSelector(
-    (state) => state.workshop.result.participants
-  );
-  const [selectedParticipantId, setSelectedParticipantId] = useState(
-    workshopParticipants ? workshopParticipants[0] : -1
-  );
+
   const participantsEntity = useSelector(
     (state) => state.workshop.entities.participants
   );
+  const [selectedParticipantId, setSelectedParticipantId] = useState(
+    participantsEntity ? Object.keys(participantsEntity)[0] : -1
+  );
+
   const handleParticipantSelect = (id) => {
     console.log('handleParticipantSelect', id);
     setSelectedParticipantId(id);
@@ -205,7 +204,6 @@ const ActionCardsEntry = ({
               <h4>{t('common.participants')}</h4>
               <ParticipantsTable
                 round={currentRound}
-                workshopParticipants={workshopParticipants}
                 participantsEntity={participantsEntity}
                 individualChoices={currentIndividualChoices}
                 selectedParticipantId={selectedParticipantId}

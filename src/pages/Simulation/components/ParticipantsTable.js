@@ -9,7 +9,6 @@ import {
 
 const ParticipantsTable = ({
   round,
-  workshopParticipants,
   participantsEntity,
   individualChoices,
   selectedParticipantId,
@@ -45,9 +44,8 @@ const ParticipantsTable = ({
 
   return (
     <div>
-      {workshopParticipants &&
-        participantsEntity &&
-        workshopParticipants.map((participantId) => {
+      {participantsEntity &&
+        Object.keys(participantsEntity).map((participantId) => {
           // might make sense to simplify the component by taking the two functions outside
           const { firstName, lastName } = participantsEntity[participantId];
           const numberOfSelectedActions = getNumberOfChosenActionCards(

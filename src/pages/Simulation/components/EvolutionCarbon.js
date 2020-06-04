@@ -12,6 +12,8 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import { setParticipantNameEmail } from '../../../actions/participants';
+import { useTranslation } from 'react-i18next';
 
 const colorsPalet = [
   'blue',
@@ -27,28 +29,54 @@ const colorsPalet = [
   'yellow',
   'orange',
 ];
-const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
-const sum = (obj) =>
-  players(obj).reduce(
-    (accumulator, currentValue) => accumulator + parseInt(obj[currentValue]),
-    0
-  );
-const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
+
+// const sum = (obj) =>
+//   players(obj).reduce(
+//     (accumulator, currentValue) => accumulator + parseInt(obj[currentValue]),
+//     0
+//   );
+// const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
 const EvolutionCarbon = () => {
   // Compute data
+  const { t } = useTranslation();
   const rounds = useSelector((state) => state.workshop.entities.rounds);
   const carbonFootprints = useSelector(
     (state) => state.workshop.entities.carbonFootprints
   );
+  const participants = useSelector(
+    (state) => state.workshop.entities.participants
+  );
+  console.log('participants', participants);
+  const lines = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 
+  const participantsName = (obj, participants) =>
+    participants &&
+    Object.keys(obj)
+      .filter((k) => k !== 'year')
+      .map((player_id) => participants[player_id])
+      .map(
+        (player) => player.firstName + ' ' + player.lastName.split('')[1] + '.'
+      );
+  const participantName = (participant_id) => {
+    if (!participant_id.toString().startsWith('avg_')) {
+      return (
+        participants &&
+        participants[participant_id.toString()].firstName +
+          ' ' +
+          participants[participant_id.toString()].lastName.split('')[1] +
+          '.'
+      );
+    } else t('common.' + participant_id);
+  };
   const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
   //  Add average players
-  for (var i = 0; i < evolutionData.length; i++) {
-    evolutionData[i].avg_players = avg_players(evolutionData[i]);
-  }
 
-  const dataKeysArray = players(evolutionData[0]);
+  // for (var i = 0; i < evolutionData.length; i++) {
+  //   evolutionData[i].avg_players = avg_players(evolutionData[i]);
+  // }
+
+  const dataKeysArray = lines(evolutionData[0], participants);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
@@ -116,12 +144,11 @@ const EvolutionCarbon = () => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="year" type="number" domain={['dataMin', 'dataMax']} />
         <YAxis />
-        <Tooltip />
+        <Tooltip labelFormatter={(player_id) => participantName(player_id)} />
         <Legend
           align="left"
           verticalAlign="middle"
           layout="vertical"
-          // formatter={colorOnClick}
           onClick={handleClick}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
@@ -132,6 +159,7 @@ const EvolutionCarbon = () => {
               <Line
                 type="monotone"
                 dataKey={dataKeys[player]}
+                name={participantName(player)}
                 strokeOpacity={opacity[player]}
                 stroke={colors[player]}
                 activeDot={{ r: 5 }}

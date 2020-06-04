@@ -121,7 +121,7 @@ const getActionsTakenBeforeYear = (
   });
   return actionsTakenBeforeYear;
 };
-const computeCitizenIndividualActionCards = (
+const computeCitizenIndividualChoices = (
   year,
   socialVariables,
   citizenIndividualActionCards,
@@ -166,6 +166,6 @@ export {
   computeFootprint,
   valueOnAllLevels,
   computeSocialVariables,
-  computeCitizenIndividualActionCards,
+  computeCitizenIndividualChoices,
   computeBudget,
 };

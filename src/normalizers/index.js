@@ -87,9 +87,9 @@ export const workshopSchema = {
   rounds: [round],
   participants: [participant],
   citizens: [citizen],
-  personas: [persona],
   model: {
     actionCards: [actionCard],
     actionCardBatches: [actionCardBatch],
+    personas: [persona],
   },
 };

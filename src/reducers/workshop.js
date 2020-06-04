@@ -1,4 +1,4 @@
-import { pathOr } from 'ramda';
+import { denormalize } from 'normalizr';
 import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
@@ -24,16 +24,18 @@ import {
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
+import { pathOr } from 'ramda';
 
 import {
   computeBudget,
-  computeCitizenIndividualActionCards,
+  computeCitizenIndividualChoices,
   computeFootprint,
   computeNewCarbonVariables,
   computeSocialVariables,
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
+import { workshopSchema } from '../normalizers';
 
 export const MISSING_INFO = 'MISSING_INFO';
 export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
@@ -84,12 +86,6 @@ const initialState = {
   },
 };
 
-const initRoundObject = () => ({
-  collectiveActionIds: [],
-  participants: {},
-  influenceScore: 0,
-});
-
 export default (state = initialState, action) => {
   switch (action.type) {
     case RETRIEVE_WORKSHOP: {
@@ -116,14 +112,74 @@ export default (state = initialState, action) => {
       };
     }
     case INIT_WORKSHOP: {
-      const { year } = action.payload;
+      const year = action.payload;
+      const participantIds = state.result.participants;
+      const citizenIds = state.result.model.personas;
       return {
         ...state,
-        rounds: {
-          byYear: {
-            [year]: initRoundObject(),
+        entities: {
+          ...state.entities,
+          rounds: {
+            ...state.entities.rounds,
+            [year]: {
+              year,
+              carbonVariables: participantIds.map((id) =>
+                makeYearParticipantKey(year, id)
+              ),
+              citizenCarbonVariables: citizenIds.map((id) =>
+                makeYearParticipantKey(year, id)
+              ),
+              roundsConfig: {},
+              globalCarbonVariables: year,
+              socialVariables: {
+                socialScore: 0,
+                influenceScore: 0,
+              },
+            },
           },
-          allYears: [year],
+          carbonVariables: {
+            ...(state.entities.carbonVariables || {}),
+            ...state.result.participants.reduce(
+              (o, participantId) => ({
+                ...o,
+                [makeYearParticipantKey(year, participantId)]: {
+                  participantId,
+                  variables: computeCarbonVariables(
+                    state.entities.participants[participantId].surveyVariables,
+                    state.result.model.globalCarbonVariables
+                  ),
+                },
+              }),
+              {}
+            ),
+          },
+          citizenCarbonVariables: {
+            ...(state.entities.citizenCarbonVariables || {}),
+            ...citizenIds.reduce(
+              (o, citizenId) => ({
+                ...o,
+                [makeYearParticipantKey(year, citizenId)]: {
+                  citizenId,
+                  variables: computeCarbonVariables(
+                    state.entities.personas[citizenId].surveyVariables,
+                    state.result.model.globalCarbonVariables
+                  ),
+                },
+              }),
+              {}
+            ),
+          },
+          globalCarbonVariables: {
+            [year]: { ...state.result.model.globalCarbonVariables },
+          },
+          citizens: { ...state.entities.personas },
+          roundsConfig: [year],
+        },
+        result: {
+          ...state.result,
+          rounds: [year],
+          currentYear: year,
+          citizens: state.result.model.personas.map((persona) => persona),
         },
       };
     }
@@ -388,8 +444,6 @@ export default (state = initialState, action) => {
         actionCards
       );
       const newBudget = computeBudget(newSocialVariables.influenceScore);
-      console.log('newSocialVariables', newSocialVariables);
-      console.log('newBudget', newBudget);
       return {
         ...state,
         entities: {
@@ -516,7 +570,7 @@ export default (state = initialState, action) => {
     }
     case SET_ACTIONS_FOR_CITIZENS: {
       const { year } = action.payload;
-      const newCitizenIndividualActionCards = computeCitizenIndividualActionCards(
+      const newCitizenIndividualActionCards = computeCitizenIndividualChoices(
         year,
         state.entities.rounds[year].socialVariables,
         state.entities.citizenIndividualActionCards || {},
@@ -746,6 +800,14 @@ export default (state = initialState, action) => {
       };
     }
 
+    case 'OUTPUT_WORKSHOP': {
+      console.log(
+        JSON.stringify(
+          denormalize(state.result, workshopSchema, state.entities)
+        )
+      );
+      return { ...state };
+    }
     default:
       return state;
   }

@@ -758,11 +758,10 @@ export default {
           {
             var: {
               cat: [
-                'EI_',
+                'EI_ELEC_PER_KWH.',
                 {
                   var: 'electricityProvider',
                 },
-                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -776,11 +775,10 @@ export default {
           {
             var: {
               cat: [
-                'EI_',
+                'EI_ELEC_PER_KWH.',
                 {
                   var: 'electricityProvider',
                 },
-                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -794,11 +792,10 @@ export default {
           {
             var: {
               cat: [
-                'EI_',
+                'EI_ELEC_PER_KWH.',
                 {
                   var: 'electricityProvider',
                 },
-                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -812,11 +809,10 @@ export default {
           {
             var: {
               cat: [
-                'EI_',
+                'EI_ELEC_PER_KWH.',
                 {
                   var: 'electricityProvider',
                 },
-                '_ELEC_PER_KWH',
               ],
             },
           },
@@ -862,6 +858,7 @@ export default {
           },
         ],
       },
+
       cf_dairies: {
         '*': [
           {
@@ -882,6 +879,7 @@ export default {
           },
         ],
       },
+
       cf_starches_and_groceries: {
         '*': [
           {
@@ -905,7 +903,6 @@ export default {
           },
         ],
       },
-
       cf_imported_fruits_and_vegetables: {
         '*': [
           {
@@ -1056,11 +1053,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         cost: 3,
-        peerInspirationScore: 3,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 20,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1075,12 +1067,7 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
-        cost: 2,
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 50,
+        cost: 3,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1113,20 +1100,15 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         key: 'carpooling',
-        cost: 3,
-        peerInspirationScore: 3,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 45,
+        cost: 2,
         operations: [
           {
             variable: 'passengersPerCarCommute',
-            operation: { max: [{ var: 'passengersPerCarCommute' }, 3] },
+            operation: { max: [{ var: 'passengersPerCarCommute' }, 2.4] },
           },
           {
             variable: 'passengersPerCarTravel',
-            operation: { max: [{ var: 'passengersPerCarTravel' }, 3] },
+            operation: { max: [{ var: 'passengersPerCarTravel' }, 2.4] },
           },
         ],
       },
@@ -1137,12 +1119,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         key: 'homeOffice',
-        cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 10,
+        cost: 3,
         operations: [
           {
             variable: 'kmCarCommutePerYear',
@@ -1170,11 +1147,6 @@ export default {
         subCategory: 'TRANSPORT',
         key: 'efficientDriving',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 5,
         operations: [
           {
             variable: 'coefficientEnergyEfficientDriving',
@@ -1189,12 +1161,7 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'TRANSPORT',
         key: 'stopPlane',
-        cost: 3,
-        peerInspirationScore: 3,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 35,
+        cost: 1,
         operations: [
           {
             variable: 'kmPlane',
@@ -1210,11 +1177,6 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'lowerHeating',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 5,
         operations: [
           {
             variable: 'woodHeatingKwh',
@@ -1240,13 +1202,7 @@ export default {
         type: 'individual',
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
-        key: 'lessHotWater',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 15,
         operations: [
           {
             variable: 'woodWaterHeatingKwh',
@@ -1269,11 +1225,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'LOGEMENT',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 15,
         key: 'electricitySaving',
         operations: [
           {
@@ -1290,11 +1241,6 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'alternativeElectricityProvider',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 40,
         operations: [
           {
             variable: 'electricityProvider',
@@ -1310,11 +1256,6 @@ export default {
         subCategory: 'LOGEMENT',
         key: 'houseSharing',
         cost: 3,
-        peerInspirationScore: 3,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 50,
         operations: [
           {
             variable: 'residents_per_housing',
@@ -1329,11 +1270,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 20,
         key: 'extend_goods_life',
         operations: [
           {
@@ -1369,11 +1305,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 2,
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 30,
         key: 'lessClothes',
         operations: [
           {
@@ -1389,11 +1320,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'CONSO',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 10,
         key: 'lessStreaming',
         operations: [
           {
@@ -1409,11 +1335,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-        peerInspirationScore: 4,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 4,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 30,
         key: 'semiVegetarianism',
         operations: [
           {
@@ -1500,11 +1421,6 @@ export default {
         subCategory: 'BIENS DE CONSO',
         key: 'lessRedMeat',
         cost: 2,
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 20,
         operations: [
           {
             variable: 'redMeatKgPerYear',
@@ -1528,11 +1444,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 4,
-        peerInspirationScore: 4,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 4,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 16,
         key: 'lessEggsAndDairies',
         operations: [
           {
@@ -1608,15 +1519,10 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-        peerInspirationScore: 3,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 15,
         key: 'houseCooking',
         operations: [
           {
-            variable: 'transformedProductsKgPerYear',
+            var: 'transformedProductsKgPerYear',
             operation: {
               min: [
                 { var: 'transformedProductsKgPerYear' },
@@ -1631,7 +1537,7 @@ export default {
             },
           },
           {
-            variable: 'starchesAndGroceriesKgPerYear',
+            var: 'starchesAndGroceriesKgPerYear',
             operation: {
               '+': [
                 { var: 'starchesAndGroceriesKgPerYear' },
@@ -1665,7 +1571,7 @@ export default {
             },
           },
           {
-            variable: 'fruitsAndVegetablesKgPerYear',
+            var: 'fruitsAndVegetablesKgPerYear',
             operation: {
               '+': [
                 { var: 'fruitsAndVegetablesKgPerYear' },
@@ -1707,11 +1613,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 1,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 5,
         key: 'localFruitsAndVegetables',
         operations: [
           {
@@ -1729,29 +1630,24 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 3,
-        peerInspirationScore: 3,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 25,
         key: 'lessDrinks',
         operations: [
           {
             variable: 'alcoholConsoLitersPerYear',
             operation: {
-              '*': [{ var: 'alcoholConsoLitersPerYear' }, 0.5],
+              '*': ['alcoholConsoLitersPerYear', 0.5],
             },
           },
           {
             variable: 'juicesAndSodasConsoLitersPerYear',
             operation: {
-              '*': [{ var: 'juicesAndSodasConsoLitersPerYear' }, 0.5],
+              '*': ['juicesAndSodasConsoLitersPerYear', 0.5],
             },
           },
           {
             variable: 'hotDrinksConsoLitersPerYear',
             operation: {
-              '*': [{ var: 'hotDrinksConsoLitersPerYear' }, 0.5],
+              '*': ['hotDrinksConsoLitersPerYear', 0.5],
             },
           },
         ],
@@ -1763,12 +1659,6 @@ export default {
         category: 'ECOGESTES',
         subCategory: 'BIENS DE CONSO',
         cost: 2,
-
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 15,
         key: 'lessFoodPackaging',
         operations: [
           // TODO
@@ -1782,607 +1672,9 @@ export default {
         subCategory: 'BIENS DE CONSO',
         key: 'organicFood',
         cost: 2,
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 10,
         operations: [
           // TODO
         ],
-      },
-      {
-        id: 23,
-        name: 'SENSIBILISER SON ENTOURAGE',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'renewableElectricty',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0.5,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 24,
-        name: 'ENRICHIR SES CONNAISSANCES',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'improveKnowledge',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0.5,
-        systemicWeakSignals: 1,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 25,
-        name: 'ORGANISER UN ÉVÉNEMENT DE SENSIBILISATION',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'organizeEventAwareness',
-        cost: 3,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 2,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 26,
-        name: 'PARTICIPER A UN ÉVÉNEMENT DE SENSIBILISATION',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'participateEventAwareness',
-        cost: 2,
-        peerInspirationScore: 1,
-        peerAwarenessScore: 2,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 27,
-        name: 'ORGANISER UN ÉVÉNEMENT MILITANT',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'organizeEventActivism',
-        cost: 3,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 3,
-        systemicPressureScore: 3,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 28,
-        name: 'PARTICIPER À UN ÉVÉNEMENT MILITANT',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'participateEventActivism',
-        cost: 2,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 3,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 29,
-        name: 'FAIRE DU LOBBYING AUPRÈS DES DÉCIDEURS',
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'lobbying',
-        cost: 2,
-        peerInspirationScore: 2,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 2,
-        systemicPressureScore: 3,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 30,
-        name: "S'IMPLIQUER DANS UN PROJET A IMPACT POSITIF",
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'projectPositiveImpact',
-        cost: 4,
-        peerInspirationScore: 4,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 4,
-        systemicPressureScore: 4,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 31,
-        name:
-          "TRAVAILLER DANS L'ACCOMPAGNEMENT D'UNE CHAÎNE DE VALEUR CARBONÉE",
-        type: 'individual',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'valueChain',
-        cost: 2,
-        peerInspirationScore: 4,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 4,
-        systemicPressureScore: 4,
-        reluctancyForCitizens: 1000,
-        operations: [],
-      },
-      {
-        id: 32,
-        name: 'VEHICULE INDIVIDUEL BAS CARBONE',
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonVehicule',
-        cost: 4,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'categoryCarCommute',
-            operation: 'LOW_CARBON',
-          },
-          {
-            variable: 'categoryCarTravel',
-            operation: 'LOW_CARBON',
-          },
-        ],
-      },
-      {
-        id: 33,
-        name: 'DÉVELOPPER ET RÉHABILITER LE RESEAU FÉRRÉ',
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'developRailways',
-        cost: 3,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'kmCarCommutePerYear',
-            operation: { '*': [{ var: 'kmCarCommutePerYear' }, 0.8] },
-          },
-          {
-            variable: 'kmCarTravelPerYear',
-            operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.8] },
-          },
-          {
-            variable: 'kmUrbanTrainPerYear',
-            operation: {
-              '+': [
-                { var: 'kmUrbanTrainPerYear' },
-                { '*': [{ var: 'kmCarCommutePerYear' }, 0.2] },
-              ],
-            },
-          },
-          {
-            variable: 'kmCountryTrain',
-            operation: { '*': [{ var: 'kmCarTravelPerYear' }, 0.2] },
-          },
-        ],
-      },
-      {
-        id: 34,
-        name: "INTERDIRE L'AVION",
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'forbiddenPlane',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'kmPlane',
-            operation: 0,
-          },
-        ],
-      },
-      {
-        id: 35,
-        name:
-          'DÉVELOPPER UNE OFFRE DE VÉHICULES SERVICIELS ET LES AIRES DE COVOITURAGE ',
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'globalCarSharing',
-        cost: 2,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'passengersPerCarCommute',
-            operation: { max: [{ var: 'passengersPerCarCommute' }, 2.4] },
-          },
-          {
-            variable: 'passengersPerCarTravel',
-            operation: { max: [{ var: 'passengersPerCarTravel' }, 2.4] },
-          },
-        ],
-      },
-      {
-        id: 36,
-        name: 'RÉNOVER LES LOGEMENTS',
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'renovateHousing',
-        cost: 3,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'woodHeatingKwh',
-            operation: {
-              min: [{ var: 'woodHeatingKwh' }, 40.0],
-            },
-          },
-          {
-            variable: 'gasHeatingKwh',
-            operation: {
-              min: [{ var: 'gasHeatingKwh' }, 40.0],
-            },
-          },
-          {
-            variable: 'fuelHeatingKwh',
-            operation: {
-              min: [{ var: 'fuelHeatingKwh' }, 40.0],
-            },
-          },
-          {
-            variable: 'elecHeatingKwh',
-            operation: {
-              min: [{ var: 'elecHeatingKwh' }, 40.0],
-            },
-          },
-        ],
-      },
-      {
-        id: 37,
-        name:
-          'DÉPLOYER LES SYSTEMES DE CHAUFFAGE BAS CARBONE DANS LES LOGEMENTS ',
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonHeating',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'woodHeatingKwh',
-            operation: 0,
-          },
-          {
-            variable: 'gasHeatingKwh',
-            operation: 0,
-          },
-          {
-            variable: 'fuelHeatingKwh',
-            operation: 0,
-          },
-          {
-            variable: 'elecHeatingKwh',
-            operation: {
-              '+': [
-                { var: 'elecHeatingKwh' },
-                { var: 'woodHeatingKwh' },
-                { var: 'gasHeatingKwh' },
-                { var: 'fuelHeatingKwh' },
-              ],
-            },
-          },
-          {
-            variable: 'woodWaterHeatingKwh',
-            operation: 0,
-          },
-          {
-            variable: 'gasWaterHeatingKwh',
-            operation: 0,
-          },
-          {
-            variable: 'fuelWaterHeatingKwh',
-            operation: 0,
-          },
-          {
-            variable: 'elecWaterHeatingKwh',
-            operation: {
-              '+': [
-                { var: 'elecWaterHeatingKwh' },
-                { var: 'woodWaterHeatingKwh' },
-                { var: 'gasWaterHeatingKwh' },
-                { var: 'fuelWaterHeatingKwh' },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        id: 38,
-        name:
-          "PRODUIRE DES APPAREILS ELECTROMENAGERS ET D'ECLAIRAGE PEU CONSOMMATEURS D'ENERGIE",
-        type: 'everyone',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'lowCarbonAppliances',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'elecLightningKwh',
-            operation: { '*': [{ var: 'elecLightningKwh' }, 0.5] },
-          },
-        ],
-      },
-      {
-        id: 39,
-        name: 'RENOVER LES BÂTIMENTS DU TERTIAIRE',
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'tertiaryBuildingsRenovation',
-        cost: 3,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'CF_GAS_SERVICES',
-            operation: { '*': [{ var: 'CF_GAS_SERVICES' }, 0.464] },
-          },
-          {
-            variable: 'CF_ELEC_SERVICES',
-            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.464] },
-          },
-          {
-            variable: 'EI_ACTIVITIES_GAS',
-            operation: { '*': [{ var: 'EI_ACTIVITIES_GAS' }, 0.464] },
-          },
-          {
-            variable: 'EI_ACTIVITIES_ELEC',
-            operation: {
-              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.464],
-            },
-          },
-        ],
-      },
-      {
-        id: 40,
-        name: "ÉVITER LES GASPILLAGES D'ÉLECTRICITE DANS LE TERTIAIRE",
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'tertiaryElectricityEconomies',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'CF_ELEC_SERVICES',
-            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.6] },
-          },
-          {
-            variable: 'EI_ACTIVITIES_ELEC',
-            operation: {
-              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.6],
-            },
-          },
-        ],
-      },
-      {
-        id: 41,
-        name: 'LUTTER CONTRE LE GASPILLAGE ALIMENTAIRE',
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'lessFoodWaste',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'EI_RED_MEAT',
-            operation: { '*': [{ var: 'EI_RED_MEAT' }, 0.98] },
-          },
-          {
-            variable: 'EI_WHITE_MEAT',
-            operation: { '*': [{ var: 'EI_WHITE_MEAT' }, 0.98] },
-          },
-          {
-            variable: 'EI_FISH',
-            operation: { '*': [{ var: 'EI_FISH' }, 0.98] },
-          },
-          {
-            variable: 'EI_EGGS',
-            operation: { '*': [{ var: 'EI_EGGS' }, 0.98] },
-          },
-          {
-            variable: 'EI_DAIRIES',
-            operation: { '*': [{ var: 'EI_DAIRIES' }, 0.98] },
-          },
-          {
-            variable: 'EI_LOCAL_FRUITS_AND_VEGETABLES',
-            operation: {
-              '*': [{ var: 'EI_LOCAL_FRUITS_AND_VEGETABLES' }, 0.98],
-            },
-          },
-          {
-            variable: 'EI_IMPORTED_FRUITS_AND_VEGETABLES',
-            operation: {
-              '*': [{ var: 'EI_IMPORTED_FRUITS_AND_VEGETABLES' }, 0.98],
-            },
-          },
-          {
-            variable: 'EI_TRANSFORMED_PRODUCTS',
-            operation: { '*': [{ var: 'EI_TRANSFORMED_PRODUCTS' }, 0.98] },
-          },
-          {
-            variable: 'EI_STARCHES_AND_GROCERIES',
-            operation: { '*': [{ var: 'EI_STARCHES_AND_GROCERIES' }, 0.98] },
-          },
-          {
-            variable: 'EI_ALCOHOL',
-            operation: { '*': [{ var: 'EI_ALCOHOL' }, 0.98] },
-          },
-          {
-            variable: 'EI_HOT_DRINKS',
-            operation: { '*': [{ var: 'EI_HOT_DRINKS' }, 0.98] },
-          },
-          {
-            variable: 'EI_JUICES_AND_SODAS',
-            operation: { '*': [{ var: 'EI_JUICES_AND_SODAS' }, 0.98] },
-          },
-        ],
-      },
-      {
-        id: 42,
-        name: 'DEVELOPPER LA METHANISATION',
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'anaerobicDigestion',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'EI_GAS_PER_KWH',
-            operation: {
-              '*': [{ var: 'EI_GAS_PER_KWH' }, 0.1],
-            },
-          },
-          {
-            variable: 'EI_ACTIVITIES_GAS',
-            operation: {
-              '*': [{ var: 'EI_ACTIVITIES_GAS' }, 0.1],
-            },
-          },
-          {
-            variable: 'CF_GAS_SERVICES',
-            operation: {
-              '*': [{ var: 'CF_GAS_SERVICES' }, 0.1],
-            },
-          },
-        ],
-      },
-      {
-        id: 43,
-        name: 'FERMER LES CENTRALES THERMIQUES',
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'closeThermalPowerStations',
-        cost: 1,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'EI_ELEC_CONVENTIONAL_PER_KWH',
-            operation: 0.04,
-          },
-          {
-            variable: 'CF_ELEC_SERVICES',
-            operation: { '*': [{ var: 'CF_ELEC_SERVICES' }, 0.39] },
-          },
-          {
-            variable: 'EI_ACTIVITIES_ELEC',
-            operation: {
-              '*': [{ var: 'EI_ACTIVITIES_ELEC' }, 0.39],
-            },
-          },
-        ],
-      },
-      {
-        id: 44,
-        name: 'DEVELOPPER LES ENERGIES RENOUVELABLES ELECTRIQUES',
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'renewableElectricty',
-        cost: 2,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 0,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [
-          {
-            variable: 'EI_ELEC_CONVENTIONAL_PER_KWH',
-            operation: { '*': [{ var: 'EI_ELEC_CONVENTIONAL_PER_KWH' }, 1] },
-          },
-        ],
-      },
-      {
-        id: 45,
-        name: "INCLURE LES ENJEUX DE LA TRANSITION DANS L'ENSEIGNEMENT PUBLIC",
-        type: 'global',
-        category: 'ECOGESTES',
-        subCategory: 'BIENS DE CONSO',
-        key: 'renewableElectricty',
-        cost: 2,
-        peerInspirationScore: 0,
-        peerAwarenessScore: 30,
-        systemicWeakSignals: 0,
-        systemicPressureScore: 0,
-        reluctancyForCitizens: 1000,
-        operations: [],
       },
     ],
     actionCardBatches: [
@@ -2423,46 +1715,10 @@ export default {
         actionCardIds: [16, 17, 18],
       },
       {
-        id: 7,
-        name: 'Ind7',
-        type: 'individual',
-        actionCardIds: [19, 20, 21, 22],
-      },
-      {
-        id: 8,
-        name: 'Ind8',
-        type: 'individual',
-        actionCardIds: [23, 24, 25, 26],
-      },
-      {
-        id: 9,
-        name: 'Ind9',
-        type: 'individual',
-        actionCardIds: [27, 28, 29, 30, 31],
-      },
-      {
         id: 10,
         name: 'Col1',
         type: 'collective',
-        actionCardIds: [32, 33, 34, 35],
-      },
-      {
-        id: 11,
-        name: 'Col2',
-        type: 'collective',
-        actionCardIds: [36, 37, 38, 39],
-      },
-      {
-        id: 12,
-        name: 'Col3',
-        type: 'collective',
-        actionCardIds: [40, 41, 42, 43],
-      },
-      {
-        id: 13,
-        name: 'Col4',
-        type: 'collective',
-        actionCardIds: [44, 45],
+        actionCardIds: [20, 21],
       },
     ],
     globalCarbonVariables: {
@@ -2531,8 +1787,10 @@ export default {
       EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
       EI_WATER_PER_LITER: 0.000168,
       WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-      EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
-      EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
+      EI_ELEC_PER_KWH: {
+        CONVENTIONAL: 0.116,
+        ALTERNATIVE: 0.013,
+      },
       EI_GAS_PER_KWH: 0.227,
       EI_FUEL_OIL_PER_KWH: 0.323,
       EI_WOOD_PER_KWH: 0.03,
@@ -2582,11 +1840,6 @@ export default {
           ELECTRIC: 0.3125,
           HYBRID: 0.3125,
         },
-        LOW_CARBON: {
-          FUEL: 0.1,
-          ELECTRIC: 0.1,
-          HYBRID: 0.1,
-        },
       },
       MOTOR_AGING_FACTOR: {
         FUEL: {
@@ -2603,1240 +1856,6 @@ export default {
           TEN_YEARS_OR_YOUNGER: 1,
           BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
           FIFTEEN_YEARS_OR_OLDER: 1,
-        },
-      },
-      CF_GAS_SERVICES: 336,
-      CF_ELEC_SERVICES: 301,
-      CF_OTHER_SERVICES: 363,
-    },
-  },
-  participants: [
-    {
-      id: 1,
-      firstName: 'Emmanuel',
-      lastName: 'Macron',
-      email: 'emacron@elysees.fr',
-      role: 'participant',
-      status: 'registered',
-      carbonFootprintId: '123456',
-      surveyVariables: {
-        meatAndFishConsoPerDay: 0.5,
-        eggsAndDairiesConsoPerDay: 0.5,
-        fruitsAndVegetablePercentageLocal: 0.5,
-        transformedProductsConsoPerWeek: 3,
-        alcoholConsoGlassPerDay: 1,
-        hotDrinksConsoGlassPerDay: 5,
-        juicesAndSodasConsoGlassPerDay: 2,
-
-        // transports
-        categoryCarCommute: 'URBAN',
-        motorTypeCarCommute: 'FUEL',
-        ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
-        kmCarCommutePerDay: 25,
-        passengersPerCarCommute: 3,
-        hoursUrbanBusPerWeek: 1,
-        hoursCoachCommutePerWeek: 2,
-        hoursUrbanTrainPerWeek: 3,
-
-        categoryCarTravel: 'URBAN',
-        motorTypeCarTravel: 'FUEL',
-        ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
-
-        kmCarTravelPerYear: 8000,
-        passengersPerCarTravel: 3,
-
-        kmCoachTravel: 1000,
-        kmCountryTrain: 2000,
-        kmPlane: 3000,
-
-        // housing
-        residentsPerHousing: 3,
-        housingSurfaceArea: 60,
-        numberBigAppliances: 7,
-        numberSmallAppliances: 20,
-        housingType: 'HOUSE',
-        electricityProvider: 'ALTERNATIVE',
-        maintainanceDate: 'AFTER_2000',
-        energyConsumptionKnowledge: true,
-        heatingSystemEnergyType: 'GAS',
-        cookingAppliancesEnergyType: 'ELECTRICITY',
-        sanitoryHotWaterEnergyType: 'FUEL_OIL',
-
-        gasKwh: 100,
-        woodKwh: 100,
-        fuelKwh: 100,
-        elecKwh: 100,
-
-        // others
-        clothesNewItems: 30,
-        activitiesPerMonth: 3,
-        numberSmallDevices: 2,
-        numberBigDevices: 3,
-        internetStreamingHoursPerWeek: 5,
-      },
-    },
-    {
-      id: 2,
-      firstName: 'Brigitte',
-      lastName: 'Macron',
-      email: 'bmacron@elysees.fr',
-      role: 'participant',
-      status: 'registered',
-      carbonFootprintId: '123456678',
-      surveyVariables: {
-        meatAndFishConsoPerDay: 0.5,
-        eggsAndDairiesConsoPerDay: 0.5,
-        fruitsAndVegetablePercentageLocal: 0.5,
-        transformedProductsConsoPerWeek: 3,
-        alcoholConsoGlassPerDay: 1,
-        hotDrinksConsoGlassPerDay: 5,
-        juicesAndSodasConsoGlassPerDay: 2,
-
-        // transports
-        categoryCarCommute: 'URBAN',
-        motorTypeCarCommute: 'FUEL',
-        ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
-        kmCarCommutePerDay: 25,
-        passengersPerCarCommute: 3,
-        hoursUrbanBusPerWeek: 1,
-        hoursCoachCommutePerWeek: 2,
-        hoursUrbanTrainPerWeek: 3,
-
-        categoryCarTravel: 'URBAN',
-        motorTypeCarTravel: 'FUEL',
-        ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
-
-        kmCarTravelPerYear: 8000,
-        passengersPerCarTravel: 3,
-
-        kmCoachTravel: 1000,
-        kmCountryTrain: 2000,
-        kmPlane: 3000,
-
-        // housing
-        residentsPerHousing: 3,
-        housingSurfaceArea: 60,
-        numberBigAppliances: 7,
-        numberSmallAppliances: 20,
-        housingType: 'HOUSE',
-        electricityProvider: 'ALTERNATIVE',
-        maintainanceDate: 'AFTER_2000',
-        energyConsumptionKnowledge: true,
-        heatingSystemEnergyType: 'GAS',
-        cookingAppliancesEnergyType: 'ELECTRICITY',
-        sanitoryHotWaterEnergyType: 'FUEL_OIL',
-
-        gasKwh: 100,
-        woodKwh: 100,
-        fuelKwh: 100,
-        elecKwh: 100,
-
-        // others
-        clothesNewItems: 30,
-        activitiesPerMonth: 3,
-        numberSmallDevices: 2,
-        numberBigDevices: 3,
-        internetStreamingHoursPerWeek: 5,
-      },
-    },
-  ],
-  personas: [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-    },
-    {
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-    },
-  ],
-  citizens: [
-    {
-      id: 10,
-      firstName: 'John',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      reluctancy: 2,
-    },
-    {
-      id: 20,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      surveyVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      carbonVariables: {
-        meat_per_day: 9000,
-        car_type: 'futuristic',
-      },
-      reluctancy: 20,
-    },
-  ],
-  rounds: [
-    {
-      year: 2020,
-      carbonVariables: [
-        {
-          participantId: 1,
-          variables: {
-            residentsPerHousing: 3,
-            redMeatKgPerYear: 9.033750000000001,
-            whiteMeatKgPerYear: 9.033750000000001,
-            fishKgPerYear: 9.033750000000001,
-            eggsKgPerYear: 10.0375,
-            dairiesKgPerYear: 10.0375,
-            transformedProductsKgPerYear: 45.9,
-            fruitsAndVegetablesKgPerYear: 296.6928571428572,
-            starchesAndGroceriesKgPerYear: 165.9707142857143,
-            alcoholConsoLitersPerYear: 109.5,
-            hotDrinksConsoLitersPerYear: 36.5,
-            juicesAndSodasConsoLitersPerYear: 146,
-            kmCarCommutePerYear: 730,
-            kmUrbanBusPerYear: 612,
-            kmCoachCommutePerYear: 160,
-            kmUrbanTrainPerYear: 3825,
-            internetStreamingHoursPerYear: 255,
-            activitiesPerYear: 36,
-            woodHeatingKwh: 0,
-            woodCookingKwh: 0,
-            woodWaterHeatingKwh: 0,
-            gasHeatingKwh: 100,
-            gasCookingKwh: 0,
-            gasWaterHeatingKwh: 0,
-            fuelHeatingKwh: 0,
-            fuelCookingKwh: 0,
-            fuelWaterHeatingKwh: 0,
-            elecHeatingKwh: 0,
-            elecCookingKwh: 20.688007644529378,
-            elecLightningKwh: 79.31199235547062,
-            elecWaterHeatingKwh: 0,
-            fruitsAndVegetablePercentageLocal: 0.5,
-            categoryCarCommute: 'URBAN',
-            motorTypeCarCommute: 'FUEL',
-            ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
-            kmCarCommutePerDay: 25,
-            passengersPerCarCommute: 3,
-            coefficientEnergyEfficientDriving: 1,
-            categoryCarTravel: 'URBAN',
-            motorTypeCarTravel: 'FUEL',
-            ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
-            kmCarTravelPerYear: 8000,
-            passengersPerCarTravel: 3,
-            kmCoachTravel: 1000,
-            kmCountryTrain: 2000,
-            kmPlane: 3000,
-            houseSurfaceArea: 60,
-            flatSurfaceArea: 0,
-            numberBigAppliances: 7,
-            numberSmallAppliances: 20,
-            electricityProvider: 'ALTERNATIVE',
-            numberSmallDevices: 2,
-            numberBigDevices: 3,
-            clothesNewItems: 30,
-          },
-        },
-        {
-          participantId: 2,
-          variables: {
-            residentsPerHousing: 3,
-            redMeatKgPerYear: 9.033750000000001,
-            whiteMeatKgPerYear: 9.033750000000001,
-            fishKgPerYear: 9.033750000000001,
-            eggsKgPerYear: 10.0375,
-            dairiesKgPerYear: 10.0375,
-            transformedProductsKgPerYear: 45.9,
-            fruitsAndVegetablesKgPerYear: 296.6928571428572,
-            starchesAndGroceriesKgPerYear: 165.9707142857143,
-            alcoholConsoLitersPerYear: 109.5,
-            hotDrinksConsoLitersPerYear: 36.5,
-            juicesAndSodasConsoLitersPerYear: 146,
-            kmCarCommutePerYear: 730,
-            kmUrbanBusPerYear: 612,
-            kmCoachCommutePerYear: 160,
-            kmUrbanTrainPerYear: 3825,
-            internetStreamingHoursPerYear: 255,
-            activitiesPerYear: 36,
-            woodHeatingKwh: 0,
-            woodCookingKwh: 0,
-            woodWaterHeatingKwh: 0,
-            gasHeatingKwh: 100,
-            gasCookingKwh: 0,
-            gasWaterHeatingKwh: 0,
-            fuelHeatingKwh: 0,
-            fuelCookingKwh: 0,
-            fuelWaterHeatingKwh: 0,
-            elecHeatingKwh: 0,
-            elecCookingKwh: 20.688007644529378,
-            elecLightningKwh: 79.31199235547062,
-            elecWaterHeatingKwh: 0,
-            fruitsAndVegetablePercentageLocal: 0.5,
-            categoryCarCommute: 'URBAN',
-            motorTypeCarCommute: 'FUEL',
-            ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
-            kmCarCommutePerDay: 25,
-            passengersPerCarCommute: 3,
-            coefficientEnergyEfficientDriving: 1,
-            categoryCarTravel: 'URBAN',
-            motorTypeCarTravel: 'FUEL',
-            ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
-            kmCarTravelPerYear: 8000,
-            passengersPerCarTravel: 3,
-            kmCoachTravel: 1000,
-            kmCountryTrain: 2000,
-            kmPlane: 3000,
-            houseSurfaceArea: 60,
-            flatSurfaceArea: 0,
-            numberBigAppliances: 7,
-            numberSmallAppliances: 20,
-            electricityProvider: 'ALTERNATIVE',
-            numberSmallDevices: 2,
-            numberBigDevices: 3,
-            clothesNewItems: 30,
-          },
-        },
-      ],
-      carbonFootprints: [
-        {
-          participantId: 1,
-          footprint: {
-            name: 'totalFootprint',
-            children: [
-              {
-                name: 'transports',
-                children: [
-                  {
-                    name: 'plane',
-                    cfKey: 'cf_plane',
-                    value: 750,
-                  },
-                  {
-                    name: 'train',
-                    children: [
-                      {
-                        name: 'urbanTrain',
-                        cfKey: 'cf_urban_train',
-                        value: 38.25,
-                      },
-                      {
-                        name: 'countryTrain',
-                        cfKey: 'cf_country_train',
-                        value: 20,
-                      },
-                    ],
-                    value: 58.25,
-                  },
-                  {
-                    name: 'bus',
-                    children: [
-                      {
-                        name: 'coachCommute',
-                        cfKey: 'cf_coach_commute',
-                        value: 6.4,
-                      },
-                      {
-                        name: 'coachTravel',
-                        cfKey: 'cf_coach_travel',
-                        value: 40,
-                      },
-                    ],
-                    value: 46.4,
-                  },
-                  {
-                    name: 'car',
-                    children: [
-                      {
-                        name: 'dailyCommutes',
-                        cfKey: 'cf_car_commute',
-                        value: 53.25201203029334,
-                      },
-                      {
-                        name: 'exceptionalCommutes',
-                        cfKey: 'cf_car_travel',
-                        value: 583.5836934826667,
-                      },
-                    ],
-                    value: 636.8357055129601,
-                  },
-                ],
-                value: 1491.48570551296,
-              },
-              {
-                name: 'housing',
-                children: [
-                  {
-                    name: 'housingEquipment',
-                    children: [
-                      {
-                        name: 'appliances',
-                        children: [
-                          {
-                            name: 'smallAppliances',
-                            cfKey: 'cf_small_appliances',
-                            value: 46.666666666666664,
-                          },
-                          {
-                            name: 'bigApplicances',
-                            cfKey: 'cf_big_appliances',
-                            value: 54.36666666666667,
-                          },
-                        ],
-                        value: 101.03333333333333,
-                      },
-                      {
-                        name: 'furnitures',
-                        children: [
-                          {
-                            name: 'furnituresPerSurface',
-                            cfKey: 'cf_furnitures',
-                            value: 79,
-                          },
-                          {
-                            name: 'furnituresMin',
-                            cfKey: 'cf_furnitures_min',
-                            value: 73.4044444,
-                          },
-                        ],
-                        value: 152.4044444,
-                      },
-                    ],
-                    value: 253.43777773333332,
-                  },
-                  {
-                    name: 'constructionAndMaintenance',
-                    children: [
-                      {
-                        name: 'construction',
-                        children: [
-                          {
-                            name: 'houseConstruction',
-                            cfKey: 'cf_house_construction',
-                            value: 283.34,
-                          },
-                          {
-                            name: 'flatConstruction',
-                            cfKey: 'cf_flat_construction',
-                            value: 0,
-                          },
-                        ],
-                        value: 283.34,
-                      },
-                      {
-                        name: 'construction',
-                        cfKey: 'cf_maintenance',
-                        value: 13.88,
-                      },
-                    ],
-                    value: 297.21999999999997,
-                  },
-                  {
-                    name: 'energies',
-                    children: [
-                      {
-                        name: 'water',
-                        cfKey: 'cf_water',
-                        value: 9.07536,
-                      },
-                      {
-                        name: 'electricity',
-                        children: [
-                          {
-                            name: 'elecHeating',
-                            cfKey: 'cf_elec_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'elecCooking',
-                            cfKey: 'cf_elec_cooking',
-                            value: 0.2689440993788819,
-                          },
-                          {
-                            name: 'elecWaterHeating',
-                            cfKey: 'cf_elec_water_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'elecLightning',
-                            cfKey: 'cf_elec_lightning',
-                            value: 1.031055900621118,
-                          },
-                        ],
-                        value: 1.2999999999999998,
-                      },
-                      {
-                        name: 'gas',
-                        children: [
-                          {
-                            name: 'gasHeating',
-                            cfKey: 'cf_gas_heating',
-                            value: 22.7,
-                          },
-                          {
-                            name: 'gasCooking',
-                            cfKey: 'cf_gas_cooking',
-                            value: 0,
-                          },
-                          {
-                            name: 'gasWaterHeating',
-                            cfKey: 'cf_gas_water_heating',
-                            value: 0,
-                          },
-                        ],
-                        value: 22.7,
-                      },
-                      {
-                        name: 'fuel',
-                        children: [
-                          {
-                            name: 'fuelHeating',
-                            cfKey: 'cf_fuel_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'fuelCooking',
-                            cfKey: 'cf_fuel_cooking',
-                            value: 0,
-                          },
-                          {
-                            name: 'fuelWaterHeating',
-                            cfKey: 'cf_fuel_water_heating',
-                            value: 0,
-                          },
-                        ],
-                        value: 0,
-                      },
-                      {
-                        name: 'wood',
-                        children: [
-                          {
-                            name: 'woodHeating',
-                            cfKey: 'cf_wood_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'woodCooking',
-                            cfKey: 'cf_wood_cooking',
-                            value: 0,
-                          },
-                          {
-                            name: 'woodWaterHeating',
-                            cfKey: 'cf_wood_water_heating',
-                            value: 0,
-                          },
-                        ],
-                        value: 0,
-                      },
-                      {
-                        name: 'districtHeating',
-                        cfKey: 'cf_district_heating',
-                        value: 0,
-                      },
-                    ],
-                    value: 33.07536,
-                  },
-                ],
-                value: 583.7331377333334,
-              },
-              {
-                name: 'food',
-                children: [
-                  {
-                    name: 'drinks',
-                    children: [
-                      {
-                        name: 'alcohol',
-                        cfKey: 'cf_alcohol',
-                        value: 228.855,
-                      },
-                      {
-                        name: 'hotDrinks',
-                        cfKey: 'cf_hot_drinks',
-                        value: 112.42,
-                      },
-                      {
-                        name: 'juicesAndSoda',
-                        cfKey: 'cf_juices_and_sodas',
-                        value: 214.62,
-                      },
-                    ],
-                    value: 555.895,
-                  },
-                  {
-                    name: 'meat',
-                    children: [
-                      {
-                        name: 'red_meat',
-                        cfKey: 'cf_red_meat',
-                        value: 116.44503750000003,
-                      },
-                      {
-                        name: 'white_meat',
-                        cfKey: 'cf_white_meat',
-                        value: 116.44503750000003,
-                      },
-                    ],
-                    value: 232.89007500000005,
-                  },
-                  {
-                    name: 'fish',
-                    cfKey: 'cf_fish',
-                    value: 116.44503750000003,
-                  },
-                  {
-                    name: 'eggsAndDairies',
-                    children: [
-                      {
-                        name: 'eggs',
-                        cfKey: 'cf_eggs',
-                        value: 35.833875,
-                      },
-                      {
-                        name: 'dairies',
-                        cfKey: 'cf_dairies',
-                        value: 35.833875,
-                      },
-                    ],
-                    value: 71.66775,
-                  },
-                  {
-                    name: 'others',
-                    children: [
-                      {
-                        name: 'transformedProducts',
-                        cfKey: 'cf_transformed_products',
-                        value: 198.288,
-                      },
-                      {
-                        name: 'groceriesAndStarches',
-                        cfKey: 'cf_starches_and_groceries',
-                        value: 240.65753571428573,
-                      },
-                      {
-                        name: 'fruitsAndVegetables',
-                        children: [
-                          {
-                            name: 'localFruitsAndVegeteables',
-                            cfKey: 'cf_local_fruits_and_vegetables',
-                            value: 38.57007142857143,
-                          },
-                          {
-                            name: 'importedFruitsAndVegeteables',
-                            cfKey: 'cf_imported_fruits_and_vegetables',
-                            value: 332.29600000000005,
-                          },
-                        ],
-                        value: 370.8660714285715,
-                      },
-                    ],
-                    value: 809.8116071428572,
-                  },
-                ],
-                value: 1786.7094696428571,
-              },
-              {
-                name: 'others',
-                children: [
-                  {
-                    name: 'clothing',
-                    cfKey: 'cf_clothes',
-                    value: 671.4,
-                  },
-                  {
-                    name: 'digital',
-                    children: [
-                      {
-                        name: 'devices',
-                        children: [
-                          {
-                            name: 'smallDevices',
-                            cfKey: 'cf_small_devices_cradle_to_crate',
-                            value: 25,
-                          },
-                          {
-                            name: 'bigDevices',
-                            cfKey: 'cf_big_devices_cradle_to_crate',
-                            value: 143.39999999999998,
-                          },
-                        ],
-                        value: 168.39999999999998,
-                      },
-                      {
-                        name: 'internetUsage',
-                        children: [
-                          {
-                            name: 'internetStreaming',
-                            cfKey: 'cf_internet_streaming',
-                            value: 31.875,
-                          },
-                          {
-                            name: 'internetOthers',
-                            cfKey: 'cf_internet_others',
-                            value: 48.66,
-                          },
-                        ],
-                        value: 80.535,
-                      },
-                    ],
-                    value: 248.93499999999997,
-                  },
-                  {
-                    name: 'others',
-                    children: [
-                      {
-                        name: 'activities',
-                        children: [
-                          {
-                            name: 'activitiesElectricity',
-                            cfKey: 'cf_activities_electricity',
-                            value: 23.76,
-                          },
-                          {
-                            name: 'activitiesGas',
-                            cfKey: 'cf_activities_gas',
-                            value: 26.64,
-                          },
-                          {
-                            name: 'activitiesWithoutEnergy',
-                            cfKey: 'cf_activities_without_energy',
-                            value: 23.76,
-                          },
-                        ],
-                        value: 74.16000000000001,
-                      },
-                      {
-                        name: 'goodsAndServices',
-                        children: [
-                          {
-                            name: 'servicesElectricity',
-                            cfKey: 'cf_services_electricity',
-                            value: 62.88,
-                          },
-                          {
-                            name: 'servicesGas',
-                            cfKey: 'cf_services_gas',
-                            value: 70.19,
-                          },
-                          {
-                            name: 'servicesWithoutEnergy',
-                            cfKey: 'cf_services_without_energy',
-                            value: 211.92,
-                          },
-                        ],
-                        value: 344.99,
-                      },
-                    ],
-                    value: 419.15000000000003,
-                  },
-                ],
-                value: 1339.485,
-              },
-              {
-                name: 'publicServices',
-                children: [
-                  {
-                    name: 'gasPublicServices',
-                    cfKey: 'cf_gas_public_services',
-                    value: 336,
-                  },
-                  {
-                    name: 'elecPublicServices',
-                    cfKey: 'cf_elec_public_services',
-                    value: 301,
-                  },
-                  {
-                    name: 'otherPublicServices',
-                    cfKey: 'cf_other_public_services',
-                    value: 363,
-                  },
-                ],
-                value: 1000,
-              },
-            ],
-            value: 6201.413312889151,
-          },
-        },
-        {
-          participantId: 2,
-          footprint: {
-            name: 'totalFootprint',
-            children: [
-              {
-                name: 'transports',
-                children: [
-                  {
-                    name: 'plane',
-                    cfKey: 'cf_plane',
-                    value: 750,
-                  },
-                  {
-                    name: 'train',
-                    children: [
-                      {
-                        name: 'urbanTrain',
-                        cfKey: 'cf_urban_train',
-                        value: 38.25,
-                      },
-                      {
-                        name: 'countryTrain',
-                        cfKey: 'cf_country_train',
-                        value: 20,
-                      },
-                    ],
-                    value: 58.25,
-                  },
-                  {
-                    name: 'bus',
-                    children: [
-                      {
-                        name: 'coachCommute',
-                        cfKey: 'cf_coach_commute',
-                        value: 6.4,
-                      },
-                      {
-                        name: 'coachTravel',
-                        cfKey: 'cf_coach_travel',
-                        value: 40,
-                      },
-                    ],
-                    value: 46.4,
-                  },
-                  {
-                    name: 'car',
-                    children: [
-                      {
-                        name: 'dailyCommutes',
-                        cfKey: 'cf_car_commute',
-                        value: 53.25201203029334,
-                      },
-                      {
-                        name: 'exceptionalCommutes',
-                        cfKey: 'cf_car_travel',
-                        value: 583.5836934826667,
-                      },
-                    ],
-                    value: 636.8357055129601,
-                  },
-                ],
-                value: 1491.48570551296,
-              },
-              {
-                name: 'housing',
-                children: [
-                  {
-                    name: 'housingEquipment',
-                    children: [
-                      {
-                        name: 'appliances',
-                        children: [
-                          {
-                            name: 'smallAppliances',
-                            cfKey: 'cf_small_appliances',
-                            value: 46.666666666666664,
-                          },
-                          {
-                            name: 'bigApplicances',
-                            cfKey: 'cf_big_appliances',
-                            value: 54.36666666666667,
-                          },
-                        ],
-                        value: 101.03333333333333,
-                      },
-                      {
-                        name: 'furnitures',
-                        children: [
-                          {
-                            name: 'furnituresPerSurface',
-                            cfKey: 'cf_furnitures',
-                            value: 79,
-                          },
-                          {
-                            name: 'furnituresMin',
-                            cfKey: 'cf_furnitures_min',
-                            value: 73.4044444,
-                          },
-                        ],
-                        value: 152.4044444,
-                      },
-                    ],
-                    value: 253.43777773333332,
-                  },
-                  {
-                    name: 'constructionAndMaintenance',
-                    children: [
-                      {
-                        name: 'construction',
-                        children: [
-                          {
-                            name: 'houseConstruction',
-                            cfKey: 'cf_house_construction',
-                            value: 283.34,
-                          },
-                          {
-                            name: 'flatConstruction',
-                            cfKey: 'cf_flat_construction',
-                            value: 0,
-                          },
-                        ],
-                        value: 283.34,
-                      },
-                      {
-                        name: 'construction',
-                        cfKey: 'cf_maintenance',
-                        value: 13.88,
-                      },
-                    ],
-                    value: 297.21999999999997,
-                  },
-                  {
-                    name: 'energies',
-                    children: [
-                      {
-                        name: 'water',
-                        cfKey: 'cf_water',
-                        value: 9.07536,
-                      },
-                      {
-                        name: 'electricity',
-                        children: [
-                          {
-                            name: 'elecHeating',
-                            cfKey: 'cf_elec_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'elecCooking',
-                            cfKey: 'cf_elec_cooking',
-                            value: 0.2689440993788819,
-                          },
-                          {
-                            name: 'elecWaterHeating',
-                            cfKey: 'cf_elec_water_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'elecLightning',
-                            cfKey: 'cf_elec_lightning',
-                            value: 1.031055900621118,
-                          },
-                        ],
-                        value: 1.2999999999999998,
-                      },
-                      {
-                        name: 'gas',
-                        children: [
-                          {
-                            name: 'gasHeating',
-                            cfKey: 'cf_gas_heating',
-                            value: 22.7,
-                          },
-                          {
-                            name: 'gasCooking',
-                            cfKey: 'cf_gas_cooking',
-                            value: 0,
-                          },
-                          {
-                            name: 'gasWaterHeating',
-                            cfKey: 'cf_gas_water_heating',
-                            value: 0,
-                          },
-                        ],
-                        value: 22.7,
-                      },
-                      {
-                        name: 'fuel',
-                        children: [
-                          {
-                            name: 'fuelHeating',
-                            cfKey: 'cf_fuel_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'fuelCooking',
-                            cfKey: 'cf_fuel_cooking',
-                            value: 0,
-                          },
-                          {
-                            name: 'fuelWaterHeating',
-                            cfKey: 'cf_fuel_water_heating',
-                            value: 0,
-                          },
-                        ],
-                        value: 0,
-                      },
-                      {
-                        name: 'wood',
-                        children: [
-                          {
-                            name: 'woodHeating',
-                            cfKey: 'cf_wood_heating',
-                            value: 0,
-                          },
-                          {
-                            name: 'woodCooking',
-                            cfKey: 'cf_wood_cooking',
-                            value: 0,
-                          },
-                          {
-                            name: 'woodWaterHeating',
-                            cfKey: 'cf_wood_water_heating',
-                            value: 0,
-                          },
-                        ],
-                        value: 0,
-                      },
-                      {
-                        name: 'districtHeating',
-                        cfKey: 'cf_district_heating',
-                        value: 0,
-                      },
-                    ],
-                    value: 33.07536,
-                  },
-                ],
-                value: 583.7331377333334,
-              },
-              {
-                name: 'food',
-                children: [
-                  {
-                    name: 'drinks',
-                    children: [
-                      {
-                        name: 'alcohol',
-                        cfKey: 'cf_alcohol',
-                        value: 228.855,
-                      },
-                      {
-                        name: 'hotDrinks',
-                        cfKey: 'cf_hot_drinks',
-                        value: 112.42,
-                      },
-                      {
-                        name: 'juicesAndSoda',
-                        cfKey: 'cf_juices_and_sodas',
-                        value: 214.62,
-                      },
-                    ],
-                    value: 555.895,
-                  },
-                  {
-                    name: 'meat',
-                    children: [
-                      {
-                        name: 'red_meat',
-                        cfKey: 'cf_red_meat',
-                        value: 116.44503750000003,
-                      },
-                      {
-                        name: 'white_meat',
-                        cfKey: 'cf_white_meat',
-                        value: 116.44503750000003,
-                      },
-                    ],
-                    value: 232.89007500000005,
-                  },
-                  {
-                    name: 'fish',
-                    cfKey: 'cf_fish',
-                    value: 116.44503750000003,
-                  },
-                  {
-                    name: 'eggsAndDairies',
-                    children: [
-                      {
-                        name: 'eggs',
-                        cfKey: 'cf_eggs',
-                        value: 35.833875,
-                      },
-                      {
-                        name: 'dairies',
-                        cfKey: 'cf_dairies',
-                        value: 35.833875,
-                      },
-                    ],
-                    value: 71.66775,
-                  },
-                  {
-                    name: 'others',
-                    children: [
-                      {
-                        name: 'transformedProducts',
-                        cfKey: 'cf_transformed_products',
-                        value: 198.288,
-                      },
-                      {
-                        name: 'groceriesAndStarches',
-                        cfKey: 'cf_starches_and_groceries',
-                        value: 240.65753571428573,
-                      },
-                      {
-                        name: 'fruitsAndVegetables',
-                        children: [
-                          {
-                            name: 'localFruitsAndVegeteables',
-                            cfKey: 'cf_local_fruits_and_vegetables',
-                            value: 38.57007142857143,
-                          },
-                          {
-                            name: 'importedFruitsAndVegeteables',
-                            cfKey: 'cf_imported_fruits_and_vegetables',
-                            value: 332.29600000000005,
-                          },
-                        ],
-                        value: 370.8660714285715,
-                      },
-                    ],
-                    value: 809.8116071428572,
-                  },
-                ],
-                value: 1786.7094696428571,
-              },
-              {
-                name: 'others',
-                children: [
-                  {
-                    name: 'clothing',
-                    cfKey: 'cf_clothes',
-                    value: 671.4,
-                  },
-                  {
-                    name: 'digital',
-                    children: [
-                      {
-                        name: 'devices',
-                        children: [
-                          {
-                            name: 'smallDevices',
-                            cfKey: 'cf_small_devices_cradle_to_crate',
-                            value: 25,
-                          },
-                          {
-                            name: 'bigDevices',
-                            cfKey: 'cf_big_devices_cradle_to_crate',
-                            value: 143.39999999999998,
-                          },
-                        ],
-                        value: 168.39999999999998,
-                      },
-                      {
-                        name: 'internetUsage',
-                        children: [
-                          {
-                            name: 'internetStreaming',
-                            cfKey: 'cf_internet_streaming',
-                            value: 31.875,
-                          },
-                          {
-                            name: 'internetOthers',
-                            cfKey: 'cf_internet_others',
-                            value: 48.66,
-                          },
-                        ],
-                        value: 80.535,
-                      },
-                    ],
-                    value: 248.93499999999997,
-                  },
-                  {
-                    name: 'others',
-                    children: [
-                      {
-                        name: 'activities',
-                        children: [
-                          {
-                            name: 'activitiesElectricity',
-                            cfKey: 'cf_activities_electricity',
-                            value: 23.76,
-                          },
-                          {
-                            name: 'activitiesGas',
-                            cfKey: 'cf_activities_gas',
-                            value: 26.64,
-                          },
-                          {
-                            name: 'activitiesWithoutEnergy',
-                            cfKey: 'cf_activities_without_energy',
-                            value: 23.76,
-                          },
-                        ],
-                        value: 74.16000000000001,
-                      },
-                      {
-                        name: 'goodsAndServices',
-                        children: [
-                          {
-                            name: 'servicesElectricity',
-                            cfKey: 'cf_services_electricity',
-                            value: 62.88,
-                          },
-                          {
-                            name: 'servicesGas',
-                            cfKey: 'cf_services_gas',
-                            value: 70.19,
-                          },
-                          {
-                            name: 'servicesWithoutEnergy',
-                            cfKey: 'cf_services_without_energy',
-                            value: 211.92,
-                          },
-                        ],
-                        value: 344.99,
-                      },
-                    ],
-                    value: 419.15000000000003,
-                  },
-                ],
-                value: 1339.485,
-              },
-              {
-                name: 'publicServices',
-                children: [
-                  {
-                    name: 'gasPublicServices',
-                    cfKey: 'cf_gas_public_services',
-                    value: 336,
-                  },
-                  {
-                    name: 'elecPublicServices',
-                    cfKey: 'cf_elec_public_services',
-                    value: 301,
-                  },
-                  {
-                    name: 'otherPublicServices',
-                    cfKey: 'cf_other_public_services',
-                    value: 363,
-                  },
-                ],
-                value: 1000,
-              },
-            ],
-            value: 6201.413312889151,
-          },
         },
       },
       CF_GAS_SERVICES: 336,
@@ -4048,7 +2067,7 @@ export default {
   ],
   participants: [
     {
-      id: '1',
+      id: 1,
       firstName: 'Emmanuel',
       lastName: 'Macron',
       email: 'emacron@elysees.fr',
@@ -4112,7 +2131,7 @@ export default {
       },
     },
     {
-      id: '2',
+      id: 2,
       firstName: 'Brigitte',
       lastName: 'Macron',
       email: 'bmacron@elysees.fr',
@@ -4181,7 +2200,7 @@ export default {
       year: 2020,
       carbonVariables: [
         {
-          citizenId: 10,
+          participantId: 1,
           variables: {
             residentsPerHousing: 3,
             redMeatKgPerYear: 9.033750000000001,
@@ -4240,7 +2259,7 @@ export default {
           },
         },
         {
-          citizenId: 20,
+          participantId: 2,
           variables: {
             residentsPerHousing: 3,
             redMeatKgPerYear: 9.033750000000001,
@@ -4299,9 +2318,9 @@ export default {
           },
         },
       ],
-      citizenCarbonFootprints: [
+      carbonFootprints: [
         {
-          citizenId: 10,
+          participantId: 1,
           footprint: {
             name: 'totalFootprint',
             children: [
@@ -4759,7 +2778,7 @@ export default {
           },
         },
         {
-          citizenId: 20,
+          participantId: 2,
           footprint: {
             name: 'totalFootprint',
             children: [
@@ -5223,6 +3242,7 @@ export default {
         budget: 4,
         actionCardBatchIds: [1, 2],
       },
+
       globalCarbonVariables: {
         EI_URBAN_BUS: 0.15,
         MEAN_SPEED_URBAN_BUS: 12,
@@ -5289,8 +3309,10 @@ export default {
         EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
         EI_WATER_PER_LITER: 0.000168,
         WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-        EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
-        EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
+        EI_ELEC_PER_KWH: {
+          CONVENTIONAL: 0.116,
+          ALTERNATIVE: 0.013,
+        },
         EI_GAS_PER_KWH: 0.227,
         EI_FUEL_OIL_PER_KWH: 0.323,
         EI_WOOD_PER_KWH: 0.03,
@@ -5340,11 +3362,6 @@ export default {
             ELECTRIC: 0.3125,
             HYBRID: 0.3125,
           },
-          LOW_CARBON: {
-            FUEL: 0.1,
-            ELECTRIC: 0.1,
-            HYBRID: 0.1,
-          },
         },
         MOTOR_AGING_FACTOR: {
           FUEL: {
@@ -5366,10 +3383,6 @@ export default {
         CF_GAS_SERVICES: 336,
         CF_ELEC_SERVICES: 301,
         CF_OTHER_SERVICES: 363,
-      },
-      socialVariables: {
-        socialScore: 12,
-        influenceScore: 17,
       },
       // individualChoices: [
       //   {
@@ -5397,7 +3410,7 @@ export default {
             alcohol_conso_glass_per_day: 1,
             hot_drinks_conso_glass_per_day: 5,
             juices_and_sodas_conso_glass_per_day: 2,
- 
+
             // transports
             category_car_commute: 'URBAN',
             motor_type_car_commute: 'FUEL',
@@ -5408,14 +3421,14 @@ export default {
             hours_coach_commute_per_week: 2,
             hours_urban_train_per_week: 3,
             coefficient_energy_efficient_driving: 1,
- 
+
             category_car_travel: 'URBAN',
             motor_type_car_travel: 'FUEL',
             age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
- 
+
             km_per_year_car_travel: 8000,
             passengers_per_car_travel: 3,
- 
+
             km_coach_travel: 1000,
             km_country_train: 2000,
             km_plane: 3000,
@@ -5433,7 +3446,7 @@ export default {
             heating_system_energy_type: 'GAS',
             cooking_appliances_energy_type: 'ELECTRICITY',
             sanitory_hot_water_energy_type: 'FUEL_OIL',
- 
+
             elec_lightning_kwh: 100,
             elec_water_heating_kwh: 100,
             elec_cooking_kwh: 100,
@@ -5447,7 +3460,7 @@ export default {
             wood_water_heating_kwh: 100,
             wood_cooking_kwh: 100,
             wood_heating_kwh: 100,
- 
+
             // others
             clothes_new_items: 30,
             activities_per_month: 3,
@@ -5480,7 +3493,7 @@ export default {
             alcohol_conso_glass_per_day: 1,
             hot_drinks_conso_glass_per_day: 5,
             juices_and_sodas_conso_glass_per_day: 2,
- 
+
             // transports
             category_car_commute: 'URBAN',
             motor_type_car_commute: 'FUEL',
@@ -5491,14 +3504,14 @@ export default {
             hours_coach_commute_per_week: 2,
             hours_urban_train_per_week: 3,
             coefficient_energy_efficient_driving: 1,
- 
+
             category_car_travel: 'URBAN',
             motor_type_car_travel: 'FUEL',
             age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
- 
+
             km_per_year_car_travel: 8000,
             passengers_per_car_travel: 3,
- 
+
             km_coach_travel: 1000,
             km_country_train: 2000,
             km_plane: 3000,
@@ -5516,7 +3529,7 @@ export default {
             heating_system_energy_type: 'GAS',
             cooking_appliances_energy_type: 'ELECTRICITY',
             sanitory_hot_water_energy_type: 'FUEL_OIL',
- 
+
             elec_lightning_kwh: 100,
             elec_water_heating_kwh: 100,
             elec_cooking_kwh: 100,
@@ -5530,7 +3543,7 @@ export default {
             wood_water_heating_kwh: 100,
             wood_cooking_kwh: 100,
             wood_heating_kwh: 100,
- 
+
             // others
             clothes_new_items: 30,
             activities_per_month: 3,
@@ -5551,7 +3564,7 @@ export default {
             alcohol_conso_glass_per_day: 1,
             hot_drinks_conso_glass_per_day: 5,
             juices_and_sodas_conso_glass_per_day: 2,
- 
+
             // transports
             category_car_commute: 'URBAN',
             motor_type_car_commute: 'FUEL',
@@ -5562,14 +3575,14 @@ export default {
             hours_coach_commute_per_week: 2,
             hours_urban_train_per_week: 3,
             coefficient_energy_efficient_driving: 1,
- 
+
             category_car_travel: 'URBAN',
             motor_type_car_travel: 'FUEL',
             age_category_car_travel: 'TEN_YEARS_OR_YOUNGER',
- 
+
             km_per_year_car_travel: 8000,
             passengers_per_car_travel: 3,
- 
+
             km_coach_travel: 1000,
             km_country_train: 2000,
             km_plane: 3000,
@@ -5587,7 +3600,7 @@ export default {
             heating_system_energy_type: 'GAS',
             cooking_appliances_energy_type: 'ELECTRICITY',
             sanitory_hot_water_energy_type: 'FUEL_OIL',
- 
+
             elec_lightning_kwh: 100,
             elec_water_heating_kwh: 100,
             elec_cooking_kwh: 100,
@@ -5601,7 +3614,7 @@ export default {
             wood_water_heating_kwh: 100,
             wood_cooking_kwh: 100,
             wood_heating_kwh: 100,
- 
+
             // others
             clothes_new_items: 30,
             activities_per_month: 3,

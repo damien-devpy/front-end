@@ -71,11 +71,6 @@ const EvolutionCarbon = () => {
     } else return participant_id;
   };
 
-  const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
-  //  Add average players
-  // for (var i = 0; i < evolutionData.length; i++) {
-  //   evolutionData[i].avg_players = avg_players(evolutionData[i]);
-  // }
   const citizenFootprints = useSelector(
     (state) => state.workshop.entities.citizenCarbonFootprints
   );

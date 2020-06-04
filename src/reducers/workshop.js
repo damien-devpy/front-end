@@ -1,4 +1,4 @@
-import {pathOr} from 'ramda';
+import { denormalize } from 'normalizr';
 import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   APPLY_COLLECTIVE_ACTIONS,
@@ -28,6 +28,8 @@ import {
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
+import { pathOr } from 'ramda';
+import { workshopSchema } from '../normalizers';
 
 const initialState = {
   isLoading: true,
@@ -72,6 +74,8 @@ export default (state = initialState, action) => {
     }
     case INIT_WORKSHOP: {
       const year = action.payload;
+      const participantIds = state.result.participants;
+      const citizenIds = state.result.model.personas;
       return {
         ...state,
         entities: {
@@ -80,6 +84,18 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [year]: {
               year,
+              carbonVariables: participantIds.map((id) =>
+                makeYearParticipantKey(year, id)
+              ),
+              citizenCarbonVariables: citizenIds.map((id) =>
+                makeYearParticipantKey(year, id)
+              ),
+              roundsConfig: {},
+              globalCarbonVariables: year,
+              socialVariables: {
+                socialScore: 0,
+                influenceScore: 0,
+              },
             },
           },
           carbonVariables: {
@@ -98,13 +114,33 @@ export default (state = initialState, action) => {
               {}
             ),
           },
+          citizenCarbonVariables: {
+            ...(state.entities.citizenCarbonVariables || {}),
+            ...citizenIds.reduce(
+              (o, citizenId) => ({
+                ...o,
+                [makeYearParticipantKey(year, citizenId)]: {
+                  citizenId,
+                  variables: computeCarbonVariables(
+                    state.entities.personas[citizenId].surveyVariables,
+                    state.result.model.globalCarbonVariables
+                  ),
+                },
+              }),
+              {}
+            ),
+          },
           globalCarbonVariables: {
             [year]: { ...state.result.model.globalCarbonVariables },
           },
+          citizens: { ...state.entities.personas },
+          roundsConfig: [year],
         },
         result: {
           ...state.result,
-          rounds: [2020],
+          rounds: [year],
+          currentYear: year,
+          citizens: state.result.model.personas.map((persona) => persona),
         },
       };
     }
@@ -637,6 +673,14 @@ export default (state = initialState, action) => {
           },
         },
       };
+    }
+    case 'OUTPUT_WORKSHOP': {
+      console.log(
+        JSON.stringify(
+          denormalize(state.result, workshopSchema, state.entities)
+        )
+      );
+      return { ...state };
     }
     default:
       return state;

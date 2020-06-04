@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 const colorsPalet = [
   'blue',
@@ -37,6 +38,7 @@ const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
 const EvolutionCarbon = () => {
   // Compute data
+  const { t } = useTranslation();
   const rounds = useSelector((state) => state.workshop.entities.rounds);
   const carbonFootprints = useSelector(
     (state) => state.workshop.entities.carbonFootprints
@@ -45,7 +47,7 @@ const EvolutionCarbon = () => {
     (state) => state.workshop.entities.participants
   );
   console.log('participants', participants);
-  const lines = (obj) => Object.keys(obj).filter((k) => k !== 'year');
+  const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 
   const participantsName = (obj, participants) =>
     participants &&
@@ -56,15 +58,17 @@ const EvolutionCarbon = () => {
         (player) => player.firstName + ' ' + player.lastName.split('')[1] + '.'
       );
   const participantName = (participant_id) => {
-    if (!participant_id.toString().startsWith('avg_')) {
+    console.log('part id ', participant_id);
+    if (Object.keys(participants).includes(participant_id)) {
       return (
-        participants &&
-        participants[participant_id.toString()].firstName +
-          ' ' +
-          participants[participant_id.toString()].lastName.split('')[1] +
-          '.'
+        participants[participant_id].firstName +
+        ' ' +
+        participants[participant_id].lastName.split('')[1] +
+        '.'
       );
-    } else t('common.' + participant_id);
+    } else if (participant_id.toString().startsWith('avg_')) {
+      return t('common.' + participant_id);
+    } else return participant_id;
   };
 
   const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
@@ -74,6 +78,7 @@ const EvolutionCarbon = () => {
   // }
 
   const dataKeysArray = players(evolutionData[0]);
+  console.log('dataKeysArray', dataKeysArray);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
@@ -141,7 +146,8 @@ const EvolutionCarbon = () => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="year" type="number" domain={['dataMin', 'dataMax']} />
         <YAxis />
-        <Tooltip labelFormatter={(player_id) => participantName(player_id)} />
+        <Tooltip />
+        {/* labelFormatter={(player_id) => participantName(player_id)} /> */}
         <Legend
           align="left"
           verticalAlign="middle"
@@ -153,33 +159,25 @@ const EvolutionCarbon = () => {
         />
         {dataKeysArray.map((player, i) => {
           if (player.startsWith('avg')) {
-            return (
-              <Line
-                type="monotone"
-                dataKey={dataKeys[player]}
-                name={participantName(dataKeys[player])}
-                strokeOpacity={opacity[player]}
-                stroke={colors[player]}
-                activeDot={{ r: 5 }}
-                // isAnimationActive={false}
-                strokeWidth={width[player] + 4}
-                // onMouseEnter={}
-              />
-            );
+            var dotSize = 5;
+            var strokeWidth = width[player] + 4;
           } else {
-            return (
-              <Line
-                type="monotone"
-                dataKey={dataKeys[player]}
-                strokeOpacity={opacity[player]}
-                strokeWidth={width[player]}
-                stroke={colors[player]}
-                activeDot={{ r: 6 }}
-                isAnimationActive={false}
-                // onMouseEnter={}
-              />
-            );
+            var dotSize = 6;
+            var strokeWidth = width[player];
           }
+          return (
+            <Line
+              type="monotone"
+              dataKey={dataKeys[player]}
+              name={participantName(player)}
+              strokeOpacity={opacity[player]}
+              stroke={colors[player]}
+              activeDot={dotSize}
+              // isAnimationActive={false}
+              strokeWidth={strokeWidth}
+              // onMouseEnter={}
+            />
+          );
         })}
       </LineChart>
     </ResponsiveContainer>

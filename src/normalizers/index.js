@@ -2,6 +2,7 @@ import { schema } from 'normalizr';
 
 // Participants
 const participant = new schema.Entity('participants');
+
 // Model
 const actionCard = new schema.Entity('actionCards');
 const actionCardBatch = new schema.Entity('actionCardBatches');

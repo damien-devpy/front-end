@@ -434,7 +434,7 @@ export default (state = initialState, action) => {
       );
       const collectiveActionCardIds = pathOr(
         [],
-        ['entities', 'collectiveActionCards', yearFrom, 'actionCardIds'],
+        ['entities', 'collectionChoices', yearFrom, 'actionCardIds'],
         state
       );
       const newSocialVariables = computeSocialVariables(
@@ -570,10 +570,10 @@ export default (state = initialState, action) => {
     }
     case SET_ACTIONS_FOR_CITIZENS: {
       const { year } = action.payload;
-      const newCitizenIndividualActionCards = computeCitizenIndividualChoices(
+      const newCitizenIndividualChoices = computeCitizenIndividualChoices(
         year,
         state.entities.rounds[year].socialVariables,
-        state.entities.citizenIndividualActionCards || {},
+        state.entities.citizenIndividualChoices || {},
         state.result.citizens.map((id) => state.entities.citizens[id]),
         state.result.model.actionCards.map(
           (id) => state.entities.actionCards[id]
@@ -583,18 +583,17 @@ export default (state = initialState, action) => {
         ...state,
         entities: {
           ...state.entities,
-          citizenIndividualActionCards: {
-            ...state.entities.citizenIndividualActionCards,
-            ...newCitizenIndividualActionCards,
+          citizenIndividualChoices: {
+            ...state.entities.citizenIndividualChoices,
+            ...newCitizenIndividualChoices,
           },
           rounds: {
             ...state.entities.rounds,
             [year]: {
               ...state.entities.rounds[year],
-              citizenIndividualActionCards: [
-                ...(state.entities.rounds[year].citizenIndividualActionCards ||
-                  []),
-                ...Object.keys(newCitizenIndividualActionCards),
+              citizenIndividualChoices: [
+                ...(state.entities.rounds[year].citizenIndividualChoices || []),
+                ...Object.keys(newCitizenIndividualChoices),
               ],
             },
           },
@@ -618,7 +617,7 @@ export default (state = initialState, action) => {
           [],
           [
             'entities',
-            'citizenIndividualActionCards',
+            'citizenIndividualChoices',
             yearParticipantKey,
             'actionCardIds',
           ],

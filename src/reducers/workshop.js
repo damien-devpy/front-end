@@ -573,7 +573,7 @@ export default (state = initialState, action) => {
       const { citizens } = state.result;
       const actionCardIds = pathOr(
         [],
-        ['entities', 'collectiveActionCards', yearFrom, 'actionCardIds'],
+        ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
 

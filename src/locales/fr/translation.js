@@ -151,7 +151,7 @@ export default {
   simulation: {
     co2_evolution: 'Evolution du CO',
     per_person: 'par personne',
-    global_average: 'Moyenne national',
+    global_average: 'Moyenne nationale',
     the_participants: 'Les participants',
   },
   transports: {

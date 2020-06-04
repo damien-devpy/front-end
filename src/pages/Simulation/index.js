@@ -67,13 +67,14 @@ const Simulation = () => {
       <StyledSimulation>
         <Container className="row-full">
           <Row className="d-flex justify-content-end mr-1">
-            <StyledButton
+            <PrimaryButton
               className="primaryButton"
+              size="lg"
               variant="secondary"
               onClick={handleShowNewRoundModal}
             >
               {t('common.nextRound')}
-            </StyledButton>
+            </PrimaryButton>
           </Row>
           {loadError && <p>{t('common.loadError')}</p>}
           {isLoading && (
@@ -144,7 +145,7 @@ const StyledHeader = styled.div`
   justify-content: flex-end;
   margin-bottom: 1rem;
 `;
-const StyledButton = styled(Button)`
+const PrimaryButton = styled(Button)`
   background-color: ${COLORS.BROWN.STANDARD};
   border-color: ${COLORS.BROWN.STANDARD};
   transition: 0.3s;

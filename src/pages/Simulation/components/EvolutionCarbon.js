@@ -19,8 +19,8 @@ const colorsPalet = [
   'red',
   'purple',
   'green',
-  'black',
   'brown',
+  'black',
   'lightblue',
   'darkgreen',
   'darkblue',
@@ -76,6 +76,18 @@ const EvolutionCarbon = () => {
   // for (var i = 0; i < evolutionData.length; i++) {
   //   evolutionData[i].avg_players = avg_players(evolutionData[i]);
   // }
+  const citizenFootprints = useSelector(
+    (state) => state.workshop.entities.citizenCarbonFootprints
+  );
+  const footprintStructure = useSelector(
+    (state) => state.workshop.result.model.footprintStructure
+  );
+  const evolutionData = computeEvolutionGraph(
+    rounds,
+    carbonFootprints,
+    citizenFootprints,
+    footprintStructure
+  );
 
   const dataKeysArray = players(evolutionData[0]);
   console.log('dataKeysArray', dataKeysArray);

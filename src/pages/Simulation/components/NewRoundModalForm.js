@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
-import { useTranslation, useSSR } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import React from 'react';
 
 import { ActionCardItemSimple } from './ActionCardItem';
@@ -109,7 +109,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               <Form.Group as={Col}>
                 <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
                 <ButtonGroup className="mr-2">
-                  <PrimaryButton
+                  <SecondaryButton
                     className="activable"
                     onClick={() => {
                       if (values.targetedYear > currentYear + yearIncrement) {
@@ -118,9 +118,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     -
-                  </PrimaryButton>
+                  </SecondaryButton>
                   <SecondaryButton>{values.targetedYear}</SecondaryButton>
-                  <PrimaryButton
+                  <SecondaryButton
                     className="activable"
                     onClick={() => {
                       if (values.targetedYear < endYear) {
@@ -129,13 +129,13 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     +
-                  </PrimaryButton>
+                  </SecondaryButton>
                 </ButtonGroup>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
                 <ButtonGroup className="mr-2">
-                  <PrimaryButton
+                  <SecondaryButton
                     className="activable"
                     onClick={() => {
                       if (values.budget > 1) {
@@ -144,11 +144,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     -
-                  </PrimaryButton>
+                  </SecondaryButton>
                   <SecondaryButton className="activable">
                     {values.budget}
                   </SecondaryButton>
-                  <PrimaryButton
+                  <SecondaryButton
                     className="activable"
                     onClick={() => {
                       if (values.budget < 10) {
@@ -157,7 +157,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     +
-                  </PrimaryButton>
+                  </SecondaryButton>
                 </ButtonGroup>
               </Form.Group>
             </Form.Row>

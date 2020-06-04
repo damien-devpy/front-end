@@ -2,7 +2,8 @@ import { schema } from 'normalizr';
 
 // Participants
 const participant = new schema.Entity('participants');
-
+const persona = new schema.Entity('personas');
+const citizen = new schema.Entity('citizens');
 // Model
 const actionCard = new schema.Entity('actionCards');
 const actionCardBatch = new schema.Entity('actionCardBatches');
@@ -26,6 +27,20 @@ const carbonFootprint = new schema.Entity(
   {},
   {
     idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
+  }
+);
+const citizenCarbonVariables = new schema.Entity(
+  'citizenCarbonVariables',
+  {},
+  {
+    idAttribute: (entity, parent) => `${parent.year}-${entity.citizenId}`,
+  }
+);
+const citizenCarbonFootprint = new schema.Entity(
+  'citizenCarbonFootprints',
+  {},
+  {
+    idAttribute: (entity, parent) => `${parent.year}-${entity.citizenId}`,
   }
 );
 const roundsConfig = new schema.Entity(
@@ -59,6 +74,8 @@ const round = new schema.Entity(
     globalCarbonVariables,
     carbonVariables: [carbonVariables],
     carbonFootprints: [carbonFootprint],
+    citizenCarbonVariables: [citizenCarbonVariables],
+    citizenCarbonFootprints: [citizenCarbonFootprint],
     roundsConfig,
     individualChoices: [individualChoices],
     collectiveChoices,
@@ -69,6 +86,8 @@ const round = new schema.Entity(
 export const workshopSchema = {
   rounds: [round],
   participants: [participant],
+  citizens: [citizen],
+  personas: [persona],
   model: {
     actionCards: [actionCard],
     actionCardBatches: [actionCardBatch],

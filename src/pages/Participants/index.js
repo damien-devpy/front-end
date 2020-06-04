@@ -1,23 +1,21 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { Spinner, Card, Container, Button } from 'react-bootstrap';
+import { Button, Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import { COLORS } from '../../vars';
-import { useParticipants } from '../../hooks/participants';
-import { usePersonas } from '../../hooks/personas';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
-import AddIcon from '../../assets/AddIcon';
 import {
-  setParticipantNameEmail,
   addParticipant,
   deleteParticipant,
+  setParticipantNameEmail,
 } from '../../actions/participants';
+import AddIcon from '../../assets/AddIcon';
+import NavbarWorkshop from '../../components/NavbarWorkshop';
 
 import {
   ParticipantItemForm,
@@ -29,8 +27,19 @@ const ManageParticipants = () => {
     (state) => state.workshop.result && state.workshop.result.title
   );
   const { t } = useTranslation();
-  const { participants, isLoading, loadError } = useParticipants();
-  const { personas } = usePersonas();
+  // const { participants, isLoading, loadError } = useParticipants();
+  const participants = useSelector(
+    (state) => state.workshop.result && state.workshop.entities.participants
+  );
+  const numParticipants = useSelector(
+    (state) =>
+      state.workshop.result &&
+      state.workshop.entities.participants &&
+      Object.keys(state.workshop.entities.participants).length
+  );
+  const personas = useSelector(
+    (state) => state.workshop.result && state.workshop.result.personas
+  );
   const dispatch = useDispatch();
 
   // keep track of actived rows globally
@@ -40,8 +49,10 @@ const ManageParticipants = () => {
   const initActive = () =>
     Object.assign(
       {},
-      ...participants.allIds.map((i) => ({
-        [i]: !participants.byId[i].isValid,
+      ...Object.keys(participants).map((id) => ({
+        [id]:
+          !participants[id].isValid &&
+          !(participants[id].status === 'registered'),
       }))
     );
 
@@ -49,7 +60,7 @@ const ManageParticipants = () => {
   useEffect(() => {
     console.log('Use effect CONTAINER');
     participants && setActive(initActive(participants));
-  }, [participants && participants.allIds]);
+  }, [numParticipants]);
 
   const handleClick = (id) => {
     // if previously another row was activated because it was clicked, it will not be now
@@ -57,8 +68,10 @@ const ManageParticipants = () => {
     console.log('On CLICK row', id);
     const newActive = Object.assign(
       {},
-      ...participants.allIds.map((i) => ({
-        [i]: !participants.byId[i].isValid,
+      ...Object.keys(participants).map((i) => ({
+        [i]:
+          !participants[i].isValid &&
+          !(participants[i].status === 'registered'),
       }))
     );
     id && (newActive[id] = true);
@@ -69,8 +82,8 @@ const ManageParticipants = () => {
 
   participants &&
     personas &&
-    participants.allIds.forEach((id) => {
-      const p = participants.byId[id];
+    Object.keys(participants).forEach((id) => {
+      const p = participants[id];
       participantItems.push(
         <ParticipantItemForm
           id={id}
@@ -98,7 +111,7 @@ const ManageParticipants = () => {
   return (
     <div
       className="container-fluid h-100 pb-5"
-      onClick={(e) => handleClick(null)}
+      onClick={() => handleClick(null)}
     >
       <NavbarWorkshop />
       <Container>
@@ -106,15 +119,15 @@ const ManageParticipants = () => {
           className="p-5 border-light shadow-sm"
           style={{ borderRadius: 10 }}
         >
-          <h4 class="workshop_title">{workshopTitle}</h4>
+          <h4 className="workshop_title">{workshopTitle}</h4>
 
           <StyledHeader>
             <h4>{t('common.participants_list')}</h4>
           </StyledHeader>
 
           <div className="container">
-            {loadError && <p>Error</p>}
-            {isLoading && <Spinner animation="border" />}
+            {/* {loadError && <p>Error</p>} */}
+            {/* {isLoading && <Spinner animation="border" />} */}
             <ParticipantsHeader />
             {participantItems}
             <AddParticipant

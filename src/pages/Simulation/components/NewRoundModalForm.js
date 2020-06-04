@@ -198,9 +198,13 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       {values.actionCardBatches[batchId].actionCardIds.map(
                         (actionCardId) => (
                           <ActionCardItemSimple
+                            id={actionCardId}
                             key={actionCardId}
                             text={actionCardsEntity[actionCardId].name}
-                            lot={batchId}
+                            category={
+                              actionCardsEntity[actionCardId].subCategory
+                            }
+                            cost={actionCardsEntity[actionCardId].cost}
                           />
                         )
                       )}

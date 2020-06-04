@@ -1,10 +1,9 @@
-import React from 'react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dropdown, Button, ButtonGroup, Toast } from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown, Toast } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
 
-export const ParticipantStatus = ({ value }) => {
+const ParticipantStatus = ({ value }) => {
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
@@ -38,7 +37,7 @@ export const ParticipantStatus = ({ value }) => {
             onClose={() => setShow(false)}
             show={show}
             delay={2000}
-            animation={true}
+            animation
             autohide
           >
             <Toast.Body className="badge">
@@ -65,7 +64,7 @@ export const ParticipantStatus = ({ value }) => {
         </span>
       );
 
-    case 'BILAN_RECEIVED':
+    case 'registered':
       return (
         <div>
           <span className="badge alert-success" role="alert">
@@ -76,5 +75,10 @@ export const ParticipantStatus = ({ value }) => {
           </a>
         </div>
       );
+
+    default:
+      return <span className="badge alert-danger">missing status</span>;
   }
 };
+
+export default ParticipantStatus;

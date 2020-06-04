@@ -120,3 +120,5 @@ export const queryToParams = (query) => {
 
 export const makeYearParticipantKey = (year, participantId) =>
   `${year}-${participantId}`;
+
+export const sumArray = (array) => array.reduce((a, b) => a + b, 0);

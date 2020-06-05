@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import { Button, Card, Container } from 'react-bootstrap';
+import { Button, Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
+import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 
 import { COLORS } from '../../vars';
 import {
@@ -15,6 +19,7 @@ import {
   setParticipantNameEmail,
 } from '../../actions/participants';
 import AddIcon from '../../assets/AddIcon';
+import FootprintGraph from '../Simulation/components/FootprintGraph';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
 
 import {
@@ -31,6 +36,18 @@ const ManageParticipants = () => {
   const participants = useSelector(
     (state) => state.workshop.result && state.workshop.entities.participants
   );
+  const carbonFootprints = useSelector(
+    (state) => state.workshop.result && state.workshop.entities.carbonFootprints
+  );
+  const globalCarbonVariables = useSelector(
+    (state) =>
+      state.workshop.result &&
+      state.workshop.entities.globalCarbonVariables['2020']
+  );
+  const model = useSelector(
+    (state) => state.workshop.result && state.workshop.result.model
+  );
+
   const numParticipants = useSelector(
     (state) =>
       state.workshop.result &&
@@ -78,6 +95,41 @@ const ManageParticipants = () => {
     setActive(newActive);
   };
 
+  const [showBC, setShowBC] = useState(false);
+  const [footprintToShow, setFootprintToShow] = useState({});
+
+  const handleShowBC = (id) => {
+    // console.log('show BC', carbonFootprints[`2020-${id}`]);
+    setShowBC(true);
+    // console.log(participants[id].personaId);
+
+    // ideally
+    // 1. carbon variables should be pre-computed for each persona
+    // 2. add higher-level function where
+    // valueOnAllLevels & computeFootprint are put together and
+    // input variables are simplified, e.g. could be given as `model`
+    const { footprintStructure, variableFormulas } = model;
+    const footprint = participants[id].personaId
+      ? valueOnAllLevels(
+          computeFootprint(
+            footprintStructure,
+            variableFormulas,
+            computeCarbonVariables(
+              personas.find(
+                (persona) => persona.id === participants[id].personaId
+              ).surveyVariables,
+              globalCarbonVariables
+            ),
+            globalCarbonVariables
+          )
+        )
+      : carbonFootprints[`2020-${id}`].footprint;
+
+    // 3. footprintDataToGraph should be part of FootprintGraph
+    const footprintShaped = footprintDataToGraph(footprint);
+    setFootprintToShow(footprintShaped);
+  };
+
   const participantItems = [];
 
   participants &&
@@ -103,6 +155,7 @@ const ManageParticipants = () => {
           handleClick={handleClick}
           personas={personas}
           currentPersonaId={p.personaId}
+          handleShowBC={handleShowBC}
         />
       );
     });
@@ -143,6 +196,21 @@ const ManageParticipants = () => {
           </div>
         </Card>
       </Container>
+      <Modal
+        size="md"
+        centered
+        show={showBC}
+        onHide={() => {
+          setShowBC(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Bilan carbone</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FootprintGraph footprint={footprintToShow} />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

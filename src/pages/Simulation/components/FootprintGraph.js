@@ -81,11 +81,11 @@ const renderLegend = (props) => {
               //paddingRight: '20px',
               width: 'auto',
               //fontSize: 12,
-              fontSize: '0.9vw',
+              fontSize: '0.8vw',
             }}
           >
             {/* <h6> {t(`common.${sectorData.name}`)} </h6> */}
-            <span style={{ fontSize: '1.1vw', fontWeight: '500' }}>
+            <span style={{ fontSize: '1vw', fontWeight: '500' }}>
               {t(`common.${sectorData.name}`)}
             </span>
             <DefaultLegendContent {...newProps} />

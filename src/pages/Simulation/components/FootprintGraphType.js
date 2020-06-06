@@ -7,7 +7,7 @@ import {
   participantFootprint,
 } from '../../../selectors/footprintSelectors';
 import FootprintGraph from './FootprintGraph';
-
+import { pathOr } from 'ramda';
 const filter_obj = (allowed, raw) => {
   var filtered = Object.keys(raw)
     .filter((key) => allowed.includes(key.toString()))
@@ -20,8 +20,8 @@ const filter_obj = (allowed, raw) => {
 
 const FootprintGraphType = ({ type, participantId }) => {
   console.log('type : ', type);
-  const footprintStructure = useSelector(
-    (state) => state.workshop.result.model.footprintStructure
+  const footprintStructure = useSelector((state) =>
+    pathOr([], state, workshop, result, model, footprintStructure)
   );
   const currentRound = useSelector(
     (state) => state.workshop.result && state.workshop.result.currentYear

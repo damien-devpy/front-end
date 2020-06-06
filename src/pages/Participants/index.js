@@ -27,7 +27,6 @@ const ManageParticipants = () => {
     (state) => state.workshop.result && state.workshop.result.title
   );
   const { t } = useTranslation();
-  // const { participants, isLoading, loadError } = useParticipants();
   const participants = useSelector(
     (state) => state.workshop.entities && state.workshop.entities.participants
   );

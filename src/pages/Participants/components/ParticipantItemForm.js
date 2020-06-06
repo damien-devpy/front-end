@@ -99,7 +99,8 @@ export const ParticipantItemForm = ({
 
   const PersonaDropdown = () => {
     const personaOptions = [];
-    personas.forEach((persona) => {
+    Object.keys(personas).forEach((persona_id) => {
+      var persona = personas[persona_id];
       personaOptions.push(
         <option id={persona.personaId} value={persona.personaId}>
           {persona.firstName + persona.lastName}

@@ -124,6 +124,7 @@ const ActionCardsEntry = ({
   ) => {
     const individualChoicesIds = makeYearParticipantKey(round, participantId);
     const actionCardIds =
+      individualChoicesMap &&
       individualChoicesMap[individualChoicesIds] &&
       individualChoicesMap[individualChoicesIds].actionCardIds;
     const updatedChoices = {
@@ -150,6 +151,7 @@ const ActionCardsEntry = ({
   ) => {
     const collectiveChoicesId = round;
     const actionCardIds =
+      collectiveChoicesMap &&
       collectiveChoicesMap[collectiveChoicesId] &&
       collectiveChoicesMap[collectiveChoicesId].actionCardIds;
     const result = {
@@ -181,16 +183,18 @@ const ActionCardsEntry = ({
 
   const isIndividualActionCardChecked = (actionCardId) =>
     individualChoicesFromParticipant.includes(actionCardId) ||
-    (currentIndividualChoices[
-      makeYearParticipantKey(currentRound, selectedParticipantId)
-    ] &&
+    (currentIndividualChoices &&
+      currentIndividualChoices[
+        makeYearParticipantKey(currentRound, selectedParticipantId)
+      ] &&
       currentIndividualChoices[
         makeYearParticipantKey(currentRound, selectedParticipantId)
       ].actionCardIds.includes(actionCardId));
 
   const isCollectiveActionCardChecked = (actionCardId) =>
     chosenCollectiveActionCards.includes(actionCardId) ||
-    (currentCollectiveChoices[currentRound] &&
+    (currentCollectiveChoices &&
+      currentCollectiveChoices[currentRound] &&
       currentCollectiveChoices[currentRound].actionCardIds.includes(
         actionCardId
       ));

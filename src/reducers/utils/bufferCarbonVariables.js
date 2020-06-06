@@ -298,6 +298,8 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const gasHeatingKwh = (heatingSystemEnergyType === 'GAS') * KwhCh;
   const fuelHeatingKwh = (heatingSystemEnergyType === 'FUEL') * KwhCh;
   const elecHeatingKwh = (heatingSystemEnergyType === 'ELECTRICITY') * KwhCh;
+  const networkHeatingKwh =
+    (heatingSystemEnergyType === 'HEATING_NETWORK') * KwhCh;
 
   // KwhCui
   const partitionCui =
@@ -420,6 +422,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     elecCookingKwh,
     elecLightningKwh,
     elecWaterHeatingKwh,
+    networkHeatingKwh,
 
     // Autre
     fruitsAndVegetablePercentageLocal,

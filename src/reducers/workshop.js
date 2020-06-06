@@ -1,5 +1,4 @@
 import { denormalize } from 'normalizr';
-import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,

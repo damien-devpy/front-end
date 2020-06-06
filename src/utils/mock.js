@@ -1,5 +1,4 @@
 import coaches from './mocks/coaches';
-import participants from './mocks/participants';
 import personas from './mocks/personas';
 import workshop from './mocks/workshop';
 import workshops from './mocks/workshops';
@@ -9,6 +8,5 @@ export default {
   [`/coaches`]: coaches,
   [`/workshop`]: workshop,
   [`/workshops`]: workshops,
-  [`/participants`]: participants,
   [`/personas`]: personas,
 };

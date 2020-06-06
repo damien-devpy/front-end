@@ -139,6 +139,11 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const { kmCarCommutePerDay } = surveyVariables;
   const kmCarCommutePerYear = kmCarCommutePerDay * DAYS_PER_YEAR;
   const coefficientEnergyEfficientDriving = 1;
+  const passengersPerCarCommute = Math.max(
+    surveyVariables.passengersPerCarCommute,
+    1
+  );
+
   // Urban bus
   const { hoursUrbanBusPerWeek } = surveyVariables;
   const { MEAN_SPEED_URBAN_BUS } = globalVariables;
@@ -156,6 +161,11 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const kmUrbanTrainPerYear =
     hoursUrbanTrainPerWeek * MEAN_SPEED_URBAN_TRAIN * WEEKS_PER_YEAR;
 
+  // Car Travel
+  const passengersPerCarTravel = Math.max(
+    surveyVariables.passengersPerCarTravel,
+    1
+  );
   // ====================================================================================
   // ============================ INTERNET ============================
   // ====================================================================================
@@ -173,7 +183,6 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     heatingSystemEnergyType,
     cookingAppliancesEnergyType,
     sanitoryHotWaterEnergyType,
-    residentsPerHousing,
 
     elecKwh,
     fuelKwh,
@@ -184,7 +193,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     housingSurfaceArea,
     maintainanceDate,
   } = surveyVariables;
-
+  const residentsPerHousing = Math.max(surveyVariables.residentsPerHousing, 1);
   const {
     SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR,
     SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON,
@@ -289,6 +298,8 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const gasHeatingKwh = (heatingSystemEnergyType === 'GAS') * KwhCh;
   const fuelHeatingKwh = (heatingSystemEnergyType === 'FUEL') * KwhCh;
   const elecHeatingKwh = (heatingSystemEnergyType === 'ELECTRICITY') * KwhCh;
+  const networkHeatingKwh =
+    (heatingSystemEnergyType === 'HEATING_NETWORK') * KwhCh;
 
   // KwhCui
   const partitionCui =
@@ -349,14 +360,12 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     categoryCarCommute,
     motorTypeCarCommute,
     ageCategoryCarCommute,
-    passengersPerCarCommute,
     //
     categoryCarTravel,
     motorTypeCarTravel,
     ageCategoryCarTravel,
     //
     kmCarTravelPerYear,
-    passengersPerCarTravel,
     //
     kmCoachTravel,
     kmCountryTrain,
@@ -413,6 +422,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     elecCookingKwh,
     elecLightningKwh,
     elecWaterHeatingKwh,
+    networkHeatingKwh,
 
     // Autre
     fruitsAndVegetablePercentageLocal,

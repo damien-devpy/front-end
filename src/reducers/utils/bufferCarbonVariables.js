@@ -193,7 +193,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     housingSurfaceArea,
     maintainanceDate,
   } = surveyVariables;
-  const residentsPerHousing = Math.max(residentsPerHousing, 1);
+  const residentsPerHousing = Math.max(surveyVariables.residentsPerHousing, 1);
   const {
     SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR,
     SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON,

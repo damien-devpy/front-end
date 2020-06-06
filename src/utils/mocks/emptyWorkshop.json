@@ -4255,7 +4255,7 @@
                     "motorTypeCarCommute": "FUEL",
                     "ageCategoryCarCommute": "TEN_YEARS_OR_YOUNGER",
                     "kmCarCommutePerDay": "0",
-                    "passengersPerCarCommute": "0",
+                    "passengersPerCarCommute": "1",
                     "hoursUrbanBusPerWeek": "0",
                     "hoursCoachCommutePerWeek": "0",
                     "hoursUrbanTrainPerWeek": "15",

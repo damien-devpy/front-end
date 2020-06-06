@@ -134,7 +134,8 @@ export const footprintDataToGraph = (footprintData) => {
   footprintData.children.forEach((sectorData) => {
     var sectorObject = { name: sectorData.name };
     sectorData.children.forEach(
-      (categData) => (sectorObject[categData.name] = categData.value)
+      (categData) =>
+        (sectorObject[categData.name] = Math.round(categData.value))
     );
     footprintArray.push(sectorObject);
   });

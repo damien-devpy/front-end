@@ -86,7 +86,7 @@ const Simulation = () => {
           )}
           {!isLoading && (
             <Row style={{ height: '100vh' }}>
-              <Col sm={12} md={7} className="graph-col">
+              <Col sm={12} md={8} className="graph-col">
                 <Container className="graph-card">
                   <h4>
                     {t('simulation.co2_evolution')}
@@ -96,7 +96,7 @@ const Simulation = () => {
                   <EvolutionCarbon />
                 </Container>
               </Col>
-              <Col sm={12} md={5} className="graph-col">
+              <Col sm={12} md={4} className="graph-col">
                 <Container className="graph-card">
                   <h4> {t('simulation.global_average')} </h4>
                   <FootprintGraphType type="globalAverage" />

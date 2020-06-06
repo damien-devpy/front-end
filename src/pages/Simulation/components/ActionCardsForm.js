@@ -13,6 +13,7 @@ const ActionCardsForm = ({
   handleCheckedActionCard,
   roundIds,
 }) => {
+  console.log('roundIds', roundIds);
   const { t } = useTranslation();
   const actionCardBatchesEntity = useSelector(
     (state) => state.workshop.entities.actionCardBatches
@@ -29,13 +30,22 @@ const ActionCardsForm = ({
       Object.keys(roundsConfigEntity).slice(-1)[0]
     ].actionCardBatchIds.slice(-1)[0]
   );
-
+  function compareName(a, b) {
+    if (actionCardBatchesEntity[a].name < actionCardBatchesEntity[b].name) {
+      return -1;
+    }
+    if (actionCardBatchesEntity[a].name > actionCardBatchesEntity[b].name) {
+      return 1;
+    }
+    return 0;
+  }
   return (
     <Form noValidate>
       <Form.Row>
         {roundIds.map((roundConfigId) =>
-          roundsConfigEntity[roundConfigId].actionCardBatchIds.map(
-            (actionCardBatchId) => {
+          roundsConfigEntity[roundConfigId].actionCardBatchIds
+            .sort(compareName)
+            .map((actionCardBatchId) => {
               const {
                 name: actionCardBatchName,
                 actionCardIds,
@@ -75,8 +85,7 @@ const ActionCardsForm = ({
                   })}
                 </Form.Group>
               );
-            }
-          )
+            })
         )}
       </Form.Row>
       <Form.Row className="d-flex justify-content-end">

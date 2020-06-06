@@ -55,7 +55,7 @@ const ManageParticipants = () => {
       Object.keys(state.workshop.entities.participants).length
   );
   const personas = useSelector(
-    (state) => state.workshop.result && state.workshop.result.personas
+    (state) => state.workshop.result && state.workshop.result.model.personas
   );
   const dispatch = useDispatch();
 

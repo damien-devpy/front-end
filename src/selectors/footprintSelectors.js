@@ -178,6 +178,7 @@ export const computeEvolutionGraph = (
       roundCitizenFootprints,
       footprintStructure
     ).value.toFixed(0);
+
     evolutionData.push(obj);
   });
   return evolutionData;

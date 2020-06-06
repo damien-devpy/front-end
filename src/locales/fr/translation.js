@@ -107,6 +107,7 @@ export default {
     newCoach: 'Nouvel Animateur',
     newWorkshop: 'Nouvel atelier',
     nextRound: 'Prochain Tour',
+    objective: 'Objectif',
     others: 'Autres',
     participants: 'Participants',
     participants_list: "Liste des participants de l'atelier",

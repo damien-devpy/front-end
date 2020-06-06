@@ -11,13 +11,11 @@ export const currentRound = (state) =>
 
 // const footprintStructure = (state) => state.workshop.model.footprintStructure;
 
-const averageFootprints = (footprints, initFootprint, weight) => {
+const averageFootprints = (footprints, initFootprint) => {
   const keysParticipant = Object.keys(footprints);
   console.log('footprints[key]', footprints[keysParticipant[0]]);
 
-  if (!weight) {
-    var weight = 1 / keysParticipant.length;
-  }
+  var weight = 1 / keysParticipant.length;
 
   var element;
   var footprintAverage = JSON.parse(JSON.stringify(initFootprint));
@@ -55,12 +53,44 @@ const averageFootprints = (footprints, initFootprint, weight) => {
   return footprintAverage;
 };
 
+export const weightedAverage = (
+  participantAverage,
+  citizenAverage,
+  initFootprint,
+  weightParticipant
+) => {
+  console.log('participantAverage : ', participantAverage);
+  console.log('citizenAverage : ', citizenAverage);
+
+  var globalAverage = JSON.parse(JSON.stringify(initFootprint));
+  globalAverage['value'] =
+    weightParticipant * participantAverage.value +
+    (1 - weightParticipant) * citizenAverage.value;
+  participantAverage.children.forEach((sector, i) => {
+    globalAverage.children[i]['value'] = Math.round(
+      weightParticipant * sector.value +
+        (1 - weightParticipant) * citizenAverage.children[i].value
+    );
+    if (sector.children) {
+      sector.children.forEach((categ, j) => {
+        globalAverage.children[i].children[j]['value'] = Math.round(
+          (1 - weightParticipant) *
+            citizenAverage.children[i].children[j].value +
+            weightParticipant * categ.value
+        );
+      });
+    }
+  });
+  return globalAverage;
+};
+
 export const participantsAverageFootprint = (
   carbonFootprints,
   footprintStructure
 ) => {
   return averageFootprints(carbonFootprints, footprintStructure);
 };
+
 export const globalAverageFootprint = (
   carbonFootprints,
   citizenFootprints,
@@ -68,19 +98,24 @@ export const globalAverageFootprint = (
 ) => {
   const nbParticipants = Object.keys(carbonFootprints).length;
 
-  const weightCitizen = 0.9 / nbParticipants;
-  const weightParticipant = 0.1 / nbParticipants;
+  const weightParticipant = 0.1;
   var allFootprints = {};
 
   const participantAverage = averageFootprints(
     carbonFootprints,
+    footprintStructure
+  );
+
+  const citizenAverage = averageFootprints(
+    citizenFootprints,
+    footprintStructure
+  );
+
+  const globalAverage = weightedAverage(
+    participantAverage,
+    citizenAverage,
     footprintStructure,
     weightParticipant
-  );
-  const globalAverage = averageFootprints(
-    citizenFootprints,
-    participantAverage,
-    weightCitizen
   );
   console.log('globalAverage', globalAverage);
 

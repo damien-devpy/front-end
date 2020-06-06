@@ -1365,6 +1365,10 @@
             }
         },
         "globalCarbonVariables": {
+            "WEEKS_PER_YEAR": 51,
+            "DAYS_PER_YEAR": 365,
+            "DAYS_PER_WEEK": 7,
+            "MONTHS_PER_YEAR": 12,
             "EI_URBAN_BUS": 0.15,
             "MEAN_SPEED_URBAN_BUS": 12,
             "EI_COACH": 0.04,
@@ -6022,6 +6026,10 @@
             ],
             "roundsConfig": {},
             "globalCarbonVariables": {
+                "WEEKS_PER_YEAR": 51,
+                "DAYS_PER_YEAR": 365,
+                "DAYS_PER_WEEK": 7,
+                "MONTHS_PER_YEAR": 12,
                 "EI_URBAN_BUS": 0.15,
                 "MEAN_SPEED_URBAN_BUS": 12,
                 "EI_COACH": 0.04,

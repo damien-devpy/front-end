@@ -160,7 +160,7 @@ const EvolutionCarbon = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" type="number" domain={['dataMin', 'dataMax']} />
+        <XAxis dataKey="year" type="number" domain={['dataMin', 2050]} />
         <YAxis type="number" domain={[0, 15000]} />
         <Tooltip />
         {/* labelFormatter={(player_id) => participantName(player_id)} /> */}

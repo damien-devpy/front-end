@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import cardIcons from '../../../components/cardIcons';
 import { COLORS } from '../../../vars';
 export const ActionCardItem = ({
   id,
@@ -101,26 +101,6 @@ const sectorColors = {
   professional: COLORS.PURPLE.DARK,
   education: COLORS.PURPLE.MILD,
   energy: COLORS.FIGMA_BLUE_DARK,
-};
-
-// just for test at the moment
-const cardIcons = {
-  1: '🚲',
-  2: '🚇',
-  3: '🚗',
-  4: '💻',
-  5: '🛵',
-  6: '✈',
-  7: '🌡',
-  8: '🛁',
-  9: '🔌',
-  10: '🔋',
-  11: '🏘',
-  12: '🖨',
-  23: '👫',
-  24: '📚',
-
-  // 🚙
 };
 
 const StyledItem = styled.div`

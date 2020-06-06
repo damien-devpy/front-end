@@ -71,6 +71,7 @@ const ActionCardsForm = ({
                       <ActionCardItem
                         key={actionCardId}
                         id={cardNumber}
+                        cardNumber={cardNumber}
                         text={actionCardName}
                         sector={sector}
                         category={actionCardsEntity[actionCardId].subCategory}

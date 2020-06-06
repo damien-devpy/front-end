@@ -133,7 +133,7 @@ export default {
     manageParticipants: 'Gérer participants',
   },
   manageParticipants: {
-    nameSurname: 'Nom Prénom',
+    nameSurname: 'Prénom Nom',
     email: 'E-mail',
     persona: 'Personage',
     status: 'Statut',

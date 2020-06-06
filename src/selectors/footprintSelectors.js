@@ -98,23 +98,19 @@ export const globalAverageFootprint = (
 ) => {
   const nbParticipants = Object.keys(carbonFootprints).length;
 
+  var initFootprint = JSON.parse(JSON.stringify(footprintStructure));
+
   const weightParticipant = 0.1;
   var allFootprints = {};
 
-  const participantAverage = averageFootprints(
-    carbonFootprints,
-    footprintStructure
-  );
+  const participantAverage = averageFootprints(carbonFootprints, initFootprint);
 
-  const citizenAverage = averageFootprints(
-    citizenFootprints,
-    footprintStructure
-  );
+  const citizenAverage = averageFootprints(citizenFootprints, initFootprint);
 
   const globalAverage = weightedAverage(
     participantAverage,
     citizenAverage,
-    footprintStructure,
+    initFootprint,
     weightParticipant
   );
   console.log('globalAverage', globalAverage);

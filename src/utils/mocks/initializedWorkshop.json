@@ -9,7 +9,6 @@
   "eventUrl": "http://www.example.com",
   "startYear": 2020,
   "endYear": 2050,
-  "currentYear": 2020,
   "yearIncrement": 3,
   "participants": [
     {
@@ -53,7 +52,7 @@
         "electricityProvider": "ALTERNATIVE",
         "energyConsumptionKnowledge": "TRUE",
         "elecKwh": "7000",
-        "gasKwh": "60000",
+        "gasKwh": "6000",
         "fuelKwh": "0",
         "woodKwh": "0",
         "numberBigAppliances": "9",
@@ -70,7 +69,6 @@
       "firstName": "Marguerite",
       "lastName": "Roux",
       "status": "registered",
-
       "email": "marguerite.roux@gmail.com",
       "description": "Famille citadin modeste / Maman",
       "surveyVariables": {
@@ -234,47 +232,26 @@
         {
           "name": "transports",
           "children": [
-            {
-              "name": "plane",
-              "cfKey": "cf_plane"
-            },
+            { "name": "plane", "cfKey": "cf_plane" },
             {
               "name": "train",
               "children": [
-                {
-                  "name": "urbanTrain",
-                  "cfKey": "cf_urban_train"
-                },
-                {
-                  "name": "countryTrain",
-                  "cfKey": "cf_country_train"
-                }
+                { "name": "urbanTrain", "cfKey": "cf_urban_train" },
+                { "name": "countryTrain", "cfKey": "cf_country_train" }
               ]
             },
             {
               "name": "bus",
               "children": [
-                {
-                  "name": "coachCommute",
-                  "cfKey": "cf_coach_commute"
-                },
-                {
-                  "name": "coachTravel",
-                  "cfKey": "cf_coach_travel"
-                }
+                { "name": "coachCommute", "cfKey": "cf_coach_commute" },
+                { "name": "coachTravel", "cfKey": "cf_coach_travel" }
               ]
             },
             {
               "name": "car",
               "children": [
-                {
-                  "name": "dailyCommutes",
-                  "cfKey": "cf_car_commute"
-                },
-                {
-                  "name": "exceptionalCommutes",
-                  "cfKey": "cf_car_travel"
-                }
+                { "name": "dailyCommutes", "cfKey": "cf_car_commute" },
+                { "name": "exceptionalCommutes", "cfKey": "cf_car_travel" }
               ]
             }
           ]
@@ -292,10 +269,7 @@
                       "name": "smallAppliances",
                       "cfKey": "cf_small_appliances"
                     },
-                    {
-                      "name": "bigApplicances",
-                      "cfKey": "cf_big_appliances"
-                    }
+                    { "name": "bigApplicances", "cfKey": "cf_big_appliances" }
                   ]
                 },
                 {
@@ -305,10 +279,7 @@
                       "name": "furnituresPerSurface",
                       "cfKey": "cf_furnitures"
                     },
-                    {
-                      "name": "furnituresMin",
-                      "cfKey": "cf_furnitures_min"
-                    }
+                    { "name": "furnituresMin", "cfKey": "cf_furnitures_min" }
                   ]
                 }
               ]
@@ -329,51 +300,30 @@
                     }
                   ]
                 },
-                {
-                  "name": "construction",
-                  "cfKey": "cf_maintenance"
-                }
+                { "name": "construction", "cfKey": "cf_maintenance" }
               ]
             },
             {
               "name": "energies",
               "children": [
-                {
-                  "name": "water",
-                  "cfKey": "cf_water"
-                },
+                { "name": "water", "cfKey": "cf_water" },
                 {
                   "name": "electricity",
                   "children": [
-                    {
-                      "name": "elecHeating",
-                      "cfKey": "cf_elec_heating"
-                    },
-                    {
-                      "name": "elecCooking",
-                      "cfKey": "cf_elec_cooking"
-                    },
+                    { "name": "elecHeating", "cfKey": "cf_elec_heating" },
+                    { "name": "elecCooking", "cfKey": "cf_elec_cooking" },
                     {
                       "name": "elecWaterHeating",
                       "cfKey": "cf_elec_water_heating"
                     },
-                    {
-                      "name": "elecLightning",
-                      "cfKey": "cf_elec_lightning"
-                    }
+                    { "name": "elecLightning", "cfKey": "cf_elec_lightning" }
                   ]
                 },
                 {
                   "name": "gas",
                   "children": [
-                    {
-                      "name": "gasHeating",
-                      "cfKey": "cf_gas_heating"
-                    },
-                    {
-                      "name": "gasCooking",
-                      "cfKey": "cf_gas_cooking"
-                    },
+                    { "name": "gasHeating", "cfKey": "cf_gas_heating" },
+                    { "name": "gasCooking", "cfKey": "cf_gas_cooking" },
                     {
                       "name": "gasWaterHeating",
                       "cfKey": "cf_gas_water_heating"
@@ -383,14 +333,8 @@
                 {
                   "name": "fuel",
                   "children": [
-                    {
-                      "name": "fuelHeating",
-                      "cfKey": "cf_fuel_heating"
-                    },
-                    {
-                      "name": "fuelCooking",
-                      "cfKey": "cf_fuel_cooking"
-                    },
+                    { "name": "fuelHeating", "cfKey": "cf_fuel_heating" },
+                    { "name": "fuelCooking", "cfKey": "cf_fuel_cooking" },
                     {
                       "name": "fuelWaterHeating",
                       "cfKey": "cf_fuel_water_heating"
@@ -400,24 +344,15 @@
                 {
                   "name": "wood",
                   "children": [
-                    {
-                      "name": "woodHeating",
-                      "cfKey": "cf_wood_heating"
-                    },
-                    {
-                      "name": "woodCooking",
-                      "cfKey": "cf_wood_cooking"
-                    },
+                    { "name": "woodHeating", "cfKey": "cf_wood_heating" },
+                    { "name": "woodCooking", "cfKey": "cf_wood_cooking" },
                     {
                       "name": "woodWaterHeating",
                       "cfKey": "cf_wood_water_heating"
                     }
                   ]
                 },
-                {
-                  "name": "districtHeating",
-                  "cfKey": "cf_district_heating"
-                }
+                { "name": "districtHeating", "cfKey": "cf_district_heating" }
               ]
             }
           ]
@@ -428,48 +363,24 @@
             {
               "name": "drinks",
               "children": [
-                {
-                  "name": "alcohol",
-                  "cfKey": "cf_alcohol"
-                },
-                {
-                  "name": "hotDrinks",
-                  "cfKey": "cf_hot_drinks"
-                },
-                {
-                  "name": "juicesAndSoda",
-                  "cfKey": "cf_juices_and_sodas"
-                }
+                { "name": "alcohol", "cfKey": "cf_alcohol" },
+                { "name": "hotDrinks", "cfKey": "cf_hot_drinks" },
+                { "name": "juicesAndSoda", "cfKey": "cf_juices_and_sodas" }
               ]
             },
             {
               "name": "meat",
               "children": [
-                {
-                  "name": "red_meat",
-                  "cfKey": "cf_red_meat"
-                },
-                {
-                  "name": "white_meat",
-                  "cfKey": "cf_white_meat"
-                }
+                { "name": "red_meat", "cfKey": "cf_red_meat" },
+                { "name": "white_meat", "cfKey": "cf_white_meat" }
               ]
             },
-            {
-              "name": "fish",
-              "cfKey": "cf_fish"
-            },
+            { "name": "fish", "cfKey": "cf_fish" },
             {
               "name": "eggsAndDairies",
               "children": [
-                {
-                  "name": "eggs",
-                  "cfKey": "cf_eggs"
-                },
-                {
-                  "name": "dairies",
-                  "cfKey": "cf_dairies"
-                }
+                { "name": "eggs", "cfKey": "cf_eggs" },
+                { "name": "dairies", "cfKey": "cf_dairies" }
               ]
             },
             {
@@ -503,10 +414,7 @@
         {
           "name": "others",
           "children": [
-            {
-              "name": "clothing",
-              "cfKey": "cf_clothes"
-            },
+            { "name": "clothing", "cfKey": "cf_clothes" },
             {
               "name": "digital",
               "children": [
@@ -530,10 +438,7 @@
                       "name": "internetStreaming",
                       "cfKey": "cf_internet_streaming"
                     },
-                    {
-                      "name": "internetOthers",
-                      "cfKey": "cf_internet_others"
-                    }
+                    { "name": "internetOthers", "cfKey": "cf_internet_others" }
                   ]
                 }
               ]
@@ -548,10 +453,7 @@
                       "name": "activitiesElectricity",
                       "cfKey": "cf_activities_electricity"
                     },
-                    {
-                      "name": "activitiesGas",
-                      "cfKey": "cf_activities_gas"
-                    },
+                    { "name": "activitiesGas", "cfKey": "cf_activities_gas" },
                     {
                       "name": "activitiesWithoutEnergy",
                       "cfKey": "cf_activities_without_energy"
@@ -565,10 +467,7 @@
                       "name": "servicesElectricity",
                       "cfKey": "cf_services_electricity"
                     },
-                    {
-                      "name": "servicesGas",
-                      "cfKey": "cf_services_gas"
-                    },
+                    { "name": "servicesGas", "cfKey": "cf_services_gas" },
                     {
                       "name": "servicesWithoutEnergy",
                       "cfKey": "cf_services_without_energy"
@@ -582,10 +481,7 @@
         {
           "name": "publicServices",
           "children": [
-            {
-              "name": "gasPublicServices",
-              "cfKey": "cf_gas_public_services"
-            },
+            { "name": "gasPublicServices", "cfKey": "cf_gas_public_services" },
             {
               "name": "elecPublicServices",
               "cfKey": "cf_elec_public_services"
@@ -600,34 +496,19 @@
       "value": 0
     },
     "variableFormulas": {
-      "cf_plane": {
-        "*": [
-          {
-            "var": "kmPlane"
-          },
-          {
-            "var": "EI_PLANE"
-          }
-        ]
-      },
+      "cf_plane": { "*": [{ "var": "kmPlane" }, { "var": "EI_PLANE" }] },
       "cf_car_commute": {
         "/": [
           {
             "*": [
-              {
-                "var": "kmCarCommutePerYear"
-              },
+              { "var": "kmCarCommutePerYear" },
               {
                 "var": {
                   "cat": [
                     "EI_CAR.",
-                    {
-                      "var": "categoryCarCommute"
-                    },
+                    { "var": "categoryCarCommute" },
                     ".",
-                    {
-                      "var": "motorTypeCarCommute"
-                    }
+                    { "var": "motorTypeCarCommute" }
                   ]
                 }
               },
@@ -635,44 +516,30 @@
                 "var": {
                   "cat": [
                     "MOTOR_AGING_FACTOR.",
-                    {
-                      "var": "motorTypeCarCommute"
-                    },
+                    { "var": "motorTypeCarCommute" },
                     ".",
-                    {
-                      "var": "ageCategoryCarCommute"
-                    }
+                    { "var": "ageCategoryCarCommute" }
                   ]
                 }
               },
-              {
-                "var": "coefficientEnergyEfficientDriving"
-              }
+              { "var": "coefficientEnergyEfficientDriving" }
             ]
           },
-          {
-            "var": "passengersPerCarCommute"
-          }
+          { "var": "passengersPerCarCommute" }
         ]
       },
       "cf_car_travel": {
         "/": [
           {
             "*": [
-              {
-                "var": "kmCarTravelPerYear"
-              },
+              { "var": "kmCarTravelPerYear" },
               {
                 "var": {
                   "cat": [
                     "EI_CAR.",
-                    {
-                      "var": "categoryCarTravel"
-                    },
+                    { "var": "categoryCarTravel" },
                     ".",
-                    {
-                      "var": "motorTypeCarTravel"
-                    }
+                    { "var": "motorTypeCarTravel" }
                   ]
                 }
               },
@@ -680,119 +547,57 @@
                 "var": {
                   "cat": [
                     "MOTOR_AGING_FACTOR.",
-                    {
-                      "var": "motorTypeCarTravel"
-                    },
+                    { "var": "motorTypeCarTravel" },
                     ".",
-                    {
-                      "var": "ageCategoryCarTravel"
-                    }
+                    { "var": "ageCategoryCarTravel" }
                   ]
                 }
               },
-              {
-                "var": "coefficientEnergyEfficientDriving"
-              }
+              { "var": "coefficientEnergyEfficientDriving" }
             ]
           },
-          {
-            "var": "passengersPerCarTravel"
-          }
+          { "var": "passengersPerCarTravel" }
         ]
       },
       "cf_urban_bus": {
-        "*": [
-          {
-            "var": "kmUrbanBusPerYear"
-          },
-          {
-            "var": "EI_URBAN_BUS"
-          }
-        ]
+        "*": [{ "var": "kmUrbanBusPerYear" }, { "var": "EI_URBAN_BUS" }]
       },
       "cf_coach_commute": {
-        "*": [
-          {
-            "var": "kmCoachCommutePerYear"
-          },
-          {
-            "var": "EI_COACH"
-          }
-        ]
+        "*": [{ "var": "kmCoachCommutePerYear" }, { "var": "EI_COACH" }]
       },
       "cf_coach_travel": {
-        "*": [
-          {
-            "var": "kmCoachTravel"
-          },
-          {
-            "var": "EI_COACH"
-          }
-        ]
+        "*": [{ "var": "kmCoachTravel" }, { "var": "EI_COACH" }]
       },
       "cf_urban_train": {
-        "*": [
-          {
-            "var": "kmUrbanTrainPerYear"
-          },
-          {
-            "var": "EI_URBAN_TRAIN"
-          }
-        ]
+        "*": [{ "var": "kmUrbanTrainPerYear" }, { "var": "EI_URBAN_TRAIN" }]
       },
       "cf_country_train": {
-        "*": [
-          {
-            "var": "kmCountryTrain"
-          },
-          {
-            "var": "EI_COUNTRY_TRAIN"
-          }
-        ]
+        "*": [{ "var": "kmCountryTrain" }, { "var": "EI_COUNTRY_TRAIN" }]
       },
       "cf_small_appliances": {
         "/": [
           {
             "*": [
-              {
-                "var": "numberSmallAppliances"
-              },
-              {
-                "var": "EI_SMALL_APPLIANCE"
-              }
+              { "var": "numberSmallAppliances" },
+              { "var": "EI_SMALL_APPLIANCE" }
             ]
           },
-          {
-            "var": "residentsPerHousing"
-          }
+          { "var": "residentsPerHousing" }
         ]
       },
       "cf_big_appliances": {
         "/": [
           {
             "*": [
-              {
-                "var": "numberBigAppliances"
-              },
-              {
-                "var": "EI_BIG_APPLIANCE"
-              }
+              { "var": "numberBigAppliances" },
+              { "var": "EI_BIG_APPLIANCE" }
             ]
           },
-          {
-            "var": "residentsPerHousing"
-          }
+          { "var": "residentsPerHousing" }
         ]
       },
       "cf_water_heater": {
-        "/": [
-          {
-            "var": "CF_WATER_HEATER"
-          },
-          {
-            "var": "residentsPerHousing"
-          }
-        ]
+        "/": [{ "var": "CF_WATER_HEATER" }, { "var": "residentsPerHousing" }]
       },
       "cf_furnitures": {
         "/": [
@@ -800,59 +605,37 @@
             "*": [
               {
                 "+": [
-                  {
-                    "var": "houseSurfaceArea"
-                  },
-                  {
-                    "var": "flatSurfaceArea"
-                  }
+                  { "var": "houseSurfaceArea" },
+                  { "var": "flatSurfaceArea" }
                 ]
               },
-              {
-                "var": "EI_FURNITURES_PER_SQUARE_METER"
-              }
+              { "var": "EI_FURNITURES_PER_SQUARE_METER" }
             ]
           },
-          {
-            "var": "residentsPerHousing"
-          }
+          { "var": "residentsPerHousing" }
         ]
       },
-      "cf_furnitures_min": {
-        "var": "CF_FURNITURES_MIN_ONE_RESIDENT"
-      },
+      "cf_furnitures_min": { "var": "CF_FURNITURES_MIN_ONE_RESIDENT" },
       "cf_house_construction": {
         "/": [
           {
             "*": [
-              {
-                "var": "houseSurfaceArea"
-              },
-              {
-                "var": "EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER"
-              }
+              { "var": "houseSurfaceArea" },
+              { "var": "EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER" }
             ]
           },
-          {
-            "var": "residentsPerHousing"
-          }
+          { "var": "residentsPerHousing" }
         ]
       },
       "cf_flat_construction": {
         "/": [
           {
             "*": [
-              {
-                "var": "flatSurfaceArea"
-              },
-              {
-                "var": "EI_CONSTRUCTION_FLAT_PER_SQUARE_METER"
-              }
+              { "var": "flatSurfaceArea" },
+              { "var": "EI_CONSTRUCTION_FLAT_PER_SQUARE_METER" }
             ]
           },
-          {
-            "var": "residentsPerHousing"
-          }
+          { "var": "residentsPerHousing" }
         ]
       },
       "cf_maintenance": {
@@ -861,419 +644,181 @@
             "*": [
               {
                 "+": [
-                  {
-                    "var": "houseSurfaceArea"
-                  },
-                  {
-                    "var": "flatSurfaceArea"
-                  }
+                  { "var": "houseSurfaceArea" },
+                  { "var": "flatSurfaceArea" }
                 ]
               },
-              {
-                "var": "EI_MAINTENANCE_PER_SQUARE_METER"
-              }
+              { "var": "EI_MAINTENANCE_PER_SQUARE_METER" }
             ]
           },
-          {
-            "var": "residentsPerHousing"
-          }
+          { "var": "residentsPerHousing" }
         ]
       },
       "cf_water": {
         "*": [
-          {
-            "var": "EI_WATER_PER_LITER"
-          },
-          {
-            "var": "WATER_CONSO_LITER_PER_YEAR_PER_PERSON"
-          }
+          { "var": "EI_WATER_PER_LITER" },
+          { "var": "WATER_CONSO_LITER_PER_YEAR_PER_PERSON" }
         ]
       },
       "cf_wood_heating": {
-        "*": [
-          {
-            "var": "woodHeatingKwh"
-          },
-          {
-            "var": "EI_WOOD_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "woodHeatingKwh" }, { "var": "EI_WOOD_PER_KWH" }]
       },
       "cf_wood_cooking": {
-        "*": [
-          {
-            "var": "woodCookingKwh"
-          },
-          {
-            "var": "EI_WOOD_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "woodCookingKwh" }, { "var": "EI_WOOD_PER_KWH" }]
       },
       "cf_wood_water_heating": {
-        "*": [
-          {
-            "var": "woodWaterHeatingKwh"
-          },
-          {
-            "var": "EI_WOOD_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "woodWaterHeatingKwh" }, { "var": "EI_WOOD_PER_KWH" }]
       },
       "cf_gas_heating": {
-        "*": [
-          {
-            "var": "gasHeatingKwh"
-          },
-          {
-            "var": "EI_GAS_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "gasHeatingKwh" }, { "var": "EI_GAS_PER_KWH" }]
       },
       "cf_gas_cooking": {
-        "*": [
-          {
-            "var": "gasCookingKwh"
-          },
-          {
-            "var": "EI_GAS_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "gasCookingKwh" }, { "var": "EI_GAS_PER_KWH" }]
       },
       "cf_gas_water_heating": {
-        "*": [
-          {
-            "var": "gasWaterHeatingKwh"
-          },
-          {
-            "var": "EI_GAS_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "gasWaterHeatingKwh" }, { "var": "EI_GAS_PER_KWH" }]
       },
       "cf_fuel_heating": {
-        "*": [
-          {
-            "var": "fuelHeatingKwh"
-          },
-          {
-            "var": "EI_FUEL_OIL_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "fuelHeatingKwh" }, { "var": "EI_FUEL_OIL_PER_KWH" }]
       },
       "cf_fuel_cooking": {
-        "*": [
-          {
-            "var": "fuelCookingKwh"
-          },
-          {
-            "var": "EI_FUEL_OIL_PER_KWH"
-          }
-        ]
+        "*": [{ "var": "fuelCookingKwh" }, { "var": "EI_FUEL_OIL_PER_KWH" }]
       },
       "cf_fuel_water_heating": {
         "*": [
-          {
-            "var": "fuelWaterHeatingKwh"
-          },
-          {
-            "var": "EI_FUEL_OIL_PER_KWH"
-          }
+          { "var": "fuelWaterHeatingKwh" },
+          { "var": "EI_FUEL_OIL_PER_KWH" }
         ]
       },
       "cf_elec_heating": {
         "*": [
-          {
-            "var": "elecHeatingKwh"
-          },
+          { "var": "elecHeatingKwh" },
           {
             "var": {
-              "cat": [
-                "EI_",
-                {
-                  "var": "electricityProvider"
-                },
-                "_ELEC_PER_KWH"
-              ]
+              "cat": ["EI_", { "var": "electricityProvider" }, "_ELEC_PER_KWH"]
             }
           }
         ]
       },
       "cf_elec_cooking": {
         "*": [
-          {
-            "var": "elecCookingKwh"
-          },
+          { "var": "elecCookingKwh" },
           {
             "var": {
-              "cat": [
-                "EI_",
-                {
-                  "var": "electricityProvider"
-                },
-                "_ELEC_PER_KWH"
-              ]
+              "cat": ["EI_", { "var": "electricityProvider" }, "_ELEC_PER_KWH"]
             }
           }
         ]
       },
       "cf_elec_water_heating": {
         "*": [
-          {
-            "var": "elecWaterHeatingKwh"
-          },
+          { "var": "elecWaterHeatingKwh" },
           {
             "var": {
-              "cat": [
-                "EI_",
-                {
-                  "var": "electricityProvider"
-                },
-                "_ELEC_PER_KWH"
-              ]
+              "cat": ["EI_", { "var": "electricityProvider" }, "_ELEC_PER_KWH"]
             }
           }
         ]
       },
       "cf_elec_lightning": {
         "*": [
-          {
-            "var": "elecLightningKwh"
-          },
+          { "var": "elecLightningKwh" },
           {
             "var": {
-              "cat": [
-                "EI_",
-                {
-                  "var": "electricityProvider"
-                },
-                "_ELEC_PER_KWH"
-              ]
+              "cat": ["EI_", { "var": "electricityProvider" }, "_ELEC_PER_KWH"]
             }
           }
         ]
       },
       "cf_red_meat": {
-        "*": [
-          {
-            "var": "redMeatKgPerYear"
-          },
-          {
-            "var": "EI_RED_MEAT"
-          }
-        ]
+        "*": [{ "var": "redMeatKgPerYear" }, { "var": "EI_RED_MEAT" }]
       },
       "cf_white_meat": {
-        "*": [
-          {
-            "var": "whiteMeatKgPerYear"
-          },
-          {
-            "var": "EI_WHITE_MEAT"
-          }
-        ]
+        "*": [{ "var": "whiteMeatKgPerYear" }, { "var": "EI_WHITE_MEAT" }]
       },
-      "cf_fish": {
-        "*": [
-          {
-            "var": "fishKgPerYear"
-          },
-          {
-            "var": "EI_FISH"
-          }
-        ]
-      },
-      "cf_eggs": {
-        "*": [
-          {
-            "var": "eggsKgPerYear"
-          },
-          {
-            "var": "EI_EGGS"
-          }
-        ]
-      },
+      "cf_fish": { "*": [{ "var": "fishKgPerYear" }, { "var": "EI_FISH" }] },
+      "cf_eggs": { "*": [{ "var": "eggsKgPerYear" }, { "var": "EI_EGGS" }] },
       "cf_dairies": {
-        "*": [
-          {
-            "var": "dairiesKgPerYear"
-          },
-          {
-            "var": "EI_DAIRIES"
-          }
-        ]
+        "*": [{ "var": "dairiesKgPerYear" }, { "var": "EI_DAIRIES" }]
       },
       "cf_transformed_products": {
         "*": [
-          {
-            "var": "transformedProductsKgPerYear"
-          },
-          {
-            "var": "EI_TRANSFORMED_PRODUCTS"
-          }
+          { "var": "transformedProductsKgPerYear" },
+          { "var": "EI_TRANSFORMED_PRODUCTS" }
         ]
       },
       "cf_starches_and_groceries": {
         "*": [
-          {
-            "var": "starchesAndGroceriesKgPerYear"
-          },
-          {
-            "var": "EI_STARCHES_AND_GROCERIES"
-          }
+          { "var": "starchesAndGroceriesKgPerYear" },
+          { "var": "EI_STARCHES_AND_GROCERIES" }
         ]
       },
       "cf_local_fruits_and_vegetables": {
         "*": [
-          {
-            "var": "EI_LOCAL_FRUITS_AND_VEGETABLES"
-          },
-          {
-            "var": "fruitsAndVegetablesKgPerYear"
-          },
-          {
-            "var": "fruitsAndVegetablePercentageLocal"
-          }
+          { "var": "EI_LOCAL_FRUITS_AND_VEGETABLES" },
+          { "var": "fruitsAndVegetablesKgPerYear" },
+          { "var": "fruitsAndVegetablePercentageLocal" }
         ]
       },
       "cf_imported_fruits_and_vegetables": {
         "*": [
-          {
-            "var": "EI_IMPORTED_FRUITS_AND_VEGETABLES"
-          },
-          {
-            "var": "fruitsAndVegetablesKgPerYear"
-          },
-          {
-            "-": [
-              1,
-              {
-                "var": "fruitsAndVegetablePercentageLocal"
-              }
-            ]
-          }
+          { "var": "EI_IMPORTED_FRUITS_AND_VEGETABLES" },
+          { "var": "fruitsAndVegetablesKgPerYear" },
+          { "-": [1, { "var": "fruitsAndVegetablePercentageLocal" }] }
         ]
       },
       "cf_district_heating": 0,
       "cf_alcohol": {
-        "*": [
-          {
-            "var": "alcoholConsoLitersPerYear"
-          },
-          {
-            "var": "EI_ALCOHOL"
-          }
-        ]
+        "*": [{ "var": "alcoholConsoLitersPerYear" }, { "var": "EI_ALCOHOL" }]
       },
       "cf_hot_drinks": {
         "*": [
-          {
-            "var": "hotDrinksConsoLitersPerYear"
-          },
-          {
-            "var": "EI_HOT_DRINKS"
-          }
+          { "var": "hotDrinksConsoLitersPerYear" },
+          { "var": "EI_HOT_DRINKS" }
         ]
       },
       "cf_juices_and_sodas": {
         "*": [
-          {
-            "var": "juicesAndSodasConsoLitersPerYear"
-          },
-          {
-            "var": "EI_JUICES_AND_SODAS"
-          }
+          { "var": "juicesAndSodasConsoLitersPerYear" },
+          { "var": "EI_JUICES_AND_SODAS" }
         ]
       },
       "cf_small_devices_cradle_to_crate": {
-        "*": [
-          {
-            "var": "numberSmallDevices"
-          },
-          {
-            "var": "EI_SMALL_DEVICES"
-          }
-        ]
+        "*": [{ "var": "numberSmallDevices" }, { "var": "EI_SMALL_DEVICES" }]
       },
       "cf_big_devices_cradle_to_crate": {
-        "*": [
-          {
-            "var": "numberBigDevices"
-          },
-          {
-            "var": "EI_BIG_DEVICES"
-          }
-        ]
+        "*": [{ "var": "numberBigDevices" }, { "var": "EI_BIG_DEVICES" }]
       },
-      "cf_internet_others": {
-        "var": "CF_INTERNET_OTHERS"
-      },
+      "cf_internet_others": { "var": "CF_INTERNET_OTHERS" },
       "cf_internet_streaming": {
         "*": [
-          {
-            "var": "internetStreamingHoursPerYear"
-          },
-          {
-            "var": "EI_INTERNET_STREAMING"
-          }
+          { "var": "internetStreamingHoursPerYear" },
+          { "var": "EI_INTERNET_STREAMING" }
         ]
       },
       "cf_clothes": {
-        "*": [
-          {
-            "var": "clothesNewItems"
-          },
-          {
-            "var": "EI_CLOTHES_PER_ITEM"
-          }
-        ]
+        "*": [{ "var": "clothesNewItems" }, { "var": "EI_CLOTHES_PER_ITEM" }]
       },
-      "cf_services_electricity": {
-        "var": "CF_SERVICES_ELECTRICITY"
-      },
-      "cf_services_gas": {
-        "var": "CF_SERVICES_GAS"
-      },
+      "cf_services_electricity": { "var": "CF_SERVICES_ELECTRICITY" },
+      "cf_services_gas": { "var": "CF_SERVICES_GAS" },
       "cf_services_without_energy": {
         "var": "CF_GOODS_AND_SERVICES_WITHOUT_ENERGY"
       },
       "cf_activities_electricity": {
-        "*": [
-          {
-            "var": "activitiesPerYear"
-          },
-          {
-            "var": "EI_ACTIVITIES_ELEC"
-          }
-        ]
+        "*": [{ "var": "activitiesPerYear" }, { "var": "EI_ACTIVITIES_ELEC" }]
       },
       "cf_activities_gas": {
-        "*": [
-          {
-            "var": "activitiesPerYear"
-          },
-          {
-            "var": "EI_ACTIVITIES_GAS"
-          }
-        ]
+        "*": [{ "var": "activitiesPerYear" }, { "var": "EI_ACTIVITIES_GAS" }]
       },
       "cf_activities_without_energy": {
         "*": [
-          {
-            "var": "activitiesPerYear"
-          },
-          {
-            "var": "EI_ACTIVITIES_WITHOUT_ENERGY"
-          }
+          { "var": "activitiesPerYear" },
+          { "var": "EI_ACTIVITIES_WITHOUT_ENERGY" }
         ]
       },
-      "cf_other_public_services": {
-        "var": "CF_OTHER_SERVICES"
-      },
-      "cf_gas_public_services": {
-        "var": "CF_GAS_SERVICES"
-      },
-      "cf_elec_public_services": {
-        "var": "CF_ELEC_SERVICES"
-      }
+      "cf_other_public_services": { "var": "CF_OTHER_SERVICES" },
+      "cf_gas_public_services": { "var": "CF_GAS_SERVICES" },
+      "cf_elec_public_services": { "var": "CF_ELEC_SERVICES" }
     },
     "globalCarbonVariables": {
       "EI_URBAN_BUS": 0.15,
@@ -1369,26 +914,10 @@
         }
       },
       "EI_CAR": {
-        "URBAN": {
-          "FUEL": 0.232,
-          "ELECTRIC": 0.09915,
-          "HYBRID": 0.171
-        },
-        "BIG": {
-          "FUEL": 0.2665,
-          "ELECTRIC": 0.139,
-          "HYBRID": 0.2245
-        },
-        "SPORT": {
-          "FUEL": 0.344,
-          "ELECTRIC": 0.3125,
-          "HYBRID": 0.3125
-        },
-        "LOW_CARBON": {
-          "FUEL": 0.1,
-          "ELECTRIC": 0.1,
-          "HYBRID": 0.1
-        }
+        "URBAN": { "FUEL": 0.232, "ELECTRIC": 0.09915, "HYBRID": 0.171 },
+        "BIG": { "FUEL": 0.2665, "ELECTRIC": 0.139, "HYBRID": 0.2245 },
+        "SPORT": { "FUEL": 0.344, "ELECTRIC": 0.3125, "HYBRID": 0.3125 },
+        "LOW_CARBON": { "FUEL": 0.1, "ELECTRIC": 0.1, "HYBRID": 0.1 }
       },
       "MOTOR_AGING_FACTOR": {
         "FUEL": {
@@ -1430,14 +959,7 @@
         "operations": [
           {
             "variable": "kmCarCommutePerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCarCommutePerYear"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCarCommutePerYear" }, 0.5] }
           }
         ]
       },
@@ -1459,31 +981,14 @@
         "operations": [
           {
             "variable": "kmCarCommutePerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCarCommutePerYear"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCarCommutePerYear" }, 0.5] }
           },
           {
             "variable": "kmCoachCommutePerYear",
             "operation": {
               "+": [
-                {
-                  "var": "kmCoachCommutePerYear"
-                },
-                {
-                  "*": [
-                    0.5,
-                    {
-                      "var": "kmCarCommutePerYear"
-                    },
-                    0.5
-                  ]
-                }
+                { "var": "kmCoachCommutePerYear" },
+                { "*": [0.5, { "var": "kmCarCommutePerYear" }, 0.5] }
               ]
             }
           },
@@ -1491,18 +996,8 @@
             "variable": "kmUrbanTrainPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "kmUrbanTrainPerYear"
-                },
-                {
-                  "*": [
-                    0.5,
-                    {
-                      "var": "kmCarCommutePerYear"
-                    },
-                    0.5
-                  ]
-                }
+                { "var": "kmUrbanTrainPerYear" },
+                { "*": [0.5, { "var": "kmCarCommutePerYear" }, 0.5] }
               ]
             }
           }
@@ -1526,25 +1021,11 @@
         "operations": [
           {
             "variable": "passengersPerCarCommute",
-            "operation": {
-              "max": [
-                {
-                  "var": "passengersPerCarCommute"
-                },
-                3
-              ]
-            }
+            "operation": { "max": [{ "var": "passengersPerCarCommute" }, 3] }
           },
           {
             "variable": "passengersPerCarTravel",
-            "operation": {
-              "max": [
-                {
-                  "var": "passengersPerCarTravel"
-                },
-                3
-              ]
-            }
+            "operation": { "max": [{ "var": "passengersPerCarTravel" }, 3] }
           }
         ]
       },
@@ -1566,47 +1047,19 @@
         "operations": [
           {
             "variable": "kmCarCommutePerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCarCommutePerYear"
-                },
-                0.7
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCarCommutePerYear" }, 0.7] }
           },
           {
             "variable": "kmCoachCommutePerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCoachCommutePerYear"
-                },
-                0.7
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCoachCommutePerYear" }, 0.7] }
           },
           {
             "variable": "kmUrbanBusPerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmUrbanBusPerYear"
-                },
-                0.7
-              ]
-            }
+            "operation": { "*": [{ "var": "kmUrbanBusPerYear" }, 0.7] }
           },
           {
             "variable": "kmUrbanTrainPerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmUrbanTrainPerYear"
-                },
-                0.7
-              ]
-            }
+            "operation": { "*": [{ "var": "kmUrbanTrainPerYear" }, 0.7] }
           }
         ]
       },
@@ -1626,10 +1079,7 @@
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 5,
         "operations": [
-          {
-            "variable": "coefficientEnergyEfficientDriving",
-            "operation": 0.75
-          }
+          { "variable": "coefficientEnergyEfficientDriving", "operation": 0.75 }
         ]
       },
       {
@@ -1647,12 +1097,7 @@
         "systemicWeakSignals": 3,
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 35,
-        "operations": [
-          {
-            "variable": "kmPlane",
-            "operation": 0
-          }
-        ]
+        "operations": [{ "variable": "kmPlane", "operation": 0 }]
       },
       {
         "id": "6b7afad37ddc4d9a999cc2585e692456",
@@ -1672,47 +1117,19 @@
         "operations": [
           {
             "variable": "woodHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "woodHeatingKwh"
-                },
-                0.86
-              ]
-            }
+            "operation": { "*": [{ "var": "woodHeatingKwh" }, 0.86] }
           },
           {
             "variable": "fuelHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "fuelHeatingKwh"
-                },
-                0.86
-              ]
-            }
+            "operation": { "*": [{ "var": "fuelHeatingKwh" }, 0.86] }
           },
           {
             "variable": "elecHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "elecHeatingKwh"
-                },
-                0.86
-              ]
-            }
+            "operation": { "*": [{ "var": "elecHeatingKwh" }, 0.86] }
           },
           {
             "variable": "gasHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "gasHeatingKwh"
-                },
-                0.86
-              ]
-            }
+            "operation": { "*": [{ "var": "gasHeatingKwh" }, 0.86] }
           }
         ]
       },
@@ -1734,36 +1151,15 @@
         "operations": [
           {
             "variable": "woodWaterHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "woodWaterHeatingKwh"
-                },
-                0.58
-              ]
-            }
+            "operation": { "*": [{ "var": "woodWaterHeatingKwh" }, 0.58] }
           },
           {
             "variable": "elecWaterHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "elecWaterHeatingKwh"
-                },
-                0.58
-              ]
-            }
+            "operation": { "*": [{ "var": "elecWaterHeatingKwh" }, 0.58] }
           },
           {
             "variable": "gasWaterHeatingKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "gasWaterHeatingKwh"
-                },
-                0.58
-              ]
-            }
+            "operation": { "*": [{ "var": "gasWaterHeatingKwh" }, 0.58] }
           }
         ]
       },
@@ -1785,14 +1181,7 @@
         "operations": [
           {
             "variable": "elecLightningKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "elecLightningKwh"
-                },
-                0.8
-              ]
-            }
+            "operation": { "*": [{ "var": "elecLightningKwh" }, 0.8] }
           }
         ]
       },
@@ -1812,10 +1201,7 @@
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 40,
         "operations": [
-          {
-            "variable": "electricityProvider",
-            "operation": "ALTERNATIVE"
-          }
+          { "variable": "electricityProvider", "operation": "ALTERNATIVE" }
         ]
       },
       {
@@ -1836,14 +1222,7 @@
         "operations": [
           {
             "variable": "residents_per_housing",
-            "operation": {
-              "+": [
-                {
-                  "var": "residents_per_housing"
-                },
-                1
-              ]
-            }
+            "operation": { "+": [{ "var": "residents_per_housing" }, 1] }
           }
         ]
       },
@@ -1865,47 +1244,19 @@
         "operations": [
           {
             "variable": "numberSmallAppliances",
-            "operation": {
-              "*": [
-                {
-                  "var": "numberSmallAppliances"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "numberSmallAppliances" }, 0.5] }
           },
           {
             "variable": "numberBigAppliances",
-            "operation": {
-              "*": [
-                {
-                  "var": "numberBigAppliances"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "numberBigAppliances" }, 0.5] }
           },
           {
             "variable": "numberSmallDevices",
-            "operation": {
-              "*": [
-                {
-                  "var": "numberSmallDevices"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "numberSmallDevices" }, 0.5] }
           },
           {
             "variable": "numberBigDevices",
-            "operation": {
-              "*": [
-                {
-                  "var": "numberBigDevices"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "numberBigDevices" }, 0.5] }
           }
         ]
       },
@@ -1927,14 +1278,7 @@
         "operations": [
           {
             "variable": "clothesNewItems",
-            "operation": {
-              "*": [
-                {
-                  "var": "clothesNewItems"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "clothesNewItems" }, 0.5] }
           }
         ]
       },
@@ -1957,12 +1301,7 @@
           {
             "variable": "internetStreamingHoursPerYear",
             "operation": {
-              "*": [
-                {
-                  "var": "internetStreamingHoursPerYear"
-                },
-                0.5
-              ]
+              "*": [{ "var": "internetStreamingHoursPerYear" }, 0.5]
             }
           }
         ]
@@ -1986,49 +1325,24 @@
           {
             "variable": "redMeatKgPerYear",
             "operation": {
-              "*": [
-                {
-                  "var": "redMeatKgPerYear"
-                },
-                {
-                  "/": [2, 7]
-                }
-              ]
+              "*": [{ "var": "redMeatKgPerYear" }, { "/": [2, 7] }]
             }
           },
           {
             "variable": "whiteMeatKgPerYear",
             "operation": {
-              "*": [
-                {
-                  "var": "whiteMeatKgPerYear"
-                },
-                {
-                  "/": [2, 7]
-                }
-              ]
+              "*": [{ "var": "whiteMeatKgPerYear" }, { "/": [2, 7] }]
             }
           },
           {
             "variable": "fishKgPerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "fishKgPerYear"
-                },
-                {
-                  "/": [2, 7]
-                }
-              ]
-            }
+            "operation": { "*": [{ "var": "fishKgPerYear" }, { "/": [2, 7] }] }
           },
           {
             "variable": "fruitsAndVegetablesKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "fruitsAndVegetablesKgPerYear"
-                },
+                { "var": "fruitsAndVegetablesKgPerYear" },
                 {
                   "*": [
                     0.5,
@@ -2039,20 +1353,12 @@
                       "*": [
                         {
                           "+": [
-                            {
-                              "var": "redMeatKgPerYear"
-                            },
-                            {
-                              "var": "whiteMeatKgPerYear"
-                            },
-                            {
-                              "var": "fishKgPerYear"
-                            }
+                            { "var": "redMeatKgPerYear" },
+                            { "var": "whiteMeatKgPerYear" },
+                            { "var": "fishKgPerYear" }
                           ]
                         },
-                        {
-                          "/": [2, 7]
-                        }
+                        { "/": [2, 7] }
                       ]
                     }
                   ]
@@ -2064,9 +1370,7 @@
             "variable": "starchesAndGroceriesKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "starchesAndGroceriesKgPerYear"
-                },
+                { "var": "starchesAndGroceriesKgPerYear" },
                 {
                   "*": [
                     0.5,
@@ -2077,20 +1381,12 @@
                       "*": [
                         {
                           "+": [
-                            {
-                              "var": "redMeatKgPerYear"
-                            },
-                            {
-                              "var": "whiteMeatKgPerYear"
-                            },
-                            {
-                              "var": "fishKgPerYear"
-                            }
+                            { "var": "redMeatKgPerYear" },
+                            { "var": "whiteMeatKgPerYear" },
+                            { "var": "fishKgPerYear" }
                           ]
                         },
-                        {
-                          "/": [2, 7]
-                        }
+                        { "/": [2, 7] }
                       ]
                     }
                   ]
@@ -2118,30 +1414,14 @@
         "operations": [
           {
             "variable": "redMeatKgPerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "redMeatKgPerYear"
-                },
-                0.2
-              ]
-            }
+            "operation": { "*": [{ "var": "redMeatKgPerYear" }, 0.2] }
           },
           {
             "variable": "whiteMeatKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "whiteMeatKgPerYear"
-                },
-                {
-                  "*": [
-                    {
-                      "var": "redMeatKgPerYear"
-                    },
-                    0.8
-                  ]
-                }
+                { "var": "whiteMeatKgPerYear" },
+                { "*": [{ "var": "redMeatKgPerYear" }, 0.8] }
               ]
             }
           }
@@ -2165,33 +1445,17 @@
         "operations": [
           {
             "variable": "eggsKgPerYear",
-            "operation": {
-              "/": [
-                {
-                  "var": "eggsKgPerYear"
-                },
-                3
-              ]
-            }
+            "operation": { "/": [{ "var": "eggsKgPerYear" }, 3] }
           },
           {
             "variable": "dairiesKgPerYear",
-            "operation": {
-              "/": [
-                {
-                  "var": "dairiesKgPerYear"
-                },
-                3
-              ]
-            }
+            "operation": { "/": [{ "var": "dairiesKgPerYear" }, 3] }
           },
           {
             "variable": "fruitsAndVegetablesKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "fruitsAndVegetablesKgPerYear"
-                },
+                { "var": "fruitsAndVegetablesKgPerYear" },
                 {
                   "*": [
                     0.5,
@@ -2202,12 +1466,8 @@
                       "/": [
                         {
                           "+": [
-                            {
-                              "var": "eggsKgPerYear"
-                            },
-                            {
-                              "var": "dairiesKgPerYear"
-                            }
+                            { "var": "eggsKgPerYear" },
+                            { "var": "dairiesKgPerYear" }
                           ]
                         },
                         3
@@ -2222,9 +1482,7 @@
             "variable": "starchesAndGroceriesKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "starchesAndGroceriesKgPerYear"
-                },
+                { "var": "starchesAndGroceriesKgPerYear" },
                 {
                   "*": [
                     0.5,
@@ -2235,12 +1493,8 @@
                       "/": [
                         {
                           "+": [
-                            {
-                              "var": "eggsKgPerYear"
-                            },
-                            {
-                              "var": "dairiesKgPerYear"
-                            }
+                            { "var": "eggsKgPerYear" },
+                            { "var": "dairiesKgPerYear" }
                           ]
                         },
                         3
@@ -2273,17 +1527,11 @@
             "variable": "transformedProductsKgPerYear",
             "operation": {
               "min": [
-                {
-                  "var": "transformedProductsKgPerYear"
-                },
+                { "var": "transformedProductsKgPerYear" },
                 {
                   "*": [
-                    {
-                      "var": "TRANSFORMED_PRODUCTS_KG_PER_CONSO"
-                    },
-                    {
-                      "var": "WEEKS_PER_YEAR"
-                    },
+                    { "var": "TRANSFORMED_PRODUCTS_KG_PER_CONSO" },
+                    { "var": "WEEKS_PER_YEAR" },
                     1
                   ]
                 }
@@ -2294,9 +1542,7 @@
             "variable": "starchesAndGroceriesKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "starchesAndGroceriesKgPerYear"
-                },
+                { "var": "starchesAndGroceriesKgPerYear" },
                 {
                   "*": [
                     0.5,
@@ -2305,22 +1551,14 @@
                     },
                     {
                       "-": [
-                        {
-                          "var": "transformedProductsKgPerYear"
-                        },
+                        { "var": "transformedProductsKgPerYear" },
                         {
                           "min": [
-                            {
-                              "var": "transformedProductsKgPerYear"
-                            },
+                            { "var": "transformedProductsKgPerYear" },
                             {
                               "*": [
-                                {
-                                  "var": "TRANSFORMED_PRODUCTS_KG_PER_CONSO"
-                                },
-                                {
-                                  "var": "WEEKS_PER_YEAR"
-                                },
+                                { "var": "TRANSFORMED_PRODUCTS_KG_PER_CONSO" },
+                                { "var": "WEEKS_PER_YEAR" },
                                 1
                               ]
                             }
@@ -2337,9 +1575,7 @@
             "variable": "fruitsAndVegetablesKgPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "fruitsAndVegetablesKgPerYear"
-                },
+                { "var": "fruitsAndVegetablesKgPerYear" },
                 {
                   "*": [
                     0.5,
@@ -2348,22 +1584,14 @@
                     },
                     {
                       "-": [
-                        {
-                          "var": "transformedProductsKgPerYear"
-                        },
+                        { "var": "transformedProductsKgPerYear" },
                         {
                           "min": [
-                            {
-                              "var": "transformedProductsKgPerYear"
-                            },
+                            { "var": "transformedProductsKgPerYear" },
                             {
                               "*": [
-                                {
-                                  "var": "TRANSFORMED_PRODUCTS_KG_PER_CONSO"
-                                },
-                                {
-                                  "var": "WEEKS_PER_YEAR"
-                                },
+                                { "var": "TRANSFORMED_PRODUCTS_KG_PER_CONSO" },
+                                { "var": "WEEKS_PER_YEAR" },
                                 1
                               ]
                             }
@@ -2397,12 +1625,7 @@
           {
             "variable": "fruitsAndVegetablePercentageLocal",
             "operation": {
-              "max": [
-                0.9,
-                {
-                  "var": "fruitsAndVegetablePercentageLocal"
-                }
-              ]
+              "max": [0.9, { "var": "fruitsAndVegetablePercentageLocal" }]
             }
           }
         ]
@@ -2425,35 +1648,18 @@
         "operations": [
           {
             "variable": "alcoholConsoLitersPerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "alcoholConsoLitersPerYear"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "alcoholConsoLitersPerYear" }, 0.5] }
           },
           {
             "variable": "juicesAndSodasConsoLitersPerYear",
             "operation": {
-              "*": [
-                {
-                  "var": "juicesAndSodasConsoLitersPerYear"
-                },
-                0.5
-              ]
+              "*": [{ "var": "juicesAndSodasConsoLitersPerYear" }, 0.5]
             }
           },
           {
             "variable": "hotDrinksConsoLitersPerYear",
             "operation": {
-              "*": [
-                {
-                  "var": "hotDrinksConsoLitersPerYear"
-                },
-                0.5
-              ]
+              "*": [{ "var": "hotDrinksConsoLitersPerYear" }, 0.5]
             }
           }
         ]
@@ -2661,14 +1867,8 @@
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 1000,
         "operations": [
-          {
-            "variable": "categoryCarCommute",
-            "operation": "LOW_CARBON"
-          },
-          {
-            "variable": "categoryCarTravel",
-            "operation": "LOW_CARBON"
-          }
+          { "variable": "categoryCarCommute", "operation": "LOW_CARBON" },
+          { "variable": "categoryCarTravel", "operation": "LOW_CARBON" }
         ]
       },
       {
@@ -2689,54 +1889,24 @@
         "operations": [
           {
             "variable": "kmCarCommutePerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCarCommutePerYear"
-                },
-                0.8
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCarCommutePerYear" }, 0.8] }
           },
           {
             "variable": "kmCarTravelPerYear",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCarTravelPerYear"
-                },
-                0.8
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCarTravelPerYear" }, 0.8] }
           },
           {
             "variable": "kmUrbanTrainPerYear",
             "operation": {
               "+": [
-                {
-                  "var": "kmUrbanTrainPerYear"
-                },
-                {
-                  "*": [
-                    {
-                      "var": "kmCarCommutePerYear"
-                    },
-                    0.2
-                  ]
-                }
+                { "var": "kmUrbanTrainPerYear" },
+                { "*": [{ "var": "kmCarCommutePerYear" }, 0.2] }
               ]
             }
           },
           {
             "variable": "kmCountryTrain",
-            "operation": {
-              "*": [
-                {
-                  "var": "kmCarTravelPerYear"
-                },
-                0.2
-              ]
-            }
+            "operation": { "*": [{ "var": "kmCarTravelPerYear" }, 0.2] }
           }
         ]
       },
@@ -2755,12 +1925,7 @@
         "systemicWeakSignals": 0,
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 1000,
-        "operations": [
-          {
-            "variable": "kmPlane",
-            "operation": 0
-          }
-        ]
+        "operations": [{ "variable": "kmPlane", "operation": 0 }]
       },
       {
         "id": "a4d07e835987453295a036b701ff6196",
@@ -2780,25 +1945,11 @@
         "operations": [
           {
             "variable": "passengersPerCarCommute",
-            "operation": {
-              "max": [
-                {
-                  "var": "passengersPerCarCommute"
-                },
-                2.4
-              ]
-            }
+            "operation": { "max": [{ "var": "passengersPerCarCommute" }, 2.4] }
           },
           {
             "variable": "passengersPerCarTravel",
-            "operation": {
-              "max": [
-                {
-                  "var": "passengersPerCarTravel"
-                },
-                2.4
-              ]
-            }
+            "operation": { "max": [{ "var": "passengersPerCarTravel" }, 2.4] }
           }
         ]
       },
@@ -2820,47 +1971,19 @@
         "operations": [
           {
             "variable": "woodHeatingKwh",
-            "operation": {
-              "min": [
-                {
-                  "var": "woodHeatingKwh"
-                },
-                40
-              ]
-            }
+            "operation": { "min": [{ "var": "woodHeatingKwh" }, 40] }
           },
           {
             "variable": "gasHeatingKwh",
-            "operation": {
-              "min": [
-                {
-                  "var": "gasHeatingKwh"
-                },
-                40
-              ]
-            }
+            "operation": { "min": [{ "var": "gasHeatingKwh" }, 40] }
           },
           {
             "variable": "fuelHeatingKwh",
-            "operation": {
-              "min": [
-                {
-                  "var": "fuelHeatingKwh"
-                },
-                40
-              ]
-            }
+            "operation": { "min": [{ "var": "fuelHeatingKwh" }, 40] }
           },
           {
             "variable": "elecHeatingKwh",
-            "operation": {
-              "min": [
-                {
-                  "var": "elecHeatingKwh"
-                },
-                40
-              ]
-            }
+            "operation": { "min": [{ "var": "elecHeatingKwh" }, 40] }
           }
         ]
       },
@@ -2880,65 +2003,31 @@
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 1000,
         "operations": [
-          {
-            "variable": "woodHeatingKwh",
-            "operation": 0
-          },
-          {
-            "variable": "gasHeatingKwh",
-            "operation": 0
-          },
-          {
-            "variable": "fuelHeatingKwh",
-            "operation": 0
-          },
+          { "variable": "woodHeatingKwh", "operation": 0 },
+          { "variable": "gasHeatingKwh", "operation": 0 },
+          { "variable": "fuelHeatingKwh", "operation": 0 },
           {
             "variable": "elecHeatingKwh",
             "operation": {
               "+": [
-                {
-                  "var": "elecHeatingKwh"
-                },
-                {
-                  "var": "woodHeatingKwh"
-                },
-                {
-                  "var": "gasHeatingKwh"
-                },
-                {
-                  "var": "fuelHeatingKwh"
-                }
+                { "var": "elecHeatingKwh" },
+                { "var": "woodHeatingKwh" },
+                { "var": "gasHeatingKwh" },
+                { "var": "fuelHeatingKwh" }
               ]
             }
           },
-          {
-            "variable": "woodWaterHeatingKwh",
-            "operation": 0
-          },
-          {
-            "variable": "gasWaterHeatingKwh",
-            "operation": 0
-          },
-          {
-            "variable": "fuelWaterHeatingKwh",
-            "operation": 0
-          },
+          { "variable": "woodWaterHeatingKwh", "operation": 0 },
+          { "variable": "gasWaterHeatingKwh", "operation": 0 },
+          { "variable": "fuelWaterHeatingKwh", "operation": 0 },
           {
             "variable": "elecWaterHeatingKwh",
             "operation": {
               "+": [
-                {
-                  "var": "elecWaterHeatingKwh"
-                },
-                {
-                  "var": "woodWaterHeatingKwh"
-                },
-                {
-                  "var": "gasWaterHeatingKwh"
-                },
-                {
-                  "var": "fuelWaterHeatingKwh"
-                }
+                { "var": "elecWaterHeatingKwh" },
+                { "var": "woodWaterHeatingKwh" },
+                { "var": "gasWaterHeatingKwh" },
+                { "var": "fuelWaterHeatingKwh" }
               ]
             }
           }
@@ -2962,14 +2051,7 @@
         "operations": [
           {
             "variable": "elecLightningKwh",
-            "operation": {
-              "*": [
-                {
-                  "var": "elecLightningKwh"
-                },
-                0.5
-              ]
-            }
+            "operation": { "*": [{ "var": "elecLightningKwh" }, 0.5] }
           }
         ]
       },
@@ -2991,47 +2073,19 @@
         "operations": [
           {
             "variable": "CF_GAS_SERVICES",
-            "operation": {
-              "*": [
-                {
-                  "var": "CF_GAS_SERVICES"
-                },
-                0.464
-              ]
-            }
+            "operation": { "*": [{ "var": "CF_GAS_SERVICES" }, 0.464] }
           },
           {
             "variable": "CF_ELEC_SERVICES",
-            "operation": {
-              "*": [
-                {
-                  "var": "CF_ELEC_SERVICES"
-                },
-                0.464
-              ]
-            }
+            "operation": { "*": [{ "var": "CF_ELEC_SERVICES" }, 0.464] }
           },
           {
             "variable": "EI_ACTIVITIES_GAS",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ACTIVITIES_GAS"
-                },
-                0.464
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ACTIVITIES_GAS" }, 0.464] }
           },
           {
             "variable": "EI_ACTIVITIES_ELEC",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ACTIVITIES_ELEC"
-                },
-                0.464
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ACTIVITIES_ELEC" }, 0.464] }
           }
         ]
       },
@@ -3053,25 +2107,11 @@
         "operations": [
           {
             "variable": "CF_ELEC_SERVICES",
-            "operation": {
-              "*": [
-                {
-                  "var": "CF_ELEC_SERVICES"
-                },
-                0.6
-              ]
-            }
+            "operation": { "*": [{ "var": "CF_ELEC_SERVICES" }, 0.6] }
           },
           {
             "variable": "EI_ACTIVITIES_ELEC",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ACTIVITIES_ELEC"
-                },
-                0.6
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ACTIVITIES_ELEC" }, 0.6] }
           }
         ]
       },
@@ -3093,135 +2133,55 @@
         "operations": [
           {
             "variable": "EI_RED_MEAT",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_RED_MEAT"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_RED_MEAT" }, 0.98] }
           },
           {
             "variable": "EI_WHITE_MEAT",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_WHITE_MEAT"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_WHITE_MEAT" }, 0.98] }
           },
           {
             "variable": "EI_FISH",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_FISH"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_FISH" }, 0.98] }
           },
           {
             "variable": "EI_EGGS",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_EGGS"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_EGGS" }, 0.98] }
           },
           {
             "variable": "EI_DAIRIES",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_DAIRIES"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_DAIRIES" }, 0.98] }
           },
           {
             "variable": "EI_LOCAL_FRUITS_AND_VEGETABLES",
             "operation": {
-              "*": [
-                {
-                  "var": "EI_LOCAL_FRUITS_AND_VEGETABLES"
-                },
-                0.98
-              ]
+              "*": [{ "var": "EI_LOCAL_FRUITS_AND_VEGETABLES" }, 0.98]
             }
           },
           {
             "variable": "EI_IMPORTED_FRUITS_AND_VEGETABLES",
             "operation": {
-              "*": [
-                {
-                  "var": "EI_IMPORTED_FRUITS_AND_VEGETABLES"
-                },
-                0.98
-              ]
+              "*": [{ "var": "EI_IMPORTED_FRUITS_AND_VEGETABLES" }, 0.98]
             }
           },
           {
             "variable": "EI_TRANSFORMED_PRODUCTS",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_TRANSFORMED_PRODUCTS"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_TRANSFORMED_PRODUCTS" }, 0.98] }
           },
           {
             "variable": "EI_STARCHES_AND_GROCERIES",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_STARCHES_AND_GROCERIES"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_STARCHES_AND_GROCERIES" }, 0.98] }
           },
           {
             "variable": "EI_ALCOHOL",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ALCOHOL"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ALCOHOL" }, 0.98] }
           },
           {
             "variable": "EI_HOT_DRINKS",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_HOT_DRINKS"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_HOT_DRINKS" }, 0.98] }
           },
           {
             "variable": "EI_JUICES_AND_SODAS",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_JUICES_AND_SODAS"
-                },
-                0.98
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_JUICES_AND_SODAS" }, 0.98] }
           }
         ]
       },
@@ -3243,36 +2203,15 @@
         "operations": [
           {
             "variable": "EI_GAS_PER_KWH",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_GAS_PER_KWH"
-                },
-                0.1
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_GAS_PER_KWH" }, 0.1] }
           },
           {
             "variable": "EI_ACTIVITIES_GAS",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ACTIVITIES_GAS"
-                },
-                0.1
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ACTIVITIES_GAS" }, 0.1] }
           },
           {
             "variable": "CF_GAS_SERVICES",
-            "operation": {
-              "*": [
-                {
-                  "var": "CF_GAS_SERVICES"
-                },
-                0.1
-              ]
-            }
+            "operation": { "*": [{ "var": "CF_GAS_SERVICES" }, 0.1] }
           }
         ]
       },
@@ -3292,31 +2231,14 @@
         "systemicPressureScore": 0,
         "reluctancyForCitizens": 1000,
         "operations": [
-          {
-            "variable": "EI_ELEC_CONVENTIONAL_PER_KWH",
-            "operation": 0.04
-          },
+          { "variable": "EI_ELEC_CONVENTIONAL_PER_KWH", "operation": 0.04 },
           {
             "variable": "CF_ELEC_SERVICES",
-            "operation": {
-              "*": [
-                {
-                  "var": "CF_ELEC_SERVICES"
-                },
-                0.39
-              ]
-            }
+            "operation": { "*": [{ "var": "CF_ELEC_SERVICES" }, 0.39] }
           },
           {
             "variable": "EI_ACTIVITIES_ELEC",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ACTIVITIES_ELEC"
-                },
-                0.39
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ACTIVITIES_ELEC" }, 0.39] }
           }
         ]
       },
@@ -3338,14 +2260,7 @@
         "operations": [
           {
             "variable": "EI_ELEC_CONVENTIONAL_PER_KWH",
-            "operation": {
-              "*": [
-                {
-                  "var": "EI_ELEC_CONVENTIONAL_PER_KWH"
-                },
-                1
-              ]
-            }
+            "operation": { "*": [{ "var": "EI_ELEC_CONVENTIONAL_PER_KWH" }, 1] }
           }
         ]
       },
@@ -4521,8 +3436,8 @@
             "woodHeatingKwh": 0,
             "woodCookingKwh": 0,
             "woodWaterHeatingKwh": 0,
-            "gasHeatingKwh": 60000,
-            "gasCookingKwh": 60000,
+            "gasHeatingKwh": 5398.323678436695,
+            "gasCookingKwh": 174.96882546998566,
             "gasWaterHeatingKwh": 3379.1499999999996,
             "fuelHeatingKwh": 0,
             "fuelCookingKwh": 0,
@@ -5987,26 +4902,10 @@
           }
         },
         "EI_CAR": {
-          "URBAN": {
-            "FUEL": 0.232,
-            "ELECTRIC": 0.09915,
-            "HYBRID": 0.171
-          },
-          "BIG": {
-            "FUEL": 0.2665,
-            "ELECTRIC": 0.139,
-            "HYBRID": 0.2245
-          },
-          "SPORT": {
-            "FUEL": 0.344,
-            "ELECTRIC": 0.3125,
-            "HYBRID": 0.3125
-          },
-          "LOW_CARBON": {
-            "FUEL": 0.1,
-            "ELECTRIC": 0.1,
-            "HYBRID": 0.1
-          }
+          "URBAN": { "FUEL": 0.232, "ELECTRIC": 0.09915, "HYBRID": 0.171 },
+          "BIG": { "FUEL": 0.2665, "ELECTRIC": 0.139, "HYBRID": 0.2245 },
+          "SPORT": { "FUEL": 0.344, "ELECTRIC": 0.3125, "HYBRID": 0.3125 },
+          "LOW_CARBON": { "FUEL": 0.1, "ELECTRIC": 0.1, "HYBRID": 0.1 }
         },
         "MOTOR_AGING_FACTOR": {
           "FUEL": {
@@ -6029,6 +4928,7 @@
         "CF_ELEC_SERVICES": 301,
         "CF_OTHER_SERVICES": 363
       },
+      "socialVariables": { "socialScore": 0, "influenceScore": 0 },
       "carbonFootprints": [
         {
           "participantId": "afef3d752f594b5cbc9142935f1e40bb",
@@ -6038,11 +4938,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 1250
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 1250 },
                   {
                     "name": "train",
                     "children": [
@@ -6202,12 +5098,12 @@
                           {
                             "name": "gasHeating",
                             "cfKey": "cf_gas_heating",
-                            "value": 13620
+                            "value": 1225.41947500513
                           },
                           {
                             "name": "gasCooking",
                             "cfKey": "cf_gas_cooking",
-                            "value": 13620
+                            "value": 39.717923381686745
                           },
                           {
                             "name": "gasWaterHeating",
@@ -6215,7 +5111,7 @@
                             "value": 767.06705
                           }
                         ],
-                        "value": 28007.06705
+                        "value": 2032.2044483868167
                       },
                       {
                         "name": "fuel",
@@ -6265,10 +5161,10 @@
                         "value": 0
                       }
                     ],
-                    "value": 28107.14241
+                    "value": 2132.2798083868165
                   }
                 ],
-                "value": 29393.1468544
+                "value": 3418.2842527868165
               },
               {
                 "name": "food",
@@ -6485,7 +5381,7 @@
                 "value": 1000
               }
             ],
-            "value": 41649.849767222215
+            "value": 15674.98716560903
           }
         },
         {
@@ -6496,11 +5392,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 500
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 500 },
                   {
                     "name": "train",
                     "children": [
@@ -6734,11 +5626,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -6776,11 +5664,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -6954,11 +5838,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -7234,11 +6114,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -7412,11 +6288,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -7872,11 +6744,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -8110,11 +6978,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -8203,11 +7067,7 @@
               {
                 "name": "others",
                 "children": [
-                  {
-                    "name": "clothing",
-                    "cfKey": "cf_clothes",
-                    "value": 671.4
-                  },
+                  { "name": "clothing", "cfKey": "cf_clothes", "value": 671.4 },
                   {
                     "name": "digital",
                     "children": [
@@ -8330,11 +7190,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 500
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 500 },
                   {
                     "name": "train",
                     "children": [
@@ -8568,11 +7424,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -8610,11 +7462,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -8788,11 +7636,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 500
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 500 },
                   {
                     "name": "train",
                     "children": [
@@ -9068,11 +7912,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -9246,11 +8086,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -9704,11 +8540,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -9942,11 +8774,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -9976,19 +8804,11 @@
                     ],
                     "value": 698.670225
                   },
-                  {
-                    "name": "fish",
-                    "cfKey": "cf_fish",
-                    "value": 349.3351125
-                  },
+                  { "name": "fish", "cfKey": "cf_fish", "value": 349.3351125 },
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -10162,11 +8982,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -10400,11 +9216,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -10442,11 +9254,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 286.671
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 286.671 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -10493,11 +9301,7 @@
               {
                 "name": "others",
                 "children": [
-                  {
-                    "name": "clothing",
-                    "cfKey": "cf_clothes",
-                    "value": 671.4
-                  },
+                  { "name": "clothing", "cfKey": "cf_clothes", "value": 671.4 },
                   {
                     "name": "digital",
                     "children": [
@@ -10620,11 +9424,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -10892,19 +9692,11 @@
                     ],
                     "value": 698.670225
                   },
-                  {
-                    "name": "fish",
-                    "cfKey": "cf_fish",
-                    "value": 349.3351125
-                  },
+                  { "name": "fish", "cfKey": "cf_fish", "value": 349.3351125 },
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -11078,11 +9870,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -11350,19 +10138,11 @@
                     ],
                     "value": 698.670225
                   },
-                  {
-                    "name": "fish",
-                    "cfKey": "cf_fish",
-                    "value": 349.3351125
-                  },
+                  { "name": "fish", "cfKey": "cf_fish", "value": 349.3351125 },
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -11536,11 +10316,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 1250
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 1250 },
                   {
                     "name": "train",
                     "children": [
@@ -11774,11 +10550,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -11816,11 +10588,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 286.671
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 286.671 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -11994,11 +10762,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 1250
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 1250 },
                   {
                     "name": "train",
                     "children": [
@@ -12232,11 +10996,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -12274,11 +11034,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 286.671
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 286.671 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -12452,11 +11208,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 1250
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 1250 },
                   {
                     "name": "train",
                     "children": [
@@ -12690,11 +11442,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -12732,11 +11480,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 286.671
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 286.671 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -12783,11 +11527,7 @@
               {
                 "name": "others",
                 "children": [
-                  {
-                    "name": "clothing",
-                    "cfKey": "cf_clothes",
-                    "value": 1119
-                  },
+                  { "name": "clothing", "cfKey": "cf_clothes", "value": 1119 },
                   {
                     "name": "digital",
                     "children": [
@@ -12910,11 +11650,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 1250
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 1250 },
                   {
                     "name": "train",
                     "children": [
@@ -13368,11 +12104,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 1250
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 1250 },
                   {
                     "name": "train",
                     "children": [
@@ -13699,11 +12431,7 @@
               {
                 "name": "others",
                 "children": [
-                  {
-                    "name": "clothing",
-                    "cfKey": "cf_clothes",
-                    "value": 1119
-                  },
+                  { "name": "clothing", "cfKey": "cf_clothes", "value": 1119 },
                   {
                     "name": "digital",
                     "children": [
@@ -13826,11 +12554,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 5000
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 5000 },
                   {
                     "name": "train",
                     "children": [
@@ -14106,11 +12830,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 286.671
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 286.671 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -14157,11 +12877,7 @@
               {
                 "name": "others",
                 "children": [
-                  {
-                    "name": "clothing",
-                    "cfKey": "cf_clothes",
-                    "value": 1119
-                  },
+                  { "name": "clothing", "cfKey": "cf_clothes", "value": 1119 },
                   {
                     "name": "digital",
                     "children": [
@@ -14284,11 +13000,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -14564,11 +13276,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -14742,11 +13450,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -14980,11 +13684,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -15022,11 +13722,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -15200,11 +13896,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -15480,11 +14172,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -15658,11 +14346,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -15938,11 +14622,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -16116,11 +14796,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -16354,11 +15030,7 @@
                   {
                     "name": "drinks",
                     "children": [
-                      {
-                        "name": "alcohol",
-                        "cfKey": "cf_alcohol",
-                        "value": 0
-                      },
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
                       {
                         "name": "hotDrinks",
                         "cfKey": "cf_hot_drinks",
@@ -16396,11 +15068,7 @@
                   {
                     "name": "eggsAndDairies",
                     "children": [
-                      {
-                        "name": "eggs",
-                        "cfKey": "cf_eggs",
-                        "value": 143.3355
-                      },
+                      { "name": "eggs", "cfKey": "cf_eggs", "value": 143.3355 },
                       {
                         "name": "dairies",
                         "cfKey": "cf_dairies",
@@ -16574,11 +15242,7 @@
               {
                 "name": "transports",
                 "children": [
-                  {
-                    "name": "plane",
-                    "cfKey": "cf_plane",
-                    "value": 0
-                  },
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
                   {
                     "name": "train",
                     "children": [
@@ -17024,13 +15688,10 @@
             "value": 10104.804871261544
           }
         }
-      ],
-      "socialVariables": {
-        "socialScore": 0,
-        "influenceScore": 0
-      }
+      ]
     }
   ],
+  "currentYear": 2020,
   "citizens": [
     {
       "id": "df05972dd0f348d1a57f4d17acb68722",

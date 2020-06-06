@@ -22,9 +22,10 @@ const averageFootprints = (footprints, initFootprint) => {
 
   keysParticipant.forEach((key) => {
     element = footprints[key].footprint;
-    footprintAverage['value'] =
-      (footprintAverage.value || 0) + element.value * weight;
-
+    if (element.value) {
+      footprintAverage['value'] =
+        (footprintAverage.value || 0) + element.value * weight;
+    }
     element.children.forEach((sector, i) => {
       footprintAverage.children[i]['value'] =
         (footprintAverage.children[i].value || 0) +

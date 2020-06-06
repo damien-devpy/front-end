@@ -16,13 +16,12 @@ import { useTranslation } from 'react-i18next';
 import { pathOr } from 'ramda';
 
 const colorsPalet = [
-  'blue',
-  'red',
-  'purple',
-  'green',
+  '#3869B1',
+  '#409852',
+  '#DA7E30',
+  '#6C4D9B',
   'brown',
   'black',
-  'lightblue',
   'darkgreen',
   'darkblue',
   'pink',

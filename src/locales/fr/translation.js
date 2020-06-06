@@ -55,6 +55,8 @@ export default {
     addACoach: 'Ajouter un animateur',
     addAWorkshop: 'Ajouter un atelier',
     admins: 'Administrateurs',
+    avg_participants: 'Moy. participants',
+    avg_global: 'Moy. nationale',
     awareness: 'SENSIBILISATION',
     batches: 'Lots',
     budget: 'Budget',

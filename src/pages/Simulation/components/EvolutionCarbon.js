@@ -55,7 +55,7 @@ const EvolutionCarbon = () => {
       .filter((k) => k !== 'year')
       .map((player_id) => participants[player_id])
       .map(
-        (player) => player.firstName + ' ' + player.lastName.split('')[1] + '.'
+        (player) => player.firstName + ' ' + player.lastName.split('')[0] + '.'
       );
   const participantName = (participant_id) => {
     console.log('part id ', participant_id);
@@ -63,7 +63,7 @@ const EvolutionCarbon = () => {
       return (
         participants[participant_id].firstName +
         ' ' +
-        participants[participant_id].lastName.split('')[1] +
+        participants[participant_id].lastName.split('')[0] +
         '.'
       );
     } else if (participant_id.toString().startsWith('avg_')) {

@@ -29,8 +29,9 @@ const ManageParticipants = () => {
   const { t } = useTranslation();
   // const { participants, isLoading, loadError } = useParticipants();
   const participants = useSelector(
-    (state) => state.workshop.result && state.workshop.entities.participants
+    (state) => state.workshop.entities && state.workshop.entities.participants
   );
+  console.log('participants', participants);
   const numParticipants = useSelector(
     (state) =>
       state.workshop.result &&
@@ -38,8 +39,9 @@ const ManageParticipants = () => {
       Object.keys(state.workshop.entities.participants).length
   );
   const personas = useSelector(
-    (state) => state.workshop.result && state.workshop.result.personas
+    (state) => state.workshop.entities && state.workshop.entities.personas
   );
+  console.log('personas', personas);
   const dispatch = useDispatch();
 
   // keep track of actived rows globally
@@ -84,6 +86,7 @@ const ManageParticipants = () => {
     personas &&
     Object.keys(participants).forEach((id) => {
       const p = participants[id];
+      console.log('participantss', p);
       participantItems.push(
         <ParticipantItemForm
           id={id}

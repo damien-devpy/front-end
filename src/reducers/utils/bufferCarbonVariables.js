@@ -1,9 +1,11 @@
-const WEEKS_PER_YEAR = 51;
-const DAYS_PER_YEAR = 365;
-const DAYS_PER_WEEK = 7;
-const MONTHS_PER_YEAR = 12;
-
 const computeCarbonVariables = (surveyVariables, globalVariables) => {
+  const {
+    WEEKS_PER_YEAR,
+    DAYS_PER_YEAR,
+    DAYS_PER_WEEK,
+    MONTHS_PER_YEAR,
+  } = globalVariables;
+
   // =================
   // ============================ Food ============================
   // =================

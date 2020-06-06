@@ -21,9 +21,10 @@ export const COLORS = {
     DARK: '#e4d500',
     STANDARD: '#feed00',
     LIGHT: '#feed00',
+    GOLD: '#BF9001',
   },
   ORANGE: {
-    DARK: '#f39c12',
+    DARK: '#B9760B',
     STANDARD: '#f39c12',
     LIGHT: '#f39c12',
   },
@@ -47,13 +48,21 @@ export const COLORS = {
     STANDARD: '#e6efff',
     LIGHT: '#eff7ff',
   },
+
+  PURPLE: {
+    LIGHT: '#A165BD',
+    DARK: '#59188C',
+    STANDARD: '#8100E5',
+    MILD: '#764D95',
+  },
   TRANSPARENT: 'transparent',
   FIGMA_YELLOW: '#B58E0C',
   FIGMA_BLUE_DARK: '#0064E5',
   FIGMA_BLUE_LIGHT: '#3FA2F7',
   FIGMA_BROWN_RED: '#BD5757',
   FIGMA_GREEN: '#638831', //'#5A990A',
-  FIGMA_VIOLET: '#9D57BD',
+  VIOLET: '#8100E5',
+  GOLD: '#BF9001',
 };
 
 export const FONT = {

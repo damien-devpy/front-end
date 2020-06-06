@@ -55,12 +55,14 @@ const ActionCardsForm = ({
                     const {
                       name: actionCardName,
                       cardNumber,
+                      sector,
                     } = actionCardsEntity[actionCardId];
                     return (
                       <ActionCardItem
                         key={actionCardId}
                         id={cardNumber}
                         text={actionCardName}
+                        sector={sector}
                         category={actionCardsEntity[actionCardId].subCategory}
                         active={actionCardBatchId === activeBatch}
                         checked={handleCheckedActionCard(actionCardId)}

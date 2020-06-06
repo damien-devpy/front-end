@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useWorkshop } from '../../hooks/workshop';
 import {
   currentRound,
   footprintDataToGraph,
@@ -18,6 +19,7 @@ import './components/simulationPage.css';
 import { COLORS } from '../../vars';
 
 const Simulation = () => {
+  const { entities, result, loadError, isLoading } = useWorkshop();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -78,33 +80,34 @@ const Simulation = () => {
               {t('common.nextRound')}
             </PrimaryButton>
           </Row>
-          {/* {loadError && <p>{t('common.loadError')}</p>}
+          {loadError && <p>{t('common.loadError')}</p>}
           {isLoading && (
             <Spinner animation="border" className="pt-3 mx-auto mt-5" />
-          )} */}
-
-          <Row style={{ height: '100vh' }}>
-            <Col sm={12} md={7} className="graph-col">
-              <Container className="graph-card">
-                <h4>
-                  {t('simulation.co2_evolution')}
-                  <span style={{ fontSize: '14px' }}>2</span>{' '}
-                  {t('simulation.per_person')}
-                </h4>
-                <EvolutionCarbon />
-              </Container>
-            </Col>
-            <Col sm={12} md={5} className="graph-col">
-              <Container className="graph-card">
-                <h4> {t('simulation.global_average')} </h4>
-                <FootprintGraphType type="globalAverage" />
-              </Container>
-              <Container className="graph-card">
-                <h4> {t('simulation.the_participants')} </h4>
-                <FootprintGraphType type="participantsAverage" />
-              </Container>
-            </Col>
-          </Row>
+          )}
+          {!isLoading && (
+            <Row style={{ height: '100vh' }}>
+              <Col sm={12} md={7} className="graph-col">
+                <Container className="graph-card">
+                  <h4>
+                    {t('simulation.co2_evolution')}
+                    <span style={{ fontSize: '14px' }}>2</span>{' '}
+                    {t('simulation.per_person')}
+                  </h4>
+                  <EvolutionCarbon />
+                </Container>
+              </Col>
+              <Col sm={12} md={5} className="graph-col">
+                <Container className="graph-card">
+                  <h4> {t('simulation.global_average')} </h4>
+                  <FootprintGraphType type="globalAverage" />
+                </Container>
+                <Container className="graph-card">
+                  <h4> {t('simulation.the_participants')} </h4>
+                  <FootprintGraphType type="participantsAverage" />
+                </Container>
+              </Col>
+            </Row>
+          )}
         </Container>
       </StyledSimulation>
       <CommonModal

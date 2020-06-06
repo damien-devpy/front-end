@@ -200,10 +200,12 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                           <ActionCardItemSimple
                             id={actionCardId}
                             key={actionCardId}
-                            text={actionCardsEntity[actionCardId].name}
-                            category={
-                              actionCardsEntity[actionCardId].subCategory
+                            cardNumber={
+                              actionCardsEntity[actionCardId].cardNumber
                             }
+                            text={actionCardsEntity[actionCardId].name}
+                            category={actionCardsEntity[actionCardId].category}
+                            sector={actionCardsEntity[actionCardId].sector}
                             cost={actionCardsEntity[actionCardId].cost}
                           />
                         )

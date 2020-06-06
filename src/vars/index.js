@@ -62,7 +62,7 @@ export const COLORS = {
   FIGMA_BROWN_RED: '#BD5757',
   FIGMA_GREEN: '#638831', //'#5A990A',
   VIOLET: '#8100E5',
-  GOLD: '#BF9001',
+  GOLD: '#8B6901',
 };
 
 export const FONT = {

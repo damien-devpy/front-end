@@ -52,13 +52,14 @@ const ActionCardsForm = ({
                     handleClick={() => setActiveBatch(actionCardBatchId)}
                   />
                   {actionCardIds.map((actionCardId) => {
-                    const { name: actionCardName } = actionCardsEntity[
-                      actionCardId
-                    ];
+                    const {
+                      name: actionCardName,
+                      cardNumber,
+                    } = actionCardsEntity[actionCardId];
                     return (
                       <ActionCardItem
                         key={actionCardId}
-                        id={actionCardId}
+                        id={cardNumber}
                         text={actionCardName}
                         category={actionCardsEntity[actionCardId].subCategory}
                         active={actionCardBatchId === activeBatch}

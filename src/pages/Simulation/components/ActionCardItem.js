@@ -76,10 +76,10 @@ export const ActionCardItemSimple = ({ id, text, category, cost }) => {
 // };
 
 const categoryColors = {
-  TRANSPORT: COLORS.FIGMA_BROWN_RED, // "#C80000",
-  LOGEMENT: COLORS.FIGMA_BLUE_DARK, // "#20388C",
-  CONSO: COLORS.FIGMA_GREEN, // "#388223", // "#C89600"
-  'BIENS DE CONSO': COLORS.FIGMA_YELLOW, // '#C89600'
+  transport: COLORS.FIGMA_BROWN_RED, // "#C80000",
+  housing: COLORS.FIGMA_BLUE_DARK, // "#20388C",
+  household: COLORS.FIGMA_GREEN, // "#388223", // "#C89600"
+  food: COLORS.FIGMA_YELLOW, // '#C89600'
 };
 
 // just for test at the moment
@@ -109,11 +109,11 @@ font-size: 0.8rem;
 color: white;
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) => categoryColors[props.category]};
+background: ${(props) => categoryColors[props.sector]};
 `;
 
 const StyledItemSimple = styled.div`
   color: white;
   font-size: 0.7rem;
-  background: ${(props) => categoryColors[props.category]};
+  background: ${(props) => categoryColors[props.sector]};
 `;

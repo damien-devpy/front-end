@@ -17,6 +17,7 @@
       "firstName": "Frédéric",
       "lastName": "De Lambilly",
       "email": "frederic.delamb@gmail.com",
+      "status": "registered",
       "description": "Famille CSC+ / Papa",
       "surveyVariables": {
         "meatAndFishConsoPerDay": "0.5",
@@ -68,6 +69,8 @@
       "id": "19f9ffd870e24f8c8dd9c82ef96d3abd",
       "firstName": "Marguerite",
       "lastName": "Roux",
+      "status": "registered",
+
       "email": "marguerite.roux@gmail.com",
       "description": "Famille citadin modeste / Maman",
       "surveyVariables": {
@@ -121,6 +124,7 @@
       "firstName": "Mohammed",
       "lastName": "Diaby",
       "email": "moha.diaby@hotmail.fr",
+      "status": "registered",
       "description": "Famille moyenne ville province",
       "surveyVariables": {
         "meatAndFishConsoPerDay": "2",
@@ -173,6 +177,7 @@
       "firstName": "Emma",
       "lastName": "Florette",
       "email": "emma.florette@outlook.com",
+      "status": "registered",
       "description": "Etudiante Stage BTS / Ville de province",
       "surveyVariables": {
         "meatAndFishConsoPerDay": "1",

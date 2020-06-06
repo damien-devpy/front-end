@@ -21,8 +21,9 @@ const filter_obj = (allowed, raw) => {
 const FootprintGraphType = ({ type, participantId }) => {
   console.log('type : ', type);
   const footprintStructure = useSelector((state) =>
-    pathOr([], state, workshop, result, model, footprintStructure)
+    pathOr([], ['workshop', 'result', 'model', 'footprintStructure'], state)
   );
+
   const currentRound = useSelector(
     (state) => state.workshop.result && state.workshop.result.currentYear
   );

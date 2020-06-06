@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'recharts';
 import { useTranslation } from 'react-i18next';
+import { pathOr } from 'ramda';
 
 const colorsPalet = [
   'blue',
@@ -39,7 +40,9 @@ const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
-  const rounds = useSelector((state) => state.workshop.entities.rounds);
+  const rounds = useSelector(
+    (state) => state.workshop.entities && state.workshop.entities.rounds
+  );
   const carbonFootprints = useSelector(
     (state) => state.workshop.entities.carbonFootprints
   );
@@ -71,11 +74,11 @@ const EvolutionCarbon = () => {
     } else return participant_id;
   };
 
-  const citizenFootprints = useSelector(
-    (state) => state.workshop.entities.citizenCarbonFootprints
+  const citizenFootprints = useSelector((state) =>
+    pathOr([], ['workshop', 'entities', 'citizenCarbonFootprints'], state)
   );
-  const footprintStructure = useSelector(
-    (state) => state.workshop.result.model.footprintStructure
+  const footprintStructure = useSelector((state) =>
+    pathOr([], ['workshop', 'result', 'model', 'footprintStructure'], state)
   );
   const evolutionData = computeEvolutionGraph(
     rounds,

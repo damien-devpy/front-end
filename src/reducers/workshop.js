@@ -234,6 +234,7 @@ export default (state = initialState, action) => {
           participantId
         );
         const actionCardIds =
+          state.entities.individualChoices &&
           state.entities.individualChoices[yearParticipantKey] &&
           state.entities.individualChoices[yearParticipantKey].actionCardIds
             ? state.entities.individualChoices[yearParticipantKey].actionCardIds

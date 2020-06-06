@@ -5,7 +5,10 @@ import React, { useState } from 'react';
 
 import {
   getCostOfChosenActionCards,
+  getCostOfChosenCollectiveCards,
   getInitRoundBudget,
+  getInitRoundBudgetCollective,
+  getNumberOfChosenCollectiveCards,
   selectCollectiveChoices,
   selectCollectiveRoundIds,
   selectIndividualChoicesForParticipant,
@@ -60,7 +63,7 @@ const ActionCardsEntry = ({
 
   const collectiveChoicesEntity = useSelector((state) =>
     state.workshop.entities.collectiveChoices
-      ? state.workshop.entities.collectiveChoies
+      ? state.workshop.entities.collectiveChoices
       : {}
   );
 
@@ -69,6 +72,14 @@ const ActionCardsEntry = ({
       state.workshop.entities.roundsConfig,
       state.workshop.entities.individualChoices,
       Object.keys(state.workshop.entities.participants),
+      state.workshop.entities.actionCards
+    )
+  );
+
+  const budgetCollective = useSelector((state) =>
+    getInitRoundBudgetCollective(
+      state.workshop.entities.roundsConfig,
+      state.workshop.entities.collectiveChoices,
       state.workshop.entities.actionCards
     )
   );
@@ -153,13 +164,19 @@ const ActionCardsEntry = ({
     const actionCardIds =
       collectiveChoicesMap[collectiveChoicesId] &&
       collectiveChoicesMap[collectiveChoicesId].actionCardIds;
-    const result = {
+    const updatedChoices = {
       ...collectiveChoicesMap,
       [collectiveChoicesId]: {
         actionCardIds: toggleArrayItem(actionCardIds, actionCardId),
       },
     };
-    return result;
+    const validChoice =
+      getCostOfChosenCollectiveCards(
+        updatedChoices,
+        actionCardsEntity,
+        round
+      ) <= budgetCollective;
+    return validChoice ? updatedChoices : collectiveChoicesMap;
   };
 
   const handleChoicesChange = (round, participantId) => (actionCardId) =>
@@ -216,6 +233,36 @@ const ActionCardsEntry = ({
             </Container>
           </Col>
         )}
+        {roundActionCardType === 'collective' && (
+          <Col sm={3} md={3} className="align-self-center">
+            <Container>
+              <Row>
+                <h6>
+                  Actions{' '}
+                  {getNumberOfChosenCollectiveCards(
+                    currentCollectiveChoices,
+                    currentRound
+                  )}
+                  &#10003;
+                </h6>
+              </Row>
+              <Row>
+                <h6>Budget{' '}
+                  {budgetCollective -
+                    getCostOfChosenCollectiveCards(
+                      currentCollectiveChoices,
+                      actionCardsEntity,
+                      currentRound
+                    )}
+                  <span className="emoji" style={{ color: 'black' }}>
+                    &#128176;
+                  </span>
+                </h6>
+              </Row>
+            </Container>
+          </Col>
+        )}
+
         <Col sm={8} md={8}>
           <Container>
             <h4>{t('common.batches')}</h4>

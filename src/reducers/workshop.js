@@ -25,16 +25,16 @@ import {
 } from '../actions/workshop';
 import { pathOr } from 'ramda';
 
+import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   computeBudget,
   computeCitizenIndividualChoices,
-  computeSocialVariables,
   computeFootprint,
   computeNewCarbonVariables,
+  computeSocialVariables,
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
-import computeCarbonVariables from './utils/bufferCarbonVariables';
 import { workshopSchema } from '../normalizers';
 
 export const MISSING_INFO = 'MISSING_INFO';
@@ -642,18 +642,18 @@ export default (state = initialState, action) => {
         ...state,
         entities: {
           ...state.entities,
-        },
-        citizenCarbonVariables: {
-          ...state.entities.citizenCarbonVariables,
-          ...newCarbonVariables,
-        },
-        rounds: {
-          ...state.entities.rounds,
-          [yearTo]: {
-            ...state.entities.rounds[yearTo],
-            citizenCarbonVariables: state.result.citizens.map((citizenId) =>
-              makeYearParticipantKey(yearTo, citizenId)
-            ),
+          citizenCarbonVariables: {
+            ...state.entities.citizenCarbonVariables,
+            ...newCarbonVariables,
+          },
+          rounds: {
+            ...state.entities.rounds,
+            [yearTo]: {
+              ...state.entities.rounds[yearTo],
+              citizenCarbonVariables: state.result.citizens.map((citizenId) =>
+                makeYearParticipantKey(yearTo, citizenId)
+              ),
+            },
           },
         },
       };

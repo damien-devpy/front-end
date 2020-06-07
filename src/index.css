@@ -70,3 +70,15 @@ code {
 .card_label {
   color: white;
 }
+
+.btn-custom-lot {
+  color: #BA947E !important;
+  background-color: white !important;
+  border-color: #BA947E !important;
+}
+
+.btn-custom-lot:hover, .btn-custom-lot:active, .btn-custom-lot:visited, .btn-custom-lot.active {
+  background-color: #fff9f5 !important;
+  border-color: #BA947E !important;
+  color: black !important;
+}

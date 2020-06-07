@@ -55,6 +55,8 @@ export default {
     addACoach: 'Ajouter un animateur',
     addAWorkshop: 'Ajouter un atelier',
     admins: 'Administrateurs',
+    avg_participants: 'Moy. participants',
+    avg_global: 'Moy. nationale',
     awareness: 'SENSIBILISATION',
     batches: 'Lots',
     budget: 'Budget',
@@ -105,6 +107,7 @@ export default {
     newCoach: 'Nouvel Animateur',
     newWorkshop: 'Nouvel atelier',
     nextRound: 'Prochain Tour',
+    objective: 'Objectif',
     others: 'Autres',
     participants: 'Participants',
     participants_list: "Liste des participants de l'atelier",
@@ -131,7 +134,7 @@ export default {
     manageParticipants: 'Gérer participants',
   },
   manageParticipants: {
-    nameSurname: 'Nom Prénom',
+    nameSurname: 'Prénom Nom',
     email: 'E-mail',
     persona: 'Personage',
     status: 'Statut',
@@ -147,6 +150,12 @@ export default {
     copied: 'Copié!',
     delete: 'Enléver participant',
     nullPersona: 'Aucun',
+  },
+  simulation: {
+    co2_evolution: 'Evolution du CO',
+    per_person: 'par personne',
+    global_average: 'Moyenne nationale',
+    the_participants: 'Les participants',
   },
   transports: {
     car: 'Voiture',

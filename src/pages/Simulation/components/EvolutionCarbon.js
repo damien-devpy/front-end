@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
+import { COLORS } from '../../../vars';
 // import { useTranslation } from "react-i18next";
 import {
   ResponsiveContainer,
@@ -12,19 +13,20 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
+import { pathOr } from 'ramda';
 
 const colorsPalet = [
-  'blue',
-  'red',
-  'purple',
-  'green',
-  'black',
+  '#3869B1',
+  '#409852',
+  '#DA7E30',
+  '#6C4D9B',
   'brown',
-  'lightblue',
-  'darkgreen',
+  'black',
+  COLORS.GOLD,
   'darkblue',
   'pink',
-  'yellow',
+  'darkgreen',
   'orange',
 ];
 const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
@@ -37,18 +39,62 @@ const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
 const EvolutionCarbon = () => {
   // Compute data
-  const rounds = useSelector((state) => state.workshop.entities.rounds);
+  const { t } = useTranslation();
+  const rounds = useSelector(
+    (state) => state.workshop.entities && state.workshop.entities.rounds
+  );
   const carbonFootprints = useSelector(
     (state) => state.workshop.entities.carbonFootprints
   );
+  const participants = useSelector(
+    (state) => state.workshop.entities.participants
+  );
+  console.log('participants', participants);
+  const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 
-  const evolutionData = computeEvolutionGraph(rounds, carbonFootprints);
-  //  Add average players
+  const participantsName = (obj, participants) =>
+    participants &&
+    Object.keys(obj)
+      .filter((k) => k !== 'year')
+      .map((player_id) => participants[player_id])
+      .map(
+        (player) => player.firstName + ' ' + player.lastName.split('')[0] + '.'
+      );
+  const participantName = (participant_id) => {
+    console.log('part id ', participant_id);
+    if (Object.keys(participants).includes(participant_id)) {
+      return (
+        participants[participant_id].firstName +
+        ' ' +
+        participants[participant_id].lastName.split('')[0] +
+        '.'
+      );
+    } else if (
+      participant_id.toString().startsWith('avg_') ||
+      participant_id.toString().startsWith('obj')
+    ) {
+      return t('common.' + participant_id);
+    } else return participant_id;
+  };
+
+  const citizenFootprints = useSelector((state) =>
+    pathOr([], ['workshop', 'entities', 'citizenCarbonFootprints'], state)
+  );
+  const footprintStructure = useSelector((state) =>
+    pathOr([], ['workshop', 'result', 'model', 'footprintStructure'], state)
+  );
+  const evolutionData = computeEvolutionGraph(
+    rounds,
+    carbonFootprints,
+    citizenFootprints,
+    footprintStructure
+  );
+
   for (var i = 0; i < evolutionData.length; i++) {
-    evolutionData[i].avg_players = avg_players(evolutionData[i]);
+    evolutionData[i]['objective'] = 2000;
   }
-
   const dataKeysArray = players(evolutionData[0]);
+  console.log('dataKeysArray', dataKeysArray);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
@@ -104,7 +150,7 @@ const EvolutionCarbon = () => {
     <ResponsiveContainer width="100%" minWidth={800} aspect={5.0 / 3.0}>
       <LineChart
         minWidth={200}
-        minHeight={100}
+        minHeight={300}
         data={evolutionData}
         margin={{
           top: 5,
@@ -114,9 +160,10 @@ const EvolutionCarbon = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" type="number" domain={['dataMin', 'dataMax']} />
-        <YAxis />
+        <XAxis dataKey="year" type="number" domain={['dataMin', 2050]} />
+        <YAxis type="number" domain={[0, 15000]} />
         <Tooltip />
+        {/* labelFormatter={(player_id) => participantName(player_id)} /> */}
         <Legend
           align="left"
           verticalAlign="middle"
@@ -128,32 +175,32 @@ const EvolutionCarbon = () => {
         />
         {dataKeysArray.map((player, i) => {
           if (player.startsWith('avg')) {
-            return (
-              <Line
-                type="monotone"
-                dataKey={dataKeys[player]}
-                strokeOpacity={opacity[player]}
-                stroke={colors[player]}
-                activeDot={{ r: 5 }}
-                // isAnimationActive={false}
-                strokeWidth={width[player] + 4}
-                // onMouseEnter={}
-              />
-            );
+            var dotSize = 5;
+            var strokeWidth = width[player] + 4;
+            var dot = true;
+          } else if (player.startsWith('objective')) {
+            var dotSize = 0;
+            var strokeWidth = width[player] - 3;
+            var dot = false;
           } else {
-            return (
-              <Line
-                type="monotone"
-                dataKey={dataKeys[player]}
-                strokeOpacity={opacity[player]}
-                strokeWidth={width[player]}
-                stroke={colors[player]}
-                activeDot={{ r: 6 }}
-                isAnimationActive={false}
-                // onMouseEnter={}
-              />
-            );
+            var dotSize = 5;
+            var strokeWidth = width[player];
+            var dot = true;
           }
+          return (
+            <Line
+              type="monotone"
+              dataKey={dataKeys[player]}
+              name={participantName(player)}
+              strokeOpacity={opacity[player]}
+              stroke={colors[player]}
+              activeDot={dotSize}
+              dot={dot}
+              // isAnimationActive={false}
+              strokeWidth={strokeWidth}
+              // onMouseEnter={}
+            />
+          );
         })}
       </LineChart>
     </ResponsiveContainer>

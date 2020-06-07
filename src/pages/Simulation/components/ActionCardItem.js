@@ -114,12 +114,15 @@ const sectorColors = {
 const StyledItem = styled.div`
 cursor: pointer;
 font-size: 0.8rem;
-color: white;
 /* border: ${(props) =>
   props.checked ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) => sectorColors[props.sector]};
+  background: ${(props) => sectorColors[props.sector]};
+  color: 'white';
 `;
-
+// background: ${(props) =>
+//   props.checked ? 'white' : sectorColors[props.sector]};
+//   color: ${(props) =>
+//     props.checked ? sectorColors[props.sector] : 'white' };
 const StyledItemSimple = styled.div`
   color: white;
   font-size: 0.7rem;

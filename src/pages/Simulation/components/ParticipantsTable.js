@@ -79,8 +79,11 @@ const ParticipantsTable = ({
 
 const StyledItem = styled.div`
 cursor: pointer;
-color: white;
-font-size: 0.8rem;
+color:  ${(props) => (props.selected ? 'white' : 'black')};
+font-size: ${(props) => (props.selected ? '1rem' : '0.8rem')};
+font-weight: ${(props) => (props.selected ? 'bolder' : '')};
+margin-bottom: '20px';
+width: ${(props) => (props.selected ? '215px' : '200px')};
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
 background: ${(props) =>

@@ -90,7 +90,9 @@ const ActionCardsForm = ({
         )}
       </Form.Row>
       <Form.Row className="d-flex justify-content-end">
-        <Button onClick={handleSubmit}>{t('common.validate')}</Button>
+        <PrimaryButton onClick={handleSubmit}>
+          {t('common.validate')}
+        </PrimaryButton>
       </Form.Row>
     </Form>
   );
@@ -121,5 +123,14 @@ background: ${(props) =>
   props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;
 
-const StyledButton = styled(Button);
+const PrimaryButton = styled(Button)`
+  background-color: ${COLORS.BROWN.STANDARD};
+  border-color: ${COLORS.BROWN.STANDARD};
+  transition: 0.3s;
+  :hover {
+    color: ${COLORS.BROWN.STANDARD};
+    background-color: white;
+    border-color: ${COLORS.BROWN.STANDARD};
+  }
+`;
 export default ActionCardsForm;

@@ -98,12 +98,12 @@ const renderLegend = (props) => {
 
 const FootprintGraph = ({ footprint }) => {
   const { t } = useTranslation();
-
   // const footprint = useSelector((state) =>
   //   footprintDataToGraph(
   //     state.workshop.entities.carbonFootprints['2020-1'].footprint
   //   )
   // );
+  const dataMax = 5000;
   console.log('footprint graph :', footprint);
 
   return (
@@ -135,6 +135,7 @@ const FootprintGraph = ({ footprint }) => {
         <YAxis
           dataKey=""
           label={{ value: 'kCO2', angle: -90, position: 'insideLeft' }}
+          domain={[0, dataMax]}
         />
         <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
         <Legend

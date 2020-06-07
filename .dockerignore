@@ -1,0 +1,7 @@
+*.md
+__pycache__
+.dockerignore
+.git*
+LICENCE
+*.example.*
+public

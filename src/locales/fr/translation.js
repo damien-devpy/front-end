@@ -152,6 +152,7 @@ export default {
     nullPersona: 'Aucun',
   },
   simulation: {
+    carbon_footprint_evolution: 'Evolution des empreintes carbones',
     co2_evolution: 'Evolution du CO',
     per_person: 'par personne',
     global_average: 'Moyenne nationale',
@@ -165,7 +166,7 @@ export default {
     othersTransports: 'Autres',
   },
   food: {
-    eggsAndDairies: 'Oeufs et laitiers',
+    eggsAndDairies: 'Oeufs,laitiers',
     meat: 'Viandes',
     fish: 'Poisson',
     drinks: 'Boissons',
@@ -173,14 +174,14 @@ export default {
     meatAndFish: 'Viandes et poissons',
   },
   housing: {
-    constructionAndMaintenance: 'Contruction Maintenance',
+    constructionAndMaintenance: 'Contruction',
     energies: 'Energies',
     housingEquipment: 'Equipement',
   },
   publicServices: {
-    elecPublicServices: "Réseau d'electricité",
-    gasPublicServices: 'Réseau de gaz',
-    otherPublicServices: 'Autres services publics',
+    elecPublicServices: 'Réseau élec',
+    gasPublicServices: 'Réseau gaz',
+    otherPublicServices: 'Autres',
   },
   others: {
     clothing: 'Textile',

@@ -111,7 +111,7 @@ const EvolutionCarbon = () => {
   const handleMouseOver = (o) => {
     const { dataKey } = o;
     var w = width[dataKey];
-    setWidth({ ...width, [dataKey]: w + 3 });
+    setWidth({ ...width, [dataKey]: w + 5 });
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
   const handleMouseOut = (o) => {

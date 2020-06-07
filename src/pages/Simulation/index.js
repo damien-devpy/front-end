@@ -17,6 +17,7 @@ import NewRoundModalForm from './components/NewRoundModalForm';
 import styled from 'styled-components';
 import './components/simulationPage.css';
 import { COLORS } from '../../vars';
+import userImg from '../../assets/img_noe.png';
 
 const Simulation = () => {
   const { entities, result, loadError, isLoading } = useWorkshop();
@@ -54,11 +55,7 @@ const Simulation = () => {
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <>
-      <NavbarWorkshop
-        avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
-        firstName="Xavier"
-        role="Animateur"
-      />
+      <NavbarWorkshop avatarUrl={userImg} firstName="Noé" role="Animateur" />
       <h4 style={{ marginBottom: 10, marginTop: 0 }} className="workshop_title">
         {workshopTitle}
       </h4>

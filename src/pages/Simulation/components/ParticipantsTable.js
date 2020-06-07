@@ -28,7 +28,7 @@ const ParticipantsTable = ({
       <StyledItem
         name={id}
         value={id}
-        className="m-1 pl-3 pr-3 p-1 btn-block rounded-pill"
+        className="pl-3 pr-3 p-1 btn-block rounded-pill"
         selected={selected}
         onClick={() => {
           handleSelect(id);
@@ -79,11 +79,11 @@ const ParticipantsTable = ({
 
 const StyledItem = styled.div`
 cursor: pointer;
+margin: 15;
 color:  ${(props) => (props.selected ? 'white' : 'black')};
-font-size: ${(props) => (props.selected ? '1rem' : '0.8rem')};
+font-size: ${(props) => (props.selected ? '1.1rem' : '1rem')};
 font-weight: ${(props) => (props.selected ? 'bolder' : '')};
-margin-bottom: '20px';
-width: ${(props) => (props.selected ? '215px' : '200px')};
+width: ${(props) => (props.selected ? '230px' : '210px')};
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
 background: ${(props) =>

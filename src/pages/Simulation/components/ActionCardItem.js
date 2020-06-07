@@ -101,7 +101,7 @@ const sectorColors = {
   transport: COLORS.FIGMA_BROWN_RED, // "#C80000",
   housing: COLORS.FIGMA_BLUE_LIGHT, // "#20388C",
   household: COLORS.FIGMA_GREEN, // "#388223", // "#C89600"
-  food: COLORS.GOLD, // '#C89600'
+  food: COLORS.YELLOW.GOLD, // '#C89600'
   awareness: COLORS.PURPLE.LIGHT,
   activism: COLORS.PURPLE.STANDARD,
   lobby: COLORS.PURPLE.STANDARD,

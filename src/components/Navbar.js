@@ -61,7 +61,11 @@ const Navbar = ({ avatarUrl, links }) => {
               )
             )}
           </Nav>
-          <Image className="ml-auto rounded-lg border" src={avatarUrl} />
+          <Image
+            height={80}
+            className="ml-auto rounded-lg border"
+            src={avatarUrl}
+          />
         </NavigBar.Collapse>
       </Container>
     </NavigBar>

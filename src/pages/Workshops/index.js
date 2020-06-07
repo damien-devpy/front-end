@@ -10,6 +10,7 @@ import { COLORS } from '../../vars';
 import { useTranslation } from 'react-i18next';
 import { Button, Spinner, Container, Card } from 'react-bootstrap';
 import NavbarHome from '../../components/NavbarHome';
+import userImg from '../../assets/img_noe.png';
 const Workshops = () => {
   const { t } = useTranslation();
   const { workshops, isLoading, loadError } = useWorkshops();
@@ -28,7 +29,7 @@ const Workshops = () => {
 
   return (
     <>
-      <NavbarHome></NavbarHome>
+      <NavbarHome avatarUrl={userImg}></NavbarHome>
       <Container>
         <Card
           className="p-5 border-light shadow-sm"

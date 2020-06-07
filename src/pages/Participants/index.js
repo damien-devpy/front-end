@@ -21,6 +21,7 @@ import {
 import AddIcon from '../../assets/AddIcon';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
+import userImg from '../../assets/img_noe.png';
 
 import {
   ParticipantItemForm,
@@ -168,7 +169,7 @@ const ManageParticipants = () => {
       className="container-fluid h-100 pb-5"
       onClick={() => handleClick(null)}
     >
-      <NavbarWorkshop />
+      <NavbarWorkshop avatarUrl={userImg} />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"

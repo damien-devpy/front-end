@@ -30,7 +30,12 @@ export const ActionCardItem = ({
           </div>
           <div className="col card_label">
             {text.toLowerCase()}
-            {/* <span className="badge badge-danger">{cost}</span> */}
+            <span
+              className="badge float-right badge-light"
+              style={{ fontSize: 10 }}
+            >
+              {cost}
+            </span>
           </div>
         </div>
       ) : (
@@ -73,7 +78,10 @@ export const ActionCardItemSimple = ({
         <span className="emoji">{cardIcons[cardNumber]}</span>
       </div>
       <div className="col">{text.toLowerCase()}</div>
-      <span className="badge badge-danger float-right ml-auto mr-1">
+      <span
+        className="badge badge-light float-right ml-auto mr-1"
+        style={{ fontSize: 10 }}
+      >
         {cost}
       </span>
     </StyledItemSimple>

@@ -34,22 +34,54 @@ const NewRoundModalForm = ({ handleSubmit }) => {
       state.workshop.entities.roundsConfig
     )
   );
+  // prev checked (to disable) array of batchIds
   const checkedCollectiveActionCardsBatches = useSelector((state) =>
     selectCheckedCollectiveActionCardsBatchesFromRounds(
       state.workshop.entities.roundsConfig
     )
   );
+
+  const defaultRoundType = useSelector((state) => {
+    const roundsConfig = state.workshop.entities.roundsConfig;
+    const rounds = Object.keys(roundsConfig).filter(round => round != currentYear);
+    // console.log("Prev rounds", rounds, "current year", currentYear);
+    return rounds.length > 0 ? 
+      roundsConfig[rounds.slice(-1)[0]].actionCardType === 'individual' ? 'collective' : 'individual'
+      : 'individual'
+    }
+  );
+
+  const defaultLotPreChecked = useSelector((state) => {
+    console.log(      Object.keys(individualActionCardBatches).filter(
+        (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
+      ))
+    return defaultRoundType === 'individual' ?
+      Object.keys(individualActionCardBatches).filter(
+        (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
+      )[0] :
+      Object.keys(collectiveActionCardBatches).filter(
+        (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
+      )[0]        
+  });
+  
+
   return (
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        actionCardType: 'individual',
+        actionCardType: defaultRoundType, // todo here
         currentYear,
         targetedYear: currentYear + yearIncrement,
         budget: 4,
-        actionCardBatches: individualActionCardBatches,
-        checkedActionCardBatches: checkedIndividualActionCardsBatches,
-        actionCardBatchIds: [],
+        actionCardBatches: 
+          defaultRoundType === 'individual' ? 
+            individualActionCardBatches 
+          : collectiveActionCardBatches, 
+        checkedActionCardBatches: 
+          defaultRoundType === 'individual' ?
+            checkedIndividualActionCardsBatches
+          : checkedCollectiveActionCardsBatches,  // todo here
+        actionCardBatchIds: defaultLotPreChecked,
       }}
     >
       {({ handleSubmit, values, setFieldValue }) => {

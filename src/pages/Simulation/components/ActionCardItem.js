@@ -116,10 +116,10 @@ const StyledItem = styled.div`
   font-size: 0.8rem;
   font-weight: ${(props) => (props.checked ? `bolder` : '')};
   border: ${(props) =>
-    props.checked ? `3pt solid ${COLORS.GRAY.STANDARD}` : ''};
+    props.checked ? `3pt solid ${COLORS.SILVER.DARK}` : ''};
   background: ${(props) =>
     props.checked
-      ? adjust(sectorColors[props.sector], 50)
+      ? adjust(sectorColors[props.sector], 40)
       : sectorColors[props.sector]};
   color: 'white';
 `;

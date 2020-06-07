@@ -137,7 +137,7 @@ const FootprintGraph = ({ footprint }) => {
           label={{ value: 'kCO2', angle: -90, position: 'insideLeft' }}
           domain={[0, dataMax]}
         />
-        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
+        {/* <Tooltip labelFormatter={(label) => t(`common.${label}`)} /> */}
         <Legend
           layout="vertical"
           footprint={footprint}

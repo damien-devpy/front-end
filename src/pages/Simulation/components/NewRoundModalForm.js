@@ -91,7 +91,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 className="d-flex justify-content-center"
                 controlId="validationFormik00"
               >
-                <PrimaryButton
+                <SecondaryButton
                   className="mr-2 activable"
                   variant="secondary"
                   active={values.actionCardType === 'individual'}
@@ -112,8 +112,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.individualActions')}
-                </PrimaryButton>
-                <PrimaryButton
+                </SecondaryButton>
+                <SecondaryButton
                   className="mr-2 activable"
                   variant="secondary"
                   active={values.actionCardType === 'collective'}
@@ -134,7 +134,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.collectiveActions')}
-                </PrimaryButton>
+                </SecondaryButton>
               </Form.Group>
             </Form.Row>
             <Form.Row className="d-flex justify-content-center">
@@ -165,7 +165,19 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 </ButtonGroup>
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
+                <Form.Label className="mr-2">
+                  {t('common.budget')}
+                  {values.actionCardType === 'individual' && (
+                    <span className="emoji" style={{ color: 'black' }}>
+                      &#x2764;
+                    </span>
+                  )}
+                  {values.actionCardType === 'collective' && (
+                    <span className="emoji" style={{ color: 'black' }}>
+                      &#x1f4b0;
+                    </span>
+                  )}
+                </Form.Label>
                 <ButtonGroup className="mr-2">
                   <SecondaryButton
                     className="activable"
@@ -276,7 +288,7 @@ const PrimaryButton = styled(Button)`
   }
 `;
 const SecondaryButton = styled(Button)`
-  background-color: #fff9f5;
+  background-color: #fff;
   border-color: ${COLORS.BROWN.STANDARD};
   color: black;
   :hover {

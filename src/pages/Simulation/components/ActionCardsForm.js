@@ -115,7 +115,7 @@ const BatchBadge = ({ id, text, active, handleClick }) => {
 
 const StyledBatch = styled.div`
 cursor: pointer;
-color: black;
+color: ${(props) => (props.active ? 'white' : 'black')};
 /* font-size: 0.7rem; */
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */

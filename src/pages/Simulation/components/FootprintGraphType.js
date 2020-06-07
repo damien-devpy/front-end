@@ -7,10 +7,10 @@ import {
   participantFootprint,
 } from '../../../selectors/footprintSelectors';
 import FootprintGraph from './FootprintGraph';
-
+import { pathOr } from 'ramda';
 const filter_obj = (allowed, raw) => {
   var filtered = Object.keys(raw)
-    .filter((key) => allowed.includes(key))
+    .filter((key) => allowed.includes(key.toString()))
     .reduce((obj, key) => {
       obj[key] = raw[key];
       return obj;
@@ -20,29 +20,51 @@ const filter_obj = (allowed, raw) => {
 
 const FootprintGraphType = ({ type, participantId }) => {
   console.log('type : ', type);
-  const footprintStructure = useSelector(
-    (state) => state.workshop.result.model.footprintStructure
+  const footprintStructure = useSelector((state) =>
+    pathOr([], ['workshop', 'result', 'model', 'footprintStructure'], state)
   );
+
   const currentRound = useSelector(
     (state) => state.workshop.result && state.workshop.result.currentYear
   );
+
   console.log('Current Round : ', currentRound);
   const carbonFootprints = useSelector(
     (state) =>
       state.workshop.entities && state.workshop.entities.carbonFootprints
   );
-  const keysCurrentRound = Object.keys(carbonFootprints).filter((key) =>
-    toString(key).includes(toString(currentRound))
+  const citizenFootprints = useSelector(
+    (state) =>
+      state.workshop.entities && state.workshop.entities.citizenCarbonFootprints
   );
-  console.log('carbonFootprints : ', carbonFootprints);
 
-  console.log('keysCurrentRound : ', keysCurrentRound);
+  const participantsKeysCurrentRound = Object.keys(
+    carbonFootprints
+  ).filter((key) => key.includes(currentRound.toString()));
+  const citizensKeysCurrentRound = Object.keys(
+    citizenFootprints
+  ).filter((key) => key.includes(currentRound.toString()));
+  // const keysCurrentRound = useSelector(
+  //   (state) =>
+  //     state.workshop.result &&
+  //     state.workshop.result.rounds &&
+  //     state.workshop.result.rounds[currentRound]
+  // );
+
   console.log('keys : ', Object.keys(carbonFootprints));
 
   const currentCarbonFootprints =
-    carbonFootprints && filter_obj(keysCurrentRound, carbonFootprints);
+    carbonFootprints &&
+    filter_obj(participantsKeysCurrentRound, carbonFootprints);
   console.log('currentCarbonFootprints : ', currentCarbonFootprints);
-  var carbonFootprint = footprintStructure;
+
+  const currentCitizenFootprints =
+    citizenFootprints &&
+    filter_obj(citizensKeysCurrentRound, citizenFootprints);
+
+  console.log('currentCitizenFootprints', currentCitizenFootprints);
+
+  var carbonFootprint = {};
   switch (type) {
     case 'participantsAverage':
       carbonFootprint = participantsAverageFootprint(
@@ -54,6 +76,7 @@ const FootprintGraphType = ({ type, participantId }) => {
     case 'globalAverage':
       carbonFootprint = globalAverageFootprint(
         currentCarbonFootprints,
+        currentCitizenFootprints,
         footprintStructure
       );
       break;

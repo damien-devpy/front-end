@@ -67,22 +67,27 @@ const renderLegend = (props) => {
   var newProps = props;
   newProps.layout = 'vertical';
   return (
-    <div className="legend" style={{ display: 'table-row', width: '100%' }}>
+    <div className="legend no-gutters row">
+      {/* style={{ display: 'table-row', width: '100%' }}> */}
       {footprint.map((sectorData) => {
         newProps.payload = payload.filter((entry) =>
           Object.keys(sectorData).includes(entry.dataKey)
         );
         return (
           <div
-            className="legend-sector"
+            className="legend-sector col"
             style={{
               display: 'table-cell',
-              paddingRight: '20px',
+              //paddingRight: '20px',
               width: 'auto',
-              fontSize: 12,
+              //fontSize: 12,
+              fontSize: '0.8vw',
             }}
           >
-            <h6> {t(`common.${sectorData.name}`)} </h6>
+            {/* <h6> {t(`common.${sectorData.name}`)} </h6> */}
+            <span style={{ fontSize: '1vw', fontWeight: '500' }}>
+              {t(`common.${sectorData.name}`)}
+            </span>
             <DefaultLegendContent {...newProps} />
           </div>
         );
@@ -123,7 +128,8 @@ const FootprintGraph = ({ footprint }) => {
         <CartesianGrid strokeDasharray="3" />
         <XAxis
           dataKey="name"
-          tickFormatter={(label) => t(`common.${label}`)}
+          //tickFormatter={(label) => t(`common.${label}`)}
+          tickFormatter={(label) => ""}
           // type="number"
         />
         <YAxis

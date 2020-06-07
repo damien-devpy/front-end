@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 
-const ParticipantStatus = ({ value }) => {
+const ParticipantStatus = ({ value, handleShowBC }) => {
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
@@ -70,7 +70,12 @@ const ParticipantStatus = ({ value }) => {
           <span className="badge alert-success" role="alert">
             {t('manageParticipants.ready')}
           </span>{' '}
-          <a href="" title={t('manageParticipants.seeBC')} className="badge">
+          <a
+            href=""
+            title={t('manageParticipants.seeBC')}
+            className="badge"
+            onClick={handleShowBC}
+          >
             &#x1f50d;
           </a>
         </div>

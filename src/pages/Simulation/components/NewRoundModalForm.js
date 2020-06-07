@@ -15,6 +15,10 @@ import {
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
+import styled from 'styled-components';
+import '../components/simulationPage.css';
+import { COLORS } from '../../../vars';
+
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
   const { currentYear, endYear, yearIncrement } = useSelector(
@@ -93,8 +97,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 className="d-flex justify-content-center"
                 controlId="validationFormik00"
               >
-                <Button
-                  className="mr-2"
+                <PrimaryButton
+                  className="mr-2 activable"
                   variant="secondary"
                   active={values.actionCardType === 'individual'}
                   onClick={() => {
@@ -111,9 +115,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.individualActions')}
-                </Button>
-                <Button
-                  className="mr-2"
+                </PrimaryButton>
+                <PrimaryButton
+                  className="mr-2 activable"
                   variant="secondary"
                   active={values.actionCardType === 'collective'}
                   onClick={() => {
@@ -130,14 +134,15 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.collectiveActions')}
-                </Button>
+                </PrimaryButton>
               </Form.Group>
             </Form.Row>
             <Form.Row className="d-flex justify-content-center">
               <Form.Group as={Col}>
                 <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
                 <ButtonGroup className="mr-2">
-                  <Button
+                  <SecondaryButton
+                    className="activable"
                     onClick={() => {
                       if (values.targetedYear > currentYear + yearIncrement) {
                         setFieldValue('targetedYear', values.targetedYear - 1);
@@ -145,9 +150,10 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     -
-                  </Button>
-                  <Button>{values.targetedYear}</Button>
-                  <Button
+                  </SecondaryButton>
+                  <SecondaryButton>{values.targetedYear}</SecondaryButton>
+                  <SecondaryButton
+                    className="activable"
                     onClick={() => {
                       if (values.targetedYear < endYear) {
                         setFieldValue('targetedYear', values.targetedYear + 1);
@@ -155,13 +161,14 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     +
-                  </Button>
+                  </SecondaryButton>
                 </ButtonGroup>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
                 <ButtonGroup className="mr-2">
-                  <Button
+                  <SecondaryButton
+                    className="activable"
                     onClick={() => {
                       if (values.budget > 1) {
                         setFieldValue('budget', values.budget - 1);
@@ -169,9 +176,12 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     -
-                  </Button>
-                  <Button>{values.budget}</Button>
-                  <Button
+                  </SecondaryButton>
+                  <SecondaryButton className="activable">
+                    {values.budget}
+                  </SecondaryButton>
+                  <SecondaryButton
+                    className="activable"
                     onClick={() => {
                       if (values.budget < 10) {
                         setFieldValue('budget', values.budget + 1);
@@ -179,7 +189,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     +
-                  </Button>
+                  </SecondaryButton>
                 </ButtonGroup>
               </Form.Group>
             </Form.Row>
@@ -222,10 +232,12 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                           <ActionCardItemSimple
                             id={actionCardId}
                             key={actionCardId}
-                            text={actionCardsEntity[actionCardId].name}
-                            category={
-                              actionCardsEntity[actionCardId].subCategory
+                            cardNumber={
+                              actionCardsEntity[actionCardId].cardNumber
                             }
+                            text={actionCardsEntity[actionCardId].name}
+                            category={actionCardsEntity[actionCardId].category}
+                            sector={actionCardsEntity[actionCardId].sector}
                             cost={actionCardsEntity[actionCardId].cost}
                           />
                         )
@@ -235,7 +247,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               )}
             </Form.Row>
             <Form.Row className="d-flex justify-content-end">
-              <Button
+              <PrimaryButton
+                className="activable"
                 type="submit"
                 disabled={
                   !values.actionCardBatchIds.length &&
@@ -243,7 +256,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 }
               >
                 {t('common.validate')}
-              </Button>
+              </PrimaryButton>
             </Form.Row>
           </Form>
         );
@@ -252,4 +265,24 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   );
 };
 
+const PrimaryButton = styled(Button)`
+  background-color: ${COLORS.BROWN.STANDARD};
+  border-color: ${COLORS.BROWN.STANDARD};
+  transition: 0.3s;
+  :hover {
+    color: ${COLORS.BROWN.STANDARD};
+    background-color: white;
+    border-color: ${COLORS.BROWN.STANDARD};
+  }
+`;
+const SecondaryButton = styled(Button)`
+  background-color: #fff9f5;
+  border-color: ${COLORS.BROWN.STANDARD};
+  color: black;
+  :hover {
+    color: ${COLORS.BROWN.STANDARD};
+    background-color: white;
+    border-color: ${COLORS.BROWN.DARK};
+  }
+`;
 export default NewRoundModalForm;

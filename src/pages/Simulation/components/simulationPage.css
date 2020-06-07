@@ -32,14 +32,14 @@ h5 {
 }
 
 .activable.active {
-  background-color: #9a7967 !important;
+  background-color: #ba947e !important;
   color: white !important;
   border-color: #ba947e !important;
   font-weight: bolder;
 }
 
 .activable.focus {
-  background-color: #9a7967 !important;
+  background-color: #ba947e !important;
   color: white !important;
   border-color: #ba947e !important;
   font-weight: bolder;

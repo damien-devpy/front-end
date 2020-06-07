@@ -11,7 +11,7 @@ import '../index.css';
 const Navbar = ({ avatarUrl, links }) => {
   const { t } = useTranslation();
   const location = useLocation();
-
+  const logo = process.env.PUBLIC_URL + 'monogramme_1.png';
   const isActive = (path) =>
     location.pathname === path ? `badge rounded-lg navbar-link` : null;
 
@@ -24,21 +24,30 @@ const Navbar = ({ avatarUrl, links }) => {
     >
       <Container>
         <NavigBar.Brand href="/workshops">
-          <span className="font-weight-bold">2tons</span>
+          <span className="font-weight-bold">
+            <img src={logo} height={100} />
+          </span>
         </NavigBar.Brand>
         <NavigBar.Toggle aria-controls="basic-navbar-nav" />
         <NavigBar.Collapse id="basic-navbar-nav">
           <Nav>
             {links.map((link) =>
               link === 'exit' ? (
-                <Nav.Link href={'/workshops'}>
-                  <ExitIcon height={20} width={20} />
+                <Nav.Link
+                  href={'/workshops'}
+                  style={{
+                    margin: 5,
+                  }}
+                >
+                  <ExitIcon height={25} width={25} />
                 </Nav.Link>
               ) : (
                 <Nav.Link
                   href={'/' + link}
                   className={isActive('/' + link)}
                   style={{
+                    margin: 5,
+                    fontSize: 18,
                     backgroundColor: isActive('/' + link)
                       ? COLORS.PRIMARY
                       : null,

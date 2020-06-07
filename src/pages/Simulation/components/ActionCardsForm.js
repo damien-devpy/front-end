@@ -116,6 +116,8 @@ const BatchBadge = ({ id, text, active, handleClick }) => {
 const StyledBatch = styled.div`
 cursor: pointer;
 color: ${(props) => (props.active ? 'white' : 'black')};
+font-weight: ${(props) => (props.active ? 'bolder' : '')};
+
 /* font-size: 0.7rem; */
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
@@ -127,10 +129,11 @@ const PrimaryButton = styled(Button)`
   background-color: ${COLORS.BROWN.STANDARD};
   border-color: ${COLORS.BROWN.STANDARD};
   transition: 0.3s;
-  :hover {
-    color: ${COLORS.BROWN.STANDARD};
-    background-color: white;
-    border-color: ${COLORS.BROWN.STANDARD};
+  :hover,
+  :focus {
+    color: ${COLORS.BROWN.STANDARD}!important;
+    background-color: white !important;
+    border-color: ${COLORS.BROWN.STANDARD} !important;
   }
 `;
 export default ActionCardsForm;

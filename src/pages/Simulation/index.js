@@ -59,9 +59,12 @@ const Simulation = () => {
         firstName="Xavier"
         role="Animateur"
       />
-      <h4 className="workshop_title">{workshopTitle}</h4>
-      <h5>
-        Nous sommes en ...{'  '}
+      <h4 style={{ marginBottom: 10, marginTop: 0 }} className="workshop_title">
+        {workshopTitle}
+      </h4>
+      <h5 style={{ margin: 5 }}>
+        {t('common.we_are_in')}
+        {'  '}
         <span style={{ fontSize: 25, fontWeight: 'bold' }}>
           {' '}
           {currentRound}

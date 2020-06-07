@@ -109,9 +109,9 @@ const FootprintGraph = ({ footprint }) => {
   return (
     <ResponsiveContainer
       width="100%"
-      height="50%"
+      height="30%"
       minHeight={100}
-      aspect={4.0 / 3.0}
+      aspect={3.0 / 2.0}
     >
       <BarChart
         // width={730}

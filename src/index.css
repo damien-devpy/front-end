@@ -38,6 +38,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, Roboto, monospace;
 }
 
+tr,
+.table th,
+.table td {
+  vertical-align: middle;
+}
 .emoji {
   font-family: 'EmojiFont1', 'EmojiFont2';
   color: white;

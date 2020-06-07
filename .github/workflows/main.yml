@@ -18,3 +18,16 @@ jobs:
           repository:  2tons/front-end/web
           tag_with_ref: true
           tags: latest
+  deploy:
+    name: deploy to cluster
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Set env
+      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+    - name: deploy to cluster
+      uses: steebchen/kubectl@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: set image deployment front front=docker.pkg.github.com/${{ github.repository }}/web:${RELEASE_VERSION}

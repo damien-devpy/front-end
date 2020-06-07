@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import cardIcons from '../../../components/cardIcons';
 import { COLORS } from '../../../vars';
 export const ActionCardItem = ({
   id,
+  cardNumber,
   text,
-  category,
+  sector,
   active,
   checked,
   cost,
@@ -14,8 +15,10 @@ export const ActionCardItem = ({
   return (
     <StyledItem
       name={id}
+      checked={checked}
+      cardNumber={cardNumber}
       className="m-1 mb-2 pr-1 pl-1 btn-block rounded-lg d-flex shadow-sm"
-      category={category}
+      sector={sector}
       onClick={() => {
         handleChange();
       }}
@@ -23,7 +26,7 @@ export const ActionCardItem = ({
       {active ? (
         <div className="row align-items-center">
           <div className="col-1 mr-1">
-            <span className="emoji">{cardIcons[id]}</span>
+            <span className="emoji">{cardIcons[cardNumber]}</span>
           </div>
           <div className="col card_label">
             {text.toLowerCase()}
@@ -32,7 +35,7 @@ export const ActionCardItem = ({
         </div>
       ) : (
         <div className="col-1 pl-1 mr-1">
-          <span className="emoji">{cardIcons[id]}</span>
+          <span className="emoji">{cardIcons[cardNumber]}</span>
         </div>
       )}
 
@@ -48,15 +51,26 @@ export const ActionCardItem = ({
 // used in NewRound modal
 // when/if we allow to choose not ony lots but also cards in each lot,
 // we won't need this and can just use ActionItem
-export const ActionCardItemSimple = ({ id, text, category, cost }) => {
+export const ActionCardItemSimple = ({
+  id,
+  cardNumber,
+  text,
+  category,
+  sector,
+  cost,
+}) => {
+  console.log('sector', sector);
+  console.log('cardNumber', cardNumber);
+
   return (
     <StyledItemSimple
       name={id}
       className="m-1 btn-block rounded-lg d-flex shadow-sm row align-items-center"
       category={category}
+      sector={sector}
     >
       <div className="col-1 pl-1 mr-1">
-        <span className="emoji">{cardIcons[id]}</span>
+        <span className="emoji">{cardIcons[cardNumber]}</span>
       </div>
       <div className="col">{text.toLowerCase()}</div>
       <span className="badge badge-danger float-right ml-auto mr-1">
@@ -75,45 +89,31 @@ export const ActionCardItemSimple = ({ id, text, category, cost }) => {
 //   6: COLORS.FIGMA_BLUE_DARK,
 // };
 
-const categoryColors = {
-  TRANSPORT: COLORS.FIGMA_BROWN_RED, // "#C80000",
-  LOGEMENT: COLORS.FIGMA_BLUE_DARK, // "#20388C",
-  CONSO: COLORS.FIGMA_GREEN, // "#388223", // "#C89600"
-  'BIENS DE CONSO': COLORS.FIGMA_YELLOW, // '#C89600'
-};
-
-// just for test at the moment
-const cardIcons = {
-  1: '🚲',
-  2: '🚇',
-  3: '🚗',
-  4: '💻',
-  5: '🛵',
-  6: '✈',
-  7: '🌡',
-  8: '🛁',
-  9: '🔌',
-  10: '🔋',
-  11: '🏘',
-  12: '🖨',
-  23: '👫',
-  24: '📚',
-
-  // 🚙
+const sectorColors = {
+  transport: COLORS.FIGMA_BROWN_RED, // "#C80000",
+  housing: COLORS.FIGMA_BLUE_LIGHT, // "#20388C",
+  household: COLORS.FIGMA_GREEN, // "#388223", // "#C89600"
+  food: COLORS.GOLD, // '#C89600'
+  awareness: COLORS.PURPLE.LIGHT,
+  activism: COLORS.PURPLE.STANDARD,
+  lobby: COLORS.PURPLE.STANDARD,
+  services: COLORS.ORANGE.DARK,
+  professional: COLORS.PURPLE.DARK,
+  education: COLORS.PURPLE.MILD,
+  energy: COLORS.FIGMA_BLUE_DARK,
 };
 
 const StyledItem = styled.div`
 cursor: pointer;
-color: black;
 font-size: 0.8rem;
 color: white;
 /* border: ${(props) =>
-  props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) => categoryColors[props.category]};
+  props.checked ? '3pt solid palegreen' : '3pt solid white'}; */
+background: ${(props) => sectorColors[props.sector]};
 `;
 
 const StyledItemSimple = styled.div`
   color: white;
   font-size: 0.7rem;
-  background: ${(props) => categoryColors[props.category]};
+  background: ${(props) => sectorColors[props.sector]};
 `;

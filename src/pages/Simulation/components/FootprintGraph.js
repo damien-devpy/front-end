@@ -81,11 +81,11 @@ const renderLegend = (props) => {
               //paddingRight: '20px',
               width: 'auto',
               //fontSize: 12,
-              fontSize: '0.8vw',
+              fontSize: '0.7vw',
             }}
           >
             {/* <h6> {t(`common.${sectorData.name}`)} </h6> */}
-            <span style={{ fontSize: '1vw', fontWeight: '500' }}>
+            <span style={{ fontSize: '0.9vw', fontWeight: '500' }}>
               {t(`common.${sectorData.name}`)}
             </span>
             <DefaultLegendContent {...newProps} />
@@ -129,7 +129,7 @@ const FootprintGraph = ({ footprint }) => {
         <XAxis
           dataKey="name"
           //tickFormatter={(label) => t(`common.${label}`)}
-          tickFormatter={(label) => ""}
+          tickFormatter={(label) => ''}
           // type="number"
         />
         <YAxis

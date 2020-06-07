@@ -88,11 +88,7 @@ const Simulation = () => {
             <Row style={{ height: '100vh' }}>
               <Col sm={12} md={8} className="graph-col">
                 <Container className="graph-card">
-                  <h4>
-                    {t('simulation.co2_evolution')}
-                    <span style={{ fontSize: '14px' }}>2</span>{' '}
-                    {t('simulation.per_person')}
-                  </h4>
+                  <h4>{t('simulation.carbon_footprint_evolution')}</h4>
                   <EvolutionCarbon />
                 </Container>
               </Col>

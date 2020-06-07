@@ -29,7 +29,7 @@ import {
 
 const ManageParticipants = () => {
   const workshopTitle = useSelector(
-    (state) => state.workshop.result && state.workshop.result.title
+    (state) => state.workshop.result && state.workshop.result.name
   );
   const { t } = useTranslation();
   const participants = useSelector(

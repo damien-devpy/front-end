@@ -5,7 +5,7 @@ on:
       - 'v*'
 name: front
 jobs:
-  build-push:
+  build-push-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
@@ -18,10 +18,6 @@ jobs:
           repository:  2tons/front-end/web
           tag_with_ref: true
           tags: latest
-  deploy:
-    name: deploy to cluster
-    runs-on: ubuntu-latest
-    steps:
     - uses: actions/checkout@master
     - name: Set env
       run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}

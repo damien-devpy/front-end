@@ -60,12 +60,12 @@ const NewRoundModalForm = ({ handleSubmit }) => {
         (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
       ))
     return defaultRoundType === 'individual' ?
-      Object.keys(individualActionCardBatches).filter(
+      [Object.keys(individualActionCardBatches).filter(
         (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
-      )[0] :
-      Object.keys(collectiveActionCardBatches).filter(
+      )[0]] :
+      [Object.keys(collectiveActionCardBatches).filter(
         (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
-      )[0]        
+      )[0]]        
   });
   
 
@@ -73,7 +73,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        actionCardType: defaultRoundType, // todo here
+        actionCardType: defaultRoundType, 
         currentYear,
         targetedYear: currentYear + yearIncrement,
         budget: 4,
@@ -84,7 +84,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
         checkedActionCardBatches: 
           defaultRoundType === 'individual' ?
             checkedIndividualActionCardsBatches
-          : checkedCollectiveActionCardsBatches,  // todo here
+          : checkedCollectiveActionCardsBatches, 
         actionCardBatchIds: defaultLotPreChecked,
       }}
     >
@@ -111,7 +111,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       'checkedActionCardBatches',
                       checkedIndividualActionCardsBatches
                     );
-                    setFieldValue('actionCardBatchIds', []);
+                    setFieldValue('actionCardBatchIds', defaultLotPreChecked);
                   }}
                 >
                   {t('common.individualActions')}
@@ -130,7 +130,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       'checkedActionCardBatches',
                       checkedCollectiveActionCardsBatches
                     );
-                    setFieldValue('actionCardBatchIds', []);
+                    setFieldValue('actionCardBatchIds', defaultLotPreChecked);
                   }}
                 >
                   {t('common.collectiveActions')}

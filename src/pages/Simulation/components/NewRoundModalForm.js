@@ -1,14 +1,15 @@
+import React from 'react';
 import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React from 'react';
 
+import styled from 'styled-components';
 import { ActionCardItemSimple } from './ActionCardItem';
 import {
+  getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchesFromRounds,
   selectCheckedIndividualActionCardsBatchesFromRounds,
-  getDefaultRoundType,
 } from '../../../selectors/workshopSelector';
 import {
   selectCollectiveBatches,
@@ -16,8 +17,7 @@ import {
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
-import styled from 'styled-components';
-import '../components/simulationPage.css';
+import './simulationPage.css';
 import { COLORS } from '../../../vars';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
@@ -46,36 +46,39 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     )
   );
 
-  const defaultRoundType = useSelector((state) => 
+  const defaultRoundType = useSelector((state) =>
     getDefaultRoundType(state.workshop.entities.roundsConfig, currentYear)
   );
 
-  const defaultBatchPreChecked = (roundType) => (
-    roundType === 'individual' ?
-      [Object.keys(individualActionCardBatches).filter(
-        (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
-      )[0]] :
-      [Object.keys(collectiveActionCardBatches).filter(
-        (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
-      )[0]]
-  );
-  
+  const defaultBatchPreChecked = (roundType) =>
+    roundType === 'individual'
+      ? [
+          Object.keys(individualActionCardBatches).filter(
+            (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
+          )[0],
+        ]
+      : [
+          Object.keys(collectiveActionCardBatches).filter(
+            (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
+          )[0],
+        ];
+
   return (
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        actionCardType: defaultRoundType, 
+        actionCardType: defaultRoundType,
         currentYear,
         targetedYear: currentYear + yearIncrement,
         budget: 4,
-        actionCardBatches: 
-          defaultRoundType === 'individual' ? 
-            individualActionCardBatches 
-          : collectiveActionCardBatches, 
-        checkedActionCardBatches: 
-          defaultRoundType === 'individual' ?
-            checkedIndividualActionCardsBatches
-          : checkedCollectiveActionCardsBatches, 
+        actionCardBatches:
+          defaultRoundType === 'individual'
+            ? individualActionCardBatches
+            : collectiveActionCardBatches,
+        checkedActionCardBatches:
+          defaultRoundType === 'individual'
+            ? checkedIndividualActionCardsBatches
+            : checkedCollectiveActionCardsBatches,
         actionCardBatchIds: defaultBatchPreChecked(defaultRoundType),
       }}
     >
@@ -104,7 +107,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     );
                     setFieldValue(
                       'actionCardBatchIds',
-                      defaultBatchPreChecked('individual'));
+                      defaultBatchPreChecked('individual')
+                    );
                   }}
                 >
                   {t('common.individualActions')}
@@ -125,7 +129,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     );
                     setFieldValue(
                       'actionCardBatchIds',
-                      defaultBatchPreChecked('collective'));
+                      defaultBatchPreChecked('collective')
+                    );
                   }}
                 >
                   {t('common.collectiveActions')}

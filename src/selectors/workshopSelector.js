@@ -154,3 +154,11 @@ export const getInitRoundBudget = (
   });
   return initBudgets;
 };
+
+export const getDefaultRoundType = (roundsConfigEntity, currentYear) =>
+{ 
+  const rounds = Object.keys(roundsConfigEntity).filter(round => round != currentYear);
+  return rounds.length > 0 ? 
+  roundsConfigEntity[rounds.slice(-1)[0]].actionCardType === 'individual' ? 'collective' : 'individual'
+    : 'individual'
+};

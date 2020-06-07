@@ -8,6 +8,7 @@ import { ActionCardItemSimple } from './ActionCardItem';
 import {
   selectCheckedCollectiveActionCardsBatchesFromRounds,
   selectCheckedIndividualActionCardsBatchesFromRounds,
+  getDefaultRoundType,
 } from '../../../selectors/workshopSelector';
 import {
   selectCollectiveBatches,
@@ -45,30 +46,20 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     )
   );
 
-  const defaultRoundType = useSelector((state) => {
-    const roundsConfig = state.workshop.entities.roundsConfig;
-    const rounds = Object.keys(roundsConfig).filter(round => round != currentYear);
-    // console.log("Prev rounds", rounds, "current year", currentYear);
-    return rounds.length > 0 ? 
-      roundsConfig[rounds.slice(-1)[0]].actionCardType === 'individual' ? 'collective' : 'individual'
-      : 'individual'
-    }
+  const defaultRoundType = useSelector((state) => 
+    getDefaultRoundType(state.workshop.entities.roundsConfig, currentYear)
   );
 
-  const defaultLotPreChecked = useSelector((state) => {
-    console.log(      Object.keys(individualActionCardBatches).filter(
-        (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
-      ))
-    return defaultRoundType === 'individual' ?
+  const defaultBatchPreChecked = (roundType) => (
+    roundType === 'individual' ?
       [Object.keys(individualActionCardBatches).filter(
         (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
       )[0]] :
       [Object.keys(collectiveActionCardBatches).filter(
         (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
-      )[0]]        
-  });
+      )[0]]
+  );
   
-
   return (
     <Formik
       onSubmit={handleSubmit}
@@ -85,7 +76,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
           defaultRoundType === 'individual' ?
             checkedIndividualActionCardsBatches
           : checkedCollectiveActionCardsBatches, 
-        actionCardBatchIds: defaultLotPreChecked,
+        actionCardBatchIds: defaultBatchPreChecked(defaultRoundType),
       }}
     >
       {({ handleSubmit, values, setFieldValue }) => {
@@ -111,7 +102,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       'checkedActionCardBatches',
                       checkedIndividualActionCardsBatches
                     );
-                    setFieldValue('actionCardBatchIds', defaultLotPreChecked);
+                    setFieldValue(
+                      'actionCardBatchIds',
+                      defaultBatchPreChecked('individual'));
                   }}
                 >
                   {t('common.individualActions')}
@@ -130,7 +123,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       'checkedActionCardBatches',
                       checkedCollectiveActionCardsBatches
                     );
-                    setFieldValue('actionCardBatchIds', defaultLotPreChecked);
+                    setFieldValue(
+                      'actionCardBatchIds',
+                      defaultBatchPreChecked('collective'));
                   }}
                 >
                   {t('common.collectiveActions')}

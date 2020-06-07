@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - 'v*'
+name: front
+jobs:
   build-push:
     runs-on: ubuntu-latest
     steps:

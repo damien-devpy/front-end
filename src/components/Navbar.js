@@ -1,11 +1,13 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Container, Image, Nav, Navbar as NavigBar } from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
-import { Navbar as NavigBar, Nav, Image, Container } from 'react-bootstrap';
+
 import { COLORS } from '../vars';
 // import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ExitIcon from '../assets/ExitIcon';
 import '../index.css';
+import ExitIcon from '../assets/ExitIcon';
 // import styled from 'styled-components';
 
 const Navbar = ({ avatarUrl, links }) => {
@@ -23,30 +25,32 @@ const Navbar = ({ avatarUrl, links }) => {
       className="mb-4"
     >
       <Container>
-        <NavigBar.Brand href="/workshops">
-          <span className="font-weight-bold">2tons</span>
-        </NavigBar.Brand>
+        <Link to="/workshops">
+          <NavigBar.Brand>
+            <span className="font-weight-bold">2tons</span>
+          </NavigBar.Brand>
+        </Link>
         <NavigBar.Toggle aria-controls="basic-navbar-nav" />
         <NavigBar.Collapse id="basic-navbar-nav">
           <Nav>
             {links.map((link) =>
               link === 'exit' ? (
-                <Nav.Link href={'/workshops'}>
+                <Link to="/workshops">
                   <ExitIcon height={20} width={20} />
-                </Nav.Link>
+                </Link>
               ) : (
                 <Nav.Link
-                  href={'/' + link}
-                  className={isActive('/' + link)}
+                  to={`/${link}`}
+                  className={isActive(`/${link}`)}
                   style={{
-                    backgroundColor: isActive('/' + link)
+                    backgroundColor: isActive(`/${link}`)
                       ? COLORS.PRIMARY
                       : null,
-                    color: isActive('/' + link) ? 'white' : '#616162',
+                    color: isActive(`/${link}`) ? 'white' : '#616162',
                   }}
                 >
                   <small className="font-weight-bold">
-                    {t('common.' + link)}
+                    {t(`common.${link}`)}
                   </small>
                 </Nav.Link>
               )

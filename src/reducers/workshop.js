@@ -71,7 +71,7 @@ function computeStatus(valid, participant, newPersona) {
 }
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   entities: {
     carbonFootprints: {
       '2020-1': {
@@ -90,7 +90,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case RETRIEVE_WORKSHOP: {
       return {
-        ...state,
         isLoading: true,
         loadErrorDetails: null,
       };

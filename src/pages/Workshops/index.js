@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useWorkshops } from '../../hooks/workshops';
-import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
-import AddIcon from '../../assets/AddIcon';
+import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import WorkshopTable from './components/WorkshopTable';
-import WorkshopModal from './components/WorkshopModal';
-import { COLORS } from '../../vars';
 import { useTranslation } from 'react-i18next';
-import { Button, Spinner, Container, Card } from 'react-bootstrap';
+
+import AddIcon from '../../assets/AddIcon';
 import NavbarHome from '../../components/NavbarHome';
+import WorkshopModal from './components/WorkshopModal';
+import WorkshopTable from './components/WorkshopTable';
+import { COLORS } from '../../vars';
+import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
+import { useWorkshops } from '../../hooks/workshops';
+
 const Workshops = () => {
   const { t } = useTranslation();
   const { workshops, isLoading, loadError } = useWorkshops();
@@ -28,7 +30,7 @@ const Workshops = () => {
 
   return (
     <>
-      <NavbarHome></NavbarHome>
+      <NavbarHome />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -38,7 +40,7 @@ const Workshops = () => {
             <h2>{t('common.workshops')}</h2>
             {!isLoading && (
               <StyledButton variant="secondary" onClick={handleShow}>
-                <AddIcon height={20} width={20} fill={'white'} />
+                <AddIcon height={20} width={20} fill="white" />
                 {'   '}
                 {t('common.newWorkshop')}
               </StyledButton>

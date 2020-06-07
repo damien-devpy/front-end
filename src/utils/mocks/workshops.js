@@ -1,30 +1,34 @@
-import moment from "moment";
+import moment from 'moment';
 
 const workshops = [
   {
-    date: moment().subtract(3, "days"),
-    workshopName: "DataForGood",
-    status: "En cours",
-    coachName: "François"
+    id: 'a2f5a21f7a114216b32d74d5de79e482',
+    date: moment().subtract(3, 'days'),
+    title: 'DataForGood',
+    status: 'En cours',
+    coachName: 'François',
   },
   {
-    date: moment().subtract(12, "days"),
-    workshopName: "L’Elysée",
-    status: "En préparation",
-    coachName: "Noé"
+    id: '2',
+    date: moment().subtract(12, 'days'),
+    title: 'L’Elysée',
+    status: 'En préparation',
+    coachName: 'Noé',
   },
   {
-    date: moment().subtract(1, "month"),
-    workshopName: "LLL",
-    status: "Mail de fin à envoyer",
-    coachName: "Léa"
+    id: '3',
+    date: moment().subtract(1, 'month'),
+    title: 'LLL',
+    status: 'Mail de fin à envoyer',
+    coachName: 'Léa',
   },
   {
-    date: moment().subtract(2, "months"),
-    workshopName: "Devant les enfants",
-    status: "Clôturé",
-    coachName: "François"
-  }
+    id: '4',
+    date: moment().subtract(2, 'months'),
+    title: 'Devant les enfants',
+    status: 'Clôturé',
+    coachName: 'François',
+  },
 ];
 
 export default workshops;

@@ -1,33 +1,39 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Button, Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
+import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
-import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 
+import AddIcon from '../../assets/AddIcon';
+import FootprintGraph from '../Simulation/components/FootprintGraph';
+import NavbarWorkshop from '../../components/NavbarWorkshop';
 import { COLORS } from '../../vars';
 import {
   addParticipant,
   deleteParticipant,
   setParticipantNameEmail,
 } from '../../actions/participants';
-import AddIcon from '../../assets/AddIcon';
-import FootprintGraph from '../Simulation/components/FootprintGraph';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
 
 import {
   ParticipantItemForm,
   ParticipantsHeader,
 } from './components/ParticipantItemForm';
+import { useWorkshop } from '../../hooks/workshop';
 
-const ManageParticipants = () => {
+const ManageParticipants = ({
+  match: {
+    params: { workshopId },
+  },
+}) => {
+  useWorkshop(workshopId);
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.title
   );

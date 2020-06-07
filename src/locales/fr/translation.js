@@ -107,6 +107,7 @@ export default {
     newCoach: 'Nouvel Animateur',
     newWorkshop: 'Nouvel atelier',
     nextRound: 'Prochain Tour',
+    noCurrentWorkshop: "Il n'y a aucun atelier en cours",
     objective: 'Objectif',
     others: 'Autres',
     participants: 'Participants',
@@ -118,6 +119,8 @@ export default {
     results: 'Bilans',
     role: 'Rôle',
     seeWorkshop: "Voir l'atelier",
+    selectAWorkshop:
+      'Veuillez sélectionner un atelier dans la liste des ateliers et démarrer la simulation',
     sensitized: 'Sensibilisés',
     simulation: 'Simulation en cours',
     toYear: "vers l'année",

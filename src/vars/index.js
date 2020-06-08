@@ -36,7 +36,7 @@ export const COLORS = {
   GREEN: {
     DARK: '#00bc75',
     STANDARD: '#00bc75',
-    LIGHT: '#00bc75',
+    LIGHT: '#5DC79F',
   },
   BLUE: {
     DARK: '#518bff',

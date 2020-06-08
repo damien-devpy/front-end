@@ -10,6 +10,9 @@ import { COLORS } from '../../vars';
 import { useTranslation } from 'react-i18next';
 import { Button, Spinner, Container, Card } from 'react-bootstrap';
 import NavbarHome from '../../components/NavbarHome';
+import PrimaryButton from '../../components/PrimaryButton';
+import userImg from '../../assets/img_noe.png';
+import '../../index.css';
 const Workshops = () => {
   const { t } = useTranslation();
   const { workshops, isLoading, loadError } = useWorkshops();
@@ -28,7 +31,7 @@ const Workshops = () => {
 
   return (
     <>
-      <NavbarHome></NavbarHome>
+      <NavbarHome avatarUrl={userImg}></NavbarHome>
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -37,11 +40,11 @@ const Workshops = () => {
           <StyledHeader>
             <h2>{t('common.workshops')}</h2>
             {!isLoading && (
-              <StyledButton variant="secondary" onClick={handleShow}>
-                <AddIcon height={20} width={20} fill={'white'} />
-                {'   '}
+              <PrimaryButton variant="secondary" onClick={handleShow}>
+                <AddIcon height={20} width={20} fill={'inherit'} />
+                {'     '}
                 {t('common.newWorkshop')}
-              </StyledButton>
+              </PrimaryButton>
             )}
           </StyledHeader>
           <hr style={{ margin: 0 }} />

@@ -17,6 +17,8 @@ import NewRoundModalForm from './components/NewRoundModalForm';
 import styled from 'styled-components';
 import './components/simulationPage.css';
 import { COLORS } from '../../vars';
+import userImg from '../../assets/img_noe.png';
+import PrimaryButton from '../../components/PrimaryButton';
 
 const Simulation = () => {
   const { entities, result, loadError, isLoading } = useWorkshop();
@@ -54,14 +56,13 @@ const Simulation = () => {
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <>
-      <NavbarWorkshop
-        avatarUrl="https://img.icons8.com/doodle/48/000000/user.png"
-        firstName="Xavier"
-        role="Animateur"
-      />
-      <h4 className="workshop_title">{workshopTitle}</h4>
-      <h5>
-        Nous sommes en ...{'  '}
+      <NavbarWorkshop avatarUrl={userImg} firstName="Noé" role="Animateur" />
+      <h4 style={{ marginBottom: 10, marginTop: 0 }} className="workshop_title">
+        {workshopTitle}
+      </h4>
+      <h5 style={{ margin: 5 }}>
+        {t('common.we_are_in')}
+        {'  '}
         <span style={{ fontSize: 25, fontWeight: 'bold' }}>
           {' '}
           {currentRound}
@@ -88,11 +89,7 @@ const Simulation = () => {
             <Row style={{ height: '100vh' }}>
               <Col sm={12} md={8} className="graph-col">
                 <Container className="graph-card">
-                  <h4>
-                    {t('simulation.co2_evolution')}
-                    <span style={{ fontSize: '14px' }}>2</span>{' '}
-                    {t('simulation.per_person')}
-                  </h4>
+                  <h4>{t('simulation.carbon_footprint_evolution')}</h4>
                   <EvolutionCarbon />
                 </Container>
               </Col>
@@ -147,16 +144,6 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1rem;
-`;
-const PrimaryButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-  transition: 0.3s;
-  :hover {
-    color: ${COLORS.BROWN.STANDARD};
-    background-color: white;
-    border-color: ${COLORS.BROWN.STANDARD};
-  }
 `;
 
 const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');

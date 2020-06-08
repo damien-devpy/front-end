@@ -21,15 +21,17 @@ import {
 import AddIcon from '../../assets/AddIcon';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import NavbarWorkshop from '../../components/NavbarWorkshop';
+import userImg from '../../assets/img_noe.png';
 
 import {
   ParticipantItemForm,
   ParticipantsHeader,
 } from './components/ParticipantItemForm';
+import PrimaryButton from '../../components/PrimaryButton';
 
 const ManageParticipants = () => {
   const workshopTitle = useSelector(
-    (state) => state.workshop.result && state.workshop.result.title
+    (state) => state.workshop.result && state.workshop.result.name
   );
   const { t } = useTranslation();
   const participants = useSelector(
@@ -168,7 +170,7 @@ const ManageParticipants = () => {
       className="container-fluid h-100 pb-5"
       onClick={() => handleClick(null)}
     >
-      <NavbarWorkshop />
+      <NavbarWorkshop avatarUrl={userImg} />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -192,7 +194,7 @@ const ManageParticipants = () => {
             />
             <div style={{ textAlign: 'center' }}>
               <Link to="/simulation">
-                <StyledButton>{t('common.launch_simulation')}</StyledButton>
+                <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
               </Link>
             </div>
           </div>
@@ -249,13 +251,4 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-  transition: 0.3s
-  :hover {
-    color: ${COLORS.BROWN.STANDARD};
-    background-color: white;
-  }
-`;
 export default ManageParticipants;

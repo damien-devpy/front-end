@@ -5,7 +5,8 @@ import EnterIcon from '../../../assets/EnterIcon';
 import DeleteIcon from '../../../assets/DeleteIcon';
 // import { useWorkshop } from '../../../hooks/workshop';
 import { Link } from 'react-router-dom';
-
+import styled from 'styled-components';
+import '../../../index.css';
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
   return (
     <Table borderless>
@@ -26,7 +27,7 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
               workshopKey
             ) => {
               return (
-                <tr key={workshopKey}>
+                <StyledRow status={status} key={workshopKey}>
                   <td>{moment(date).format('L')}</td>
                   <td>{workshopName}</td>
                   <td>{status}</td>
@@ -45,7 +46,7 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
                       <DeleteIcon height={20} width={20} />
                     </Button>
                   </td>
-                </tr>
+                </StyledRow>
               );
             }
           )}
@@ -53,5 +54,9 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
     </Table>
   );
 };
-
+const StyledRow = styled.tr`
+  font-weight: ${(props) => (props.status === 'En cours' ? 'bolder' : '')};
+  background: ${(props) => (props.status === 'En cours' ? '#FAF6F2' : '')};
+  vertical-align: middle;
+`;
 export default WorkshopTable;

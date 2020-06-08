@@ -77,7 +77,7 @@ export default {
     createAccount: 'Créer compte',
     createWorkshop: 'Créer un nouvel atelier',
     data_tab: 'Données',
-    date: 'date',
+    date: 'Date',
     dateOfLastWorkshop: 'Date dernier atelier',
     lastWorkshop: 'Dernier atelier',
     deleteWorkshop: "Supprimer l'atelier",
@@ -126,6 +126,7 @@ export default {
     transports: 'Transports',
     validate: 'Valider',
     welcome: 'Bienvenue',
+    we_are_in: 'Nous sommes en ...',
     workshop: 'Atelier',
     workshopName: "Nom de l'atelier",
     workshops: 'Ateliers',
@@ -152,6 +153,7 @@ export default {
     nullPersona: 'Aucun',
   },
   simulation: {
+    carbon_footprint_evolution: 'Evolution des empreintes carbones',
     co2_evolution: 'Evolution du CO',
     per_person: 'par personne',
     global_average: 'Moyenne nationale',
@@ -173,14 +175,14 @@ export default {
     meatAndFish: 'Viandes et poissons',
   },
   housing: {
-    constructionAndMaintenance: 'Contruction Maintenance',
+    constructionAndMaintenance: 'Contruction',
     energies: 'Energies',
     housingEquipment: 'Equipement',
   },
   publicServices: {
-    elecPublicServices: "Réseau d'electricité",
-    gasPublicServices: 'Réseau de gaz',
-    otherPublicServices: 'Autres services publics',
+    elecPublicServices: 'Réseau élec',
+    gasPublicServices: 'Réseau gaz',
+    otherPublicServices: 'Autres',
   },
   others: {
     clothing: 'Textile',

@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import './components/simulationPage.css';
 import { COLORS } from '../../vars';
 import userImg from '../../assets/img_noe.png';
+import PrimaryButton from '../../components/PrimaryButton';
 
 const Simulation = () => {
   const { entities, result, loadError, isLoading } = useWorkshop();
@@ -143,16 +144,6 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1rem;
-`;
-const PrimaryButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-  transition: 0.3s;
-  :hover {
-    color: ${COLORS.BROWN.STANDARD};
-    background-color: white;
-    border-color: ${COLORS.BROWN.STANDARD};
-  }
 `;
 
 const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../index.css';
 const AddIcon = (props) => (
   <svg
     version="1.1"
@@ -8,6 +9,7 @@ const AddIcon = (props) => (
     y="0px"
     viewBox="0 0 512 512"
     style={{ enableBackground: '0 0 512 512' }}
+    class="primary"
     {...props}
   >
     <g>

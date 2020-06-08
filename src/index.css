@@ -76,3 +76,11 @@ tr,
 .card_label {
   color: white;
 }
+
+.primary {
+  fill: currentColor;
+}
+
+.primary:hover {
+  fill: #ba947e;
+}

@@ -27,6 +27,7 @@ import {
   ParticipantItemForm,
   ParticipantsHeader,
 } from './components/ParticipantItemForm';
+import PrimaryButton from '../../components/PrimaryButton';
 
 const ManageParticipants = () => {
   const workshopTitle = useSelector(
@@ -193,7 +194,7 @@ const ManageParticipants = () => {
             />
             <div style={{ textAlign: 'center' }}>
               <Link to="/simulation">
-                <StyledButton>{t('common.launch_simulation')}</StyledButton>
+                <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
               </Link>
             </div>
           </div>
@@ -250,19 +251,4 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-  transition: 0.3s;
-  :hover {
-    color: ${COLORS.BROWN.DARK};
-    background-color: white;
-    border-color: ${COLORS.GOLD};
-  }
-  :focus {
-    color: ${COLORS.BROWN.DARK} !important;
-    background-color: white !important;
-    border-color: ${COLORS.GOLD} !important;
-  }
-`;
 export default ManageParticipants;

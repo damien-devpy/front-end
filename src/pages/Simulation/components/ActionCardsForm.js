@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import { ActionCardItem } from './ActionCardItem';
 import { COLORS } from '../../../vars';
 
+import PrimaryButton from '../../../components/PrimaryButton';
+
 const ActionCardsForm = ({
   handleSubmit,
   handleCardActionSelectionChange,
@@ -125,15 +127,4 @@ background: ${(props) =>
   props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;
 
-const PrimaryButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-  transition: 0.3s;
-  :hover,
-  :focus {
-    color: ${COLORS.BROWN.STANDARD}!important;
-    background-color: white !important;
-    border-color: ${COLORS.BROWN.STANDARD} !important;
-  }
-`;
 export default ActionCardsForm;

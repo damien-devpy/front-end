@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
+  Label,
   Tooltip,
   Legend,
   Bar,
@@ -128,15 +129,20 @@ const FootprintGraph = ({ footprint }) => {
         <CartesianGrid strokeDasharray="3" />
         <XAxis
           dataKey="name"
-          //tickFormatter={(label) => t(`common.${label}`)}
+          // tickFormatter={(label) => t(`common.${label}`)}
           tickFormatter={(label) => ''}
           // type="number"
         />
-        <YAxis
-          dataKey=""
-          label={{ value: 'kCO2', angle: -90, position: 'insideLeft' }}
-          domain={[0, dataMax]}
-        />
+        <YAxis dataKey="" domain={[0, dataMax]}>
+          <Label
+            value="kgCO2e/an/pers"
+            style={{ fontSize: '0.8rem' }}
+            angle={-90}
+            offset={0}
+            position="insideLeft"
+          />
+        </YAxis>
+
         {/* <Tooltip labelFormatter={(label) => t(`common.${label}`)} /> */}
         <Legend
           layout="vertical"

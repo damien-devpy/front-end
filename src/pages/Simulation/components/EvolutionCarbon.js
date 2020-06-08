@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
 import { COLORS } from '../../../vars';
+import './simulationPage.css';
 // import { useTranslation } from "react-i18next";
 import {
   ResponsiveContainer,
@@ -10,6 +11,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
+  Label,
   Tooltip,
   Legend,
 } from 'recharts';
@@ -161,7 +163,16 @@ const EvolutionCarbon = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="year" type="number" domain={['dataMin', 2050]} />
-        <YAxis type="number" domain={[0, 15000]} />
+        <YAxis className="yaxis" type="number" domain={[0, 15000]}>
+          <Label
+            value="kgCO2e/an/pers"
+            style={{ fontSize: '1rem' }}
+            angle={-90}
+            offset={0}
+            position="insideLeft"
+          />
+        </YAxis>
+
         {/* <Tooltip /> */}
         {/* labelFormatter={(player_id) => participantName(player_id)} /> */}
         <Legend

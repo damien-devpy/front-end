@@ -84,3 +84,7 @@ tr,
 .primary:hover {
   fill: #ba947e;
 }
+
+.yaxis {
+  font-size: 10px;
+}

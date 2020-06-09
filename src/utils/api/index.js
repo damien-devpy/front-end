@@ -14,24 +14,9 @@ export const getCoaches = () =>
     // useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
-export const getParticipants = () =>
-  handleFetch(`/participants`, {
-    // useMock: true, // TO REMOVE AFTER BACKEND READY
-  });
-
-export const getPersonas = () =>
-  handleFetch(`/personas`, {
-    // useMock: true, // TO REMOVE AFTER BACKEND READY
-  });
-
 export const getWorkshops = () =>
   handleFetch(`/workshops`, {
     //useMock: true, // TO REMOVE AFTER BACKEND READY
-  });
-
-export const getFootprints = () =>
-  handleFetch(`/footprints`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
 export const getWorkshop = ({ workshopId }) =>

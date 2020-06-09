@@ -1,6 +1,4 @@
 import {
-  selectIndividualActionsFromBatch,
-  selectCollectiveActionsFromBatch,
   selectIndividualBatches,
   selectCollectiveBatches,
 } from './actionsSelector';
@@ -94,39 +92,6 @@ describe('Workshop selectors', () => {
     result: { model: { actionCardBatches: [1, 2, 3] } },
   };
   describe('Select individual actions from batches', () => {
-    it('should return only individual actions belonging to batch Ind1', (done) => {
-      const actionsFromBatch = selectIndividualActionsFromBatch(
-        initState.entities.actionCards,
-        initState.entities.actionCardBatches,
-        'Ind1'
-      );
-      expect(actionsFromBatch).toEqual({
-        ...actionCard1,
-        ...actionCard2,
-      });
-      done();
-    });
-    it('should return only individual actions belonging to batch Ind2', (done) => {
-      const actionsFromBatch = selectIndividualActionsFromBatch(
-        initState.entities.actionCards,
-        initState.entities.actionCardBatches,
-        'Ind2'
-      );
-      expect(actionsFromBatch).toEqual({
-        ...actionCard3,
-        ...actionCard4,
-      });
-      done();
-    });
-    it('should return no individual action for a unknown batch', (done) => {
-      const actionsFromBatch = selectIndividualActionsFromBatch(
-        initState.entities.actionCards,
-        initState.entities.actionCardBatches,
-        'Ind10'
-      );
-      expect(actionsFromBatch).toEqual({});
-      done();
-    });
     it('should return individual batches', (done) => {
       const individualBatches = selectIndividualBatches(
         initState.entities.actionCardBatches
@@ -143,19 +108,6 @@ describe('Workshop selectors', () => {
       );
       expect(collectiveBatches).toEqual({
         ...actionCardBatch3,
-      });
-      done();
-    });
-  });
-  describe('Select collective actions from batches', () => {
-    it('should return only collective actions belonging to batch Col1', (done) => {
-      const actionsFromBatch = selectCollectiveActionsFromBatch(
-        initState.entities.actionCards,
-        initState.entities.actionCardBatches,
-        'Col1'
-      );
-      expect(actionsFromBatch).toEqual({
-        ...actionCard5,
       });
       done();
     });

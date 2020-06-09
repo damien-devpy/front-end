@@ -1,11 +1,13 @@
 import React from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import DeleteIcon from '../../../assets/DeleteIcon';
 import EnterIcon from '../../../assets/EnterIcon';
 // import { useWorkshop } from '../../../hooks/workshop';
+import '../../../index.css';
 
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
   return (
@@ -21,9 +23,9 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
       </thead>
       <tbody>
         {workshops &&
-          workshops.map(({ id, date, title, status, coachName, action }) => {
+          workshops.map(({ id, date, title, status, coachName }) => {
             return (
-              <tr key={id}>
+              <StyledRow status={status} key={id}>
                 <td>{moment(date).format('L')}</td>
                 <td>{title}</td>
                 <td>{status}</td>
@@ -39,12 +41,16 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
                     <DeleteIcon height={20} width={20} />
                   </Button>
                 </td>
-              </tr>
+              </StyledRow>
             );
           })}
       </tbody>
     </Table>
   );
 };
-
+const StyledRow = styled.tr`
+  font-weight: ${(props) => (props.status === 'En cours' ? 'bolder' : '')};
+  background: ${(props) => (props.status === 'En cours' ? '#FAF6F2' : '')};
+  vertical-align: middle;
+`;
 export default WorkshopTable;

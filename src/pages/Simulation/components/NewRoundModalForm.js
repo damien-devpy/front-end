@@ -1,11 +1,13 @@
+import React from 'react';
 import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React from 'react';
 
+import styled from 'styled-components';
 import { ActionCardItemSimple } from './ActionCardItem';
 import {
+  getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchesFromRounds,
   selectCheckedIndividualActionCardsBatchesFromRounds,
 } from '../../../selectors/workshopSelector';
@@ -15,9 +17,9 @@ import {
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
-import styled from 'styled-components';
-import '../components/simulationPage.css';
+import './simulationPage.css';
 import { COLORS } from '../../../vars';
+import PrimaryButton from '../../../components/PrimaryButton';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -38,22 +40,47 @@ const NewRoundModalForm = ({ handleSubmit }) => {
       state.workshop.entities.roundsConfig
     )
   );
+  // prev checked (to disable) array of batchIds
   const checkedCollectiveActionCardsBatches = useSelector((state) =>
     selectCheckedCollectiveActionCardsBatchesFromRounds(
       state.workshop.entities.roundsConfig
     )
   );
+
+  const defaultRoundType = useSelector((state) =>
+    getDefaultRoundType(state.workshop.entities.roundsConfig, currentYear)
+  );
+
+  const defaultBatchPreChecked = (roundType) =>
+    roundType === 'individual'
+      ? [
+          Object.keys(individualActionCardBatches).filter(
+            (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
+          )[0],
+        ]
+      : [
+          Object.keys(collectiveActionCardBatches).filter(
+            (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
+          )[0],
+        ];
+
   return (
     <Formik
       onSubmit={handleSubmit}
       initialValues={{
-        actionCardType: 'individual',
+        actionCardType: defaultRoundType,
         currentYear,
         targetedYear: currentYear + yearIncrement,
         budget: 4,
-        actionCardBatches: individualActionCardBatches,
-        checkedActionCardBatches: checkedIndividualActionCardsBatches,
-        actionCardBatchIds: [],
+        actionCardBatches:
+          defaultRoundType === 'individual'
+            ? individualActionCardBatches
+            : collectiveActionCardBatches,
+        checkedActionCardBatches:
+          defaultRoundType === 'individual'
+            ? checkedIndividualActionCardsBatches
+            : checkedCollectiveActionCardsBatches,
+        actionCardBatchIds: defaultBatchPreChecked(defaultRoundType),
       }}
     >
       {({ handleSubmit, values, setFieldValue }) => {
@@ -65,7 +92,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 className="d-flex justify-content-center"
                 controlId="validationFormik00"
               >
-                <PrimaryButton
+                <SecondaryButton
                   className="mr-2 activable"
                   variant="secondary"
                   active={values.actionCardType === 'individual'}
@@ -79,12 +106,15 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       'checkedActionCardBatches',
                       checkedIndividualActionCardsBatches
                     );
-                    setFieldValue('actionCardBatchIds', []);
+                    setFieldValue(
+                      'actionCardBatchIds',
+                      defaultBatchPreChecked('individual')
+                    );
                   }}
                 >
                   {t('common.individualActions')}
-                </PrimaryButton>
-                <PrimaryButton
+                </SecondaryButton>
+                <SecondaryButton
                   className="mr-2 activable"
                   variant="secondary"
                   active={values.actionCardType === 'collective'}
@@ -98,11 +128,14 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       'checkedActionCardBatches',
                       checkedCollectiveActionCardsBatches
                     );
-                    setFieldValue('actionCardBatchIds', []);
+                    setFieldValue(
+                      'actionCardBatchIds',
+                      defaultBatchPreChecked('collective')
+                    );
                   }}
                 >
                   {t('common.collectiveActions')}
-                </PrimaryButton>
+                </SecondaryButton>
               </Form.Group>
             </Form.Row>
             <Form.Row className="d-flex justify-content-center">
@@ -133,7 +166,19 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 </ButtonGroup>
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
+                <Form.Label className="mr-2">
+                  {t('common.budget')}
+                  {values.actionCardType === 'individual' && (
+                    <span className="emoji" style={{ color: 'black' }}>
+                      &#x2764;
+                    </span>
+                  )}
+                  {values.actionCardType === 'collective' && (
+                    <span className="emoji" style={{ color: 'black' }}>
+                      &#x1f4b0;
+                    </span>
+                  )}
+                </Form.Label>
                 <ButtonGroup className="mr-2">
                   <SecondaryButton
                     className="activable"
@@ -233,24 +278,15 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   );
 };
 
-const PrimaryButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-  transition: 0.3s;
-  :hover {
-    color: ${COLORS.BROWN.STANDARD};
-    background-color: white;
-    border-color: ${COLORS.BROWN.STANDARD};
-  }
-`;
 const SecondaryButton = styled(Button)`
-  background-color: #fff9f5;
+  background-color: #fff;
   border-color: ${COLORS.BROWN.STANDARD};
-  color: black;
-  :hover {
-    color: ${COLORS.BROWN.STANDARD};
-    background-color: white;
-    border-color: ${COLORS.BROWN.DARK};
+  color: #000;
+  :hover,
+  :focus {
+    background-color: ${COLORS.BROWN.STANDARD} !important;
+    color: white !important;
+    border-color: ${COLORS.BROWN.STANDARD} !important;
   }
 `;
 export default NewRoundModalForm;

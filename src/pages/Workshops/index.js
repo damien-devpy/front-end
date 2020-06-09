@@ -4,10 +4,13 @@ import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import '../../index.css';
 import AddIcon from '../../assets/AddIcon';
 import NavbarHome from '../../components/NavbarHome';
+import PrimaryButton from '../../components/PrimaryButton';
 import WorkshopModal from './components/WorkshopModal';
 import WorkshopTable from './components/WorkshopTable';
+import userImg from '../../assets/img_noe.png';
 import { COLORS } from '../../vars';
 import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
 import { useWorkshops } from '../../hooks/workshops';
@@ -30,7 +33,7 @@ const Workshops = () => {
 
   return (
     <>
-      <NavbarHome />
+      <NavbarHome avatarUrl={userImg} />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -39,11 +42,11 @@ const Workshops = () => {
           <StyledHeader>
             <h2>{t('common.workshops')}</h2>
             {!isLoading && (
-              <StyledButton variant="secondary" onClick={handleShow}>
-                <AddIcon height={20} width={20} fill="white" />
-                {'   '}
+              <PrimaryButton variant="secondary" onClick={handleShow}>
+                <AddIcon height={20} width={20} fill="inherit" />
+                {'     '}
                 {t('common.newWorkshop')}
-              </StyledButton>
+              </PrimaryButton>
             )}
           </StyledHeader>
           <hr style={{ margin: 0 }} />

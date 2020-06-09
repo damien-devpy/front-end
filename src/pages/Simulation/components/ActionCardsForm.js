@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import { ActionCardItem } from './ActionCardItem';
 import { COLORS } from '../../../vars';
 
+import PrimaryButton from '../../../components/PrimaryButton';
+
 const ActionCardsForm = ({
   handleSubmit,
   handleCardActionSelectionChange,
@@ -90,7 +92,9 @@ const ActionCardsForm = ({
         )}
       </Form.Row>
       <Form.Row className="d-flex justify-content-end">
-        <Button onClick={handleSubmit}>{t('common.validate')}</Button>
+        <PrimaryButton onClick={handleSubmit}>
+          {t('common.validate')}
+        </PrimaryButton>
       </Form.Row>
     </Form>
   );
@@ -113,7 +117,9 @@ const BatchBadge = ({ id, text, active, handleClick }) => {
 
 const StyledBatch = styled.div`
 cursor: pointer;
-color: black;
+color: ${(props) => (props.active ? 'white' : 'black')};
+font-weight: ${(props) => (props.active ? 'bolder' : '')};
+
 /* font-size: 0.7rem; */
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
@@ -121,5 +127,4 @@ background: ${(props) =>
   props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
 `;
 
-const StyledButton = styled(Button);
 export default ActionCardsForm;

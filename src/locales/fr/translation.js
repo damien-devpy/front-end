@@ -135,6 +135,7 @@ export default {
     we_are_in: 'Nous sommes en ...',
     workshop: 'Atelier',
     workshopName: "Nom de l'atelier",
+    workshopCity: 'Lieu',
     workshops: 'Ateliers',
     workshopsManagment: 'Gestion des ateliers',
     workshopStatus: 'Statut',

@@ -16,20 +16,22 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
         <tr>
           <th>{t('common.date')}</th>
           <th>{t('common.workshopName')}</th>
-          <th>{t('common.workshopStatus')}</th>
+          <th>{t('common.workshopCity')}</th>
           <th>{t('common.coach')}</th>
+          <th>{t('common.workshopStatus')}</th>
           <th>{t('common.actions')}</th>
         </tr>
       </thead>
       <tbody>
         {workshops &&
-          workshops.map(({ id, date, name, status, coachName }) => {
+          workshops.map(({ id, date, name, city, status, coachName }) => {
             return (
               <StyledRow status={status} key={id}>
                 <td>{moment(date).format('L')}</td>
                 <td>{name}</td>
-                <td>{status}</td>
+                <td>{city}</td>
                 <td>{coachName}</td>
+                <td>{status}</td>
                 <td>
                   <Link to={`workshop/${id}/participants`}>
                     <Button variant="light mr-1">

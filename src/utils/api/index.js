@@ -19,6 +19,12 @@ export const getWorkshops = () =>
     //useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
+export const createWorkshop = ({ data, ...rest }) =>
+  handleFetch('/workshops', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
 export const getWorkshop = ({ workshopId }) =>
   handleFetch(`/workshops/${workshopId}`, {
     normalizer: workshopSchema,

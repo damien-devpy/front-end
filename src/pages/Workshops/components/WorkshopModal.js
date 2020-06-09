@@ -1,8 +1,8 @@
-import React from "react";
-import { Modal } from "react-bootstrap";
-import WorkshopModalForm from "./WorkshopModalForm";
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+import WorkshopModalForm from './WorkshopModalForm';
 
-const WorkshopModal = ({ t, show, handleClose, handleSubmit }) => {
+const WorkshopModal = ({ t, coaches, show, handleClose, handleSubmit }) => {
   return (
     <Modal
       size="lg"
@@ -12,10 +12,14 @@ const WorkshopModal = ({ t, show, handleClose, handleSubmit }) => {
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title>{t("common.newWorkshop")}</Modal.Title>
+        <Modal.Title>{t('common.newWorkshop')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <WorkshopModalForm t={t} handleSubmit={handleSubmit} />
+        <WorkshopModalForm
+          t={t}
+          coaches={coaches}
+          handleSubmit={handleSubmit}
+        />
       </Modal.Body>
     </Modal>
   );

@@ -10,19 +10,21 @@ import PrimaryButton from '../../components/PrimaryButton';
 import WorkshopModal from './components/WorkshopModal';
 import WorkshopTable from './components/WorkshopTable';
 import { COLORS } from '../../vars';
-import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
+import { deleteWorkshop, createAsyncWorkshop } from '../../actions/workshops';
 import { useWorkshops } from '../../hooks/workshops';
+import { useCoaches } from '../../hooks/coaches';
 
 const Workshops = () => {
   const { t } = useTranslation();
   const { workshops, isLoading, loadError } = useWorkshops();
+  const { coaches } = useCoaches();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (values) => {
-    dispatch(addWorkshop(values));
+    dispatch(createAsyncWorkshop(values));
     setShow(false);
   };
   const handleDelete = (workshopKey) => {
@@ -59,6 +61,7 @@ const Workshops = () => {
 
         <WorkshopModal
           t={t}
+          coaches={coaches}
           show={show}
           handleClose={handleClose}
           handleSubmit={handleSubmit}

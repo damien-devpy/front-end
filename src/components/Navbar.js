@@ -31,8 +31,8 @@ const Navbar = ({ avatarUrl, links }) => {
         <NavigBar.Toggle aria-controls="basic-navbar-nav" />
         <NavigBar.Collapse id="basic-navbar-nav">
           <Nav>
-            {links.map((link) =>
-              link === 'exit' ? (
+            {links.map(({ id, link }) =>
+              id === 'exit' ? (
                 <Nav.Link
                   as={Link}
                   to="/workshops"
@@ -45,19 +45,17 @@ const Navbar = ({ avatarUrl, links }) => {
               ) : (
                 <Nav.Link
                   as={Link}
-                  to={`/${link}`}
-                  className={isActive(`/${link}`)}
+                  to={link}
+                  className={isActive(id)}
                   style={{
                     margin: 5,
                     fontSize: 18,
-                    backgroundColor: isActive(`/${link}`)
-                      ? COLORS.PRIMARY
-                      : null,
-                    color: isActive(`/${link}`) ? 'white' : '#616162',
+                    backgroundColor: isActive(id) ? COLORS.PRIMARY : null,
+                    color: isActive(id) ? 'white' : '#616162',
                   }}
                 >
                   <small className="font-weight-bold">
-                    {t(`common.${link}`)}
+                    {t(`common.${id}`)}
                   </small>
                 </Nav.Link>
               )

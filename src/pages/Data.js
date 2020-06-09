@@ -2,12 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-const Results = () => {
+const Data = () => {
   const { t } = useTranslation();
 
-  return <StyledResults>{t('common.results')}</StyledResults>;
+  return (
+    <>
+      <StyledData>{t('common.data')}</StyledData>;)
+    </>
+  );
 };
-const StyledResults = styled.div`
+const StyledData = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -16,4 +20,4 @@ const StyledResults = styled.div`
   margin: 10px 0;
 `;
 
-export default Results;
+export default Data;

@@ -1,8 +1,18 @@
-import Navbar from './Navbar.js';
 import React from 'react';
 
-const NavbarWorkshop = ({ avatarUrl }) => {
-  const links = ['exit', 'participants', 'data_tab', 'simulation', 'results'];
+import Navbar from './Navbar';
+
+const NavbarWorkshop = ({
+  avatarUrl,
+  match: { params: { workshopId } = {} } = {},
+}) => {
+  const links = [
+    { id: 'exit', link: '/exit' },
+    { id: 'participants', link: `/workshop/${workshopId}/participants` },
+    { id: 'data', link: `/workshop/${workshopId}/data` },
+    { id: 'simulation', link: `/workshop/${workshopId}/simulation` },
+    { id: 'results', link: `/workshop/${workshopId}/results` },
+  ];
   return <Navbar links={links} avatarUrl={avatarUrl} />;
 };
 export default NavbarWorkshop;

@@ -1,29 +1,28 @@
 import handleFetch from './handleFetch';
 import { workshopSchema } from '../../normalizers';
 
+export const getCurrentUser = () => handleFetch('/users/me');
+
+export const login = (data) =>
+  handleFetch('/login', {
+    method: 'POST',
+    body: data,
+  });
+
 export const getCoaches = () =>
   handleFetch(`/coaches`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
-  });
-
-export const getParticipants = () =>
-  handleFetch(`/participants`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
-  });
-
-export const getPersonas = () =>
-  handleFetch(`/personas`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
+    // useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
 export const getWorkshops = () =>
   handleFetch(`/workshops`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
+    //useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
-export const getFootprints = () =>
-  handleFetch(`/footprints`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
+export const createWorkshop = ({ data, ...rest }) =>
+  handleFetch('/workshops', {
+    method: 'POST',
+    body: JSON.stringify(data),
   });
 
 export const getWorkshop = ({ workshopId }) =>

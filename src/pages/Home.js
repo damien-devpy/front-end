@@ -5,12 +5,9 @@ import { useTranslation } from 'react-i18next';
 const Home = () => {
   const { t } = useTranslation();
 
-  return (
-    <>
-      <StyledHome>{t('common.home')}</StyledHome>;)
-    </>
-  );
+  return <StyledHome>{t('common.home')}</StyledHome>;
 };
+
 const StyledHome = styled.div`
   display: flex;
   justify-content: flex-start;

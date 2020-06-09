@@ -10,7 +10,7 @@ const CommonModal = ({ title, show, handleClose, children }) => {
       show={show}
       onHide={handleClose}
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton={handleClose !== undefined}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>

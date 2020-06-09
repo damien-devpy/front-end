@@ -2,10 +2,7 @@ import React from 'react';
 
 import Navbar from './Navbar';
 
-const NavbarWorkshop = ({
-  avatarUrl,
-  match: { params: { workshopId } = {} } = {},
-}) => {
+const NavbarWorkshop = ({ match: { params: { workshopId } = {} } = {} }) => {
   const links = [
     { id: 'exit', link: '/exit' },
     { id: 'participants', link: `/workshop/${workshopId}/participants` },
@@ -13,6 +10,6 @@ const NavbarWorkshop = ({
     { id: 'simulation', link: `/workshop/${workshopId}/simulation` },
     { id: 'results', link: `/workshop/${workshopId}/results` },
   ];
-  return <Navbar links={links} avatarUrl={avatarUrl} />;
+  return <Navbar links={links} />;
 };
 export default NavbarWorkshop;

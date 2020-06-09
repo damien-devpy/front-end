@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import cardIcons from '../../../components/cardIcons';
 import { COLORS } from '../../../vars';
+
 export const ActionCardItem = ({
   id,
   cardNumber,

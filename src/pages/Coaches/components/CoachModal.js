@@ -1,6 +1,7 @@
-import React from "react";
-import { Modal } from "react-bootstrap";
-import CoachModalForm from "./CoachModalForm";
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+
+import CoachModalForm from './CoachModalForm';
 
 const CoachModal = ({ t, show, handleClose, handleSubmit }) => {
   return (
@@ -12,7 +13,7 @@ const CoachModal = ({ t, show, handleClose, handleSubmit }) => {
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title>{t("common.newCoach")}</Modal.Title>
+        <Modal.Title>{t('common.newCoach')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <CoachModalForm t={t} handleSubmit={handleSubmit} />

@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 // export default [
 //   {
 //     userId: uuid(),
@@ -65,7 +64,7 @@ import { v4 as uuid } from 'uuid';
 //   },
 // ];
 
-const DOMAIN_NAME = 'caplc.com';
+const DOMAIN_NAME = '2tonnes.org';
 const names = [
   'Néo Fouquet',
   'Guillaume Grandis',
@@ -82,7 +81,7 @@ const names = [
 export default names.map((name, index) => {
   const [firstName, lastName] = name.split(' ');
   return {
-    userId: uuid(),
+    id: index,
     firstName,
     lastName,
     email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${DOMAIN_NAME}`

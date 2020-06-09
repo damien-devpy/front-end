@@ -4,8 +4,9 @@ import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import '../../index.css';
 import AddIcon from '../../assets/AddIcon';
-import NavbarHome from '../../components/NavbarHome';
+import PrimaryButton from '../../components/PrimaryButton';
 import WorkshopModal from './components/WorkshopModal';
 import WorkshopTable from './components/WorkshopTable';
 import { COLORS } from '../../vars';
@@ -29,47 +30,41 @@ const Workshops = () => {
   };
 
   return (
-    <>
-      <NavbarHome />
-      <Container>
-        <Card
-          className="p-5 border-light shadow-sm"
-          style={{ borderRadius: 10 }}
-        >
-          <StyledHeader>
-            <h2>{t('common.workshops')}</h2>
-            {!isLoading && (
-              <StyledButton variant="secondary" onClick={handleShow}>
-                <AddIcon height={20} width={20} fill="white" />
-                {'   '}
-                {t('common.newWorkshop')}
-              </StyledButton>
-            )}
-          </StyledHeader>
-          <hr style={{ margin: 0 }} />
-
-          {loadError && <p>{t('common.loadError')}</p>}
-          {isLoading && (
-            <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+    <Container>
+      <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
+        <StyledHeader>
+          <h2>{t('common.workshops')}</h2>
+          {!isLoading && (
+            <PrimaryButton variant="secondary" onClick={handleShow}>
+              <AddIcon height={20} width={20} fill="inherit" />
+              {'     '}
+              {t('common.newWorkshop')}
+            </PrimaryButton>
           )}
+        </StyledHeader>
+        <hr style={{ margin: 0 }} />
 
-          {workshops && (
-            <WorkshopTable
-              t={t}
-              workshops={workshops}
-              handleDelete={handleDelete}
-            />
-          )}
+        {loadError && <p>{t('common.loadError')}</p>}
+        {isLoading && (
+          <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+        )}
 
-          <WorkshopModal
+        {workshops && (
+          <WorkshopTable
             t={t}
-            show={show}
-            handleClose={handleClose}
-            handleSubmit={handleSubmit}
+            workshops={workshops}
+            handleDelete={handleDelete}
           />
-        </Card>
-      </Container>
-    </>
+        )}
+
+        <WorkshopModal
+          t={t}
+          show={show}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+        />
+      </Card>
+    </Container>
   );
 };
 

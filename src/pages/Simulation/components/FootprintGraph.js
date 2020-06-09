@@ -1,19 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
 import {
-  Bar,
+  ResponsiveContainer,
   BarChart,
   CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
   XAxis,
   YAxis,
+  Label,
+  Tooltip,
+  Legend,
+  Bar,
 } from 'recharts';
 import { hierarchy } from 'd3-hierarchy';
-
+import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
 const colors = {
   transports: ['#FF0000', '#C00001', '#700001', '#FF5A5C', '#FFCCFF'],
   housing: ['#1E4E79', '#2E75B6', '#7BD7EE'],
@@ -33,7 +33,7 @@ const colors = {
 //   }
 // };
 const categories = (footprint) => {
-  const categs = footprint.reduce((obj, sectorData) => {
+  var categs = footprint.reduce((obj, sectorData) => {
     obj[sectorData.name] = Object.keys(sectorData)
       .filter((key) => key != 'name')
       .sort();
@@ -44,7 +44,7 @@ const categories = (footprint) => {
 
 const footprintDataBar = (footprint, t) => {
   console.log('categories(footprint)', categories(footprint));
-  const graphBars = [];
+  var graphBars = [];
   Object.keys(categories(footprint)).forEach((sector, s) =>
     categories(footprint)[sector].forEach((categ, c) => {
       graphBars.push(
@@ -65,25 +65,30 @@ const renderLegend = (props) => {
   // console.log('payload', payload);
   // console.log('footprint', footprint);
 
-  const newProps = props;
+  var newProps = props;
   newProps.layout = 'vertical';
   return (
-    <div className="legend" style={{ display: 'table-row', width: '100%' }}>
+    <div className="legend no-gutters row">
+      {/* style={{ display: 'table-row', width: '100%' }}> */}
       {footprint.map((sectorData) => {
         newProps.payload = payload.filter((entry) =>
           Object.keys(sectorData).includes(entry.dataKey)
         );
         return (
           <div
-            className="legend-sector"
+            className="legend-sector col"
             style={{
               display: 'table-cell',
-              paddingRight: '20px',
+              //paddingRight: '20px',
               width: 'auto',
-              fontSize: 12,
+              //fontSize: 12,
+              fontSize: '0.7vw',
             }}
           >
-            <h6> {t(`common.${sectorData.name}`)} </h6>
+            {/* <h6> {t(`common.${sectorData.name}`)} </h6> */}
+            <span style={{ fontSize: '0.9vw', fontWeight: '500' }}>
+              {t(`common.${sectorData.name}`)}
+            </span>
             <DefaultLegendContent {...newProps} />
           </div>
         );
@@ -94,20 +99,20 @@ const renderLegend = (props) => {
 
 const FootprintGraph = ({ footprint }) => {
   const { t } = useTranslation();
-
   // const footprint = useSelector((state) =>
   //   footprintDataToGraph(
   //     state.workshop.entities.carbonFootprints['2020-1'].footprint
   //   )
   // );
+  const dataMax = 5000;
   console.log('footprint graph :', footprint);
 
   return (
     <ResponsiveContainer
       width="100%"
-      height="50%"
+      height="30%"
       minHeight={100}
-      aspect={4.0 / 3.0}
+      aspect={3.0 / 2.0}
     >
       <BarChart
         // width={730}
@@ -124,14 +129,21 @@ const FootprintGraph = ({ footprint }) => {
         <CartesianGrid strokeDasharray="3" />
         <XAxis
           dataKey="name"
-          tickFormatter={(label) => t(`common.${label}`)}
+          // tickFormatter={(label) => t(`common.${label}`)}
+          tickFormatter={(label) => ''}
           // type="number"
         />
-        <YAxis
-          dataKey=""
-          label={{ value: 'kCO2', angle: -90, position: 'insideLeft' }}
-        />
-        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
+        <YAxis dataKey="" domain={[0, dataMax]}>
+          <Label
+            value="kgCO2e/an/pers"
+            style={{ fontSize: '0.8rem' }}
+            angle={-90}
+            offset={0}
+            position="insideLeft"
+          />
+        </YAxis>
+
+        {/* <Tooltip labelFormatter={(label) => t(`common.${label}`)} /> */}
         <Legend
           layout="vertical"
           footprint={footprint}

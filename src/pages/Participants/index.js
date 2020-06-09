@@ -1,36 +1,58 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import { Button, Card, Container } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Button, Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
+import AddIcon from '../../assets/AddIcon';
+import FootprintGraph from '../Simulation/components/FootprintGraph';
+import PrimaryButton from '../../components/PrimaryButton';
+import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
+import userImg from '../../assets/img_noe.png';
 import { COLORS } from '../../vars';
+import {
+  ParticipantItemForm,
+  ParticipantsHeader,
+} from './components/ParticipantItemForm';
 import {
   addParticipant,
   deleteParticipant,
   setParticipantNameEmail,
 } from '../../actions/participants';
-import AddIcon from '../../assets/AddIcon';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
+import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
+import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { useWorkshop } from '../../hooks/workshop';
 
-import {
-  ParticipantItemForm,
-  ParticipantsHeader,
-} from './components/ParticipantItemForm';
-
-const ManageParticipants = () => {
+const ManageParticipants = ({
+  match: {
+    params: { workshopId },
+  },
+}) => {
+  useWorkshop(workshopId);
   const workshopTitle = useSelector(
-    (state) => state.workshop.result && state.workshop.result.title
+    (state) => state.workshop.result && state.workshop.result.name
   );
   const { t } = useTranslation();
-  // const { participants, isLoading, loadError } = useParticipants();
   const participants = useSelector(
-    (state) => state.workshop.result && state.workshop.entities.participants
+    (state) => state.workshop.entities && state.workshop.entities.participants
   );
+  console.log('participants', participants);
+  const carbonFootprints = useSelector(
+    (state) => state.workshop.result && state.workshop.entities.carbonFootprints
+  );
+  const globalCarbonVariables = useSelector(
+    (state) =>
+      state.workshop.result &&
+      state.workshop.entities.globalCarbonVariables['2020']
+  );
+  const model = useSelector(
+    (state) => state.workshop.result && state.workshop.result.model
+  );
+
   const numParticipants = useSelector(
     (state) =>
       state.workshop.result &&
@@ -38,8 +60,9 @@ const ManageParticipants = () => {
       Object.keys(state.workshop.entities.participants).length
   );
   const personas = useSelector(
-    (state) => state.workshop.result && state.workshop.result.personas
+    (state) => state.workshop.entities && state.workshop.entities.personas
   );
+  console.log('personas', personas);
   const dispatch = useDispatch();
 
   // keep track of actived rows globally
@@ -78,12 +101,48 @@ const ManageParticipants = () => {
     setActive(newActive);
   };
 
+  const [showBC, setShowBC] = useState(false);
+  const [footprintToShow, setFootprintToShow] = useState({});
+
+  const handleShowBC = (id) => {
+    // console.log('show BC', carbonFootprints[`2020-${id}`]);
+    setShowBC(true);
+    // console.log(participants[id].personaId);
+
+    // ideally
+    // 1. carbon variables should be pre-computed for each persona
+    // 2. add higher-level function where
+    // valueOnAllLevels & computeFootprint are put together and
+    // input variables are simplified, e.g. could be given as `model`
+    const { footprintStructure, variableFormulas } = model;
+    const footprint = participants[id].personaId
+      ? valueOnAllLevels(
+          computeFootprint(
+            footprintStructure,
+            variableFormulas,
+            computeCarbonVariables(
+              personas.find(
+                (persona) => persona.id === participants[id].personaId
+              ).surveyVariables,
+              globalCarbonVariables
+            ),
+            globalCarbonVariables
+          )
+        )
+      : carbonFootprints[`2020-${id}`].footprint;
+
+    // 3. footprintDataToGraph should be part of FootprintGraph
+    const footprintShaped = footprintDataToGraph(footprint);
+    setFootprintToShow(footprintShaped);
+  };
+
   const participantItems = [];
 
   participants &&
     personas &&
     Object.keys(participants).forEach((id) => {
       const p = participants[id];
+      console.log('participantss', p);
       participantItems.push(
         <ParticipantItemForm
           id={id}
@@ -103,6 +162,7 @@ const ManageParticipants = () => {
           handleClick={handleClick}
           personas={personas}
           currentPersonaId={p.personaId}
+          handleShowBC={handleShowBC}
         />
       );
     });
@@ -113,7 +173,6 @@ const ManageParticipants = () => {
       className="container-fluid h-100 pb-5"
       onClick={() => handleClick(null)}
     >
-      <NavbarWorkshop />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -136,13 +195,28 @@ const ManageParticipants = () => {
               }}
             />
             <div style={{ textAlign: 'center' }}>
-              <Link to="/simulation">
-                <StyledButton>{t('common.launch_simulation')}</StyledButton>
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
               </Link>
             </div>
           </div>
         </Card>
       </Container>
+      <Modal
+        size="md"
+        centered
+        show={showBC}
+        onHide={() => {
+          setShowBC(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Bilan carbone</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FootprintGraph footprint={footprintToShow} />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
@@ -179,8 +253,4 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-`;
 export default ManageParticipants;

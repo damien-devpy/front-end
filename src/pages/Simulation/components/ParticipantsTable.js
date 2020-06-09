@@ -9,7 +9,6 @@ import {
 
 const ParticipantsTable = ({
   round,
-  workshopParticipants,
   participantsEntity,
   individualChoices,
   selectedParticipantId,
@@ -29,7 +28,7 @@ const ParticipantsTable = ({
       <StyledItem
         name={id}
         value={id}
-        className="m-1 pl-3 pr-3 p-1 btn-block rounded-pill"
+        className="pl-3 pr-3 p-1 btn-block rounded-pill"
         selected={selected}
         onClick={() => {
           handleSelect(id);
@@ -45,9 +44,8 @@ const ParticipantsTable = ({
 
   return (
     <div>
-      {workshopParticipants &&
-        participantsEntity &&
-        workshopParticipants.map((participantId) => {
+      {participantsEntity &&
+        Object.keys(participantsEntity).map((participantId) => {
           // might make sense to simplify the component by taking the two functions outside
           const { firstName, lastName } = participantsEntity[participantId];
           const numberOfSelectedActions = getNumberOfChosenActionCards(
@@ -81,8 +79,11 @@ const ParticipantsTable = ({
 
 const StyledItem = styled.div`
 cursor: pointer;
-color: white;
-font-size: 0.8rem;
+margin: 15;
+color:  ${(props) => (props.selected ? 'white' : 'black')};
+font-size: ${(props) => (props.selected ? '1.1rem' : '1rem')};
+font-weight: ${(props) => (props.selected ? 'bolder' : '')};
+width: ${(props) => (props.selected ? '230px' : '210px')};
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
 background: ${(props) =>

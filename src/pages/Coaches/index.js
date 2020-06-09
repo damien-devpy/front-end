@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import CoachModal from './components/CoachModal';
 import CoachTable from './components/CoachTable';
-import NavbarHome from '../../components/NavbarHome';
 import { COLORS } from '../../vars';
 import { addCoach } from '../../actions/coaches';
 import { useCoaches } from '../../hooks/coaches';
@@ -24,38 +23,32 @@ const Coaches = () => {
     setShow(false);
   };
   return (
-    <>
-      <NavbarHome />
-      <Container>
-        <Card
-          className="p-5 border-light shadow-sm"
-          style={{ borderRadius: 10 }}
-        >
-          <StyledHeader>
-            <h2>{t('common.coaches')}</h2>
-            {!isLoading && (
-              <StyledButton onClick={handleShow}>
-                {t('common.addACoach')}
-              </StyledButton>
-            )}
-          </StyledHeader>
-          <hr style={{ margin: 0 }} />
-
-          {loadError && <p>{t('common.loadError')}</p>}
-          {isLoading && (
-            <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+    <Container>
+      <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
+        <StyledHeader>
+          <h2>{t('common.coaches')}</h2>
+          {!isLoading && (
+            <StyledButton onClick={handleShow}>
+              {t('common.addACoach')}
+            </StyledButton>
           )}
+        </StyledHeader>
+        <hr style={{ margin: 0 }} />
 
-          {coaches && <CoachTable t={t} coaches={coaches} />}
-          <CoachModal
-            t={t}
-            show={show}
-            handleClose={handleClose}
-            handleSubmit={handleSubmit}
-          />
-        </Card>
-      </Container>
-    </>
+        {loadError && <p>{t('common.loadError')}</p>}
+        {isLoading && (
+          <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+        )}
+
+        {coaches && <CoachTable t={t} coaches={coaches} />}
+        <CoachModal
+          t={t}
+          show={show}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+        />
+      </Card>
+    </Container>
   );
 };
 

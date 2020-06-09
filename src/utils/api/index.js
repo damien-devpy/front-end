@@ -26,7 +26,7 @@ export const getPersonas = () =>
 
 export const getWorkshops = () =>
   handleFetch(`/workshops`, {
-    useMock: true, // TO REMOVE AFTER BACKEND READY
+    //useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
 export const getFootprints = () =>
@@ -34,8 +34,9 @@ export const getFootprints = () =>
     useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
-export const getWorkshop = () =>
-  handleFetch(`/workshop`, {
+export const getWorkshop = ({ workshopId }) =>
+  handleFetch(`/workshops/${workshopId}`, {
     normalizer: workshopSchema,
     useMock: true, // TO REMOVE AFTER BACKEND READY
+    mockOptions: { workshopId },
   });

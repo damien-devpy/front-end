@@ -103,6 +103,17 @@ export const getNumberOfChosenActionCards = (
     : 0;
 };
 
+export const getNumberOfChosenCollectiveCards = (
+  collectiveChoicesEntity,
+  round
+) => {
+  return collectiveChoicesEntity &&
+    collectiveChoicesEntity[round] &&
+    collectiveChoicesEntity[round].actionCardIds
+    ? collectiveChoicesEntity[round].actionCardIds.length
+    : 0;
+};
+
 export const getCostOfChosenActionCards = (
   individualChoicesEntity,
   actionCardsEntity,
@@ -116,6 +127,23 @@ export const getCostOfChosenActionCards = (
     individualChoicesEntity[id].actionCardIds
     ? sumArray(
         individualChoicesEntity[id].actionCardIds.map(
+          (cardId) => actionCardsEntity[cardId].cost
+        )
+      )
+    : 0;
+};
+
+export const getCostOfChosenCollectiveCards = (
+  collectiveChoicesEntity,
+  actionCardsEntity,
+  round
+) => {
+  if (!collectiveChoicesEntity) return 0;
+  return actionCardsEntity &&
+    collectiveChoicesEntity[round] &&
+    collectiveChoicesEntity[round].actionCardIds
+    ? sumArray(
+        collectiveChoicesEntity[round].actionCardIds.map(
           (cardId) => actionCardsEntity[cardId].cost
         )
       )
@@ -153,4 +181,39 @@ export const getInitRoundBudget = (
     });
   });
   return initBudgets;
+};
+
+export const getDefaultRoundType = (roundsConfigEntity, currentYear) => {
+  const rounds = Object.keys(roundsConfigEntity).filter(
+    (round) => round != currentYear // currentYear could be number
+  );
+  return rounds.length > 0
+    ? roundsConfigEntity[rounds.slice(-1)[0]].actionCardType === 'individual'
+      ? 'collective'
+      : 'individual'
+    : 'individual';
+};
+export const getInitRoundBudgetCollective = (
+  roundsConfigEntity,
+  collectiveChoicesEntity,
+  actionCardsEntity
+) => {
+  const rounds = Object.keys(roundsConfigEntity);
+  const collectiveRounds = rounds.filter(
+    (round) => roundsConfigEntity[round].actionCardType === 'collective'
+  );
+  const roundBudgets = collectiveRounds
+    ? collectiveRounds.map((round) => roundsConfigEntity[round].budget)
+    : [0];
+  let totalBudget = sumArray(roundBudgets);
+  rounds.forEach((round) => {
+    const cardIds = collectiveChoicesEntity
+      ? collectiveChoicesEntity[round]
+      : null;
+    cardIds &&
+      cardIds.actionCardIds.forEach((cardId) => {
+        totalBudget -= actionCardsEntity[cardId].cost;
+      });
+  });
+  return totalBudget;
 };

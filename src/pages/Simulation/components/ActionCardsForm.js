@@ -7,12 +7,15 @@ import styled from 'styled-components';
 import { ActionCardItem } from './ActionCardItem';
 import { COLORS } from '../../../vars';
 
+import PrimaryButton from '../../../components/PrimaryButton';
+
 const ActionCardsForm = ({
   handleSubmit,
   handleCardActionSelectionChange,
   handleCheckedActionCard,
   roundIds,
 }) => {
+  console.log('roundIds', roundIds);
   const { t } = useTranslation();
   const actionCardBatchesEntity = useSelector(
     (state) => state.workshop.entities.actionCardBatches
@@ -29,13 +32,22 @@ const ActionCardsForm = ({
       Object.keys(roundsConfigEntity).slice(-1)[0]
     ].actionCardBatchIds.slice(-1)[0]
   );
-
+  function compareName(a, b) {
+    if (actionCardBatchesEntity[a].name < actionCardBatchesEntity[b].name) {
+      return -1;
+    }
+    if (actionCardBatchesEntity[a].name > actionCardBatchesEntity[b].name) {
+      return 1;
+    }
+    return 0;
+  }
   return (
     <Form noValidate>
       <Form.Row>
         {roundIds.map((roundConfigId) =>
-          roundsConfigEntity[roundConfigId].actionCardBatchIds.map(
-            (actionCardBatchId) => {
+          roundsConfigEntity[roundConfigId].actionCardBatchIds
+            .sort(compareName)
+            .map((actionCardBatchId) => {
               const {
                 name: actionCardBatchName,
                 actionCardIds,
@@ -52,14 +64,18 @@ const ActionCardsForm = ({
                     handleClick={() => setActiveBatch(actionCardBatchId)}
                   />
                   {actionCardIds.map((actionCardId) => {
-                    const { name: actionCardName } = actionCardsEntity[
-                      actionCardId
-                    ];
+                    const {
+                      name: actionCardName,
+                      cardNumber,
+                      sector,
+                    } = actionCardsEntity[actionCardId];
                     return (
                       <ActionCardItem
                         key={actionCardId}
-                        id={actionCardId}
+                        id={cardNumber}
+                        cardNumber={cardNumber}
                         text={actionCardName}
+                        sector={sector}
                         category={actionCardsEntity[actionCardId].subCategory}
                         active={actionCardBatchId === activeBatch}
                         checked={handleCheckedActionCard(actionCardId)}
@@ -72,12 +88,13 @@ const ActionCardsForm = ({
                   })}
                 </Form.Group>
               );
-            }
-          )
+            })
         )}
       </Form.Row>
       <Form.Row className="d-flex justify-content-end">
-        <Button onClick={handleSubmit}>{t('common.validate')}</Button>
+        <PrimaryButton onClick={handleSubmit}>
+          {t('common.validate')}
+        </PrimaryButton>
       </Form.Row>
     </Form>
   );
@@ -100,7 +117,9 @@ const BatchBadge = ({ id, text, active, handleClick }) => {
 
 const StyledBatch = styled.div`
 cursor: pointer;
-color: black;
+color: ${(props) => (props.active ? 'white' : 'black')};
+font-weight: ${(props) => (props.active ? 'bolder' : '')};
+
 /* font-size: 0.7rem; */
 /* border: ${(props) =>
   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */

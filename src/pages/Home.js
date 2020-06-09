@@ -2,18 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-import NavbarHome from '../components/NavbarHome';
-
 const Home = () => {
   const { t } = useTranslation();
 
-  return (
-    <>
-      <NavbarHome />
-      <StyledHome>{t('common.home')}</StyledHome>;)
-    </>
-  );
+  return <StyledHome>{t('common.home')}</StyledHome>;
 };
+
 const StyledHome = styled.div`
   display: flex;
   justify-content: flex-start;

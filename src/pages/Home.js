@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import NavbarHome from '../components/NavbarHome';
-import userImg from '../assets/img_noe.png';
+
 const Home = () => {
   const { t } = useTranslation();
 
   return (
-    <React.Fragment>
-      <NavbarHome avatarUrl={userImg} firstName="Xavier" role="Animateur" />
+    <>
       <StyledHome>{t('common.home')}</StyledHome>;)
-    </React.Fragment>
+    </>
   );
 };
 const StyledHome = styled.div`

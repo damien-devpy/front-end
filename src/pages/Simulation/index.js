@@ -9,7 +9,6 @@ import ActionCardsEntry from './components/ActionCardsEntry';
 import CommonModal from '../../components/CommonModal';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
 import NewRoundModalForm from './components/NewRoundModalForm';
 import PrimaryButton from '../../components/PrimaryButton';
 import userImg from '../../assets/img_noe.png';
@@ -52,7 +51,6 @@ const Simulation = () => {
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <>
-      <NavbarWorkshop avatarUrl={userImg} firstName="Noé" role="Animateur" />
       {!currentRound && (
         <>
           <h4 className="workshop_title">{t('common.noCurrentWorkshop')}</h4>

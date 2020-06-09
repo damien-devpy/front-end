@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 import AddIcon from '../../assets/AddIcon';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import userImg from '../../assets/img_noe.png';
@@ -174,7 +173,6 @@ const ManageParticipants = ({
       className="container-fluid h-100 pb-5"
       onClick={() => handleClick(null)}
     >
-      <NavbarWorkshop avatarUrl={userImg} />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -197,7 +195,7 @@ const ManageParticipants = ({
               }}
             />
             <div style={{ textAlign: 'center' }}>
-              <Link to="/simulation">
+              <Link to={`/workshop/${workshopId}/simulation`}>
                 <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
               </Link>
             </div>

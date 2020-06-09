@@ -1,12 +1,14 @@
 import React from 'react';
-import { Table, Button } from 'react-bootstrap';
 import moment from 'moment';
-import EnterIcon from '../../../assets/EnterIcon';
-import DeleteIcon from '../../../assets/DeleteIcon';
-// import { useWorkshop } from '../../../hooks/workshop';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Button, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+import DeleteIcon from '../../../assets/DeleteIcon';
+import EnterIcon from '../../../assets/EnterIcon';
+// import { useWorkshop } from '../../../hooks/workshop';
 import '../../../index.css';
+
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
   return (
     <Table borderless>
@@ -21,35 +23,27 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
       </thead>
       <tbody>
         {workshops &&
-          workshops.map(
-            (
-              { date, workshopName, status, coachName, action },
-              workshopKey
-            ) => {
-              return (
-                <StyledRow status={status} key={workshopKey}>
-                  <td>{moment(date).format('L')}</td>
-                  <td>{workshopName}</td>
-                  <td>{status}</td>
-                  <td>{coachName}</td>
-                  <td>
-                    <Link to="/participants">
-                      <Button variant="light mr-1">
-                        <EnterIcon height={20} width={20} />
-                      </Button>
-                    </Link>
-
-                    <Button
-                      variant="light"
-                      onClick={() => handleDelete(workshopKey)}
-                    >
-                      <DeleteIcon height={20} width={20} />
+          workshops.map(({ id, date, title, status, coachName }) => {
+            return (
+              <StyledRow status={status} key={id}>
+                <td>{moment(date).format('L')}</td>
+                <td>{title}</td>
+                <td>{status}</td>
+                <td>{coachName}</td>
+                <td>
+                  <Link to={`workshop/${id}/participants`}>
+                    <Button variant="light mr-1">
+                      <EnterIcon height={20} width={20} />
                     </Button>
-                  </td>
-                </StyledRow>
-              );
-            }
-          )}
+                  </Link>
+
+                  <Button variant="light" onClick={() => handleDelete(id)}>
+                    <DeleteIcon height={20} width={20} />
+                  </Button>
+                </td>
+              </StyledRow>
+            );
+          })}
       </tbody>
     </Table>
   );

@@ -26,8 +26,9 @@ export const getFootprints = () =>
     useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
-export const getWorkshop = () =>
-  handleFetch(`/workshop`, {
+export const getWorkshop = ({ workshopId }) =>
+  handleFetch(`/workshops/${workshopId}`, {
     normalizer: workshopSchema,
     useMock: true, // TO REMOVE AFTER BACKEND READY
+    mockOptions: { workshopId },
   });

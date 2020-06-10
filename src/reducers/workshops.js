@@ -52,11 +52,12 @@ export default (state = initialState, action) => {
       };
     }
     case DELETE_WORKSHOP: {
-      const { workshopKey } = action.payload;
+      const { workshopId } = action.payload;
+      console.log('Delete workshop', workshopId);
       return {
         ...state,
         workshops: [
-          ...state.workshops.filter((workshop, i) => i !== workshopKey),
+          ...state.workshops.filter((workshop) => workshop.id !== workshopId),
         ],
       };
     }

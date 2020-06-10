@@ -7,10 +7,14 @@ import { useTranslation } from 'react-i18next';
 import '../../index.css';
 import AddIcon from '../../assets/AddIcon';
 import PrimaryButton from '../../components/PrimaryButton';
-import WorkshopModal from './components/WorkshopModal';
+import CommonModal from '../../components/CommonModal';
+import WorkshopModalForm from './components/WorkshopModalForm';
 import WorkshopTable from './components/WorkshopTable';
 import { COLORS } from '../../vars';
-import { deleteWorkshop, createAsyncWorkshop } from '../../actions/workshops';
+import {
+  deleteAsyncWorkshop,
+  createAsyncWorkshop,
+} from '../../actions/workshops';
 import { useWorkshops } from '../../hooks/workshops';
 import { useCoaches } from '../../hooks/coaches';
 
@@ -27,8 +31,8 @@ const Workshops = () => {
     dispatch(createAsyncWorkshop(values));
     setShow(false);
   };
-  const handleDelete = (workshopKey) => {
-    dispatch(deleteWorkshop(workshopKey));
+  const handleDelete = (workshopId) => {
+    dispatch(deleteAsyncWorkshop(workshopId));
   };
 
   return (
@@ -58,14 +62,17 @@ const Workshops = () => {
             handleDelete={handleDelete}
           />
         )}
-
-        <WorkshopModal
-          t={t}
-          coaches={coaches}
+        <CommonModal
+          title={t('common.newWorkshop')}
           show={show}
           handleClose={handleClose}
-          handleSubmit={handleSubmit}
-        />
+        >
+          <WorkshopModalForm
+            t={t}
+            coaches={coaches}
+            handleSubmit={handleSubmit}
+          />
+        </CommonModal>
       </Card>
     </Container>
   );

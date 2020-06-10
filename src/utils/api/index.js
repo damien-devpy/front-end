@@ -19,7 +19,7 @@ export const getWorkshops = () =>
     //useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
-export const createWorkshop = ({ data, ...rest }) =>
+export const createWorkshopApi = ({ data, ...rest }) =>
   handleFetch('/workshops', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -28,6 +28,12 @@ export const createWorkshop = ({ data, ...rest }) =>
 export const getWorkshop = ({ workshopId }) =>
   handleFetch(`/workshops/${workshopId}`, {
     normalizer: workshopSchema,
-    useMock: true, // TO REMOVE AFTER BACKEND READY
-    mockOptions: { workshopId },
+    // useMock: true, // TO REMOVE AFTER BACKEND READY
+    // mockOptions: { workshopId },
+  });
+
+export const deleteWorkshopApi = ({ workshopId }) =>
+  handleFetch(`/workshops/${workshopId}`, {
+    method: 'DELETE',
+    type: 'empty',
   });

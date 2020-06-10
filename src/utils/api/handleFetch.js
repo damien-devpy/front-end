@@ -88,7 +88,10 @@ export default function handleFetch(url, options = {}) {
     .then((response) => {
       switch (type) {
         case 'json':
-          return response.json().catch((e) => console.error(e));
+          return response
+            .json()
+            .then((data) => (normalizer ? normalize(data, normalizer) : data))
+            .catch((e) => console.error(e));
         case 'blob':
           return response.blob().catch((e) => console.error(e));
         case 'text':

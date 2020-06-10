@@ -1,7 +1,14 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 
-const CommonModal = ({ title, show, handleClose, children }) => {
+const CommonModal = ({
+  t,
+  title,
+  show,
+  handleClose,
+  handleAcknowledge,
+  children,
+}) => {
   return (
     <Modal
       size="lg"
@@ -14,6 +21,16 @@ const CommonModal = ({ title, show, handleClose, children }) => {
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
+      {handleAcknowledge && (
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            {t('common.close')}
+          </Button>
+          <Button variant="primary" onClick={handleAcknowledge}>
+            {t('common.confirm')}
+          </Button>
+        </Modal.Footer>
+      )}
     </Modal>
   );
 };

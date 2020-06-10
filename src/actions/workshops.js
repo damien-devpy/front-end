@@ -1,4 +1,4 @@
-import { createWorkshop } from '../utils/api';
+import { createWorkshopApi, deleteWorkshopApi } from '../utils/api';
 
 export const ADD_WORKSHOP = 'ADD_WORKSHOP';
 export const WORKSHOPS_RETRIEVED = 'WORKSHOPS_RETRIEVED';
@@ -26,13 +26,22 @@ const addWorkshop = (workshop) => ({
   payload: { workshop },
 });
 
-export const deleteWorkshop = (workshopKey) => ({
+const deleteWorkshop = (workshopId) => ({
   type: DELETE_WORKSHOP,
-  payload: { workshopKey },
+  payload: { workshopId },
 });
 
 export const createAsyncWorkshop = (workshop) => (dispatch) => {
-  createWorkshop({ data: workshop })
+  createWorkshopApi({ data: workshop })
     .then((data) => dispatch(addWorkshop(data)))
+    .catch((error) => console.log);
+};
+
+export const deleteAsyncWorkshop = (workshopId) => (dispatch) => {
+  deleteWorkshopApi({ workshopId })
+    .then(() => {
+      console.log('dispatch deleteWorkshop ', workshopId);
+      dispatch(deleteWorkshop(workshopId));
+    })
     .catch((error) => console.log);
 };

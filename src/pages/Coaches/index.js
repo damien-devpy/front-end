@@ -4,7 +4,8 @@ import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import CoachModal from './components/CoachModal';
+import CommonModal from '../../components/CommonModal';
+import CoachModalForm from './components/CoachModalForm';
 import CoachTable from './components/CoachTable';
 import { COLORS } from '../../vars';
 import { addCoach } from '../../actions/coaches';
@@ -41,12 +42,14 @@ const Coaches = () => {
         )}
 
         {coaches && <CoachTable t={t} coaches={coaches} />}
-        <CoachModal
-          t={t}
+
+        <CommonModal
+          title={t('common.addACoach')}
           show={show}
           handleClose={handleClose}
-          handleSubmit={handleSubmit}
-        />
+        >
+          <CoachModalForm t={t} handleSubmit={handleSubmit} />
+        </CommonModal>
       </Card>
     </Container>
   );

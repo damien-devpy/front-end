@@ -47,6 +47,7 @@ const ManageParticipants = ({
   const globalCarbonVariables = useSelector(
     (state) =>
       state.workshop.result &&
+      state.workshop.entities.globalCarbonVariables &&
       state.workshop.entities.globalCarbonVariables['2020']
   );
   const model = useSelector(

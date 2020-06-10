@@ -1,53 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import CommonModal from '../../../components/CommonModal';
 import DeleteIcon from '../../../assets/DeleteIcon';
 import EnterIcon from '../../../assets/EnterIcon';
-// import { useWorkshop } from '../../../hooks/workshop';
 import '../../../index.css';
 
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
-  return (
-    <Table borderless>
-      <thead>
-        <tr>
-          <th>{t('common.date')}</th>
-          <th>{t('common.workshopName')}</th>
-          <th>{t('common.workshopCity')}</th>
-          <th>{t('common.coach')}</th>
-          <th>{t('common.workshopStatus')}</th>
-          <th>{t('common.actions')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {workshops &&
-          workshops.map(({ id, date, name, city, status, coachName }) => {
-            return (
-              <StyledRow status={status} key={id}>
-                <td>{moment(date).format('L')}</td>
-                <td>{name}</td>
-                <td>{city}</td>
-                <td>{coachName}</td>
-                <td>{status}</td>
-                <td>
-                  <Link to={`workshop/${id}/participants`}>
-                    <Button variant="light mr-1">
-                      <EnterIcon height={20} width={20} />
-                    </Button>
-                  </Link>
+  const [workshopToDelete, setWorkshopToDelete] = useState({
+    id: null,
+    name: null,
+  });
 
-                  <Button variant="light" onClick={() => handleDelete(id)}>
-                    <DeleteIcon height={20} width={20} />
-                  </Button>
-                </td>
-              </StyledRow>
-            );
+  const handleDeleteModal = (workshop) => {
+    setWorkshopToDelete(workshop);
+  };
+  const handleDeleteConfirmation = () => {
+    handleDelete(workshopToDelete.id);
+    handleCloseModal();
+  };
+  const handleCloseModal = () => setWorkshopToDelete({ id: null, name: null });
+  return (
+    <>
+      <Table borderless>
+        <thead>
+          <tr>
+            <th>{t('common.date')}</th>
+            <th>{t('common.workshopName')}</th>
+            <th>{t('common.workshopCity')}</th>
+            <th>{t('common.coach')}</th>
+            <th>{t('common.workshopStatus')}</th>
+            <th>{t('common.actions')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {workshops &&
+            workshops.map(({ id, date, name, city, status, coachName }) => {
+              return (
+                <StyledRow status={status} key={id}>
+                  <td>{moment(date).format('L')}</td>
+                  <td>{name}</td>
+                  <td>{city}</td>
+                  <td>{coachName}</td>
+                  <td>{status}</td>
+                  <td>
+                    <Link to={`workshop/${id}/participants`}>
+                      <Button variant="light mr-1">
+                        <EnterIcon height={20} width={20} />
+                      </Button>
+                    </Link>
+
+                    <Button
+                      variant="light"
+                      onClick={() => handleDeleteModal({ id, name })}
+                    >
+                      <DeleteIcon height={20} width={20} />
+                    </Button>
+                  </td>
+                </StyledRow>
+              );
+            })}
+        </tbody>
+      </Table>
+      <CommonModal
+        t={t}
+        title={t('common.deleteWorkshop')}
+        show={workshopToDelete.id}
+        handleAcknowledge={handleDeleteConfirmation}
+        handleClose={handleCloseModal}
+      >
+        <p>
+          {t('common.deleteWorkshopConfirmation', {
+            workshopName: workshopToDelete.name,
           })}
-      </tbody>
-    </Table>
+        </p>
+      </CommonModal>
+    </>
   );
 };
 const StyledRow = styled.tr`

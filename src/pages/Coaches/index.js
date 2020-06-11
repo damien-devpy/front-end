@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
+import PrimaryButton from "../../components/PrimaryButton"
 import CommonModal from '../../components/CommonModal';
 import CoachModalForm from './components/CoachModalForm';
 import CoachTable from './components/CoachTable';
+import {
+  deleteAsyncCoach,
+  createAsyncCoach,
+} from '../../actions/coaches';
 import { COLORS } from '../../vars';
 import { addCoach } from '../../actions/coaches';
 import { useCoaches } from '../../hooks/coaches';
@@ -20,7 +24,8 @@ const Coaches = () => {
   const handleShow = () => setShow(true);
 
   const handleSubmit = (values) => {
-    dispatch(addCoach(values));
+    // dispatch(addCoach(values));
+    dispatch(createAsyncCoach(values));
     setShow(false);
   };
   return (
@@ -29,9 +34,9 @@ const Coaches = () => {
         <StyledHeader>
           <h2>{t('common.coaches')}</h2>
           {!isLoading && (
-            <StyledButton onClick={handleShow}>
+            <PrimaryButton onClick={handleShow}>
               {t('common.addACoach')}
-            </StyledButton>
+            </PrimaryButton>
           )}
         </StyledHeader>
         <hr style={{ margin: 0 }} />
@@ -61,8 +66,4 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-`;
 export default Coaches;

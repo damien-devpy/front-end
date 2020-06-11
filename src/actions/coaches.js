@@ -1,7 +1,10 @@
+import { createCoachApi, deleteCoachApi } from '../utils/api';
+
 export const ADD_COACH = 'ADD_COACH';
 export const COACHES_RETRIEVED = 'COACHES_RETRIEVED';
 export const RETRIEVE_COACHES = 'RETRIEVE_COACHES';
 export const COACHES_LOAD_ERROR = 'COACHES_LOAD_ERROR';
+export const DELETE_COACH = 'DELETE_COACH';
 
 export const coachesRetrieved = (coaches) => ({
   type: COACHES_RETRIEVED,
@@ -22,3 +25,23 @@ export const addCoach = (coach) => ({
   type: ADD_COACH,
   payload: { coach },
 });
+
+export const deleteCoach = (coachId) => ({
+  type: DELETE_COACH,
+  payload: { coachId },
+});
+
+export const createAsyncCoach = (coach) => (dispatch) => {
+  createCoachApi({ data: coach })
+    .then((data) => dispatch(addCoach(data)))
+    .catch((error) => console.log("Error creating coach :",error));
+};
+
+export const deleteAsyncCoach = (coachId) => (dispatch) => {
+  deleteCoachApi({ coachId })
+    .then(() => {
+      console.log('dispatch deleteCoach ', coachId);
+      dispatch(deleteCoach(coachId));
+    })
+    .catch((error) => console.log);
+};

@@ -5,6 +5,7 @@ import {
   COACHES_LOAD_ERROR,
   COACHES_RETRIEVED,
   RETRIEVE_COACHES,
+  DELETE_COACH
 } from '../actions/coaches';
 
 const initialState = {
@@ -43,6 +44,16 @@ export default (state = initialState, action) => {
         isLoading: false,
         loadError: true,
         loadErrorDetails: action.payload,
+      };
+    }
+    case DELETE_COACH: {
+      const { coachId } = action.payload;
+      console.log('Delete coach : ', coachId);
+      return {
+        ...state,
+        coachess: [
+          ...state.coaches.filter((coach) => coach.id !== coachId),
+        ],
       };
     }
     default:

@@ -37,3 +37,15 @@ export const deleteWorkshopApi = ({ workshopId }) =>
     method: 'DELETE',
     type: 'empty',
   });
+
+  export const createCoachApi = ({ data }) =>
+  handleFetch('/coaches', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+  export const deleteCoachApi = ({ coachId }) =>
+  handleFetch(`/coaches/${coachId}`, {
+    method: 'DELETE',
+    type: 'empty',
+  });

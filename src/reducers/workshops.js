@@ -1,17 +1,18 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
 
 import {
   ADD_WORKSHOP,
+  DELETE_WORKSHOP,
   RETRIEVE_WORKSHOPS,
-  WORKSHOPS_RETRIEVED,
   WORKSHOPS_LOAD_ERROR,
-  DELETE_WORKSHOP
-} from "../actions/workshops";
+  WORKSHOPS_RETRIEVED,
+} from '../actions/workshops';
 
 const initialState = {
   isLoading: false,
+  loaded: false,
   loadError: false,
-  workshops: []
+  workshops: [],
 };
 
 export default (state = initialState, action) => {
@@ -21,37 +22,43 @@ export default (state = initialState, action) => {
       workshop.userId = uuid();
       return {
         ...state,
-        workshops: [...state.workshops, workshop]
+        workshops: [...state.workshops, workshop],
       };
     }
     case RETRIEVE_WORKSHOPS: {
       return {
         isLoading: true,
-        loadErrorDetails: null
+        loaded: false,
+
+        loadErrorDetails: null,
       };
     }
     case WORKSHOPS_RETRIEVED: {
       const { workshops } = action.payload;
       return {
         isLoading: false,
+        loaded: true,
+
         loadErrorDetails: null,
-        workshops
+        workshops,
       };
     }
     case WORKSHOPS_LOAD_ERROR: {
       return {
         isLoading: false,
+        loaded: false,
         loadError: true,
-        loadErrorDetails: action.payload
+        loadErrorDetails: action.payload,
       };
     }
     case DELETE_WORKSHOP: {
-      const { workshopKey } = action.payload;
+      const { workshopId } = action.payload;
+      console.log('Delete workshop', workshopId);
       return {
         ...state,
         workshops: [
-          ...state.workshops.filter((workshop, i) => i !== workshopKey)
-        ]
+          ...state.workshops.filter((workshop) => workshop.id !== workshopId),
+        ],
       };
     }
     default:

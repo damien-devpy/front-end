@@ -1,47 +1,48 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
 
 import {
   ADD_COACH,
-  RETRIEVE_COACHES,
+  COACHES_LOAD_ERROR,
   COACHES_RETRIEVED,
-  COACHES_LOAD_ERROR
-} from "../actions/coaches";
+  RETRIEVE_COACHES,
+} from '../actions/coaches';
 
 const initialState = {
   isLoading: false,
   loadError: false,
-  coaches: []
+  coaches: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_COACH: {
       const { coach } = action.payload;
-      coach.userId = uuid();
+      coach.id = uuid();
       return {
         ...state,
-        coaches: [...state.coaches, coach]
+        coaches: [...state.coaches, coach],
       };
     }
     case RETRIEVE_COACHES: {
       return {
         isLoading: true,
-        loadErrorDetails: null
+        loadErrorDetails: null,
       };
     }
     case COACHES_RETRIEVED: {
       const { coaches } = action.payload;
+      console.log('COACHES_RETRIEVED', coaches);
       return {
         isLoading: false,
         loadErrorDetails: null,
-        coaches
+        coaches,
       };
     }
     case COACHES_LOAD_ERROR: {
       return {
         isLoading: false,
         loadError: true,
-        loadErrorDetails: action.payload
+        loadErrorDetails: action.payload,
       };
     }
     default:

@@ -1,19 +1,38 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import {
+  Container,
+  Nav,
+  Navbar as NavigBar,
+  NavDropdown,
+} from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Navbar as NavigBar, Nav, Image, Container } from 'react-bootstrap';
-import { COLORS } from '../vars';
-// import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ExitIcon from '../assets/ExitIcon';
-import '../index.css';
-// import styled from 'styled-components';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Navbar = ({ avatarUrl, links }) => {
+import Avatar from './Avatar';
+import { COLORS } from '../vars';
+import '../index.css';
+import ExitIcon from '../assets/ExitIcon';
+import { logout } from '../utils/auth';
+import { logoutCurrentUser } from '../actions/user';
+
+const Navbar = ({ links = [] }) => {
   const { t } = useTranslation();
   const location = useLocation();
-
+  const { user: { firstName = '', lastName = '' } = {} } = useSelector(
+    (state) => state.currentUser
+  );
+  const avatarName =
+    firstName || lastName ? `${firstName} ${lastName}` : undefined;
+  const dispatch = useDispatch();
   const isActive = (path) =>
-    location.pathname === path ? `badge rounded-lg navbar-link` : null;
+    location.pathname.endsWith(path) ? `badge rounded-lg navbar-link` : null;
+
+  const handleLogout = () => {
+    logout();
+    dispatch(logoutCurrentUser());
+  };
 
   return (
     <NavigBar
@@ -23,45 +42,71 @@ const Navbar = ({ avatarUrl, links }) => {
       className="mb-4"
     >
       <Container>
-        <NavigBar.Brand href="/workshops">
-          <span className="font-weight-bold">2tons</span>
+        <NavigBar.Brand as={Link} to="/workshops">
+          <span className="font-weight-bold">
+            <img src="/monogramme_1.png" height={100} alt="logo" />
+          </span>
         </NavigBar.Brand>
         <NavigBar.Toggle aria-controls="basic-navbar-nav" />
         <NavigBar.Collapse id="basic-navbar-nav">
           <Nav>
-            {links.map((link) =>
-              link === 'exit' ? (
-                <Nav.Link href={'/workshops'}>
-                  <ExitIcon height={20} width={20} />
+            {links.map(({ id, link }) =>
+              id === 'exit' ? (
+                <Nav.Link
+                  as={Link}
+                  to="/workshops"
+                  style={{
+                    margin: 5,
+                  }}
+                >
+                  <ExitIcon height={25} width={25} />
                 </Nav.Link>
               ) : (
                 <Nav.Link
-                  href={'/' + link}
-                  className={isActive('/' + link)}
+                  as={Link}
+                  to={link}
+                  className={isActive(id)}
                   style={{
-                    backgroundColor: isActive('/' + link)
-                      ? COLORS.PRIMARY
-                      : null,
-                    color: isActive('/' + link) ? 'white' : '#616162',
+                    margin: 5,
+                    fontSize: 18,
+                    backgroundColor: isActive(id) ? COLORS.PRIMARY : null,
+                    color: isActive(id) ? 'white' : '#616162',
                   }}
                 >
                   <small className="font-weight-bold">
-                    {t('common.' + link)}
+                    {t(`common.${id}`)}
                   </small>
                 </Nav.Link>
               )
             )}
           </Nav>
-          <Image className="ml-auto rounded-lg border" src={avatarUrl} />
+          <StyledNavDropDown
+            className="ml-auto"
+            title={
+              <div style={{ display: 'inline-block' }}>
+                <Avatar name={avatarName} />
+              </div>
+            }
+            id="basic-nav-dropdown"
+          >
+            <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header>
+            <NavDropdown.Item href="/coaches">
+              {t('common.coaches')}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item eventKey={3.2} onClick={handleLogout}>
+              {t('common.logout')}
+            </NavDropdown.Item>
+          </StyledNavDropDown>
         </NavigBar.Collapse>
       </Container>
     </NavigBar>
   );
 };
-// const StyledLink = styled(Nav.Link)`
-//   &:hover {
-//     background-color: ${COLORS.BROWN.STANDARD};
-//     color: white;
-//   }
-// `;
+const StyledNavDropDown = styled(NavDropdown)`
+  .dropdown-toggle::after {
+    content: none;
+  }
+`;
+
 export default Navbar;

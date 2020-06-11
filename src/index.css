@@ -38,10 +38,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, Roboto, monospace;
 }
 
+tr,
+.table th,
+.table td {
+  vertical-align: middle;
+}
 .emoji {
   font-family: 'EmojiFont1', 'EmojiFont2';
   color: white;
   font-size: 1.5rem;
+  margin: 5px;
 }
 
 .center {
@@ -81,4 +87,16 @@ code {
   background-color: #fff9f5 !important;
   border-color: #BA947E !important;
   color: black !important;
+}
+
+.primary {
+  fill: currentColor;
+}
+
+.primary:hover {
+  fill: #ba947e;
+}
+
+.yaxis {
+  font-size: 10px;
 }

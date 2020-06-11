@@ -1,73 +1,80 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useWorkshops } from '../../hooks/workshops';
-import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
-import AddIcon from '../../assets/AddIcon';
+import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import WorkshopTable from './components/WorkshopTable';
-import WorkshopModal from './components/WorkshopModal';
-import { COLORS } from '../../vars';
 import { useTranslation } from 'react-i18next';
-import { Button, Spinner, Container, Card } from 'react-bootstrap';
-import NavbarHome from '../../components/NavbarHome';
+
+import '../../index.css';
+import AddIcon from '../../assets/AddIcon';
+import PrimaryButton from '../../components/PrimaryButton';
+import CommonModal from '../../components/CommonModal';
+import WorkshopModalForm from './components/WorkshopModalForm';
+import WorkshopTable from './components/WorkshopTable';
+import { COLORS } from '../../vars';
+import {
+  deleteAsyncWorkshop,
+  createAsyncWorkshop,
+} from '../../actions/workshops';
+import { useWorkshops } from '../../hooks/workshops';
+import { useCoaches } from '../../hooks/coaches';
+
 const Workshops = () => {
   const { t } = useTranslation();
   const { workshops, isLoading, loadError } = useWorkshops();
+  const { coaches } = useCoaches();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (values) => {
-    dispatch(addWorkshop(values));
+    dispatch(createAsyncWorkshop(values));
     setShow(false);
   };
-  const handleDelete = (workshopKey) => {
-    dispatch(deleteWorkshop(workshopKey));
+  const handleDelete = (workshopId) => {
+    dispatch(deleteAsyncWorkshop(workshopId));
   };
 
   return (
-    <>
-      <NavbarHome></NavbarHome>
-      <Container>
-        <Card
-          className="p-5 border-light shadow-sm"
-          style={{ borderRadius: 10 }}
-        >
-          <StyledHeader>
-            <h2>{t('common.workshops')}</h2>
-            {!isLoading && (
-              <StyledButton variant="secondary" onClick={handleShow}>
-                <AddIcon height={20} width={20} fill={'white'} />
-                {'   '}
-                {t('common.newWorkshop')}
-              </StyledButton>
-            )}
-          </StyledHeader>
-          <hr style={{ margin: 0 }} />
-
-          {loadError && <p>{t('common.loadError')}</p>}
-          {isLoading && (
-            <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+    <Container>
+      <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
+        <StyledHeader>
+          <h2>{t('common.workshops')}</h2>
+          {!isLoading && (
+            <PrimaryButton variant="secondary" onClick={handleShow}>
+              <AddIcon height={20} width={20} fill="inherit" />
+              {'     '}
+              {t('common.newWorkshop')}
+            </PrimaryButton>
           )}
+        </StyledHeader>
+        <hr style={{ margin: 0 }} />
 
-          {workshops && (
-            <WorkshopTable
-              t={t}
-              workshops={workshops}
-              handleDelete={handleDelete}
-            />
-          )}
+        {loadError && <p>{t('common.loadError')}</p>}
+        {isLoading && (
+          <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+        )}
 
-          <WorkshopModal
+        {workshops && (
+          <WorkshopTable
             t={t}
-            show={show}
-            handleClose={handleClose}
+            workshops={workshops}
+            handleDelete={handleDelete}
+          />
+        )}
+        <CommonModal
+          title={t('common.newWorkshop')}
+          show={show}
+          handleClose={handleClose}
+        >
+          <WorkshopModalForm
+            t={t}
+            coaches={coaches}
             handleSubmit={handleSubmit}
           />
-        </Card>
-      </Container>
-    </>
+        </CommonModal>
+      </Card>
+    </Container>
   );
 };
 

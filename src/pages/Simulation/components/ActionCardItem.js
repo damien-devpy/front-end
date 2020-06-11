@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import cardIcons from '../../../components/cardIcons';
 import { COLORS } from '../../../vars';
+
 export const ActionCardItem = ({
   id,
   cardNumber,
@@ -30,7 +31,12 @@ export const ActionCardItem = ({
           </div>
           <div className="col card_label">
             {text.toLowerCase()}
-            {/* <span className="badge badge-danger">{cost}</span> */}
+            <span
+              className="badge float-right badge-light"
+              style={{ fontSize: 10 }}
+            >
+              {cost}
+            </span>
           </div>
         </div>
       ) : (
@@ -39,11 +45,11 @@ export const ActionCardItem = ({
         </div>
       )}
 
-      {checked ? (
+      {/* {checked ? (
         <span className="text-success float-right ml-auto">&#x25cf;</span>
       ) : (
         <span className="text-white float-right ml-auto">&#x25cf;</span>
-      )}
+      )} */}
     </StyledItem>
   );
 };
@@ -73,7 +79,10 @@ export const ActionCardItemSimple = ({
         <span className="emoji">{cardIcons[cardNumber]}</span>
       </div>
       <div className="col">{text.toLowerCase()}</div>
-      <span className="badge badge-danger float-right ml-auto mr-1">
+      <span
+        className="badge badge-light float-right ml-auto mr-1"
+        style={{ fontSize: 10 }}
+      >
         {cost}
       </span>
     </StyledItemSimple>
@@ -93,7 +102,7 @@ const sectorColors = {
   transport: COLORS.FIGMA_BROWN_RED, // "#C80000",
   housing: COLORS.FIGMA_BLUE_LIGHT, // "#20388C",
   household: COLORS.FIGMA_GREEN, // "#388223", // "#C89600"
-  food: COLORS.GOLD, // '#C89600'
+  food: COLORS.YELLOW.GOLD, // '#C89600'
   awareness: COLORS.PURPLE.LIGHT,
   activism: COLORS.PURPLE.STANDARD,
   lobby: COLORS.PURPLE.STANDARD,
@@ -104,16 +113,38 @@ const sectorColors = {
 };
 
 const StyledItem = styled.div`
-cursor: pointer;
-font-size: 0.8rem;
-color: white;
-/* border: ${(props) =>
-  props.checked ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) => sectorColors[props.sector]};
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: ${(props) => (props.checked ? `bolder` : '')};
+  border: ${(props) =>
+    props.checked ? `3pt solid ${COLORS.SILVER.DARK}` : ''};
+  background: ${(props) =>
+    props.checked
+      ? adjust(sectorColors[props.sector], 40)
+      : sectorColors[props.sector]};
+  color: 'white';
 `;
-
+// background: ${(props) =>
+// props.checked ? 'white' : sectorColors[props.sector]};
+// color: ${(props) =>
+//   props.checked ? sectorColors[props.sector] : 'white' };
 const StyledItemSimple = styled.div`
   color: white;
   font-size: 0.7rem;
   background: ${(props) => sectorColors[props.sector]};
 `;
+
+// FROM https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+const adjust = (color, amount) => {
+  return (
+    '#' +
+    color
+      .replace(/^#/, '')
+      .replace(/../g, (color) =>
+        (
+          '0' +
+          Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)
+        ).substr(-2)
+      )
+  );
+};

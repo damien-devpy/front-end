@@ -30,3 +30,17 @@ h5 {
 .legend-sector {
   font-size: 10px;
 }
+
+.activable.active {
+  background-color: #ba947e !important;
+  color: white !important;
+  border-color: #ba947e !important;
+  font-weight: bolder;
+}
+
+.activable.focus {
+  background-color: #ba947e !important;
+  color: white !important;
+  border-color: #ba947e !important;
+  font-weight: bolder;
+}

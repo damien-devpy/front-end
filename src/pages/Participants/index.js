@@ -1,47 +1,53 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Button, Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
-import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import AddIcon from '../../assets/AddIcon';
+import FootprintGraph from '../Simulation/components/FootprintGraph';
+import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
-
+import userImg from '../../assets/img_noe.png';
 import { COLORS } from '../../vars';
+import {
+  ParticipantItemForm,
+  ParticipantsHeader,
+} from './components/ParticipantItemForm';
 import {
   addParticipant,
   deleteParticipant,
   setParticipantNameEmail,
 } from '../../actions/participants';
-import AddIcon from '../../assets/AddIcon';
-import FootprintGraph from '../Simulation/components/FootprintGraph';
-import NavbarWorkshop from '../../components/NavbarWorkshop';
+import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
+import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { useWorkshop } from '../../hooks/workshop';
 
-import {
-  ParticipantItemForm,
-  ParticipantsHeader,
-} from './components/ParticipantItemForm';
-
-const ManageParticipants = () => {
+const ManageParticipants = ({
+  match: {
+    params: { workshopId },
+  },
+}) => {
+  useWorkshop(workshopId);
   const workshopTitle = useSelector(
-    (state) => state.workshop.result && state.workshop.result.title
+    (state) => state.workshop.result && state.workshop.result.name
   );
   const { t } = useTranslation();
-  // const { participants, isLoading, loadError } = useParticipants();
   const participants = useSelector(
-    (state) => state.workshop.result && state.workshop.entities.participants
+    (state) => state.workshop.entities && state.workshop.entities.participants
   );
+  console.log('participants', participants);
   const carbonFootprints = useSelector(
     (state) => state.workshop.result && state.workshop.entities.carbonFootprints
   );
   const globalCarbonVariables = useSelector(
     (state) =>
       state.workshop.result &&
+      state.workshop.entities.globalCarbonVariables &&
       state.workshop.entities.globalCarbonVariables['2020']
   );
   const model = useSelector(
@@ -57,6 +63,7 @@ const ManageParticipants = () => {
   const personas = useSelector(
     (state) => state.workshop.result && state.workshop.result.model.personas
   );
+  console.log('personas', personas);
   const dispatch = useDispatch();
 
   // keep track of actived rows globally
@@ -136,6 +143,7 @@ const ManageParticipants = () => {
     personas &&
     Object.keys(participants).forEach((id) => {
       const p = participants[id];
+      console.log('participantss', p);
       participantItems.push(
         <ParticipantItemForm
           id={id}
@@ -166,7 +174,6 @@ const ManageParticipants = () => {
       className="container-fluid h-100 pb-5"
       onClick={() => handleClick(null)}
     >
-      <NavbarWorkshop />
       <Container>
         <Card
           className="p-5 border-light shadow-sm"
@@ -189,8 +196,8 @@ const ManageParticipants = () => {
               }}
             />
             <div style={{ textAlign: 'center' }}>
-              <Link to="/simulation">
-                <StyledButton>{t('common.launch_simulation')}</StyledButton>
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
               </Link>
             </div>
           </div>
@@ -247,8 +254,4 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-`;
 export default ManageParticipants;

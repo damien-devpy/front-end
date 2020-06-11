@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
+  Label,
   Tooltip,
   Legend,
   Bar,
@@ -81,11 +82,11 @@ const renderLegend = (props) => {
               //paddingRight: '20px',
               width: 'auto',
               //fontSize: 12,
-              fontSize: '0.8vw',
+              fontSize: '0.7vw',
             }}
           >
             {/* <h6> {t(`common.${sectorData.name}`)} </h6> */}
-            <span style={{ fontSize: '1vw', fontWeight: '500' }}>
+            <span style={{ fontSize: '0.9vw', fontWeight: '500' }}>
               {t(`common.${sectorData.name}`)}
             </span>
             <DefaultLegendContent {...newProps} />
@@ -98,20 +99,20 @@ const renderLegend = (props) => {
 
 const FootprintGraph = ({ footprint }) => {
   const { t } = useTranslation();
-
   // const footprint = useSelector((state) =>
   //   footprintDataToGraph(
   //     state.workshop.entities.carbonFootprints['2020-1'].footprint
   //   )
   // );
+  const dataMax = 5000;
   console.log('footprint graph :', footprint);
 
   return (
     <ResponsiveContainer
       width="100%"
-      height="50%"
+      height="30%"
       minHeight={100}
-      aspect={4.0 / 3.0}
+      aspect={3.0 / 2.0}
     >
       <BarChart
         // width={730}
@@ -128,15 +129,21 @@ const FootprintGraph = ({ footprint }) => {
         <CartesianGrid strokeDasharray="3" />
         <XAxis
           dataKey="name"
-          //tickFormatter={(label) => t(`common.${label}`)}
-          tickFormatter={(label) => ""}
+          // tickFormatter={(label) => t(`common.${label}`)}
+          tickFormatter={(label) => ''}
           // type="number"
         />
-        <YAxis
-          dataKey=""
-          label={{ value: 'kCO2', angle: -90, position: 'insideLeft' }}
-        />
-        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
+        <YAxis dataKey="" domain={[0, dataMax]}>
+          <Label
+            value="kgCO2e/an/pers"
+            style={{ fontSize: '0.8rem' }}
+            angle={-90}
+            offset={0}
+            position="insideLeft"
+          />
+        </YAxis>
+
+        {/* <Tooltip labelFormatter={(label) => t(`common.${label}`)} /> */}
         <Legend
           layout="vertical"
           footprint={footprint}

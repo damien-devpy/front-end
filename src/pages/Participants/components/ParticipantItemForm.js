@@ -88,11 +88,12 @@ export const ParticipantItemForm = ({
 
   const handleChangePersona = (e) => {
     const index = e.target.selectedIndex - 1;
-    setPersona(personas[index].id);
+    const chosenPersonaId = Object.keys(personas)[index];
+    setPersona(chosenPersonaId);
     updateParticipant(
       name,
       email,
-      personas[index].id,
+      chosenPersonaId,
       isValidName(name) && isValidEmail(email)
     );
     e.stopPropagation();

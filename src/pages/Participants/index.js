@@ -23,6 +23,8 @@ import {
   deleteParticipant,
   setParticipantNameEmail,
 } from '../../actions/participants';
+import { initWorkshop, computeFootprints, computeFootprintsForCitizen } from '../../actions/workshop'
+
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -61,7 +63,7 @@ const ManageParticipants = ({
       Object.keys(state.workshop.entities.participants).length
   );
   const personas = useSelector(
-    (state) => state.workshop.result && state.workshop.result.model.personas
+    (state) => state.workshop.entities && state.workshop.entities.personas
   );
   console.log('personas', personas);
   const dispatch = useDispatch();
@@ -122,9 +124,7 @@ const ManageParticipants = ({
             footprintStructure,
             variableFormulas,
             computeCarbonVariables(
-              personas.find(
-                (persona) => persona.id === participants[id].personaId
-              ).surveyVariables,
+              personas[participants[id].personaId].surveyVariables,
               globalCarbonVariables
             ),
             globalCarbonVariables
@@ -197,7 +197,11 @@ const ManageParticipants = ({
             />
             <div style={{ textAlign: 'center' }}>
               <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
+                <PrimaryButton onClick={() => {
+                  dispatch(initWorkshop(2020));
+                  dispatch(computeFootprints(2020));
+                  dispatch(computeFootprintsForCitizen(2020));
+                }}>{t('common.launch_simulation')}</PrimaryButton>
               </Link>
             </div>
           </div>

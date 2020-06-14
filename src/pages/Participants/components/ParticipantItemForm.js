@@ -56,8 +56,9 @@ export const ParticipantItemForm = ({
   }, [isActive, isValid]); // if not active update store
 
   const handleItemClick = (e) => {
+    handleClick(id);    
     e.stopPropagation();
-    handleClick(id);
+    e.preventDefault();
   };
 
   const handleDelete = (e) => {
@@ -96,7 +97,6 @@ export const ParticipantItemForm = ({
       chosenPersonaId,
       isValidName(name) && isValidEmail(email)
     );
-    e.stopPropagation();
   };
 
   const PersonaDropdown = () => {

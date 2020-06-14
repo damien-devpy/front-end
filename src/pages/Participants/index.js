@@ -92,6 +92,7 @@ const ManageParticipants = ({
     // if previously another row was activated because it was clicked, it will not be now
     // unless it misses required info
     console.log('On CLICK row', id);
+    if (active[id]) return;
     const newActive = Object.assign(
       {},
       ...Object.keys(participants).map((i) => ({
@@ -143,7 +144,7 @@ const ManageParticipants = ({
     personas &&
     Object.keys(participants).forEach((id) => {
       const p = participants[id];
-      console.log('participantss', p);
+      console.log('Rerender participants', p);
       participantItems.push(
         <ParticipantItemForm
           id={id}

@@ -25,6 +25,7 @@ const Coaches = () => {
 
   const handleSubmit = (values) => {
     // dispatch(addCoach(values));
+    values.confirmPassword=undefined
     dispatch(createAsyncCoach(values));
     setShow(false);
   };

@@ -14,7 +14,7 @@ const schema = yup.object({
     is: val => (val && val.length > 0 ? true : false),
     then: yup.string().oneOf(
       [yup.ref("password")],
-      "Both password need to be the same"
+      "Les deux mots de passe ne sont pas identiques"
     )
   })
 });
@@ -27,7 +27,7 @@ const CoachModalForm = ({ t, handleSubmit }) => {
         firstName: '',
         lastName: '',
         email: '',
-        role: t('common.coach'),
+        role: "coach",
         password: "",
         city:""   }}
     >
@@ -50,9 +50,12 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 value={values.firstName}
                 onChange={handleChange}
                 isInvalid={!!errors.firstName}
+                onBlur={handleBlur}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.firstName}
+                    {errors.firstName && touched.firstName ? (
+                  <div>{errors.firstName}</div>
+                ) : null}
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} controlId="validationFormik02">
@@ -63,9 +66,12 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 value={values.lastName}
                 onChange={handleChange}
                 isInvalid={!!errors.lastName}
+                onBlur={handleBlur}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.lastName}
+              {errors.lastName && touched.lastName ? (
+            <div>{errors.lastName}</div>
+                     ) : null}
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
@@ -93,8 +99,8 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 as="select"
                 placeholder={t("common.coach")}
                 name="role"
-                value={values.role}
-                onChange={handleChange}
+                value={values.role.value}
+                onChange={(value) => handleChange('role', value)}
                 isInvalid={!!errors.role}
               >
                 <option value="coach">{t("common.coach")}</option>
@@ -125,7 +131,6 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 type="password"
                 name="confirmPassword"
                 className="form-control rounded-0"
-                isInvalid={!!errors.password}
                 onChange={handleChange}
              />
                 {errors.confirmPassword && touched.confirmPassword ? (
@@ -141,7 +146,8 @@ const CoachModalForm = ({ t, handleSubmit }) => {
             type="text" 
             name="city"
             className="form-control rounded-0"
-            onChange={handleChange} placeholder="Paris"/>
+            onChange={handleChange} 
+            placeholder="Paris"/>
             </Form.Group>
           </Form.Row>
           <div style={{ textAlign: 'right' }}>

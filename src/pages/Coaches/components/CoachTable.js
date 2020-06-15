@@ -35,7 +35,7 @@ const CoachTable = ({ coaches, t }) => (
               <td>{lastName}</td>
               <td>{lastWorkshopDate}</td>
               <td>{email}</td>
-              <td>{role}</td>
+              <td>{t(`common.${role}`}</td>
               <td>{city}</td>
               <td>{workshopsCount}</td>
               <td>{awarenessRaisedCount}</td>

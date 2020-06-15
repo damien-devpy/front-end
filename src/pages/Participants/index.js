@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, Container, Modal } from 'react-bootstrap';
+import { Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,6 @@ import AddIcon from '../../assets/AddIcon';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
-import userImg from '../../assets/img_noe.png';
 import { COLORS } from '../../vars';
 import {
   ParticipantItemForm,
@@ -23,7 +22,11 @@ import {
   deleteParticipant,
   setParticipantNameEmail,
 } from '../../actions/participants';
-import { initWorkshop, computeFootprints, computeFootprintsForCitizen } from '../../actions/workshop'
+import {
+  computeFootprints,
+  computeFootprintsForCitizen,
+  initWorkshop,
+} from '../../actions/workshop';
 
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
@@ -198,11 +201,15 @@ const ManageParticipants = ({
             />
             <div style={{ textAlign: 'center' }}>
               <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton onClick={() => {
-                  dispatch(initWorkshop(2020));
-                  dispatch(computeFootprints(2020));
-                  dispatch(computeFootprintsForCitizen(2020));
-                }}>{t('common.launch_simulation')}</PrimaryButton>
+                <PrimaryButton
+                  onClick={() => {
+                    dispatch(initWorkshop(2020));
+                    dispatch(computeFootprints(2020));
+                    dispatch(computeFootprintsForCitizen(2020));
+                  }}
+                >
+                  {t('common.launch_simulation')}
+                </PrimaryButton>
               </Link>
             </div>
           </div>

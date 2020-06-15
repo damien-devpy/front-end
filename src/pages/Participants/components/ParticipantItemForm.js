@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-
-import { COLORS } from '../../../vars';
 import ParticipantStatus from './ParticipantStatus';
+import { COLORS } from '../../../vars';
 
 const isValidName = (input) =>
   input && input.split(/ /).length > 1 && input.split(/ /)[1];
@@ -56,7 +55,7 @@ export const ParticipantItemForm = ({
   }, [isActive, isValid]); // if not active update store
 
   const handleItemClick = (e) => {
-    handleClick(id);    
+    handleClick(id);
     e.stopPropagation();
     e.preventDefault();
   };
@@ -101,8 +100,8 @@ export const ParticipantItemForm = ({
 
   const PersonaDropdown = () => {
     const personaOptions = [];
-    Object.keys(personas).forEach((persona_id) => {
-      var persona = personas[persona_id];
+    Object.keys(personas).forEach((personaId) => {
+      const persona = personas[personaId];
       personaOptions.push(
         <option id={persona.id} value={persona.id}>
           {`${persona.firstName} ${persona.lastName}`}
@@ -217,5 +216,5 @@ const StyledHeaderRow = styled.div`
   margin-bottom:30px;
   padding-bottom: 5px;
   font-weight: bold;
-  border-bottom:1px solid #E2E0E0};
+  border-bottom:1px solid #E2E0E0;
 `;

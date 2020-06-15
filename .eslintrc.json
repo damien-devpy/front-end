@@ -52,16 +52,12 @@
       {
         "ignoreCase": false,
         "ignoreMemberSort": false,
-<<<<<<< HEAD
-        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
-=======
         "memberSyntaxSortOrder": [
           "none",
           "all",
           "single",
           "multiple"
         ]
->>>>>>> 9b0a9986764961644fad52e195682194b85f7eb6
       }
     ]
   }

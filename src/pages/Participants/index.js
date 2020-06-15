@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, Container, Modal } from 'react-bootstrap';
+import { Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,6 @@ import AddIcon from '../../assets/AddIcon';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
-import userImg from '../../assets/img_noe.png';
 import { COLORS } from '../../vars';
 import {
   ParticipantItemForm,
@@ -23,6 +22,12 @@ import {
   deleteParticipant,
   setParticipantNameEmail,
 } from '../../actions/participants';
+import {
+  computeFootprints,
+  computeFootprintsForCitizen,
+  initWorkshop,
+} from '../../actions/workshop';
+
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -90,6 +95,7 @@ const ManageParticipants = ({
     // if previously another row was activated because it was clicked, it will not be now
     // unless it misses required info
     console.log('On CLICK row', id);
+    if (active[id]) return;
     const newActive = Object.assign(
       {},
       ...Object.keys(participants).map((i) => ({
@@ -122,9 +128,7 @@ const ManageParticipants = ({
             footprintStructure,
             variableFormulas,
             computeCarbonVariables(
-              personas.find(
-                (persona) => persona.id === participants[id].personaId
-              ).surveyVariables,
+              personas[participants[id].personaId].surveyVariables,
               globalCarbonVariables
             ),
             globalCarbonVariables
@@ -143,7 +147,7 @@ const ManageParticipants = ({
     personas &&
     Object.keys(participants).forEach((id) => {
       const p = participants[id];
-      console.log('participantss', p);
+      console.log('Rerender participants', p);
       participantItems.push(
         <ParticipantItemForm
           id={id}
@@ -197,7 +201,15 @@ const ManageParticipants = ({
             />
             <div style={{ textAlign: 'center' }}>
               <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton>{t('common.launch_simulation')}</PrimaryButton>
+                <PrimaryButton
+                  onClick={() => {
+                    dispatch(initWorkshop(2020));
+                    dispatch(computeFootprints(2020));
+                    dispatch(computeFootprintsForCitizen(2020));
+                  }}
+                >
+                  {t('common.launch_simulation')}
+                </PrimaryButton>
               </Link>
             </div>
           </div>

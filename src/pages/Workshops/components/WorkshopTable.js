@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import '../../../index.css';
 import CommonModal from '../../../components/CommonModal';
 import DeleteIcon from '../../../assets/DeleteIcon';
 import EnterIcon from '../../../assets/EnterIcon';
-import '../../../index.css';
 
 const WorkshopTable = ({ workshops, t, handleDelete }) => {
   const [workshopToDelete, setWorkshopToDelete] = useState({
@@ -18,11 +18,11 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
   const handleDeleteModal = (workshop) => {
     setWorkshopToDelete(workshop);
   };
+  const handleCloseModal = () => setWorkshopToDelete({ id: null, name: null });
   const handleDeleteConfirmation = () => {
     handleDelete(workshopToDelete.id);
     handleCloseModal();
   };
-  const handleCloseModal = () => setWorkshopToDelete({ id: null, name: null });
   return (
     <>
       <Table borderless>

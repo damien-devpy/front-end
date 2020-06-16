@@ -20,7 +20,10 @@ const handleErrors = async (response) => {
   if (!response.ok) {
     const json = await response.json().catch(() => null);
     if (json) {
+      console.log('handleErrors json', json);
       const message = R.path(['msg'], json);
+      console.log('handleErrors message', message);
+
       throw new Error(message || response.statusText);
     }
     throw new Error(response.statusText);

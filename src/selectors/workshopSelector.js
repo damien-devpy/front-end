@@ -185,8 +185,9 @@ export const getInitRoundBudget = (
 
 export const getDefaultRoundType = (roundsConfigEntity, currentYear) => {
   const rounds = Object.keys(roundsConfigEntity).filter(
-    (round) => round != currentYear // currentYear could be number
+    (round) => round !== currentYear // currentYear could be number
   );
+  // eslint-disable-next-line no-nested-ternary
   return rounds.length > 0
     ? roundsConfigEntity[rounds.slice(-1)[0]].actionCardType === 'individual'
       ? 'collective'
@@ -217,3 +218,6 @@ export const getInitRoundBudgetCollective = (
   });
   return totalBudget;
 };
+
+export const selectWorkshopById = (workshops, workshopId) =>
+  workshops.find((workshop) => workshop.id === workshopId);

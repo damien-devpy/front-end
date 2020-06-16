@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Form, ToggleButton } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -207,11 +207,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId="validationFormik02">
-                <Form.Label>{t('common.batches')}</Form.Label>
-                <div key="inline-checkbox" className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik02">
+              <Form.Label>{t('common.batches')}</Form.Label>{' '}<br/>
+                <ButtonGroup key="inline-checkbox" className="mb-3" toggle>
                   {Object.keys(values.actionCardBatches).map((batchId) => (
-                    <Form.Check
+                    <ToggleButton
                       checked={
                         values.actionCardBatchIds.includes(batchId) ||
                         values.checkedActionCardBatches.includes(batchId)
@@ -219,6 +219,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       disabled={values.checkedActionCardBatches.includes(
                         batchId
                       )}
+                      className="mr-1 btn-custom-lot"
                       inline
                       label={values.actionCardBatches[batchId].name}
                       type="checkbox"
@@ -230,9 +231,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                           toggleArrayItem(values.actionCardBatchIds, batchId)
                         )
                       }
-                    />
+                    >{values.actionCardBatches[batchId].name}</ToggleButton>
                   ))}
-                </div>
+                </ButtonGroup>
               </Form.Group>
             </Form.Row>
             <Form.Row>
@@ -289,4 +290,5 @@ const SecondaryButton = styled(Button)`
     border-color: ${COLORS.BROWN.STANDARD} !important;
   }
 `;
+
 export default NewRoundModalForm;

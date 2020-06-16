@@ -31,7 +31,7 @@ const Workshops = () => {
     createWorkshopApi({ data: workshop })
       .then((data) => dispatchThunk(addWorkshop(data)))
       .catch(() => {
-        dispatch(
+        dispatchThunk(
           throwError(
             t('errors.createWorkshop', {
               workshopName: workshop.name,
@@ -50,7 +50,7 @@ const Workshops = () => {
         dispatchThunk(deleteWorkshop(workshopId));
       })
       .catch(() => {
-        dispatch(
+        dispatchThunk(
           throwError(
             t('errors.deleteWorkshop', {
               workshopName: selectWorkshopById(workshops, workshopId).name,

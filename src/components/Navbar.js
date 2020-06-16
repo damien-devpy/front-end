@@ -108,7 +108,6 @@ const Navbar = ({ links = [] }) => {
       {msg && (
         <Container>
           <Alert
-            style={{ marginBottom: '0rem' }}
             variant="danger"
             onClose={() => dispatch(resetError())}
             dismissible

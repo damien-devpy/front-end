@@ -143,6 +143,10 @@ export default {
     workshops: 'Ateliers',
     workshopStatus: 'Statut',
   },
+  errors: {
+    createWorkshop: "Impossible d'ajouter l'atelier {{workshopName}}",
+    deleteWorkshop: "Impossible de supprimer l'atelier {{workshopName}}",
+  },
   manageParticipants: {
     addNew: 'Ajouter Participant',
     copied: 'Copié!',

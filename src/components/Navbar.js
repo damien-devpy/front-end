@@ -23,6 +23,7 @@ const Navbar = ({ links = [] }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { msg } = useSelector((state) => state.error);
+  const { isSynchronized } = useSelector((state) => state.workshop);
   const { user: { firstName = '', lastName = '' } = {} } = useSelector(
     (state) => state.currentUser
   );
@@ -84,6 +85,9 @@ const Navbar = ({ links = [] }) => {
                 )
               )}
             </Nav>
+            <div className="ml-auto">
+              {isSynchronized ? 'Synchro' : 'Not synchro'}
+            </div>
             <StyledNavDropDown
               className="ml-auto"
               title={

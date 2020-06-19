@@ -23,6 +23,8 @@ export const APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS =
 export const APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS =
   'APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS';
 export const APPLY_SOCIAL_IMPACT = 'APPLY_SOCIAL_IMPACT';
+export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
+export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
 
 export const initWorkshop = (year) => ({
   type: INIT_WORKSHOP,
@@ -113,7 +115,7 @@ export const applySocialImpact = (yearFrom, yearTo) => ({
 });
 
 const persistWorkshop = (workshopId, workshop) => ({
-  type: 'PERSIST_WORKSHOP',
+  type: PERSIST_WORKSHOP,
   payload: { workshop },
   meta: {
     offline: {
@@ -124,7 +126,7 @@ const persistWorkshop = (workshopId, workshop) => ({
         json: workshop,
       },
       // action to dispatch when effect succeeds:
-      // commit: { type: 'REGISTER_USER_COMMIT', meta: { name, email } },
+      commit: { type: WORKSHOP_PERSISTED, meta: { workshopId } },
       // action to dispatch if network action fails permanently:
       // rollback: { type: 'REGISTER_USER_ROLLBACK', meta: { name, email } }
     },
@@ -148,43 +150,18 @@ const cleanWorkshop = (workshop) => {
   delete persistableWorkshop.citizens;
   delete persistableWorkshop.creatorId;
   delete persistableWorkshop.id;
-  // delete persistableWorkshop.currentYear;
+  delete persistableWorkshop.currentYear;
+  persistableWorkshop.startAt = `${persistableWorkshop.startAt}Z`;
   const persistableRounds = persistableWorkshop.rounds.map((round) => {
     const persistableRound = { ...round };
+    delete persistableRound.budget;
     delete persistableRound.socialVariables;
     delete persistableRound.citizenCarbonVariables;
     delete persistableRound.citizenCarbonFootprints;
+    delete persistableRound.citizenIndividualChoices;
     return persistableRound;
   });
   persistableWorkshop.rounds = persistableRounds;
-  return persistableWorkshop;
-};
-
-const cleanWorkshop2 = (workshop) => {
-  const persistableRounds = workshop.rounds.map((round) => {
-    return {
-      year: round.year,
-      carbonVariables: [...round.carbonVariables],
-      carbonFootprints: [...round.carbonFootprints],
-      roundConfig: { ...round.roundConfig },
-      individualActions: [...round.individualChoices],
-      collectiveActions: [...round.collectiveChoices],
-    };
-  });
-  const persistableWorkshop = {
-    // id: workshop.id,
-    name: workshop.name,
-    startAt: workshop.startAt,
-    // creatorId: workshop.creatorId,
-    coachId: workshop.coachId,
-    city: workshop.city,
-    address: workshop.address,
-    eventUrl: workshop.eventUrl,
-    startYear: workshop.startYear,
-    endYear: workshop.endYear,
-    yearIncrement: workshop.yearIncrement,
-    rounds: persistableRounds,
-  };
   return persistableWorkshop;
 };
 
@@ -193,18 +170,18 @@ const persistWorkshopWithCurrentState = () => {
     const {
       workshop: { entities, result },
     } = getState();
-    console.log('persistWorkshopWithCurrentState entities', entities);
-    console.log('persistWorkshopWithCurrentState result', result);
-    console.log(
-      'persistWorkshopWithCurrentState denormalized',
-      JSON.stringify(denormalize(result, workshopSchema, entities))
-    );
-    console.log(
-      'persistWorkshopWithCurrentState denormalized and clean ',
-      JSON.stringify(
-        cleanWorkshop(denormalize(result, workshopSchema, entities))
-      )
-    );
+    // console.log('persistWorkshopWithCurrentState entities', entities);
+    // console.log('persistWorkshopWithCurrentState result', result);
+    // console.log(
+    //   'persistWorkshopWithCurrentState denormalized',
+    //   JSON.stringify(denormalize(result, workshopSchema, entities))
+    // );
+    // console.log(
+    //   'persistWorkshopWithCurrentState denormalized and clean ',
+    //   JSON.stringify(
+    //     cleanWorkshop(denormalize(result, workshopSchema, entities))
+    //   )
+    // );
     dispatch(
       persistWorkshop(
         result.id,

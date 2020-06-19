@@ -18,12 +18,14 @@ import {
   COMPUTE_FOOTPRINTS_FOR_CITIZENS,
   INIT_ROUND,
   INIT_WORKSHOP,
+  PERSIST_WORKSHOP,
   RETRIEVE_WORKSHOP,
   SET_ACTIONS_FOR_CITIZENS,
   SET_COLLECTIVE_CHOICES,
   SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
   START_ROUND,
   WORKSHOP_LOAD_ERROR,
+  WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
 import {
@@ -74,6 +76,7 @@ const initialState = {
   isLoading: false,
   loadError: false,
   loadErrorDetails: null,
+  isSynchronized: false,
 };
 
 export default (state = initialState, action) => {
@@ -91,6 +94,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         loadError: false,
         loadErrorDetails: null,
+        isSynchronized: true,
         ...workshop,
       };
     }
@@ -100,6 +104,18 @@ export default (state = initialState, action) => {
         isLoading: false,
         loadError: true,
         loadErrorDetails: action.payload,
+      };
+    }
+    case PERSIST_WORKSHOP: {
+      return {
+        ...state,
+        isSynchronized: false,
+      };
+    }
+    case WORKSHOP_PERSISTED: {
+      return {
+        ...state,
+        isSynchronized: true,
       };
     }
     case INIT_WORKSHOP: {
@@ -187,6 +203,10 @@ export default (state = initialState, action) => {
             [year]: newRound,
             ...state.entities.rounds,
           },
+        },
+        result: {
+          ...state.result,
+          rounds: [...state.result.rounds, year],
         },
       };
     }

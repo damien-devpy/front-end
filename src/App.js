@@ -47,7 +47,7 @@ const AppRouter = () => {
   );
 };
 
-const LoginRouter = (t, handleLogin) => (
+const LoginRouter = ({ t, handleLogin }) => (
   <BrowserRouter>
     <Navbar />
     <CommonModal title={t('common.login')} show>

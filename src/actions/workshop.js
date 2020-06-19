@@ -1,3 +1,7 @@
+import { denormalize } from 'normalizr';
+
+import { workshopSchema } from '../normalizers';
+
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
 export const START_ROUND = 'START_ROUND';
 export const SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS =
@@ -108,6 +112,108 @@ export const applySocialImpact = (yearFrom, yearTo) => ({
   payload: { yearFrom, yearTo },
 });
 
+const persistWorkshop = (workshopId, workshop) => ({
+  type: 'PERSIST_WORKSHOP',
+  payload: { workshop },
+  meta: {
+    offline: {
+      // the network action to execute:
+      effect: {
+        url: `/workshops/${workshopId}`,
+        method: 'PUT',
+        json: workshop,
+      },
+      // action to dispatch when effect succeeds:
+      // commit: { type: 'REGISTER_USER_COMMIT', meta: { name, email } },
+      // action to dispatch if network action fails permanently:
+      // rollback: { type: 'REGISTER_USER_ROLLBACK', meta: { name, email } }
+    },
+  },
+});
+
+// citizens (pas implemente)
+// models (pas necessaire car peut pas etre update)
+// creatorId (non modifiable)
+// id (non modifiable)
+// rounds.citizenX (pas implemente)
+// rounds.socialVariables (pas implemente)
+// rounds.roundsConfig -> roundConfig (sans s)
+// startAt -> startDate je crois
+// currentYear : c'est un champ qui appartient a round non ? (round.year plus exactement)
+// participants : tu peux enlever temporairement ? Il faut qu'on reflechisse a ce qu'on veut updater du cote participant
+const cleanWorkshop = (workshop) => {
+  const persistableWorkshop = { ...workshop };
+  delete persistableWorkshop.model;
+  delete persistableWorkshop.participants;
+  delete persistableWorkshop.citizens;
+  delete persistableWorkshop.creatorId;
+  delete persistableWorkshop.id;
+  // delete persistableWorkshop.currentYear;
+  const persistableRounds = persistableWorkshop.rounds.map((round) => {
+    const persistableRound = { ...round };
+    delete persistableRound.socialVariables;
+    delete persistableRound.citizenCarbonVariables;
+    delete persistableRound.citizenCarbonFootprints;
+    return persistableRound;
+  });
+  persistableWorkshop.rounds = persistableRounds;
+  return persistableWorkshop;
+};
+
+const cleanWorkshop2 = (workshop) => {
+  const persistableRounds = workshop.rounds.map((round) => {
+    return {
+      year: round.year,
+      carbonVariables: [...round.carbonVariables],
+      carbonFootprints: [...round.carbonFootprints],
+      roundConfig: { ...round.roundConfig },
+      individualActions: [...round.individualChoices],
+      collectiveActions: [...round.collectiveChoices],
+    };
+  });
+  const persistableWorkshop = {
+    // id: workshop.id,
+    name: workshop.name,
+    startAt: workshop.startAt,
+    // creatorId: workshop.creatorId,
+    coachId: workshop.coachId,
+    city: workshop.city,
+    address: workshop.address,
+    eventUrl: workshop.eventUrl,
+    startYear: workshop.startYear,
+    endYear: workshop.endYear,
+    yearIncrement: workshop.yearIncrement,
+    rounds: persistableRounds,
+  };
+  return persistableWorkshop;
+};
+
+const persistWorkshopWithCurrentState = () => {
+  return (dispatch, getState) => {
+    const {
+      workshop: { entities, result },
+    } = getState();
+    console.log('persistWorkshopWithCurrentState entities', entities);
+    console.log('persistWorkshopWithCurrentState result', result);
+    console.log(
+      'persistWorkshopWithCurrentState denormalized',
+      JSON.stringify(denormalize(result, workshopSchema, entities))
+    );
+    console.log(
+      'persistWorkshopWithCurrentState denormalized and clean ',
+      JSON.stringify(
+        cleanWorkshop(denormalize(result, workshopSchema, entities))
+      )
+    );
+    dispatch(
+      persistWorkshop(
+        result.id,
+        cleanWorkshop(denormalize(result, workshopSchema, entities))
+      )
+    );
+  };
+};
+
 export const initRoundAndProcessModel = (yearFrom, yearTo) => {
   return (dispatch) => {
     dispatch(initRound(yearTo));
@@ -119,5 +225,6 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
     dispatch(applyCollectiveActionsForCitizens(yearFrom, yearTo));
     dispatch(computeFootprints(yearTo));
     dispatch(computeFootprintsForCitizen(yearTo));
+    dispatch(persistWorkshopWithCurrentState());
   };
 };

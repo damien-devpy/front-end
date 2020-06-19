@@ -16,12 +16,18 @@ export const getCoaches = () =>
 
 export const getWorkshops = () =>
   handleFetch(`/workshops`, {
-    //useMock: true, // TO REMOVE AFTER BACKEND READY
+    // useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
-export const createWorkshopApi = ({ data, ...rest }) =>
+export const createWorkshopApi = ({ data }) =>
   handleFetch('/workshops', {
     method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+export const updateWorkshopApi = ({ workshopId, data }) =>
+  handleFetch(`/workshops/${workshopId}`, {
+    method: 'PUT',
     body: JSON.stringify(data),
   });
 

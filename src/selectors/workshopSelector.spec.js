@@ -4,7 +4,7 @@ import {
   getNumberOfChosenActionCards,
 } from './workshopSelector';
 
-const roundsConfigEntity = {
+const roundConfigEntity = {
   '2020': {
     actionCardType: 'individual',
     targetedYear: 2023,
@@ -61,7 +61,7 @@ const actionCardsEntity = {
 describe('Workshop selector', () => {
   it('should calculate remaining budget for all participants', () => {
     const roundBudget = getInitRoundBudget(
-      roundsConfigEntity,
+      roundConfigEntity,
       individualChoicesEntity,
       participantIds,
       actionCardsEntity

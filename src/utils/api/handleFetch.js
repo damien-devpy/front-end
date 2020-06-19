@@ -6,7 +6,7 @@ import mock from '../mock';
 import { getAccessToken } from '../auth';
 import { paramsToQuery } from '../helpers';
 
-export const API_BASE_URL = 'https://api-preprod.2tonnes.org';
+export const API_BASE_URL = 'https://api-preprod.2tonnes.org/api/v1';
 
 const buildHeaders = (forcedToken, customHeaders = {}) => {
   const token = getAccessToken();

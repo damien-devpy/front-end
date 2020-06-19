@@ -1,91 +1,89 @@
-import { normalize, denormalize, schema } from 'normalizr';
-import workshop from '../utils/mocks/workshop';
+import { denormalize, normalize } from 'normalizr';
+
+import { workshopSchema } from './index';
+
+const workshopWithIndividualActions = {
+  rounds: [
+    {
+      year: 2020,
+      individualChoices: [
+        { participantId: '1', actionCardIds: ['10'] },
+        { participantId: '2', actionCardIds: ['11'] },
+      ],
+    },
+    {
+      year: 2023,
+      collectiveChoices: { actionCardIds: ['20, 21'] },
+    },
+  ],
+};
+
+const normalizedWorkshopWithIndividualActions = {
+  entities: {
+    individualChoices: {
+      '2020-1': { participantId: '1', actionCardIds: ['10'] },
+      '2020-2': { participantId: '2', actionCardIds: ['11'] },
+    },
+    collectiveChoices: {
+      2023: {
+        actionCardIds: ['20, 21'],
+      },
+    },
+    rounds: {
+      2020: {
+        year: 2020,
+        individualChoices: ['2020-1', '2020-2'],
+      },
+      2023: {
+        year: 2023,
+        collectiveChoices: '2023',
+      },
+    },
+  },
+  result: { rounds: [2020, 2023] },
+};
 
 describe('Workshop', () => {
-  // Participants
-  const participant = new schema.Entity('participants');
-  // Model
-  const footprintStructure = new schema.Entity('footprintStructure');
-  const variableFormulas = new schema.Entity('variableFormulas');
-  const globalCarbonVariables = new schema.Entity('globalCarbonVariables');
-  const actionCard = new schema.Entity('actionCards');
-  const actionCardBatch = new schema.Entity('actionCardBatch');
-  // Rounds
-  const carbonVariables = new schema.Entity('carbonVariables');
-  const carbonFootprint = new schema.Entity('carbonFootprint');
-  const roundsConfig = new schema.Entity(
-    'roundsConfig',
-    {},
-    {
-      idAttribute: (entity, parent) => `${parent.year}`,
-    },
-  );
-  const individualActions = new schema.Entity(
-    'individualActions',
-    {
-      individualActions: [actionCard],
-    },
-    {
-      idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
-    },
-  );
-  const collectiveActions = new schema.Entity(
-    'collectiveActions',
-    {},
-    {
-      idAttribute: (entity, parent) => `${parent.year}`,
-    },
-  );
-  const carbonInfo = new schema.Entity(
-    'carbonInfo',
-    {},
-    {
-      idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
-    },
-  );
-  const round = new schema.Entity(
-    'rounds',
-    {
-      carbonInfo: [carbonInfo],
-      roundsConfig,
-      individualActions: [individualActions],
-      collectiveActions,
-    },
-    { idAttribute: 'year' },
-  );
-  const mySchema = {
-    rounds: [round],
-    participants: [participant],
-    model: {
-      // footprintStructure,
-      // variableFormulas,
-      // globalCarbonVariables,
-      actionCards: [actionCard],
-      actionCardBatches: [actionCardBatch],
-    },
-  };
   it('should normalize workshop', (done) => {
-    const normalizedData = normalize(workshop, mySchema);
-    // console.log(normalizedData);
+    const normalizedData = normalize(
+      workshopWithIndividualActions,
+      workshopSchema
+    );
+    expect(normalizedData).toEqual(normalizedWorkshopWithIndividualActions);
+
+    // console.log(
+    //   'workshopWithIndividualActions',
+    //   JSON.stringify(workshopWithIndividualActions, null, 2)
+    // );
+    // console.log('normalizedData', JSON.stringify(normalizedData, null, 2));
     // console.log(JSON.stringify(normalizedData.result.model.actionCards));
     // console.log(JSON.stringify(normalizedData.result.model.actionCardBatches));
     // console.log(
-    //   "entities.rounds",
-    //   JSON.stringify(normalizedData.entities.rounds)
+    //   'entities.rounds',
+    //   JSON.stringify(normalizedData.entities.rounds, null, 2)
     // );
+
+    // const { entities } = normalizedData;
+    // const input = normalizedData.result;
+    // const denormalizedData = denormalize(input, mySchema, entities);
+    // console.log('denormalizedData', JSON.stringify(denormalizedData, null, 2));
+
     // console.log(
-    //   "entities.carbonInfo",
+    //   'entities.carbonInfo',
     //   JSON.stringify(normalizedData.entities.carbonInfo)
     // );
     done();
   });
   it('should denormalize workshop', (done) => {
-    const normalizedData = normalize(workshop, mySchema);
+    const normalizedData = normalize(
+      workshopWithIndividualActions,
+      workshopSchema
+    );
     const { entities } = normalizedData;
     const input = normalizedData.result;
-    const denormalizedData = denormalize(input, mySchema, entities);
+    const denormalizedData = denormalize(input, workshopSchema, entities);
     // console.log("denormalizedData", JSON.stringify(denormalizedData));
-    expect(denormalizedData).toEqual(workshop);
+    expect(denormalizedData).toEqual(workshopWithIndividualActions);
     done();
   });
 });

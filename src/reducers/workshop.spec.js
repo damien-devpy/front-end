@@ -92,7 +92,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             },
           },
         },
-        roundsConfig: {
+        roundConfig: {
           2020: {
             actionCardType: 'individual',
             targetedYear: 2023,
@@ -106,7 +106,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             globalCarbonVariables: 2020,
             carbonVariables: ['2020-1', '2020-2'],
             carbonFootprints: ['2020-1', '2020-2'],
-            roundsConfig: '2020',
+            roundConfig: '2020',
           },
           2023: {
             year: 2023,
@@ -306,7 +306,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             },
           },
         },
-        roundsConfig: {
+        roundConfig: {
           2020: {
             actionCardType: 'individual',
             targetedYear: 2023,
@@ -320,7 +320,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             globalCarbonVariables: 2020,
             carbonVariables: ['2020-1', '2020-2'],
             carbonFootprints: ['2020-1', '2020-2'],
-            roundsConfig: '2020',
+            roundConfig: '2020',
           },
           2023: {
             year: 2023,
@@ -462,7 +462,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             EI_PLANE: 100,
           },
         },
-        roundsConfig: {
+        roundConfig: {
           2020: {
             actionCardType: 'individual',
             targetedYear: 2023,
@@ -475,7 +475,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             year: 2020,
             carbonVariables: ['2020-1', '2020-2'],
             carbonFootprints: ['2020-1', '2020-2'],
-            roundsConfig: '2020',
+            roundConfig: '2020',
           },
           2023: {
             year: 2023,
@@ -675,7 +675,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             EI_PLANE: 100,
           },
         },
-        roundsConfig: {
+        roundConfig: {
           2020: {
             actionCardType: 'individual',
             targetedYear: 2023,
@@ -688,7 +688,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
             year: 2020,
             carbonVariables: ['2020-1', '2020-2'],
             carbonFootprints: ['2020-1', '2020-2'],
-            roundsConfig: '2020',
+            roundConfig: '2020',
           },
           2023: {
             year: 2023,
@@ -882,7 +882,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               },
             },
           },
-          roundsConfig: {
+          roundConfig: {
             2020: {
               actionCardType: 'collective',
               targetedYear: 2023,
@@ -896,11 +896,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               carbonVariables: ['2020-1', '2020-2'],
               carbonFootprints: ['2020-1', '2020-2'],
               globalCarbonVariables: 2020,
-              roundsConfig: '2020',
+              roundConfig: '2020',
             },
             2023: {
               year: 2023,
-              roundsConfig: '2023',
+              roundConfig: '2023',
             },
           },
           participants: {
@@ -1076,7 +1076,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               EI_PLANE: 100,
             },
           },
-          roundsConfig: {
+          roundConfig: {
             2020: {
               actionCardType: 'collective',
               targetedYear: 2023,
@@ -1090,13 +1090,13 @@ describe('Test effect of redux actions related to model on the workshop state', 
               carbonVariables: ['2020-1', '2020-2'],
               carbonFootprints: ['2020-1', '2020-2'],
               globalCarbonVariables: 2020,
-              roundsConfig: '2020',
+              roundConfig: '2020',
             },
             2023: {
               year: 2023,
               carbonVariables: ['2023-1', '2023-2'],
               globalCarbonVariables: 2023,
-              roundsConfig: '2023',
+              roundConfig: '2023',
             },
           },
           participants: {
@@ -1272,7 +1272,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               },
             },
           },
-          roundsConfig: {
+          roundConfig: {
             2020: {
               actionCardType: 'collective',
               targetedYear: 2023,
@@ -1286,11 +1286,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               carbonVariables: ['2020-1', '2020-2'],
               carbonFootprints: ['2020-1', '2020-2'],
               globalCarbonVariables: 2020,
-              roundsConfig: '2020',
+              roundConfig: '2020',
             },
             2023: {
               year: 2023,
-              roundsConfig: '2023',
+              roundConfig: '2023',
             },
           },
           participants: {
@@ -1477,7 +1477,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               },
             },
           },
-          roundsConfig: {
+          roundConfig: {
             2020: {
               actionCardType: 'collective',
               targetedYear: 2023,
@@ -1491,11 +1491,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
               carbonVariables: ['2020-1', '2020-2'],
               carbonFootprints: ['2020-1', '2020-2'],
               globalCarbonVariables: 2020,
-              roundsConfig: '2020',
+              roundConfig: '2020',
             },
             2023: {
               year: 2023,
-              roundsConfig: '2023',
+              roundConfig: '2023',
               carbonVariables: ['2023-1', '2023-2'],
               globalCarbonVariables: 2023,
             },

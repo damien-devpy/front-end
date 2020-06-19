@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Button, Col, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
-import styled from 'styled-components';
 
 import { ActionCardItem } from './ActionCardItem';
 import { COLORS } from '../../../vars';
@@ -23,13 +23,13 @@ const ActionCardsForm = ({
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
-  const roundsConfigEntity = useSelector(
-    (state) => state.workshop.entities.roundsConfig
+  const roundConfigEntity = useSelector(
+    (state) => state.workshop.entities.roundConfig
   );
   // initial active == expanded lot is the last lot of the current round
   const [activeBatch, setActiveBatch] = useState(
-    roundsConfigEntity[
-      Object.keys(roundsConfigEntity).slice(-1)[0]
+    roundConfigEntity[
+      Object.keys(roundConfigEntity).slice(-1)[0]
     ].actionCardBatchIds.slice(-1)[0]
   );
   function compareName(a, b) {
@@ -45,7 +45,7 @@ const ActionCardsForm = ({
     <Form noValidate>
       <Form.Row>
         {roundIds.map((roundConfigId) =>
-          roundsConfigEntity[roundConfigId].actionCardBatchIds
+          roundConfigEntity[roundConfigId].actionCardBatchIds
             .sort(compareName)
             .map((actionCardBatchId) => {
               const {

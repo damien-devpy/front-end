@@ -1,4 +1,7 @@
 import { denormalize } from 'normalizr';
+import { pathOr } from 'ramda';
+
+import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
@@ -23,9 +26,6 @@ import {
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
-import { pathOr } from 'ramda';
-
-import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   computeBudget,
   computeCitizenIndividualChoices,
@@ -72,18 +72,8 @@ function computeStatus(valid, participant, newPersona) {
 
 const initialState = {
   isLoading: false,
-  entities: {
-    carbonFootprints: {
-      '2020-1': {
-        footprint: [
-          {
-            name: 'transport',
-            children: {},
-          },
-        ],
-      },
-    },
-  },
+  loadError: false,
+  loadErrorDetails: null,
 };
 
 export default (state = initialState, action) => {
@@ -91,6 +81,7 @@ export default (state = initialState, action) => {
     case RETRIEVE_WORKSHOP: {
       return {
         isLoading: true,
+        loadError: false,
         loadErrorDetails: null,
       };
     }
@@ -98,6 +89,7 @@ export default (state = initialState, action) => {
       const { workshop } = action.payload;
       return {
         isLoading: false,
+        loadError: false,
         loadErrorDetails: null,
         ...workshop,
       };
@@ -114,7 +106,7 @@ export default (state = initialState, action) => {
       const { year } = action.payload;
       const participantIds = state.result.participants;
       const citizenIds = state.result.model.personas;
-      
+
       return {
         ...state,
         entities: {
@@ -129,7 +121,7 @@ export default (state = initialState, action) => {
               citizenCarbonVariables: citizenIds.map((id) =>
                 makeYearParticipantKey(year, id)
               ),
-              roundsConfig: {},
+              roundConfig: year,
               globalCarbonVariables: year,
               socialVariables: {
                 socialScore: 0,
@@ -173,7 +165,6 @@ export default (state = initialState, action) => {
             [year]: { ...state.result.model.globalCarbonVariables },
           },
           citizens: { ...state.entities.personas },
-          roundsConfig: [year],
         },
         result: {
           ...state.result,
@@ -211,8 +202,8 @@ export default (state = initialState, action) => {
         ...state,
         entities: {
           ...state.entities,
-          roundsConfig: {
-            ...state.entities.roundsConfig,
+          roundConfig: {
+            ...state.entities.roundConfig,
             [currentYear]: {
               actionCardType,
               targetedYear,
@@ -224,7 +215,7 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [currentYear]: {
               ...state.entities.rounds[currentYear],
-              roundsConfig: currentYear,
+              roundConfig: currentYear,
             },
           },
         },
@@ -253,7 +244,7 @@ export default (state = initialState, action) => {
         },
         result: {
           ...state.result,
-          currentYear: state.entities.roundsConfig[year].targetedYear,
+          currentYear: state.entities.roundConfig[year].targetedYear,
         },
       };
     }
@@ -271,16 +262,13 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [year]: {
               ...state.entities.rounds[year],
-              collectiveChoices: [
-                ...(state.entities.rounds[year].collectiveChoices || []),
-                ...Object.keys(collectiveChoices),
-              ],
+              collectiveChoices: year,
             },
           },
         },
         result: {
           ...state.result,
-          currentYear: state.entities.roundsConfig[year].targetedYear,
+          currentYear: state.entities.roundConfig[year].targetedYear,
         },
       };
     }
@@ -465,7 +453,7 @@ export default (state = initialState, action) => {
       const { participants } = state.result;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCarbonFootprints = {};
-      console.log("Compute footprints", carbonVariables)
+      console.log('Compute footprints', carbonVariables);
 
       participants.forEach((participantId) => {
         const yearParticipantKey = makeYearParticipantKey(year, participantId);
@@ -771,8 +759,7 @@ export default (state = initialState, action) => {
               isValid: valid,
               personaId: newPersona,
               status: newStatus,
-              surveyVariables: 
-                newPersona
+              surveyVariables: newPersona
                 ? state.entities.personas[newPersona].surveyVariables
                 : state.entities.participants[participantId].surveyVariables,
             },

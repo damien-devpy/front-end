@@ -111,9 +111,10 @@ export default (state = initialState, action) => {
       };
     }
     case INIT_WORKSHOP: {
-      const year = action.payload;
+      const { year } = action.payload;
       const participantIds = state.result.participants;
       const citizenIds = state.result.model.personas;
+      
       return {
         ...state,
         entities: {
@@ -464,6 +465,8 @@ export default (state = initialState, action) => {
       const { participants } = state.result;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCarbonFootprints = {};
+      console.log("Compute footprints", carbonVariables)
+
       participants.forEach((participantId) => {
         const yearParticipantKey = makeYearParticipantKey(year, participantId);
         const carbonVariablesForParticipant =
@@ -768,6 +771,10 @@ export default (state = initialState, action) => {
               isValid: valid,
               personaId: newPersona,
               status: newStatus,
+              surveyVariables: 
+                newPersona
+                ? state.entities.personas[newPersona].surveyVariables
+                : state.entities.participants[participantId].surveyVariables,
             },
           },
         },

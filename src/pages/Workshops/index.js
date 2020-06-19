@@ -6,17 +6,17 @@ import { useTranslation } from 'react-i18next';
 
 import '../../index.css';
 import AddIcon from '../../assets/AddIcon';
-import PrimaryButton from '../../components/PrimaryButton';
 import CommonModal from '../../components/CommonModal';
+import PrimaryButton from '../../components/PrimaryButton';
 import WorkshopModalForm from './components/WorkshopModalForm';
 import WorkshopTable from './components/WorkshopTable';
 import { COLORS } from '../../vars';
-import {
-  deleteAsyncWorkshop,
-  createAsyncWorkshop,
-} from '../../actions/workshops';
-import { useWorkshops } from '../../hooks/workshops';
+import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
+import { createWorkshopApi, deleteWorkshopApi } from '../../utils/api';
+import { selectWorkshopById } from '../../selectors/workshopSelector';
+import { throwError } from '../../actions/errors';
 import { useCoaches } from '../../hooks/coaches';
+import { useWorkshops } from '../../hooks/workshops';
 
 const Workshops = () => {
   const { t } = useTranslation();
@@ -27,9 +27,37 @@ const Workshops = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const createAsyncWorkshop = (workshop) => (dispatchThunk) => {
+    createWorkshopApi({ data: workshop })
+      .then((data) => dispatchThunk(addWorkshop(data)))
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.createWorkshop', {
+              workshopName: workshop.name,
+            })
+          )
+        );
+      });
+  };
   const handleSubmit = (values) => {
     dispatch(createAsyncWorkshop(values));
     setShow(false);
+  };
+  const deleteAsyncWorkshop = (workshopId) => (dispatchThunk) => {
+    deleteWorkshopApi({ workshopId })
+      .then(() => {
+        dispatchThunk(deleteWorkshop(workshopId));
+      })
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.deleteWorkshop', {
+              workshopName: selectWorkshopById(workshops, workshopId).name,
+            })
+          )
+        );
+      });
   };
   const handleDelete = (workshopId) => {
     dispatch(deleteAsyncWorkshop(workshopId));

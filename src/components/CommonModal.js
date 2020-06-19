@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
+import PrimaryButton from './PrimaryButton';
+
 const CommonModal = ({
   t,
   title,
@@ -26,9 +28,9 @@ const CommonModal = ({
           <Button variant="secondary" onClick={handleClose}>
             {t('common.close')}
           </Button>
-          <Button variant="primary" onClick={handleAcknowledge}>
+          <PrimaryButton onClick={handleAcknowledge}>
             {t('common.confirm')}
-          </Button>
+          </PrimaryButton>
         </Modal.Footer>
       )}
     </Modal>

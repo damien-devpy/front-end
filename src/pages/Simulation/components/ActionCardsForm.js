@@ -48,6 +48,9 @@ const ActionCardsForm = ({
           roundConfigEntity[roundConfigId].actionCardBatchIds
             .sort(compareName)
             .map((actionCardBatchId) => {
+              if (!actionCardBatchesEntity[actionCardBatchId]) {
+                return <></>;
+              }
               const {
                 name: actionCardBatchName,
                 actionCardIds,

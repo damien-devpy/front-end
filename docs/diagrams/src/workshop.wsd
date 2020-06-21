@@ -1,0 +1,87 @@
+@startuml workshop
+!pragma teoz true
+actor User
+box pages
+participant Workshops
+participant Participants
+participant Simulation
+end box
+box hooks
+participant useWorkshops
+participant useWorkshop
+end box
+box actions
+participant workshop as actionsWorkshop
+participant workshops as actionsWorkshops
+end box
+box reducers
+participant workshop as reducersWorkshop
+participant workshops as reducersWorkshops
+end box
+box normalizers
+participant normalizerWorkshop
+end box
+box utils
+participant api
+end box
+box backend
+participant endpoint
+end box
+== Display workshops ==
+User -> Workshops: React router to /workshops
+Workshops -> useWorkshops: useWorkshops()
+useWorkshops -> actionsWorkshops: retrieveWorkshops()
+useWorkshops -> useWorkshops: useSelector((state) => state.workshops)
+actionsWorkshops -> reducersWorkshops: RETRIEVE_WORKSHOPS
+reducersWorkshops -> reducersWorkshops: isLoading: true\nloaded: false
+reducersWorkshops --> useWorkshops: selector callback
+useWorkshops -> Workshops: isLoading: true\nloaded: false
+Workshops -> Workshops: Waiting animation
+{startGetWorkshops} useWorkshops -> api : getWorkshops()
+api -> endpoint : GET /workshops
+endpoint -> api : HTTP 200 GET /workshops
+{endGetWorkshops} api -> useWorkshops : workshops
+{startGetWorkshops} <-> {endGetWorkshops} : Asynchronous call
+useWorkshops -> actionsWorkshops: workshopsRetrieved(workshops)
+actionsWorkshops -> reducersWorkshops: WORKSHOPS_RETRIEVED(workshops)
+reducersWorkshops -> reducersWorkshops: isLoading: false\nloaded: true\nworkshops: workshops
+reducersWorkshops --> useWorkshops: selector callback
+useWorkshops -> Workshops: isLoading: false\nloaded: true\nworkshops: workshops
+Workshops -> Workshops: Display the workshops
+Workshops -> User
+== Select a workshop ==
+User -> Participants : React router to /workshop/${id}/participants
+Participants -> useWorkshop: useWorkshop(workshopId)
+useWorkshop -> actionsWorkshop: retrieveWorkshop(workshopId)
+actionsWorkshop -> reducersWorkshop: RETRIEVE_WORKSHOP
+reducersWorkshop -> reducersWorkshop: isLoading: true\nloaded: false
+reducersWorkshop --> useWorkshop: selector callback
+useWorkshop -> Participants: isLoading: true\nloaded: false
+Participants -> Participants: Waiting animation
+{startGetWorkshop} useWorkshop -> api : getWorkshop(workshopId)
+api -> endpoint : GET /workshop/${workshopId}
+endpoint -> api : HTTP 200 GET /workshop/${workshopId}
+api -> normalizerWorkshop: normalize(workshop)
+normalizerWorkshop -> api : workshop Normalized
+{endGetWorkshop} api -> useWorkshop : workshop
+{startGetWorkshop} <-> {endGetWorkshop} : Asynchronous call
+useWorkshop -> actionsWorkshop: workshopRetrieved(workshop)
+actionsWorkshop -> reducersWorkshop: WORKSHOP_RETRIEVED(workshop)
+reducersWorkshop -> reducersWorkshop: isLoading: false\nloaded: true\nworkshop: workshop
+reducersWorkshop --> useWorkshop: selector callback
+useWorkshop -> Participants: isLoading: false\nloaded: true\nworkshop: workshop
+Participants -> User: Display the participants of the workshop
+== Start a workshop ==
+group Workshop Initialization
+Participants -> actionsWorkshop: initWorkshop(startYear)
+actionsWorkshop -> reducersWorkshop: INIT_WORKSHOP(startYear)
+Participants -> actionsWorkshop: computeFootprints(startYear)
+actionsWorkshop -> reducersWorkshop: COMPUTE_FOOTPRINT(startYear)
+Participants -> actionsWorkshop: computeFootprintsForCitizen(startYear)
+actionsWorkshop -> reducersWorkshop: COMPUTE_FOOTPRINT_FOR_CITIZENS(startYear)
+end
+Participants -> Simulation: React router to /workshop/${workshopId}/simulation
+
+== Round 1 ==
+
+@enduml

@@ -1,4 +1,15 @@
-const computeCarbonVariables = (surveyVariables, globalVariables) => {
+const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
+  const matches = heatingNetworkData.filter(
+    (row) => row.name === heatingNetworkName
+  );
+  return matches ? parseFloat(matches[0].emission_intensity) : 0;
+};
+
+const computeCarbonVariables = (
+  surveyVariables,
+  globalVariables,
+  heatingNetworkData
+) => {
   const {
     WEEKS_PER_YEAR,
     DAYS_PER_YEAR,
@@ -303,6 +314,10 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const networkHeatingKwh =
     (heatingSystemEnergyType === 'HEATING_NETWORK') * KwhCh;
 
+  const eiHeatingNetwork = getEiForHeatingNetwork(
+    heatingNetworkData,
+    surveyVariables.heatingNetworkName
+  );
   // KwhCui
   const partitionCui =
     (heatingSystemEnergyType === cookingAppliancesEnergyType ? KwhMoyCh : 0) +
@@ -425,6 +440,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     elecLightningKwh,
     elecWaterHeatingKwh,
     networkHeatingKwh,
+    eiHeatingNetwork,
 
     // Autre
     fruitsAndVegetablePercentageLocal,
@@ -460,3 +476,4 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   return carbonVariables;
 };
 export default computeCarbonVariables;
+export { getEiForHeatingNetwork };

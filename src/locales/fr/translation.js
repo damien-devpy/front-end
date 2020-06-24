@@ -151,6 +151,8 @@ export default {
   errors: {
     createWorkshop: "Impossible d'ajouter l'atelier {{workshopName}}",
     deleteWorkshop: "Impossible de supprimer l'atelier {{workshopName}}",
+    createCoach: "Impossible d'ajouter l'animateur {{coachName}}",
+    deleteCoach: "Impossible de supprimer l'animateur {{coachName}}"
   },
   manageParticipants: {
     addNew: 'Ajouter Participant',

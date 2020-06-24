@@ -33,7 +33,7 @@ export const deleteCoach = (coachId) => ({
   payload: { coachId },
 });
 
-export const createAsyncCoach = (coach) => (dispatch) => {
+export const createAsyncCoachApi = (coach) => (dispatch) => {
   const {t} = useTranslation()
   createCoachApi({ data: coach })
     .then((data) => dispatch(addCoach(data)))

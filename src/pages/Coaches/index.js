@@ -7,10 +7,9 @@ import PrimaryButton from "../../components/PrimaryButton"
 import CommonModal from '../../components/CommonModal';
 import CoachModalForm from './components/CoachModalForm';
 import CoachTable from './components/CoachTable';
-import {
-  deleteAsyncCoach,
-  createAsyncCoach,
-} from '../../actions/coaches';
+import { createCoachApi, deleteCoachApi } from '../../utils/api';
+import { throwError, resetError } from '../../actions/errors';
+
 import { COLORS } from '../../vars';
 import { addCoach } from '../../actions/coaches';
 import { useCoaches } from '../../hooks/coaches';
@@ -21,7 +20,21 @@ const Coaches = () => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {setShow(true); dispatch(resetError())};
+
+  const createAsyncCoach = (coach) => (dispatchThunk) => {
+    createCoachApi({ data: coach })
+      .then((data) => dispatchThunk(addCoach(data)))
+      .catch((e) => { 
+        dispatchThunk(
+          throwError(
+            t('errors.createCoach', {
+              coachName: coach.name,
+            }) + " : " + e
+          )
+        );
+      });
+  };
 
   const handleSubmit = (values) => {
     // dispatch(addCoach(values));

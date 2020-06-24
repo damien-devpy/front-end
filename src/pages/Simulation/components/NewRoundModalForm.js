@@ -20,7 +20,8 @@ import { toggleArrayItem } from '../../../utils/helpers';
 import './simulationPage.css';
 import { COLORS } from '../../../vars';
 import PrimaryButton from '../../../components/PrimaryButton';
-
+// import { resetError } from '../actions/errors';
+// import { throwError } from '../../actions/errors';
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
   const { currentYear, endYear, yearIncrement } = useSelector(
@@ -207,8 +208,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-            <Form.Group as={Col} controlId="validationFormik02">
-              <Form.Label>{t('common.batches')}</Form.Label>{' '}<br/>
+              <Form.Group as={Col} controlId="validationFormik02">
+                <Form.Label>{t('common.batches')}</Form.Label> <br />
                 <ButtonGroup key="inline-checkbox" className="mb-3" toggle>
                   {Object.keys(values.actionCardBatches).map((batchId) => (
                     <ToggleButton
@@ -231,7 +232,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                           toggleArrayItem(values.actionCardBatchIds, batchId)
                         )
                       }
-                    >{values.actionCardBatches[batchId].name}</ToggleButton>
+                    >
+                      {values.actionCardBatches[batchId].name}
+                    </ToggleButton>
                   ))}
                 </ButtonGroup>
               </Form.Group>

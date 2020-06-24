@@ -1,4 +1,6 @@
 import { createCoachApi, deleteCoachApi } from '../utils/api';
+import { throwError } from './errors';
+import { useTranslation } from 'react-i18next';
 
 export const ADD_COACH = 'ADD_COACH';
 export const COACHES_RETRIEVED = 'COACHES_RETRIEVED';
@@ -32,9 +34,18 @@ export const deleteCoach = (coachId) => ({
 });
 
 export const createAsyncCoach = (coach) => (dispatch) => {
+  const {t} = useTranslation()
   createCoachApi({ data: coach })
     .then((data) => dispatch(addCoach(data)))
-    .catch((error) => console.log("Error creating coach :",error));
+    .catch((error) => {
+          console.log("Error creating coach :",error)
+          dispatch(
+          throwError(
+                      t('errors.createCoach')
+      )
+    );
+  });
+    // DISPATCH HERE ERROR);
 };
 
 export const deleteAsyncCoach = (coachId) => (dispatch) => {

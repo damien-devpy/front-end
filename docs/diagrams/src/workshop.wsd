@@ -59,8 +59,8 @@ reducersWorkshop --> useWorkshop: selector callback
 useWorkshop -> Participants: isLoading: true\nloaded: false
 Participants -> Participants: Waiting animation
 {startGetWorkshop} useWorkshop -> api : getWorkshop(workshopId)
-api -> endpoint : GET /workshop/${workshopId}
-endpoint -> api : HTTP 200 GET /workshop/${workshopId}
+api -> endpoint : GET /workshops/${workshopId}
+endpoint -> api : HTTP 200 GET /workshops/${workshopId}
 api -> normalizerWorkshop: normalize(workshop)
 normalizerWorkshop -> api : workshop Normalized
 {endGetWorkshop} api -> useWorkshop : workshop
@@ -70,7 +70,8 @@ actionsWorkshop -> reducersWorkshop: WORKSHOP_RETRIEVED(workshop)
 reducersWorkshop -> reducersWorkshop: isLoading: false\nloaded: true\nworkshop: workshop
 reducersWorkshop --> useWorkshop: selector callback
 useWorkshop -> Participants: isLoading: false\nloaded: true\nworkshop: workshop
-Participants -> User: Display the participants of the workshop
+Participants -> Participants: Display the participants of the workshop
+Participants -> User
 == Start a workshop ==
 group Workshop Initialization
 Participants -> actionsWorkshop: initWorkshop(startYear)

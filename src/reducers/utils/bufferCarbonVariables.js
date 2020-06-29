@@ -19,9 +19,9 @@ const computeCarbonVariables = (
     MONTHS_PER_YEAR,
   } = globalVariables;
 
-  // =================
+  // ==============================================================
   // ============================ Food ============================
-  // =================
+  // ==============================================================
   // Meat and Fish ============================
   const { meatAndFishConsoPerDay } = surveyVariables;
   const {
@@ -146,9 +146,9 @@ const computeCarbonVariables = (
     JUICES_AND_SODAS_LITER_PER_GLASS *
     DAYS_PER_YEAR;
 
-  // ====================================================================================
-  // ============================ Transport ============================
-  // ====================================================================================
+  // ==============================================================
+  // ============================ Transport =======================
+  // ==============================================================
 
   // Car commute
   const { kmCarCommutePerDay } = surveyVariables;
@@ -181,17 +181,17 @@ const computeCarbonVariables = (
     surveyVariables.passengersPerCarTravel,
     1
   );
-  // ====================================================================================
-  // ============================ INTERNET ============================
-  // ====================================================================================
+  // ==============================================================
+  // ============================ INTERNET ========================
+  // ==============================================================
   const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
   const internetStreamingHoursPerYear =
     WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
 
   const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
-  // ====================================================================================
-  // ============================ ENERGY ============================
-  // ====================================================================================
+  // ==============================================================
+  // ============================ ENERGY ==========================
+  // ==============================================================
   // Energy
   const {
     energyConsumptionKnowledge,
@@ -474,7 +474,7 @@ const computeCarbonVariables = (
     numberBigDevices,
     clothesNewItems,
   };
-  console.log(carbonVariables);
+  // console.log('carbonVariables : ', carbonVariables);
   return carbonVariables;
 };
 export default computeCarbonVariables;

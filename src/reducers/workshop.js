@@ -809,14 +809,6 @@ export default (state = initialState, action) => {
       };
     }
 
-    case 'OUTPUT_WORKSHOP': {
-      console.log(
-        JSON.stringify(
-          denormalize(state.result, workshopSchema, state.entities)
-        )
-      );
-      return { ...state };
-    }
     default:
       return state;
   }

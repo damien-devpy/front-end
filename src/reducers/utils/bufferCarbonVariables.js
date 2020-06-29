@@ -2,7 +2,9 @@ const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
   const matches = heatingNetworkData.filter(
     (row) => row.name === heatingNetworkName
   );
-  return matches ? parseFloat(matches[0].emission_intensity) : 0;
+  return matches && matches.length > 0
+    ? parseFloat(matches[0].emission_intensity)
+    : 0;
 };
 
 const computeCarbonVariables = (

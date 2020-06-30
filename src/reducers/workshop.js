@@ -1,4 +1,3 @@
-import { denormalize } from 'normalizr';
 import { pathOr } from 'ramda';
 
 import computeCarbonVariables from './utils/bufferCarbonVariables';
@@ -35,7 +34,6 @@ import {
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
-import { workshopSchema } from '../normalizers';
 
 export const MISSING_INFO = 'MISSING_INFO';
 export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
@@ -467,7 +465,7 @@ export default (state = initialState, action) => {
       const { participants } = state.result;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCarbonFootprints = {};
-      console.log('Compute footprints', carbonVariables);
+      // console.log('Compute footprints', carbonVariables);
 
       participants.forEach((participantId) => {
         const yearParticipantKey = makeYearParticipantKey(year, participantId);

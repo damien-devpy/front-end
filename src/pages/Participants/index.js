@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import Papa from 'papaparse';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
@@ -203,9 +204,14 @@ const ManageParticipants = ({
               <Link to={`/workshop/${workshopId}/simulation`}>
                 <PrimaryButton
                   onClick={() => {
-                    dispatch(initWorkshop(2020));
-                    dispatch(computeFootprints(2020));
-                    dispatch(computeFootprintsForCitizen(2020));
+                    fetch('/data/heating_networks.csv')
+                      .then((response) => response.text())
+                      .then((text) => Papa.parse(text))
+                      .then((heatingNetworksData) => {
+                        dispatch(initWorkshop(2020, heatingNetworksData));
+                        dispatch(computeFootprints(2020));
+                        dispatch(computeFootprintsForCitizen(2020));
+                      });
                   }}
                 >
                   {t('common.launch_simulation')}

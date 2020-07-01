@@ -20,9 +20,9 @@ export const APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS =
   'APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS';
 export const APPLY_SOCIAL_IMPACT = 'APPLY_SOCIAL_IMPACT';
 
-export const initWorkshop = (year) => ({
+export const initWorkshop = (year, heatingNetworksData) => ({
   type: INIT_WORKSHOP,
-  payload: { year },
+  payload: { year, heatingNetworksData },
 });
 
 export const startRound = (payload) => ({
@@ -63,9 +63,9 @@ export const initRound = (year) => ({
   payload: { year },
 });
 
-export const computeCarbonVariables = (participantId) => ({
+export const computeCarbonVariables = (participantId, heatingNetworksData) => ({
   type: COMPUTE_CARBON_VARIABLES,
-  payload: { participantId },
+  payload: { participantId, heatingNetworksData },
 });
 
 export const applyIndividualActions = (yearFrom, yearTo) => ({

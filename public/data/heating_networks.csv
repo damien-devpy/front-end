@@ -1,0 +1,566 @@
+﻿department;name;location;type;emission_intensity
+1;La Reyssouze;Bourg-en-Bresse;hot;0.141
+1;La Forge;Oyonnax;hot;0.268
+1;La Plaine (HLM);Oyonnax;hot;0.334
+1;Réseau de Saint-Denis-les-Bourg;Saint-Denis-les-Bourg;hot;0.055
+1;Belena;Marignieu;hot;0.008
+1;Réseau de Treffort;Val-Revermont;hot;0.051
+2;ZUP du Quartier Europe;Saint-Quentin;hot;0.135
+2;ZUP de Presles;Soissons;hot;0.077
+2;Réseau de Laon;Laon;hot;0.004
+2;Réseau d'Urcel;Urcel;hot;0.04
+3;Réseau de Moulins;Moulins;hot;0.028
+3;Fontbouillant;Montluçon;hot;0.124
+3;Réseau de Mayet-de-Montagne;Mayet-de-Montagne;hot;0.011
+3;Meaulne;Meaulne;hot;0.268
+4;RCU Manosque ZAC Chanteprunier;Manosque;hot;0.036
+5;Réseau bois Delaroche;Embrun;hot;0
+5;Réseau Quartier Gare;Embrun;hot;0.005
+6;Sonitherm-Réseau de l'Ariane;Nice;hot;0.003
+6;Saint Augustin (HLM);Nice;hot;0.197
+6;Ranguin;Cannes;hot;0.135
+7;Réseau d'Aubenas;Aubenas;hot;0.011
+7;Réseau de Cheylard;Cheylard;hot;0.02
+8;La Citadelle;Charleville-Mézières;hot;0.227
+8;Ronde couture;Charleville-Mézières;hot;0.052
+8;ZUP de Sedan;Sedan;hot;0.101
+8;Réseau bois de Machault;Machault;hot;0.05
+8;Réseau de Rocroi;Rocroi;hot;0.315
+10;ZUP de la Chapelle Saint-Luc;Les Noes;hot;0.246
+10;Les Chartreux;Troyes;hot;0.071
+10;Biomasse de Piney;Piney;hot;0.058
+11;ZAC Saint Jean et Saint Pierre;Narbonne;hot;0.112
+11;Réseau CEF-MCO;Carcassone;hot;0.101
+12;Réseau de Decazeville;Decazeville;hot;0.292
+12;Réseau Sarrus;Rodez;hot;0.012
+12;Réseau de Cantagrelh;Onet-le-Château;hot;0.127
+13;ZAC des Canourgues;Salon de Provence;hot;0.207
+13;Luminy;Marseille;hot;0.298
+13;ZAC Paradis-Saint-Roch;Martigues;hot;0.234
+13;ZAC Canto Perdrix;Martigues;hot;0.22
+13;Centre Urbain-Zac des Pins;Vitrolles;hot;0.218
+13;Réseau d'Aix-en-Provence;Aix-en-Provence;hot;0.075
+14;Hérouville St Clair;Hérouville-Saint-Clair;hot;0.013
+14;ZUP de Hauteville;Lisieux;hot;0.022
+14;ZAC de Falaise;Falaise;hot;0.008
+14;La Guérinière;Caen;hot;0.184
+14;Grâce de Dieu;Caen;hot;0.19
+14;Quartier Nord;Caen;hot;0.253
+14;Réseau Bois I;Bayeux;hot;0.074
+14;Réseau Bois Vallée des Près;Bayeux;hot;0.06
+15;Réseau de chaleur bois du Crozatier;Saint-Georges;hot;0.003
+15;Réseau de chaleur bois du Volzac;Saint-Flour;hot;0.016
+15;Réseau de Baignes Sainte-Radegonde;Baignes Sainte-Radegonde;hot;0.192
+16;Réseau Champ de manoeuvre;Soyaux;hot;0.2
+16;Réseau de Montemboeuf;Montemboeuf;hot;0
+17;Villeneuve les Salines;La Rochelle;hot;0.076
+17;Réseau de Jonzac;Jonzac;hot;0.058
+17;Réseau de Aytre;Aytre;hot;0
+17;ZUP de Mireuil;La Rochelle;hot;0.016
+17;Réseau de Pons;Pons;hot;0.089
+17;Réseau Gémozac;Gémozac;hot;0.018
+18;Chancellerie Gibjoncs-Zup de Bourges;Asnières-les-Bourges;hot;0.012
+18;ZUP du Clos du Roy;Vierzon;hot;0.325
+19;Centre valorisation énergétique Brive;Saint-Pantaléon-de-Larche;hot;0.002
+19;Egletons Bois Energie;Egletons;hot;0.06
+19;Réseau de Sornac;Sornac;hot;0.011
+20;Réseau de Corte;Corte;hot;0.019
+21;La Fontaine d'Ouche;Dijon;hot;0.206
+21;Dijon Énergies;Djon;hot;0.028
+21;ZUP de Chenove;Chenove;hot;0.331
+21;Réseau de Quetigny;Quetigny;hot;0.143
+21;Les Gresilles;Dijon;hot;0.077
+23;Réseau de Bourganeuf;Bourganeuf;hot;0.017
+23;Réseau de Felletin;Felletin;hot;0.222
+24;Réseau de Saint-Astier;Saint-Astier;hot;0.023
+24;L'Arche au Bois;Périgueux;hot;0.003
+24;Réseau de Douville;Douville;hot;0.049
+25;Besançon-Planoise;Besançon;hot;0.142
+25;ZUP de la Petite Hollande;Montbéliard;hot;0.045
+25;Champvalon;Béthoncourt;hot;0.212
+25;Chaufferie Bois du Russey;Le Russey;hot;0.05
+25;Champs Montants;Audincourt;hot;0.178
+25;Domaine Universitaire de la Bouloie;Besançon;hot;0.054
+25;Réseau de Mouthe;Mouthe;hot;0.053
+25;Réseau de Pontarlier;Pontarlier;hot;0.011
+26;Réseau de la Zup de Valence;Valence;hot;0.284
+26;Réseau de Vassieux-en-Vercors;Vassieux-en-Vercors;hot;0.019
+26;Réseau de Pierrelatte-Des;Pierrelatte;hot;0
+26;Réseau Pracomptal;Montélimar;hot;0.249
+27;ZUP de Saint André-Thermevra;Evreux;hot;0.01
+27;ZAC des Maisons Rouges;Louvriers;hot;0.166
+27;Quartier de l'Europe;Pont Audemer;hot;0.232
+27;Tours du Levant Clos Galots;Les Andelys;hot;0.202
+27;ZUP Les Valmeux;Vernon;hot;0.202
+28;ZUP de la Madeleine;Chartres;hot;0.276
+28;Les Gauchetières;Nogent Rotrou;hot;0.236
+28;DUNE;Chateaudun;hot;0.01
+28;Tallemont;Manvilliers;hot;0.211
+29;Réseau de Brest;Brest;hot;0.023
+29;Réseau de Plougastel-Daoulas;Plougastel-Daoulas;hot;0.009
+30;Quartier Ouest;Nîmes;hot;0.24
+30;Centre Ville Ales;Ales;hot;0.074
+31;Réseau de Toulouse (UIOM);Toulouse;hot;0
+31;Canceropôle;Toulouse;hot;0.124
+31;Canceropôle;Toulouse;cold;0.011
+31;Réseau Saint-Exupéry;Toulouse;hot;0.361
+31;CSU Rangueil;Toulouse;hot;0.374
+31;Ensemble Universitaire de Toulouse Rangueil;Toulouse;hot;0.205
+31;Eco-quartier Balma Vidailhan;Balma;hot;0.044
+31;ZAC du Ritouret;Blagnac;hot;0.087
+31;Réseau En Turet;Ayguevives;hot;0.011
+33;Grand Parc;Bordeaux;hot;0.195
+33;Mériadeck;Bordeaux;hot;0
+33;Laseris;Le Barp;cold;0.011
+33;Réseau de Pellegrue;Pellegrue;hot;0.021
+33;Parc de Mérignac Ville Stemer;Mérignac;hot;0.209
+33;Hauts de Garonne-Rive Droite Energies;Cenon Lormont Floirac;hot;0.046
+33;Réseau de chaleur de Gironde sur Dropt;Gironde sur Dropt;hot;0.004
+33;Réseau de chaleur de Saint-Pierre d'Aurillac;Saint-Pierre d'Aurillac;hot;0.03
+33;Réseau de la Réole;La Réole;hot;0.015
+33;Réseau de Terre Neuves;Bègles;hot;0.128
+33;Eco-quartier GINKO;Lormont;hot;0.096
+34;Polygone Antigone;Montpellier;hot;0.265
+34;Polygone Antigone;Montpellier;cold;0.085
+34;Ernest Granier;Montpellier;hot;0.186
+34;Ernest Granier;Montpellier;cold;0.01
+34;Port Marianne Odysseum;Montpellier;hot;0.198
+34;Port Marianne Odysseum;Montpellier;cold;0.011
+34;Réseau des universités;Montpellier;hot;0.026
+34;Réseau Arches Jacques Coeur;Montpellier;hot;0.225
+34;Réseau Arches Jacques Coeur;Montpellier;cold;0.015
+34;Parc Marianne;Montpellier;hot;0.192
+34;Les Grisettes;Montpellier;hot;0.034
+34;ZAC des Constellations;Juvignac;hot;0.064
+35;Villejean-Beauregard;Rennes;hot;0.21
+35;Sarah Bernhardt;Rennes;hot;0.201
+35;Campus scientifique de Beaulieu;Rennes;hot;0.203
+35;Quartier Sud;Rennes;hot;0.095
+37;Morier et Rabière;Joué les Tours;hot;0.239
+37;ZUP des Bords de Cher;Tours;hot;0.103
+37;Sanitas;Tours;hot;0.119
+37;Quartier Chateaubriand;Tours;hot;0.184
+37;La Rabaterie;Saint-Pierre-des-Corps;hot;0.22
+37;Réseau UIOM Chinon;Saint-Benoît-la-Forêt;hot;0.003
+37;Réseau de la Riche-Quartier;La Riche;hot;0.225
+38;Compagnie de chauffage de Grenoble;Grenoble;hot;0.143
+38;Compagnie de chauffage de Grenoble;Grenoble;cold;0.012
+38;Réseau UIOM SITOM Nord Isère;Bourgoin Jailleu;hot;0
+38;Réseau de chaleur de Vinay;Vinay;hot;0.023
+38;Réseau de Saint Marcellin;Saint-Marcellin;hot;0.031
+38;Les Laiches;Villars-de-Lans;hot;0.186
+38;Réseau de Lans-en-Vercors;Lans-en-Vercors;hot;0.016
+38;Réseau de Monestier-de-Clermont;Monestier-de-Clermont;hot;0.038
+38;Réseau de Mens;Mens;hot;0.079
+38;Réseau bois RCBP;Pontcharra;hot;0.05
+38;Allevard;Allevard;hot;0.024
+39;Réseau de Dole;Dole;hot;0.118
+39;La Marjorie;Lons le Saunier;hot;0.079
+39;Réseau de Champvans;Champvans;hot;0
+39;Réseau de Moirans en Montagne;Moirans en Montagne;hot;0.161
+40;Géothermie Mont-de-Marsan (GMM1);Mont-de-Marsan;hot;0.239
+41;Quartier Bégon et Chevalier;Blois;hot;0.037
+41;ZAC des Paradis;Vineuil;hot;0.037
+41;Réseau de Mondoubleau;Mondoubleau;hot;0.077
+42;ZUP de la Cotonne;Saint-Étienne;hot;0.232
+42;La Métare;Saint-Étienne;hot;0.19
+42;Montchovet-Beaulieu 4 (HLM);Saint-Étienne;hot;0.31
+42;Réseau de Firminy;Firminy;hot;0.211
+42;Quartier RN 7;Roanne;hot;0.242
+42;ZUP du Parc des Sports;Roanne;hot;0.235
+42;Réseau de Chaleur VIACONFORT;Saint Etienne;hot;0.077
+42;Réseau de froid VIACONFORT;Saint Etienne;cold;0.014
+42;ZUP de Montreynaud;Saint-Étienne;hot;0.1
+42;Réseau d'Andrézieux-Bouthéon;Andrézieux-Bouthéon;hot;0.032
+42;Réseau de Montrond-les-Bains;Montrond-les-Bains;hot;0.032
+42;Scevia Quartier de Fonsala;Saint-Chamond;hot;0.062
+42;Réseau d'Usson-en-Forez;Usson-en-Forez;hot;0.051
+42;Réseau de Saint-Bonnet-le-Château;Saint-Bonnet-le-Château;hot;0
+42;Réseau de Jonzieux;Jonzieux;hot;0.037
+42;Réseau de Roisey;Roisey;hot;0.002
+42;ZAC des Lucioles;Planfoy;hot;0.001
+42;Réseau de Le Bessat;Le Bessat;hot;0
+42;Réseau de Saint-Bonnet-le-Courreau;Saint-Bonnet-le-Courreau;hot;0.005
+42;Réseau de La Terrasse-sur-Dorlay;La Terrasse-sur-Dorlay;hot;0
+42;Réseau de Saint-Régis-du-Coin;Saint-Régis-du-Coin;hot;0.015
+42;Réseau de Saint-Didier-sur-Rochefort;Saint-Didier-sur-Rochefort;hot;0.008
+42;Réseau de Neulise;Neulise;hot;0.025
+42;Quartier Notre-Dame;Pelussin;hot;0.03
+42;Réseau de Saint-Christo-en-Jarez;Saint-Christo-en-Jarez;hot;0.03
+42;Réseau de Saint-Martin-la-Sauveté;Saint-Martin-la-Sauveté;hot;0.025
+42;Réseau de Saint-Symphorien-de-Lay;Saint-Symphorien-de-Lay;hot;0
+42;Réseau de Marlhes;Marlhes;hot;0
+42;Réseau de Saint-Haon-le-Châtel;Saint-Haon-le-Châtel;hot;0.018
+42;Réseau de Saint-Joseph;Saint-Joseph;hot;0.158
+42;Réseau de Saint-Cyr-de-Favières;Saint-Cyr-de-Favières;hot;0.004
+42;Quartier de Mâtel;Roanne;hot;0.093
+42;Quartier Arsenal;Roanne;hot;0.066
+42;Quartier les Croix-Saint Jean;Pelussin;hot;0.027
+42;Réseau siège CDC;Pelussin;hot;0.001
+42;Réseau de Saint-Maurice-en-Gourgois;Saint-Maurice-en-Gourgois;hot;0.001
+42;Réseau de Colombier;Colombier;hot;0.002
+43;Langeac;Langeac;hot;0.128
+43;Réseau Vert Veine;Puy-en-Velay;hot;0.054
+43;Réseau de chaleur YES;Yssingeaux;hot;0.356
+43;Réseau de la Mairie;Dunières;hot;0
+43;Réseau de la Piscine;Dunières;hot;0
+43;Réseau de Pradelles;Pradelles;hot;0.013
+44;Beaulieu Malakoff-Valorena;Nantes;hot;0
+44;Réseau de Chateaubriant;Châteaubriant;hot;0.073
+44;Réseau de la Chantrerie;Nantes;hot;0.07
+44;ZUP de Bellevue Saint Herblain;Nantes-Saint-Herblain;hot;0.123
+44;Réseau AFUL de Rezé-Château;Rezé;hot;0.127
+44;Réseau ZAC de la Minais;Sainte-Luce-sur-Loire;hot;0.26
+44;Réseau de Saint-Julien-de-Concelles;Saint-Julien-de-Concelles;hot;0.066
+45;Socos;Orléans;hot;0.085
+45;Quartier Centre Ville et Nord;Orléans;hot;0.21
+45;ZUP du grand clos;Montargis;hot;0.096
+45;Réseau de Fleury les Aubrais;Fleury les Aubrais;hot;0.26
+45;C. V. E Pithiviers;Pithiviers;hot;0
+46;Réseau de Biars du Cere;Biars dur Cere;hot;0.012
+46;Réseau de Cajarc;Cajarc;hot;0.005
+46;Réseau de Catus;Catus;hot;0.007
+46;Réseau de Caillac;Caillac;hot;0.021
+46;Réseau de St Germain du Bel air;Saint Germain du Bel Air;hot;0.01
+46;Réseau de Les-Quatre-Routes-du-Lot;Les-Quatre-Routes-du-Lot;hot;0.002
+46;Réseau de Sousceyrac;Sousceyrac;hot;0.01
+46;Réseau de Figeac;Figeac;hot;0.002
+46;Réseau de Livernon;Livernon;hot;0.055
+46;Réseau de Cahors;Cahors;hot;0.056
+46;Réseau de Thégra;Thégra;hot;0.003
+46;Réseau de Lacapelle-Marival;Lacapelle-Marival;hot;0.164
+47;Novergie Sud Ouest-Sogad;Le Passage;hot;0.256
+48;Mende;Mende;hot;0
+49;Réseau d'Angers;Angers;hot;0.03
+49;ZUP de Jeanne d'Arc;Angers;hot;0.188
+49;CHU Angers;Angers;hot;0.179
+49;Chemin Vert;Saumur;hot;0.103
+49;Réseau de chaleur d'Andrezé;Andrezé;hot;0.318
+49;Réseau d'Orgemont;Angers;hot;0
+49;Réseau de chaleur d'Ecouflant;Ecouflant;hot;0.064
+50;ZUP d'Octeville;Cherbourg;hot;0.059
+50;Ilot Divette;Cherbourg;hot;0.141
+50;Régie de chauffage au bois;Le Teilleul;hot;0.052
+51;ZUP Laon Neufchâtel;Reims;hot;0.227
+51;Réseau UIOM de Reims;Reims;hot;0.256
+51;Vitry Habitat;Vitry-le-François;hot;0
+51;Quartier Bernon;Epernay;hot;0.262
+51;Croix Rouge;Reims;hot;0.128
+52;Réseau de chaleur du sud de la ville de Chaumont;Chaumont;hot;0.007
+52;Ensemble du Vert Bois;Saint-Dizier;hot;0.186
+52;La Rochotte;Chaumont;hot;0.292
+53;ZUP de Nicolas;Laval;hot;0.231
+54;Nancy Energie;Nancy;hot;0.116
+54;Réseau de Vandoeuvre;Vandoeuvre-lès-Nancy;hot;0.023
+54;Haut du Lièvre;Nancy;hot;0.068
+54;Réseau d'Ecrouve;Ecrouve;hot;0.087
+55;Côte Sainte Catherine;Bar le Duc;hot;0.257
+55;ZUP Anthouard;Verdun;hot;0.055
+55;Ligny en Barrois;Ligny en Barrois;hot;0.055
+56;Réseau de Lanester;Lanester;hot;0.028
+56;Réseau de chaleur Zac Centre;Hennebont;hot;0
+56;Réseau de Gumenen;Auray;hot;0.104
+56;Réseau Liger;Locminé;hot;0
+57;Réseau de Metz;Metz;hot;0.068
+57;Réseau de la ville de Yutz;Yutz;hot;0.145
+57;Réseau du Farébersviller;Farébersviller;hot;0.064
+57;Wenheck;Saint-Avold;hot;0.25
+57;Réseau de Freyming-Merlebach;Freyming-Merlebach;hot;0.155
+57;Réseau de Sarreguemines;Sarreguemines;hot;0.257
+57;Réseau de Holweg-Forbach-Behren;Forbach-Stiring-Wendel-Behren-lès-Forbach;hot;0.073
+57;Huchet;Saint-Avold;hot;0.192
+57;Côte de la Justice;Saint-Avold;hot;0.214
+57;Carrière;Saint-Avold;hot;0.231
+57;Réseau de chauffage de Creutzwald;Creutzwald;hot;0.248
+58;Réseau de Decize;Decize;hot;0.176
+58;Réseau du Banlay;Nevers;hot;0.189
+58;Réseau de Nevers;Nevers;hot;0.342
+59;Alma-Beaurepaire;Roubaix;hot;0.083
+59;Les Canonniers;Valenciennes;hot;0.252
+59;Réseau de Sains-du-Nord;Sains-du-Nord;hot;0.128
+59;Quartier Pont de bois;Villeneuve-d'Ascq;hot;0.214
+59;Domaine Universitaire et Scientifique;Villeneuve-d'Ascq;hot;0.241
+59;ZUP de Wattignies-Blanc Riez;Wattignies;hot;0.174
+59;Réseau de Wattrelos;Wattrelos;hot;0.214
+59;ZAC des Epis;Sin-le-Noble;hot;0.228
+59;Monsenergie;Mons-en-Barœul;hot;0.232
+59;Métropole Nord;Lille;hot;0.284
+59;Réseau de Lambersart;Lambersart;hot;0.294
+59;ZUP de la caserne joyeuse;Maubeuge;hot;0.237
+59;Les rives créatives de l'Escaut;Anzin;hot;0.005
+59;Energie Grand Littoral;Dunkerque;hot;0.1
+59;Réseau de chauffage d'Hazebrouck;Hazebrouck;hot;0.226
+59;Quartier Tournebride Lomme-Capinghem;Lomme;hot;0.079
+60;Réseau de Compiègne;Compiègne;hot;0.246
+60;La Cavée;Creil;hot;0.109
+60;Quartier des Obiers;Nogent-sur-Oise;hot;0.183
+60;Les Martinets;Montataire;hot;0.213
+60;Réseau du Quartier Saint-Jean;Beauvais;hot;0.013
+60;Réseau de Breteuil-sur-Noye;Breteuil-sur-Noye;hot;0.025
+61;Perseigne;Alençon;hot;0.055
+61;Quartier Nord-Route de Falaise;Argentan;hot;0.025
+61;Réseau de La Ferté-Macé;La Ferté-Macé;hot;0.042
+61;Recbia;L'Aigle;hot;0.032
+62;ZUP du quartier République;Avion;hot;0.226
+62;Réseau de Arques;Arques;hot;0.054
+62;ZUP de Lens;Lens;hot;0.006
+62;Le Portel-Outreau Engie;Outreau;hot;0.193
+62;Le Portel-Outreau Dalkia;Outreau;hot;0.209
+62;ZUP de Béthune;Béthune;hot;0.239
+62;Réseau de Liévin;Liévin;hot;0.252
+62;Calais Energie;Calais;hot;0.202
+62;Réseau Centre Ville;Béthune;hot;0.225
+62;Réseau d'Achicourt;Achicourt;hot;0.1
+62;Réseau d'Arras;Arras;hot;0.224
+62;Réseau de Boulogne-sur-Mer;Boulogne-sur-Mer;hot;0.238
+63;Réseau RCBE de Riom;Riom;hot;0.064
+63;Saint-Jacques (HLM);Clermont-Ferrand;hot;0.19
+63;ZUP de la Gauthière;Clermont-Ferrand;hot;0.081
+63;Quartiers Nord;Clermont-Ferrand;hot;0.022
+63;ZAC du Masage;Beaumont;hot;0.219
+63;Réseau de Rochefort-Montagne;Rochefort-Montagne;hot;0.056
+63;Réseau de Royat;Royat;hot;0.215
+63;Réseau de Pontaumur;Pontaumur;hot;0.084
+63;Le Coral;Ambert;hot;0
+65;Réseau de Vic-en-Bigorre;Vic-en-Bigorre;hot;0.187
+67;Elsau;Strasbourg;hot;0.214
+67;Hautepierre;Strasbourg;hot;0.225
+67;L'Esplanade;Strasbourg;hot;0.238
+67;Eco-Quartier Brasserie Cronenbourg;Strasbourg;hot;0.152
+67;Hochfelden;Strasbourg;hot;0.07
+67;Réseau de Betschdorf;Betschdorf;hot;0.086
+67;Cité du Wihrel;Ostwald;hot;0.216
+67;Cité de l'Ill;Strasbourg;hot;0.1
+67;Le Ried;Schiltigheim;hot;0.256
+67;Réseau de la Communauté de Communes Sauer Pechelbronn;Morsbronn-les-Bains;hot;0.082
+67;Réseau des Tanneries-Bohrie;Lingolsheim;hot;0.235
+67;Réseau Mars;Haguenau;hot;0.023
+67;Réseau de Niederbronn-les-Bains;Niederbronn-les-Bains;hot;0.045
+67;Réseau d'Allenwiller;Allenwiller;hot;0
+67;Réseau de Haguenau;Haguenau;hot;0.275
+68;Réseau de Colmar;Colmar;hot;0.052
+68;Montagne Verte;Colmar;hot;0.332
+68;L'Illberg;Didenheim;hot;0.085
+68;Porte de Bâle;Mulhouse;hot;0.217
+68;Réseau de la Ville de Saint-Louis;Saint-Louis;hot;0
+68;Réseau de Cernay;Cernay;hot;0.106
+68;Réseau de Rixheim;Rixheim;hot;0.05
+69;Les Minguettes;Vénissieux;hot;0.123
+69;Les Sources (HLM);Ecully;hot;0.223
+69;La Duchère et Lyon 9e;Champagne au Mont d'Or;hot;0.067
+69;Réseau Lyon-Villeurbanne;Lyon-Villeurbanne;hot;0.093
+69;Réseau Lyon-Villeurbanne;Lyon-Villeurbanne;cold;0.011
+69;Réseau de Vaulx-en-Velin;Vaulx-en-Velin;hot;0.117
+69;Campus de la Doua;Villeurbanne;hot;0.257
+69;La Perralière;Villeurbanne;hot;0.214
+69;Les Semailles;Rillieux-la-Pape;hot;0.057
+69;Quartier de Parilly;Bron;hot;0.208
+69;Les Vernes;Givors;hot;0.237
+69;Réseau UIOM Villefranche;Villefranche-sur-Saone;hot;0.001
+69;Plateau de Montmein;Oullins;hot;0.21
+69;Z. H Champvert;Lyon;hot;0.235
+69;Réseau de Rillieux-la-Pape;Rillieux-la-Pape;hot;0.128
+69;Belleroche Ouest;Gleize;hot;0.069
+69;Mermoz Sud;Lyon;hot;0.185
+69;Domaine de la Roue;Rillieux-la-Pape;hot;0.235
+69;Réseau de Sathonay-Camp;Sathonay-Camp;hot;0.063
+69;Réseau de La Tour-de-Salvagny;La Tour-de-Salvagny;hot;0.055
+69;Réseau de Lamure-sur-Azergues;Lamure-sur-Azergues;hot;0
+70;ZUP des Capucins;Gray;hot;0.049
+70;Réseau de Saulnot;Saulnot;hot;0.015
+70;Réseau de Dampierre-sur-Linotte;Dampierre-sur-Linotte;hot;0.256
+70;Réseau de Plancher-Bas;Plancher-Bas;hot;0.12
+71;Réseau de Chalon;Chalon-sur-Saone;hot;0.111
+71;Réseau de Montceau les mines;Montceau-les-Mines;hot;0.323
+71;Réseau de Mâcon;Mâcon;hot;0.297
+71;Réseau d'Autun;Autun;hot;0.07
+71;Réseau de Tramayes;Tramayes;hot;0.02
+72;Réseau du Mans;Le Mans;hot;0.23
+72;Percée Centrale;Le Mans;hot;0.209
+72;ZUP d'Allonnes;Le Mans-Allonnes;hot;0.037
+72;Bellevue;Coulaine;hot;0.243
+73;Bissy et Croix Rouge;Chambéry;hot;0.149
+73;La Plagne;Macôt La Plagne;hot;0.081
+73;Les Arcs;Bourg Saint Maurice;hot;0.37
+73;Réseau de Saint Etienne de Cuines;Saint Etienne de Cuines;hot;0.032
+73;Réseau de Beaufort;Beaufort;hot;0.002
+73;Réseau de Gilly-sur-Isère;Gilly-sur-Isère;hot;0.017
+73;Réseau de Yenne;Yenne;hot;0.014
+73;Réseau de la Bauche;La Bauche;hot;0.241
+74;Novel;Annecy;hot;0.274
+74;ZUP de Champ Fleury;Seynod;hot;0.045
+74;Bois Energies Annemasse;Annemasse;hot;0.104
+74;Réseau de la Rénovation;Thonon-les-Bains;hot;0.286
+74;Flaine;Arracles les Carroy;hot;0.32
+74;Réseau de la Zup des Ewues;Cluses;hot;0.212
+74;ZA La Cudra;Faverges;hot;0.005
+74;ZUP de Cozets;Scionzier;hot;0.225
+74;Réseau d'Avoriaz;Avoriaz;hot;0.071
+74;Réseau de Clarafond-la-Presles;Clarafond-Arcine;hot;0.224
+74;Réseau de Vallorcine;Vallorcine;hot;0.029
+75;CPCU-Paris et communes limitrophes;Paris;hot;0.218
+75;Réseau Climespace;Paris;hot;0.235
+75;Réseau Climespace;Paris;cold;0.006
+75;Rue Legendre;Paris;hot;0.325
+76;Curb-Bihorel;Rouen;hot;0.312
+76;ZAC du Mont Gaillard;Le Havre;hot;0.261
+76;Réseau de Mont Saint Aignan;Mont Saint Aignan;hot;0.255
+76;ZUP de la Cité Verte;Canteleu;hot;0.157
+76;ZAC Nobel Bozel;Petit-Quevilly;hot;0.064
+76;Château Blanc;St Etienne du Rouvray;hot;0.02
+76;Extension Nord-Thermical;Neuville Les Dieppe;hot;0.215
+76;SECGO;Gonfreville-l'Orcher;hot;0.014
+76;CHU Charles Nicolle;Rouen;hot;0.208
+76;ZUP de Caucriauville;Le Havre;hot;0.31
+76;La Côte Brulée;Le Havre;hot;0.231
+76;Réseau bois Grammont;Rouen;hot;0.02
+76;Réseau de Maromme;Maromme;hot;0.013
+76;SRGB;Notre-Dame-de-Gravenchon;hot;0.019
+76;Réseau de Neufchatel-en-Bray;Neufchatel-en-Bray;hot;0.038
+77;Hôpital;Meaux;hot;0.108
+77;Beauval-Collinet;Meaux;hot;0.093
+77;Almont-Montaigu;Melun;hot;0.021
+77;ZUP du mont Saint-Martin (GTNM);Nemours;hot;0.069
+77;Réseau de Dammarie-les-Lys;Dammarie-les-Lys;hot;0.237
+77;Centrale de la butte Monceau;Avon;hot;0.318
+77;Réseau du Mée-sur-Seine;Le Mée-sur-Seine;hot;0.046
+77;Réseau de Vaux-le-Pénil;Vaux-le-Pénil;hot;0.011
+77;Réseau de Coulommiers;Coulommiers;hot;0.0007
+77;ZUP de Surville;Montereau-Fault-Yonne;hot;0.024
+77;Réseau de Marne la Vallée;Torcy;hot;0.008
+77;Réseau de Chelles;Chelles;hot;0.124
+78;Les Nouveaux Horizons;Elancourt;hot;0.349
+78;Le Val Fourré;Mantes la Jolie;hot;0.095
+78;Réseau SVCU de Versailles;Versailles;hot;0.236
+78;Parly II-Le Chesnay;Le Chesnay;hot;0.227
+78;Réseau de Saint Germain en Laye;Saint Germain en Laye;hot;0.242
+78;Réseau d'Achères;Achères;hot;0.096
+78;ZAC de la Noe;Chanteloup;hot;0.319
+78;Quartier Grand Ouest et des Musiciens;Les Mureaux;hot;0.213
+78;Réseau de Vélizy;Vélizy-Villacoublay;hot;0.239
+78;Domaine de Beauregard-Cogecel;La Celle Saint Cloud;hot;0.322
+78;Réseau de Carrières-Chatou;Carrières sur Seine;hot;0.006
+78;Réseau de Plaisir-Resop;Plaisir;hot;0.043
+79;ZUP Le Clou Bouchet;Niort;hot;0.202
+79;Réseau de Bressuire;Bressuire;hot;0.049
+79;Réseau de l'Absie;L'Absie;hot;0.006
+80;Etouvie;Amiens;hot;0.259
+80;Réseau de Montdidier;Montdidier;hot;0.075
+80;Réseau d'Abbeville;Abbeville;hot;0.106
+81;Réseau de Carmaux;Carmaux;hot;0.259
+81;Chauffage urbain de Mazamet;Mazamet;hot;0.072
+81;Réseau de Castres Lameilhé;Castres;hot;0.041
+81;Réseau de Gaillac-ZAC de Pouille;Gaillac;hot;0.04
+81;Réseau de Graulhet;Graulhet;hot;0.017
+81;Réseau d'Alban;Alban;hot;0.021
+82;Réseau de Montauban-Setmo;Montauban;hot;0.02
+82;Réseau de Caylus;Caylus;hot;0.267
+83;Réseau La Beaucaire (UIOM);Toulon;hot;0
+83;Berthe;La-Seyne-sur-Mer;hot;0.095
+84;Le Triennal;Avignon;hot;0.217
+85;Quartier Vendée;La-Roche-sur-Yon;hot;0.314
+85;Réseau Les Herbiers;Les Herbiers;hot;0.054
+85;Réseau de Saint-Pierre-du-Chemin;Saint-Pierre-du-Chemin;hot;0
+86;ZUP des Couronneries;Poitiers;hot;0.078
+86;Réseau de Civaux;Civaux;hot;0.067
+87;ZUP Val de l'Aurence;Limoges;hot;0.038
+87;ZAC de Beaubreuil;Limoges;hot;0.005
+87;Quartier de l'Hôtel de Ville;Limoges;hot;0.219
+88;Plateau de la Justice;Epinal;hot;0.138
+88;Quartier Kellerman;Saint-Dié;hot;0.035
+88;ZAD du Haut de Fol;Vittel;hot;0.144
+88;Réseau de Fresse sur Moselle;Fresse sur Moselle;hot;0.02
+89;ZUP des Grahuches;Sens;hot;0.015
+89;ZUP de Sainte Geneviève;Auxerre;hot;0.241
+89;Les Chaillots;Sens;hot;0.234
+90;ZUP des Glacis;Belfort;hot;0.248
+91;Réseau de Massy-Antony;Massy;hot;0.134
+91;Réseau des Ulis-Thermulis;Les Ulis;hot;0.103
+91;Réseau d'Evry;Evry;hot;0.168
+91;Domaine du Bois des Roches;Saint-Michel-Sur-Orge;hot;0.262
+91;Réseau de Grigny SOCCRAM;Grigny;hot;0.235
+91;Réseau de Brétigny-sur-Orge;Brétigny-sur-orge;hot;0.093
+91;Réseau de Dourdan;Dourdan;hot;0.259
+91;CEA DIF;Bruyères-le-Chatel;hot;0.147
+91;ZUP de la Croix Blanche;Vigneux-sur-Seine;hot;0.137
+91;Réseau d'Epinay sous Sénart;Epinay-sous-Sénart;hot;0.068
+91;Réseau de Ris-Orangis;Ris-Orangis;hot;0.094
+91;Réseaux ZUP de Saint Hubert et Louis Pergaud;Sainte Geneviève des Bois;hot;0.217
+91;Les Tarterets;Corbeil-Essonnes;hot;0.28
+91;Réseau de Grigny COFELY;Grigny;hot;0.289
+91;Réseau Parc d'activités;Villejust;hot;0
+91;Réseau de Viry Châtillon;Viry-Châtillon;hot;0.218
+92;Réseau de Meudon;Meudon la Forêt;hot;0.208
+92;Réseau de Clichy;Clichy la Garenne;hot;0.26
+92;ZAC Sainte-Geneviève;Nanterre;hot;0.101
+92;Réseau Gennedith;Gennevilliers;hot;0.231
+92;Réseau de Chaville;Chaville;hot;0.224
+92;ZAC de Levallois Perret;Levallois-Perret;hot;0.253
+92;Réseau du Plessis-Robinson (HLM);Plessis-Robinson;hot;0.332
+92;ZAC du Front de Seine;Levallois-Perret;hot;0.274
+92;Réseau de Châtillon sous Bagneux Cocharec;Châtillon-Sous-Bagneux;hot;0.212
+92;ZAC île Séguin Rives de Seine;Boulogne-Billancourt;hot;0.214
+92;ZAC île Séguin Rives de Seine;Boulogne-Billancourt;cold;0.013
+92;Réseau du Plessis Robinson-ZIPEC;Le Plessis-Robinson;hot;0.346
+92;Chauffage urbain de Suresnes;Suresnes;hot;0.24
+92;Réseau Soclic;Courbevoie;hot;0.25
+92;Réseau de La Défense-Enertherm;Courbevoie;hot;0.244
+92;Réseau de La Défense-Enertherm;Courbevoie;cold;0.009
+92;Résidence Villeneuve;Villeneuve-la-Garenne;hot;0.212
+92;Réseau Ciceo;Puteaux;hot;0.235
+92;Réseau Suc;Issy-les-Moulineaux;cold;0.012
+92;Réseau Quartier Hoche;Nanterre;hot;0.095
+92;Réseau de la ZAC de la Marine;Colombes;hot;0.202
+92;Réseau Cristalia;Levallois-Perret;cold;0.02
+93;Réseau de Saint Denis;Saint Denis;hot;0.177
+93;ZUP de Bobigny;Bobigny;hot;0.217
+93;ZAC de Sevran;Sevran;hot;0.217
+93;ZUP des Fauvettes;Neuilly-sur-Marne;hot;0.244
+93;Réseau de Villepinte;Villepinte;hot;0.254
+93;Pariféric;Aubervilliers;hot;0.313
+93;Rougemont Perrin Chanteloup;Sevran;hot;0.202
+93;Réseau ADP Le Bouget;Le Bourget;hot;0.021
+93;Réseau ADP Le Bouget;Le Bourget;cold;0.242
+93;Le Chêne Pointu;Clichy-sous-Bois;hot;0.173
+93;Le Gros Saule;Aulnay-sous-Bois;hot;0.18
+93;La Courneuve Quartier Nord;La Courneuve;hot;0.159
+93;Tremblay-en-France;Tremblay-en-France;hot;0.09
+93;Réseau du Blanc Mesnil;Blanc Mesnil;hot;0.232
+93;Réseau de Bondy;Bondy;hot;0.192
+93;Garonor;Aulnay sous bois;hot;0.322
+93;Aulnay 3000-Rose des Vents;Aulnay sous bois;hot;0.325
+93;Stade Energies Centrale Landy;Saint-Denis;hot;0.225
+93;Stade Energies;Saint-Denis;cold;0.009
+93;La Courneuve Quartier Sud;La Courneuve;hot;0.161
+93;Résidence Les Lilas;Les Lilas;hot;0.283
+94;Réseau de Limeil-Brévannes;Limeil-Brévannes;hot;0.274
+94;Réseau de Créteil-Scuc;Créteil;hot;0.047
+94;Réseau de Vitry-sur-Seine;Vitry-sur-Seine;hot;0.235
+94;Fontenay-sous-Bois;Fontenay-sous-Bois;hot;0.166
+94;Réseau de Sucy en Brie;Sucy-en-Brie;hot;0.089
+94;Réseau de Cachan;Cachan;hot;0.026
+94;Réseau de Champigny sur Marne;Champigny-sur-Marne;hot;0.058
+94;Réseau de Maison Alfort;Maison-Alfort;hot;0.077
+94;Réseau de Thiais;Thiais;hot;0.014
+94;Réseau de Bonneuil sur Marne (UIOM);Bonneuil-sur-Marne;hot;0.056
+94;Réseau de Chevilly-Larue et l'Hay les Roses;l'Hay-les-Roses;hot;0.087
+94;Quartier Nord;Fresnes;hot;0.103
+94;Réseau d'Orly;Orly;hot;0.018
+94;Réseau d'Alfortville-Smag;Alfortville;hot;0.055
+94;Réseau d'Ivry;Ivry;hot;0.226
+94;Réseau de Villeneuve Saint Georges;Villeneuve Saint Georges;hot;0.084
+94;Réseau ADP Orly;Orly;hot;0.084
+94;Réseau ADP Orly;Orly;cold;0.007
+95;Réseau de la ZAC Croix Rouge;Taverny;hot;0.24
+95;Grand Ensemble Sarcelles-Locheres;Sarcelles;hot;0.037
+95;Réseau de Cergy-Pontoise;Cergy Pontoise;hot;0.188
+95;Les Chênes;Ermont;hot;0.209
+95;Van Gogh;Garges-Les-Gonesse;hot;0.181
+95;ZUP de Sannois-Ermont-Franconville;Franconville;hot;0.08
+95;Réseau d'Argenteuil;Argenteuil;hot;0.053
+95;Réseaux ADP Roissy;Roissy;hot;0.166
+95;Réseau ADP Roissy;Roissy;cold;0.008
+95;ZUP de l'Epine Guyon;Franconville;hot;0.201
+95;Réseau de Villiers-le-Bel-Gonesse;Villiers-le-Bel;hot;0.058
+95;Réseau de Pontoise;Pontoise;hot;0.194
+95;ZAC Montedour;Franconville;hot;0.23

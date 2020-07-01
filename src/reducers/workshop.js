@@ -1,4 +1,6 @@
-import { denormalize } from 'normalizr';
+import { pathOr } from 'ramda';
+
+import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
@@ -23,9 +25,6 @@ import {
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
-import { pathOr } from 'ramda';
-
-import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   computeBudget,
   computeCitizenIndividualChoices,
@@ -35,7 +34,6 @@ import {
   valueOnAllLevels,
 } from './utils/model';
 import { makeYearParticipantKey } from '../utils/helpers';
-import { workshopSchema } from '../normalizers';
 
 export const MISSING_INFO = 'MISSING_INFO';
 export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
@@ -111,10 +109,10 @@ export default (state = initialState, action) => {
       };
     }
     case INIT_WORKSHOP: {
-      const { year } = action.payload;
+      const { year, heatingNetworksData } = action.payload;
       const participantIds = state.result.participants;
       const citizenIds = state.result.model.personas;
-      
+
       return {
         ...state,
         entities: {
@@ -146,7 +144,8 @@ export default (state = initialState, action) => {
                   participantId,
                   variables: computeCarbonVariables(
                     state.entities.participants[participantId].surveyVariables,
-                    state.result.model.globalCarbonVariables
+                    state.result.model.globalCarbonVariables,
+                    heatingNetworksData
                   ),
                 },
               }),
@@ -162,7 +161,8 @@ export default (state = initialState, action) => {
                   citizenId,
                   variables: computeCarbonVariables(
                     state.entities.personas[citizenId].surveyVariables,
-                    state.result.model.globalCarbonVariables
+                    state.result.model.globalCarbonVariables,
+                    heatingNetworksData
                   ),
                 },
               }),
@@ -465,7 +465,7 @@ export default (state = initialState, action) => {
       const { participants } = state.result;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCarbonFootprints = {};
-      console.log("Compute footprints", carbonVariables)
+      // console.log('Compute footprints', carbonVariables);
 
       participants.forEach((participantId) => {
         const yearParticipantKey = makeYearParticipantKey(year, participantId);
@@ -550,6 +550,7 @@ export default (state = initialState, action) => {
       };
     }
     case COMPUTE_CARBON_VARIABLES: {
+      const { heatingNetworksData } = action.payload;
       const { globalCarbonVariables } = state.result.model;
       const newParticipants = {};
       state.result.participants.forEach((participantId) => {
@@ -558,7 +559,8 @@ export default (state = initialState, action) => {
           ...participant,
           carbonVariables: computeCarbonVariables(
             participant.surveyVariables,
-            globalCarbonVariables
+            globalCarbonVariables,
+            heatingNetworksData
           ),
         };
       });
@@ -771,8 +773,7 @@ export default (state = initialState, action) => {
               isValid: valid,
               personaId: newPersona,
               status: newStatus,
-              surveyVariables: 
-                newPersona
+              surveyVariables: newPersona
                 ? state.entities.personas[newPersona].surveyVariables
                 : state.entities.participants[participantId].surveyVariables,
             },
@@ -783,7 +784,7 @@ export default (state = initialState, action) => {
     }
     case ADD_PARTICIPANT: {
       console.log('Action ADD participant');
-      const oldParticipants = state.entities.participants;
+      const oldParticipants = pathOr([], ['entities', 'participants'], state);
       const newId =
         Number(Object.keys(oldParticipants).sort().slice(-1)[0]) + 1;
       console.log(Object.keys(oldParticipants).sort()[-1], newId);
@@ -806,14 +807,6 @@ export default (state = initialState, action) => {
       };
     }
 
-    case 'OUTPUT_WORKSHOP': {
-      console.log(
-        JSON.stringify(
-          denormalize(state.result, workshopSchema, state.entities)
-        )
-      );
-      return { ...state };
-    }
     default:
       return state;
   }

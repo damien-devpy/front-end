@@ -935,7 +935,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
             plane_forbidden: {
               id: 'plane_forbidden',
               cost: 2,
-              type: 'everyone',
+              type: 'collective',
+              impactType: 'everyone',
               operations: [
                 {
                   variable: 'km_plane',
@@ -1131,7 +1132,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
             plane_forbidden: {
               id: 'plane_forbidden',
               cost: 2,
-              type: 'everyone',
+              type: 'collective',
+              impactType: 'everyone',
               operations: [
                 {
                   variable: 'km_plane',
@@ -1325,7 +1327,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
             plane_forbidden: {
               id: 'plane_forbidden',
               cost: 2,
-              type: 'everyone',
+              type: 'collective',
+              impactType: 'everyone',
               operations: [
                 {
                   variable: 'km_plane',
@@ -1336,7 +1339,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
             clean_bus: {
               id: 'clean_bus',
               cost: 2,
-              type: 'global',
+              type: 'collective',
+              impactType: 'global',
               operations: [
                 {
                   variable: 'EI_BUS',
@@ -1532,7 +1536,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
             plane_forbidden: {
               id: 'plane_forbidden',
               cost: 2,
-              type: 'everyone',
+              type: 'collective',
+              impactType: 'everyone',
               operations: [
                 {
                   variable: 'km_plane',
@@ -1543,7 +1548,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
             clean_bus: {
               id: 'clean_bus',
               cost: 2,
-              type: 'global',
+              type: 'collective',
+              impactType: 'global',
               operations: [
                 {
                   variable: 'EI_BUS',

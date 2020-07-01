@@ -3,8 +3,8 @@ import { Button, ButtonGroup, Col, Form, ToggleButton } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import styled from 'styled-components';
+
 import { ActionCardItemSimple } from './ActionCardItem';
 import {
   getDefaultRoundType,
@@ -16,7 +16,6 @@ import {
   selectIndividualBatches,
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
-
 import './simulationPage.css';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { COLORS } from '../../../vars';

@@ -35,13 +35,17 @@ const CoachTable = ({ coaches, t }) => (
               <td>{lastName}</td>
               <td>{lastWorkshopDate}</td>
               <td>{email}</td>
-              <td>{role}</td>
+              <td>{t(`common.${role}`)} </td>
               <td>{city}</td>
               <td>{workshopsCount}</td>
               <td>{awarenessRaisedCount}</td>
               <td>
                 <Button variant="light">
-                  <span role="img" description={t('common.editCoach')}>
+                  <span
+                    role="img"
+                    aria-label="EditCoach"
+                    description={t('common.editCoach')}
+                  >
                     ✏️
                   </span>
                 </Button>

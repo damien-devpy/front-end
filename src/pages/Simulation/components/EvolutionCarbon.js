@@ -19,12 +19,12 @@ import { useTranslation } from 'react-i18next';
 import { pathOr } from 'ramda';
 
 const colorsPalet = [
+  'brown',
+  'black',
   '#3869B1',
   '#409852',
   '#DA7E30',
   '#6C4D9B',
-  'brown',
-  'black',
   COLORS.GOLD,
   'darkblue',
   'pink',

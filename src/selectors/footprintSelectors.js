@@ -12,6 +12,7 @@ export const currentRound = (state) =>
 // const footprintStructure = (state) => state.workshop.model.footprintStructure;
 
 const averageFootprints = (footprints, initFootprint) => {
+  console.log('footprints', footprints);
   const keysParticipant = Object.keys(footprints);
   console.log('footprints[key]', footprints[keysParticipant[0]]);
 
@@ -156,8 +157,18 @@ export const computeEvolutionGraph = (
   Object.keys(rounds).forEach((year) => {
     obj = {};
     obj.year = rounds[year].year;
-    const roundCarbonFootprints = {};
-    const roundCitizenFootprints = {};
+    obj.avg_participants = participantsAverageFootprint(
+      roundCarbonFootprints,
+      footprintStructure
+    ).value.toFixed(0);
+    obj.avg_global = globalAverageFootprint(
+      roundCarbonFootprints,
+      roundCitizenFootprints,
+      footprintStructure
+    ).value.toFixed(0);
+
+    var roundCarbonFootprints = {};
+    var roundCitizenFootprints = {};
 
     rounds[year].carbonFootprints.forEach((key) => {
       roundCarbonFootprints[key] = carbonFootprints[key];
@@ -169,16 +180,6 @@ export const computeEvolutionGraph = (
       rounds[year].citizenCarbonFootprints.forEach(
         (key) => (roundCitizenFootprints[key] = citizenFootprints[key])
       );
-
-    obj.avg_participants = participantsAverageFootprint(
-      roundCarbonFootprints,
-      footprintStructure
-    ).value.toFixed(0);
-    obj.avg_global = globalAverageFootprint(
-      roundCarbonFootprints,
-      roundCitizenFootprints,
-      footprintStructure
-    ).value.toFixed(0);
 
     evolutionData.push(obj);
   });

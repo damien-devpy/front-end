@@ -52,8 +52,9 @@ export default {
   common: {
     actions: 'Actions',
     activist: 'MILITANT',
-    addACoach: 'Ajouter un animateur',
+    addACoach: 'Nouvel animateur',
     addAWorkshop: 'Ajouter un atelier',
+    admin: 'Administrateur',
     admins: 'Administrateurs',
     avg_global: 'Moy. nationale',
     avg_participants: 'Moy. participants',
@@ -89,6 +90,7 @@ export default {
     editCoach: "Editer l'animateur",
     eggsAndDairies: 'Oeufs et laitiers',
     email: 'Email',
+    email_address: 'Adresse e-mail',
     energies: 'Energies',
     entryOfCollectiveActions: 'Saisie des actions collectives',
     entryOfIndividualActions: 'Saisie des actions individuelles',
@@ -119,6 +121,8 @@ export default {
     others: 'Autres',
     participants: 'Participants',
     participants_list: "Liste des participants de l'atelier",
+    password: 'Mot de passe',
+    password_confirmation: 'Confirmation mot de passe',
     plane: 'Avion',
     professional: 'PRO',
     publicServices: 'Services Publics',
@@ -146,6 +150,9 @@ export default {
   errors: {
     createWorkshop: "Impossible d'ajouter l'atelier {{workshopName}}",
     deleteWorkshop: "Impossible de supprimer l'atelier {{workshopName}}",
+    createCoach: "Impossible d'ajouter l'animateur {{coachName}}",
+    deleteCoach: "Impossible de supprimer l'animateur {{coachName}}",
+    passwordsAreDifferent: 'Les deux mots de passe ne sont pas identiques',
   },
   manageParticipants: {
     addNew: 'Ajouter Participant',

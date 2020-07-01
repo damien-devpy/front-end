@@ -41,7 +41,11 @@ const CoachTable = ({ coaches, t }) => (
               <td>{awarenessRaisedCount}</td>
               <td>
                 <Button variant="light">
-                  <span role="img" description={t('common.editCoach')}>
+                  <span
+                    role="img"
+                    aria-label="EditCoach"
+                    description={t('common.editCoach')}
+                  >
                     ✏️
                   </span>
                 </Button>

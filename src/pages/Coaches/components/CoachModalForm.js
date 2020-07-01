@@ -1,24 +1,24 @@
 import * as yup from 'yup';
 import React from 'react';
-import { Button, Col, Form, InputGroup } from 'react-bootstrap';
+import { Col, Form, InputGroup } from 'react-bootstrap';
 import { Formik } from 'formik';
-import PrimaryButton from "../../../components/PrimaryButton"
 
-const schema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  email: yup.string().email().required(),
-  role: yup.string().required(),
-  password: yup.string().min(8).required(),
-  confirmPassword: yup.string().when("password", {
-    is: val => (val && val.length > 0 ? true : false),
-    then: yup.string().oneOf(
-      [yup.ref("password")],
-      "Les deux mots de passe ne sont pas identiques"
-    )
-  })
-});
+import PrimaryButton from '../../../components/PrimaryButton';
+
 const CoachModalForm = ({ t, handleSubmit }) => {
+  const schema = yup.object({
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
+    email: yup.string().email().required(),
+    role: yup.string().required(),
+    password: yup.string().min(8).required(),
+    confirmPassword: yup.string().when('password', {
+      is: (val) => !!(val && val.length > 0),
+      then: yup
+        .string()
+        .oneOf([yup.ref('password')], t('errors.passwordsAreDifferent')),
+    }),
+  });
   return (
     <Formik
       validationSchema={schema}
@@ -27,9 +27,10 @@ const CoachModalForm = ({ t, handleSubmit }) => {
         firstName: '',
         lastName: '',
         email: '',
-        role: "coach",
-        password: "",
-        city:""   }}
+        role: 'coach',
+        password: '',
+        city: '',
+      }}
     >
       {({
         handleSubmit,
@@ -37,7 +38,6 @@ const CoachModalForm = ({ t, handleSubmit }) => {
         handleBlur,
         values,
         touched,
-        isValid,
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
@@ -53,7 +53,7 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 onBlur={handleBlur}
               />
               <Form.Control.Feedback type="invalid">
-                    {errors.firstName && touched.firstName ? (
+                {errors.firstName && touched.firstName ? (
                   <div>{errors.firstName}</div>
                 ) : null}
               </Form.Control.Feedback>
@@ -69,9 +69,9 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 onBlur={handleBlur}
               />
               <Form.Control.Feedback type="invalid">
-              {errors.lastName && touched.lastName ? (
-            <div>{errors.lastName}</div>
-                     ) : null}
+                {errors.lastName && touched.lastName ? (
+                  <div>{errors.lastName}</div>
+                ) : null}
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
@@ -97,61 +97,63 @@ const CoachModalForm = ({ t, handleSubmit }) => {
               <Form.Label>{t('common.role')}</Form.Label>
               <Form.Control
                 as="select"
-                placeholder={t("common.coach")}
+                placeholder={t('common.coach')}
                 name="role"
                 value={values.role.value}
                 onChange={(value) => handleChange('role', value)}
                 isInvalid={!!errors.role}
               >
-                <option value="coach">{t("common.coach")}</option>
-                <option value="admin">{t("common.admin")}</option>
+                <option value="coach">{t('common.coach')}</option>
+                <option value="admin">{t('common.admin')}</option>
               </Form.Control>
               <Form.Control.Feedback type="invalid">
                 {errors.role}
               </Form.Control.Feedback>
             </Form.Group>
             <InputGroup>
-            <Form.Group as={Col} controlId="validationFormikPassword">
-              <Form.Label>{t('common.password')}</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                isInvalid={!!errors.password}
-                value={values.password}
-                onChange={handleChange}
-
-             />
-               <Form.Control.Feedback type="invalid">
-                {errors.password}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} controlId="validationFormik04">
-              <Form.Label>{t('common.password_confirmation')}</Form.Label>
-              <Form.Control
-                type="password"
-                name="confirmPassword"
-                className="form-control rounded-0"
-                onChange={handleChange}
-             />
+              <Form.Group as={Col} controlId="validationFormikPassword">
+                <Form.Label>{t('common.password')}</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  isInvalid={!!errors.password}
+                  value={values.password}
+                  onChange={handleChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.password}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} controlId="validationFormik04">
+                <Form.Label>{t('common.password_confirmation')}</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="confirmPassword"
+                  className="form-control rounded-0"
+                  onChange={handleChange}
+                />
                 {errors.confirmPassword && touched.confirmPassword ? (
                   <div className="text-danger">{errors.confirmPassword}</div>
-                ) : null} 
-            </Form.Group>
+                ) : null}
+              </Form.Group>
             </InputGroup>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="city">
-            <Form.Label>{t('common.city')}</Form.Label>
-            <Form.Control 
-            type="text" 
-            name="city"
-            className="form-control rounded-0"
-            onChange={handleChange} 
-            placeholder="Paris"/>
+              <Form.Label>{t('common.city')}</Form.Label>
+              <Form.Control
+                type="text"
+                name="city"
+                className="form-control rounded-0"
+                onChange={handleChange}
+                placeholder="Paris"
+              />
             </Form.Group>
           </Form.Row>
           <div style={{ textAlign: 'right' }}>
-            <PrimaryButton type="submit">{t('common.createAccount')}</PrimaryButton>
+            <PrimaryButton type="submit">
+              {t('common.createAccount')}
+            </PrimaryButton>
           </div>
         </Form>
       )}

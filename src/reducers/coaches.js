@@ -1,11 +1,9 @@
-import { v4 as uuid } from 'uuid';
-
 import {
   ADD_COACH,
   COACHES_LOAD_ERROR,
   COACHES_RETRIEVED,
+  DELETE_COACH,
   RETRIEVE_COACHES,
-  DELETE_COACH
 } from '../actions/coaches';
 
 const initialState = {
@@ -18,7 +16,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_COACH: {
       const { coach } = action.payload;
-      coach.id = uuid();
       return {
         ...state,
         coaches: [...state.coaches, coach],
@@ -32,7 +29,6 @@ export default (state = initialState, action) => {
     }
     case COACHES_RETRIEVED: {
       const { coaches } = action.payload;
-      console.log('COACHES_RETRIEVED', coaches);
       return {
         isLoading: false,
         loadErrorDetails: null,
@@ -48,12 +44,9 @@ export default (state = initialState, action) => {
     }
     case DELETE_COACH: {
       const { coachId } = action.payload;
-      console.log('Delete coach : ', coachId);
       return {
         ...state,
-        coachess: [
-          ...state.coaches.filter((coach) => coach.id !== coachId),
-        ],
+        coaches: state.coaches.filter((coach) => coach.id !== coachId),
       };
     }
     default:

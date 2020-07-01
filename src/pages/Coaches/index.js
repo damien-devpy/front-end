@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, Container, Spinner } from 'react-bootstrap';
+import { Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import PrimaryButton from "../../components/PrimaryButton"
-import CommonModal from '../../components/CommonModal';
+
 import CoachModalForm from './components/CoachModalForm';
 import CoachTable from './components/CoachTable';
-import { createCoachApi, deleteCoachApi } from '../../utils/api';
-import { throwError, resetError } from '../../actions/errors';
-
-import { COLORS } from '../../vars';
+import CommonModal from '../../components/CommonModal';
+import PrimaryButton from '../../components/PrimaryButton';
 import { addCoach } from '../../actions/coaches';
+import { createCoachApi, deleteCoachApi } from '../../utils/api';
+import { resetError, throwError } from '../../actions/errors';
 import { useCoaches } from '../../hooks/coaches';
 
 const Coaches = () => {
@@ -20,17 +19,20 @@ const Coaches = () => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
-  const handleShow = () => {setShow(true); dispatch(resetError())};
+  const handleShow = () => {
+    setShow(true);
+    dispatch(resetError());
+  };
 
   const createAsyncCoach = (coach) => (dispatchThunk) => {
     createCoachApi({ data: coach })
       .then((data) => dispatchThunk(addCoach(data)))
-      .catch((e) => { 
+      .catch((e) => {
         dispatchThunk(
           throwError(
-            t('errors.createCoach', {
+            `${t('errors.createCoach', {
               coachName: coach.name,
-            }) + " : " + e
+            })} : ${e}`
           )
         );
       });
@@ -38,7 +40,7 @@ const Coaches = () => {
 
   const handleSubmit = (values) => {
     // dispatch(addCoach(values));
-    values.confirmPassword=undefined
+    values.confirmPassword = undefined;
     dispatch(createAsyncCoach(values));
     setShow(false);
   };

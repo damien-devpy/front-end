@@ -17,8 +17,6 @@ export const useCoaches = () => {
     const load = async () => {
       try {
         const result = await getCoaches();
-        console.log('useCoaches', coaches);
-
         if (mounted.current) {
           dispatch(coachesRetrieved(result));
         }

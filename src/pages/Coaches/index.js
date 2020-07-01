@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, Container, Spinner } from 'react-bootstrap';
+import { Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import CommonModal from '../../components/CommonModal';
 import CoachModalForm from './components/CoachModalForm';
 import CoachTable from './components/CoachTable';
-import { COLORS } from '../../vars';
+import CommonModal from '../../components/CommonModal';
+import PrimaryButton from '../../components/PrimaryButton';
 import { addCoach } from '../../actions/coaches';
+import { createCoachApi, deleteCoachApi } from '../../utils/api';
+import { resetError, throwError } from '../../actions/errors';
 import { useCoaches } from '../../hooks/coaches';
 
 const Coaches = () => {
@@ -17,10 +19,29 @@ const Coaches = () => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setShow(true);
+    dispatch(resetError());
+  };
+
+  const createAsyncCoach = (coach) => (dispatchThunk) => {
+    createCoachApi({ data: coach })
+      .then((data) => dispatchThunk(addCoach(data)))
+      .catch((e) => {
+        dispatchThunk(
+          throwError(
+            `${t('errors.createCoach', {
+              coachName: coach.name,
+            })} : ${e}`
+          )
+        );
+      });
+  };
 
   const handleSubmit = (values) => {
-    dispatch(addCoach(values));
+    // dispatch(addCoach(values));
+    values.confirmPassword = undefined;
+    dispatch(createAsyncCoach(values));
     setShow(false);
   };
   return (
@@ -29,9 +50,9 @@ const Coaches = () => {
         <StyledHeader>
           <h2>{t('common.coaches')}</h2>
           {!isLoading && (
-            <StyledButton onClick={handleShow}>
+            <PrimaryButton onClick={handleShow}>
               {t('common.addACoach')}
-            </StyledButton>
+            </PrimaryButton>
           )}
         </StyledHeader>
         <hr style={{ margin: 0 }} />
@@ -61,8 +82,4 @@ const StyledHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-`;
 export default Coaches;

@@ -16,7 +16,7 @@ export const getCoaches = () =>
 
 export const getWorkshops = () =>
   handleFetch(`/workshops`, {
-    //useMock: true, // TO REMOVE AFTER BACKEND READY
+    // useMock: true, // TO REMOVE AFTER BACKEND READY
   });
 
 export const createWorkshopApi = ({ data, ...rest }) =>
@@ -34,6 +34,18 @@ export const getWorkshop = ({ workshopId }) =>
 
 export const deleteWorkshopApi = ({ workshopId }) =>
   handleFetch(`/workshops/${workshopId}`, {
+    method: 'DELETE',
+    type: 'empty',
+  });
+
+export const createCoachApi = ({ data }) =>
+  handleFetch('/coaches', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+export const deleteCoachApi = ({ coachId }) =>
+  handleFetch(`/coaches/${coachId}`, {
     method: 'DELETE',
     type: 'empty',
   });

@@ -1,0 +1,665 @@
+{
+  "name": "Atelier Data 4 Good",
+  "startAt": "2020-04-04T22:00:00",
+  "coachId": "0a6028f617e54297a5b4e1572f1c13c7",
+  "city": "Paris",
+  "address": "Avenue Champs-Elysee",
+  "eventUrl": "http://www.example.com",
+  "startYear": 2020,
+  "endYear": 2050,
+  "yearIncrement": 3,
+  "rounds": [
+    {
+      "year": 2020,
+      "carbonVariables": [
+        {
+          "participantId": "12e079fde54341ccbfb0c541685efb45",
+          "variables": {
+            "redMeatKgPerYear": 9.033750000000001,
+            "whiteMeatKgPerYear": 9.033750000000001,
+            "fishKgPerYear": 9.033750000000001,
+            "eggsKgPerYear": 10.0375,
+            "dairiesKgPerYear": 10.0375,
+            "transformedProductsKgPerYear": 46.8,
+            "fruitsAndVegetablesKgPerYear": 296.6928571428572,
+            "starchesAndGroceriesKgPerYear": 165.9707142857143,
+            "alcoholConsoLitersPerYear": 0,
+            "hotDrinksConsoLitersPerYear": 0,
+            "juicesAndSodasConsoLitersPerYear": 146,
+            "kmCarCommutePerYear": 730,
+            "kmUrbanBusPerYear": 624,
+            "kmCoachCommutePerYear": 0,
+            "kmUrbanTrainPerYear": 0,
+            "coefficientEnergyEfficientDriving": 1,
+            "internetStreamingHoursPerYear": 260,
+            "activitiesPerYear": 0,
+            "woodHeatingKwh": 0,
+            "woodCookingKwh": 0,
+            "woodWaterHeatingKwh": 0,
+            "gasHeatingKwh": 20000,
+            "gasCookingKwh": 0,
+            "gasWaterHeatingKwh": 2027.4899999999998,
+            "fuelHeatingKwh": 0,
+            "fuelCookingKwh": 0,
+            "fuelWaterHeatingKwh": 0,
+            "elecHeatingKwh": 0,
+            "elecCookingKwh": 620.6402293358814,
+            "elecLightningKwh": 2379.3597706641185,
+            "elecWaterHeatingKwh": 0,
+            "networkHeatingKwh": 0,
+            "fruitsAndVegetablePercentageLocal": "0.5",
+            "categoryCarCommute": "URBAN",
+            "motorTypeCarCommute": "FUEL",
+            "ageCategoryCarCommute": "TEN_YEARS_OR_YOUNGER",
+            "passengersPerCarCommute": 3,
+            "categoryCarTravel": "URBAN",
+            "motorTypeCarTravel": "FUEL",
+            "ageCategoryCarTravel": "TEN_YEARS_OR_YOUNGER",
+            "kmCarTravelPerYear": "8000",
+            "passengersPerCarTravel": 3,
+            "kmCoachTravel": "0",
+            "kmCountryTrain": "2000",
+            "kmPlane": "0",
+            "residentsPerHousing": 3,
+            "houseSurfaceArea": 0,
+            "flatSurfaceArea": "60",
+            "numberBigAppliances": "7",
+            "numberSmallAppliances": "20",
+            "electricityProvider": "CONVENTIONAL",
+            "numberSmallDevices": "0",
+            "numberBigDevices": "0",
+            "clothesNewItems": "30"
+          }
+        }
+      ],
+      "roundConfig": {
+        "actionCardType": "individual",
+        "targetedYear": 2023,
+        "budget": 4,
+        "actionCardBatchIds": ["969a973c2e4149e1b64be06fc0afb494"]
+      },
+      "globalCarbonVariables": {
+        "WEEKS_PER_YEAR": 52,
+        "DAYS_PER_YEAR": 365,
+        "DAYS_PER_WEEK": 7,
+        "MONTHS_PER_YEAR": 12,
+        "EI_URBAN_BUS": 0.15,
+        "MEAN_SPEED_URBAN_BUS": 12,
+        "EI_COACH": 0.04,
+        "MEAN_SPEED_COACH": 80,
+        "EI_MEAT_AND_FISH": 12.89,
+        "EI_RED_MEAT": 12.89,
+        "EI_WHITE_MEAT": 12.89,
+        "EI_FISH": 12.89,
+        "MEAT_AND_FISH_KG_PER_CONSO": 0.15,
+        "MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY": 0.13,
+        "PART_OF_RED_MEAT": 0.33,
+        "PART_OF_WHITE_MEAT": 0.33,
+        "PART_OF_FISH": 0.33,
+        "EI_EGGS": 3.57,
+        "EI_DAIRIES": 3.57,
+        "EGGS_AND_DAIRIES_KG_PER_CONSO": 0.11,
+        "EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY": 0.22,
+        "PART_OF_EGGS": 0.5,
+        "PART_OF_DAIRIES": 0.5,
+        "EI_LOCAL_FRUITS_AND_VEGETABLES": 0.26,
+        "EI_IMPORTED_FRUITS_AND_VEGETABLES": 2.24,
+        "FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY": 0.16,
+        "FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY": 0.314,
+        "FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE": 2,
+        "FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE": 2,
+        "FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE": 2,
+        "EI_TRANSFORMED_PRODUCTS": 4.32,
+        "TRANSFORMED_PRODUCTS_KG_PER_CONSO": 0.3,
+        "TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY": 0.158,
+        "EI_STARCHES_AND_GROCERIES": 1.45,
+        "STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY": 0.16,
+        "STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY": 0.33,
+        "STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE": 0.5,
+        "STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE": 0.5,
+        "STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE": 0.5,
+        "EI_ALCOHOL": 2.09,
+        "ALCOHOL_LITER_PER_GLASS": 0.3,
+        "EI_HOT_DRINKS": 3.08,
+        "HOT_DRINKS_LITER_PER_GLASS": 0.02,
+        "EI_JUICES_AND_SODAS": 1.47,
+        "JUICES_AND_SODAS_LITER_PER_GLASS": 0.2,
+        "MEAN_SPEED_URBAN_TRAIN": 25,
+        "EI_URBAN_TRAIN": 0.01,
+        "EI_COUNTRY_TRAIN": 0.01,
+        "PASSENGER_PER_TGV": 285,
+        "PASSENGER_PER_TER": 80,
+        "EI_PLANE": 0.25,
+        "EI_BIG_APPLIANCE": 23.3,
+        "EI_SMALL_APPLIANCE": 7,
+        "CF_WATER_HEATER": 102.872,
+        "EI_FURNITURES_PER_SQUARE_METER": 3.95,
+        "CF_FURNITURES_MIN_ONE_RESIDENT": 73.4044444,
+        "EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER": 14.167,
+        "EI_CONSTRUCTION_FLAT_PER_SQUARE_METER": 17.5,
+        "DEPRECIATION_DURATION": 30,
+        "EI_MAINTENANCE_PER_SQUARE_METER": 0.694,
+        "EI_WATER_PER_LITER": 0.000168,
+        "WATER_CONSO_LITER_PER_YEAR_PER_PERSON": 54020,
+        "EI_CONVENTIONAL_ELEC_PER_KWH": 0.116,
+        "EI_ALTERNATIVE_ELEC_PER_KWH": 0.013,
+        "EI_GAS_PER_KWH": 0.227,
+        "EI_FUEL_OIL_PER_KWH": 0.323,
+        "EI_WOOD_PER_KWH": 0.03,
+        "LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR": 1062.4,
+        "SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR": 711.4,
+        "COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR": 346.4,
+        "SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON": 0.05,
+        "COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON": 0.2,
+        "LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON": 0,
+        "EI_INTERNET_STREAMING": 0.125,
+        "CF_INTERNET_OTHERS": 48.66,
+        "EI_BIG_DEVICES": 47.8,
+        "EI_SMALL_DEVICES": 12.5,
+        "CF_SERVICES_GAS": 70.19,
+        "CF_SERVICES_ELECTRICITY": 62.88,
+        "CF_GOODS_AND_SERVICES_WITHOUT_ENERGY": 211.92,
+        "EI_ACTIVITIES_GAS": 0.74,
+        "EI_ACTIVITIES_ELEC": 0.66,
+        "EI_ACTIVITIES_WITHOUT_ENERGY": 0.66,
+        "EI_CLOTHES_PER_ITEM": 22.38,
+        "EI_HOUSING_PER_SURFACE_AREA": {
+          "HOUSE": {
+            "BEFORE_1975": 232.5,
+            "BETWEEN_1975_AND_2000": 142.5,
+            "AFTER_2000": 72.5
+          },
+          "FLAT": {
+            "BEFORE_1975": 205.1,
+            "BETWEEN_1975_AND_2000": 115.1,
+            "AFTER_2000": 45.1
+          }
+        },
+        "EI_CAR": {
+          "URBAN": { "FUEL": 0.232, "ELECTRIC": 0.09915, "HYBRID": 0.171 },
+          "BIG": { "FUEL": 0.2665, "ELECTRIC": 0.139, "HYBRID": 0.2245 },
+          "SPORT": { "FUEL": 0.344, "ELECTRIC": 0.3125, "HYBRID": 0.3125 },
+          "LOW_CARBON": { "FUEL": 0.1, "ELECTRIC": 0.1, "HYBRID": 0.1 }
+        },
+        "MOTOR_AGING_FACTOR": {
+          "FUEL": {
+            "TEN_YEARS_OR_YOUNGER": 0.943292608,
+            "BEETWEEN_TEN_AND_FIFTEEN_YEARS": 1.101343381,
+            "FIFTEEN_YEARS_OR_OLDER": 1.164876711
+          },
+          "ELECTRIC": {
+            "TEN_YEARS_OR_YOUNGER": 1,
+            "BEETWEEN_TEN_AND_FIFTEEN_YEARS": 1,
+            "FIFTEEN_YEARS_OR_OLDER": 1
+          },
+          "HYBRID": {
+            "TEN_YEARS_OR_YOUNGER": 1,
+            "BEETWEEN_TEN_AND_FIFTEEN_YEARS": 1,
+            "FIFTEEN_YEARS_OR_OLDER": 1
+          }
+        },
+        "CF_GAS_SERVICES": 336,
+        "CF_ELEC_SERVICES": 301,
+        "CF_OTHER_SERVICES": 363
+      },
+      "carbonFootprints": [
+        {
+          "participantId": "12e079fde54341ccbfb0c541685efb45",
+          "footprint": {
+            "name": "totalFootprint",
+            "children": [
+              {
+                "name": "transports",
+                "children": [
+                  { "name": "plane", "cfKey": "cf_plane", "value": 0 },
+                  {
+                    "name": "train",
+                    "children": [
+                      {
+                        "name": "urbanTrain",
+                        "cfKey": "cf_urban_train",
+                        "value": 0
+                      },
+                      {
+                        "name": "countryTrain",
+                        "cfKey": "cf_country_train",
+                        "value": 20
+                      }
+                    ],
+                    "value": 20
+                  },
+                  {
+                    "name": "bus",
+                    "children": [
+                      {
+                        "name": "coachCommute",
+                        "cfKey": "cf_coach_commute",
+                        "value": 0
+                      },
+                      {
+                        "name": "coachTravel",
+                        "cfKey": "cf_coach_travel",
+                        "value": 0
+                      }
+                    ],
+                    "value": 0
+                  },
+                  {
+                    "name": "car",
+                    "children": [
+                      {
+                        "name": "dailyCommutes",
+                        "cfKey": "cf_car_commute",
+                        "value": 53.25201203029334
+                      },
+                      {
+                        "name": "exceptionalCommutes",
+                        "cfKey": "cf_car_travel",
+                        "value": 583.5836934826667
+                      }
+                    ],
+                    "value": 636.8357055129601
+                  }
+                ],
+                "value": 656.8357055129601
+              },
+              {
+                "name": "housing",
+                "children": [
+                  {
+                    "name": "housingEquipment",
+                    "children": [
+                      {
+                        "name": "appliances",
+                        "children": [
+                          {
+                            "name": "smallAppliances",
+                            "cfKey": "cf_small_appliances",
+                            "value": 46.666666666666664
+                          },
+                          {
+                            "name": "bigApplicances",
+                            "cfKey": "cf_big_appliances",
+                            "value": 54.36666666666667
+                          }
+                        ],
+                        "value": 101.03333333333333
+                      },
+                      {
+                        "name": "furnitures",
+                        "children": [
+                          {
+                            "name": "furnituresPerSurface",
+                            "cfKey": "cf_furnitures",
+                            "value": 79
+                          },
+                          {
+                            "name": "furnituresMin",
+                            "cfKey": "cf_furnitures_min",
+                            "value": 73.4044444
+                          }
+                        ],
+                        "value": 152.4044444
+                      }
+                    ],
+                    "value": 253.43777773333332
+                  },
+                  {
+                    "name": "constructionAndMaintenance",
+                    "children": [
+                      {
+                        "name": "construction",
+                        "children": [
+                          {
+                            "name": "houseConstruction",
+                            "cfKey": "cf_house_construction",
+                            "value": 0
+                          },
+                          {
+                            "name": "flatConstruction",
+                            "cfKey": "cf_flat_construction",
+                            "value": 350
+                          }
+                        ],
+                        "value": 350
+                      },
+                      {
+                        "name": "construction",
+                        "cfKey": "cf_maintenance",
+                        "value": 13.88
+                      }
+                    ],
+                    "value": 363.88
+                  },
+                  {
+                    "name": "energies",
+                    "children": [
+                      {
+                        "name": "water",
+                        "cfKey": "cf_water",
+                        "value": 9.07536
+                      },
+                      {
+                        "name": "electricity",
+                        "children": [
+                          {
+                            "name": "elecHeating",
+                            "cfKey": "cf_elec_heating",
+                            "value": 0
+                          },
+                          {
+                            "name": "elecCooking",
+                            "cfKey": "cf_elec_cooking",
+                            "value": 23.99808886765408
+                          },
+                          {
+                            "name": "elecWaterHeating",
+                            "cfKey": "cf_elec_water_heating",
+                            "value": 0
+                          },
+                          {
+                            "name": "elecLightning",
+                            "cfKey": "cf_elec_lightning",
+                            "value": 92.00191113234592
+                          }
+                        ],
+                        "value": 116
+                      },
+                      {
+                        "name": "gas",
+                        "children": [
+                          {
+                            "name": "gasHeating",
+                            "cfKey": "cf_gas_heating",
+                            "value": 1513.3333333333333
+                          },
+                          {
+                            "name": "gasCooking",
+                            "cfKey": "cf_gas_cooking",
+                            "value": 0
+                          },
+                          {
+                            "name": "gasWaterHeating",
+                            "cfKey": "cf_gas_water_heating",
+                            "value": 153.41340999999997
+                          }
+                        ],
+                        "value": 1666.7467433333331
+                      },
+                      {
+                        "name": "fuel",
+                        "children": [
+                          {
+                            "name": "fuelHeating",
+                            "cfKey": "cf_fuel_heating",
+                            "value": 0
+                          },
+                          {
+                            "name": "fuelCooking",
+                            "cfKey": "cf_fuel_cooking",
+                            "value": 0
+                          },
+                          {
+                            "name": "fuelWaterHeating",
+                            "cfKey": "cf_fuel_water_heating",
+                            "value": 0
+                          }
+                        ],
+                        "value": 0
+                      },
+                      {
+                        "name": "wood",
+                        "children": [
+                          {
+                            "name": "woodHeating",
+                            "cfKey": "cf_wood_heating",
+                            "value": 0
+                          },
+                          {
+                            "name": "woodCooking",
+                            "cfKey": "cf_wood_cooking",
+                            "value": 0
+                          },
+                          {
+                            "name": "woodWaterHeating",
+                            "cfKey": "cf_wood_water_heating",
+                            "value": 0
+                          }
+                        ],
+                        "value": 0
+                      },
+                      {
+                        "name": "districtHeating",
+                        "cfKey": "cf_district_heating",
+                        "value": 0
+                      }
+                    ],
+                    "value": 1791.8221033333332
+                  }
+                ],
+                "value": 2409.1398810666665
+              },
+              {
+                "name": "food",
+                "children": [
+                  {
+                    "name": "drinks",
+                    "children": [
+                      { "name": "alcohol", "cfKey": "cf_alcohol", "value": 0 },
+                      {
+                        "name": "hotDrinks",
+                        "cfKey": "cf_hot_drinks",
+                        "value": 0
+                      },
+                      {
+                        "name": "juicesAndSoda",
+                        "cfKey": "cf_juices_and_sodas",
+                        "value": 214.62
+                      }
+                    ],
+                    "value": 214.62
+                  },
+                  {
+                    "name": "meat",
+                    "children": [
+                      {
+                        "name": "red_meat",
+                        "cfKey": "cf_red_meat",
+                        "value": 116.44503750000003
+                      },
+                      {
+                        "name": "white_meat",
+                        "cfKey": "cf_white_meat",
+                        "value": 116.44503750000003
+                      }
+                    ],
+                    "value": 232.89007500000005
+                  },
+                  {
+                    "name": "fish",
+                    "cfKey": "cf_fish",
+                    "value": 116.44503750000003
+                  },
+                  {
+                    "name": "eggsAndDairies",
+                    "children": [
+                      {
+                        "name": "eggs",
+                        "cfKey": "cf_eggs",
+                        "value": 35.833875
+                      },
+                      {
+                        "name": "dairies",
+                        "cfKey": "cf_dairies",
+                        "value": 35.833875
+                      }
+                    ],
+                    "value": 71.66775
+                  },
+                  {
+                    "name": "othersFood",
+                    "children": [
+                      {
+                        "name": "transformedProducts",
+                        "cfKey": "cf_transformed_products",
+                        "value": 202.176
+                      },
+                      {
+                        "name": "groceriesAndStarches",
+                        "cfKey": "cf_starches_and_groceries",
+                        "value": 240.65753571428573
+                      },
+                      {
+                        "name": "fruitsAndVegetables",
+                        "children": [
+                          {
+                            "name": "localFruitsAndVegeteables",
+                            "cfKey": "cf_local_fruits_and_vegetables",
+                            "value": 38.57007142857143
+                          },
+                          {
+                            "name": "importedFruitsAndVegeteables",
+                            "cfKey": "cf_imported_fruits_and_vegetables",
+                            "value": 332.29600000000005
+                          }
+                        ],
+                        "value": 370.8660714285715
+                      }
+                    ],
+                    "value": 813.6996071428573
+                  }
+                ],
+                "value": 1449.3224696428574
+              },
+              {
+                "name": "others",
+                "children": [
+                  { "name": "clothing", "cfKey": "cf_clothes", "value": 671.4 },
+                  {
+                    "name": "digital",
+                    "children": [
+                      {
+                        "name": "devices",
+                        "children": [
+                          {
+                            "name": "smallDevices",
+                            "cfKey": "cf_small_devices_cradle_to_crate",
+                            "value": 0
+                          },
+                          {
+                            "name": "bigDevices",
+                            "cfKey": "cf_big_devices_cradle_to_crate",
+                            "value": 0
+                          }
+                        ],
+                        "value": 0
+                      },
+                      {
+                        "name": "internetUsage",
+                        "children": [
+                          {
+                            "name": "internetStreaming",
+                            "cfKey": "cf_internet_streaming",
+                            "value": 32.5
+                          },
+                          {
+                            "name": "internetOthers",
+                            "cfKey": "cf_internet_others",
+                            "value": 48.66
+                          }
+                        ],
+                        "value": 81.16
+                      }
+                    ],
+                    "value": 81.16
+                  },
+                  {
+                    "name": "othersConso",
+                    "children": [
+                      {
+                        "name": "activities",
+                        "children": [
+                          {
+                            "name": "activitiesElectricity",
+                            "cfKey": "cf_activities_electricity",
+                            "value": 0
+                          },
+                          {
+                            "name": "activitiesGas",
+                            "cfKey": "cf_activities_gas",
+                            "value": 0
+                          },
+                          {
+                            "name": "activitiesWithoutEnergy",
+                            "cfKey": "cf_activities_without_energy",
+                            "value": 0
+                          }
+                        ],
+                        "value": 0
+                      },
+                      {
+                        "name": "goodsAndServices",
+                        "children": [
+                          {
+                            "name": "servicesElectricity",
+                            "cfKey": "cf_services_electricity",
+                            "value": 62.88
+                          },
+                          {
+                            "name": "servicesGas",
+                            "cfKey": "cf_services_gas",
+                            "value": 70.19
+                          },
+                          {
+                            "name": "servicesWithoutEnergy",
+                            "cfKey": "cf_services_without_energy",
+                            "value": 211.92
+                          }
+                        ],
+                        "value": 344.99
+                      }
+                    ],
+                    "value": 344.99
+                  }
+                ],
+                "value": 1097.55
+              },
+              {
+                "name": "publicServices",
+                "children": [
+                  {
+                    "name": "gasPublicServices",
+                    "cfKey": "cf_gas_public_services",
+                    "value": 336
+                  },
+                  {
+                    "name": "elecPublicServices",
+                    "cfKey": "cf_elec_public_services",
+                    "value": 301
+                  },
+                  {
+                    "name": "otherPublicServices",
+                    "cfKey": "cf_other_public_services",
+                    "value": 363
+                  }
+                ],
+                "value": 1000
+              }
+            ],
+            "value": 6612.848056222484
+          }
+        }
+      ],
+      "individualChoices": [
+        {
+          "participantId": "12e079fde54341ccbfb0c541685efb45",
+          "actionCardIds": [
+            "067de7d056124590938f0ed06c3a9e47",
+            "d009bd89fd5c43169bf64f684309fce9"
+          ]
+        }
+      ]
+    }
+  ],
+  "currentYear": 2029
+}

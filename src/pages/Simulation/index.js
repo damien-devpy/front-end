@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -11,8 +11,7 @@ import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
 import NewRoundModalForm from './components/NewRoundModalForm';
 import PrimaryButton from '../../components/PrimaryButton';
-import userImg from '../../assets/img_noe.png';
-import { COLORS } from '../../vars';
+import { selectCurrentRound } from '../../selectors/workshopSelector';
 import { startRound } from '../../actions/workshop';
 
 const Simulation = () => {
@@ -20,11 +19,8 @@ const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const currentRound = useSelector(
-    (state) =>
-      state.workshop &&
-      state.workshop.result &&
-      state.workshop.result.currentYear
+  const currentRound = useSelector((state) =>
+    selectCurrentRound(state.workshop)
   );
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name
@@ -34,12 +30,14 @@ const Simulation = () => {
       currentRound &&
       state.workshop &&
       state.workshop.entities &&
-      state.workshop.entities.roundsConfig[currentRound] &&
-      state.workshop.entities.roundsConfig[currentRound].actionCardType
+      state.workshop.entities.roundConfig &&
+      state.workshop.entities.roundConfig[currentRound] &&
+      state.workshop.entities.roundConfig[currentRound].actionCardType
   );
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
+  const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
   const handleSubmitNewRoundModal = (values) => {
     dispatch(startRound(values));
     setShowNewRoundModal(false);
@@ -47,7 +45,6 @@ const Simulation = () => {
   };
   const handleShowNewRoundModal = () => setShowNewRoundModal(true);
   // EntryOfActionCards
-  const [showEntryOfActionCards, setShowEntryOfActionCards] = useState(false);
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <>
@@ -147,18 +144,5 @@ const StyledSimulation = styled.div`
   height: 100%;
   margin: 10px 0;
 `;
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-`;
-
-const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
-const sum = (obj) =>
-  players(obj).reduce(
-    (accumulator, currentValue) => accumulator + obj[currentValue],
-    0
-  );
-const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
 
 export default Simulation;

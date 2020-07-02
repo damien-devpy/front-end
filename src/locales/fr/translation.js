@@ -82,6 +82,8 @@ export default {
     data: 'Données',
     date: 'Date',
     dateOfLastWorkshop: 'Date dernier atelier',
+    defaultIndividualBatch: 'Lot individuel par défault',
+    defaultCollectiveBatch: 'Lot collectif par défault',
     deleteWorkshop: "Supprimer l'atelier",
     deleteWorkshopConfirmation:
       "Etes vous sûr de vouloir supprimer l'atelier {{workshopName}} ?",

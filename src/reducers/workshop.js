@@ -17,12 +17,14 @@ import {
   COMPUTE_FOOTPRINTS_FOR_CITIZENS,
   INIT_ROUND,
   INIT_WORKSHOP,
+  PERSIST_WORKSHOP,
   RETRIEVE_WORKSHOP,
   SET_ACTIONS_FOR_CITIZENS,
   SET_COLLECTIVE_CHOICES,
   SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
   START_ROUND,
   WORKSHOP_LOAD_ERROR,
+  WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
 import {
@@ -33,6 +35,7 @@ import {
   computeSocialVariables,
   valueOnAllLevels,
 } from './utils/model';
+import { generateDefautActionCardBatchesEntity } from './utils/actionCardBatchesGenerator';
 import { makeYearParticipantKey } from '../utils/helpers';
 
 export const MISSING_INFO = 'MISSING_INFO';
@@ -70,18 +73,9 @@ function computeStatus(valid, participant, newPersona) {
 
 const initialState = {
   isLoading: false,
-  entities: {
-    carbonFootprints: {
-      '2020-1': {
-        footprint: [
-          {
-            name: 'transport',
-            children: {},
-          },
-        ],
-      },
-    },
-  },
+  loadError: false,
+  loadErrorDetails: null,
+  isSynchronized: false,
 };
 
 export default (state = initialState, action) => {
@@ -89,15 +83,24 @@ export default (state = initialState, action) => {
     case RETRIEVE_WORKSHOP: {
       return {
         isLoading: true,
+        loadError: false,
         loadErrorDetails: null,
       };
     }
     case WORKSHOP_RETRIEVED: {
       const { workshop } = action.payload;
+      const normalizedWorkshop = { ...workshop };
+      if (!normalizedWorkshop.entities.actionCardBatches) {
+        normalizedWorkshop.entities.actionCardBatches = generateDefautActionCardBatchesEntity(
+          normalizedWorkshop.entities.actionCards
+        );
+      }
       return {
         isLoading: false,
+        loadError: false,
         loadErrorDetails: null,
-        ...workshop,
+        isSynchronized: true,
+        ...normalizedWorkshop,
       };
     }
     case WORKSHOP_LOAD_ERROR: {
@@ -106,6 +109,18 @@ export default (state = initialState, action) => {
         isLoading: false,
         loadError: true,
         loadErrorDetails: action.payload,
+      };
+    }
+    case PERSIST_WORKSHOP: {
+      return {
+        ...state,
+        isSynchronized: false,
+      };
+    }
+    case WORKSHOP_PERSISTED: {
+      return {
+        ...state,
+        isSynchronized: true,
       };
     }
     case INIT_WORKSHOP: {
@@ -127,7 +142,7 @@ export default (state = initialState, action) => {
               citizenCarbonVariables: citizenIds.map((id) =>
                 makeYearParticipantKey(year, id)
               ),
-              roundsConfig: {},
+              roundConfig: year,
               globalCarbonVariables: year,
               socialVariables: {
                 socialScore: 0,
@@ -173,7 +188,6 @@ export default (state = initialState, action) => {
             [year]: { ...state.result.model.globalCarbonVariables },
           },
           citizens: { ...state.entities.personas },
-          roundsConfig: [year],
         },
         result: {
           ...state.result,
@@ -197,6 +211,10 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
           },
         },
+        result: {
+          ...state.result,
+          rounds: [...state.result.rounds, year],
+        },
       };
     }
     case START_ROUND: {
@@ -204,19 +222,19 @@ export default (state = initialState, action) => {
         actionCardType,
         currentYear,
         targetedYear,
-        budget,
+        individualBudget,
         actionCardBatchIds,
       } = action.payload;
       return {
         ...state,
         entities: {
           ...state.entities,
-          roundsConfig: {
-            ...state.entities.roundsConfig,
+          roundConfig: {
+            ...state.entities.roundConfig,
             [currentYear]: {
               actionCardType,
               targetedYear,
-              budget,
+              individualBudget,
               actionCardBatchIds,
             },
           },
@@ -224,7 +242,7 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [currentYear]: {
               ...state.entities.rounds[currentYear],
-              roundsConfig: currentYear,
+              roundConfig: currentYear,
             },
           },
         },
@@ -253,7 +271,7 @@ export default (state = initialState, action) => {
         },
         result: {
           ...state.result,
-          currentYear: state.entities.roundsConfig[year].targetedYear,
+          currentYear: state.entities.roundConfig[year].targetedYear,
         },
       };
     }
@@ -271,16 +289,13 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [year]: {
               ...state.entities.rounds[year],
-              collectiveChoices: [
-                ...(state.entities.rounds[year].collectiveChoices || []),
-                ...Object.keys(collectiveChoices),
-              ],
+              collectiveChoices: year,
             },
           },
         },
         result: {
           ...state.result,
-          currentYear: state.entities.roundsConfig[year].targetedYear,
+          currentYear: state.entities.roundConfig[year].targetedYear,
         },
       };
     }
@@ -453,7 +468,7 @@ export default (state = initialState, action) => {
             [yearTo]: {
               ...state.entities.rounds[yearTo],
               socialVariables: newSocialVariables,
-              budget: newBudget,
+              collectiveBudget: newBudget,
             },
           },
         },
@@ -465,7 +480,6 @@ export default (state = initialState, action) => {
       const { participants } = state.result;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCarbonFootprints = {};
-      // console.log('Compute footprints', carbonVariables);
 
       participants.forEach((participantId) => {
         const yearParticipantKey = makeYearParticipantKey(year, participantId);

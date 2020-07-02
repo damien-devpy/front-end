@@ -1,33 +1,30 @@
-const avg = (array) => {
-  var sum = 0;
-  for (var i = 0; i < array.length; i++) {
-    sum += array[i];
-  }
-  return sum / array.length;
-};
+// const avg = (array) => {
+//   let sum = 0;
+//   for (let i = 0; i < array.length; i++) {
+//     sum += array[i];
+//   }
+//   return sum / array.length;
+// };
 
-export const currentRound = (state) =>
-  state.workshop.result && state.workshop.result.currentYear;
+// export const currentRound = (state) =>
+//   state.workshop.result && state.workshop.result.currentYear;
 
 // const footprintStructure = (state) => state.workshop.model.footprintStructure;
 
 const averageFootprints = (footprints, initFootprint) => {
   const keysParticipant = Object.keys(footprints);
-  console.log('footprints[key]', footprints[keysParticipant[0]]);
-
-  var weight = 1 / keysParticipant.length;
-
-  var element;
-  var footprintAverage = JSON.parse(JSON.stringify(initFootprint));
+  const weight = 1 / keysParticipant.length;
+  let element;
+  const footprintAverage = JSON.parse(JSON.stringify(initFootprint));
 
   keysParticipant.forEach((key) => {
     element = footprints[key].footprint;
     if (element.value) {
-      footprintAverage['value'] =
+      footprintAverage.value =
         (footprintAverage.value || 0) + element.value * weight;
     }
     element.children.forEach((sector, i) => {
-      footprintAverage.children[i]['value'] =
+      footprintAverage.children[i].value =
         (footprintAverage.children[i].value || 0) +
         Math.round(sector.value * weight);
       // var sectorAverage = { name: '', value: 0 };
@@ -40,7 +37,7 @@ const averageFootprints = (footprints, initFootprint) => {
           // categAverage.value =
           //   categAverage.value + Math.round(categ.value * weightParticipant);
           // categAverage.name = categ.name;
-          footprintAverage.children[i].children[j]['value'] =
+          footprintAverage.children[i].children[j].value =
             (footprintAverage.children[i].children[j].value || 0) +
             Math.round(categ.value * weight);
           // sectorAverage.children.push(categAverage);
@@ -50,7 +47,6 @@ const averageFootprints = (footprints, initFootprint) => {
     });
   });
 
-  console.log('footprintAverage : ', footprintAverage);
   return footprintAverage;
 };
 
@@ -60,21 +56,18 @@ export const weightedAverage = (
   initFootprint,
   weightParticipant
 ) => {
-  console.log('participantAverage : ', participantAverage);
-  console.log('citizenAverage : ', citizenAverage);
-
-  var globalAverage = JSON.parse(JSON.stringify(initFootprint));
-  globalAverage['value'] =
+  const globalAverage = JSON.parse(JSON.stringify(initFootprint));
+  globalAverage.value =
     weightParticipant * participantAverage.value +
     (1 - weightParticipant) * citizenAverage.value;
   participantAverage.children.forEach((sector, i) => {
-    globalAverage.children[i]['value'] = Math.round(
+    globalAverage.children[i].value = Math.round(
       weightParticipant * sector.value +
         (1 - weightParticipant) * citizenAverage.children[i].value
     );
     if (sector.children) {
       sector.children.forEach((categ, j) => {
-        globalAverage.children[i].children[j]['value'] = Math.round(
+        globalAverage.children[i].children[j].value = Math.round(
           (1 - weightParticipant) *
             citizenAverage.children[i].children[j].value +
             weightParticipant * categ.value
@@ -97,25 +90,18 @@ export const globalAverageFootprint = (
   citizenFootprints,
   footprintStructure
 ) => {
-  const nbParticipants = Object.keys(carbonFootprints).length;
-
-  var initFootprint = JSON.parse(JSON.stringify(footprintStructure));
-
+  // const nbParticipants = Object.keys(carbonFootprints).length;
+  const initFootprint = JSON.parse(JSON.stringify(footprintStructure));
   const weightParticipant = 0.1;
-  var allFootprints = {};
-
+  // const allFootprints = {};
   const participantAverage = averageFootprints(carbonFootprints, initFootprint);
-
   const citizenAverage = averageFootprints(citizenFootprints, initFootprint);
-
   const globalAverage = weightedAverage(
     participantAverage,
     citizenAverage,
     initFootprint,
     weightParticipant
   );
-  console.log('globalAverage', globalAverage);
-
   return globalAverage;
 };
 
@@ -124,15 +110,15 @@ export const participantFootprint = (
   participantId,
   currentRound
 ) => {
-  const participantKey = toString(currentRound) + '-' + toString(participantId);
+  const participantKey = `${toString(currentRound)}-${toString(participantId)}`;
   return carbonFootprints[participantKey].footprint;
 };
 
 export const footprintDataToGraph = (footprintData) => {
-  var footprintArray = [];
+  const footprintArray = [];
 
   footprintData.children.forEach((sectorData) => {
-    var sectorObject = { name: sectorData.name };
+    const sectorObject = { name: sectorData.name };
     sectorData.children.forEach(
       (categData) =>
         (sectorObject[categData.name] = Math.round(categData.value))
@@ -143,42 +129,42 @@ export const footprintDataToGraph = (footprintData) => {
 };
 
 export const computeEvolutionGraph = (
-  rounds,
-  carbonFootprints,
-  citizenFootprints,
+  roundsEntity,
+  carbonFootprintsEntity,
+  citizenFootprintsEntity,
   footprintStructure
 ) => {
-  var evolutionData = [];
-  var obj = {};
-  var player;
-  //rounds = state.workshop.entities.rounds
+  const evolutionData = [];
+  let obj = {};
+  let player;
+  // rounds = state.workshop.entities.rounds
   // carbonFootprints = state.workshop.entities.carbonFootprints
-  Object.keys(rounds).forEach((year) => {
+  const roundCarbonFootprints = {};
+  const roundCitizenFootprints = {};
+  Object.keys(roundsEntity).forEach((year) => {
     obj = {};
-    obj['year'] = rounds[year].year;
-    obj['avg_participants'] = participantsAverageFootprint(
+    obj.year = roundsEntity[year].year;
+    obj.avg_participants = participantsAverageFootprint(
       roundCarbonFootprints,
       footprintStructure
     ).value.toFixed(0);
-    obj['avg_global'] = globalAverageFootprint(
+    obj.avg_global = globalAverageFootprint(
       roundCarbonFootprints,
       roundCitizenFootprints,
       footprintStructure
     ).value.toFixed(0);
-
-    var roundCarbonFootprints = {};
-    var roundCitizenFootprints = {};
-
-    rounds[year].carbonFootprints.forEach((key) => {
-      roundCarbonFootprints[key] = carbonFootprints[key];
-      player = key.split('-')[1];
-      obj[player] = carbonFootprints[key].footprint.value.toFixed(0);
-    });
-
-    rounds[year].citizenCarbonFootprints.forEach(
-      (key) => (roundCitizenFootprints[key] = citizenFootprints[key])
-    );
-
+    if (roundsEntity[year].carbonFootprints) {
+      roundsEntity[year].carbonFootprints.forEach((key) => {
+        roundCarbonFootprints[key] = carbonFootprintsEntity[key];
+        player = key.split('-')[1];
+        obj[player] = carbonFootprintsEntity[key].footprint.value.toFixed(0);
+      });
+    }
+    if (roundsEntity[year].citizenCarbonFootprints) {
+      roundsEntity[year].citizenCarbonFootprints.forEach(
+        (key) => (roundCitizenFootprints[key] = citizenFootprintsEntity[key])
+      );
+    }
     evolutionData.push(obj);
   });
   return evolutionData;

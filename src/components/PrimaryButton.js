@@ -1,7 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../vars';
 import { Button } from 'react-bootstrap';
+
+import { COLORS } from '../vars';
+
 const PrimaryButton = styled(Button)`
   background-color: ${COLORS.BROWN.STANDARD};
   border-color: ${COLORS.BROWN.STANDARD};

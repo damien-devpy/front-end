@@ -1,19 +1,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
 import {
-  ResponsiveContainer,
+  Bar,
   BarChart,
   CartesianGrid,
+  Label,
+  Legend,
+  ResponsiveContainer,
   XAxis,
   YAxis,
-  Label,
-  Tooltip,
-  Legend,
-  Bar,
 } from 'recharts';
-import { hierarchy } from 'd3-hierarchy';
-import DefaultLegendContent from 'recharts/lib/component/DefaultLegendContent';
+
 const colors = {
   transports: ['#FF0000', '#C00001', '#700001', '#FF5A5C', '#FFCCFF'],
   housing: ['#1E4E79', '#2E75B6', '#7BD7EE'],
@@ -33,9 +32,9 @@ const colors = {
 //   }
 // };
 const categories = (footprint) => {
-  var categs = footprint.reduce((obj, sectorData) => {
+  const categs = footprint.reduce((obj, sectorData) => {
     obj[sectorData.name] = Object.keys(sectorData)
-      .filter((key) => key != 'name')
+      .filter((key) => key !== 'name')
       .sort();
     return obj;
   }, {});
@@ -43,8 +42,7 @@ const categories = (footprint) => {
 };
 
 const footprintDataBar = (footprint, t) => {
-  console.log('categories(footprint)', categories(footprint));
-  var graphBars = [];
+  const graphBars = [];
   Object.keys(categories(footprint)).forEach((sector, s) =>
     categories(footprint)[sector].forEach((categ, c) => {
       graphBars.push(
@@ -65,7 +63,7 @@ const renderLegend = (props) => {
   // console.log('payload', payload);
   // console.log('footprint', footprint);
 
-  var newProps = props;
+  const newProps = props;
   newProps.layout = 'vertical';
   return (
     <div className="legend no-gutters row">
@@ -79,9 +77,9 @@ const renderLegend = (props) => {
             className="legend-sector col"
             style={{
               display: 'table-cell',
-              //paddingRight: '20px',
+              // paddingRight: '20px',
               width: 'auto',
-              //fontSize: 12,
+              // fontSize: 12,
               fontSize: '0.7vw',
             }}
           >
@@ -105,8 +103,6 @@ const FootprintGraph = ({ footprint }) => {
   //   )
   // );
   const dataMax = 5000;
-  console.log('footprint graph :', footprint);
-
   return (
     <ResponsiveContainer
       width="100%"

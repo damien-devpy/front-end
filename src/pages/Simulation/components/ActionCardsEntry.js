@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { pathOr } from 'ramda';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -9,12 +10,9 @@ import {
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
   getInitRoundBudget,
-  getInitRoundBudgetCollective,
   getNumberOfChosenCollectiveCards,
   selectCollectiveChoices,
-  selectCollectiveRoundIds,
   selectIndividualChoicesForParticipant,
-  selectIndividualRoundIds,
   selectNextRound,
 } from '../../../selectors/workshopSelector';
 import {
@@ -45,7 +43,6 @@ const ActionCardsEntry = ({
   );
 
   const handleParticipantSelect = (id) => {
-    console.log('handleParticipantSelect', id);
     setSelectedParticipantId(id);
   };
 
@@ -75,13 +72,22 @@ const ActionCardsEntry = ({
     )
   );
 
+  // CollectiveBudget is automatically computed and not modifiable
   const budgetCollective = useSelector((state) =>
-    getInitRoundBudgetCollective(
-      state.workshop.entities.roundConfig,
-      state.workshop.entities.collectiveChoices,
-      state.workshop.entities.actionCards
+    pathOr(
+      0,
+      ['workshop', 'entities', 'rounds', currentRound, 'collectiveBudget'],
+      state
     )
   );
+
+  // const budgetCollective = useSelector((state) =>
+  //   getInitRoundBudgetCollective(
+  //     state.workshop.entities.roundConfig,
+  //     state.workshop.entities.collectiveChoices,
+  //     state.workshop.entities.actionCards
+  //   )
+  // );
 
   // these are current choices (for this round), not cards per se
   const [currentIndividualChoices, setCurrentIndividualChoices] = useState(
@@ -103,15 +109,8 @@ const ActionCardsEntry = ({
       state.workshop.entities.collectiveChoices
     )
   );
-  const individualRoundIds = useSelector((state) =>
-    selectIndividualRoundIds(state.workshop.entities.roundConfig)
-  );
-  const collectiveRoundIds = useSelector((state) =>
-    selectCollectiveRoundIds(state.workshop.entities.roundConfig)
-  );
 
   const handleSubmitIndividualChoices = () => {
-    console.log('handleSubmitIndividualChoices', currentIndividualChoices);
     dispatch(
       setIndividualChoicesForAllParticipants(
         currentRound,
@@ -122,7 +121,6 @@ const ActionCardsEntry = ({
     handleClose();
   };
   const handleSubmitCollectiveChoices = () => {
-    console.log('handleSubmitCollectiveChoices', currentCollectiveChoices);
     dispatch(setCollectiveChoices(currentRound, currentCollectiveChoices));
     dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
@@ -277,7 +275,7 @@ const ActionCardsEntry = ({
                   selectedParticipantId
                 )}
                 handleCheckedActionCard={isIndividualActionCardChecked}
-                roundIds={individualRoundIds}
+                actionCardType={roundActionCardType}
               />
             )}
             {roundActionCardType === 'collective' && (
@@ -287,7 +285,7 @@ const ActionCardsEntry = ({
                   currentRound
                 )}
                 handleCheckedActionCard={isCollectiveActionCardChecked}
-                roundIds={collectiveRoundIds}
+                actionCardType={roundActionCardType}
               />
             )}
           </Container>

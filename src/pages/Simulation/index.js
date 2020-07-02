@@ -11,6 +11,7 @@ import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
 import NewRoundModalForm from './components/NewRoundModalForm';
 import PrimaryButton from '../../components/PrimaryButton';
+import { selectCurrentRound } from '../../selectors/workshopSelector';
 import { startRound } from '../../actions/workshop';
 
 const Simulation = () => {
@@ -18,11 +19,8 @@ const Simulation = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const currentRound = useSelector(
-    (state) =>
-      state.workshop &&
-      state.workshop.result &&
-      state.workshop.result.currentYear
+  const currentRound = useSelector((state) =>
+    selectCurrentRound(state.workshop)
   );
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name

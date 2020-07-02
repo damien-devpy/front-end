@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import cardIcons from '../../../components/cardIcons';
+import styled from 'styled-components';
 import { COLORS } from '../../../vars';
 
 export const ActionCardItem = ({
@@ -65,9 +65,6 @@ export const ActionCardItemSimple = ({
   sector,
   cost,
 }) => {
-  console.log('sector', sector);
-  console.log('cardNumber', cardNumber);
-
   return (
     <StyledItemSimple
       name={id}
@@ -136,15 +133,11 @@ const StyledItemSimple = styled.div`
 
 // FROM https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
 const adjust = (color, amount) => {
-  return (
-    '#' +
-    color
-      .replace(/^#/, '')
-      .replace(/../g, (color) =>
-        (
-          '0' +
-          Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)
-        ).substr(-2)
-      )
-  );
+  return `#${color
+    .replace(/^#/, '')
+    .replace(/../g, (color) =>
+      `0${Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
+        16
+      )}`.substr(-2)
+    )}`;
 };

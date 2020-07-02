@@ -35,6 +35,7 @@ import {
   computeSocialVariables,
   valueOnAllLevels,
 } from './utils/model';
+import { generateDefautActionCardBatchesEntity } from './utils/actionCardBatchesGenerator';
 import { makeYearParticipantKey } from '../utils/helpers';
 
 export const MISSING_INFO = 'MISSING_INFO';
@@ -88,12 +89,18 @@ export default (state = initialState, action) => {
     }
     case WORKSHOP_RETRIEVED: {
       const { workshop } = action.payload;
+      const normalizedWorkshop = { ...workshop };
+      if (!normalizedWorkshop.entities.actionCardBatches) {
+        normalizedWorkshop.entities.actionCardBatches = generateDefautActionCardBatchesEntity(
+          normalizedWorkshop.entities.actionCards
+        );
+      }
       return {
         isLoading: false,
         loadError: false,
         loadErrorDetails: null,
         isSynchronized: true,
-        ...workshop,
+        ...normalizedWorkshop,
       };
     }
     case WORKSHOP_LOAD_ERROR: {
@@ -215,7 +222,7 @@ export default (state = initialState, action) => {
         actionCardType,
         currentYear,
         targetedYear,
-        budget,
+        individualBudget,
         actionCardBatchIds,
       } = action.payload;
       return {
@@ -227,7 +234,7 @@ export default (state = initialState, action) => {
             [currentYear]: {
               actionCardType,
               targetedYear,
-              budget,
+              individualBudget,
               actionCardBatchIds,
             },
           },
@@ -461,7 +468,7 @@ export default (state = initialState, action) => {
             [yearTo]: {
               ...state.entities.rounds[yearTo],
               socialVariables: newSocialVariables,
-              budget: newBudget,
+              collectiveBudget: newBudget,
             },
           },
         },

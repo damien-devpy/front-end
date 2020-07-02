@@ -1,3 +1,5 @@
+import { pathOr } from 'ramda';
+
 import { makeYearParticipantKey, sumArray } from '../utils/helpers';
 
 export const selectIndividualChoicesForParticipant = (
@@ -47,31 +49,41 @@ export const selectCollectiveChoices = (
       ]
     : [];
 
-const selectCheckedActionCardsBatchesFromRounds = (
-  roundConfigEntity,
+const selectCheckedActionCardsBatchIdsFromRounds = (
+  workshop,
   actionCardType
-) =>
-  roundConfigEntity
-    ? Object.keys(roundConfigEntity).reduce(
+) => {
+  const roundConfigEntity = pathOr([], ['entities', 'roundConfig'], workshop);
+  return [
+    ...new Set(
+      Object.keys(roundConfigEntity).reduce(
         (accumulator, roundConfigId) =>
           roundConfigEntity[roundConfigId].actionCardBatchIds &&
           (!actionCardType ||
             actionCardType === roundConfigEntity[roundConfigId].actionCardType)
             ? accumulator.concat(
-                roundConfigEntity[roundConfigId].actionCardBatchIds
+                roundConfigEntity[roundConfigId].actionCardBatchIds.filter(
+                  // Remove null elements with filtering
+                  (e) => e
+                )
               )
             : accumulator,
         []
       )
-    : [];
+    ),
+  ];
+};
 
-export const selectCheckedIndividualActionCardsBatchesFromRounds = (
-  roundConfigEntity
-) => selectCheckedActionCardsBatchesFromRounds(roundConfigEntity, 'individual');
+export const selectCheckedIndividualActionCardsBatchIdsFromRounds = (
+  workshop
+) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'individual');
 
-export const selectCheckedCollectiveActionCardsBatchesFromRounds = (
-  roundConfigEntity
-) => selectCheckedActionCardsBatchesFromRounds(roundConfigEntity, 'collective');
+export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (
+  workshop
+) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'collective');
+
+export const selectCurrentRound = (workshop) =>
+  pathOr(0, ['result', 'currentYear'], workshop);
 
 export const selectNextRound = (workshop) => {
   const config = workshop.entities.roundConfig[workshop.result.currentYear];
@@ -162,7 +174,7 @@ export const getInitRoundBudget = (
     (round) => roundConfigEntity[round].actionCardType === 'individual'
   );
   const roundBudgets = individualRounds.map(
-    (round) => roundConfigEntity[round].budget
+    (round) => roundConfigEntity[round].individualBudget
   );
   const totalBudget = sumArray(roundBudgets);
   const initBudgets = {};
@@ -222,3 +234,24 @@ export const getInitRoundBudgetCollective = (
 
 export const selectWorkshopById = (workshops, workshopId) =>
   workshops.find((workshop) => workshop.id === workshopId);
+
+const selectWorkshopEntity = (workshop, entity) =>
+  pathOr({}, ['entities', entity], workshop);
+
+export const selectRoundsEntity = (workshop) =>
+  selectWorkshopEntity(workshop, 'rounds');
+
+export const selectCarbonFootprintsEntity = (workshop) =>
+  selectWorkshopEntity(workshop, 'carbonFootprints');
+
+export const selectParticipantsEntity = (workshop) =>
+  selectWorkshopEntity(workshop, 'participants');
+
+export const selectCitizenCarbonFootprintsEntity = (workshop) =>
+  selectWorkshopEntity(workshop, 'citizenCarbonFootprints');
+
+const selectWorkshopModelStructure = (workshop, structure) =>
+  pathOr({}, ['result', 'model', structure], workshop);
+
+export const selectFootprintStructure = (workshop) =>
+  selectWorkshopModelStructure(workshop, 'footprintStructure');

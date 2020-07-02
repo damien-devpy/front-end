@@ -474,7 +474,6 @@ const computeCarbonVariables = (
     numberBigDevices,
     clothesNewItems,
   };
-  // console.log('carbonVariables : ', carbonVariables);
   return carbonVariables;
 };
 export default computeCarbonVariables;

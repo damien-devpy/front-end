@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Col, Form } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -8,14 +8,17 @@ import { ActionCardItem } from './ActionCardItem';
 import { COLORS } from '../../../vars';
 
 import PrimaryButton from '../../../components/PrimaryButton';
+import {
+  selectCheckedCollectiveActionCardsBatchIdsFromRounds,
+  selectCheckedIndividualActionCardsBatchIdsFromRounds,
+} from '../../../selectors/workshopSelector';
 
 const ActionCardsForm = ({
   handleSubmit,
   handleCardActionSelectionChange,
   handleCheckedActionCard,
-  roundIds,
+  actionCardType,
 }) => {
-  console.log('roundIds', roundIds);
   const { t } = useTranslation();
   const actionCardBatchesEntity = useSelector(
     (state) => state.workshop.entities.actionCardBatches
@@ -25,6 +28,11 @@ const ActionCardsForm = ({
   );
   const roundConfigEntity = useSelector(
     (state) => state.workshop.entities.roundConfig
+  );
+  const actionCardsBatchIdsFromRounds = useSelector((state) =>
+    actionCardType === 'individual'
+      ? selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop)
+      : selectCheckedCollectiveActionCardsBatchIdsFromRounds(state.workshop)
   );
   // initial active == expanded lot is the last lot of the current round
   const [activeBatch, setActiveBatch] = useState(
@@ -44,8 +52,8 @@ const ActionCardsForm = ({
   return (
     <Form noValidate>
       <Form.Row>
-        {roundIds.map((roundConfigId) =>
-          roundConfigEntity[roundConfigId].actionCardBatchIds
+        {
+          actionCardsBatchIdsFromRounds
             .sort(compareName)
             .map((actionCardBatchId) => {
               if (!actionCardBatchesEntity[actionCardBatchId]) {
@@ -92,7 +100,8 @@ const ActionCardsForm = ({
                 </Form.Group>
               );
             })
-        )}
+          // )
+        }
       </Form.Row>
       <Form.Row className="d-flex justify-content-end">
         <PrimaryButton onClick={handleSubmit}>

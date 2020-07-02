@@ -1,24 +1,36 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Button, ButtonGroup, Col, Form, ToggleButton } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 
+import './simulationPage.css';
+import PrimaryButton from '../../../components/PrimaryButton';
 import { ActionCardItemSimple } from './ActionCardItem';
+import { COLORS } from '../../../vars';
 import {
   getDefaultRoundType,
-  selectCheckedCollectiveActionCardsBatchesFromRounds,
-  selectCheckedIndividualActionCardsBatchesFromRounds,
+  selectCheckedCollectiveActionCardsBatchIdsFromRounds,
+  selectCheckedIndividualActionCardsBatchIdsFromRounds,
 } from '../../../selectors/workshopSelector';
 import {
   selectCollectiveBatches,
   selectIndividualBatches,
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
-import './simulationPage.css';
-import PrimaryButton from '../../../components/PrimaryButton';
-import { COLORS } from '../../../vars';
+
+const SecondaryButton = styled(Button)`
+  background-color: #fff;
+  border-color: ${COLORS.BROWN.STANDARD};
+  color: #000;
+  :hover,
+  :focus {
+    background-color: ${COLORS.BROWN.STANDARD} !important;
+    color: white !important;
+    border-color: ${COLORS.BROWN.STANDARD} !important;
+  }
+`;
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -34,18 +46,13 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   const collectiveActionCardBatches = useSelector((state) =>
     selectCollectiveBatches(state.workshop.entities.actionCardBatches)
   );
-  const checkedIndividualActionCardsBatches = useSelector((state) =>
-    selectCheckedIndividualActionCardsBatchesFromRounds(
-      state.workshop.entities.roundConfig
-    )
+  const checkedIndividualActionCardsBatchIds = useSelector((state) =>
+    selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop)
   );
   // prev checked (to disable) array of batchIds
-  const checkedCollectiveActionCardsBatches = useSelector((state) =>
-    selectCheckedCollectiveActionCardsBatchesFromRounds(
-      state.workshop.entities.roundConfig
-    )
+  const checkedCollectiveActionCardsBatchIds = useSelector((state) =>
+    selectCheckedCollectiveActionCardsBatchIdsFromRounds(state.workshop)
   );
-
   const defaultRoundType = useSelector((state) =>
     getDefaultRoundType(state.workshop.entities.roundConfig, currentYear)
   );
@@ -54,31 +61,56 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     roundType === 'individual'
       ? [
           Object.keys(individualActionCardBatches).filter(
-            (batchId) => !checkedIndividualActionCardsBatches.includes(batchId)
+            (batchId) => !checkedIndividualActionCardsBatchIds.includes(batchId)
           )[0],
         ]
       : [
           Object.keys(collectiveActionCardBatches).filter(
-            (batchId) => !checkedCollectiveActionCardsBatches.includes(batchId)
+            (batchId) => !checkedCollectiveActionCardsBatchIds.includes(batchId)
           )[0],
         ];
+  const handleFormSubmit = ({
+    actionCardType,
+    currentYear,
+    targetedYear,
+    individualBudget,
+    actionCardBatches,
+    checkedActionCardBatchIds,
+    actionCardBatchIds,
+  }) => {
+    const newValues = {
+      actionCardType,
+      currentYear,
+      targetedYear,
+      actionCardBatches,
+      actionCardBatchIds: [
+        ...new Set(
+          actionCardBatchIds.filter((e) => e).concat(checkedActionCardBatchIds)
+        ),
+      ],
+    };
+    if (actionCardType === 'individual') {
+      newValues.individualBudget = individualBudget;
+    }
+    handleSubmit(newValues);
+  };
 
   return (
     <Formik
-      onSubmit={handleSubmit}
+      onSubmit={handleFormSubmit}
       initialValues={{
         actionCardType: defaultRoundType,
         currentYear,
         targetedYear: currentYear + yearIncrement,
-        budget: 4,
+        individualBudget: 4,
         actionCardBatches:
           defaultRoundType === 'individual'
             ? individualActionCardBatches
             : collectiveActionCardBatches,
-        checkedActionCardBatches:
+        checkedActionCardBatchIds:
           defaultRoundType === 'individual'
-            ? checkedIndividualActionCardsBatches
-            : checkedCollectiveActionCardsBatches,
+            ? checkedIndividualActionCardsBatchIds
+            : checkedCollectiveActionCardsBatchIds,
         actionCardBatchIds: defaultBatchPreChecked(defaultRoundType),
       }}
     >
@@ -102,8 +134,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       individualActionCardBatches
                     );
                     setFieldValue(
-                      'checkedActionCardBatches',
-                      checkedIndividualActionCardsBatches
+                      'checkedActionCardBatchIds',
+                      checkedIndividualActionCardsBatchIds
                     );
                     setFieldValue(
                       'actionCardBatchIds',
@@ -124,8 +156,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       collectiveActionCardBatches
                     );
                     setFieldValue(
-                      'checkedActionCardBatches',
-                      checkedCollectiveActionCardsBatches
+                      'checkedActionCardBatchIds',
+                      checkedCollectiveActionCardsBatchIds
                     );
                     setFieldValue(
                       'actionCardBatchIds',
@@ -164,46 +196,54 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   </SecondaryButton>
                 </ButtonGroup>
               </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label className="mr-2">
-                  {t('common.budget')}
-                  {values.actionCardType === 'individual' && (
-                    <span className="emoji" style={{ color: 'black' }}>
-                      &#x2764;
-                    </span>
-                  )}
-                  {values.actionCardType === 'collective' && (
-                    <span className="emoji" style={{ color: 'black' }}>
-                      &#x1f4b0;
-                    </span>
-                  )}
-                </Form.Label>
-                <ButtonGroup className="mr-2">
-                  <SecondaryButton
-                    className="activable"
-                    onClick={() => {
-                      if (values.budget > 1) {
-                        setFieldValue('budget', values.budget - 1);
-                      }
-                    }}
-                  >
-                    -
-                  </SecondaryButton>
-                  <SecondaryButton className="activable">
-                    {values.budget}
-                  </SecondaryButton>
-                  <SecondaryButton
-                    className="activable"
-                    onClick={() => {
-                      if (values.budget < 10) {
-                        setFieldValue('budget', values.budget + 1);
-                      }
-                    }}
-                  >
-                    +
-                  </SecondaryButton>
-                </ButtonGroup>
-              </Form.Group>
+              {values.actionCardType === 'individual' && (
+                <Form.Group as={Col}>
+                  <Form.Label className="mr-2">
+                    {t('common.budget')}
+                    {values.actionCardType === 'individual' && (
+                      <span className="emoji" style={{ color: 'black' }}>
+                        &#x2764;
+                      </span>
+                    )}
+                    {values.actionCardType === 'collective' && (
+                      <span className="emoji" style={{ color: 'black' }}>
+                        &#x1f4b0;
+                      </span>
+                    )}
+                  </Form.Label>
+                  <ButtonGroup className="mr-2">
+                    <SecondaryButton
+                      className="activable"
+                      onClick={() => {
+                        if (values.individualBudget > 1) {
+                          setFieldValue(
+                            'individualBudget',
+                            values.individualBudget - 1
+                          );
+                        }
+                      }}
+                    >
+                      -
+                    </SecondaryButton>
+                    <SecondaryButton className="activable">
+                      {values.individualBudget}
+                    </SecondaryButton>
+                    <SecondaryButton
+                      className="activable"
+                      onClick={() => {
+                        if (values.individualBudget < 10) {
+                          setFieldValue(
+                            'individualBudget',
+                            values.individualBudget + 1
+                          );
+                        }
+                      }}
+                    >
+                      +
+                    </SecondaryButton>
+                  </ButtonGroup>
+                </Form.Group>
+              )}
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="validationFormik02">
@@ -213,9 +253,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     <ToggleButton
                       checked={
                         values.actionCardBatchIds.includes(batchId) ||
-                        values.checkedActionCardBatches.includes(batchId)
+                        values.checkedActionCardBatchIds.includes(batchId)
                       }
-                      disabled={values.checkedActionCardBatches.includes(
+                      disabled={values.checkedActionCardBatchIds.includes(
                         batchId
                       )}
                       className="mr-1 btn-custom-lot"
@@ -267,7 +307,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 type="submit"
                 disabled={
                   !values.actionCardBatchIds.length &&
-                  !values.checkedActionCardBatches.length
+                  !values.checkedActionCardBatchIds.length
                 }
               >
                 {t('common.validate')}
@@ -279,17 +319,5 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     </Formik>
   );
 };
-
-const SecondaryButton = styled(Button)`
-  background-color: #fff;
-  border-color: ${COLORS.BROWN.STANDARD};
-  color: #000;
-  :hover,
-  :focus {
-    background-color: ${COLORS.BROWN.STANDARD} !important;
-    color: white !important;
-    border-color: ${COLORS.BROWN.STANDARD} !important;
-  }
-`;
 
 export default NewRoundModalForm;

@@ -1,15 +1,16 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import {
-  globalAverageFootprint,
-  footprintDataToGraph,
-  participantsAverageFootprint,
-  participantFootprint,
-} from '../../../selectors/footprintSelectors';
 import FootprintGraph from './FootprintGraph';
+import React from 'react';
+import {
+  footprintDataToGraph,
+  globalAverageFootprint,
+  participantFootprint,
+  participantsAverageFootprint,
+} from '../../../selectors/footprintSelectors';
 import { pathOr } from 'ramda';
+import { useSelector } from 'react-redux';
+
 const filter_obj = (allowed, raw) => {
-  var filtered = Object.keys(raw)
+  const filtered = Object.keys(raw)
     .filter((key) => allowed.includes(key.toString()))
     .reduce((obj, key) => {
       obj[key] = raw[key];
@@ -19,23 +20,19 @@ const filter_obj = (allowed, raw) => {
 };
 
 const FootprintGraphType = ({ type, participantId }) => {
-  console.log('type : ', type);
   const footprintStructure = useSelector((state) =>
     pathOr([], ['workshop', 'result', 'model', 'footprintStructure'], state)
   );
 
-  const currentRound = useSelector(
-    (state) => state.workshop.result && state.workshop.result.currentYear
+  const currentRound = useSelector((state) =>
+    pathOr(0, ['workshop', 'result', 'currentYear'], state)
   );
 
-  console.log('Current Round : ', currentRound);
-  const carbonFootprints = useSelector(
-    (state) =>
-      state.workshop.entities && state.workshop.entities.carbonFootprints
+  const carbonFootprints = useSelector((state) =>
+    pathOr({}, ['workshop', 'entities', 'carbonFootprints'], state)
   );
-  const citizenFootprints = useSelector(
-    (state) =>
-      state.workshop.entities && state.workshop.entities.citizenCarbonFootprints
+  const citizenFootprints = useSelector((state) =>
+    pathOr({}, ['workshop', 'entities', 'citizenCarbonFootprints'], state)
   );
 
   const participantsKeysCurrentRound = Object.keys(
@@ -51,20 +48,15 @@ const FootprintGraphType = ({ type, participantId }) => {
   //     state.workshop.result.rounds[currentRound]
   // );
 
-  console.log('keys : ', Object.keys(carbonFootprints));
-
   const currentCarbonFootprints =
     carbonFootprints &&
     filter_obj(participantsKeysCurrentRound, carbonFootprints);
-  console.log('currentCarbonFootprints : ', currentCarbonFootprints);
 
   const currentCitizenFootprints =
     citizenFootprints &&
     filter_obj(citizensKeysCurrentRound, citizenFootprints);
 
-  console.log('currentCitizenFootprints', currentCitizenFootprints);
-
-  var carbonFootprint = {};
+  let carbonFootprint = {};
   switch (type) {
     case 'participantsAverage':
       carbonFootprint = participantsAverageFootprint(
@@ -90,12 +82,11 @@ const FootprintGraphType = ({ type, participantId }) => {
       break;
 
     default:
+      // eslint-disable-next-line no-console
       console.log('Wrong FootprintGraph Type');
   }
   const footprintShaped =
     carbonFootprint && footprintDataToGraph(carbonFootprint);
-  console.log(`${toString(type)} carbonFootprint : `, carbonFootprint);
-  console.log(`${type} footprintShaped : `, footprintShaped);
 
   return <FootprintGraph footprint={footprintShaped} />;
 };

@@ -1,23 +1,19 @@
-const avg = (array) => {
-  let sum = 0;
-  for (let i = 0; i < array.length; i++) {
-    sum += array[i];
-  }
-  return sum / array.length;
-};
+// const avg = (array) => {
+//   let sum = 0;
+//   for (let i = 0; i < array.length; i++) {
+//     sum += array[i];
+//   }
+//   return sum / array.length;
+// };
 
-export const currentRound = (state) =>
-  state.workshop.result && state.workshop.result.currentYear;
+// export const currentRound = (state) =>
+//   state.workshop.result && state.workshop.result.currentYear;
 
 // const footprintStructure = (state) => state.workshop.model.footprintStructure;
 
 const averageFootprints = (footprints, initFootprint) => {
-  console.log('footprints', footprints);
   const keysParticipant = Object.keys(footprints);
-  console.log('footprints[key]', footprints[keysParticipant[0]]);
-
   const weight = 1 / keysParticipant.length;
-
   let element;
   const footprintAverage = JSON.parse(JSON.stringify(initFootprint));
 
@@ -51,7 +47,6 @@ const averageFootprints = (footprints, initFootprint) => {
     });
   });
 
-  console.log('footprintAverage : ', footprintAverage);
   return footprintAverage;
 };
 
@@ -61,9 +56,6 @@ export const weightedAverage = (
   initFootprint,
   weightParticipant
 ) => {
-  console.log('participantAverage : ', participantAverage);
-  console.log('citizenAverage : ', citizenAverage);
-
   const globalAverage = JSON.parse(JSON.stringify(initFootprint));
   globalAverage.value =
     weightParticipant * participantAverage.value +
@@ -98,25 +90,18 @@ export const globalAverageFootprint = (
   citizenFootprints,
   footprintStructure
 ) => {
-  const nbParticipants = Object.keys(carbonFootprints).length;
-
+  // const nbParticipants = Object.keys(carbonFootprints).length;
   const initFootprint = JSON.parse(JSON.stringify(footprintStructure));
-
   const weightParticipant = 0.1;
-  const allFootprints = {};
-
+  // const allFootprints = {};
   const participantAverage = averageFootprints(carbonFootprints, initFootprint);
-
   const citizenAverage = averageFootprints(citizenFootprints, initFootprint);
-
   const globalAverage = weightedAverage(
     participantAverage,
     citizenAverage,
     initFootprint,
     weightParticipant
   );
-  console.log('globalAverage', globalAverage);
-
   return globalAverage;
 };
 
@@ -144,9 +129,9 @@ export const footprintDataToGraph = (footprintData) => {
 };
 
 export const computeEvolutionGraph = (
-  rounds,
-  carbonFootprints,
-  citizenFootprints,
+  roundsEntity,
+  carbonFootprintsEntity,
+  citizenFootprintsEntity,
   footprintStructure
 ) => {
   const evolutionData = [];
@@ -154,9 +139,11 @@ export const computeEvolutionGraph = (
   let player;
   // rounds = state.workshop.entities.rounds
   // carbonFootprints = state.workshop.entities.carbonFootprints
-  Object.keys(rounds).forEach((year) => {
+  const roundCarbonFootprints = {};
+  const roundCitizenFootprints = {};
+  Object.keys(roundsEntity).forEach((year) => {
     obj = {};
-    obj.year = rounds[year].year;
+    obj.year = roundsEntity[year].year;
     obj.avg_participants = participantsAverageFootprint(
       roundCarbonFootprints,
       footprintStructure
@@ -166,21 +153,18 @@ export const computeEvolutionGraph = (
       roundCitizenFootprints,
       footprintStructure
     ).value.toFixed(0);
-
-    var roundCarbonFootprints = {};
-    var roundCitizenFootprints = {};
-
-    rounds[year].carbonFootprints.forEach((key) => {
-      roundCarbonFootprints[key] = carbonFootprints[key];
-      player = key.split('-')[1];
-      obj[player] = carbonFootprints[key].footprint.value.toFixed(0);
-    });
-
-    rounds[year].citizenCarbonFootprints &&
-      rounds[year].citizenCarbonFootprints.forEach(
-        (key) => (roundCitizenFootprints[key] = citizenFootprints[key])
+    if (roundsEntity[year].carbonFootprints) {
+      roundsEntity[year].carbonFootprints.forEach((key) => {
+        roundCarbonFootprints[key] = carbonFootprintsEntity[key];
+        player = key.split('-')[1];
+        obj[player] = carbonFootprintsEntity[key].footprint.value.toFixed(0);
+      });
+    }
+    if (roundsEntity[year].citizenCarbonFootprints) {
+      roundsEntity[year].citizenCarbonFootprints.forEach(
+        (key) => (roundCitizenFootprints[key] = citizenFootprintsEntity[key])
       );
-
+    }
     evolutionData.push(obj);
   });
   return evolutionData;

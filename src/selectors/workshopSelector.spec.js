@@ -2,25 +2,26 @@ import {
   getCostOfChosenActionCards,
   getInitRoundBudget,
   getNumberOfChosenActionCards,
+  selectCheckedCollectiveActionCardsBatchIdsFromRounds,
+  selectCheckedIndividualActionCardsBatchIdsFromRounds,
 } from './workshopSelector';
 
 const roundConfigEntity = {
   '2020': {
     actionCardType: 'individual',
     targetedYear: 2023,
-    budget: 4,
+    individualBudget: 4,
     actionCardBatchIds: ['1'],
   },
   '2023': {
     actionCardType: 'collective',
     targetedYear: 2026,
-    budget: 5,
     actionCardBatchIds: ['10'],
   },
   '2026': {
     actionCardType: 'individual',
     targetedYear: 2029,
-    budget: 6,
+    individualBudget: 6,
     actionCardBatchIds: ['2'],
   },
 };
@@ -108,5 +109,37 @@ describe('Workshop selector', () => {
     expect(
       getNumberOfChosenActionCards(individualChoicesEntity, '2026', '3')
     ).toEqual(0);
+  });
+  it('should return already selected individual actionCardBatches', () => {
+    const returnedActionCardsBatchIds = selectCheckedIndividualActionCardsBatchIdsFromRounds(
+      { entities: { roundConfig: roundConfigEntity } }
+    );
+    expect(returnedActionCardsBatchIds).toEqual(['1', '2']);
+  });
+  it('should return already selected collective actionCardBatches', () => {
+    const returnedActionCardsBatchIds = selectCheckedCollectiveActionCardsBatchIdsFromRounds(
+      { entities: { roundConfig: roundConfigEntity } }
+    );
+    expect(returnedActionCardsBatchIds).toEqual(['10']);
+  });
+  it('should return only not null actionCardBatchIds', () => {
+    const roundConfigEntityWithNullActionCardBatchIds = {
+      '2020': {
+        actionCardType: 'individual',
+        targetedYear: 2023,
+        individualBudget: 4,
+        actionCardBatchIds: ['1'],
+      },
+      '2026': {
+        actionCardType: 'individual',
+        targetedYear: 2029,
+        individualBudget: 6,
+        actionCardBatchIds: [null],
+      },
+    };
+    const returnedActionCardsBatchIds = selectCheckedIndividualActionCardsBatchIdsFromRounds(
+      { entities: { roundConfig: roundConfigEntityWithNullActionCardBatchIds } }
+    );
+    expect(returnedActionCardsBatchIds).toEqual(['1']);
   });
 });

@@ -208,7 +208,7 @@ const ManageParticipants = ({
                       .then((response) => response.text())
                       .then((text) => Papa.parse(text))
                       .then((heatingNetworksData) => {
-                        dispatch(initWorkshop(2020, heatingNetworksData));
+                        dispatch(initWorkshop(2020, heatingNetworksData.data));
                         dispatch(computeFootprints(2020));
                         dispatch(computeFootprintsForCitizen(2020));
                       });

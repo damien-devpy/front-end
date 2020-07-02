@@ -150,14 +150,11 @@ const cleanWorkshop = (workshop) => {
   delete persistableWorkshop.citizens;
   delete persistableWorkshop.creatorId;
   delete persistableWorkshop.id;
-  delete persistableWorkshop.currentYear;
+  delete persistableWorkshop.address;
   persistableWorkshop.startAt = `${persistableWorkshop.startAt}Z`;
   const persistableRounds = persistableWorkshop.rounds.map((round) => {
     const persistableRound = { ...round };
-    delete persistableRound.budget;
     delete persistableRound.socialVariables;
-    delete persistableRound.citizenCarbonVariables;
-    delete persistableRound.citizenCarbonFootprints;
     delete persistableRound.citizenIndividualChoices;
     return persistableRound;
   });
@@ -170,18 +167,6 @@ const persistWorkshopWithCurrentState = () => {
     const {
       workshop: { entities, result },
     } = getState();
-    // console.log('persistWorkshopWithCurrentState entities', entities);
-    // console.log('persistWorkshopWithCurrentState result', result);
-    // console.log(
-    //   'persistWorkshopWithCurrentState denormalized',
-    //   JSON.stringify(denormalize(result, workshopSchema, entities))
-    // );
-    // console.log(
-    //   'persistWorkshopWithCurrentState denormalized and clean ',
-    //   JSON.stringify(
-    //     cleanWorkshop(denormalize(result, workshopSchema, entities))
-    //   )
-    // );
     dispatch(
       persistWorkshop(
         result.id,

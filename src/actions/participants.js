@@ -1,27 +1,19 @@
-export const SET_PARTICIPANT_NAME_EMAIL = 'SET_PARTICIPANT_NAME';
+// export const SET_PARTICIPANT_NAME_EMAIL = 'SET_PARTICIPANT_NAME';
+export const SET_PARTICIPANT_PERSONA = 'SET_PARTICIPANT_PERSONA';
 export const ADD_PARTICIPANT = 'ADD_PARTICIPANT';
 export const DELETE_PARTICIPANT = 'DELETE_PARTICIPANT';
 
-export const setParticipantNameEmail = (
-  participantId,
-  name,
-  email,
-  persona,
-  valid
-) => ({
-  type: SET_PARTICIPANT_NAME_EMAIL,
+export const setParticipantPersona = (participantId, persona) => ({
+  type: SET_PARTICIPANT_PERSONA,
   payload: {
     participantId,
-    name,
-    email,
     persona,
-    valid,
   },
 });
 
-export const addParticipant = () => ({
+export const addParticipant = (data) => ({
   type: ADD_PARTICIPANT,
-  payload: {},
+  payload: data,
 });
 
 export const deleteParticipant = (id) => ({

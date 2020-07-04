@@ -16,7 +16,7 @@ const ParticipantStatus = ({ value, handleShowBC }) => {
         </span>
       );
 
-    case 'MUST_SEND_EMAIL':
+    case 'created':
       return (
         <Dropdown as={ButtonGroup}>
           <Button variant="warning" size="sm">

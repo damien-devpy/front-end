@@ -3,6 +3,7 @@ import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
   SET_PARTICIPANT_NAME_EMAIL,
+  SET_PARTICIPANT_PERSONA,
 } from '../actions/participants';
 import {
   APPLY_COLLECTIVE_ACTIONS,
@@ -38,15 +39,13 @@ import { makeYearParticipantKey } from '../utils/helpers';
 import { workshopSchema } from '../normalizers';
 
 export const MISSING_INFO = 'MISSING_INFO';
-export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
+export const MUST_SEND_EMAIL = 'created';
 export const EMAIL_SENT = 'EMAIL_SENT';
 export const BILAN_RECEIVED = 'registered';
 
-function computeStatus(valid, participant, newPersona) {
+function computeStatus(participant, newPersona) {
   let newStatus = null;
-  if (!valid) {
-    newStatus = MISSING_INFO;
-  } else if (newPersona) {
+  if (newPersona) {
     newStatus = BILAN_RECEIVED;
   } else {
     switch (
@@ -114,7 +113,7 @@ export default (state = initialState, action) => {
       const { year } = action.payload;
       const participantIds = state.result.participants;
       const citizenIds = state.result.model.personas;
-      
+
       return {
         ...state,
         entities: {
@@ -139,7 +138,7 @@ export default (state = initialState, action) => {
           },
           carbonVariables: {
             ...(state.entities.carbonVariables || {}),
-            ...state.result.participants.reduce(
+            ...Object.keys(state.entities.participants).reduce(
               (o, participantId) => ({
                 ...o,
                 [makeYearParticipantKey(year, participantId)]: {
@@ -465,7 +464,6 @@ export default (state = initialState, action) => {
       const { participants } = state.result;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCarbonFootprints = {};
-      console.log("Compute footprints", carbonVariables)
 
       participants.forEach((participantId) => {
         const yearParticipantKey = makeYearParticipantKey(year, participantId);
@@ -736,23 +734,13 @@ export default (state = initialState, action) => {
       };
     }
 
-    case SET_PARTICIPANT_NAME_EMAIL: {
-      const { participantId, name, email, persona, valid } = action.payload;
+    case SET_PARTICIPANT_PERSONA: {
+      const { participantId, persona } = action.payload;
 
-      console.log(
-        'Action set participant',
-        participantId,
-        name,
-        email,
-        persona,
-        valid
-      );
-      let [firstName, ...lastName] = name.split(/ /);
-      lastName = lastName.join(' ');
+      console.log('Action set participant', participantId, persona);
 
       const newPersona = persona || null;
       const newStatus = computeStatus(
-        valid,
         state.entities.participants[participantId],
         newPersona
       );
@@ -765,14 +753,9 @@ export default (state = initialState, action) => {
             ...state.entities.participants,
             [participantId]: {
               ...state.entities.participants[participantId],
-              firstName,
-              lastName,
-              email,
-              isValid: valid,
               personaId: newPersona,
               status: newStatus,
-              surveyVariables: 
-                newPersona
+              surveyVariables: newPersona
                 ? state.entities.personas[newPersona].surveyVariables
                 : state.entities.participants[participantId].surveyVariables,
             },
@@ -783,22 +766,11 @@ export default (state = initialState, action) => {
     }
     case ADD_PARTICIPANT: {
       console.log('Action ADD participant');
+      console.log(action.payload);
       const oldParticipants = state.entities.participants;
-      const newId =
-        Number(Object.keys(oldParticipants).sort().slice(-1)[0]) + 1;
-      console.log(Object.keys(oldParticipants).sort()[-1], newId);
       const participants = {
         ...oldParticipants,
-        [newId]: {
-          id: newId,
-          firstName: '',
-          lastName: '',
-          email: '',
-          status: MISSING_INFO,
-          isValid: false,
-          linkBC: null,
-          bilanCarbone: null,
-        },
+        // action.payload
       };
       return {
         ...state,

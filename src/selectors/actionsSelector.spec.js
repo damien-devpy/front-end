@@ -1,6 +1,6 @@
 import {
-  selectIndividualBatches,
   selectCollectiveBatches,
+  selectIndividualBatches,
 } from './actionsSelector';
 
 describe('Workshop selectors', () => {
@@ -91,25 +91,39 @@ describe('Workshop selectors', () => {
     },
     result: { model: { actionCardBatches: [1, 2, 3] } },
   };
-  describe('Select individual actions from batches', () => {
-    it('should return individual batches', (done) => {
-      const individualBatches = selectIndividualBatches(
-        initState.entities.actionCardBatches
-      );
-      expect(individualBatches).toEqual({
-        ...actionCardBatch1,
-        ...actionCardBatch2,
+  describe('Select actions from batches', () => {
+    describe('Individual batches', () => {
+      it('should return individual batches', (done) => {
+        const individualBatches = selectIndividualBatches(
+          initState.entities.actionCardBatches
+        );
+        expect(individualBatches).toEqual({
+          ...actionCardBatch1,
+          ...actionCardBatch2,
+        });
+        done();
       });
-      done();
+      it('should return empty object when there is no individual batch', (done) => {
+        const collectiveBatches = selectIndividualBatches(null);
+        expect(collectiveBatches).toEqual({});
+        done();
+      });
     });
-    it('should return collective batches', (done) => {
-      const collectiveBatches = selectCollectiveBatches(
-        initState.entities.actionCardBatches
-      );
-      expect(collectiveBatches).toEqual({
-        ...actionCardBatch3,
+    describe('Collective batches', () => {
+      it('should return collective batches', (done) => {
+        const collectiveBatches = selectCollectiveBatches(
+          initState.entities.actionCardBatches
+        );
+        expect(collectiveBatches).toEqual({
+          ...actionCardBatch3,
+        });
+        done();
       });
-      done();
+      it('should return empty object when there is no collective batch', (done) => {
+        const collectiveBatches = selectCollectiveBatches(null);
+        expect(collectiveBatches).toEqual({});
+        done();
+      });
     });
   });
 });

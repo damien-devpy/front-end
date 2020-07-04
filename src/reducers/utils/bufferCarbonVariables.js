@@ -1,4 +1,17 @@
-const computeCarbonVariables = (surveyVariables, globalVariables) => {
+const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
+  const matches = heatingNetworkData.filter(
+    (row) => row.name === heatingNetworkName
+  );
+  return matches && matches.length > 0
+    ? parseFloat(matches[0].emission_intensity)
+    : 0;
+};
+
+const computeCarbonVariables = (
+  surveyVariables,
+  globalVariables,
+  heatingNetworkData
+) => {
   const {
     WEEKS_PER_YEAR,
     DAYS_PER_YEAR,
@@ -6,9 +19,9 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     MONTHS_PER_YEAR,
   } = globalVariables;
 
-  // =================
+  // ==============================================================
   // ============================ Food ============================
-  // =================
+  // ==============================================================
   // Meat and Fish ============================
   const { meatAndFishConsoPerDay } = surveyVariables;
   const {
@@ -133,9 +146,9 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     JUICES_AND_SODAS_LITER_PER_GLASS *
     DAYS_PER_YEAR;
 
-  // ====================================================================================
-  // ============================ Transport ============================
-  // ====================================================================================
+  // ==============================================================
+  // ============================ Transport =======================
+  // ==============================================================
 
   // Car commute
   const { kmCarCommutePerDay } = surveyVariables;
@@ -168,17 +181,17 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     surveyVariables.passengersPerCarTravel,
     1
   );
-  // ====================================================================================
-  // ============================ INTERNET ============================
-  // ====================================================================================
+  // ==============================================================
+  // ============================ INTERNET ========================
+  // ==============================================================
   const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
   const internetStreamingHoursPerYear =
     WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
 
   const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
-  // ====================================================================================
-  // ============================ ENERGY ============================
-  // ====================================================================================
+  // ==============================================================
+  // ============================ ENERGY ==========================
+  // ==============================================================
   // Energy
   const {
     energyConsumptionKnowledge,
@@ -303,6 +316,10 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
   const networkHeatingKwh =
     (heatingSystemEnergyType === 'HEATING_NETWORK') * KwhCh;
 
+  const eiHeatingNetwork = getEiForHeatingNetwork(
+    heatingNetworkData,
+    surveyVariables.heatingNetworkName
+  );
   // KwhCui
   const partitionCui =
     (heatingSystemEnergyType === cookingAppliancesEnergyType ? KwhMoyCh : 0) +
@@ -425,6 +442,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     elecLightningKwh,
     elecWaterHeatingKwh,
     networkHeatingKwh,
+    eiHeatingNetwork,
 
     // Autre
     fruitsAndVegetablePercentageLocal,
@@ -456,7 +474,7 @@ const computeCarbonVariables = (surveyVariables, globalVariables) => {
     numberBigDevices,
     clothesNewItems,
   };
-  console.log(carbonVariables);
   return carbonVariables;
 };
 export default computeCarbonVariables;
+export { getEiForHeatingNetwork };

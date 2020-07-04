@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 
 import '../index.css';
 import Avatar from './Avatar';
+import CloudDone from '../assets/CloudDone';
+import CloudUpload from '../assets/CloudUpload';
 import ExitIcon from '../assets/ExitIcon';
 import { COLORS } from '../vars';
 import { logout } from '../utils/auth';
@@ -23,6 +25,7 @@ const Navbar = ({ links = [] }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { msg } = useSelector((state) => state.error);
+  const { isSynchronized } = useSelector((state) => state.workshop);
   const { user: { firstName = '', lastName = '' } = {} } = useSelector(
     (state) => state.currentUser
   );
@@ -84,24 +87,31 @@ const Navbar = ({ links = [] }) => {
                 )
               )}
             </Nav>
-            <StyledNavDropDown
-              className="ml-auto"
-              title={
-                <div style={{ display: 'inline-block' }}>
-                  <Avatar name={avatarName} />
-                </div>
-              }
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header>
-              <NavDropdown.Item href="/coaches">
-                {t('common.coaches')}
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item eventKey={3.2} onClick={handleLogout}>
-                {t('common.logout')}
-              </NavDropdown.Item>
-            </StyledNavDropDown>
+            <div className="d-flex ml-auto align-items-center">
+              {isSynchronized ? (
+                <CloudDone width="40" height="40" />
+              ) : (
+                <CloudUpload width="40" height="40" />
+              )}
+              <StyledNavDropDown
+                className="ml-auto"
+                title={
+                  <div style={{ display: 'inline-block' }}>
+                    <Avatar name={avatarName} />
+                  </div>
+                }
+                id="basic-nav-dropdown"
+              >
+                <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header>
+                <NavDropdown.Item href="/coaches">
+                  {t('common.coaches')}
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item eventKey={3.2} onClick={handleLogout}>
+                  {t('common.logout')}
+                </NavDropdown.Item>
+              </StyledNavDropDown>
+            </div>
           </NavigBar.Collapse>
         </Container>
       </NavigBar>

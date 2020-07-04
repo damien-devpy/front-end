@@ -1,18 +1,18 @@
+import React, { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { pathOr } from 'ramda';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
 
+import ActionCardsForm from './ActionCardsForm';
+import ParticipantsTable from './ParticipantsTable';
 import {
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
   getInitRoundBudget,
-  getInitRoundBudgetCollective,
   getNumberOfChosenCollectiveCards,
   selectCollectiveChoices,
-  selectCollectiveRoundIds,
   selectIndividualChoicesForParticipant,
-  selectIndividualRoundIds,
   selectNextRound,
 } from '../../../selectors/workshopSelector';
 import {
@@ -24,8 +24,6 @@ import {
   makeYearParticipantKey,
   toggleArrayItem,
 } from '../../../utils/helpers';
-import ActionCardsForm from './ActionCardsForm';
-import ParticipantsTable from './ParticipantsTable';
 
 const ActionCardsEntry = ({
   currentRound,
@@ -45,7 +43,6 @@ const ActionCardsEntry = ({
   );
 
   const handleParticipantSelect = (id) => {
-    console.log('handleParticipantSelect', id);
     setSelectedParticipantId(id);
   };
 
@@ -68,20 +65,29 @@ const ActionCardsEntry = ({
 
   const budgetPerParticipant = useSelector((state) =>
     getInitRoundBudget(
-      state.workshop.entities.roundsConfig,
+      state.workshop.entities.roundConfig,
       state.workshop.entities.individualChoices,
       Object.keys(state.workshop.entities.participants),
       state.workshop.entities.actionCards
     )
   );
 
+  // CollectiveBudget is automatically computed and not modifiable
   const budgetCollective = useSelector((state) =>
-    getInitRoundBudgetCollective(
-      state.workshop.entities.roundsConfig,
-      state.workshop.entities.collectiveChoices,
-      state.workshop.entities.actionCards
+    pathOr(
+      0,
+      ['workshop', 'entities', 'rounds', currentRound, 'collectiveBudget'],
+      state
     )
   );
+
+  // const budgetCollective = useSelector((state) =>
+  //   getInitRoundBudgetCollective(
+  //     state.workshop.entities.roundConfig,
+  //     state.workshop.entities.collectiveChoices,
+  //     state.workshop.entities.actionCards
+  //   )
+  // );
 
   // these are current choices (for this round), not cards per se
   const [currentIndividualChoices, setCurrentIndividualChoices] = useState(
@@ -93,25 +99,18 @@ const ActionCardsEntry = ({
   const individualChoicesFromParticipant = useSelector((state) =>
     selectIndividualChoicesForParticipant(
       selectedParticipantId,
-      state.workshop.entities.roundsConfig,
+      state.workshop.entities.roundConfig,
       state.workshop.entities.individualChoices
     )
   );
   const chosenCollectiveActionCards = useSelector((state) =>
     selectCollectiveChoices(
-      state.workshop.entities.roundsConfig,
+      state.workshop.entities.roundConfig,
       state.workshop.entities.collectiveChoices
     )
   );
-  const individualRoundIds = useSelector((state) =>
-    selectIndividualRoundIds(state.workshop.entities.roundsConfig)
-  );
-  const collectiveRoundIds = useSelector((state) =>
-    selectCollectiveRoundIds(state.workshop.entities.roundsConfig)
-  );
 
   const handleSubmitIndividualChoices = () => {
-    console.log('handleSubmitIndividualChoices', currentIndividualChoices);
     dispatch(
       setIndividualChoicesForAllParticipants(
         currentRound,
@@ -122,7 +121,6 @@ const ActionCardsEntry = ({
     handleClose();
   };
   const handleSubmitCollectiveChoices = () => {
-    console.log('handleSubmitCollectiveChoices', currentCollectiveChoices);
     dispatch(setCollectiveChoices(currentRound, currentCollectiveChoices));
     dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
@@ -249,7 +247,8 @@ const ActionCardsEntry = ({
                 </h6>
               </Row>
               <Row>
-                <h6>Budget{' '}
+                <h6>
+                  Budget{' '}
                   {budgetCollective -
                     getCostOfChosenCollectiveCards(
                       currentCollectiveChoices,
@@ -276,7 +275,7 @@ const ActionCardsEntry = ({
                   selectedParticipantId
                 )}
                 handleCheckedActionCard={isIndividualActionCardChecked}
-                roundIds={individualRoundIds}
+                actionCardType={roundActionCardType}
               />
             )}
             {roundActionCardType === 'collective' && (
@@ -286,7 +285,7 @@ const ActionCardsEntry = ({
                   currentRound
                 )}
                 handleCheckedActionCard={isCollectiveActionCardChecked}
-                roundIds={collectiveRoundIds}
+                actionCardType={roundActionCardType}
               />
             )}
           </Container>

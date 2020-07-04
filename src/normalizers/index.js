@@ -43,8 +43,8 @@ const citizenCarbonFootprint = new schema.Entity(
     idAttribute: (entity, parent) => `${parent.year}-${entity.citizenId}`,
   }
 );
-const roundsConfig = new schema.Entity(
-  'roundsConfig',
+const roundConfig = new schema.Entity(
+  'roundConfig',
   {},
   {
     idAttribute: (entity, parent) => `${parent.year}`,
@@ -76,13 +76,14 @@ const round = new schema.Entity(
     carbonFootprints: [carbonFootprint],
     citizenCarbonVariables: [citizenCarbonVariables],
     citizenCarbonFootprints: [citizenCarbonFootprint],
-    roundsConfig,
+    roundConfig,
     individualChoices: [individualChoices],
     collectiveChoices,
   },
   { idAttribute: 'year' }
 );
 
+// eslint-disable-next-line import/prefer-default-export
 export const workshopSchema = {
   rounds: [round],
   participants: [participant],

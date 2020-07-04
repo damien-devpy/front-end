@@ -5,6 +5,8 @@ box pages
 participant Workshops
 participant Participants
 participant Simulation
+participant NewRoundModalForm
+participant ActionCardsForm
 end box
 box hooks
 participant useWorkshops
@@ -84,5 +86,28 @@ end
 Participants -> Simulation: React router to /workshop/${workshopId}/simulation
 
 == Round 1 ==
-
+User -> NewRoundModalForm: New Round
+NewRoundModalForm -> NewRoundModalForm: individual or collective\nbatchId\nbudget
+NewRoundModalForm -> ActionCardsForm: select cards for\neach participant
+ActionCardsForm -> actionsWorkshop: setIndividualChoicesForAllParticipants(year, individualChoices)
+actionsWorkshop -> reducersWorkshop: SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS(year, individualChoices)
+ActionCardsForm -> actionsWorkshop: initRoundAndProcessModel(yearFron, yearTo)
+actionsWorkshop -> actionsWorkshop: initRound(yearTo)
+actionsWorkshop -> reducersWorkshop: INIT_ROUND(yearTo)
+actionsWorkshop -> actionsWorkshop: applyIndividualActions(yearFrom, yearTo)
+actionsWorkshop -> reducersWorkshop: APPLY_INDIVIDUAL_ACTIONS(yearFrom, yearTo)
+actionsWorkshop -> actionsWorkshop: applyCollectiveActions(yearFrom, yearTo)
+actionsWorkshop -> reducersWorkshop: APPLY_COLLECTIVE_ACTIONS(yearFrom, yearTo)
+actionsWorkshop -> actionsWorkshop: applySocialImpact(yearFrom, yearTo)
+actionsWorkshop -> reducersWorkshop: APPLY_SOCIAL_IMPACT(yearFrom, yearTo)
+actionsWorkshop -> actionsWorkshop: setActionsForCitizens(yearTo)
+actionsWorkshop -> reducersWorkshop: SET_ACTIONS_FOR_CITIZENS(yearTo)
+actionsWorkshop -> actionsWorkshop: applyIndivdualActionsForCitizens(yearFrom, yearTo)
+actionsWorkshop -> reducersWorkshop: APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS(yearFrom, yearTo)
+actionsWorkshop -> actionsWorkshop: applyCollectiveActionsForCitizens(yearFrom, yearTo)
+actionsWorkshop -> reducersWorkshop: APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS(yearFrom, yearTo)
+actionsWorkshop -> actionsWorkshop: computeFootprints(yearTo)
+actionsWorkshop -> reducersWorkshop: COMPUTE_FOOTPRINTS(yearTo)
+actionsWorkshop -> actionsWorkshop: computeFootprintsForCitizen(yearTo)
+actionsWorkshop -> reducersWorkshop: COMPUTE_FOOTPRINTS_FOR_CITIZENS(yearTo)
 @enduml

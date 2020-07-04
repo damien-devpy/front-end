@@ -1,107 +1,90 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
-import { COLORS } from '../../../vars';
-import './simulationPage.css';
 // import { useTranslation } from "react-i18next";
 import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
   CartesianGrid,
+  Label,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
   XAxis,
   YAxis,
-  Label,
-  Tooltip,
-  Legend,
 } from 'recharts';
 import { useTranslation } from 'react-i18next';
-import { pathOr } from 'ramda';
+
+import './simulationPage.css';
+import { COLORS } from '../../../vars';
+import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
+import {
+  selectCarbonFootprintsEntity,
+  selectCitizenCarbonFootprintsEntity,
+  selectFootprintStructure,
+  selectParticipantsEntity,
+  selectRoundsEntity,
+} from '../../../selectors/workshopSelector';
 
 const colorsPalet = [
+  'brown',
+  'black',
   '#3869B1',
   '#409852',
   '#DA7E30',
   '#6C4D9B',
-  'brown',
-  'black',
   COLORS.GOLD,
   'darkblue',
   'pink',
   'darkgreen',
   'orange',
 ];
-const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
-const sum = (obj) =>
-  players(obj).reduce(
-    (accumulator, currentValue) => accumulator + parseInt(obj[currentValue]),
-    0
-  );
-const avg_players = (obj) => (sum(obj) / players(obj).length).toFixed(0) || 0;
+const players = (obj) =>
+  (obj && Object.keys(obj) && Object.keys(obj).filter((k) => k !== 'year')) ||
+  [];
+// const sum = (obj) =>
+//   players(obj).reduce(
+//     (accumulator, currentValue) =>
+//       accumulator + parseInt(obj[currentValue], 10),
+//     0
+//   );
 
 const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
-  const rounds = useSelector(
-    (state) => state.workshop.entities && state.workshop.entities.rounds
+  const participants = useSelector((state) =>
+    selectParticipantsEntity(state.workshop)
   );
-  const carbonFootprints = useSelector(
-    (state) => state.workshop.entities.carbonFootprints
-  );
-  const participants = useSelector(
-    (state) => state.workshop.entities.participants
-  );
-  console.log('participants', participants);
-  const players = (obj) => Object.keys(obj).filter((k) => k !== 'year');
 
-  const participantsName = (obj, participants) =>
-    participants &&
-    Object.keys(obj)
-      .filter((k) => k !== 'year')
-      .map((player_id) => participants[player_id])
-      .map(
-        (player) => player.firstName + ' ' + player.lastName.split('')[0] + '.'
-      );
-  const participantName = (participant_id) => {
-    console.log('part id ', participant_id);
-    if (Object.keys(participants).includes(participant_id)) {
-      return (
-        participants[participant_id].firstName +
-        ' ' +
-        participants[participant_id].lastName.split('')[0] +
-        '.'
-      );
-    } else if (
-      participant_id.toString().startsWith('avg_') ||
-      participant_id.toString().startsWith('obj')
+  const participantName = (participantId) => {
+    if (Object.keys(participants).includes(participantId)) {
+      return `${participants[participantId].firstName} ${
+        participants[participantId].lastName.split('')[0]
+      }.`;
+    }
+    if (
+      participantId.toString().startsWith('avg_') ||
+      participantId.toString().startsWith('obj')
     ) {
-      return t('common.' + participant_id);
-    } else return participant_id;
+      return t(`common.${participantId}`);
+    }
+    return participantId;
   };
 
-  const citizenFootprints = useSelector((state) =>
-    pathOr([], ['workshop', 'entities', 'citizenCarbonFootprints'], state)
+  const evolutionData = useSelector((state) =>
+    computeEvolutionGraph(
+      selectRoundsEntity(state.workshop),
+      selectCarbonFootprintsEntity(state.workshop),
+      selectCitizenCarbonFootprintsEntity(state.workshop),
+      selectFootprintStructure(state.workshop)
+    )
   );
-  const footprintStructure = useSelector((state) =>
-    pathOr([], ['workshop', 'result', 'model', 'footprintStructure'], state)
-  );
-  const evolutionData = computeEvolutionGraph(
-    rounds,
-    carbonFootprints,
-    citizenFootprints,
-    footprintStructure
-  );
-
-  for (var i = 0; i < evolutionData.length; i++) {
-    evolutionData[i]['objective'] = 2000;
+  for (let i = 0; i < evolutionData.length; i++) {
+    evolutionData[i].objective = 2000;
   }
   const dataKeysArray = players(evolutionData[0]);
-  console.log('dataKeysArray', dataKeysArray);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries(
     dataKeysArray.map((key, i) => [key, colorsPalet[i]])
   );
-  console.log('evolutionData : ', evolutionData);
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
@@ -112,7 +95,7 @@ const EvolutionCarbon = () => {
 
   const handleMouseOver = (o) => {
     const { dataKey } = o;
-    var w = width[dataKey];
+    const w = width[dataKey];
     setWidth({ ...width, [dataKey]: w + 5 });
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
@@ -129,14 +112,14 @@ const EvolutionCarbon = () => {
 
   const handleClick = (o) => {
     const disabled = '#d3d3d3';
-    const { dataKey, color } = o;
+    const { dataKey } = o;
     // console.log("curve color", curveColors[dataKey.trim()]);
     // console.log(dataKey);
     // console.log(dataKeys[dataKey.trim()].trim());
     if (dataKeys[dataKey] === dataKey) {
       setOpacity({ ...opacity, [dataKey]: 0.5 });
       setColors({ ...colors, [dataKey]: disabled });
-      setDataKeys({ ...dataKeys, [dataKey]: dataKeys[dataKey] + ' ' });
+      setDataKeys({ ...dataKeys, [dataKey]: `${dataKeys[dataKey]} ` });
     } else {
       setOpacity({ ...opacity, [dataKey.trim()]: 1 });
       setColors({ ...colors, [dataKey.trim()]: curveColors[dataKey.trim()] });
@@ -182,21 +165,22 @@ const EvolutionCarbon = () => {
           // formatter={colorOnClick}
           onClick={handleClick}
           onMouseOver={handleMouseOver}
+          onFocus={handleMouseOver}
           onMouseOut={handleMouseOut}
+          onBlur={handleMouseOut}
         />
-        {dataKeysArray.map((player, i) => {
+        {dataKeysArray.map((player) => {
+          let dotSize = 5;
+          let strokeWidth = width[player];
+          let dot = true;
           if (player.startsWith('avg')) {
-            var dotSize = 5;
-            var strokeWidth = width[player] + 4;
-            var dot = true;
+            dotSize = 5;
+            strokeWidth = width[player] + 4;
+            dot = true;
           } else if (player.startsWith('objective')) {
-            var dotSize = 0;
-            var strokeWidth = width[player] - 3;
-            var dot = false;
-          } else {
-            var dotSize = 5;
-            var strokeWidth = width[player];
-            var dot = true;
+            dotSize = 0;
+            strokeWidth = width[player] - 3;
+            dot = false;
           }
           return (
             <Line

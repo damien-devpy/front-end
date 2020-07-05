@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import cardIcons from './cardIcons';
 import { sectorColors } from './ActionCardItem';
 
@@ -7,9 +8,6 @@ import { sectorColors } from './ActionCardItem';
 // when/if we allow to choose not ony lots but also cards in each lot,
 // we won't need this and can just use ActionItem
 const ActionCardItemSimple = ({ id, cardNumber, text, sector, cost }) => {
-  console.log('sector', sector);
-  console.log('cardNumber', cardNumber);
-
   return (
     <StyledItemSimple
       name={id}

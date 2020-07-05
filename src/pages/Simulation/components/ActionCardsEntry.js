@@ -1,8 +1,10 @@
+import React, { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
 
+import ActionCardsForm from './ActionCardsForm';
+import ParticipantsTable from './ParticipantsTable';
 import {
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
@@ -24,8 +26,6 @@ import {
   makeYearParticipantKey,
   toggleArrayItem,
 } from '../../../utils/helpers';
-import ActionCardsForm from './ActionCardsForm';
-import ParticipantsTable from './ParticipantsTable';
 
 const ActionCardsEntry = ({
   currentRound,

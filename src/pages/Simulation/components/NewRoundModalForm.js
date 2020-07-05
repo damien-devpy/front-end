@@ -1,11 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Button, ButtonGroup, Col, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import styled from 'styled-components';
-import { ActionCardItemSimple } from './ActionCardItem';
+import ActionCardItemSimple from '../../../components/ActionCardItemSimple';
 import {
   getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchesFromRounds,
@@ -18,8 +18,8 @@ import {
 import { toggleArrayItem } from '../../../utils/helpers';
 
 import './simulationPage.css';
-import { COLORS } from '../../../vars';
 import PrimaryButton from '../../../components/PrimaryButton';
+import { COLORS } from '../../../vars';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();

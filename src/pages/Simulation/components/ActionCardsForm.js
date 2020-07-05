@@ -1,10 +1,10 @@
-import { Button, Col, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Col, Form } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import { ActionCardItem } from './ActionCardItem';
+import ActionCardItem from '../../../components/ActionCardItem';
 import { COLORS } from '../../../vars';
 
 import PrimaryButton from '../../../components/PrimaryButton';

@@ -44,7 +44,7 @@ const ManageParticipants = ({
     params: { workshopId },
   },
 }) => {
-  // useWorkshop(workshopId);
+  useWorkshop(workshopId);
 
   const [showBC, setShowBC] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);

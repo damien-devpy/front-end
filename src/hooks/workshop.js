@@ -14,20 +14,20 @@ export const useWorkshop = (workshopId) => {
   const dispatch = useDispatch();
   const workshop = useSelector((state) => state.workshop);
   useEffect(() => {
-    if (!workshop || !workshop.result || workshop.result.id !== workshopId) {
-      const load = async () => {
-        try {
-          const result = await getWorkshop({ workshopId });
-          mounted.current && dispatch(workshopRetrieved(result));
-          return result;
-        } catch (e) {
-          mounted.current && dispatch(workshopLoadError(e));
-        }
-      };
-      mounted.current = true;
-      dispatch(retrieveWorkshop());
-      load();
-    }
+    // if (!workshop || !workshop.result || workshop.result.id !== workshopId) {
+    const load = async () => {
+      try {
+        const result = await getWorkshop({ workshopId });
+        mounted.current && dispatch(workshopRetrieved(result));
+        return result;
+      } catch (e) {
+        mounted.current && dispatch(workshopLoadError(e));
+      }
+    };
+    mounted.current = true;
+    dispatch(retrieveWorkshop());
+    load();
+    // }
     return () => {
       mounted.current = false;
     };

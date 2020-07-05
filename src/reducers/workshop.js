@@ -4,7 +4,6 @@ import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
-  SET_PARTICIPANT_NAME_EMAIL,
   SET_PARTICIPANT_PERSONA,
 } from '../actions/participants';
 import {
@@ -756,6 +755,7 @@ export default (state = initialState, action) => {
 
       console.log('Action set participant', participantId, persona);
 
+      // todo remove when handled by back
       const newPersona = persona || null;
       const newStatus = computeStatus(
         state.entities.participants[participantId],
@@ -781,13 +781,15 @@ export default (state = initialState, action) => {
       };
       return newState;
     }
+
     case ADD_PARTICIPANT: {
+      // it's not reached (error before)
       console.log('Action ADD participant');
       console.log(action.payload);
       const oldParticipants = pathOr([], ['entities', 'participants'], state);
       const participants = {
         ...oldParticipants,
-        // action.payload
+        //action.payload
       };
       return {
         ...state,

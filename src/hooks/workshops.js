@@ -15,20 +15,20 @@ export const useWorkshops = () => {
   const workshops = useSelector((state) => state.workshops);
 
   useEffect(() => {
-    if (!workshops.loaded) {
-      const load = async () => {
-        try {
-          const result = await getWorkshops();
-          mounted.current && dispatch(workshopsRetrieved(result));
-          return workshops;
-        } catch (e) {
-          mounted.current && dispatch(workshopsLoadError(e));
-        }
-      };
-      mounted.current = true;
-      dispatch(retrieveWorkshops());
-      load();
-    }
+    // if (!workshops.loaded) {
+    const load = async () => {
+      try {
+        const result = await getWorkshops();
+        mounted.current && dispatch(workshopsRetrieved(result));
+        return workshops;
+      } catch (e) {
+        mounted.current && dispatch(workshopsLoadError(e));
+      }
+    };
+    mounted.current = true;
+    dispatch(retrieveWorkshops());
+    load();
+    // }
     return () => {
       mounted.current = false;
     };

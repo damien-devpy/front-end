@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import Papa from 'papaparse';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
@@ -23,13 +24,17 @@ import {
   deleteParticipant,
   setParticipantPersona,
 } from '../../actions/participants';
+import {
+  changeParticipantApi,
+  createParticipantApi,
+  deleteParticipantApi,
+} from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import {
   computeFootprints,
   computeFootprintsForCitizen,
   initWorkshop,
 } from '../../actions/workshop';
-import { createParticipantApi, deleteParticipantApi } from '../../utils/api';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -39,7 +44,12 @@ const ManageParticipants = ({
     params: { workshopId },
   },
 }) => {
-  useWorkshop(workshopId);
+  // useWorkshop(workshopId);
+
+  const [showBC, setShowBC] = useState(false);
+  const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
+  const [footprintToShow, setFootprintToShow] = useState({});
+
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name
   );
@@ -50,7 +60,6 @@ const ManageParticipants = ({
   const participants = useSelector(
     (state) => state.workshop.entities && state.workshop.entities.participants
   );
-  console.log('participants', participants);
   const carbonFootprints = useSelector(
     (state) => state.workshop.result && state.workshop.entities.carbonFootprints
   );
@@ -64,38 +73,33 @@ const ManageParticipants = ({
     (state) => state.workshop.result && state.workshop.result.model
   );
 
-  // const numParticipants = useSelector(
-  //   (state) =>
-  //     state.workshop.result &&
-  //     state.workshop.entities.participants &&
-  //     Object.keys(state.workshop.entities.participants).length
-  // );
   const personas = useSelector(
     (state) => state.workshop.entities && state.workshop.entities.personas
   );
-  console.log('personas', personas);
+
   const dispatch = useDispatch();
 
   const createAsyncParticipant = (values) => (dispatchThunk) => {
-    createParticipantApi({ data: { workshopId, values } })
+    createParticipantApi({ workshopId, data: values });
       // .then((data) => dispatchThunk(addParticipant(data)))
-      .catch(() => {
-        dispatchThunk(
-          throwError(
-            t('errors.createParticipant', {
-              participantName: '',
-            })
-          )
-        );
-      });
+      // .catch(() => {
+      //   dispatchThunk(
+      //     throwError(
+      //       t('errors.createParticipant', {
+      //         participantName: '',
+      //       })
+      //     )
+      //   );
+      // });
   };
   const handleAddParticipant = (values) => {
     dispatch(createAsyncParticipant(values));
-    setShowAddParticipantModal(false);
+    // triggers rerendering
+    // setShowAddParticipantModal(false);
   };
 
   const deleteAsyncParticipant = (participantId) => (dispatchThunk) => {
-    console.log("Delete", participantId);
+    // console.log("Delete", participantId);
     deleteParticipantApi({ workshopId, participantId })
       .then(() => {
         dispatchThunk(deleteParticipant(participantId));
@@ -114,46 +118,27 @@ const ManageParticipants = ({
     dispatch(deleteAsyncParticipant(participantId));
   };
 
-  // keep track of actived rows globally
-  // const [active, setActive] = useState({});
-
-  // // by default only rows that are missing required info are active
-  // const initActive = () =>
-  //   Object.assign(
-  //     {},
-  //     ...Object.keys(participants).map((id) => ({
-  //       [id]:
-  //         !participants[id].isValid &&
-  //         !(participants[id].status === 'registered'),
-  //     }))
-  //   );
-
-  // // update all rows only when the participants are added or deleted
-  // useEffect(() => {
-  //   console.log('Use effect CONTAINER');
-  //   participants && setActive(initActive(participants));
-  // }, [numParticipants]);
-
-  // const handleClick = (id) => {
-  //   // if previously another row was activated because it was clicked, it will not be now
-  //   // unless it misses required info
-  //   console.log('On CLICK row', id);
-  //   if (active[id]) return;
-  //   const newActive = Object.assign(
-  //     {},
-  //     ...Object.keys(participants).map((i) => ({
-  //       [i]:
-  //         !participants[i].isValid &&
-  //         !(participants[i].status === 'registered'),
-  //     }))
-  //   );
-  //   id && (newActive[id] = true);
-  //   setActive(newActive);
-  // };
-
-  const [showBC, setShowBC] = useState(false);
-  const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
-  const [footprintToShow, setFootprintToShow] = useState({});
+  const changeAsyncParticipant = (participantId, personaId) => (
+    dispatchThunk
+  ) => {
+    changeParticipantApi({ data: { workshopId, participantId, personaId } })
+      .then((data) =>
+        dispatchThunk(setParticipantPersona(data.id, data.personaId))
+      )
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.changeParticipant', {
+              participantName: '',
+            })
+          )
+        );
+      });
+  };
+  const handleChangePersona = (participantId, personaId) => {
+    console.log("Change persona", participantId, personaId);
+    dispatch(changeAsyncParticipant(participantId, personaId));
+  };
 
   const handleShowBC = (id) => {
     setShowBC(true);
@@ -198,12 +183,9 @@ const ManageParticipants = ({
           status={p.status}
           key={id}
           updateParticipant={(persona) => {
-            dispatch(setParticipantPersona(id, persona));
+            handleChangePersona(id, persona);
           }}
           deleteParticipant={() => handleDelete(id)}
-          // isActive={active[id]}
-          // isValid={p.isValid}
-          // handleClick={handleClick}
           personas={personas}
           currentPersonaId={p.personaId}
           handleShowBC={handleShowBC}
@@ -211,12 +193,7 @@ const ManageParticipants = ({
       );
     });
 
-  // outer container to be able to handle clicks outside the rows, i.e. "lose focus" type of events
   return (
-    // <div
-    //   className="container-fluid h-100 pb-5"
-    //   onClick={() => handleClick(null)}
-    // >
     <Container>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
         <h4 className="workshop_title">{workshopTitle}</h4>
@@ -231,7 +208,7 @@ const ManageParticipants = ({
           <ParticipantsHeader />
           {participantItems}
           <AddParticipant
-            dispatchAddEvent={() => {
+            onClick={() => {
               // dispatch(addParticipant());
               // handleAddParticipant();
               setShowAddParticipantModal(true);
@@ -240,16 +217,16 @@ const ManageParticipants = ({
           <div style={{ textAlign: 'center' }}>
             <Link to={`/workshop/${workshopId}/simulation`}>
               <PrimaryButton
-                  onClick={() => {
-                    fetch('/data/heating_networks.csv')
-                      .then((response) => response.text())
-                      .then((text) => Papa.parse(text))
-                      .then((heatingNetworksData) => {
-                        dispatch(initWorkshop(2020, heatingNetworksData.data));
-                        dispatch(computeFootprints(2020));
-                        dispatch(computeFootprintsForCitizen(2020));
-                      });
-                  }}
+                onClick={() => {
+                  fetch('/data/heating_networks.csv')
+                    .then((response) => response.text())
+                    .then((text) => Papa.parse(text))
+                    .then((heatingNetworksData) => {
+                      dispatch(initWorkshop(2020, heatingNetworksData.data));
+                      dispatch(computeFootprints(2020));
+                      dispatch(computeFootprintsForCitizen(2020));
+                    });
+                }}
               >
                 {t('common.launch_simulation')}
               </PrimaryButton>
@@ -285,16 +262,14 @@ const ManageParticipants = ({
         </Modal.Body>
       </Modal>
     </Container>
-
-    // </div>
   );
 };
 
-const AddParticipant = ({ dispatchAddEvent }) => {
+const AddParticipant = ({ onClick }) => {
   const { t } = useTranslation();
 
   return (
-    <StyledAdd onClick={dispatchAddEvent}>
+    <StyledAdd onClick={onClick}>
       <AddIcon width={20} height={20} /> {'   '}{' '}
       {t('manageParticipants.addNew')}
     </StyledAdd>

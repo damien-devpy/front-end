@@ -13,7 +13,7 @@ export const setParticipantPersona = (participantId, persona) => ({
 
 export const addParticipant = (data) => ({
   type: ADD_PARTICIPANT,
-  payload: data,
+  payload: { data },
 });
 
 export const deleteParticipant = (id) => ({

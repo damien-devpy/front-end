@@ -17,6 +17,7 @@ const buildHeaders = (forcedToken, customHeaders = {}) => {
 };
 
 const handleErrors = async (response) => {
+  console.log("Fetch handle errors", response);
   if (!response.ok) {
     const json = await response.json().catch(() => null);
     if (json) {
@@ -83,11 +84,14 @@ export default function handleFetch(url, options = {}) {
     headers,
     ...rest,
   };
+
+  console.log("Fetch", `${API_BASE_URL}${url}`, fetchOptions);
   return fetch(`${API_BASE_URL}${url}`, fetchOptions)
     .then(handleErrors)
     .then((response) => {
       switch (type) {
         case 'json':
+          console.log("Fetch json", response);
           return response
             .json()
             .then((data) => (normalizer ? normalize(data, normalizer) : data))

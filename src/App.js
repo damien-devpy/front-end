@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 import Coaches from './pages/Coaches';
 import CommonModal from './components/CommonModal';
+import Data from './pages/Data';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Navbar from './components/Navbar';
-import Participants from './pages/Participants';
-import Data from './pages/Data';
 import NavbarHome from './components/NavbarHome';
 import NavbarWorkshop from './components/NavbarWorkshop';
+import Participants from './pages/Participants';
 import Resources from './pages/Resources';
 import Results from './pages/Results';
 import Simulation from './pages/Simulation';
@@ -20,28 +20,39 @@ import { COLORS } from './vars';
 import { getAccessToken } from './utils/auth';
 import { useAuthentication } from './hooks/authentication';
 
-const AppRouter = () => (
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/workshop/:workshopId/*" component={NavbarWorkshop} />
+        <Route component={NavbarHome} />
+      </Switch>
+      <Switch>
+        <Route
+          path="/workshop/:workshopId/participants"
+          component={Participants}
+        />
+        <Route path="/workshop/:workshopId/data" component={Data} />
+        <Route path="/workshop/:workshopId/simulation" component={Simulation} />
+        <Route path="/workshop/:workshopId/results" component={Results} />
+        <Route exact path="/">
+          <Redirect to="/workshops" />
+        </Route>
+        <Route path="/home" component={Home} />
+        <Route path="/coaches" component={Coaches} />
+        <Route path="/workshops" component={Workshops} />
+        <Route path="/resources" component={Resources} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+const LoginRouter = ({ t, handleLogin }) => (
   <BrowserRouter>
-    <Switch>
-      <Route path="/workshop/:workshopId/*" component={NavbarWorkshop} />
-      <Route component={NavbarHome} />
-    </Switch>
-    <Switch>
-      <Route
-        path="/workshop/:workshopId/participants"
-        component={Participants}
-      />
-      <Route path="/workshop/:workshopId/data" component={Data} />
-      <Route path="/workshop/:workshopId/simulation" component={Simulation} />
-      <Route path="/workshop/:workshopId/results" component={Results} />
-      <Route exact path="/">
-        <Redirect to="/workshops" />
-      </Route>
-      <Route path="/home" component={Home} />
-      <Route path="/coaches" component={Coaches} />
-      <Route path="/workshops" component={Workshops} />
-      <Route path="/resources" component={Resources} />
-    </Switch>
+    <Navbar />
+    <CommonModal title={t('common.login')} show>
+      <Login handleLogin={handleLogin} />
+    </CommonModal>
   </BrowserRouter>
 );
 
@@ -65,14 +76,7 @@ const App = () => {
     return <AppRouter />;
   }
 
-  return (
-    <BrowserRouter>
-      <Navbar />;
-      <CommonModal title={t('common.login')} show>
-        <Login handleLogin={handleLogin} />
-      </CommonModal>
-    </BrowserRouter>
-  );
+  return <LoginRouter t={t} handleLogin={handleLogin} />;
 };
 
 export default App;

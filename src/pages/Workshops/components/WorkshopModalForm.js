@@ -1,9 +1,11 @@
-import React from 'react';
-import { Formik } from 'formik';
-import { Form, Col, Button } from 'react-bootstrap';
 import * as yup from 'yup';
+import React from 'react';
 import moment from 'moment';
+import { Col, Form } from 'react-bootstrap';
+import { Formik } from 'formik';
+
 import PrimaryButton from '../../../components/PrimaryButton';
+
 const schema = yup.object({
   name: yup.string().required(),
   city: yup.string().required(),
@@ -17,8 +19,8 @@ const WorkshopModalForm = ({ t, coaches, handleSubmit }) => {
       initialValues={{
         startAt: moment(),
         name: '',
-        coachId: '',
-        //status: 'En préparation',
+        coachId: coaches && coaches[0].id,
+        // status: 'En préparation',
         city: '',
       }}
     >

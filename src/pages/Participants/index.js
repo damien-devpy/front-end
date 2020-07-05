@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import Papa from 'papaparse';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
@@ -41,6 +42,9 @@ const ManageParticipants = ({
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name
   );
+  const startYear = useSelector(
+    (state) => state.workshop.result && state.workshop.result.startYear
+  );
   const { t } = useTranslation();
   const participants = useSelector(
     (state) => state.workshop.entities && state.workshop.entities.participants
@@ -53,7 +57,7 @@ const ManageParticipants = ({
     (state) =>
       state.workshop.result &&
       state.workshop.entities.globalCarbonVariables &&
-      state.workshop.entities.globalCarbonVariables['2020']
+      state.workshop.entities.globalCarbonVariables[startYear]
   );
   const model = useSelector(
     (state) => state.workshop.result && state.workshop.result.model
@@ -112,10 +116,7 @@ const ManageParticipants = ({
   const [footprintToShow, setFootprintToShow] = useState({});
 
   const handleShowBC = (id) => {
-    // console.log('show BC', carbonFootprints[`2020-${id}`]);
     setShowBC(true);
-    // console.log(participants[id].personaId);
-
     // ideally
     // 1. carbon variables should be pre-computed for each persona
     // 2. add higher-level function where
@@ -134,7 +135,7 @@ const ManageParticipants = ({
             globalCarbonVariables
           )
         )
-      : carbonFootprints[`2020-${id}`].footprint;
+      : carbonFootprints[`${startYear}-${id}`].footprint;
 
     // 3. footprintDataToGraph should be part of FootprintGraph
     const footprintShaped = footprintDataToGraph(footprint);
@@ -203,9 +204,14 @@ const ManageParticipants = ({
               <Link to={`/workshop/${workshopId}/simulation`}>
                 <PrimaryButton
                   onClick={() => {
-                    dispatch(initWorkshop(2020));
-                    dispatch(computeFootprints(2020));
-                    dispatch(computeFootprintsForCitizen(2020));
+                    fetch('/data/heating_networks.csv')
+                      .then((response) => response.text())
+                      .then((text) => Papa.parse(text))
+                      .then((heatingNetworksData) => {
+                        dispatch(initWorkshop(2020, heatingNetworksData.data));
+                        dispatch(computeFootprints(2020));
+                        dispatch(computeFootprintsForCitizen(2020));
+                      });
                   }}
                 >
                   {t('common.launch_simulation')}

@@ -76,6 +76,22 @@ tr,
   color: white;
 }
 
+.btn-custom-lot, .btn-custom-lot:hover {
+  color: #BA947E !important;
+  background-color: #fff9f5 !important;
+  border-color: #BA947E !important;
+}
+
+.btn-custom-lot:active, .btn-custom-lot:visited, .btn-custom-lot.active {
+  background-color: #BA947E !important;
+  border-color: #BA947E !important;
+  color: white !important;  
+}
+
+.btn-custom-lot:focus, .btn-custom-lot.focus {
+  box-shadow: 0 0 0 0.2rem lightgrey;
+}
+
 .primary {
   fill: currentColor;
 }

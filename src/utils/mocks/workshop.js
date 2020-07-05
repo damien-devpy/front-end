@@ -5893,7 +5893,7 @@ export default {
           },
         },
       ],
-      roundsConfig: {},
+      roundConfig: {},
       globalCarbonVariables: {
         EI_URBAN_BUS: 0.15,
         MEAN_SPEED_URBAN_BUS: 12,

@@ -11,9 +11,9 @@ export const setParticipantPersona = (participantId, persona) => ({
   },
 });
 
-export const addParticipant = (data) => ({
+export const addParticipant = (participant) => ({
   type: ADD_PARTICIPANT,
-  payload: { data },
+  payload: { participant },
 });
 
 export const deleteParticipant = (id) => ({

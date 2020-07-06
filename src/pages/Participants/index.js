@@ -80,22 +80,22 @@ const ManageParticipants = ({
   const dispatch = useDispatch();
 
   const createAsyncParticipant = (values) => (dispatchThunk) => {
-    createParticipantApi({ workshopId, data: values });
-      // .then((data) => dispatchThunk(addParticipant(data)))
-      // .catch(() => {
-      //   dispatchThunk(
-      //     throwError(
-      //       t('errors.createParticipant', {
-      //         participantName: '',
-      //       })
-      //     )
-      //   );
-      // });
+    createParticipantApi({ workshopId, data: values })
+      .then((data) => dispatchThunk(addParticipant(data)))
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.createParticipant', {
+              participantName: '',
+            })
+          )
+        );
+      });
   };
   const handleAddParticipant = (values) => {
     dispatch(createAsyncParticipant(values));
     // triggers rerendering
-    // setShowAddParticipantModal(false);
+    setShowAddParticipantModal(false);
   };
 
   const deleteAsyncParticipant = (participantId) => (dispatchThunk) => {
@@ -136,7 +136,7 @@ const ManageParticipants = ({
       });
   };
   const handleChangePersona = (participantId, personaId) => {
-    console.log("Change persona", participantId, personaId);
+    console.log('Change persona', participantId, personaId);
     dispatch(changeAsyncParticipant(participantId, personaId));
   };
 

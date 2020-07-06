@@ -24,7 +24,13 @@ const AddParticipantModalForm = ({ t, handleSubmit }) => {
     >
       {({ handleSubmit, handleChange, values, errors }) => {
         return (
-          <Form noValidate onSubmit={() => handleSubmit(values)}>
+          <Form
+            noValidate
+            onSubmit={(event) => {
+              event.preventDefault();
+              return handleSubmit(values);
+            }}
+          >
             {/* <Form.Row> */}
             <Form.Group as={Col} controlId="validationFormik01">
               <Form.Label>{t('common.firstName')}</Form.Label>

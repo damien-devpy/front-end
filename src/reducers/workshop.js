@@ -783,17 +783,19 @@ export default (state = initialState, action) => {
     }
 
     case ADD_PARTICIPANT: {
-      // it's not reached (error before)
-      console.log('Action ADD participant');
-      console.log(action.payload);
+      const { participant } = action.payload;
       const oldParticipants = pathOr([], ['entities', 'participants'], state);
       const participants = {
         ...oldParticipants,
-        //action.payload
+        [participant.id]: participant,
       };
       return {
         ...state,
         entities: { ...state.entities, participants },
+        result: {
+          ...state.result,
+          participants: [...state.result.participants, participant.id],
+        },
       };
     }
 

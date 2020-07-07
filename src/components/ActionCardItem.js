@@ -37,12 +37,16 @@ const ActionCardItem = ({
             <div>
               {checked ? (
                 <img
-                  src={require('./Green round button.svg')}
+                  src={require('../assets/GreenIndicator.svg')}
                   width="14"
                   height="14"
                 />
               ) : (
-                <img src={require('./mybutton.svg')} width="13" height="13" />
+                <img
+                  src={require('../assets/WhiteIndicator.svg')}
+                  width="13"
+                  height="13"
+                />
               )}
             </div>
             <div className="mt-auto">
@@ -59,12 +63,16 @@ const ActionCardItem = ({
             <div>
               {checked ? (
                 <img
-                  src={require('./Green round button.svg')}
+                  src={require('../assets/GreenIndicator.svg')}
                   width="14"
                   height="14"
                 />
               ) : (
-                <img src={require('./mybutton.svg')} width="13" height="13" />
+                <img
+                  src={require('../assets/WhiteIndicator.svg')}
+                  width="13"
+                  height="13"
+                />
               )}
             </div>
             <div className="mt-auto">

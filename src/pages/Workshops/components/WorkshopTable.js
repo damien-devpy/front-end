@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import '../../../index.css';
 import CommonModal from '../../../components/CommonModal';
 import DeleteIcon from '../../../assets/DeleteIcon';
 import EnterIcon from '../../../assets/EnterIcon';

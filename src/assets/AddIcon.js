@@ -1,7 +1,9 @@
 import React from 'react';
-import '../index.css';
-const AddIcon = (props) => (
+
+const AddIcon = ({ height = 20, width = 20 }) => (
   <svg
+    width={width}
+    height={height}
     version="1.1"
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
@@ -9,8 +11,7 @@ const AddIcon = (props) => (
     y="0px"
     viewBox="0 0 512 512"
     style={{ enableBackground: '0 0 512 512' }}
-    class="primary"
-    {...props}
+    className="primary"
   >
     <g>
       <g>
@@ -30,21 +31,21 @@ const AddIcon = (props) => (
         />
       </g>
     </g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
-    <g></g>
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
+    <g />
   </svg>
 );
 export default AddIcon;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import '../../index.css';
 import PrimaryButton from '../../components/PrimaryButton';
 import { login } from '../../utils/api';
 

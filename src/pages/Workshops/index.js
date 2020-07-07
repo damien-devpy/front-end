@@ -4,7 +4,6 @@ import { Button, Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import '../../index.css';
 import AddIcon from '../../assets/AddIcon';
 import CommonModal from '../../components/CommonModal';
 import PrimaryButton from '../../components/PrimaryButton';

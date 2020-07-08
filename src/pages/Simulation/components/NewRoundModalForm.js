@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import './simulationPage.css';
+import ActionCardItemSimple from '../../../components/ActionCardItemSimple';
 import PrimaryButton from '../../../components/PrimaryButton';
-import { ActionCardItemSimple } from './ActionCardItem';
 import { COLORS } from '../../../vars';
 import {
   getDefaultRoundType,

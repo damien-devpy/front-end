@@ -4,7 +4,7 @@ import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
-  SET_PARTICIPANT_NAME_EMAIL,
+  SET_PARTICIPANT_PERSONA,
 } from '../actions/participants';
 import {
   APPLY_COLLECTIVE_ACTIONS,
@@ -39,37 +39,9 @@ import { generateDefautActionCardBatchesEntity } from './utils/actionCardBatches
 import { makeYearParticipantKey } from '../utils/helpers';
 
 export const MISSING_INFO = 'MISSING_INFO';
-export const MUST_SEND_EMAIL = 'MUST_SEND_EMAIL';
+export const MUST_SEND_EMAIL = 'created';
 export const EMAIL_SENT = 'EMAIL_SENT';
-export const BILAN_RECEIVED = 'registered';
-
-function computeStatus(valid, participant, newPersona) {
-  let newStatus = null;
-  if (!valid) {
-    newStatus = MISSING_INFO;
-  } else if (newPersona) {
-    newStatus = BILAN_RECEIVED;
-  } else {
-    switch (
-      participant.status // old status
-    ) {
-      case MISSING_INFO: {
-        newStatus = MUST_SEND_EMAIL;
-        break;
-      }
-      default: {
-        if (participant.bilanCarbone) {
-          newStatus = BILAN_RECEIVED;
-        } else if (participant.linkBC) {
-          newStatus = EMAIL_SENT;
-        } else {
-          newStatus = MUST_SEND_EMAIL;
-        }
-      }
-    }
-  }
-  return newStatus;
-}
+export const BILAN_RECEIVED = 'ready';
 
 const initialState = {
   isLoading: false,
@@ -153,7 +125,7 @@ export default (state = initialState, action) => {
           },
           carbonVariables: {
             ...(state.entities.carbonVariables || {}),
-            ...state.result.participants.reduce(
+            ...Object.keys(state.entities.participants).reduce(
               (o, participantId) => ({
                 ...o,
                 [makeYearParticipantKey(year, participantId)]: {
@@ -753,26 +725,15 @@ export default (state = initialState, action) => {
       };
     }
 
-    case SET_PARTICIPANT_NAME_EMAIL: {
-      const { participantId, name, email, persona, valid } = action.payload;
-
-      console.log(
-        'Action set participant',
+    case SET_PARTICIPANT_PERSONA: {
+      const {
         participantId,
-        name,
-        email,
         persona,
-        valid
-      );
-      let [firstName, ...lastName] = name.split(/ /);
-      lastName = lastName.join(' ');
+        status,
+        surveyVariables,
+      } = action.payload;
 
-      const newPersona = persona || null;
-      const newStatus = computeStatus(
-        valid,
-        state.entities.participants[participantId],
-        newPersona
-      );
+      console.log('Action set participant', participantId, persona);
 
       const newState = {
         ...state,
@@ -782,43 +743,30 @@ export default (state = initialState, action) => {
             ...state.entities.participants,
             [participantId]: {
               ...state.entities.participants[participantId],
-              firstName,
-              lastName,
-              email,
-              isValid: valid,
-              personaId: newPersona,
-              status: newStatus,
-              surveyVariables: newPersona
-                ? state.entities.personas[newPersona].surveyVariables
-                : state.entities.participants[participantId].surveyVariables,
+              personaId: persona,
+              status,
+              surveyVariables,
             },
           },
         },
       };
       return newState;
     }
+
     case ADD_PARTICIPANT: {
-      console.log('Action ADD participant');
+      const { participant } = action.payload;
       const oldParticipants = pathOr([], ['entities', 'participants'], state);
-      const newId =
-        Number(Object.keys(oldParticipants).sort().slice(-1)[0]) + 1;
-      console.log(Object.keys(oldParticipants).sort()[-1], newId);
       const participants = {
         ...oldParticipants,
-        [newId]: {
-          id: newId,
-          firstName: '',
-          lastName: '',
-          email: '',
-          status: MISSING_INFO,
-          isValid: false,
-          linkBC: null,
-          bilanCarbone: null,
-        },
+        [participant.id]: participant,
       };
       return {
         ...state,
         entities: { ...state.entities, participants },
+        result: {
+          ...state.result,
+          participants: [...state.result.participants, participant.id],
+        },
       };
     }
 

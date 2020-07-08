@@ -1,27 +1,26 @@
-export const SET_PARTICIPANT_NAME_EMAIL = 'SET_PARTICIPANT_NAME';
+// export const SET_PARTICIPANT_NAME_EMAIL = 'SET_PARTICIPANT_NAME';
+export const SET_PARTICIPANT_PERSONA = 'SET_PARTICIPANT_PERSONA';
 export const ADD_PARTICIPANT = 'ADD_PARTICIPANT';
 export const DELETE_PARTICIPANT = 'DELETE_PARTICIPANT';
 
-export const setParticipantNameEmail = (
+export const setParticipantPersona = (
   participantId,
-  name,
-  email,
   persona,
-  valid
+  status,
+  surveyVariables
 ) => ({
-  type: SET_PARTICIPANT_NAME_EMAIL,
+  type: SET_PARTICIPANT_PERSONA,
   payload: {
     participantId,
-    name,
-    email,
     persona,
-    valid,
+    status,
+    surveyVariables,
   },
 });
 
-export const addParticipant = () => ({
+export const addParticipant = (participant) => ({
   type: ADD_PARTICIPANT,
-  payload: {},
+  payload: { participant },
 });
 
 export const deleteParticipant = (id) => ({

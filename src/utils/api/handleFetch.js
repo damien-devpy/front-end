@@ -83,6 +83,7 @@ export default function handleFetch(url, options = {}) {
     headers,
     ...rest,
   };
+
   return fetch(`${API_BASE_URL}${url}`, fetchOptions)
     .then(handleErrors)
     .then((response) => {

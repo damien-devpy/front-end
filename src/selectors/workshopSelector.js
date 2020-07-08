@@ -83,7 +83,7 @@ export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (
 ) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'collective');
 
 export const selectCurrentRound = (workshop) =>
-  pathOr(0, ['result', 'currentYear'], workshop);
+  pathOr(null, ['result', 'currentYear'], workshop);
 
 export const selectNextRound = (workshop) => {
   const config = workshop.entities.roundConfig[workshop.result.currentYear];

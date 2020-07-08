@@ -13,9 +13,14 @@ import NewRoundModalForm from './components/NewRoundModalForm';
 import PrimaryButton from '../../components/PrimaryButton';
 import { selectCurrentRound } from '../../selectors/workshopSelector';
 import { startRound } from '../../actions/workshop';
+import { useWorkshop } from '../../hooks/workshop';
 
-const Simulation = () => {
-  const { loadError, isLoading } = useSelector((state) => state.workshop);
+const Simulation = ({
+  match: {
+    params: { workshopId },
+  },
+}) => {
+  const { loadError, isLoading } = useWorkshop(workshopId);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -48,12 +53,19 @@ const Simulation = () => {
   const handleCloseEntryOfActionCards = () => setShowEntryOfActionCards(false);
   return (
     <>
-      {!currentRound && (
+      {/* {!currentRound && (
         <>
           <h4 className="workshop_title">{t('common.noCurrentWorkshop')}</h4>
           <h4 className="workshop_title">{t('common.selectAWorkshop')}</h4>
         </>
-      )}
+      )} */}
+      <div className="d-flex justify-content-center">
+        {loadError && <p>{t('common.loadError')}</p>}
+        {isLoading && (
+          <Spinner animation="border" className="pt-3 mx-auto mt-5" />
+        )}
+      </div>
+
       {currentRound && (
         <>
           <h4
@@ -64,9 +76,7 @@ const Simulation = () => {
           </h4>
           <h5 style={{ margin: 5 }}>
             {t('common.we_are_in')}
-            {'  '}
             <span style={{ fontSize: 25, fontWeight: 'bold' }}>
-              {' '}
               {currentRound}
             </span>
           </h5>
@@ -83,10 +93,6 @@ const Simulation = () => {
                   {t('common.nextRound')}
                 </PrimaryButton>
               </Row>
-              {loadError && <p>{t('common.loadError')}</p>}
-              {isLoading && (
-                <Spinner animation="border" className="pt-3 mx-auto mt-5" />
-              )}
               {!isLoading && (
                 <Row style={{ height: '100vh' }}>
                   <Col sm={12} md={8} className="graph-col">

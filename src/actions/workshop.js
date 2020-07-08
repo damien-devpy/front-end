@@ -1,6 +1,4 @@
-import { denormalize } from 'normalizr';
-
-import { workshopSchema } from '../normalizers';
+import { denormalizeWorkshop } from '../utils/api';
 
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
 export const START_ROUND = 'START_ROUND';
@@ -133,46 +131,10 @@ const persistWorkshop = (workshopId, workshop) => ({
   },
 });
 
-// citizens (pas implemente)
-// models (pas necessaire car peut pas etre update)
-// creatorId (non modifiable)
-// id (non modifiable)
-// rounds.citizenX (pas implemente)
-// rounds.socialVariables (pas implemente)
-// rounds.roundsConfig -> roundConfig (sans s)
-// startAt -> startDate je crois
-// currentYear : c'est un champ qui appartient a round non ? (round.year plus exactement)
-// participants : tu peux enlever temporairement ? Il faut qu'on reflechisse a ce qu'on veut updater du cote participant
-const cleanWorkshop = (workshop) => {
-  const persistableWorkshop = { ...workshop };
-  delete persistableWorkshop.model;
-  delete persistableWorkshop.participants;
-  delete persistableWorkshop.citizens;
-  delete persistableWorkshop.creatorId;
-  delete persistableWorkshop.id;
-  delete persistableWorkshop.address;
-  persistableWorkshop.startAt = `${persistableWorkshop.startAt}Z`;
-  const persistableRounds = persistableWorkshop.rounds.map((round) => {
-    const persistableRound = { ...round };
-    delete persistableRound.socialVariables;
-    delete persistableRound.citizenIndividualChoices;
-    return persistableRound;
-  });
-  persistableWorkshop.rounds = persistableRounds;
-  return persistableWorkshop;
-};
-
 const persistWorkshopWithCurrentState = () => {
   return (dispatch, getState) => {
-    const {
-      workshop: { entities, result },
-    } = getState();
-    dispatch(
-      persistWorkshop(
-        result.id,
-        cleanWorkshop(denormalize(result, workshopSchema, entities))
-      )
-    );
+    const { workshop } = getState();
+    dispatch(persistWorkshop(denormalizeWorkshop(workshop)));
   };
 };
 

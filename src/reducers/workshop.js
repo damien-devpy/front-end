@@ -82,6 +82,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case RETRIEVE_WORKSHOP: {
       return {
+        ...state,
         isLoading: true,
         loadError: false,
         loadErrorDetails: null,
@@ -96,11 +97,11 @@ export default (state = initialState, action) => {
         );
       }
       return {
+        ...normalizedWorkshop,
         isLoading: false,
         loadError: false,
         loadErrorDetails: null,
         isSynchronized: true,
-        ...normalizedWorkshop,
       };
     }
     case WORKSHOP_LOAD_ERROR: {

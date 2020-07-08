@@ -17,9 +17,9 @@ const AddParticipantModalForm = ({ t, handleSubmit }) => {
       validationSchema={schema}
       onSubmit={handleSubmit}
       initialValues={{
-        firstName: 'Name',
-        lastName: 'Surname',
-        email: 'sss@sss.com',
+        firstName: '',
+        lastName: '',
+        email: '',
       }}
     >
       {({ handleSubmit, handleChange, values, errors }) => {

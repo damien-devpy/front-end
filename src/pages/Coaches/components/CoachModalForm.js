@@ -100,7 +100,7 @@ const CoachModalForm = ({ t, handleSubmit }) => {
                 placeholder={t('common.coach')}
                 name="role"
                 value={values.role.value}
-                onChange={(value) => handleChange('role', value)}
+                onChange={handleChange}
                 isInvalid={!!errors.role}
               >
                 <option value="coach">{t('common.coach')}</option>

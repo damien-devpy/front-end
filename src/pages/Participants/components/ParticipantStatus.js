@@ -64,7 +64,7 @@ const ParticipantStatus = ({ value, handleShowBC }) => {
         </span>
       );
 
-    case 'registered':
+    case 'ready':
       return (
         <div>
           <span className="badge alert-success" role="alert">

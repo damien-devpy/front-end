@@ -123,7 +123,14 @@ const ManageParticipants = ({
   ) => {
     changeParticipantApi({ data: { workshopId, participantId, personaId } })
       .then((data) =>
-        dispatchThunk(setParticipantPersona(data.id, data.personaId))
+        dispatchThunk(
+          setParticipantPersona(
+            data.id,
+            data.personaId,
+            data.status,
+            data.surveyVariables
+          )
+        )
       )
       .catch(() => {
         dispatchThunk(

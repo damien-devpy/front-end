@@ -31,8 +31,9 @@ export const ParticipantItemForm = ({
   };
 
   const handleChangePersona = (e) => {
-    const index = e.target.selectedIndex - 1;
-    const chosenPersonaId = Object.keys(personas)[index];
+    const index = e.target.selectedIndex;
+    const chosenPersonaId =
+      index === 0 ? null : Object.keys(personas)[index - 1];
     setPersona(chosenPersonaId);
     updateParticipant(chosenPersonaId);
   };

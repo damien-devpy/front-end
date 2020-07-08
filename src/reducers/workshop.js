@@ -41,33 +41,7 @@ import { makeYearParticipantKey } from '../utils/helpers';
 export const MISSING_INFO = 'MISSING_INFO';
 export const MUST_SEND_EMAIL = 'created';
 export const EMAIL_SENT = 'EMAIL_SENT';
-export const BILAN_RECEIVED = 'registered';
-
-function computeStatus(participant, newPersona) {
-  let newStatus = null;
-  if (newPersona) {
-    newStatus = BILAN_RECEIVED;
-  } else {
-    switch (
-      participant.status // old status
-    ) {
-      case MISSING_INFO: {
-        newStatus = MUST_SEND_EMAIL;
-        break;
-      }
-      default: {
-        if (participant.bilanCarbone) {
-          newStatus = BILAN_RECEIVED;
-        } else if (participant.linkBC) {
-          newStatus = EMAIL_SENT;
-        } else {
-          newStatus = MUST_SEND_EMAIL;
-        }
-      }
-    }
-  }
-  return newStatus;
-}
+export const BILAN_RECEIVED = 'ready';
 
 const initialState = {
   isLoading: false,
@@ -751,16 +725,14 @@ export default (state = initialState, action) => {
     }
 
     case SET_PARTICIPANT_PERSONA: {
-      const { participantId, persona } = action.payload;
+      const {
+        participantId,
+        persona,
+        status,
+        surveyVariables,
+      } = action.payload;
 
       console.log('Action set participant', participantId, persona);
-
-      // todo remove when handled by back
-      const newPersona = persona || null;
-      const newStatus = computeStatus(
-        state.entities.participants[participantId],
-        newPersona
-      );
 
       const newState = {
         ...state,
@@ -770,11 +742,9 @@ export default (state = initialState, action) => {
             ...state.entities.participants,
             [participantId]: {
               ...state.entities.participants[participantId],
-              personaId: newPersona,
-              status: newStatus,
-              surveyVariables: newPersona
-                ? state.entities.personas[newPersona].surveyVariables
-                : state.entities.participants[participantId].surveyVariables,
+              personaId: persona,
+              status,
+              surveyVariables,
             },
           },
         },

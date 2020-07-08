@@ -11,7 +11,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import '../index.css';
 import Avatar from './Avatar';
 import CloudDone from '../assets/CloudDone';
 import CloudUpload from '../assets/CloudUpload';

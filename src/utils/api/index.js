@@ -44,6 +44,27 @@ export const deleteWorkshopApi = ({ workshopId }) =>
     type: 'empty',
   });
 
+export const createParticipantApi = ({ workshopId, data }) =>
+  handleFetch(`/workshops/${workshopId}/participants`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+export const deleteParticipantApi = ({ workshopId, participantId }) =>
+  handleFetch(`/workshops/${workshopId}/participants/${participantId}`, {
+    method: 'DELETE',
+    type: 'empty',
+  });
+
+export const changeParticipantApi = ({ data }) =>
+  handleFetch(
+    `/workshops/${data.workshopId}/participants/${data.participantId}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify({ personaId: data.personaId }),
+    }
+  );
+
 export const createCoachApi = ({ data }) =>
   handleFetch('/coaches', {
     method: 'POST',

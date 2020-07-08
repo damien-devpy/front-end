@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import AddIcon from '../../assets/AddIcon';
+import AddParticipantModalForm from './components/AddParticipantModalForm';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
@@ -17,20 +18,25 @@ import { COLORS } from '../../vars';
 import {
   ParticipantItemForm,
   ParticipantsHeader,
-} from './components/ParticipantItemForm';
+} from './components/NewParticipantItem';
 import {
   addParticipant,
   deleteParticipant,
-  setParticipantNameEmail,
+  setParticipantPersona,
 } from '../../actions/participants';
+import {
+  changeParticipantApi,
+  createParticipantApi,
+  deleteParticipantApi,
+} from '../../utils/api';
+import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import {
   computeFootprints,
   computeFootprintsForCitizen,
   initWorkshop,
 } from '../../actions/workshop';
-
-import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
 
 const ManageParticipants = ({
@@ -39,6 +45,11 @@ const ManageParticipants = ({
   },
 }) => {
   useWorkshop(workshopId);
+
+  const [showBC, setShowBC] = useState(false);
+  const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
+  const [footprintToShow, setFootprintToShow] = useState({});
+
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name
   );
@@ -49,7 +60,6 @@ const ManageParticipants = ({
   const participants = useSelector(
     (state) => state.workshop.entities && state.workshop.entities.participants
   );
-  console.log('participants', participants);
   const carbonFootprints = useSelector(
     (state) => state.workshop.result && state.workshop.entities.carbonFootprints
   );
@@ -63,57 +73,79 @@ const ManageParticipants = ({
     (state) => state.workshop.result && state.workshop.result.model
   );
 
-  const numParticipants = useSelector(
-    (state) =>
-      state.workshop.result &&
-      state.workshop.entities.participants &&
-      Object.keys(state.workshop.entities.participants).length
-  );
   const personas = useSelector(
     (state) => state.workshop.entities && state.workshop.entities.personas
   );
-  console.log('personas', personas);
+
   const dispatch = useDispatch();
 
-  // keep track of actived rows globally
-  const [active, setActive] = useState({});
-
-  // by default only rows that are missing required info are active
-  const initActive = () =>
-    Object.assign(
-      {},
-      ...Object.keys(participants).map((id) => ({
-        [id]:
-          !participants[id].isValid &&
-          !(participants[id].status === 'registered'),
-      }))
-    );
-
-  // update all rows only when the participants are added or deleted
-  useEffect(() => {
-    console.log('Use effect CONTAINER');
-    participants && setActive(initActive(participants));
-  }, [numParticipants]);
-
-  const handleClick = (id) => {
-    // if previously another row was activated because it was clicked, it will not be now
-    // unless it misses required info
-    console.log('On CLICK row', id);
-    if (active[id]) return;
-    const newActive = Object.assign(
-      {},
-      ...Object.keys(participants).map((i) => ({
-        [i]:
-          !participants[i].isValid &&
-          !(participants[i].status === 'registered'),
-      }))
-    );
-    id && (newActive[id] = true);
-    setActive(newActive);
+  const createAsyncParticipant = (values) => (dispatchThunk) => {
+    createParticipantApi({ workshopId, data: values })
+      .then((data) => dispatchThunk(addParticipant(data)))
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.createParticipant', {
+              participantName: '',
+            })
+          )
+        );
+      });
+  };
+  const handleAddParticipant = (values) => {
+    dispatch(createAsyncParticipant(values));
+    // triggers rerendering
+    setShowAddParticipantModal(false);
   };
 
-  const [showBC, setShowBC] = useState(false);
-  const [footprintToShow, setFootprintToShow] = useState({});
+  const deleteAsyncParticipant = (participantId) => (dispatchThunk) => {
+    // console.log("Delete", participantId);
+    deleteParticipantApi({ workshopId, participantId })
+      .then(() => {
+        dispatchThunk(deleteParticipant(participantId));
+      })
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.deleteParticipant', {
+              // workshopName: selectWorkshopById(workshops, workshopId).name,
+            })
+          )
+        );
+      });
+  };
+  const handleDelete = (participantId) => {
+    dispatch(deleteAsyncParticipant(participantId));
+  };
+
+  const changeAsyncParticipant = (participantId, personaId) => (
+    dispatchThunk
+  ) => {
+    changeParticipantApi({ data: { workshopId, participantId, personaId } })
+      .then((data) =>
+        dispatchThunk(
+          setParticipantPersona(
+            data.id,
+            data.personaId,
+            data.status,
+            data.surveyVariables
+          )
+        )
+      )
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.changeParticipant', {
+              participantName: '',
+            })
+          )
+        );
+      });
+  };
+  const handleChangePersona = (participantId, personaId) => {
+    console.log('Change persona', participantId, personaId);
+    dispatch(changeAsyncParticipant(participantId, personaId));
+  };
 
   const handleShowBC = (id) => {
     setShowBC(true);
@@ -154,18 +186,13 @@ const ManageParticipants = ({
           id={id}
           firstName={p.firstName}
           lastName={p.lastName}
-          initEmail={p.email}
+          email={p.email}
           status={p.status}
           key={id}
-          updateParticipant={(name, email, persona, valid) => {
-            dispatch(setParticipantNameEmail(id, name, email, persona, valid));
+          updateParticipant={(persona) => {
+            handleChangePersona(id, persona);
           }}
-          deleteParticipant={() => {
-            dispatch(deleteParticipant(id));
-          }}
-          isActive={active[id]}
-          isValid={p.isValid}
-          handleClick={handleClick}
+          deleteParticipant={() => handleDelete(id)}
           personas={personas}
           currentPersonaId={p.personaId}
           handleShowBC={handleShowBC}
@@ -173,54 +200,47 @@ const ManageParticipants = ({
       );
     });
 
-  // outer container to be able to handle clicks outside the rows, i.e. "lose focus" type of events
   return (
-    <div
-      className="container-fluid h-100 pb-5"
-      onClick={() => handleClick(null)}
-    >
-      <Container>
-        <Card
-          className="p-5 border-light shadow-sm"
-          style={{ borderRadius: 10 }}
-        >
-          <h4 className="workshop_title">{workshopTitle}</h4>
+    <Container>
+      <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
+        <h4 className="workshop_title">{workshopTitle}</h4>
 
-          <StyledHeader>
-            <h4>{t('common.participants_list')}</h4>
-          </StyledHeader>
+        <StyledHeader>
+          <h4>{t('common.participants_list')}</h4>
+        </StyledHeader>
 
-          <div className="container">
-            {/* {loadError && <p>Error</p>} */}
-            {/* {isLoading && <Spinner animation="border" />} */}
-            <ParticipantsHeader />
-            {participantItems}
-            <AddParticipant
-              dispatchAddEvent={() => {
-                dispatch(addParticipant());
-              }}
-            />
-            <div style={{ textAlign: 'center' }}>
-              <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton
-                  onClick={() => {
-                    fetch('/data/heating_networks.csv')
-                      .then((response) => response.text())
-                      .then((text) => Papa.parse(text))
-                      .then((heatingNetworksData) => {
-                        dispatch(initWorkshop(2020, heatingNetworksData.data));
-                        dispatch(computeFootprints(2020));
-                        dispatch(computeFootprintsForCitizen(2020));
-                      });
-                  }}
-                >
-                  {t('common.launch_simulation')}
-                </PrimaryButton>
-              </Link>
-            </div>
+        <div className="container">
+          {/* {loadError && <p>Error</p>} */}
+          {/* {isLoading && <Spinner animation="border" />} */}
+          <ParticipantsHeader />
+          {participantItems}
+          <AddParticipant
+            onClick={() => {
+              // dispatch(addParticipant());
+              // handleAddParticipant();
+              setShowAddParticipantModal(true);
+            }}
+          />
+          <div style={{ textAlign: 'center' }}>
+            <Link to={`/workshop/${workshopId}/simulation`}>
+              <PrimaryButton
+                onClick={() => {
+                  fetch('/data/heating_networks.csv')
+                    .then((response) => response.text())
+                    .then((text) => Papa.parse(text))
+                    .then((heatingNetworksData) => {
+                      dispatch(initWorkshop(2020, heatingNetworksData.data));
+                      dispatch(computeFootprints(2020));
+                      dispatch(computeFootprintsForCitizen(2020));
+                    });
+                }}
+              >
+                {t('common.launch_simulation')}
+              </PrimaryButton>
+            </Link>
           </div>
-        </Card>
-      </Container>
+        </div>
+      </Card>
       <Modal
         size="md"
         centered
@@ -236,15 +256,27 @@ const ManageParticipants = ({
           <FootprintGraph footprint={footprintToShow} />
         </Modal.Body>
       </Modal>
-    </div>
+      <Modal
+        size="md"
+        centered
+        show={showAddParticipantModal}
+        onHide={() => {
+          setShowAddParticipantModal(false);
+        }}
+      >
+        <Modal.Body>
+          <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
+        </Modal.Body>
+      </Modal>
+    </Container>
   );
 };
 
-const AddParticipant = ({ dispatchAddEvent }) => {
+const AddParticipant = ({ onClick }) => {
   const { t } = useTranslation();
 
   return (
-    <StyledAdd onClick={dispatchAddEvent}>
+    <StyledAdd onClick={onClick}>
       <AddIcon width={20} height={20} /> {'   '}{' '}
       {t('manageParticipants.addNew')}
     </StyledAdd>

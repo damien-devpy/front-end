@@ -34,6 +34,10 @@ const Workshops = () => {
     selectCoachWorkshops(state.workshops, modifiedUserId)
   );
   const { coaches } = useCoaches();
+  // Coaches can only create a workshop for themselves
+  // Admins can create aworkshop for any coach or admin
+  const authorizedCoaches =
+    currentUser && currentUser.role === 'admin' ? coaches : [currentUser];
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
@@ -110,7 +114,7 @@ const Workshops = () => {
         >
           <WorkshopModalForm
             t={t}
-            coaches={coaches}
+            coaches={authorizedCoaches}
             handleSubmit={handleSubmit}
           />
         </CommonModal>

@@ -43,7 +43,7 @@ const Navbar = ({ links = [], type = 'home' }) => {
       <NavigBar
         style={{ backgroundColor: `${COLORS.BROWN.LIGHT}` }}
         variant="light"
-        expand="lg"
+        expand
         className="mb-4"
       >
         <Container>
@@ -102,11 +102,11 @@ const Navbar = ({ links = [], type = 'home' }) => {
                 }
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header>
+                {/* <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header> 
                 <NavDropdown.Item href="/coaches">
                   {t('common.coaches')}
                 </NavDropdown.Item>
-                <NavDropdown.Divider />
+                <NavDropdown.Divider /> */}
                 <NavDropdown.Item eventKey={3.2} onClick={handleLogout}>
                   {t('common.logout')}
                 </NavDropdown.Item>

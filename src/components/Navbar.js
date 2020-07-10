@@ -20,7 +20,7 @@ import { logout } from '../utils/auth';
 import { logoutCurrentUser } from '../actions/user';
 import { resetError } from '../actions/errors';
 
-const Navbar = ({ links = [] }) => {
+const Navbar = ({ links = [], type = 'home' }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { msg } = useSelector((state) => state.error);
@@ -38,7 +38,6 @@ const Navbar = ({ links = [] }) => {
     logout();
     dispatch(logoutCurrentUser());
   };
-
   return (
     <>
       <NavigBar
@@ -69,6 +68,7 @@ const Navbar = ({ links = [] }) => {
                   </Nav.Link>
                 ) : (
                   <Nav.Link
+                    key={id}
                     as={Link}
                     to={link}
                     className={isActive(id)}
@@ -87,11 +87,12 @@ const Navbar = ({ links = [] }) => {
               )}
             </Nav>
             <div className="d-flex ml-auto align-items-center">
-              {isSynchronized ? (
-                <CloudDone width="40" height="40" />
-              ) : (
-                <CloudUpload width="40" height="40" />
-              )}
+              {type === 'workshop' &&
+                (isSynchronized ? (
+                  <CloudDone width="40" height="40" />
+                ) : (
+                  <CloudUpload width="40" height="40" />
+                ))}
               <StyledNavDropDown
                 className="ml-auto"
                 title={

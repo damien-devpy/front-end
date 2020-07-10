@@ -20,12 +20,14 @@ import { COLORS } from './vars';
 import { getAccessToken } from './utils/auth';
 import { useAuthentication } from './hooks/authentication';
 
-const AppRouter = () => {
+const AppRouter = ({ currentUser }) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/workshop/:workshopId/*" component={NavbarWorkshop} />
-        <Route component={NavbarHome} />
+        <Route>
+          <NavbarHome currentUser={currentUser} />
+        </Route>
       </Switch>
       <Switch>
         <Route
@@ -36,11 +38,17 @@ const AppRouter = () => {
         <Route path="/workshop/:workshopId/simulation" component={Simulation} />
         <Route path="/workshop/:workshopId/results" component={Results} />
         <Route exact path="/">
-          <Redirect to="/workshops" />
+          {currentUser && currentUser.role === 'admin' && (
+            <Redirect to="/workshops" />
+          )}
+          {currentUser && currentUser.role === 'coach' && (
+            <Redirect to="/myWorkshops" />
+          )}
         </Route>
         <Route path="/home" component={Home} />
         <Route path="/coaches" component={Coaches} />
         <Route path="/workshops" component={Workshops} />
+        <Route path="/myWorkshops" component={Workshops} />
         <Route path="/resources" component={Resources} />
       </Switch>
     </BrowserRouter>
@@ -59,7 +67,7 @@ const LoginRouter = ({ t, handleLogin }) => (
 const App = () => {
   const { t } = useTranslation();
   const [token, setToken] = useState(getAccessToken());
-  const { signedIn, isLoading } = useAuthentication(token);
+  const { user, signedIn, isLoading } = useAuthentication(token);
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--bgColor', `${COLORS.BROWN.LIGHT}`);
@@ -73,7 +81,7 @@ const App = () => {
     return <Spinner animation="border" className="pt-3 mx-auto mt-5" />;
   }
   if (signedIn) {
-    return <AppRouter />;
+    return <AppRouter currentUser={user} />;
   }
 
   return <LoginRouter t={t} handleLogin={handleLogin} />;

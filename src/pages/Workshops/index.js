@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, Container, Spinner } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import AddIcon from '../../assets/AddIcon';
@@ -12,6 +12,8 @@ import WorkshopTable from './components/WorkshopTable';
 import { COLORS } from '../../vars';
 import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
 import { createWorkshopApi, deleteWorkshopApi } from '../../utils/api';
+import { selectCoachWorkshops } from '../../selectors/workshopsSelector';
+import { selectUser } from '../../selectors/currentUser';
 import { selectWorkshopById } from '../../selectors/workshopSelector';
 import { throwError } from '../../actions/errors';
 import { useCoaches } from '../../hooks/coaches';
@@ -19,7 +21,18 @@ import { useWorkshops } from '../../hooks/workshops';
 
 const Workshops = () => {
   const { t } = useTranslation();
+  const currentUser = useSelector((state) => selectUser(state.currentUser));
+  // Display all workshops for admin
+  const modifiedUserId =
+    currentUser.role === 'admin' ? undefined : currentUser.id;
+  const workshopsTitleId =
+    currentUser.role === 'admin'
+      ? t('common.workshops')
+      : t('common.myWorkshops');
   const { workshops, isLoading, loadError } = useWorkshops();
+  const filteredWorkshops = useSelector((state) =>
+    selectCoachWorkshops(state.workshops, modifiedUserId)
+  );
   const { coaches } = useCoaches();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -66,7 +79,7 @@ const Workshops = () => {
     <Container>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
         <StyledHeader>
-          <h2>{t('common.workshops')}</h2>
+          <h2>{t(workshopsTitleId)}</h2>
           {!isLoading && (
             <PrimaryButton variant="secondary" onClick={handleShow}>
               <AddIcon height={20} width={20} fill="inherit" />
@@ -85,7 +98,8 @@ const Workshops = () => {
         {workshops && (
           <WorkshopTable
             t={t}
-            workshops={workshops}
+            workshops={filteredWorkshops}
+            coaches={coaches}
             handleDelete={handleDelete}
           />
         )}

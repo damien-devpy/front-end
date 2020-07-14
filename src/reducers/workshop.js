@@ -100,6 +100,11 @@ export default (state = initialState, action) => {
       const participantIds = state.result.participants;
       const citizenIds = state.result.model.personas;
 
+      const initSocialVariables = {
+        socialScore: 0,
+        influenceScore: 0,
+      };
+
       return {
         ...state,
         entities: {
@@ -116,10 +121,10 @@ export default (state = initialState, action) => {
               ),
               roundConfig: year,
               globalCarbonVariables: year,
-              socialVariables: {
-                socialScore: 0,
-                influenceScore: 0,
-              },
+              socialVariables: initSocialVariables,
+              collectiveBudget: computeBudget(
+                initSocialVariables.influenceScore
+              ),
             },
           },
           carbonVariables: {

@@ -3,7 +3,7 @@ export const COLORS = {
   BLACK: '#000000',
   WHITE: '#ffffff',
   BROWN: {
-    DARK: '#c57e56',
+    DARK: '#A87456',
     STANDARD: '#BA947E',
     LIGHT: '#FAF6F2',
   },

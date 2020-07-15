@@ -14,6 +14,15 @@
 
 :root {
   --bgColor: #ffffff;
+  /* --primary: #BA947E; */
+  /* --primaryDark: #A87456; */
+  --primary: #A87456;
+  --primaryDark: #965735;
+  /* --primaryLight: #FAF6F2; */
+  --primaryLight: #E6DBD0;
+  --secondaryDark: #092C06;
+  --secondaryLight: #2B9126;
+  --secondary: #11580D;
 }
 
 body {
@@ -68,38 +77,79 @@ tr,
   background-color: var(--bgColor);
 }
 
-.workshop_title {
-  color: #ba947e;
+.workshop-title {
+  color: var(--primary);
+  text-align: center;
 }
 
 .card_label {
   color: white;
 }
 
-.btn-custom-lot, .btn-custom-lot:hover {
-  color: #BA947E !important;
-  background-color: #fff9f5 !important;
-  border-color: #BA947E !important;
+.btn-custom-lot, .btn-custom-lot:hover:active {
+  color: var(--primary) !important;
+  background-color: var(--primaryLight) !important;
+  border-color: var(--primaryLight) !important;
+  font-weight: 500 !important;
+}
+
+.btn-custom-lot:hover {
+  color: white !important;
+  background-color: var(--primaryDark) !important;
+  border-color: var(--primaryDark) !important;
+}
+
+.btn-custom-lot:disabled:active {
+  color: white !important;
+  background-color: var(--primaryDark) !important;
+  border-color: var(--primaryDark) !important;
 }
 
 .btn-custom-lot:active, .btn-custom-lot:visited, .btn-custom-lot.active {
-  background-color: #BA947E !important;
-  border-color: #BA947E !important;
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
   color: white !important;  
+  box-shadow: 0 0 0 0rem lightgrey !important;
 }
 
 .btn-custom-lot:focus, .btn-custom-lot.focus {
-  box-shadow: 0 0 0 0.2rem lightgrey;
+  box-shadow: 0 0 0 0rem lightgrey;
 }
 
-.primary {
+.btn-custom-secondary {
+  background-color: var(--secondary) !important;
+  border-color: var(--secondaryDark) !important;
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.btn-custom-secondary:disabled, .btn-custom-secondary.disabled, .btn-custom-secondary:hover:disabled, .btn-custom-secondary:hover.btn-custom-secondary.disabled {
+  background-color: white !important;
+  color: var(--secondaryDark) !important;
+  border-color: var(--secondaryDark) !important;
+}
+
+.btn-custom-secondary:active:enabled, .btn-custom-secondary.active:enabled, .btn-custom-secondary:visited {
+  background-color: var(--secondary) !important;
+  color: white !important;
+  border-color: var(--secondary) !important;
+}
+
+.btn-custom-secondary:hover:enabled, .btn-custom-secondary:focus {
+  background-color: var(--secondaryDark) !important;
+  color: white !important;
+  border-color: var(--secondaryDark) !important;
+}
+
+.fill-current-color {
   fill: currentColor;
 }
 
-.primary:hover {
+/* .primary:hover {
   fill: #ba947e;
-}
+} */
 
 .yaxis {
   font-size: 10px;
 }
+

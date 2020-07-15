@@ -123,9 +123,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 className="d-flex justify-content-center"
                 controlId="validationFormik00"
               >
-                <SecondaryButton
-                  className="mr-2 activable"
-                  variant="secondary"
+                <ButtonGroup>
+                <Button
+                  variant="outline-primary"
                   active={values.actionCardType === 'individual'}
                   onClick={() => {
                     setFieldValue('actionCardType', 'individual');
@@ -144,10 +144,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.individualActions')}
-                </SecondaryButton>
-                <SecondaryButton
-                  className="mr-2 activable"
-                  variant="secondary"
+                </Button>
+                <Button
+                  variant="outline-primary"
                   active={values.actionCardType === 'collective'}
                   onClick={() => {
                     setFieldValue('actionCardType', 'collective');
@@ -166,15 +165,16 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   }}
                 >
                   {t('common.collectiveActions')}
-                </SecondaryButton>
+                </Button>
+                </ButtonGroup>
               </Form.Group>
             </Form.Row>
             <Form.Row className="d-flex justify-content-center">
               <Form.Group as={Col}>
                 <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
                 <ButtonGroup className="mr-2">
-                  <SecondaryButton
-                    className="activable"
+                  <Button
+                    variant="secondary"
                     onClick={() => {
                       if (values.targetedYear > currentYear + yearIncrement) {
                         setFieldValue('targetedYear', values.targetedYear - 1);
@@ -182,10 +182,10 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     -
-                  </SecondaryButton>
-                  <SecondaryButton>{values.targetedYear}</SecondaryButton>
-                  <SecondaryButton
-                    className="activable"
+                  </Button>
+                  <Button variant="secondary" disabled>{values.targetedYear}</Button>
+                  <Button
+                    variant="secondary"
                     onClick={() => {
                       if (values.targetedYear < endYear) {
                         setFieldValue('targetedYear', values.targetedYear + 1);
@@ -193,7 +193,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     +
-                  </SecondaryButton>
+                  </Button>
                 </ButtonGroup>
               </Form.Group>
               {values.actionCardType === 'individual' && (
@@ -212,8 +212,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     )}
                   </Form.Label>
                   <ButtonGroup className="mr-2">
-                    <SecondaryButton
-                      className="activable"
+                    <Button
+                      variant="info"
                       onClick={() => {
                         if (values.individualBudget > 1) {
                           setFieldValue(
@@ -224,12 +224,12 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       }}
                     >
                       -
-                    </SecondaryButton>
-                    <SecondaryButton className="activable">
+                    </Button>
+                    <Button variant="info" disabled>
                       {values.individualBudget}
-                    </SecondaryButton>
-                    <SecondaryButton
-                      className="activable"
+                    </Button>
+                    <Button
+                      variant="info"
                       onClick={() => {
                         if (values.individualBudget < 10) {
                           setFieldValue(
@@ -240,7 +240,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       }}
                     >
                       +
-                    </SecondaryButton>
+                    </Button>
                   </ButtonGroup>
                 </Form.Group>
               )}
@@ -258,7 +258,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       disabled={values.checkedActionCardBatchIds.includes(
                         batchId
                       )}
-                      className="mr-1 btn-custom-lot"
+                      className="mr-1"
+                      variant="info"
                       inline
                       label={values.actionCardBatches[batchId].name}
                       type="checkbox"
@@ -303,7 +304,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
             </Form.Row>
             <Form.Row className="d-flex justify-content-end">
               <PrimaryButton
-                className="activable"
+                // className="activable"
                 type="submit"
                 disabled={
                   !values.actionCardBatchIds.length &&

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import ActionCardsForm from './ActionCardsForm';
 import ParticipantsTable from './ParticipantsTable';
+import PrimaryButton from '../../../components/PrimaryButton';
 import {
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
@@ -264,12 +265,12 @@ const ActionCardsEntry = ({
           </Col>
         )}
 
-        <Col sm={8} md={8}>
+        <Col>
           <Container>
             <h4>{t('common.batches')}</h4>
             {roundActionCardType === 'individual' && (
               <ActionCardsForm
-                handleSubmit={handleSubmitIndividualChoices}
+                // handleSubmit={handleSubmitIndividualChoices}
                 handleCardActionSelectionChange={handleChoicesChange(
                   currentRound,
                   selectedParticipantId
@@ -280,7 +281,7 @@ const ActionCardsEntry = ({
             )}
             {roundActionCardType === 'collective' && (
               <ActionCardsForm
-                handleSubmit={handleSubmitCollectiveChoices}
+                // handleSubmit={handleSubmitCollectiveChoices}
                 handleCardActionSelectionChange={handleChoicesChange(
                   currentRound
                 )}
@@ -290,6 +291,17 @@ const ActionCardsEntry = ({
             )}
           </Container>
         </Col>
+      </Row>
+      <Row className="d-flex justify-content-end">
+        <PrimaryButton
+          onClick={
+            roundActionCardType === 'individual'
+              ? handleSubmitIndividualChoices
+              : handleSubmitCollectiveChoices
+          }
+        >
+          {t('common.validate')}
+        </PrimaryButton>
       </Row>
     </Container>
   );

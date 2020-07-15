@@ -3,18 +3,17 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import AddIcon from '../../assets/AddIcon';
+import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
+import CardHeader from '../../components/CardHeader';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
-import { COLORS } from '../../vars';
 import {
   ParticipantItemForm,
   ParticipantsHeader,
@@ -202,43 +201,51 @@ const ManageParticipants = ({
 
   return (
     <Container>
+      <h2 className="workshop-title">{workshopTitle}</h2>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
-        <h4 className="workshop_title">{workshopTitle}</h4>
-
-        <StyledHeader>
-          <h4>{t('common.participants_list')}</h4>
-        </StyledHeader>
+        <CardHeader>
+          <h3>{t('manageParticipants.title')}</h3>
+          <AddNewButton
+            onClick={() => {
+              setShowAddParticipantModal(true);
+            }}
+          >
+            {t('manageParticipants.addNew')}
+          </AddNewButton>
+        </CardHeader>
+        <hr />
 
         <div className="container">
           {/* {loadError && <p>Error</p>} */}
           {/* {isLoading && <Spinner animation="border" />} */}
           <ParticipantsHeader />
           {participantItems}
-          <AddParticipant
+          {/* <AddParticipant
             onClick={() => {
               // dispatch(addParticipant());
               // handleAddParticipant();
               setShowAddParticipantModal(true);
             }}
-          />
-          <div style={{ textAlign: 'center' }}>
-            <Link to={`/workshop/${workshopId}/simulation`}>
-              <PrimaryButton
-                onClick={() => {
-                  fetch('/data/heating_networks.csv')
-                    .then((response) => response.text())
-                    .then((text) => Papa.parse(text))
-                    .then((heatingNetworksData) => {
-                      dispatch(initWorkshop(2020, heatingNetworksData.data));
-                      dispatch(computeFootprints(2020));
-                      dispatch(computeFootprintsForCitizen(2020));
-                    });
-                }}
-              >
-                {t('common.launch_simulation')}
-              </PrimaryButton>
-            </Link>
-          </div>
+          /> */}
+          <hr />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <Link to={`/workshop/${workshopId}/simulation`}>
+            <PrimaryButton className='btn-lg'
+              onClick={() => {
+                fetch('/data/heating_networks.csv')
+                  .then((response) => response.text())
+                  .then((text) => Papa.parse(text))
+                  .then((heatingNetworksData) => {
+                    dispatch(initWorkshop(2020, heatingNetworksData.data));
+                    dispatch(computeFootprints(2020));
+                    dispatch(computeFootprintsForCitizen(2020));
+                  });
+              }}
+            >
+              {t('common.launch_simulation')}
+            </PrimaryButton>
+          </Link>
         </div>
       </Card>
       <Modal
@@ -272,36 +279,32 @@ const ManageParticipants = ({
   );
 };
 
-const AddParticipant = ({ onClick }) => {
-  const { t } = useTranslation();
+// const AddParticipant = ({ onClick }) => {
+//   const { t } = useTranslation();
 
-  return (
-    <StyledAdd onClick={onClick}>
-      <AddIcon width={20} height={20} /> {'   '}{' '}
-      {t('manageParticipants.addNew')}
-    </StyledAdd>
-  );
-};
+//   return (
+//     <StyledAdd onClick={onClick}>
+//       <AddIcon width={20} height={20} /> {'   '}{' '}
+//       {t('manageParticipants.addNew')}
+//     </StyledAdd>
+//   );
+// };
 
-export const StyledAdd = styled.div`
-  background-color: ${COLORS.WHITE};
-  margin: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 5px;
-  padding-left: 10px;
-  border: 2px dashed #e2e0e0;
-  text-align: center;
-  transition: 0.5s;
-  :focus,
-  :hover {
-    background-color: #dedede;
-  }
-`;
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
+// export const StyledAdd = styled.div`
+//   background-color: ${COLORS.WHITE};
+//   margin: 15px;
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+//   border-radius: 5px;
+//   padding-left: 10px;
+//   border: 2px dashed #e2e0e0;
+//   text-align: center;
+//   transition: 0.5s;
+//   :focus,
+//   :hover {
+//     background-color: #dedede;
+//   }
+// `;
+
 
 export default ManageParticipants;

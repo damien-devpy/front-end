@@ -122,7 +122,6 @@ export default {
     objective: 'Objectif',
     others: 'Autres',
     participants: 'Participants',
-    participants_list: "Liste des participants de l'atelier",
     password: 'Mot de passe',
     password_confirmation: 'Confirmation mot de passe',
     plane: 'Avion',
@@ -157,6 +156,7 @@ export default {
     passwordsAreDifferent: 'Les deux mots de passe ne sont pas identiques',
   },
   manageParticipants: {
+    title: "Liste des participants de l'atelier",
     addNew: 'Ajouter Participant',
     copied: 'Copié!',
     delete: 'Enlever participant',

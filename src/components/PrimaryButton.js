@@ -6,14 +6,24 @@ import { COLORS } from '../vars';
 const PrimaryButton = styled(Button)`
   background-color: ${COLORS.BROWN.STANDARD};
   border-color: ${COLORS.BROWN.STANDARD};
+  font-weight: 500;
   transition: 0.3s;
-  :active,
+  box-shadow: 0px 0px 0px 0px ${COLORS.BROWN.STANDARD};
   :focus,
-  :hover {
-    color: ${COLORS.BROWN.STANDARD} !important;
-    font-weight: bolder !important;
-    background-color: white !important;
-    border-color: ${COLORS.BROWN.STANDARD} !important;
+  :hover, &.active, .active:focus {
+    // color: ${COLORS.BROWN.STANDARD} !important;
+    // font-weight: bolder !important;
+    // background-color: white !important;
+    box-shadow: 0px 0px 0px 0px;
+    color: ${COLORS.WHITE} !important;
+    background-color: ${COLORS.BROWN.DARK} !important;
+    border-color: ${COLORS.BROWN.DARK} !important;
+  };
+  :disabled {
+    color: ${COLORS.WHITE} !important;
+    background-color: ${COLORS.BROWN.DARK} !important;
+    border-color: ${COLORS.BROWN.DARK} !important;
+    opacity: 0.5
   }
 `;
 

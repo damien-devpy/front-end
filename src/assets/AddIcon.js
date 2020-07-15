@@ -1,17 +1,17 @@
 import React from 'react';
 
-const AddIcon = ({ height = 20, width = 20 }) => (
+const AddIcon = (props) => (
   <svg
-    width={width}
-    height={height}
     version="1.1"
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
-    x="0px"
-    y="0px"
+    // x="0px"
+    // y="0px"
     viewBox="0 0 512 512"
-    style={{ enableBackground: '0 0 512 512' }}
-    className="primary"
+    // style={{
+    //   enableBackground: '0 0 512 512',
+    // }}
+    {...props}
   >
     <g>
       <g>

@@ -50,7 +50,7 @@ export const ParticipantItemForm = ({
     });
 
     return (
-      <Form.Control
+      <Form.Control custom
         as="select"
         size="sm"
         id="dropdown"
@@ -122,8 +122,8 @@ export const ParticipantsHeader = () => {
 const StyledHeaderRow = styled.div`
   //background-color: ${COLORS.GRAY.LIGHT};
   margin-top: 10px;
-  margin-bottom:30px;
+  // margin-bottom:30px;
   padding-bottom: 5px;
   font-weight: bold;
-  border-bottom:1px solid #E2E0E0;
+  // border-bottom:1px solid #E2E0E0;
 `;

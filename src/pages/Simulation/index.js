@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import './components/simulationPage.css';
 import ActionCardsEntry from './components/ActionCardsEntry';
+import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
@@ -50,39 +51,30 @@ const Simulation = () => {
     <>
       {!currentRound && (
         <>
-          <h4 className="workshop_title">{t('common.noCurrentWorkshop')}</h4>
-          <h4 className="workshop_title">{t('common.selectAWorkshop')}</h4>
+          <h4 className="workshop-title">{t('common.noCurrentWorkshop')}</h4>
+          <h4 className="workshop-title">{t('common.selectAWorkshop')}</h4>
         </>
       )}
       {currentRound && (
         <>
-          <h4
-            style={{ marginBottom: 10, marginTop: 0 }}
-            className="workshop_title"
-          >
-            {workshopTitle}
-          </h4>
-          <h5 style={{ margin: 5 }}>
-            {t('common.we_are_in')}
-            {'  '}
-            <span style={{ fontSize: 25, fontWeight: 'bold' }}>
-              {' '}
-              {currentRound}
-            </span>
-          </h5>
+          <h2 className="workshop-title">{workshopTitle}</h2>
 
           <StyledSimulation>
             <Container className="row-full">
-              <Row className="d-flex justify-content-end mr-1">
+              <CardHeader>
+                <h3>
+                  <small>{t('common.we_are_in')}</small> {currentRound}
+                </h3>
                 <PrimaryButton
-                  className="primaryButton"
+                  className="pull-right"
                   size="lg"
                   variant="secondary"
                   onClick={handleShowNewRoundModal}
                 >
                   {t('common.nextRound')}
                 </PrimaryButton>
-              </Row>
+              </CardHeader>
+
               {loadError && <p>{t('common.loadError')}</p>}
               {isLoading && (
                 <Spinner animation="border" className="pt-3 mx-auto mt-5" />

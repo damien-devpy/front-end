@@ -24,9 +24,7 @@ const AppRouter = ({ currentUser }) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/workshop/:workshopId/*">
-          <NavbarWorkshop currentUser={currentUser} />
-        </Route>
+        <Route path="/workshop/:workshopId/*" component={NavbarWorkshop} />
         <Route>
           <NavbarHome currentUser={currentUser} />
         </Route>

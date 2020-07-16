@@ -144,15 +144,7 @@ export const computeEvolutionGraph = (
   Object.keys(roundsEntity).forEach((year) => {
     obj = {};
     obj.year = roundsEntity[year].year;
-    obj.avg_participants = participantsAverageFootprint(
-      roundCarbonFootprints,
-      footprintStructure
-    ).value.toFixed(0);
-    obj.avg_global = globalAverageFootprint(
-      roundCarbonFootprints,
-      roundCitizenFootprints,
-      footprintStructure
-    ).value.toFixed(0);
+
     if (roundsEntity[year].carbonFootprints) {
       roundsEntity[year].carbonFootprints.forEach((key) => {
         roundCarbonFootprints[key] = carbonFootprintsEntity[key];
@@ -165,6 +157,15 @@ export const computeEvolutionGraph = (
         (key) => (roundCitizenFootprints[key] = citizenFootprintsEntity[key])
       );
     }
+    obj.avg_participants = participantsAverageFootprint(
+      roundCarbonFootprints,
+      footprintStructure
+    ).value.toFixed(0);
+    obj.avg_global = globalAverageFootprint(
+      roundCarbonFootprints,
+      roundCitizenFootprints,
+      footprintStructure
+    ).value.toFixed(0);
     evolutionData.push(obj);
   });
   return evolutionData;

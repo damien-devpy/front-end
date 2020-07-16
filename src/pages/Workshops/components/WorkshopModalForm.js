@@ -64,7 +64,7 @@ const WorkshopModalForm = ({ t, coaches, handleSubmit }) => {
                 >
                   {coaches.map((coach) => (
                     <option key={coach.id} value={coach.id}>
-                      {coach.firstName}
+                      {coach.email}
                     </option>
                   ))}
                 </Form.Control>

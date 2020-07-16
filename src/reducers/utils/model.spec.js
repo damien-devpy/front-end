@@ -1,5 +1,6 @@
 import {
   applyFunctionToLeavesOfFootprintStructures,
+  computeBudget,
   computeFootprint,
   valueOnAllLevels,
 } from './model';
@@ -148,5 +149,23 @@ describe('valueOnAllLevels', () => {
     };
     const result = valueOnAllLevels(footprintStructure);
     expect(result).toStrictEqual(expectedResult);
+  });
+});
+
+describe('computeBudget returns correct results', () => {
+  const testValues = [
+    { influenceScore: 0, expectedBudget: 2 },
+    { influenceScore: 1.5, expectedBudget: 2 },
+    { influenceScore: 5, expectedBudget: 3 },
+    { influenceScore: 20, expectedBudget: 4 },
+    { influenceScore: 25, expectedBudget: 4 },
+    { influenceScore: 95, expectedBudget: 8 },
+    { influenceScore: 1000, expectedBudget: 8 },
+    { influenceScore: -1000, expectedBudget: 2 },
+  ];
+
+  testValues.forEach((params) => {
+    const actualResult = computeBudget(params.influenceScore);
+    expect(actualResult).toBe(params.expectedBudget);
   });
 });

@@ -20,12 +20,16 @@ import { COLORS } from './vars';
 import { getAccessToken } from './utils/auth';
 import { useAuthentication } from './hooks/authentication';
 
-const AppRouter = () => {
+const AppRouter = ({ currentUser }) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/workshop/:workshopId/*" component={NavbarWorkshop} />
-        <Route component={NavbarHome} />
+        <Route path="/workshop/:workshopId/*">
+          <NavbarWorkshop currentUser={currentUser} />
+        </Route>
+        <Route>
+          <NavbarHome currentUser={currentUser} />
+        </Route>
       </Switch>
       <Switch>
         <Route
@@ -59,7 +63,7 @@ const LoginRouter = ({ t, handleLogin }) => (
 const App = () => {
   const { t } = useTranslation();
   const [token, setToken] = useState(getAccessToken());
-  const { signedIn, isLoading } = useAuthentication(token);
+  const { user, signedIn, isLoading } = useAuthentication(token);
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--bgColor', `${COLORS.BROWN.LIGHT}`);
@@ -73,7 +77,7 @@ const App = () => {
     return <Spinner animation="border" className="pt-3 mx-auto mt-5" />;
   }
   if (signedIn) {
-    return <AppRouter />;
+    return <AppRouter currentUser={user} />;
   }
 
   return <LoginRouter t={t} handleLogin={handleLogin} />;

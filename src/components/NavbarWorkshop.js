@@ -10,6 +10,6 @@ const NavbarWorkshop = ({ match: { params: { workshopId } = {} } = {} }) => {
     { id: 'simulation', link: `/workshop/${workshopId}/simulation` },
     { id: 'results', link: `/workshop/${workshopId}/results` },
   ];
-  return <Navbar links={links} />;
+  return <Navbar links={links} type="workshop" />;
 };
 export default NavbarWorkshop;

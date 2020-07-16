@@ -66,7 +66,7 @@ const citizenIndividualChoices = new schema.Entity(
     citizenIndividualChoices: [actionCard],
   },
   {
-    idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
+    idAttribute: (entity, parent) => `${parent.year}-${entity.citizenId}`,
   }
 );
 const collectiveChoices = new schema.Entity(

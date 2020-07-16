@@ -157,7 +157,13 @@ const computeCitizenIndividualChoices = (
 };
 
 const computeBudget = (influenceScore) => {
-  return Math.min(Math.floor((influenceScore + 10) / 15 + 2));
+  const startingBudget = 2;
+  const minBudget = 2;
+  const maxBudget = 8;
+  const approximativeBudget = Math.floor(
+    (influenceScore + 10) / 15 + startingBudget
+  );
+  return Math.max(Math.min(approximativeBudget, maxBudget), minBudget);
 };
 
 export {

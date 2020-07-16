@@ -149,7 +149,7 @@ const computeCitizenIndividualChoices = (
     newCitizenIndividualActionCards[
       makeYearParticipantKey(year, citizen.id)
     ] = {
-      citizen: citizen.id,
+      citizenId: citizen.id,
       actionCardIds: newActionCardIds,
     };
   });

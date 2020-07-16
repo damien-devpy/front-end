@@ -1,5 +1,35 @@
+import { denormalize } from 'normalizr';
+
 import handleFetch from './handleFetch';
 import { workshopSchema } from '../../normalizers';
+
+const cleanWorkshop = (workshop) => {
+  const persistableWorkshop = { ...workshop };
+  delete persistableWorkshop.model;
+  delete persistableWorkshop.participants;
+  // delete persistableWorkshop.citizens;
+  delete persistableWorkshop.creatorId;
+  delete persistableWorkshop.id;
+  delete persistableWorkshop.address;
+  // delete persistableWorkshop.rounds;
+  persistableWorkshop.startAt = `${persistableWorkshop.startAt}Z`;
+  // if (!persistableWorkshop.currentYear) {
+  // persistableWorkshop.currentYear = 2020;
+  // }
+  // const persistableRounds = persistableWorkshop.rounds.map((round) => {
+  //   const persistableRound = { ...round };
+  //   // delete persistableRound.socialVariables;
+  //   // delete persistableRound.citizenIndividualChoices;
+  //   return persistableRound;
+  // });
+  // persistableWorkshop.rounds = persistableRounds;
+  return persistableWorkshop;
+};
+
+export const denormalizeWorkshop = (workshop) => {
+  const { entities, result } = workshop;
+  return cleanWorkshop(denormalize(result, workshopSchema, entities));
+};
 
 export const getCurrentUser = () => handleFetch('/users/me');
 
@@ -25,11 +55,13 @@ export const createWorkshopApi = ({ data }) =>
     body: JSON.stringify(data),
   });
 
-export const updateWorkshopApi = ({ workshopId, data }) =>
-  handleFetch(`/workshops/${workshopId}`, {
+export const updateWorkshopApi = ({ workshopId, data }) => {
+  const denormalizedWorkshop = denormalizeWorkshop(data);
+  return handleFetch(`/workshops/${workshopId}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify(denormalizedWorkshop),
   });
+};
 
 export const getWorkshop = ({ workshopId }) =>
   handleFetch(`/workshops/${workshopId}`, {

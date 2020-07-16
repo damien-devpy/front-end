@@ -12,7 +12,7 @@ const NavbarHome = ({ currentUser }) => {
           // { id: 'resources', link: '/resources' },
         ]
       : [
-          { id: 'myWorkshops', link: '/myWorkshops' },
+          { id: 'workshops', link: '/workshops' },
           // { id: 'resources', link: '/resources' },
         ];
   return <Navbar links={links} />;

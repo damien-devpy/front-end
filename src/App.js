@@ -24,7 +24,9 @@ const AppRouter = ({ currentUser }) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/workshop/:workshopId/*" component={NavbarWorkshop} />
+        <Route path="/workshop/:workshopId/*">
+          <NavbarWorkshop currentUser={currentUser} />
+        </Route>
         <Route>
           <NavbarHome currentUser={currentUser} />
         </Route>
@@ -38,17 +40,11 @@ const AppRouter = ({ currentUser }) => {
         <Route path="/workshop/:workshopId/simulation" component={Simulation} />
         <Route path="/workshop/:workshopId/results" component={Results} />
         <Route exact path="/">
-          {currentUser && currentUser.role === 'admin' && (
-            <Redirect to="/workshops" />
-          )}
-          {currentUser && currentUser.role === 'coach' && (
-            <Redirect to="/myWorkshops" />
-          )}
+          <Redirect to="/workshops" />
         </Route>
         <Route path="/home" component={Home} />
         <Route path="/coaches" component={Coaches} />
         <Route path="/workshops" component={Workshops} />
-        <Route path="/myWorkshops" component={Workshops} />
         <Route path="/resources" component={Resources} />
       </Switch>
     </BrowserRouter>

@@ -114,11 +114,6 @@ export default (state = initialState, action) => {
         influenceScore: 0,
       };
 
-      const initSocialVariables = {
-        socialScore: 0,
-        influenceScore: 0,
-      };
-
       return {
         ...state,
         isSynchronized: false,

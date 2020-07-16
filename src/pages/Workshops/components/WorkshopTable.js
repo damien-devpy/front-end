@@ -40,15 +40,19 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
             workshops.map(({ id, date, name, city, status, coachId }) => {
               const coachEmail = coaches.find((coach) => coach.id === coachId)
                 .email;
+              const link =
+                status === 'created'
+                  ? `workshop/${id}/participants`
+                  : `workshop/${id}/simulation`;
               return (
                 <StyledRow status={status} key={id}>
                   <td>{moment(date).format('L')}</td>
                   <td>{name}</td>
                   <td>{city}</td>
                   <td>{coachEmail}</td>
-                  <td>{status}</td>
+                  <td>{t(`workshop.status.${status}`)}</td>
                   <td>
-                    <Link to={`workshop/${id}/participants`}>
+                    <Link to={link}>
                       <Button variant="light mr-1">
                         <EnterIcon height={20} width={20} />
                       </Button>

@@ -212,4 +212,11 @@ export default {
     digital: 'Numérique',
     othersConso: 'Autres biens',
   },
+  workshop: {
+    status: {
+      created: 'En préparation',
+      ongoing: 'En cours',
+      ended: 'Terminé',
+    },
+  },
 };

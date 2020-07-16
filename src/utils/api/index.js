@@ -7,7 +7,7 @@ const cleanWorkshop = (workshop) => {
   const persistableWorkshop = { ...workshop };
   delete persistableWorkshop.model;
   delete persistableWorkshop.participants;
-  delete persistableWorkshop.citizens;
+  // delete persistableWorkshop.citizens;
   delete persistableWorkshop.creatorId;
   delete persistableWorkshop.id;
   delete persistableWorkshop.address;
@@ -16,13 +16,13 @@ const cleanWorkshop = (workshop) => {
   // if (!persistableWorkshop.currentYear) {
   // persistableWorkshop.currentYear = 2020;
   // }
-  const persistableRounds = persistableWorkshop.rounds.map((round) => {
-    const persistableRound = { ...round };
-    delete persistableRound.socialVariables;
-    delete persistableRound.citizenIndividualChoices;
-    return persistableRound;
-  });
-  persistableWorkshop.rounds = persistableRounds;
+  // const persistableRounds = persistableWorkshop.rounds.map((round) => {
+  //   const persistableRound = { ...round };
+  //   // delete persistableRound.socialVariables;
+  //   // delete persistableRound.citizenIndividualChoices;
+  //   return persistableRound;
+  // });
+  // persistableWorkshop.rounds = persistableRounds;
   return persistableWorkshop;
 };
 

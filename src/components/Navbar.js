@@ -58,6 +58,7 @@ const Navbar = ({ links = [], type = 'home' }) => {
               {links.map(({ id, link }) =>
                 id === 'exit' ? (
                   <Nav.Link
+                    key={id}
                     as={Link}
                     to="/workshops"
                     style={{

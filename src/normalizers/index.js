@@ -60,6 +60,15 @@ const individualChoices = new schema.Entity(
     idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
   }
 );
+const citizenIndividualChoices = new schema.Entity(
+  'citizenIndividualChoices',
+  {
+    citizenIndividualChoices: [actionCard],
+  },
+  {
+    idAttribute: (entity, parent) => `${parent.year}-${entity.participantId}`,
+  }
+);
 const collectiveChoices = new schema.Entity(
   'collectiveChoices',
   {},
@@ -78,6 +87,7 @@ const round = new schema.Entity(
     citizenCarbonFootprints: [citizenCarbonFootprint],
     roundConfig,
     individualChoices: [individualChoices],
+    citizenIndividualChoices: [citizenIndividualChoices],
     collectiveChoices,
   },
   { idAttribute: 'year' }
@@ -87,10 +97,10 @@ const round = new schema.Entity(
 export const workshopSchema = {
   rounds: [round],
   participants: [participant],
-  citizens: [citizen],
   model: {
     actionCards: [actionCard],
     actionCardBatches: [actionCardBatch],
     personas: [persona],
+    citizens: [citizen],
   },
 };

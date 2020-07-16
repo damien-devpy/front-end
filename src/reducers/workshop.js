@@ -27,6 +27,7 @@ import {
   WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
 } from '../actions/workshop';
+import { DELETE_WORKSHOP } from '../actions/workshops';
 import {
   computeBudget,
   computeCitizenIndividualChoices,
@@ -96,13 +97,21 @@ export default (state = initialState, action) => {
         isSynchronized: true,
       };
     }
+    case DELETE_WORKSHOP: {
+      const { workshopId } = action.payload;
+      if (state.result.id === workshopId) {
+        return initialState;
+      }
+      return state;
+    }
     case INIT_WORKSHOP: {
       const { year, heatingNetworksData } = action.payload;
       const participantIds = state.result.participants;
-      const citizenIds = state.result.model.personas;
+      const citizenIds = state.result.model.citizens;
 
       return {
         ...state,
+        isSynchronized: false,
         entities: {
           ...state.entities,
           rounds: {
@@ -121,6 +130,7 @@ export default (state = initialState, action) => {
                 socialScore: 0,
                 influenceScore: 0,
               },
+              collectiveBudget: 2,
             },
           },
           carbonVariables: {
@@ -148,7 +158,7 @@ export default (state = initialState, action) => {
                 [makeYearParticipantKey(year, citizenId)]: {
                   citizenId,
                   variables: computeCarbonVariables(
-                    state.entities.personas[citizenId].surveyVariables,
+                    state.entities.citizens[citizenId].surveyVariables,
                     state.result.model.globalCarbonVariables,
                     heatingNetworksData
                   ),
@@ -160,13 +170,12 @@ export default (state = initialState, action) => {
           globalCarbonVariables: {
             [year]: { ...state.result.model.globalCarbonVariables },
           },
-          citizens: { ...state.entities.personas },
         },
         result: {
           ...state.result,
+          status: 'ongoing',
           rounds: [year],
           currentYear: year,
-          citizens: state.result.model.personas.map((persona) => persona),
         },
       };
     }
@@ -177,6 +186,7 @@ export default (state = initialState, action) => {
       };
       return {
         ...state,
+        isSynchronized: false,
         entities: {
           ...state.entities,
           rounds: {
@@ -495,7 +505,7 @@ export default (state = initialState, action) => {
     case COMPUTE_FOOTPRINTS_FOR_CITIZENS: {
       const { year } = action.payload;
       const { citizenCarbonVariables, globalCarbonVariables } = state.entities;
-      const { citizens } = state.result;
+      const { citizens } = state.result.model;
       const { footprintStructure, variableFormulas } = state.result.model;
       const newCitizenCarbonFootprints = {};
       citizens.forEach((citizenId) => {
@@ -528,8 +538,8 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [year]: {
               ...state.entities.rounds[year],
-              citizenCarbonFootprints: state.result.citizens.map((citizenId) =>
-                makeYearParticipantKey(year, citizenId)
+              citizenCarbonFootprints: state.result.model.citizens.map(
+                (citizenId) => makeYearParticipantKey(year, citizenId)
               ),
             },
           },
@@ -565,7 +575,7 @@ export default (state = initialState, action) => {
         year,
         state.entities.rounds[year].socialVariables,
         state.entities.citizenIndividualChoices || {},
-        state.result.citizens.map((id) => state.entities.citizens[id]),
+        state.result.model.citizens.map((id) => state.entities.citizens[id]),
         state.result.model.actionCards.map(
           (id) => state.entities.actionCards[id]
         )
@@ -595,7 +605,7 @@ export default (state = initialState, action) => {
       const { yearFrom, yearTo } = action.payload;
       const currentCitizenCarbonVariables =
         state.entities.citizenCarbonVariables;
-      const { citizens } = state.result;
+      const { citizens } = state.result.model;
 
       const newCarbonVariables = {};
       citizens.forEach((citizenId) => {
@@ -641,8 +651,8 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [yearTo]: {
               ...state.entities.rounds[yearTo],
-              citizenCarbonVariables: state.result.citizens.map((citizenId) =>
-                makeYearParticipantKey(yearTo, citizenId)
+              citizenCarbonVariables: state.result.model.citizens.map(
+                (citizenId) => makeYearParticipantKey(yearTo, citizenId)
               ),
             },
           },
@@ -654,7 +664,7 @@ export default (state = initialState, action) => {
       const { yearFrom, yearTo } = action.payload;
       const currentCitizenCarbonVariables =
         state.entities.citizenCarbonVariables;
-      const { citizens } = state.result;
+      const { citizens } = state.result.model;
       const actionCardIds = pathOr(
         [],
         ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
@@ -696,8 +706,8 @@ export default (state = initialState, action) => {
             ...state.entities.rounds,
             [yearTo]: {
               ...state.entities.rounds[yearTo],
-              citizenCarbonVariables: state.result.citizens.map((citizenId) =>
-                makeYearParticipantKey(yearTo, citizenId)
+              citizenCarbonVariables: state.result.model.citizens.map(
+                (citizenId) => makeYearParticipantKey(yearTo, citizenId)
               ),
             },
           },
@@ -705,7 +715,6 @@ export default (state = initialState, action) => {
       };
     }
     case DELETE_PARTICIPANT: {
-      console.log('Action DELETE participant');
       const { id } = action.payload;
       const oldParticipants = state.entities.participants;
       const participants = Object.keys(oldParticipants).reduce(
@@ -715,7 +724,6 @@ export default (state = initialState, action) => {
         },
         {}
       );
-      // console.log(Object.keys(state.entities.participants), participants)
       return {
         ...state,
         entities: {
@@ -732,8 +740,6 @@ export default (state = initialState, action) => {
         status,
         surveyVariables,
       } = action.payload;
-
-      console.log('Action set participant', participantId, persona);
 
       const newState = {
         ...state,

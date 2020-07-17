@@ -115,6 +115,7 @@ export default {
     manageParticipants: 'Gérer participants',
     meatAndFish: 'Viande et poisson',
     model: 'Modèle',
+    myWorkshops: 'Mes Ateliers',
     newCoach: 'Nouvel Animateur',
     newWorkshop: 'Nouvel atelier',
     nextRound: 'Prochain Tour',
@@ -210,5 +211,12 @@ export default {
     clothing: 'Textile',
     digital: 'Numérique',
     othersConso: 'Autres biens',
+  },
+  workshop: {
+    status: {
+      created: 'En préparation',
+      ongoing: 'En cours',
+      ended: 'Terminé',
+    },
   },
 };

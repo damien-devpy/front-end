@@ -41,10 +41,10 @@ export const ParticipantItemForm = ({
   const PersonaDropdown = () => {
     const personaOptions = [];
     Object.keys(personas).forEach((personaId) => {
-      const persona = personas[personaId];
+      const onePersona = personas[personaId];
       personaOptions.push(
-        <option id={persona.id} value={persona.id}>
-          {`${persona.firstName} ${persona.lastName}`}
+        <option key={onePersona.id} id={onePersona.id} value={onePersona.id}>
+          {`${onePersona.firstName} ${onePersona.lastName}`}
         </option>
       );
     });
@@ -74,7 +74,7 @@ export const ParticipantItemForm = ({
             title={t('manageParticipants.delete')}
             onMouseDown={handleDelete}
           >
-            <DeleteIcon height={20} width={20}/>
+            <DeleteIcon height={20} width={20} />
           </button>
         </Form.Label>
       </Col>

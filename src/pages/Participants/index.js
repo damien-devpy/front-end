@@ -1,10 +1,8 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import Papa from 'papaparse';
 import React, { useState } from 'react';
 import { Card, Container, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -29,12 +27,8 @@ import {
   deleteParticipantApi,
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
-import {
-  computeFootprints,
-  computeFootprintsForCitizen,
-  initWorkshop,
-} from '../../actions/workshop';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
 
@@ -49,8 +43,15 @@ const ManageParticipants = ({
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   const [footprintToShow, setFootprintToShow] = useState({});
 
+  const isSynchronized = useSelector(
+    (state) => state.workshop && state.workshop.isSynchronized
+  );
+
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name
+  );
+  const workshopStatus = useSelector(
+    (state) => state.workshop.result && state.workshop.result.status
   );
   const startYear = useSelector(
     (state) => state.workshop.result && state.workshop.result.startYear
@@ -182,12 +183,12 @@ const ManageParticipants = ({
       console.log('Rerender participants', p);
       participantItems.push(
         <ParticipantItemForm
+          key={id}
           id={id}
           firstName={p.firstName}
           lastName={p.lastName}
           email={p.email}
           status={p.status}
-          key={id}
           updateParticipant={(persona) => {
             handleChangePersona(id, persona);
           }}
@@ -201,6 +202,9 @@ const ManageParticipants = ({
 
   return (
     <Container>
+      {isSynchronized && workshopStatus === 'ongoing' && (
+        <Redirect to={`/workshop/${workshopId}/simulation`} />
+      )}
       <h2 className="workshop-title">{workshopTitle}</h2>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
         <CardHeader>
@@ -220,32 +224,12 @@ const ManageParticipants = ({
           {/* {isLoading && <Spinner animation="border" />} */}
           <ParticipantsHeader />
           {participantItems}
-          {/* <AddParticipant
-            onClick={() => {
-              // dispatch(addParticipant());
-              // handleAddParticipant();
-              setShowAddParticipantModal(true);
-            }}
-          /> */}
           <hr />
         </div>
         <div style={{ textAlign: 'center' }}>
-          <Link to={`/workshop/${workshopId}/simulation`}>
-            <PrimaryButton className='btn-lg'
-              onClick={() => {
-                fetch('/data/heating_networks.csv')
-                  .then((response) => response.text())
-                  .then((text) => Papa.parse(text))
-                  .then((heatingNetworksData) => {
-                    dispatch(initWorkshop(2020, heatingNetworksData.data));
-                    dispatch(computeFootprints(2020));
-                    dispatch(computeFootprintsForCitizen(2020));
-                  });
-              }}
-            >
-              {t('common.launch_simulation')}
-            </PrimaryButton>
-          </Link>
+          <PrimaryButton onClick={() => dispatch(startWorkshop(2020))}>
+            {t('common.launch_simulation')}
+          </PrimaryButton>
         </div>
       </Card>
       <Modal

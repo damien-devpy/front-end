@@ -1,11 +1,20 @@
-import { denormalize } from 'normalizr';
+import Papa from 'papaparse';
 
-import { workshopSchema } from '../normalizers';
+import { denormalizeWorkshop, updateWorkshopApi } from '../utils/api';
+import { throwError } from './errors';
 
+// Workshop actions
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
+export const UPDATE_WORKSHOP = 'UPDATE_WORKSHOP';
+export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
+export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
+export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
+
+// Round actions
+export const INIT_ROUND = 'INIT_ROUND';
 export const START_ROUND = 'START_ROUND';
 export const SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS =
-  'SET_INDIVIDUAL_ACTIONS_FOR_ALL_PARTICIPANTS';
+  'SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS';
 export const SET_COLLECTIVE_CHOICES = 'SET_COLLECTIVE_ACTIONS';
 export const WORKSHOP_RETRIEVED = 'WORKSHOP_RETRIEVED';
 export const RETRIEVE_WORKSHOP = 'RETRIEVE_WORKSHOP';
@@ -14,7 +23,6 @@ export const COMPUTE_CARBON_VARIABLES = 'COMPUTE_CARBON_VARIABLES';
 export const APPLY_INDIVIDUAL_ACTIONS = 'APPLY_INDIVIDUAL_ACTIONS';
 export const APPLY_COLLECTIVE_ACTIONS = 'APPLY_COLLECTIVE_ACTIONS';
 export const COMPUTE_FOOTPRINTS = 'COMPUTE_FOOTPRINTS';
-export const INIT_ROUND = 'INIT_ROUND';
 export const SET_ACTIONS_FOR_CITIZENS = 'SET_ACTIONS_FOR_CITIZENS';
 export const COMPUTE_FOOTPRINTS_FOR_CITIZENS =
   'COMPUTE_FOOTPRINTS_FOR_CITIZENS';
@@ -23,12 +31,86 @@ export const APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS =
 export const APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS =
   'APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS';
 export const APPLY_SOCIAL_IMPACT = 'APPLY_SOCIAL_IMPACT';
-export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
-export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
 
 export const initWorkshop = (year, heatingNetworksData) => ({
   type: INIT_WORKSHOP,
   payload: { year, heatingNetworksData },
+});
+
+export const workshopRetrieved = (workshop) => ({
+  type: WORKSHOP_RETRIEVED,
+  payload: { workshop },
+});
+
+export const retrieveWorkshop = () => ({
+  type: RETRIEVE_WORKSHOP,
+  payload: [],
+});
+
+export const workshopLoadError = (error) => ({
+  type: WORKSHOP_LOAD_ERROR,
+  payload: error,
+});
+
+const persistWorkshop = (workshop) => {
+  console.log('persistWorkshop', workshop);
+  return (dispatch) => {
+    const {
+      result: { id: workshopId },
+    } = workshop;
+    updateWorkshopApi({
+      workshopId,
+      data: workshop,
+    })
+      .then((res) => {
+        dispatch({
+          type: WORKSHOP_PERSISTED,
+          payload: { workshop },
+        });
+        return res;
+      })
+      .catch((error) => {
+        dispatch(throwError(error.message));
+      });
+  };
+};
+
+// const persistWorkshopOffline = (workshopId, workshop) => {
+//   return {
+//     type: PERSIST_WORKSHOP,
+//     payload: { workshop },
+//     meta: {
+//       offline: {
+//         // the network action to execute:
+//         effect: {
+//           url: `/workshops/${workshopId}`,
+//           method: 'PUT',
+//           json: workshop,
+//         },
+//         // action to dispatch when effect succeeds:
+//         commit: { type: WORKSHOP_PERSISTED, meta: { workshopId } },
+//         // action to dispatch if network action fails permanently:
+//         // rollback: { type: 'REGISTER_USER_ROLLBACK', meta: { name, email } }
+//       },
+//     },
+//   };
+// };
+
+// const persistWorkshopOfflineWithCurrentState = () => {
+//   return (dispatch, getState) => {
+//     const {
+//       workshop,
+//       workshop: {
+//         result: { id: workshopId },
+//       },
+//     } = getState();
+//     dispatch(persistWorkshopOffline(workshopId, denormalizeWorkshop(workshop)));
+//   };
+// };
+
+const initRound = (year) => ({
+  type: INIT_ROUND,
+  payload: { year },
 });
 
 export const startRound = (payload) => ({
@@ -49,132 +131,51 @@ export const setCollectiveChoices = (year, collectiveChoices) => ({
   payload: { year, collectiveChoices },
 });
 
-export const workshopRetrieved = (workshop) => ({
-  type: WORKSHOP_RETRIEVED,
-  payload: { workshop },
-});
-
-export const retrieveWorkshop = () => ({
-  type: RETRIEVE_WORKSHOP,
-  payload: [],
-});
-
-export const workshopLoadError = (error) => ({
-  type: WORKSHOP_LOAD_ERROR,
-  payload: error,
-});
-
-export const initRound = (year) => ({
-  type: INIT_ROUND,
-  payload: { year },
-});
-
+// TODO: Check if this action is used
 export const computeCarbonVariables = (participantId, heatingNetworksData) => ({
   type: COMPUTE_CARBON_VARIABLES,
   payload: { participantId, heatingNetworksData },
 });
 
-export const applyIndividualActions = (yearFrom, yearTo) => ({
+const applyIndividualActions = (yearFrom, yearTo) => ({
   type: APPLY_INDIVIDUAL_ACTIONS,
   payload: { yearFrom, yearTo },
 });
 
-export const applyCollectiveActions = (yearFrom, yearTo) => ({
+const applyCollectiveActions = (yearFrom, yearTo) => ({
   type: APPLY_COLLECTIVE_ACTIONS,
   payload: { yearFrom, yearTo },
 });
 
-export const computeFootprints = (year) => ({
+const computeFootprints = (year) => ({
   type: COMPUTE_FOOTPRINTS,
   payload: { year },
 });
 
-export const setActionsForCitizens = (year) => ({
+const setActionsForCitizens = (year) => ({
   type: SET_ACTIONS_FOR_CITIZENS,
   payload: { year },
 });
 
-export const computeFootprintsForCitizen = (year) => ({
+const computeFootprintsForCitizen = (year) => ({
   type: COMPUTE_FOOTPRINTS_FOR_CITIZENS,
   payload: { year },
 });
 
-export const applyIndivdualActionsForCitizens = (yearFrom, yearTo) => ({
+const applyIndivdualActionsForCitizens = (yearFrom, yearTo) => ({
   type: APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS,
   payload: { yearFrom, yearTo },
 });
 
-export const applyCollectiveActionsForCitizens = (yearFrom, yearTo) => ({
+const applyCollectiveActionsForCitizens = (yearFrom, yearTo) => ({
   type: APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS,
   payload: { yearFrom, yearTo },
 });
 
-export const applySocialImpact = (yearFrom, yearTo) => ({
+const applySocialImpact = (yearFrom, yearTo) => ({
   type: APPLY_SOCIAL_IMPACT,
   payload: { yearFrom, yearTo },
 });
-
-const persistWorkshop = (workshopId, workshop) => ({
-  type: PERSIST_WORKSHOP,
-  payload: { workshop },
-  meta: {
-    offline: {
-      // the network action to execute:
-      effect: {
-        url: `/workshops/${workshopId}`,
-        method: 'PUT',
-        json: workshop,
-      },
-      // action to dispatch when effect succeeds:
-      commit: { type: WORKSHOP_PERSISTED, meta: { workshopId } },
-      // action to dispatch if network action fails permanently:
-      // rollback: { type: 'REGISTER_USER_ROLLBACK', meta: { name, email } }
-    },
-  },
-});
-
-// citizens (pas implemente)
-// models (pas necessaire car peut pas etre update)
-// creatorId (non modifiable)
-// id (non modifiable)
-// rounds.citizenX (pas implemente)
-// rounds.socialVariables (pas implemente)
-// rounds.roundsConfig -> roundConfig (sans s)
-// startAt -> startDate je crois
-// currentYear : c'est un champ qui appartient a round non ? (round.year plus exactement)
-// participants : tu peux enlever temporairement ? Il faut qu'on reflechisse a ce qu'on veut updater du cote participant
-const cleanWorkshop = (workshop) => {
-  const persistableWorkshop = { ...workshop };
-  delete persistableWorkshop.model;
-  delete persistableWorkshop.participants;
-  delete persistableWorkshop.citizens;
-  delete persistableWorkshop.creatorId;
-  delete persistableWorkshop.id;
-  delete persistableWorkshop.address;
-  persistableWorkshop.startAt = `${persistableWorkshop.startAt}Z`;
-  const persistableRounds = persistableWorkshop.rounds.map((round) => {
-    const persistableRound = { ...round };
-    delete persistableRound.socialVariables;
-    delete persistableRound.citizenIndividualChoices;
-    return persistableRound;
-  });
-  persistableWorkshop.rounds = persistableRounds;
-  return persistableWorkshop;
-};
-
-const persistWorkshopWithCurrentState = () => {
-  return (dispatch, getState) => {
-    const {
-      workshop: { entities, result },
-    } = getState();
-    dispatch(
-      persistWorkshop(
-        result.id,
-        cleanWorkshop(denormalize(result, workshopSchema, entities))
-      )
-    );
-  };
-};
 
 export const initRoundAndProcessModel = (yearFrom, yearTo) => {
   return (dispatch) => {
@@ -187,6 +188,25 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
     dispatch(applyCollectiveActionsForCitizens(yearFrom, yearTo));
     dispatch(computeFootprints(yearTo));
     dispatch(computeFootprintsForCitizen(yearTo));
-    dispatch(persistWorkshopWithCurrentState());
+    dispatch((dispatch2, getState) => {
+      dispatch2(persistWorkshop(getState().workshop));
+    });
+    // dispatch(persistWorkshopOfflineWithCurrentState());
+  };
+};
+
+export const startWorkshop = (startYear) => {
+  return (dispatch) => {
+    fetch('/data/heating_networks.csv')
+      .then((response) => response.text())
+      .then((text) => Papa.parse(text))
+      .then((heatingNetworksData) => {
+        dispatch(initWorkshop(startYear, heatingNetworksData.data));
+        dispatch(computeFootprints(startYear));
+        dispatch(computeFootprintsForCitizen(startYear));
+        dispatch((dispatch2, getState) => {
+          dispatch2(persistWorkshop(getState().workshop));
+        });
+      });
   };
 };

@@ -8,12 +8,11 @@ import CommonModal from '../../../components/CommonModal';
 import DeleteIcon from '../../../assets/DeleteIcon';
 import EnterIcon from '../../../assets/EnterIcon';
 
-const WorkshopTable = ({ workshops, t, handleDelete }) => {
+const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
   const [workshopToDelete, setWorkshopToDelete] = useState({
     id: null,
     name: null,
   });
-
   const handleDeleteModal = (workshop) => {
     setWorkshopToDelete(workshop);
   };
@@ -37,16 +36,23 @@ const WorkshopTable = ({ workshops, t, handleDelete }) => {
         </thead>
         <tbody>
           {workshops &&
-            workshops.map(({ id, date, name, city, status, coachName }) => {
+            coaches &&
+            workshops.map(({ id, date, name, city, status, coachId }) => {
+              const coachEmail = coaches.find((coach) => coach.id === coachId)
+                .email;
+              const link =
+                status === 'created'
+                  ? `workshop/${id}/participants`
+                  : `workshop/${id}/simulation`;
               return (
                 <StyledRow status={status} key={id}>
                   <td>{moment(date).format('L')}</td>
                   <td>{name}</td>
                   <td>{city}</td>
-                  <td>{coachName}</td>
-                  <td>{status}</td>
+                  <td>{coachEmail}</td>
+                  <td>{t(`workshop.status.${status}`)}</td>
                   <td>
-                    <Link to={`workshop/${id}/participants`}>
+                    <Link to={link}>
                       <Button variant="light mr-1">
                         <EnterIcon height={20} width={20} />
                       </Button>

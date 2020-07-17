@@ -18,7 +18,7 @@ import {
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
-const individualCollectiveToggleStyle = 'primary';
+const individualCollectiveToggleStyle = 'outline-primary';
 const batchToggleStyle = 'secondary';
 const budgetYearStyle = 'secondary';
 

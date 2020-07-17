@@ -18,9 +18,7 @@ const ActionCardItem = ({
 }) => {
   return (
     <StyledItem
-      name={id}
       checked={checked}
-      cardNumber={cardNumber}
       className="container rounded-lg shadow-sm mb-2 btn-block"
       sector={sector}
       onClick={() => {
@@ -99,11 +97,26 @@ export const sectorColors = {
   energy: COLORS.FIGMA_BLUE_DARK,
 };
 
+// FROM https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+const adjust = (color, amount) => {
+  return `#${color
+    .replace(/^#/, '')
+    .replace(/../g, (color) =>
+      `0${Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
+        16
+      )}`.substr(-2)
+    )}`;
+};
+
 const StyledItem = styled.div`
   cursor: pointer;
   font-size: 0.8rem;
   color: white;
-  background: ${(props) => sectorColors[props.sector]};
+  // background: ${(props) => sectorColors[props.sector]};
+  background: ${(props) =>
+    props.checked
+      ? adjust(sectorColors[props.sector], -40)
+      : sectorColors[props.sector]};
 `;
 
 export default ActionCardItem;

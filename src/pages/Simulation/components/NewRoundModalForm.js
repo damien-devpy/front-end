@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Button, ButtonGroup, Col, Form, ToggleButton } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
@@ -8,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import './simulationPage.css';
 import ActionCardItemSimple from '../../../components/ActionCardItemSimple';
 import PrimaryButton from '../../../components/PrimaryButton';
-import { COLORS } from '../../../vars';
 import {
   getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
@@ -20,17 +18,9 @@ import {
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
-const SecondaryButton = styled(Button)`
-  background-color: #fff;
-  border-color: ${COLORS.BROWN.STANDARD};
-  color: #000;
-  :hover,
-  :focus {
-    background-color: ${COLORS.BROWN.STANDARD} !important;
-    color: white !important;
-    border-color: ${COLORS.BROWN.STANDARD} !important;
-  }
-`;
+const individualCollectiveToggleStyle = 'primary';
+const batchToggleStyle = 'secondary';
+const budgetYearStyle = 'secondary';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -125,7 +115,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
               >
                 <ButtonGroup>
                 <Button
-                  variant="outline-primary"
+                  variant={individualCollectiveToggleStyle}
                   active={values.actionCardType === 'individual'}
                   onClick={() => {
                     setFieldValue('actionCardType', 'individual');
@@ -146,7 +136,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   {t('common.individualActions')}
                 </Button>
                 <Button
-                  variant="outline-primary"
+                  variant={individualCollectiveToggleStyle}
                   active={values.actionCardType === 'collective'}
                   onClick={() => {
                     setFieldValue('actionCardType', 'collective');
@@ -174,7 +164,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
                 <ButtonGroup className="mr-2">
                   <Button
-                    variant="secondary"
+                    variant={budgetYearStyle}
                     onClick={() => {
                       if (values.targetedYear > currentYear + yearIncrement) {
                         setFieldValue('targetedYear', values.targetedYear - 1);
@@ -183,9 +173,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   >
                     -
                   </Button>
-                  <Button variant="secondary" disabled>{values.targetedYear}</Button>
+                  <Button variant={budgetYearStyle} disabled>{values.targetedYear}</Button>
                   <Button
-                    variant="secondary"
+                    variant={budgetYearStyle}
                     onClick={() => {
                       if (values.targetedYear < endYear) {
                         setFieldValue('targetedYear', values.targetedYear + 1);
@@ -213,7 +203,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   </Form.Label>
                   <ButtonGroup className="mr-2">
                     <Button
-                      variant="info"
+                      variant={budgetYearStyle}
                       onClick={() => {
                         if (values.individualBudget > 1) {
                           setFieldValue(
@@ -225,11 +215,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     >
                       -
                     </Button>
-                    <Button variant="info" disabled>
+                    <Button variant={budgetYearStyle} disabled>
                       {values.individualBudget}
                     </Button>
                     <Button
-                      variant="info"
+                      variant={budgetYearStyle}
                       onClick={() => {
                         if (values.individualBudget < 10) {
                           setFieldValue(
@@ -259,7 +249,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                         batchId
                       )}
                       className="mr-1"
-                      variant="info"
+                      variant={batchToggleStyle}
                       inline
                       label={values.actionCardBatches[batchId].name}
                       type="checkbox"

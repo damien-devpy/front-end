@@ -427,23 +427,25 @@ export default (state = initialState, action) => {
       const { actionCards } = state.entities;
       const currentSocialVariables =
         state.entities.rounds[yearFrom].socialVariables;
+      const nbParticipants = state.result.participants.length;
 
       const individualActionRecords =
-        state.entities.rounds[yearFrom].individualActionCards || [];
+        state.entities.rounds[yearFrom].individualChoices || [];
       const individualActions = individualActionRecords.map(
         (yearParticipantKey) =>
-          state.entities.individualActionCards[yearParticipantKey]
+          state.entities.individualChoices[yearParticipantKey]
       );
       const collectiveActionCardIds = pathOr(
         [],
-        ['entities', 'collectionChoices', yearFrom, 'actionCardIds'],
+        ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
       const newSocialVariables = computeSocialVariables(
         currentSocialVariables,
         individualActions,
         collectiveActionCardIds,
-        actionCards
+        actionCards,
+        nbParticipants
       );
       const newBudget = computeBudget(newSocialVariables.influenceScore);
       return {

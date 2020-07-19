@@ -26,6 +26,7 @@ import {
   changeParticipantApi,
   createParticipantApi,
   deleteParticipantApi,
+  sendFormApi,
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
@@ -66,9 +67,7 @@ const ManageParticipants = ({
   );
   const globalCarbonVariables = useSelector(
     (state) =>
-      state.workshop.result &&
-      state.workshop.entities.globalCarbonVariables &&
-      state.workshop.entities.globalCarbonVariables[startYear]
+      state.workshop.result && state.workshop.result.model.globalCarbonVariables
   );
   const model = useSelector(
     (state) => state.workshop.result && state.workshop.result.model
@@ -99,8 +98,23 @@ const ManageParticipants = ({
     setShowAddParticipantModal(false);
   };
 
+  const sendFormAsync = (participantId) => (dispatchThunk) => {
+    sendFormApi({ workshopId, participantId }).catch(() => {
+      dispatchThunk(
+        throwError(
+          t('errors.sendForm', {
+            participantId,
+          })
+        )
+      );
+    });
+  };
+  const handleSendForm = (participantId) => {
+    console.log("Send form participant", participantId);
+    dispatch(sendFormAsync(participantId));
+  };
+
   const deleteAsyncParticipant = (participantId) => (dispatchThunk) => {
-    // console.log("Delete", participantId);
     deleteParticipantApi({ workshopId, participantId })
       .then(() => {
         dispatchThunk(deleteParticipant(participantId));
@@ -144,7 +158,6 @@ const ManageParticipants = ({
       });
   };
   const handleChangePersona = (participantId, personaId) => {
-    console.log('Change persona', participantId, personaId);
     dispatch(changeAsyncParticipant(participantId, personaId));
   };
 
@@ -164,6 +177,7 @@ const ManageParticipants = ({
             computeCarbonVariables(
               personas[participants[id].personaId].surveyVariables,
               globalCarbonVariables
+              // todo add heating networks data
             ),
             globalCarbonVariables
           )
@@ -197,6 +211,7 @@ const ManageParticipants = ({
           personas={personas}
           currentPersonaId={p.personaId}
           handleShowBC={handleShowBC}
+          handleSendForm={handleSendForm}
         />
       );
     });

@@ -29,6 +29,7 @@ import {
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { selectIsWorkshopReadyForInitialization } from '../../selectors/workshopSelector';
 import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -38,7 +39,8 @@ const ManageParticipants = ({
     params: { workshopId },
   },
 }) => {
-  useWorkshop(workshopId);
+  const workshop = useWorkshop(workshopId);
+  console.log('wololo', workshop);
 
   const [showBC, setShowBC] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
@@ -224,7 +226,11 @@ const ManageParticipants = ({
             }}
           />
           <div style={{ textAlign: 'center' }}>
-            <PrimaryButton onClick={() => dispatch(startWorkshop(2020))}>
+            <PrimaryButton
+              onClick={() => dispatch(startWorkshop(2020))}
+              disabled={!selectIsWorkshopReadyForInitialization(workshop)}
+              // disabled={() => selectIsWorkshopReadyForInitialization(workshop)}
+            >
               {t('common.launch_simulation')}
             </PrimaryButton>
           </div>

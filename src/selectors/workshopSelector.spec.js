@@ -4,6 +4,7 @@ import {
   getNumberOfChosenActionCards,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
+  selectIsWorkshopReadyForInitialization,
 } from './workshopSelector';
 
 const roundConfigEntity = {
@@ -141,5 +142,40 @@ describe('Workshop selector', () => {
       { entities: { roundConfig: roundConfigEntityWithNullActionCardBatchIds } }
     );
     expect(returnedActionCardsBatchIds).toEqual(['1']);
+  });
+
+  describe('Check selectIsWorkshopReadyForInitialization works', () => {
+    it('should return false if al statuses are not "ready"', () => {
+      const workshop = {
+        entities: {
+          participants: {
+            1: {
+              status: 'ready',
+            },
+            2: {
+              status: 'notready',
+            },
+          },
+        },
+        result: { participants: [1, 2] },
+      };
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+    });
+    it('should return true if al statuses are "ready"', () => {
+      const workshop = {
+        entities: {
+          participants: {
+            1: {
+              status: 'ready',
+            },
+            2: {
+              status: 'ready',
+            },
+          },
+        },
+        result: { participants: [1, 2] },
+      };
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(true);
+    });
   });
 });

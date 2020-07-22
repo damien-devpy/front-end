@@ -4,6 +4,7 @@ import {
   getNumberOfChosenActionCards,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
+  selectIsWorkshopReadyForInitialization,
 } from './workshopSelector';
 
 const roundConfigEntity = {
@@ -141,5 +142,53 @@ describe('Workshop selector', () => {
       { entities: { roundConfig: roundConfigEntityWithNullActionCardBatchIds } }
     );
     expect(returnedActionCardsBatchIds).toEqual(['1']);
+  });
+
+  describe('Check selectIsWorkshopReadyForInitialization works', () => {
+    it('should return false if all statuses are not "ready"', () => {
+      const workshop = {
+        entities: {
+          participants: {
+            1: {
+              status: 'ready',
+            },
+            2: {
+              status: 'notready',
+            },
+          },
+        },
+        result: { participants: [1, 2] },
+      };
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+    });
+    it('should return true if al statuses are "ready"', () => {
+      const workshop = {
+        entities: {
+          participants: {
+            1: {
+              status: 'ready',
+            },
+            2: {
+              status: 'ready',
+            },
+          },
+        },
+        result: { participants: [1, 2] },
+      };
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(true);
+    });
+    it('should return false if the list of participants is empty', () => {
+      const workshop = {
+        result: { participants: [] },
+      };
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+    });
+    it('should return false if there is no participants object', () => {
+      const workshop = {};
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+    });
+    it('should return false if there is no workshop parameter', () => {
+      expect(selectIsWorkshopReadyForInitialization()).toBe(false);
+    });
   });
 });

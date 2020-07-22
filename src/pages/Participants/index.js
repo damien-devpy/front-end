@@ -29,6 +29,7 @@ import {
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { selectIsWorkshopReadyForInitialization } from '../../selectors/workshopSelector';
 import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -38,8 +39,7 @@ const ManageParticipants = ({
     params: { workshopId },
   },
 }) => {
-  useWorkshop(workshopId);
-
+  const workshop = useWorkshop(workshopId);
   const [showBC, setShowBC] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   const [footprintToShow, setFootprintToShow] = useState({});
@@ -221,7 +221,10 @@ const ManageParticipants = ({
           />
           <div style={{ textAlign: 'center' }}>
             {isSynchronized && workshopStatus === 'created' && (
-              <PrimaryButton onClick={() => dispatch(startWorkshop(2020))}>
+              <PrimaryButton
+                onClick={() => dispatch(startWorkshop(2020))}
+                disabled={!selectIsWorkshopReadyForInitialization(workshop)}
+              >
                 {t('common.launchSimulation')}
               </PrimaryButton>
             )}

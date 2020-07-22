@@ -15,6 +15,12 @@ const PrimaryButton = styled(Button)`
     background-color: white !important;
     border-color: ${COLORS.BROWN.STANDARD} !important;
   }
+  :disabled {
+    color: ${COLORS.GRAY.STANDARD};
+    font-weight: bolder;
+    background-color: white;
+    border-color: ${COLORS.GRAY.STANDARD};
+  }
 `;
 
 export default PrimaryButton;

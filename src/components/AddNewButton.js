@@ -9,7 +9,7 @@ const AddNewButton = ({ onClick, children }) => {
       <AddIcon
         height={20}
         width={20}
-        style={{ position: 'relative', transform: 'translateY(-10%)' }}
+        style={{ position: 'relative', transform: 'translateY(-5%)' }}
         class="fill-current-color"
       />
       {'  '}

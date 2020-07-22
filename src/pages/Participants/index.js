@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import Papa from 'papaparse';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
@@ -33,6 +34,13 @@ import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
+
+export const loadHeatingNetworksData = async () => {
+  const response = await fetch('/data/heating_networks.csv');
+  const text = await response.text();
+  const heatingNetworksData = Papa.parse(text);
+  return heatingNetworksData.data;
+};
 
 const ManageParticipants = ({
   match: {
@@ -110,7 +118,7 @@ const ManageParticipants = ({
     });
   };
   const handleSendForm = (participantId) => {
-    console.log("Send form participant", participantId);
+    console.log('Send form participant', participantId);
     dispatch(sendFormAsync(participantId));
   };
 
@@ -162,31 +170,34 @@ const ManageParticipants = ({
   };
 
   const handleShowBC = (id) => {
-    setShowBC(true);
     // ideally
     // 1. carbon variables should be pre-computed for each persona
     // 2. add higher-level function where
     // valueOnAllLevels & computeFootprint are put together and
     // input variables are simplified, e.g. could be given as `model`
-    const { footprintStructure, variableFormulas } = model;
-    const footprint = participants[id].personaId
-      ? valueOnAllLevels(
-          computeFootprint(
-            footprintStructure,
-            variableFormulas,
-            computeCarbonVariables(
-              personas[participants[id].personaId].surveyVariables,
+    loadHeatingNetworksData().then((heatingNetworksData) => {
+      const { footprintStructure, variableFormulas } = model;
+      const footprint = participants[id].personaId
+        ? valueOnAllLevels(
+            computeFootprint(
+              footprintStructure,
+              variableFormulas,
+              computeCarbonVariables(
+                personas[participants[id].personaId].surveyVariables,
+                globalCarbonVariables,
+                heatingNetworksData
+                // todo add heating networks data
+              ),
               globalCarbonVariables
-              // todo add heating networks data
-            ),
-            globalCarbonVariables
+            )
           )
-        )
-      : carbonFootprints[`${startYear}-${id}`].footprint;
+        : carbonFootprints[`${startYear}-${id}`].footprint;
 
-    // 3. footprintDataToGraph should be part of FootprintGraph
-    const footprintShaped = footprintDataToGraph(footprint);
-    setFootprintToShow(footprintShaped);
+      // 3. footprintDataToGraph should be part of FootprintGraph
+      const footprintShaped = footprintDataToGraph(footprint);
+      setFootprintToShow(footprintShaped);
+      setShowBC(true);
+    });
   };
 
   const participantItems = [];

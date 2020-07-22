@@ -25,6 +25,12 @@ const PrimaryButton = styled(Button)`
     border-color: ${COLORS.BROWN.DARK} !important;
     opacity: 0.5
   }
+  :disabled {
+    color: ${COLORS.GRAY.STANDARD};
+    font-weight: bolder;
+    background-color: white;
+    border-color: ${COLORS.GRAY.STANDARD};
+  }
 `;
 
 export default PrimaryButton;

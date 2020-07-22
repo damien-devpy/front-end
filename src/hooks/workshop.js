@@ -31,7 +31,8 @@ export const useWorkshop = (requestedWorkshopId) => {
             dispatch(workshopRetrieved(cloudWorkshop));
           } else {
             const {
-              result: { id: localWorkshopId, isSynchronized, updatedAt },
+              isSynchronized,
+              result: { id: localWorkshopId, updatedAt },
             } = localWorkshop;
             const localWorkshopUpdatedAt = new Date(updatedAt);
 
@@ -102,7 +103,9 @@ export const useWorkshop = (requestedWorkshopId) => {
               dispatch(workshopRetrieved(cloudWorkshop));
             } else {
               // eslint-disable-next-line no-console
-              console.log('Use case 7');
+              console.log(
+                'Use case 7: The local workshop is synchronized with the cloud. We can replace it with the requestWorkshop'
+              );
               // The local workshop is synchronized with the cloud. We can replace it with the requestWorkshop
               dispatch(workshopRetrieved(cloudWorkshop));
             }

@@ -260,8 +260,9 @@ export const selectIsWorkshopReadyForInitialization = (workshop) => {
   const participants = selectParticipantsEntity(workshop);
 
   const participantIds = pathOr([], ['result', 'participants'], workshop);
-  const statuses = participantIds.map((participantId) =>
-    pathOr([], [participantId, 'status'], participants)
+  if (participantIds.length === 0) return false;
+  return participantIds.every(
+    (participantId) =>
+      pathOr('notready', [participantId, 'status'], participants) === 'ready'
   );
-  return statuses.every((val) => val === 'ready');
 };

@@ -145,7 +145,7 @@ describe('Workshop selector', () => {
   });
 
   describe('Check selectIsWorkshopReadyForInitialization works', () => {
-    it('should return false if al statuses are not "ready"', () => {
+    it('should return false if all statuses are not "ready"', () => {
       const workshop = {
         entities: {
           participants: {
@@ -176,6 +176,19 @@ describe('Workshop selector', () => {
         result: { participants: [1, 2] },
       };
       expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(true);
+    });
+    it('should return false if the list of participants is empty', () => {
+      const workshop = {
+        result: { participants: [] },
+      };
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+    });
+    it('should return false if there is no participants object', () => {
+      const workshop = {};
+      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+    });
+    it('should return false if there is no workshop parameter', () => {
+      expect(selectIsWorkshopReadyForInitialization()).toBe(false);
     });
   });
 });

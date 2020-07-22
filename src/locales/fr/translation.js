@@ -165,7 +165,7 @@ export default {
     email: 'E-mail',
     emailSent: 'Attente des resultats',
     missingInfo: 'Remplir info',
-    nameSurname: 'Nom Prénom',
+    nameSurname: 'Prénom Nom',
     nullPersona: 'Aucun',
     overallStatus: 'Participants prêts',
     persona: 'Personnage',

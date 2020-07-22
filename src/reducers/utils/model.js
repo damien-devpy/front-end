@@ -5,11 +5,8 @@ import {
 } from '../../utils/helpers';
 
 const NB_MAX_HEARTS = 46;
-const NB_PARTICIPANTS = 2;
-const PERCENTAGE_CITIZENS = 0.9;
-const NB_TOTAL_PERSONS_SIMULATED = NB_PARTICIPANTS / (1 - PERCENTAGE_CITIZENS);
-const NB_CITIZENS_SIMULATED = NB_TOTAL_PERSONS_SIMULATED - NB_PARTICIPANTS;
 const MAX_INFLUENCE_SCORE = 10;
+const PERCENTAGE_CITIZENS = 0.9;
 
 const computeNewCarbonVariables = (
   oldCarbonVariables,
@@ -77,20 +74,23 @@ const computeSocialVariables = (
   oldSocialVariables,
   individualActions,
   collectiveActionCardIds,
-  actionCards
+  actionCards,
+  nbParticipants
 ) => {
   let { socialScore, influenceScore } = oldSocialVariables;
+  const nbTotalPersonsSimulated = nbParticipants / (1 - PERCENTAGE_CITIZENS);
+  const nbCitizensSimulated = nbTotalPersonsSimulated - nbParticipants;
 
   individualActions.forEach((participantAction) => {
     participantAction.actionCardIds.forEach((actionCardId) => {
       socialScore +=
         actionCards[actionCardId].peerInspirationScore /
-        (NB_TOTAL_PERSONS_SIMULATED * NB_MAX_HEARTS);
+        (nbTotalPersonsSimulated * NB_MAX_HEARTS);
       socialScore +=
-        actionCards[actionCardId].peerAwarenessScore / NB_CITIZENS_SIMULATED;
+        actionCards[actionCardId].peerAwarenessScore / nbCitizensSimulated;
       influenceScore +=
         actionCards[actionCardId].systemicWeakSignals /
-        (NB_TOTAL_PERSONS_SIMULATED * NB_MAX_HEARTS);
+        (nbTotalPersonsSimulated * NB_MAX_HEARTS);
       influenceScore +=
         actionCards[actionCardId].systemicPressureScore / MAX_INFLUENCE_SCORE;
     });
@@ -137,7 +137,6 @@ const computeCitizenIndividualChoices = (
     );
     const newActionCardIds = [];
     actionCards.forEach((actionCard) => {
-      console.log(citizen.reluctancy);
       if (
         socialVariables.socialScore >
           citizen.reluctancy + actionCard.reluctancyForCitizens &&

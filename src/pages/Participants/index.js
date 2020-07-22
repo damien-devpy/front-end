@@ -4,7 +4,7 @@ import Papa from 'papaparse';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +31,7 @@ import {
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import { selectIsWorkshopReadyForInitialization } from '../../selectors/workshopSelector';
 import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -47,8 +48,7 @@ const ManageParticipants = ({
     params: { workshopId },
   },
 }) => {
-  useWorkshop(workshopId);
-
+  const workshop = useWorkshop(workshopId);
   const [showBC, setShowBC] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   const [footprintToShow, setFootprintToShow] = useState({});
@@ -229,9 +229,6 @@ const ManageParticipants = ({
 
   return (
     <Container>
-      {isSynchronized && workshopStatus === 'ongoing' && (
-        <Redirect to={`/workshop/${workshopId}/simulation`} />
-      )}
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
         <h4 className="workshop_title">{workshopTitle}</h4>
 
@@ -250,9 +247,19 @@ const ManageParticipants = ({
             }}
           />
           <div style={{ textAlign: 'center' }}>
-            <PrimaryButton onClick={() => dispatch(startWorkshop(2020))}>
-              {t('common.launch_simulation')}
-            </PrimaryButton>
+            {isSynchronized && workshopStatus === 'created' && (
+              <PrimaryButton
+                onClick={() => dispatch(startWorkshop(2020))}
+                disabled={!selectIsWorkshopReadyForInitialization(workshop)}
+              >
+                {t('common.launchSimulation')}
+              </PrimaryButton>
+            )}
+            {workshopStatus === 'ongoing' && (
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
+              </Link>
+            )}
           </div>
         </div>
       </Card>

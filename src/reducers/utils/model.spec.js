@@ -2,6 +2,7 @@ import {
   applyFunctionToLeavesOfFootprintStructures,
   computeBudget,
   computeFootprint,
+  computeSocialVariables,
   valueOnAllLevels,
 } from './model';
 
@@ -167,5 +168,70 @@ describe('computeBudget returns correct results', () => {
   testValues.forEach((params) => {
     const actualResult = computeBudget(params.influenceScore);
     expect(actualResult).toBe(params.expectedBudget);
+  });
+});
+
+describe('computeSocialVariables returns correct results', () => {
+  const oldSocialVariables = {
+    socialScore: 1,
+    influenceScore: 1,
+  };
+
+  const actionCards = {
+    1: {
+      peerInspirationScore: 1,
+      peerAwarenessScore: 1,
+      systemicWeakSignals: 1,
+      systemicPressureScore: 1,
+    },
+    2: {
+      peerInspirationScore: 1,
+      peerAwarenessScore: 1,
+      systemicWeakSignals: 1,
+      systemicPressureScore: 1,
+    },
+    3: {
+      peerInspirationScore: 0,
+      peerAwarenessScore: 2,
+      systemicWeakSignals: 0,
+      systemicPressureScore: 0,
+    },
+  };
+  const nbParticipants = 2;
+
+  test('individualActions', () => {
+    const individualActions = [
+      { actionCardIds: [1, 2] },
+      { actionCardIds: [1] },
+    ];
+    const collectiveActionCardIds = [];
+    const actualSocialVariables = computeSocialVariables(
+      oldSocialVariables,
+      individualActions,
+      collectiveActionCardIds,
+      actionCards,
+      nbParticipants
+    );
+    const expectedSocialVariables = {
+      influenceScore: 1.3032608695652175,
+      socialScore: 1.169927536231884,
+    };
+    expect(actualSocialVariables).toStrictEqual(expectedSocialVariables);
+  });
+  test('individualActions', () => {
+    const individualActions = [];
+    const collectiveActionCardIds = [3];
+    const actualSocialVariables = computeSocialVariables(
+      oldSocialVariables,
+      individualActions,
+      collectiveActionCardIds,
+      actionCards,
+      nbParticipants
+    );
+    const expectedSocialVariables = {
+      influenceScore: 1,
+      socialScore: 3,
+    };
+    expect(actualSocialVariables).toStrictEqual(expectedSocialVariables);
   });
 });

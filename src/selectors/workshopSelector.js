@@ -255,3 +255,14 @@ const selectWorkshopModelStructure = (workshop, structure) =>
 
 export const selectFootprintStructure = (workshop) =>
   selectWorkshopModelStructure(workshop, 'footprintStructure');
+
+export const selectIsWorkshopReadyForInitialization = (workshop) => {
+  const participants = selectParticipantsEntity(workshop);
+
+  const participantIds = pathOr([], ['result', 'participants'], workshop);
+  if (participantIds.length === 0) return false;
+  return participantIds.every(
+    (participantId) =>
+      pathOr('notready', [participantId, 'status'], participants) === 'ready'
+  );
+};

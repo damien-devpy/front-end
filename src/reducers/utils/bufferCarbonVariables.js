@@ -7,22 +7,9 @@ const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
     : 0;
 };
 
-const computeCarbonVariables = (
-  surveyVariables,
-  globalVariables,
-  heatingNetworkData
-) => {
-  const {
-    WEEKS_PER_YEAR,
-    DAYS_PER_YEAR,
-    DAYS_PER_WEEK,
-    MONTHS_PER_YEAR,
-  } = globalVariables;
-
-  // ==============================================================
-  // ============================ Food ============================
-  // ==============================================================
-  // Meat and Fish ============================
+const computeFoodCarbonVariables = (surveyVariables, globalVariables) => {
+  // Meat and Fish
+  const { DAYS_PER_WEEK, DAYS_PER_YEAR, WEEKS_PER_YEAR } = globalVariables;
   const { meatAndFishConsoPerDay } = surveyVariables;
   const {
     MEAT_AND_FISH_KG_PER_CONSO,
@@ -37,7 +24,7 @@ const computeCarbonVariables = (
   const whiteMeatKgPerYear = meatAndFishKgPerYear * PART_OF_WHITE_MEAT;
   const fishKgPerYear = meatAndFishKgPerYear * PART_OF_FISH;
 
-  // Eggs and diaries ============================
+  // Eggs and diaries
   const { eggsAndDairiesConsoPerDay } = surveyVariables;
   const {
     EGGS_AND_DAIRIES_KG_PER_CONSO,
@@ -50,7 +37,7 @@ const computeCarbonVariables = (
   const eggsKgPerYear = eggsAndDairiesKgPerYear * PART_OF_EGGS; // repartition
   const dairiesKgPerYear = eggsAndDairiesKgPerYear * PART_OF_DAIRIES;
 
-  // Tranformed Products ============================
+  // Tranformed Products
   const { transformedProductsConsoPerWeek } = surveyVariables;
   const { TRANSFORMED_PRODUCTS_KG_PER_CONSO } = globalVariables;
 
@@ -62,8 +49,7 @@ const computeCarbonVariables = (
     (TRANSFORMED_PRODUCTS_KG_PER_CONSO * transformedProductsConsoPerWeek) /
     DAYS_PER_WEEK;
 
-  // Local fruits and vegetables ============================
-
+  // Local fruits and vegetables
   const {
     FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY,
     FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY,
@@ -76,7 +62,6 @@ const computeCarbonVariables = (
     FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE,
     FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE,
   } = globalVariables;
-  // déjà chargés : MEAT_AND_FISH_KG_PER_CONSO, EGGS_AND_DAIRIES_KG_PER_CONSO
 
   // conversion to kg & day
   const meatAndFishKgPerDay =
@@ -101,7 +86,7 @@ const computeCarbonVariables = (
       fruitsAndVegetablesKgPerDay
     );
 
-  // Starches and groceries ============================
+  // Starches and groceries
   const {
     STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY,
     STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE,
@@ -146,9 +131,30 @@ const computeCarbonVariables = (
     JUICES_AND_SODAS_LITER_PER_GLASS *
     DAYS_PER_YEAR;
 
-  // ==============================================================
-  // ============================ Transport =======================
-  // ==============================================================
+  const { fruitsAndVegetablePercentageLocal } = surveyVariables;
+
+  return {
+    redMeatKgPerYear,
+    whiteMeatKgPerYear,
+    fishKgPerYear,
+
+    eggsKgPerYear,
+    dairiesKgPerYear,
+    transformedProductsKgPerYear,
+
+    fruitsAndVegetablesKgPerYear,
+    starchesAndGroceriesKgPerYear,
+
+    alcoholConsoLitersPerYear,
+    hotDrinksConsoLitersPerYear,
+    juicesAndSodasConsoLitersPerYear,
+
+    fruitsAndVegetablePercentageLocal,
+  };
+};
+
+const computeTransportCarbonVariables = (surveyVariables, globalVariables) => {
+  const { DAYS_PER_YEAR, WEEKS_PER_YEAR } = globalVariables;
 
   // Car commute
   const { kmCarCommutePerDay } = surveyVariables;
@@ -163,12 +169,13 @@ const computeCarbonVariables = (
   const { hoursUrbanBusPerWeek } = surveyVariables;
   const { MEAN_SPEED_URBAN_BUS } = globalVariables;
   const kmUrbanBusPerYear =
-    hoursUrbanBusPerWeek * WEEKS_PER_YEAR * MEAN_SPEED_URBAN_BUS;
+    hoursUrbanBusPerWeek * MEAN_SPEED_URBAN_BUS * WEEKS_PER_YEAR;
 
   // Coach commute
   const { hoursCoachCommutePerWeek } = surveyVariables;
   const { MEAN_SPEED_COACH } = globalVariables;
-  const kmCoachCommutePerYear = hoursCoachCommutePerWeek * MEAN_SPEED_COACH;
+  const kmCoachCommutePerYear =
+    hoursCoachCommutePerWeek * MEAN_SPEED_COACH * WEEKS_PER_YEAR;
 
   // Urban_train
   const { hoursUrbanTrainPerWeek } = surveyVariables;
@@ -181,18 +188,49 @@ const computeCarbonVariables = (
     surveyVariables.passengersPerCarTravel,
     1
   );
-  // ==============================================================
-  // ============================ INTERNET ========================
-  // ==============================================================
-  const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
-  const internetStreamingHoursPerYear =
-    WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
 
-  const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
-  // ==============================================================
-  // ============================ ENERGY ==========================
-  // ==============================================================
-  // Energy
+  const {
+    categoryCarCommute,
+    motorTypeCarCommute,
+    ageCategoryCarCommute,
+    //
+    categoryCarTravel,
+    motorTypeCarTravel,
+    ageCategoryCarTravel,
+    //
+    kmCarTravelPerYear,
+    //
+    kmCoachTravel,
+    kmCountryTrain,
+    kmPlane,
+  } = surveyVariables;
+
+  return {
+    kmCarCommutePerYear,
+    kmUrbanBusPerYear,
+    kmCoachCommutePerYear,
+    kmUrbanTrainPerYear,
+    coefficientEnergyEfficientDriving,
+    categoryCarCommute,
+    motorTypeCarCommute,
+    ageCategoryCarCommute,
+    passengersPerCarCommute,
+    categoryCarTravel,
+    motorTypeCarTravel,
+    ageCategoryCarTravel,
+    kmCarTravelPerYear,
+    passengersPerCarTravel,
+    kmCoachTravel,
+    kmCountryTrain,
+    kmPlane,
+  };
+};
+
+const computeEnergyCarbonVariables = (
+  surveyVariables,
+  globalVariables,
+  heatingNetworkData
+) => {
   const {
     energyConsumptionKnowledge,
     heatingSystemEnergyType,
@@ -231,21 +269,17 @@ const computeCarbonVariables = (
   };
 
   // Average conso
-  // BO12 : V_KwhMoyEcs
   const KwhMoyEcs =
     SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR *
     residentsPerHousing *
     (1 - SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON);
-  // BN12 : V_KwhMoyCh
   const KwhMoyCh =
     EI_HOUSING_PER_SURFACE_AREA[housingType][maintainanceDate] *
     housingSurfaceArea;
-  // BP12 = V_KwhMoyCu
   const KwhMoyCui =
     COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR *
     residentsPerHousing *
     (1 - COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON);
-  // BQ12 = V_KwhMoyEcEm
   const KwhMoyEcEm =
     LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR *
     residentsPerHousing *
@@ -372,62 +406,7 @@ const computeCarbonVariables = (
   }
   const elecLightningKwh = KwhElec;
 
-  // variables not treated in buffer
-  const {
-    fruitsAndVegetablePercentageLocal,
-    //
-    categoryCarCommute,
-    motorTypeCarCommute,
-    ageCategoryCarCommute,
-    //
-    categoryCarTravel,
-    motorTypeCarTravel,
-    ageCategoryCarTravel,
-    //
-    kmCarTravelPerYear,
-    //
-    kmCoachTravel,
-    kmCountryTrain,
-    kmPlane,
-    //
-    numberBigAppliances,
-    numberSmallAppliances,
-    //
-    electricityProvider,
-    numberSmallDevices,
-    numberBigDevices,
-    clothesNewItems,
-  } = surveyVariables;
-
-  const carbonVariables = {
-    // Food & Drinks
-    redMeatKgPerYear,
-    whiteMeatKgPerYear,
-    fishKgPerYear,
-
-    eggsKgPerYear,
-    dairiesKgPerYear,
-    transformedProductsKgPerYear,
-
-    fruitsAndVegetablesKgPerYear,
-    starchesAndGroceriesKgPerYear,
-
-    alcoholConsoLitersPerYear,
-    hotDrinksConsoLitersPerYear,
-    juicesAndSodasConsoLitersPerYear,
-
-    // Transport
-    kmCarCommutePerYear,
-    kmUrbanBusPerYear,
-    kmCoachCommutePerYear,
-    kmUrbanTrainPerYear,
-    coefficientEnergyEfficientDriving,
-
-    // other
-    internetStreamingHoursPerYear,
-    activitiesPerYear,
-
-    // energy
+  return {
     woodHeatingKwh,
     woodCookingKwh,
     woodWaterHeatingKwh,
@@ -444,37 +423,76 @@ const computeCarbonVariables = (
     networkHeatingKwh,
     eiHeatingNetwork,
 
-    // Autre
-    fruitsAndVegetablePercentageLocal,
-    //
-    categoryCarCommute,
-    motorTypeCarCommute,
-    ageCategoryCarCommute,
-    passengersPerCarCommute,
-    //
-    categoryCarTravel,
-    motorTypeCarTravel,
-    ageCategoryCarTravel,
-    //
-    kmCarTravelPerYear,
-    passengersPerCarTravel,
-    //
-    kmCoachTravel,
-    kmCountryTrain,
-    kmPlane,
-    //
     residentsPerHousing,
     houseSurfaceArea,
     flatSurfaceArea,
+  };
+};
+
+const computeOtherCarbonVariables = (surveyVariables, globalVariables) => {
+  const { WEEKS_PER_YEAR, MONTHS_PER_YEAR } = globalVariables;
+
+  const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
+  const internetStreamingHoursPerYear =
+    WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
+  const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
+
+  const {
     numberBigAppliances,
     numberSmallAppliances,
-    //
+    electricityProvider,
+    numberSmallDevices,
+    numberBigDevices,
+    clothesNewItems,
+  } = surveyVariables;
+
+  return {
+    internetStreamingHoursPerYear,
+    activitiesPerYear,
+
+    numberBigAppliances,
+    numberSmallAppliances,
     electricityProvider,
     numberSmallDevices,
     numberBigDevices,
     clothesNewItems,
   };
-  return carbonVariables;
+};
+
+const computeCarbonVariables = (
+  surveyVariables,
+  globalVariables,
+  heatingNetworkData
+) => {
+  const transportCarbonVariables = computeTransportCarbonVariables(
+    surveyVariables,
+    globalVariables
+  );
+  const foodCarbonVariables = computeFoodCarbonVariables(
+    surveyVariables,
+    globalVariables
+  );
+  const energyCarbonVariables = computeEnergyCarbonVariables(
+    surveyVariables,
+    globalVariables,
+    heatingNetworkData
+  );
+  const otherCarbonVariables = computeOtherCarbonVariables(
+    surveyVariables,
+    globalVariables
+  );
+  return {
+    ...transportCarbonVariables,
+    ...foodCarbonVariables,
+    ...energyCarbonVariables,
+    ...otherCarbonVariables,
+  };
 };
 export default computeCarbonVariables;
-export { getEiForHeatingNetwork };
+export {
+  getEiForHeatingNetwork,
+  computeTransportCarbonVariables,
+  computeFoodCarbonVariables,
+  computeEnergyCarbonVariables,
+  computeOtherCarbonVariables,
+};

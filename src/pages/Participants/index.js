@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -100,7 +100,6 @@ const ManageParticipants = ({
   };
 
   const deleteAsyncParticipant = (participantId) => (dispatchThunk) => {
-    // console.log("Delete", participantId);
     deleteParticipantApi({ workshopId, participantId })
       .then(() => {
         dispatchThunk(deleteParticipant(participantId));
@@ -203,9 +202,6 @@ const ManageParticipants = ({
 
   return (
     <Container>
-      {isSynchronized && workshopStatus === 'ongoing' && (
-        <Redirect to={`/workshop/${workshopId}/simulation`} />
-      )}
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
         <h4 className="workshop_title">{workshopTitle}</h4>
 
@@ -224,9 +220,16 @@ const ManageParticipants = ({
             }}
           />
           <div style={{ textAlign: 'center' }}>
-            <PrimaryButton onClick={() => dispatch(startWorkshop(2020))}>
-              {t('common.launch_simulation')}
-            </PrimaryButton>
+            {isSynchronized && workshopStatus === 'created' && (
+              <PrimaryButton onClick={() => dispatch(startWorkshop(2020))}>
+                {t('common.launchSimulation')}
+              </PrimaryButton>
+            )}
+            {workshopStatus === 'ongoing' && (
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
+              </Link>
+            )}
           </div>
         </div>
       </Card>

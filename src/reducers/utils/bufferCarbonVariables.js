@@ -1,3 +1,7 @@
+import Ajv from 'ajv';
+
+import surveyVariablesSchema from './surveyVariablesSchema';
+
 const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
   const matches = heatingNetworkData.filter(
     (row) => row.name === heatingNetworkName
@@ -459,26 +463,41 @@ const computeOtherCarbonVariables = (surveyVariables, globalVariables) => {
   };
 };
 
+const validateAndSetDefaultsSurveyVariables = (surveyVariables) => {
+  const ajv = new Ajv({ useDefaults: true, verbose: true });
+  const isValid = ajv.validate(surveyVariablesSchema, surveyVariables);
+  if (!isValid) {
+    console.warn(
+      'Validation error for surveyVariables',
+      surveyVariables,
+      ajv.errors
+    );
+  }
+  return surveyVariables;
+};
 const computeCarbonVariables = (
   surveyVariables,
   globalVariables,
   heatingNetworkData
 ) => {
+  const validatedSurveyVariables = validateAndSetDefaultsSurveyVariables(
+    surveyVariables
+  );
   const transportCarbonVariables = computeTransportCarbonVariables(
-    surveyVariables,
+    validatedSurveyVariables,
     globalVariables
   );
   const foodCarbonVariables = computeFoodCarbonVariables(
-    surveyVariables,
+    validatedSurveyVariables,
     globalVariables
   );
   const energyCarbonVariables = computeEnergyCarbonVariables(
-    surveyVariables,
+    validatedSurveyVariables,
     globalVariables,
     heatingNetworkData
   );
   const otherCarbonVariables = computeOtherCarbonVariables(
-    surveyVariables,
+    validatedSurveyVariables,
     globalVariables
   );
   return {

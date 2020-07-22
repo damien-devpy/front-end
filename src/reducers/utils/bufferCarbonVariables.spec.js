@@ -1,3 +1,5 @@
+import Ajv from 'ajv';
+
 import computeCarbonVariables, {
   computeEnergyCarbonVariables,
   computeFoodCarbonVariables,
@@ -5,6 +7,8 @@ import computeCarbonVariables, {
   computeTransportCarbonVariables,
   getEiForHeatingNetwork,
 } from './bufferCarbonVariables';
+
+import surveyVariablesSchema from './surveyVariablesSchema';
 
 describe('test getEiForHeatingNetwork', () => {
   test('getEiForHeatingNetwork returns correct result with existing parameter', () => {
@@ -57,7 +61,7 @@ describe('test getEiForHeatingNetwork', () => {
 
     expect(res).toStrictEqual(expectedRes);
   });
-  test('getEiForHeatingNetwork returns 0 with null velue', () => {
+  test('getEiForHeatingNetwork returns 0 with null value', () => {
     // Given
     const networkData = [
       {
@@ -118,7 +122,7 @@ describe('test computeCarbonVariables', () => {
       sanitoryHotWaterEnergyType: 'GAS',
       cookingAppliancesEnergyType: 'ELECTRICITY',
       electricityProvider: 'ALTERNATIVE',
-      heatingNetworkName: 0,
+      heatingNetworkName: null,
       energyConsumptionKnowledge: true,
       elecKwh: 5000,
       gasKwh: 2800,
@@ -493,4 +497,63 @@ describe('test computeCarbonVariables', () => {
       expectedFoodCarbonVariables
     );
   });
+
+  // TODO: Add tests for Energy and Others
+});
+
+describe('test validateSurveyVariables', () => {
+  const ajv = new Ajv({ useDefaults: true, verbose: true });
+  const surveyVariables = {
+    meatAndFishConsoPerDay: 2,
+    eggsAndDairiesConsoPerDay: 4,
+    fruitsAndVegetablePercentageLocal: 0.8,
+    transformedProductsConsoPerWeek: 0,
+    alcoholConsoGlassPerDay: 1,
+    hotDrinksConsoGlassPerDay: 2,
+    juicesAndSodasConsoGlassPerDay: 0,
+    categoryCarCommute: 'SPORT',
+    motorTypeCarCommute: 'HYBRID',
+    ageCategoryCarCommute: 'TEN_YEARS_OR_YOUNGER',
+    kmCarCommutePerDay: 0,
+    passengersPerCarCommute: 1,
+    hoursUrbanBusPerWeek: 0,
+    hoursCoachCommutePerWeek: 1000,
+    hoursUrbanTrainPerWeek: 12,
+    categoryCarTravel: 'SPORT',
+    motorTypeCarTravel: 'HYBRID',
+    ageCategoryCarTravel: 'TEN_YEARS_OR_YOUNGER',
+    kmCarTravelPerYear: 1,
+    passengersPerCarTravel: 0,
+    kmCoachTravel: 1000,
+    kmCountryTrain: 5000,
+    kmPlane: 18000,
+    residentsPerHousing: 4,
+    housingSurfaceArea: 150,
+    housingType: 'HOUSE',
+    maintainanceDate: 'BEFORE_1975',
+    heatingSystemEnergyType: 'WOOD',
+    sanitoryHotWaterEnergyType: 'GAS',
+    cookingAppliancesEnergyType: 'ELECTRICITY',
+    electricityProvider: 'ALTERNATIVE',
+    energyConsumptionKnowledge: true,
+    elecKwh: 5000,
+    gasKwh: 2800,
+    fuelKwh: 0,
+    woodKwh: 14000,
+    numberBigAppliances: 2,
+    numberSmallAppliances: 2,
+    numberBigDevices: 2,
+    numberSmallDevices: 2,
+    internetStreamingHoursPerWeek: 2,
+    clothesNewItems: 10,
+    activitiesPerMonth: 2,
+  };
+  const isValid = ajv.validate(surveyVariablesSchema, surveyVariables);
+  console.log(ajv.errors);
+
+  expect(isValid).toBe(true);
+  // expect(surveyVariables).toStrictEqual({
+  //   meatAndFishConsoPerDay: 0.1,
+  //   kmPlane: 0,
+  // });
 });

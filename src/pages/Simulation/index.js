@@ -78,9 +78,8 @@ const Simulation = ({
                   <small>{t('common.we_are_in')}</small> {currentRound}
                 </h3>
                 <PrimaryButton
-                  className="pull-right"
                   size="lg"
-                  variant="secondary"
+                  variant="primary"
                   onClick={handleShowNewRoundModal}
                 >
                   {t('common.nextRound')}

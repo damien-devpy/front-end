@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import cardIcons from './cardIcons';
 import { COLORS } from '../vars';
 
+const sizeGreen = 11;
+const sizeWhite = 10;
+
 const ActionCardItem = ({
   id,
   cardNumber,
@@ -30,20 +33,20 @@ const ActionCardItem = ({
           <div className="col-2 p-1">
             <span className="emoji">{cardIcons[cardNumber]}</span>
           </div>
-          <div className="col-9 p-1">{text.toLowerCase()}</div>
-          <div className="col-1 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
+          <div className="col p-1">{text.toLowerCase()}</div>
+          <div className="col-auto pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
               {checked ? (
                 <img
                   src={require('../assets/GreenIndicator.svg')}
-                  width="14"
-                  height="14"
+                  width={sizeGreen}
+                  height={sizeGreen}
                 />
               ) : (
                 <img
                   src={require('../assets/WhiteIndicator.svg')}
-                  width="13"
-                  height="13"
+                  width={sizeWhite}
+                  height={sizeWhite}
                 />
               )}
             </div>
@@ -54,22 +57,22 @@ const ActionCardItem = ({
         </div>
       ) : (
         <div className="row align-items-center">
-          <div className="col-6 p-1">
+          <div className="col-5 p-1">
             <span className="emoji">{cardIcons[cardNumber]}</span>
           </div>
-          <div className="col-6 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
+          <div className="col-7 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
               {checked ? (
                 <img
                   src={require('../assets/GreenIndicator.svg')}
-                  width="14"
-                  height="14"
+                  width={sizeGreen}
+                  height={sizeGreen}
                 />
               ) : (
                 <img
                   src={require('../assets/WhiteIndicator.svg')}
-                  width="13"
-                  height="13"
+                  width={sizeWhite}
+                  height={sizeWhite}
                 />
               )}
             </div>

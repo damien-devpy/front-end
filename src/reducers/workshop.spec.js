@@ -1,4 +1,5 @@
 import workshopReducer from './workshop';
+import { DELETE_WORKSHOP } from '../actions/workshops';
 
 describe('Test effect of redux actions related to model on the workshop state', () => {
   test('Action COMPUTE_FOOTPRINTS computes all footprints and leaves everything else unchanged.', () => {
@@ -1595,6 +1596,51 @@ describe('Test effect of redux actions related to model on the workshop state', 
           participants: [1, 2],
           rounds: [2020],
         },
+      };
+      const result = workshopReducer(initialState, action);
+      expect(result).toStrictEqual(expectedState);
+    });
+  });
+  describe('Action DELETE_WORKSHOP should remove current workshop if it exists', () => {
+    const defaultState = workshopReducer(undefined, {});
+    test('Local workshop exists and is equals to the workshop to remove: It should be removed', () => {
+      const initialState = {
+        ...defaultState,
+        result: {
+          id: 1,
+        },
+      };
+      const expectedState = defaultState;
+      const action = {
+        type: DELETE_WORKSHOP,
+        payload: { workshopId: 1 },
+      };
+      const result = workshopReducer(initialState, action);
+      expect(result).toStrictEqual(expectedState);
+    });
+    test('Local workshop exists and is different from the one to be removed: No change in state', () => {
+      const initialState = {
+        ...defaultState,
+        result: {
+          id: 1,
+        },
+      };
+      const expectedState = initialState;
+      const action = {
+        type: DELETE_WORKSHOP,
+        payload: { workshopId: 2 },
+      };
+      const result = workshopReducer(initialState, action);
+      expect(result).toStrictEqual(expectedState);
+    });
+    test("Local workshop doesn't exists: No change in state", () => {
+      const initialState = {
+        ...defaultState,
+      };
+      const expectedState = initialState;
+      const action = {
+        type: DELETE_WORKSHOP,
+        payload: { workshopId: 2 },
       };
       const result = workshopReducer(initialState, action);
       expect(result).toStrictEqual(expectedState);

@@ -19,6 +19,7 @@ export const ParticipantItemForm = ({
   personas,
   currentPersonaId,
   handleShowBC,
+  handleSendForm,
 }) => {
   const { t } = useTranslation();
 
@@ -96,6 +97,7 @@ export const ParticipantItemForm = ({
       >
         <ParticipantStatus
           value={status}
+          handleSendForm={() => handleSendForm(id)}
           handleShowBC={() => handleShowBC(id)}
         />
       </Col>

@@ -99,7 +99,7 @@ export default (state = initialState, action) => {
     }
     case DELETE_WORKSHOP: {
       const { workshopId } = action.payload;
-      if (state.result.id === workshopId) {
+      if (pathOr(null, ['result', 'id'], state) === workshopId) {
         return initialState;
       }
       return state;

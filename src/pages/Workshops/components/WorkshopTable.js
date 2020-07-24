@@ -73,7 +73,7 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
       <CommonModal
         t={t}
         title={t('common.deleteWorkshop')}
-        show={workshopToDelete.id}
+        show={workshopToDelete.id !== null}
         handleAcknowledge={handleDeleteConfirmation}
         handleClose={handleCloseModal}
       >

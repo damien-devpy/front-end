@@ -75,7 +75,7 @@ const Simulation = ({
             <Container className="row-full">
               <CardHeader>
                 <h3>
-                  <small>{t('common.we_are_in')}</small> {currentRound}
+                  <small>{t('common.weAreIn')}</small> {currentRound}
                 </h3>
                 <PrimaryButton
                   size="lg"

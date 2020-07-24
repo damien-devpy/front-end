@@ -142,7 +142,7 @@ export default {
     transport: 'Transport',
     transports: 'Transports',
     validate: 'Valider',
-    we_are_in: 'Nous sommes en ...',
+    weAreIn: 'Nous sommes en',
     welcome: 'Bienvenue',
     workshop: 'Atelier',
     workshopCity: 'Lieu',

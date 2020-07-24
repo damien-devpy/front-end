@@ -2,18 +2,17 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import AddIcon from '../../assets/AddIcon';
+import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
+import CardHeader from '../../components/CardHeader';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
-import { COLORS } from '../../vars';
 import {
   ParticipantItemForm,
   ParticipantsHeader,
@@ -229,38 +228,39 @@ const ManageParticipants = ({
 
   return (
     <Container>
+      <h2 className="workshop-title">{workshopTitle}</h2>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
-        <h4 className="workshop_title">{workshopTitle}</h4>
-
-        <StyledHeader>
-          <h4>{t('common.participants_list')}</h4>
-        </StyledHeader>
-
-        <div className="container">
-          {/* {loadError && <p>Error</p>} */}
-          {/* {isLoading && <Spinner animation="border" />} */}
-          <ParticipantsHeader />
-          {participantItems}
-          <AddParticipant
+        <CardHeader>
+          <h3>{t('manageParticipants.title')}</h3>
+          <AddNewButton
             onClick={() => {
               setShowAddParticipantModal(true);
             }}
-          />
-          <div style={{ textAlign: 'center' }}>
-            {isSynchronized && workshopStatus === 'created' && (
-              <PrimaryButton
-                onClick={() => dispatch(startWorkshop(2020))}
-                disabled={!selectIsWorkshopReadyForInitialization(workshop)}
-              >
-                {t('common.launchSimulation')}
-              </PrimaryButton>
-            )}
-            {workshopStatus === 'ongoing' && (
-              <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
-              </Link>
-            )}
-          </div>
+          >
+            {t('manageParticipants.addNew')}
+          </AddNewButton>
+        </CardHeader>
+        <hr />
+
+        <div className="container">
+          <ParticipantsHeader />
+          {participantItems}
+          <hr />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          {isSynchronized && workshopStatus === 'created' && (
+            <PrimaryButton
+              onClick={() => dispatch(startWorkshop(2020))}
+              disabled={!selectIsWorkshopReadyForInitialization(workshop)}
+            >
+              {t('common.launchSimulation')}
+            </PrimaryButton>
+          )}
+          {workshopStatus === 'ongoing' && (
+            <Link to={`/workshop/${workshopId}/simulation`}>
+              <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
+            </Link>
+          )}
         </div>
       </Card>
       <Modal
@@ -293,37 +293,5 @@ const ManageParticipants = ({
     </Container>
   );
 };
-
-const AddParticipant = ({ onClick }) => {
-  const { t } = useTranslation();
-
-  return (
-    <StyledAdd onClick={onClick}>
-      <AddIcon width={20} height={20} /> {'   '}{' '}
-      {t('manageParticipants.addNew')}
-    </StyledAdd>
-  );
-};
-
-export const StyledAdd = styled.div`
-  background-color: ${COLORS.WHITE};
-  margin: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 5px;
-  padding-left: 10px;
-  border: 2px dashed #e2e0e0;
-  text-align: center;
-  transition: 0.5s;
-  :focus,
-  :hover {
-    background-color: #dedede;
-  }
-`;
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
 
 export default ManageParticipants;

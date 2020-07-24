@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import cardIcons from './cardIcons';
 import { COLORS } from '../vars';
 
+const sizeGreen = 11;
+const sizeWhite = 10;
+
 const ActionCardItem = ({
   id,
   cardNumber,
@@ -18,9 +21,7 @@ const ActionCardItem = ({
 }) => {
   return (
     <StyledItem
-      name={id}
       checked={checked}
-      cardNumber={cardNumber}
       className="container rounded-lg shadow-sm mb-2 btn-block"
       sector={sector}
       onClick={() => {
@@ -32,20 +33,20 @@ const ActionCardItem = ({
           <div className="col-2 p-1">
             <span className="emoji">{cardIcons[cardNumber]}</span>
           </div>
-          <div className="col-9 p-1">{text.toLowerCase()}</div>
-          <div className="col-1 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
+          <div className="col p-1">{text.toLowerCase()}</div>
+          <div className="col-auto pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
               {checked ? (
                 <img
                   src={require('../assets/GreenIndicator.svg')}
-                  width="14"
-                  height="14"
+                  width={sizeGreen}
+                  height={sizeGreen}
                 />
               ) : (
                 <img
                   src={require('../assets/WhiteIndicator.svg')}
-                  width="13"
-                  height="13"
+                  width={sizeWhite}
+                  height={sizeWhite}
                 />
               )}
             </div>
@@ -56,22 +57,22 @@ const ActionCardItem = ({
         </div>
       ) : (
         <div className="row align-items-center">
-          <div className="col-6 p-1">
+          <div className="col-5 p-1">
             <span className="emoji">{cardIcons[cardNumber]}</span>
           </div>
-          <div className="col-6 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
+          <div className="col-7 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
               {checked ? (
                 <img
                   src={require('../assets/GreenIndicator.svg')}
-                  width="14"
-                  height="14"
+                  width={sizeGreen}
+                  height={sizeGreen}
                 />
               ) : (
                 <img
                   src={require('../assets/WhiteIndicator.svg')}
-                  width="13"
-                  height="13"
+                  width={sizeWhite}
+                  height={sizeWhite}
                 />
               )}
             </div>
@@ -99,11 +100,25 @@ export const sectorColors = {
   energy: COLORS.FIGMA_BLUE_DARK,
 };
 
+// FROM https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+const adjust = (color, amount) => {
+  return `#${color
+    .replace(/^#/, '')
+    .replace(/../g, (color) =>
+      `0${Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
+        16
+      )}`.substr(-2)
+    )}`;
+};
+
 const StyledItem = styled.div`
   cursor: pointer;
   font-size: 0.8rem;
   color: white;
-  background: ${(props) => sectorColors[props.sector]};
+  background: ${(props) =>
+    props.checked
+      ? adjust(sectorColors[props.sector], -40)
+      : sectorColors[props.sector]};
 `;
 
 export default ActionCardItem;

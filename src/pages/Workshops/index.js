@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Button, Card, Container, Spinner } from 'react-bootstrap';
+import { Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import AddIcon from '../../assets/AddIcon';
+import AddNewButton from '../../components/AddNewButton';
+import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
-import PrimaryButton from '../../components/PrimaryButton';
 import WorkshopModalForm from './components/WorkshopModalForm';
 import WorkshopTable from './components/WorkshopTable';
-import { COLORS } from '../../vars';
 import { addWorkshop, deleteWorkshop } from '../../actions/workshops';
 import { createWorkshopApi, deleteWorkshopApi } from '../../utils/api';
 import { selectCoachWorkshops } from '../../selectors/workshopsSelector';
@@ -82,17 +80,15 @@ const Workshops = () => {
   return (
     <Container>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
-        <StyledHeader>
+        <CardHeader>
           <h2>{t(workshopsTitleId)}</h2>
           {!isLoading && (
-            <PrimaryButton variant="secondary" onClick={handleShow}>
-              <AddIcon height={20} width={20} fill="inherit" />
-              {'     '}
+            <AddNewButton onClick={handleShow}>
               {t('common.newWorkshop')}
-            </PrimaryButton>
+            </AddNewButton>
           )}
-        </StyledHeader>
-        <hr style={{ margin: 0 }} />
+        </CardHeader>
+        <hr/>
 
         {loadError && <p>{t('common.loadError')}</p>}
         {isLoading && (
@@ -124,13 +120,3 @@ const Workshops = () => {
 };
 
 export default Workshops;
-
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
-const StyledButton = styled(Button)`
-  background-color: ${COLORS.BROWN.STANDARD};
-  border-color: ${COLORS.BROWN.STANDARD};
-`;

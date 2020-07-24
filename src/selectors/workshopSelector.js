@@ -82,6 +82,9 @@ export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (
   workshop
 ) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'collective');
 
+export const selectCurrentWorkshop = (state) =>
+  pathOr(null, ['workshop'], state);
+
 export const selectCurrentRound = (workshop) =>
   pathOr(null, ['result', 'currentYear'], workshop);
 
@@ -258,7 +261,6 @@ export const selectFootprintStructure = (workshop) =>
 
 export const selectIsWorkshopReadyForInitialization = (workshop) => {
   const participants = selectParticipantsEntity(workshop);
-
   const participantIds = pathOr([], ['result', 'participants'], workshop);
   if (participantIds.length === 0) return false;
   return participantIds.every(
@@ -266,3 +268,23 @@ export const selectIsWorkshopReadyForInitialization = (workshop) => {
       pathOr('notready', [participantId, 'status'], participants) === 'ready'
   );
 };
+
+const selectEntityIdsForRound = (workshop, roundId, entity) =>
+  pathOr([], [roundId, entity], selectRoundsEntity(workshop));
+
+const selectEntityForRound = (workshop, roundId, entity) => {
+  const workshopEntity = selectWorkshopEntity(workshop, entity);
+  const entityIdsForRound = selectEntityIdsForRound(workshop, roundId, entity);
+  return entityIdsForRound.reduce(
+    (accumulator, entityId) => ({
+      ...accumulator,
+      [entityId]: workshopEntity[entityId],
+    }),
+    {}
+  );
+};
+export const selectCarbonFootprintsForRound = (workshop, roundId) =>
+  selectEntityForRound(workshop, roundId, 'carbonFootprints');
+
+export const selectCitizenCarbonFootprintsForRound = (workshop, roundId) =>
+  selectEntityForRound(workshop, roundId, 'citizenCarbonFootprints');

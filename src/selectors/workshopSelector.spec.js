@@ -2,8 +2,10 @@ import {
   getCostOfChosenActionCards,
   getInitRoundBudget,
   getNumberOfChosenActionCards,
+  selectCarbonFootprintsForRound,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
+  selectCitizenCarbonFootprintsForRound,
   selectIsWorkshopReadyForInitialization,
 } from './workshopSelector';
 
@@ -189,6 +191,145 @@ describe('Workshop selector', () => {
     });
     it('should return false if there is no workshop parameter', () => {
       expect(selectIsWorkshopReadyForInitialization()).toBe(false);
+    });
+  });
+  describe('Check selectCarbonFootprintsForRound and selectCitizenCarbonFootprintsForRound', () => {
+    const carbonFootprints2020 = ['2020-1', '2020-2'];
+    const carbonFootprints2023 = ['2023-1', '2023-2'];
+    const roundsEntity = {
+      2020: {
+        carbonFootprints: carbonFootprints2020,
+        citizenCarbonFootprints: carbonFootprints2020,
+      },
+      2023: {
+        carbonFootprints: carbonFootprints2023,
+        citizenCarbonFootprints: carbonFootprints2023,
+      },
+    };
+    const carbonFootprintsEntity2020 = {
+      '2020-1': {
+        participantId: 1,
+        footprint: {
+          name: 'transport',
+          children: [
+            {
+              name: 'bus',
+              cfKey: 'cf_bus',
+              value: 2000,
+            },
+            {
+              name: 'plane',
+              cfKey: 'cf_plane',
+              value: 200000,
+            },
+          ],
+          value: 202000,
+        },
+      },
+      '2020-2': {
+        participantId: 2,
+        footprint: {
+          name: 'transport',
+          children: [
+            {
+              name: 'bus',
+              cfKey: 'cf_bus',
+              value: 1000,
+            },
+            {
+              name: 'plane',
+              cfKey: 'cf_plane',
+              value: 100000,
+            },
+          ],
+          value: 101000,
+        },
+      },
+    };
+    const carbonFootprintsEntity2023 = {
+      '2023-1': {
+        participantId: 1,
+        footprint: {
+          name: 'transport',
+          children: [
+            {
+              name: 'bus',
+              cfKey: 'cf_bus',
+              value: 500,
+            },
+            {
+              name: 'plane',
+              cfKey: 'cf_plane',
+              value: 50000,
+            },
+          ],
+          value: 50500,
+        },
+      },
+      '2023-2': {
+        participantId: 2,
+        footprint: {
+          name: 'transport',
+          children: [
+            {
+              name: 'bus',
+              cfKey: 'cf_bus',
+              value: 100,
+            },
+            {
+              name: 'plane',
+              cfKey: 'cf_plane',
+              value: 10000,
+            },
+          ],
+          value: 10100,
+        },
+      },
+    };
+
+    const carbonFootprintsEntity = {
+      ...carbonFootprintsEntity2020,
+      ...carbonFootprintsEntity2023,
+    };
+
+    const workshop = {
+      entities: {
+        rounds: roundsEntity,
+        carbonFootprints: carbonFootprintsEntity,
+        citizenCarbonFootprints: carbonFootprintsEntity,
+      },
+    };
+    it('should return carbonFootprints for round 2020', () => {
+      const result = selectCarbonFootprintsForRound(workshop, 2020);
+      expect(result).toEqual(carbonFootprintsEntity2020);
+    });
+    it('should return carbonFootprints for round 2023', () => {
+      const result = selectCarbonFootprintsForRound(workshop, 2023);
+      expect(result).toEqual(carbonFootprintsEntity2023);
+    });
+    it('should return empty carbonFootprints for round 2026', () => {
+      const result = selectCarbonFootprintsForRound(workshop, 2026);
+      expect(result).toEqual({});
+    });
+    it('should return empty carbonFootprints if there is no parameter', () => {
+      const result = selectCarbonFootprintsForRound();
+      expect(result).toEqual({});
+    });
+    it('should return citizenCarbonFootprints for round 2020', () => {
+      const result = selectCitizenCarbonFootprintsForRound(workshop, 2020);
+      expect(result).toEqual(carbonFootprintsEntity2020);
+    });
+    it('should return citizenCarbonFootprints for round 2023', () => {
+      const result = selectCitizenCarbonFootprintsForRound(workshop, 2023);
+      expect(result).toEqual(carbonFootprintsEntity2023);
+    });
+    it('should return empty citizenCarbonFootprints for round 2026', () => {
+      const result = selectCitizenCarbonFootprintsForRound(workshop, 2026);
+      expect(result).toEqual({});
+    });
+    it('should return empty citizenCarbonFootprints if there is no parameter', () => {
+      const result = selectCitizenCarbonFootprintsForRound();
+      expect(result).toEqual({});
     });
   });
 });

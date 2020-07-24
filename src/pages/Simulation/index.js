@@ -11,7 +11,16 @@ import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
 import NewRoundModalForm from './components/NewRoundModalForm';
 import PrimaryButton from '../../components/PrimaryButton';
-import { selectCurrentRound } from '../../selectors/workshopSelector';
+import {
+  globalAverageFootprint,
+  participantsAverageFootprint,
+} from '../../selectors/footprintSelectors';
+import {
+  selectCarbonFootprintsForRound,
+  selectCitizenCarbonFootprintsForRound,
+  selectCurrentRound,
+  selectFootprintStructure,
+} from '../../selectors/workshopSelector';
 import { startRound } from '../../actions/workshop';
 import { useWorkshop } from '../../hooks/workshop';
 
@@ -26,6 +35,24 @@ const Simulation = ({
 
   const currentRound = useSelector((state) =>
     selectCurrentRound(state.workshop)
+  );
+  const footprintStructure = useSelector((state) =>
+    selectFootprintStructure(state.workshop)
+  );
+  const currentCarbonFootprints = useSelector((state) =>
+    selectCarbonFootprintsForRound(state.workshop, currentRound)
+  );
+  const currentCitizenFootprints = useSelector((state) =>
+    selectCitizenCarbonFootprintsForRound(state.workshop, currentRound)
+  );
+  const participantsAverageCarbonFootprint = participantsAverageFootprint(
+    currentCarbonFootprints,
+    footprintStructure
+  );
+  const globalAverageCarbonFootprint = globalAverageFootprint(
+    currentCarbonFootprints,
+    currentCitizenFootprints,
+    footprintStructure
   );
   const workshopTitle = useSelector(
     (state) => state.workshop.result && state.workshop.result.name
@@ -104,11 +131,15 @@ const Simulation = ({
                   <Col sm={12} md={4} className="graph-col">
                     <Container className="graph-card">
                       <h4> {t('simulation.global_average')} </h4>
-                      <FootprintGraphType type="globalAverage" />
+                      <FootprintGraphType
+                        carbonFootprint={globalAverageCarbonFootprint}
+                      />
                     </Container>
                     <Container className="graph-card">
                       <h4> {t('simulation.the_participants')} </h4>
-                      <FootprintGraphType type="participantsAverage" />
+                      <FootprintGraphType
+                        carbonFootprint={participantsAverageCarbonFootprint}
+                      />
                     </Container>
                   </Col>
                 </Row>

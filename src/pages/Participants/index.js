@@ -216,8 +216,6 @@ const ManageParticipants = ({
         <hr />
 
         <div className="container">
-          {/* {loadError && <p>Error</p>} */}
-          {/* {isLoading && <Spinner animation="border" />} */}
           <ParticipantsHeader />
           {participantItems}
           <hr />
@@ -268,33 +266,5 @@ const ManageParticipants = ({
     </Container>
   );
 };
-
-// const AddParticipant = ({ onClick }) => {
-//   const { t } = useTranslation();
-
-//   return (
-//     <StyledAdd onClick={onClick}>
-//       <AddIcon width={20} height={20} /> {'   '}{' '}
-//       {t('manageParticipants.addNew')}
-//     </StyledAdd>
-//   );
-// };
-
-// export const StyledAdd = styled.div`
-//   background-color: ${COLORS.WHITE};
-//   margin: 15px;
-//   padding-top: 10px;
-//   padding-bottom: 10px;
-//   border-radius: 5px;
-//   padding-left: 10px;
-//   border: 2px dashed #e2e0e0;
-//   text-align: center;
-//   transition: 0.5s;
-//   :focus,
-//   :hover {
-//     background-color: #dedede;
-//   }
-// `;
-
 
 export default ManageParticipants;

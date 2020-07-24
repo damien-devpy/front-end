@@ -114,48 +114,48 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 controlId="validationFormik00"
               >
                 <ButtonGroup>
-                <Button
-                  variant={individualCollectiveToggleStyle}
-                  active={values.actionCardType === 'individual'}
-                  onClick={() => {
-                    setFieldValue('actionCardType', 'individual');
-                    setFieldValue(
-                      'actionCardBatches',
-                      individualActionCardBatches
-                    );
-                    setFieldValue(
-                      'checkedActionCardBatchIds',
-                      checkedIndividualActionCardsBatchIds
-                    );
-                    setFieldValue(
-                      'actionCardBatchIds',
-                      defaultBatchPreChecked('individual')
-                    );
-                  }}
-                >
-                  {t('common.individualActions')}
-                </Button>
-                <Button
-                  variant={individualCollectiveToggleStyle}
-                  active={values.actionCardType === 'collective'}
-                  onClick={() => {
-                    setFieldValue('actionCardType', 'collective');
-                    setFieldValue(
-                      'actionCardBatches',
-                      collectiveActionCardBatches
-                    );
-                    setFieldValue(
-                      'checkedActionCardBatchIds',
-                      checkedCollectiveActionCardsBatchIds
-                    );
-                    setFieldValue(
-                      'actionCardBatchIds',
-                      defaultBatchPreChecked('collective')
-                    );
-                  }}
-                >
-                  {t('common.collectiveActions')}
-                </Button>
+                  <Button
+                    variant={individualCollectiveToggleStyle}
+                    active={values.actionCardType === 'individual'}
+                    onClick={() => {
+                      setFieldValue('actionCardType', 'individual');
+                      setFieldValue(
+                        'actionCardBatches',
+                        individualActionCardBatches
+                      );
+                      setFieldValue(
+                        'checkedActionCardBatchIds',
+                        checkedIndividualActionCardsBatchIds
+                      );
+                      setFieldValue(
+                        'actionCardBatchIds',
+                        defaultBatchPreChecked('individual')
+                      );
+                    }}
+                  >
+                    {t('common.individualActions')}
+                  </Button>
+                  <Button
+                    variant={individualCollectiveToggleStyle}
+                    active={values.actionCardType === 'collective'}
+                    onClick={() => {
+                      setFieldValue('actionCardType', 'collective');
+                      setFieldValue(
+                        'actionCardBatches',
+                        collectiveActionCardBatches
+                      );
+                      setFieldValue(
+                        'checkedActionCardBatchIds',
+                        checkedCollectiveActionCardsBatchIds
+                      );
+                      setFieldValue(
+                        'actionCardBatchIds',
+                        defaultBatchPreChecked('collective')
+                      );
+                    }}
+                  >
+                    {t('common.collectiveActions')}
+                  </Button>
                 </ButtonGroup>
               </Form.Group>
             </Form.Row>
@@ -173,7 +173,9 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   >
                     -
                   </Button>
-                  <Button variant={budgetYearStyle} disabled>{values.targetedYear}</Button>
+                  <Button variant={budgetYearStyle} disabled>
+                    {values.targetedYear}
+                  </Button>
                   <Button
                     variant={budgetYearStyle}
                     onClick={() => {

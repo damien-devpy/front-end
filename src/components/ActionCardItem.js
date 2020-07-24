@@ -115,7 +115,6 @@ const StyledItem = styled.div`
   cursor: pointer;
   font-size: 0.8rem;
   color: white;
-  // background: ${(props) => sectorColors[props.sector]};
   background: ${(props) =>
     props.checked
       ? adjust(sectorColors[props.sector], -40)

@@ -2,7 +2,6 @@
 
 ```js
 <div> <PrimaryButton>Validate</PrimaryButton> </div>
-<AddNewButton text='Add new participant' />
 <div> <button class="btn btn-custom-lot active">Validate</button> </div>
 ```
 

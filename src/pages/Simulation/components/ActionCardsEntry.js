@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ActionCardsForm from './ActionCardsForm';
+import EuroIcon from '../../../assets/EuroIcon';
 import ParticipantsTable from './ParticipantsTable';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {
@@ -246,16 +247,14 @@ const ActionCardsEntry = ({
             </Row>
             <Row>
               <h6>
-                Budget{' '}
+                {t('common.budget')}{' '}
                 {budgetCollective -
                   getCostOfChosenCollectiveCards(
                     currentCollectiveChoices,
                     actionCardsEntity,
                     currentRound
-                  )}
-                <span className="emoji" style={{ color: 'black' }}>
-                  &#128176;
-                </span>
+                  )}{' '}
+                <EuroIcon width={18} className="fill-current-color" />
               </h6>
             </Row>
           </Col>

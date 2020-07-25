@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import './simulationPage.css';
 import ActionCardItemSimple from '../../../components/ActionCardItemSimple';
+import EuroIcon from '../../../assets/EuroIcon';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {
   getDefaultRoundType,
@@ -19,8 +20,8 @@ import {
 import { toggleArrayItem } from '../../../utils/helpers';
 
 const individualCollectiveToggleStyle = 'outline-primary';
-const batchToggleStyle = 'secondary';
-const budgetYearStyle = 'secondary';
+const batchToggleStyle = 'outline-secondary';
+const budgetYearStyle = 'outline-secondary';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -173,7 +174,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   >
                     -
                   </Button>
-                  <Button variant={budgetYearStyle} disabled>
+                  <Button
+                    variant={budgetYearStyle}
+                    className="text-dark"
+                    disabled
+                  >
                     {values.targetedYear}
                   </Button>
                   <Button
@@ -188,54 +193,50 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   </Button>
                 </ButtonGroup>
               </Form.Group>
-              {values.actionCardType === 'individual' && (
-                <Form.Group as={Col}>
-                  <Form.Label className="mr-2">
-                    {t('common.budget')}
+              <Form.Group as={Col}>
+                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
+                <ButtonGroup className="mr-2">
+                  <Button
+                    variant={budgetYearStyle}
+                    onClick={() => {
+                      if (values.individualBudget > 1) {
+                        setFieldValue(
+                          'individualBudget',
+                          values.individualBudget - 1
+                        );
+                      }
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
+                    className="text-dark"
+                    disabled
+                  >
+                    {values.individualBudget}{' '}
                     {values.actionCardType === 'individual' && (
-                      <span className="emoji" style={{ color: 'black' }}>
-                        &#x2764;
-                      </span>
+                      <span className="emoji">&#x2764;</span>
                     )}
                     {values.actionCardType === 'collective' && (
-                      <span className="emoji" style={{ color: 'black' }}>
-                        &#x1f4b0;
-                      </span>
+                      <EuroIcon width={20} className="fill-current-color" />
                     )}
-                  </Form.Label>
-                  <ButtonGroup className="mr-2">
-                    <Button
-                      variant={budgetYearStyle}
-                      onClick={() => {
-                        if (values.individualBudget > 1) {
-                          setFieldValue(
-                            'individualBudget',
-                            values.individualBudget - 1
-                          );
-                        }
-                      }}
-                    >
-                      -
-                    </Button>
-                    <Button variant={budgetYearStyle} disabled>
-                      {values.individualBudget}
-                    </Button>
-                    <Button
-                      variant={budgetYearStyle}
-                      onClick={() => {
-                        if (values.individualBudget < 10) {
-                          setFieldValue(
-                            'individualBudget',
-                            values.individualBudget + 1
-                          );
-                        }
-                      }}
-                    >
-                      +
-                    </Button>
-                  </ButtonGroup>
-                </Form.Group>
-              )}
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
+                    onClick={() => {
+                      if (values.individualBudget < 10) {
+                        setFieldValue(
+                          'individualBudget',
+                          values.individualBudget + 1
+                        );
+                      }
+                    }}
+                  >
+                    +
+                  </Button>
+                </ButtonGroup>
+              </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="validationFormik02">

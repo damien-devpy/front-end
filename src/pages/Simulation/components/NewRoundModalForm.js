@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import './simulationPage.css';
 import ActionCardItemSimple from '../../../components/ActionCardItemSimple';
+import EuroIcon from '../../../assets/EuroIcon';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {
   getDefaultRoundType,
@@ -188,54 +189,50 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   </Button>
                 </ButtonGroup>
               </Form.Group>
-              {values.actionCardType === 'individual' && (
-                <Form.Group as={Col}>
-                  <Form.Label className="mr-2">
-                    {t('common.budget')}
-                    {values.actionCardType === 'individual' && (
-                      <span className="emoji" style={{ color: 'black' }}>
-                        &#x2764;
-                      </span>
-                    )}
-                    {values.actionCardType === 'collective' && (
-                      <span className="emoji" style={{ color: 'black' }}>
-                        &#x1f4b0;
-                      </span>
-                    )}
-                  </Form.Label>
-                  <ButtonGroup className="mr-2">
-                    <Button
-                      variant={budgetYearStyle}
-                      onClick={() => {
-                        if (values.individualBudget > 1) {
-                          setFieldValue(
-                            'individualBudget',
-                            values.individualBudget - 1
-                          );
-                        }
-                      }}
-                    >
-                      -
-                    </Button>
-                    <Button variant={budgetYearStyle} disabled>
-                      {values.individualBudget}
-                    </Button>
-                    <Button
-                      variant={budgetYearStyle}
-                      onClick={() => {
-                        if (values.individualBudget < 10) {
-                          setFieldValue(
-                            'individualBudget',
-                            values.individualBudget + 1
-                          );
-                        }
-                      }}
-                    >
-                      +
-                    </Button>
-                  </ButtonGroup>
-                </Form.Group>
-              )}
+              <Form.Group as={Col}>
+                <Form.Label className="mr-2">
+                  {t('common.budget')}
+                  {values.actionCardType === 'individual' && (
+                    <span className="emoji" style={{ color: 'black' }}>
+                      &#x2764;
+                    </span>
+                  )}
+                  {values.actionCardType === 'collective' && (
+                    <EuroIcon width={18} />
+                  )}
+                </Form.Label>
+                <ButtonGroup className="mr-2">
+                  <Button
+                    variant={budgetYearStyle}
+                    onClick={() => {
+                      if (values.individualBudget > 1) {
+                        setFieldValue(
+                          'individualBudget',
+                          values.individualBudget - 1
+                        );
+                      }
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button variant={budgetYearStyle} disabled>
+                    {values.individualBudget}
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
+                    onClick={() => {
+                      if (values.individualBudget < 10) {
+                        setFieldValue(
+                          'individualBudget',
+                          values.individualBudget + 1
+                        );
+                      }
+                    }}
+                  >
+                    +
+                  </Button>
+                </ButtonGroup>
+              </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="validationFormik02">

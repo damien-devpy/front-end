@@ -2,11 +2,15 @@ import {
   getCostOfChosenActionCards,
   getInitRoundBudget,
   getNumberOfChosenActionCards,
+  isIndividualActionCardTakenForParticipant,
   selectCarbonFootprintsForRound,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
   selectCitizenCarbonFootprintsForRound,
+  selectIndividualChoiceIdsForParticipant,
+  selectIndividualChoicesForParticipant,
   selectIsWorkshopReadyForInitialization,
+  selectNextRound,
 } from './workshopSelector';
 
 const roundConfigEntity = {
@@ -62,7 +66,105 @@ const actionCardsEntity = {
   },
 };
 
+const workshop = {
+  entities: {
+    roundConfig: roundConfigEntity,
+    individualChoices: individualChoicesEntity,
+    actionCards: actionCardsEntity,
+  },
+  result: { currentYear: 2020 },
+};
+const state = {
+  workshop,
+};
+
 describe('Workshop selector', () => {
+  describe('Test selectNextRound', () => {
+    test('should return next round', () => {
+      const result = selectNextRound(state);
+      expect(result).toEqual(2023);
+    });
+  });
+  describe('Test isIndividualActionCardTakenForParticipant', () => {
+    describe('Participant 1', () => {
+      const participantIndividualActionCards = isIndividualActionCardTakenForParticipant(
+        workshop,
+        1
+      );
+      it('should return true if participant has taken the given action', () => {
+        const result = participantIndividualActionCards(2);
+        expect(result).toBe(true);
+      });
+      it('should return false if participant has not taken the given action', () => {
+        const result = participantIndividualActionCards(3);
+        expect(result).toBe(false);
+      });
+    });
+    it("should return false if participant does'nt exists", () => {
+      const result = isIndividualActionCardTakenForParticipant(workshop, 0)(3);
+      expect(result).toBe(false);
+    });
+    it('should return false if there is no parameter', () => {
+      const result = isIndividualActionCardTakenForParticipant()();
+      expect(result).toBe(false);
+    });
+  });
+  describe('Test selectIndividualChoicesForParticipant', () => {
+    it('should return array of individual actions for participant 1', () => {
+      const result = selectIndividualChoicesForParticipant(
+        1,
+        roundConfigEntity,
+        individualChoicesEntity
+      );
+      const expected = [2, 4];
+      expect(result).toEqual(expected);
+    });
+    it('should return array of individual actions for participant 2', () => {
+      const result = selectIndividualChoicesForParticipant(
+        2,
+        roundConfigEntity,
+        individualChoicesEntity
+      );
+      const expected = [3, 4, 6];
+      expect(result).toEqual(expected);
+    });
+    it('should return empty array for inexisting participant (3)', () => {
+      const result = selectIndividualChoicesForParticipant(
+        3,
+        roundConfigEntity,
+        individualChoicesEntity
+      );
+      const expected = [];
+      expect(result).toEqual(expected);
+    });
+    it('should return empty array if there is no param', () => {
+      const result = selectIndividualChoicesForParticipant();
+      const expected = [];
+      expect(result).toEqual(expected);
+    });
+  });
+  describe('Test selectIndividualChoicesIdsForParticipant', () => {
+    it('should return array of individual actions for participant 1', () => {
+      const result = selectIndividualChoiceIdsForParticipant(workshop, 1);
+      const expected = [2, 4];
+      expect(result).toEqual(expected);
+    });
+    it('should return array of individual actions for participant 2', () => {
+      const result = selectIndividualChoiceIdsForParticipant(workshop, 2);
+      const expected = [3, 4, 6];
+      expect(result).toEqual(expected);
+    });
+    it('should return empty array for inexisting participant (3)', () => {
+      const result = selectIndividualChoiceIdsForParticipant(workshop, 3);
+      const expected = [];
+      expect(result).toEqual(expected);
+    });
+    it('should return empty array if there is no param', () => {
+      const result = selectIndividualChoiceIdsForParticipant();
+      const expected = [];
+      expect(result).toEqual(expected);
+    });
+  });
   it('should calculate remaining budget for all participants', () => {
     const roundBudget = getInitRoundBudget(
       roundConfigEntity,
@@ -148,46 +250,52 @@ describe('Workshop selector', () => {
 
   describe('Check selectIsWorkshopReadyForInitialization works', () => {
     it('should return false if all statuses are not "ready"', () => {
-      const workshop = {
-        entities: {
-          participants: {
-            1: {
-              status: 'ready',
-            },
-            2: {
-              status: 'notready',
+      const localState = {
+        workshop: {
+          entities: {
+            participants: {
+              1: {
+                status: 'ready',
+              },
+              2: {
+                status: 'notready',
+              },
             },
           },
+          result: { participants: [1, 2] },
         },
-        result: { participants: [1, 2] },
       };
-      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+      expect(selectIsWorkshopReadyForInitialization(localState)).toBe(false);
     });
     it('should return true if al statuses are "ready"', () => {
-      const workshop = {
-        entities: {
-          participants: {
-            1: {
-              status: 'ready',
-            },
-            2: {
-              status: 'ready',
+      const localState = {
+        workshop: {
+          entities: {
+            participants: {
+              1: {
+                status: 'ready',
+              },
+              2: {
+                status: 'ready',
+              },
             },
           },
+          result: { participants: [1, 2] },
         },
-        result: { participants: [1, 2] },
       };
-      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(true);
+      expect(selectIsWorkshopReadyForInitialization(localState)).toBe(true);
     });
     it('should return false if the list of participants is empty', () => {
-      const workshop = {
-        result: { participants: [] },
+      const localState = {
+        workshop: {
+          result: { participants: [] },
+        },
       };
-      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+      expect(selectIsWorkshopReadyForInitialization(localState)).toBe(false);
     });
     it('should return false if there is no participants object', () => {
-      const workshop = {};
-      expect(selectIsWorkshopReadyForInitialization(workshop)).toBe(false);
+      const localState = { workshop: {} };
+      expect(selectIsWorkshopReadyForInitialization(localState)).toBe(false);
     });
     it('should return false if there is no workshop parameter', () => {
       expect(selectIsWorkshopReadyForInitialization()).toBe(false);
@@ -292,23 +400,25 @@ describe('Workshop selector', () => {
       ...carbonFootprintsEntity2023,
     };
 
-    const workshop = {
-      entities: {
-        rounds: roundsEntity,
-        carbonFootprints: carbonFootprintsEntity,
-        citizenCarbonFootprints: carbonFootprintsEntity,
+    const localState = {
+      workshop: {
+        entities: {
+          rounds: roundsEntity,
+          carbonFootprints: carbonFootprintsEntity,
+          citizenCarbonFootprints: carbonFootprintsEntity,
+        },
       },
     };
     it('should return carbonFootprints for round 2020', () => {
-      const result = selectCarbonFootprintsForRound(workshop, 2020);
+      const result = selectCarbonFootprintsForRound(localState, 2020);
       expect(result).toEqual(carbonFootprintsEntity2020);
     });
     it('should return carbonFootprints for round 2023', () => {
-      const result = selectCarbonFootprintsForRound(workshop, 2023);
+      const result = selectCarbonFootprintsForRound(localState, 2023);
       expect(result).toEqual(carbonFootprintsEntity2023);
     });
     it('should return empty carbonFootprints for round 2026', () => {
-      const result = selectCarbonFootprintsForRound(workshop, 2026);
+      const result = selectCarbonFootprintsForRound(localState, 2026);
       expect(result).toEqual({});
     });
     it('should return empty carbonFootprints if there is no parameter', () => {
@@ -316,15 +426,15 @@ describe('Workshop selector', () => {
       expect(result).toEqual({});
     });
     it('should return citizenCarbonFootprints for round 2020', () => {
-      const result = selectCitizenCarbonFootprintsForRound(workshop, 2020);
+      const result = selectCitizenCarbonFootprintsForRound(localState, 2020);
       expect(result).toEqual(carbonFootprintsEntity2020);
     });
     it('should return citizenCarbonFootprints for round 2023', () => {
-      const result = selectCitizenCarbonFootprintsForRound(workshop, 2023);
+      const result = selectCitizenCarbonFootprintsForRound(localState, 2023);
       expect(result).toEqual(carbonFootprintsEntity2023);
     });
     it('should return empty citizenCarbonFootprints for round 2026', () => {
-      const result = selectCitizenCarbonFootprintsForRound(workshop, 2026);
+      const result = selectCitizenCarbonFootprintsForRound(localState, 2026);
       expect(result).toEqual({});
     });
     it('should return empty citizenCarbonFootprints if there is no parameter', () => {

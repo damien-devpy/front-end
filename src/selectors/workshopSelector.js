@@ -2,6 +2,49 @@ import { pathOr } from 'ramda';
 
 import { makeYearParticipantKey, sumArray } from '../utils/helpers';
 
+const selectWorkshopEntity = (workshop, entity) =>
+  pathOr({}, ['entities', entity], workshop);
+
+export const selectIndividualChoiceIdsForParticipant = (
+  workshop,
+  participantId
+) => {
+  const individualChoicesEntity = selectWorkshopEntity(
+    workshop,
+    'individualChoices'
+  );
+  const roundConfigEntity = selectWorkshopEntity(workshop, 'roundConfig');
+  return [
+    ...new Set(
+      Object.keys(roundConfigEntity).reduce(
+        (accumulator, year) =>
+          roundConfigEntity[year].actionCardType === 'individual' &&
+          individualChoicesEntity[makeYearParticipantKey(year, participantId)]
+            ? accumulator.concat(
+                individualChoicesEntity[
+                  makeYearParticipantKey(year, participantId)
+                ].actionCardIds
+              )
+            : accumulator,
+        []
+      )
+    ),
+  ];
+};
+
+export const isIndividualActionCardTakenForParticipant = (
+  workshop,
+  participantId
+) => {
+  const individualChoicesForParticipant = selectIndividualChoiceIdsForParticipant(
+    workshop,
+    participantId
+  );
+  return (actionCardId) => {
+    return individualChoicesForParticipant.includes(actionCardId);
+  };
+};
+
 export const selectIndividualChoicesForParticipant = (
   participantId,
   roundConfigEntity,
@@ -85,11 +128,25 @@ export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (
 export const selectCurrentWorkshop = (state) =>
   pathOr(null, ['workshop'], state);
 
+export const selectIsCurrentWorkshopSynchronized = (state) =>
+  pathOr(false, ['workshop', 'isSynchronized'], state);
+
+export const selectCurrentWorkshopSummary = (state) =>
+  pathOr({}, ['workshop', 'result'], state);
+
 export const selectCurrentRound = (workshop) =>
   pathOr(null, ['result', 'currentYear'], workshop);
 
-export const selectNextRound = (workshop) => {
-  const config = workshop.entities.roundConfig[workshop.result.currentYear];
+export const selectCurrentYear = (state) =>
+  pathOr(null, ['workshop', 'result', 'currentYear'], state);
+
+export const selectNextRound = (state) => {
+  const currentWorkshop = selectCurrentWorkshop(state);
+  const roundConfigEntity = selectWorkshopEntity(
+    currentWorkshop,
+    'roundConfig'
+  );
+  const config = roundConfigEntity[selectCurrentYear(state)];
   return config ? config.targetedYear : null;
 };
 
@@ -238,30 +295,40 @@ export const getInitRoundBudgetCollective = (
 export const selectWorkshopById = (workshops, workshopId) =>
   workshops.find((workshop) => workshop.id === workshopId);
 
-const selectWorkshopEntity = (workshop, entity) =>
-  pathOr({}, ['entities', entity], workshop);
+export const selectRoundsEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'rounds');
 
-export const selectRoundsEntity = (workshop) =>
-  selectWorkshopEntity(workshop, 'rounds');
+export const selectIndividualChoicesEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'individualChoices');
 
-export const selectCarbonFootprintsEntity = (workshop) =>
-  selectWorkshopEntity(workshop, 'carbonFootprints');
+export const selectCollectiveChoicesEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'collectiveChoices');
 
-export const selectParticipantsEntity = (workshop) =>
-  selectWorkshopEntity(workshop, 'participants');
+export const selectCarbonFootprintsEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'carbonFootprints');
 
-export const selectCitizenCarbonFootprintsEntity = (workshop) =>
-  selectWorkshopEntity(workshop, 'citizenCarbonFootprints');
+export const selectParticipantsEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'participants');
 
-const selectWorkshopModelStructure = (workshop, structure) =>
-  pathOr({}, ['result', 'model', structure], workshop);
+export const selectCitizenCarbonFootprintsEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'citizenCarbonFootprints');
 
-export const selectFootprintStructure = (workshop) =>
-  selectWorkshopModelStructure(workshop, 'footprintStructure');
+export const selectPersonaEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'personas');
 
-export const selectIsWorkshopReadyForInitialization = (workshop) => {
-  const participants = selectParticipantsEntity(workshop);
-  const participantIds = pathOr([], ['result', 'participants'], workshop);
+const selectWorkshopModelStructure = (state, structure) =>
+  pathOr({}, ['workshop', 'result', 'model', structure], state);
+
+export const selectFootprintStructure = (state) =>
+  selectWorkshopModelStructure(state, 'footprintStructure');
+
+export const selectIsWorkshopReadyForInitialization = (state) => {
+  const participants = selectParticipantsEntity(state);
+  const participantIds = pathOr(
+    [],
+    ['workshop', 'result', 'participants'],
+    state
+  );
   if (participantIds.length === 0) return false;
   return participantIds.every(
     (participantId) =>
@@ -269,12 +336,14 @@ export const selectIsWorkshopReadyForInitialization = (workshop) => {
   );
 };
 
-const selectEntityIdsForRound = (workshop, roundId, entity) =>
-  pathOr([], [roundId, entity], selectRoundsEntity(workshop));
+const selectEntityIdsForRound = (state, roundId, entity) =>
+  pathOr([], [roundId, entity], selectRoundsEntity(state));
 
-const selectEntityForRound = (workshop, roundId, entity) => {
-  const workshopEntity = selectWorkshopEntity(workshop, entity);
-  const entityIdsForRound = selectEntityIdsForRound(workshop, roundId, entity);
+const selectEntityForRound = (state, roundId, entity) => {
+  const currentWorkshop = selectCurrentWorkshop(state);
+  const workshopEntity = selectWorkshopEntity(currentWorkshop, entity);
+  const entityIdsForRound = selectEntityIdsForRound(state, roundId, entity);
+
   return entityIdsForRound.reduce(
     (accumulator, entityId) => ({
       ...accumulator,
@@ -283,8 +352,16 @@ const selectEntityForRound = (workshop, roundId, entity) => {
     {}
   );
 };
-export const selectCarbonFootprintsForRound = (workshop, roundId) =>
-  selectEntityForRound(workshop, roundId, 'carbonFootprints');
+export const selectCarbonFootprintsForRound = (state, roundId) =>
+  selectEntityForRound(state, roundId, 'carbonFootprints');
 
-export const selectCitizenCarbonFootprintsForRound = (workshop, roundId) =>
-  selectEntityForRound(workshop, roundId, 'citizenCarbonFootprints');
+export const selectCitizenCarbonFootprintsForRound = (state, roundId) =>
+  selectEntityForRound(state, roundId, 'citizenCarbonFootprints');
+
+export const selectInitialGlobalCarbonVariables = (state) => {
+  const { startYear } = selectCurrentWorkshopSummary(state);
+  return selectWorkshopEntity(
+    selectCurrentWorkshop(state),
+    'globalCarbonVariables'
+  )[startYear];
+};

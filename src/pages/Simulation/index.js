@@ -36,14 +36,12 @@ const Simulation = ({
   const currentRound = useSelector((state) =>
     selectCurrentRound(state.workshop)
   );
-  const footprintStructure = useSelector((state) =>
-    selectFootprintStructure(state.workshop)
-  );
+  const footprintStructure = useSelector(selectFootprintStructure);
   const currentCarbonFootprints = useSelector((state) =>
-    selectCarbonFootprintsForRound(state.workshop, currentRound)
+    selectCarbonFootprintsForRound(state, currentRound)
   );
   const currentCitizenFootprints = useSelector((state) =>
-    selectCitizenCarbonFootprintsForRound(state.workshop, currentRound)
+    selectCitizenCarbonFootprintsForRound(state, currentRound)
   );
   const participantsAverageCarbonFootprint = participantsAverageFootprint(
     currentCarbonFootprints,

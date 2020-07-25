@@ -137,7 +137,7 @@ export default {
       'Veuillez sélectionner un atelier dans la liste des ateliers et démarrer la simulation',
     sensitized: 'Sensibilisés',
     simulation: 'Simulation en cours',
-    toYear: "vers l'année",
+    toYear: "Vers l'année",
     train: 'Train',
     transport: 'Transport',
     transports: 'Transports',

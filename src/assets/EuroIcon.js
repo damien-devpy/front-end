@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EuroIcon = ({ width = 20, height = 20 }) => (
+const EuroIcon = ({ width = 20, height = 20, className }) => (
   <svg
     width={width}
     height={height}
@@ -13,6 +13,7 @@ const EuroIcon = ({ width = 20, height = 20 }) => (
     viewBox="0 0 329 329"
     // style="enable-background:new 0 0 329 329;"
     xmlSpace="preserve"
+    className={className}
   >
     <path
       d="M164.5,0C73.794,0,0,73.794,0,164.5S73.794,329,164.5,329S329,255.206,329,164.5S255.206,0,164.5,0z M225.711,228.303

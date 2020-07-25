@@ -247,14 +247,14 @@ const ActionCardsEntry = ({
             </Row>
             <Row>
               <h6>
-                {t('common.budget')} {'   '}
+                {t('common.budget')}{' '}
                 {budgetCollective -
                   getCostOfChosenCollectiveCards(
                     currentCollectiveChoices,
                     actionCardsEntity,
                     currentRound
-                  )}
-                <EuroIcon width={18} />
+                  )}{' '}
+                <EuroIcon width={18} className="fill-current-color" />
               </h6>
             </Row>
           </Col>

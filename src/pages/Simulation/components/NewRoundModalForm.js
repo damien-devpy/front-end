@@ -20,8 +20,8 @@ import {
 import { toggleArrayItem } from '../../../utils/helpers';
 
 const individualCollectiveToggleStyle = 'outline-primary';
-const batchToggleStyle = 'secondary';
-const budgetYearStyle = 'secondary';
+const batchToggleStyle = 'outline-secondary';
+const budgetYearStyle = 'outline-secondary';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -174,7 +174,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   >
                     -
                   </Button>
-                  <Button variant={budgetYearStyle} disabled>
+                  <Button
+                    variant={budgetYearStyle}
+                    className="text-dark"
+                    disabled
+                  >
                     {values.targetedYear}
                   </Button>
                   <Button
@@ -190,17 +194,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 </ButtonGroup>
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label className="mr-2">
-                  {t('common.budget')}
-                  {values.actionCardType === 'individual' && (
-                    <span className="emoji" style={{ color: 'black' }}>
-                      &#x2764;
-                    </span>
-                  )}
-                  {values.actionCardType === 'collective' && (
-                    <EuroIcon width={18} />
-                  )}
-                </Form.Label>
+                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
                 <ButtonGroup className="mr-2">
                   <Button
                     variant={budgetYearStyle}
@@ -215,8 +209,18 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   >
                     -
                   </Button>
-                  <Button variant={budgetYearStyle} disabled>
-                    {values.individualBudget}
+                  <Button
+                    variant={budgetYearStyle}
+                    className="text-dark"
+                    disabled
+                  >
+                    {values.individualBudget}{' '}
+                    {values.actionCardType === 'individual' && (
+                      <span className="emoji">&#x2764;</span>
+                    )}
+                    {values.actionCardType === 'collective' && (
+                      <EuroIcon width={20} className="fill-current-color" />
+                    )}
                   </Button>
                   <Button
                     variant={budgetYearStyle}

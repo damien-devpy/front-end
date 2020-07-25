@@ -180,8 +180,9 @@ export default {
     carbon_footprint_evolution: 'Evolution des empreintes carbones',
     co2_evolution: 'Evolution du CO',
     per_person: 'par personne',
-    global_average: 'Moyenne nationale',
+    global_average: 'La population',
     the_participants: 'Les participants',
+    yAxisLabel: 'tCO2e/an/personne',
   },
   transports: {
     bus: 'Bus',

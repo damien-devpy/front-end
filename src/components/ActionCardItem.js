@@ -9,6 +9,12 @@ import { COLORS } from '../vars';
 const sizeGreen = 11;
 const sizeWhite = 10;
 
+export const Emoji = ({ cardNumber }) => (
+  <span className="emoji" style={{ fontSize: '1.5rem' }}>
+    {cardIcons[cardNumber]}
+  </span>
+);
+
 const ActionCardItem = ({
   id,
   cardNumber,
@@ -31,7 +37,7 @@ const ActionCardItem = ({
       {active ? (
         <div className="row align-items-center">
           <div className="col-2 p-1">
-            <span className="emoji">{cardIcons[cardNumber]}</span>
+            <Emoji cardNumber={cardNumber} />
           </div>
           <div className="col p-1">{text.toLowerCase()}</div>
           <div className="col-auto pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
@@ -58,7 +64,7 @@ const ActionCardItem = ({
       ) : (
         <div className="row align-items-center">
           <div className="col-5 p-1">
-            <span className="emoji">{cardIcons[cardNumber]}</span>
+            <Emoji cardNumber={cardNumber} />
           </div>
           <div className="col-7 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>

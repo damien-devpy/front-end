@@ -52,9 +52,9 @@ tr,
 .table td {
   vertical-align: middle;
 }
+
 .emoji {
-  font-family: 'EmojiFont1', 'EmojiFont2';
-  color: white;
+  font-family: 'EmojiFont1', 'EmojiFont2';  
 }
 
 .center {

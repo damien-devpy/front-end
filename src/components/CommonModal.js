@@ -19,7 +19,10 @@ const CommonModal = ({
       show={show}
       onHide={handleClose}
     >
-      <Modal.Header closeButton={handleClose !== undefined} className="alert-primary">
+      <Modal.Header
+        closeButton={handleClose !== undefined}
+        className="alert-primary"
+      >
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>

@@ -145,7 +145,12 @@ const EvolutionCarbon = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" type="number" domain={['dataMin', 2050]} />
+        <XAxis
+          dataKey="year"
+          type="number"
+          domain={['dataMin', 2050]}
+          ticks={[2030, 2040, 2050]}
+        />
         <YAxis className="yaxis" type="number" domain={[0, 15000]}>
           <Label
             value="kgCO2e/an/pers"

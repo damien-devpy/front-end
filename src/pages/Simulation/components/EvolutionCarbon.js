@@ -8,6 +8,7 @@ import {
   Line,
   LineChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
@@ -154,8 +155,7 @@ const EvolutionCarbon = () => {
           />
         </YAxis>
 
-        {/* <Tooltip /> */}
-        {/* labelFormatter={(player_id) => participantName(player_id)} /> */}
+        <Tooltip labelFormatter={(player_id) => participantName(player_id)} />
         <Legend
           align="left"
           verticalAlign="middle"

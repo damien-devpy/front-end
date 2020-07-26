@@ -13,9 +13,13 @@ import {
   getCostOfChosenCollectiveCards,
   getInitRoundBudget,
   getNumberOfChosenCollectiveCards,
+  isIndividualActionCardTakenForParticipant,
   selectCollectiveChoices,
-  selectIndividualChoicesForParticipant,
+  selectCollectiveChoicesEntity,
+  selectCurrentWorkshop,
+  selectIndividualChoicesEntity,
   selectNextRound,
+  selectParticipantsEntity,
 } from '../../../selectors/workshopSelector';
 import {
   initRoundAndProcessModel,
@@ -34,12 +38,9 @@ const ActionCardsEntry = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const nextRound = useSelector((state) => selectNextRound(state.workshop));
-
-  const participantsEntity = useSelector(
-    (state) => state.workshop.entities.participants
-  );
+  const currentWorkshop = useSelector(selectCurrentWorkshop);
+  const nextRound = useSelector(selectNextRound);
+  const participantsEntity = useSelector(selectParticipantsEntity);
   const [selectedParticipantId, setSelectedParticipantId] = useState(
     participantsEntity ? Object.keys(participantsEntity)[0] : -1
   );
@@ -53,17 +54,9 @@ const ActionCardsEntry = ({
   );
 
   // these are choices (from prev rounds), not cards per se
-  const individualChoicesEntity = useSelector((state) =>
-    state.workshop.entities.individualChoices
-      ? state.workshop.entities.individualChoices
-      : {}
-  );
+  const individualChoicesEntity = useSelector(selectIndividualChoicesEntity);
 
-  const collectiveChoicesEntity = useSelector((state) =>
-    state.workshop.entities.collectiveChoices
-      ? state.workshop.entities.collectiveChoices
-      : {}
-  );
+  const collectiveChoicesEntity = useSelector(selectCollectiveChoicesEntity);
 
   const budgetPerParticipant = useSelector((state) =>
     getInitRoundBudget(
@@ -97,13 +90,6 @@ const ActionCardsEntry = ({
   );
   const [currentCollectiveChoices, setCurrentCollectiveChoices] = useState(
     collectiveChoicesEntity
-  );
-  const individualChoicesFromParticipant = useSelector((state) =>
-    selectIndividualChoicesForParticipant(
-      selectedParticipantId,
-      state.workshop.entities.roundConfig,
-      state.workshop.entities.individualChoices
-    )
   );
   const chosenCollectiveActionCards = useSelector((state) =>
     selectCollectiveChoices(
@@ -199,7 +185,10 @@ const ActionCardsEntry = ({
         );
 
   const isIndividualActionCardChecked = (actionCardId) =>
-    individualChoicesFromParticipant.includes(actionCardId) ||
+    isIndividualActionCardTakenForParticipant(
+      currentWorkshop,
+      selectedParticipantId
+    )(actionCardId) ||
     (currentIndividualChoices &&
       currentIndividualChoices[
         makeYearParticipantKey(currentRound, selectedParticipantId)

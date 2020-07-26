@@ -8,6 +8,7 @@ import {
   Line,
   LineChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
@@ -50,9 +51,7 @@ const players = (obj) =>
 const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
-  const participants = useSelector((state) =>
-    selectParticipantsEntity(state.workshop)
-  );
+  const participants = useSelector(selectParticipantsEntity);
 
   const participantName = (participantId) => {
     if (Object.keys(participants).includes(participantId)) {
@@ -71,10 +70,10 @@ const EvolutionCarbon = () => {
 
   const evolutionData = useSelector((state) =>
     computeEvolutionGraph(
-      selectRoundsEntity(state.workshop),
-      selectCarbonFootprintsEntity(state.workshop),
-      selectCitizenCarbonFootprintsEntity(state.workshop),
-      selectFootprintStructure(state.workshop)
+      selectRoundsEntity(state),
+      selectCarbonFootprintsEntity(state),
+      selectCitizenCarbonFootprintsEntity(state),
+      selectFootprintStructure(state)
     )
   );
   for (let i = 0; i < evolutionData.length; i++) {
@@ -156,8 +155,7 @@ const EvolutionCarbon = () => {
           />
         </YAxis>
 
-        {/* <Tooltip /> */}
-        {/* labelFormatter={(player_id) => participantName(player_id)} /> */}
+        <Tooltip labelFormatter={(player_id) => participantName(player_id)} />
         <Legend
           align="left"
           verticalAlign="middle"

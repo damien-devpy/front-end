@@ -9,6 +9,7 @@ import {
   Label,
   Legend,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
@@ -139,7 +140,7 @@ const FootprintGraph = ({ footprint }) => {
           />
         </YAxis>
 
-        {/* <Tooltip labelFormatter={(label) => t(`common.${label}`)} /> */}
+        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
         <Legend
           layout="vertical"
           footprint={footprint}

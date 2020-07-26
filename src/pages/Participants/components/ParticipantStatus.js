@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Dropdown, Toast } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 
-const ParticipantStatus = ({ value, handleShowBC }) => {
+const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
@@ -19,7 +19,7 @@ const ParticipantStatus = ({ value, handleShowBC }) => {
     case 'created':
       return (
         <Dropdown as={ButtonGroup}>
-          <Button variant="warning" size="sm">
+          <Button variant="warning" size="sm" onClick={handleSendForm}>
             {t('manageParticipants.sendBCForm')}
           </Button>
           <Dropdown.Toggle

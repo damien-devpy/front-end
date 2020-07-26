@@ -1,18 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+import Papa from 'papaparse';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Card, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import AddIcon from '../../assets/AddIcon';
+import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
+import CardHeader from '../../components/CardHeader';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
-import { COLORS } from '../../vars';
 import {
   ParticipantItemForm,
   ParticipantsHeader,
@@ -26,6 +26,7 @@ import {
   changeParticipantApi,
   createParticipantApi,
   deleteParticipantApi,
+  sendFormApi,
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
@@ -41,6 +42,13 @@ import {
 import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
+
+export const loadHeatingNetworksData = async () => {
+  const response = await fetch('/data/heating_networks.csv');
+  const text = await response.text();
+  const heatingNetworksData = Papa.parse(text);
+  return heatingNetworksData.data;
+};
 
 const ManageParticipants = ({
   match: {
@@ -91,6 +99,22 @@ const ManageParticipants = ({
     setShowAddParticipantModal(false);
   };
 
+  const sendFormAsync = (participantId) => (dispatchThunk) => {
+    sendFormApi({ workshopId, participantId }).catch(() => {
+      dispatchThunk(
+        throwError(
+          t('errors.sendForm', {
+            participantId,
+          })
+        )
+      );
+    });
+  };
+  const handleSendForm = (participantId) => {
+    console.log('Send form participant', participantId);
+    dispatch(sendFormAsync(participantId));
+  };
+
   const deleteAsyncParticipant = (participantId) => (dispatchThunk) => {
     deleteParticipantApi({ workshopId, participantId })
       .then(() => {
@@ -135,35 +159,38 @@ const ManageParticipants = ({
       });
   };
   const handleChangePersona = (participantId, personaId) => {
-    console.log('Change persona', participantId, personaId);
     dispatch(changeAsyncParticipant(participantId, personaId));
   };
 
   const handleShowBC = (id) => {
-    setShowBC(true);
     // ideally
     // 1. carbon variables should be pre-computed for each persona
     // 2. add higher-level function where
     // valueOnAllLevels & computeFootprint are put together and
     // input variables are simplified, e.g. could be given as `model`
-    const { footprintStructure, variableFormulas } = model;
-    const footprint = participants[id].personaId
-      ? valueOnAllLevels(
-          computeFootprint(
-            footprintStructure,
-            variableFormulas,
-            computeCarbonVariables(
-              personas[participants[id].personaId].surveyVariables,
+    loadHeatingNetworksData().then((heatingNetworksData) => {
+      const { footprintStructure, variableFormulas } = model;
+      const footprint = participants[id].personaId
+        ? valueOnAllLevels(
+            computeFootprint(
+              footprintStructure,
+              variableFormulas,
+              computeCarbonVariables(
+                personas[participants[id].personaId].surveyVariables,
+                globalCarbonVariables,
+                heatingNetworksData
+                // todo add heating networks data
+              ),
               globalCarbonVariables
-            ),
-            globalCarbonVariables
+            )
           )
-        )
-      : carbonFootprints[`${startYear}-${id}`].footprint;
+        : carbonFootprints[`${startYear}-${id}`].footprint;
 
-    // 3. footprintDataToGraph should be part of FootprintGraph
-    const footprintShaped = footprintDataToGraph(footprint);
-    setFootprintToShow(footprintShaped);
+      // 3. footprintDataToGraph should be part of FootprintGraph
+      const footprintShaped = footprintDataToGraph(footprint);
+      setFootprintToShow(footprintShaped);
+      setShowBC(true);
+    });
   };
 
   const participantItems = [];
@@ -188,44 +215,46 @@ const ManageParticipants = ({
           personas={personas}
           currentPersonaId={p.personaId}
           handleShowBC={handleShowBC}
+          handleSendForm={handleSendForm}
         />
       );
     });
 
   return (
     <Container>
+      <h2 className="workshop-title">{workshopTitle}</h2>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
-        <h4 className="workshop_title">{workshopTitle}</h4>
-
-        <StyledHeader>
-          <h4>{t('common.participants_list')}</h4>
-        </StyledHeader>
-
-        <div className="container">
-          {/* {loadError && <p>Error</p>} */}
-          {/* {isLoading && <Spinner animation="border" />} */}
-          <ParticipantsHeader />
-          {participantItems}
-          <AddParticipant
+        <CardHeader>
+          <h3>{t('manageParticipants.title')}</h3>
+          <AddNewButton
             onClick={() => {
               setShowAddParticipantModal(true);
             }}
-          />
-          <div style={{ textAlign: 'center' }}>
-            {isSynchronized && workshopStatus === 'created' && (
-              <PrimaryButton
-                onClick={() => dispatch(startWorkshop(2020))}
-                disabled={!isWorkshopReadyForInitialization}
-              >
-                {t('common.launchSimulation')}
-              </PrimaryButton>
-            )}
-            {workshopStatus === 'ongoing' && (
-              <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
-              </Link>
-            )}
-          </div>
+          >
+            {t('manageParticipants.addNew')}
+          </AddNewButton>
+        </CardHeader>
+        <hr />
+
+        <div className="container">
+          <ParticipantsHeader />
+          {participantItems}
+          <hr />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          {isSynchronized && workshopStatus === 'created' && (
+            <PrimaryButton
+              onClick={() => dispatch(startWorkshop(2020))}
+              disabled={!isWorkshopReadyForInitialization}
+            >
+              {t('common.launchSimulation')}
+            </PrimaryButton>
+          )}
+          {workshopStatus === 'ongoing' && (
+            <Link to={`/workshop/${workshopId}/simulation`}>
+              <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
+            </Link>
+          )}
         </div>
       </Card>
       <Modal
@@ -258,37 +287,5 @@ const ManageParticipants = ({
     </Container>
   );
 };
-
-const AddParticipant = ({ onClick }) => {
-  const { t } = useTranslation();
-
-  return (
-    <StyledAdd onClick={onClick}>
-      <AddIcon width={20} height={20} /> {'   '}{' '}
-      {t('manageParticipants.addNew')}
-    </StyledAdd>
-  );
-};
-
-export const StyledAdd = styled.div`
-  background-color: ${COLORS.WHITE};
-  margin: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 5px;
-  padding-left: 10px;
-  border: 2px dashed #e2e0e0;
-  text-align: center;
-  transition: 0.5s;
-  :focus,
-  :hover {
-    background-color: #dedede;
-  }
-`;
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
 
 export default ManageParticipants;

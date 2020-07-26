@@ -5,7 +5,7 @@ module.exports = {
       links: [
         {
           rel: 'stylesheet',
-          href: 'node_modules/bootstrap/dist/css/bootstrap.css',
+          href: 'src/custom_bootstrap/bootstrap.css',
         },
       ],
     },

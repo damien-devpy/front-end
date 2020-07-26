@@ -770,7 +770,10 @@ export default (state = initialState, action) => {
       const oldParticipants = pathOr([], ['entities', 'participants'], state);
       const participants = {
         ...oldParticipants,
-        [participant.id]: participant,
+        [participant.id]: {
+          ...participant,
+          status: 'created',
+        },
       };
       return {
         ...state,

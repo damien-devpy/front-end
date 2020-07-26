@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ActionCardsForm from './ActionCardsForm';
+import EuroIcon from '../../../assets/EuroIcon';
 import ParticipantsTable from './ParticipantsTable';
+import PrimaryButton from '../../../components/PrimaryButton';
 import {
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
@@ -208,77 +210,80 @@ const ActionCardsEntry = ({
       <Row>
         {roundActionCardType === 'individual' && (
           <Col sm={4} md={4}>
-            <Container>
-              <h4>{t('common.participants')}</h4>
-              <ParticipantsTable
-                round={currentRound}
-                participantsEntity={participantsEntity}
-                individualChoices={currentIndividualChoices}
-                selectedParticipantId={selectedParticipantId}
-                actionCardsEntity={actionCardsEntity}
-                handleSelect={handleParticipantSelect}
-                initBudgetPerParticipant={budgetPerParticipant}
-              />
-            </Container>
+            <h4>{t('common.participants')}</h4>
+            <ParticipantsTable
+              round={currentRound}
+              participantsEntity={participantsEntity}
+              individualChoices={currentIndividualChoices}
+              selectedParticipantId={selectedParticipantId}
+              actionCardsEntity={actionCardsEntity}
+              handleSelect={handleParticipantSelect}
+              initBudgetPerParticipant={budgetPerParticipant}
+            />
           </Col>
         )}
         {roundActionCardType === 'collective' && (
           <Col sm={3} md={3} className="align-self-center">
-            <Container>
-              <Row>
-                <h6>
-                  Actions{' '}
-                  {getNumberOfChosenCollectiveCards(
+            <Row>
+              <h6>
+                Actions{' '}
+                {getNumberOfChosenCollectiveCards(
+                  currentCollectiveChoices,
+                  currentRound
+                )}
+                &#10003;
+              </h6>
+            </Row>
+            <Row>
+              <h6>
+                {t('common.budget')}{' '}
+                {budgetCollective -
+                  getCostOfChosenCollectiveCards(
                     currentCollectiveChoices,
+                    actionCardsEntity,
                     currentRound
-                  )}
-                  &#10003;
-                </h6>
-              </Row>
-              <Row>
-                <h6>
-                  Budget{' '}
-                  {budgetCollective -
-                    getCostOfChosenCollectiveCards(
-                      currentCollectiveChoices,
-                      actionCardsEntity,
-                      currentRound
-                    )}
-                  <span className="emoji" style={{ color: 'black' }}>
-                    &#128176;
-                  </span>
-                </h6>
-              </Row>
-            </Container>
+                  )}{' '}
+                <EuroIcon width={18} className="fill-current-color" />
+              </h6>
+            </Row>
           </Col>
         )}
 
-        <Col sm={8} md={8}>
-          <Container>
-            <h4>{t('common.batches')}</h4>
-            {roundActionCardType === 'individual' && (
-              <ActionCardsForm
-                handleSubmit={handleSubmitIndividualChoices}
-                handleCardActionSelectionChange={handleChoicesChange(
-                  currentRound,
-                  selectedParticipantId
-                )}
-                handleCheckedActionCard={isIndividualActionCardChecked}
-                actionCardType={roundActionCardType}
-              />
-            )}
-            {roundActionCardType === 'collective' && (
-              <ActionCardsForm
-                handleSubmit={handleSubmitCollectiveChoices}
-                handleCardActionSelectionChange={handleChoicesChange(
-                  currentRound
-                )}
-                handleCheckedActionCard={isCollectiveActionCardChecked}
-                actionCardType={roundActionCardType}
-              />
-            )}
-          </Container>
+        <Col>
+          <h4>{t('common.batches')}</h4>
+          {roundActionCardType === 'individual' && (
+            <ActionCardsForm
+              // handleSubmit={handleSubmitIndividualChoices}
+              handleCardActionSelectionChange={handleChoicesChange(
+                currentRound,
+                selectedParticipantId
+              )}
+              handleCheckedActionCard={isIndividualActionCardChecked}
+              actionCardType={roundActionCardType}
+            />
+          )}
+          {roundActionCardType === 'collective' && (
+            <ActionCardsForm
+              // handleSubmit={handleSubmitCollectiveChoices}
+              handleCardActionSelectionChange={handleChoicesChange(
+                currentRound
+              )}
+              handleCheckedActionCard={isCollectiveActionCardChecked}
+              actionCardType={roundActionCardType}
+            />
+          )}
         </Col>
+      </Row>
+      <Row className="d-flex justify-content-end">
+        <PrimaryButton
+          onClick={
+            roundActionCardType === 'individual'
+              ? handleSubmitIndividualChoices
+              : handleSubmitCollectiveChoices
+          }
+        >
+          {t('common.validate')}
+        </PrimaryButton>
       </Row>
     </Container>
   );

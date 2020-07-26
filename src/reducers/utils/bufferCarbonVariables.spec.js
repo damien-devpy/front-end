@@ -1,9 +1,7 @@
 import Ajv from 'ajv';
 
 import computeCarbonVariables, {
-  computeEnergyCarbonVariables,
   computeFoodCarbonVariables,
-  computeOtherCarbonVariables,
   computeTransportCarbonVariables,
   getEiForHeatingNetwork,
 } from './bufferCarbonVariables';
@@ -89,6 +87,100 @@ describe('test getEiForHeatingNetwork', () => {
 });
 
 describe('test computeCarbonVariables', () => {
+  const globalVariables = {
+    WEEKS_PER_YEAR: 52,
+    DAYS_PER_YEAR: 365,
+    DAYS_PER_WEEK: 7,
+    MONTHS_PER_YEAR: 12,
+    MEAN_SPEED_URBAN_BUS: 12,
+    MEAN_SPEED_COACH: 80,
+    MEAT_AND_FISH_KG_PER_CONSO: 0.15,
+    MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 0.13,
+    PART_OF_RED_MEAT: 0.33,
+    PART_OF_WHITE_MEAT: 0.33,
+    PART_OF_FISH: 0.33,
+    EGGS_AND_DAIRIES_KG_PER_CONSO: 0.11,
+    EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 0.22,
+    PART_OF_EGGS: 0.5,
+    PART_OF_DAIRIES: 0.5,
+    FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 0.16,
+    FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY: 0.314,
+    FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
+    FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
+    FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
+    TRANSFORMED_PRODUCTS_KG_PER_CONSO: 0.3,
+    TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 0.158,
+    STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 0.16,
+    STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 0.33,
+    STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 0.5,
+    STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 0.5,
+    STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 0.5,
+    ALCOHOL_LITER_PER_GLASS: 0.3,
+    HOT_DRINKS_LITER_PER_GLASS: 0.02,
+    JUICES_AND_SODAS_LITER_PER_GLASS: 0.2,
+    MEAN_SPEED_URBAN_TRAIN: 25,
+    PASSENGER_PER_TGV: 285,
+    PASSENGER_PER_TER: 80,
+    DEPRECIATION_DURATION: 30,
+    WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
+    LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 1062.4,
+    SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR: 711.4,
+    COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 346.4,
+    SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON: 0.05,
+    COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0.2,
+    LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+    EI_HOUSING_PER_SURFACE_AREA: {
+      HOUSE: {
+        BEFORE_1975: 232.5,
+        BETWEEN_1975_AND_2000: 142.5,
+        AFTER_2000: 72.5,
+      },
+      FLAT: {
+        BEFORE_1975: 205.1,
+        BETWEEN_1975_AND_2000: 115.1,
+        AFTER_2000: 45.1,
+      },
+    },
+    EI_CAR: {
+      URBAN: {
+        FUEL: 0.232,
+        ELECTRIC: 0.09915,
+        HYBRID: 0.171,
+      },
+      BIG: {
+        FUEL: 0.2665,
+        ELECTRIC: 0.139,
+        HYBRID: 0.2245,
+      },
+      SPORT: {
+        FUEL: 0.344,
+        ELECTRIC: 0.3125,
+        HYBRID: 0.3125,
+      },
+      LOW_CARBON: {
+        FUEL: 0.1,
+        ELECTRIC: 0.1,
+        HYBRID: 0.1,
+      },
+    },
+    MOTOR_AGING_FACTOR: {
+      FUEL: {
+        TEN_YEARS_OR_YOUNGER: 0.943292608,
+        BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1.101343381,
+        FIFTEEN_YEARS_OR_OLDER: 1.164876711,
+      },
+      ELECTRIC: {
+        TEN_YEARS_OR_YOUNGER: 1,
+        BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+        FIFTEEN_YEARS_OR_OLDER: 1,
+      },
+      HYBRID: {
+        TEN_YEARS_OR_YOUNGER: 1,
+        BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
+        FIFTEEN_YEARS_OR_OLDER: 1,
+      },
+    },
+  };
   test('test the whole function', () => {
     const surveyVariables = {
       meatAndFishConsoPerDay: 2,
@@ -136,146 +228,6 @@ describe('test computeCarbonVariables', () => {
       clothesNewItems: 10,
       activitiesPerMonth: 2,
     };
-    const globalVariables = {
-      WEEKS_PER_YEAR: 52,
-      DAYS_PER_YEAR: 365,
-      DAYS_PER_WEEK: 7,
-      MONTHS_PER_YEAR: 12,
-      EI_URBAN_BUS: 0.15,
-      MEAN_SPEED_URBAN_BUS: 12,
-      EI_COACH: 0.04,
-      MEAN_SPEED_COACH: 80,
-      EI_MEAT_AND_FISH: 12.89,
-      EI_RED_MEAT: 12.89,
-      EI_WHITE_MEAT: 12.89,
-      EI_FISH: 12.89,
-      MEAT_AND_FISH_KG_PER_CONSO: 0.15,
-      MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 0.13,
-      PART_OF_RED_MEAT: 0.33,
-      PART_OF_WHITE_MEAT: 0.33,
-      PART_OF_FISH: 0.33,
-      EI_EGGS: 3.57,
-      EI_DAIRIES: 3.57,
-      EGGS_AND_DAIRIES_KG_PER_CONSO: 0.11,
-      EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 0.22,
-      PART_OF_EGGS: 0.5,
-      PART_OF_DAIRIES: 0.5,
-      EI_LOCAL_FRUITS_AND_VEGETABLES: 0.26,
-      EI_IMPORTED_FRUITS_AND_VEGETABLES: 2.24,
-      FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 0.16,
-      FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY: 0.314,
-      FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
-      FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
-      FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
-      EI_TRANSFORMED_PRODUCTS: 4.32,
-      TRANSFORMED_PRODUCTS_KG_PER_CONSO: 0.3,
-      TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 0.158,
-      EI_STARCHES_AND_GROCERIES: 1.45,
-      STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 0.16,
-      STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 0.33,
-      STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 0.5,
-      STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 0.5,
-      STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 0.5,
-      EI_ALCOHOL: 2.09,
-      ALCOHOL_LITER_PER_GLASS: 0.3,
-      EI_HOT_DRINKS: 3.08,
-      HOT_DRINKS_LITER_PER_GLASS: 0.02,
-      EI_JUICES_AND_SODAS: 1.47,
-      JUICES_AND_SODAS_LITER_PER_GLASS: 0.2,
-      MEAN_SPEED_URBAN_TRAIN: 25,
-      EI_URBAN_TRAIN: 0.01,
-      EI_COUNTRY_TRAIN: 0.01,
-      PASSENGER_PER_TGV: 285,
-      PASSENGER_PER_TER: 80,
-      EI_PLANE: 0.25,
-      EI_BIG_APPLIANCE: 23.3,
-      EI_SMALL_APPLIANCE: 7,
-      CF_WATER_HEATER: 102.872,
-      EI_FURNITURES_PER_SQUARE_METER: 3.95,
-      CF_FURNITURES_MIN_ONE_RESIDENT: 73.4044444,
-      EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER: 14.167,
-      EI_CONSTRUCTION_FLAT_PER_SQUARE_METER: 17.5,
-      DEPRECIATION_DURATION: 30,
-      EI_MAINTENANCE_PER_SQUARE_METER: 0.694,
-      EI_WATER_PER_LITER: 0.000168,
-      WATER_CONSO_LITER_PER_YEAR_PER_PERSON: 54020,
-      EI_CONVENTIONAL_ELEC_PER_KWH: 0.116,
-      EI_ALTERNATIVE_ELEC_PER_KWH: 0.013,
-      EI_GAS_PER_KWH: 0.227,
-      EI_FUEL_OIL_PER_KWH: 0.323,
-      EI_WOOD_PER_KWH: 0.03,
-      LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 1062.4,
-      SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR: 711.4,
-      COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 346.4,
-      SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON: 0.05,
-      COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0.2,
-      LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
-      EI_INTERNET_STREAMING: 0.125,
-      CF_INTERNET_OTHERS: 48.66,
-      EI_BIG_DEVICES: 47.8,
-      EI_SMALL_DEVICES: 12.5,
-      CF_SERVICES_GAS: 70.19,
-      CF_SERVICES_ELECTRICITY: 62.88,
-      CF_GOODS_AND_SERVICES_WITHOUT_ENERGY: 211.92,
-      EI_ACTIVITIES_GAS: 0.74,
-      EI_ACTIVITIES_ELEC: 0.66,
-      EI_ACTIVITIES_WITHOUT_ENERGY: 0.66,
-      EI_CLOTHES_PER_ITEM: 22.38,
-      EI_HOUSING_PER_SURFACE_AREA: {
-        HOUSE: {
-          BEFORE_1975: 232.5,
-          BETWEEN_1975_AND_2000: 142.5,
-          AFTER_2000: 72.5,
-        },
-        FLAT: {
-          BEFORE_1975: 205.1,
-          BETWEEN_1975_AND_2000: 115.1,
-          AFTER_2000: 45.1,
-        },
-      },
-      EI_CAR: {
-        URBAN: {
-          FUEL: 0.232,
-          ELECTRIC: 0.09915,
-          HYBRID: 0.171,
-        },
-        BIG: {
-          FUEL: 0.2665,
-          ELECTRIC: 0.139,
-          HYBRID: 0.2245,
-        },
-        SPORT: {
-          FUEL: 0.344,
-          ELECTRIC: 0.3125,
-          HYBRID: 0.3125,
-        },
-        LOW_CARBON: {
-          FUEL: 0.1,
-          ELECTRIC: 0.1,
-          HYBRID: 0.1,
-        },
-      },
-      MOTOR_AGING_FACTOR: {
-        FUEL: {
-          TEN_YEARS_OR_YOUNGER: 0.943292608,
-          BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1.101343381,
-          FIFTEEN_YEARS_OR_OLDER: 1.164876711,
-        },
-        ELECTRIC: {
-          TEN_YEARS_OR_YOUNGER: 1,
-          BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
-          FIFTEEN_YEARS_OR_OLDER: 1,
-        },
-        HYBRID: {
-          TEN_YEARS_OR_YOUNGER: 1,
-          BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1,
-          FIFTEEN_YEARS_OR_OLDER: 1,
-        },
-      },
-      CF_GAS_SERVICES: 336,
-      CF_ELEC_SERVICES: 301,
-      CF_OTHER_SERVICES: 363,
-    };
     const heatingNetworkData = [
       {
         department: '1',
@@ -305,9 +257,9 @@ describe('test computeCarbonVariables', () => {
       dairiesKgPerYear: 80.3,
       eggsKgPerYear: 80.3,
       eiHeatingNetwork: 0,
-      elecCookingKwh: 1034.4003822264692,
+      elecCookingKwh: 277.11999999999995,
       elecHeatingKwh: 0,
-      elecLightningKwh: 3965.5996177735315,
+      elecLightningKwh: 4722.88,
       elecWaterHeatingKwh: 0,
       electricityProvider: 'ALTERNATIVE',
       fishKgPerYear: 36.135000000000005,
@@ -334,7 +286,8 @@ describe('test computeCarbonVariables', () => {
       kmUrbanTrainPerYear: 15600,
       motorTypeCarCommute: 'HYBRID',
       motorTypeCarTravel: 'HYBRID',
-      networkHeatingKwh: 0,
+      networkHeatingHeatingKwh: 0,
+      networkHeatingWaterHeatingKwh: 0,
       numberBigAppliances: 2,
       numberBigDevices: 2,
       numberSmallAppliances: 2,
@@ -358,147 +311,552 @@ describe('test computeCarbonVariables', () => {
     expect(actualCarbonVariables).toStrictEqual(expectedCarbonVariables);
   });
 
-  describe('test computeTransportCarbonVariables', () => {
+  it('should leave these variables unchanged', () => {
     const surveyVariables = {
-      passengersPerCarCommute: 0,
-      kmCarCommutePerDay: 1,
-      hoursCoachCommutePerWeek: 2,
-      hoursUrbanTrainPerWeek: 3,
-      hoursUrbanBusPerWeek: 4,
+      fruitsAndVegetablePercentageLocal: 1,
+      categoryCarCommute: 'URBAN',
+      motorTypeCarCommute: 'ELECTRIC',
+      ageCategoryCarCommute: 'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
+      categoryCarTravel: 'URBAN',
+      motorTypeCarTravel: 'ELECTRIC',
+      ageCategoryCarTravel: 'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
+      kmCarTravelPerYear: 8,
+      kmCoachTravel: 9,
+      kmCountryTrain: 10,
+      kmPlane: 11,
 
-      categoryCarCommute: 13,
-      motorTypeCarCommute: 13,
-      ageCategoryCarCommute: 13,
-      categoryCarTravel: 13,
-      motorTypeCarTravel: 13,
-      ageCategoryCarTravel: 13,
-      kmCarTravelPerYear: 13,
-      kmCoachTravel: 13,
-      kmCountryTrain: 13,
-      kmPlane: 13,
-      passengersPerCarTravel: 13,
+      numberBigAppliances: 12,
+      numberSmallAppliances: 13,
+      electricityProvider: 'CONVENTIONAL',
+      numberSmallDevices: 14,
+      numberBigDevices: 15,
+      clothesNewItems: 16,
     };
-
-    const globalVariables = {
-      DAYS_PER_YEAR: 365,
-      WEEKS_PER_YEAR: 52,
-      MEAN_SPEED_COACH: 10,
-      MEAN_SPEED_URBAN_TRAIN: 100,
-      MEAN_SPEED_URBAN_BUS: 1000,
-    };
-
-    const expectedTransportCarbonVariables = {
-      passengersPerCarCommute: 1,
-      kmCarCommutePerYear: 365,
-      kmCoachCommutePerYear: 1040,
-      kmUrbanTrainPerYear: 15600,
-      kmUrbanBusPerYear: 208000,
-
+    expect(
+      computeCarbonVariables({ ...surveyVariables }, globalVariables)
+    ).toMatchObject(surveyVariables);
+  });
+  it('should create these constant variables', () => {
+    expect(computeCarbonVariables({}, globalVariables)).toMatchObject({
       coefficientEnergyEfficientDriving: 1,
-
-      categoryCarCommute: 13,
-      motorTypeCarCommute: 13,
-      ageCategoryCarCommute: 13,
-      categoryCarTravel: 13,
-      motorTypeCarTravel: 13,
-      ageCategoryCarTravel: 13,
-      kmCarTravelPerYear: 13,
-      kmCoachTravel: 13,
-      kmCountryTrain: 13,
-      kmPlane: 13,
-      passengersPerCarTravel: 13,
-    };
-
-    const actualTransportCarbonVariables = computeTransportCarbonVariables(
-      surveyVariables,
-      globalVariables
-    );
-
-    expect(actualTransportCarbonVariables).toStrictEqual(
-      expectedTransportCarbonVariables
-    );
+    });
   });
-  describe('test computeFoodCarbonVariables', () => {
-    const surveyVariables = {
-      alcoholConsoGlassPerDay: 1,
-      hotDrinksConsoGlassPerDay: 2,
-      juicesAndSodasConsoGlassPerDay: 3,
+  describe('test the transport-related variables', () => {
+    it('should convert kmCarCommutePerWeek to kmCarCommutePerYear', () => {
+      const surveyVariables = { kmCarCommutePerDay: 10 };
+      expect(
+        computeCarbonVariables(surveyVariables, globalVariables)
+      ).toMatchObject({
+        kmCarCommutePerYear: 3650,
+      });
+    });
+    it('tests that computeTransportCarbonVariables runs correctly', () => {
+      const surveyVariables = {
+        passengersPerCarCommute: 0,
+        kmCarCommutePerDay: 1,
+        hoursCoachCommutePerWeek: 2,
+        hoursUrbanTrainPerWeek: 3,
+        hoursUrbanBusPerWeek: 4,
 
-      meatAndFishConsoPerDay: 4,
-      eggsAndDairiesConsoPerDay: 5,
-      transformedProductsConsoPerWeek: 6,
+        categoryCarCommute: 13,
+        motorTypeCarCommute: 13,
+        ageCategoryCarCommute: 13,
+        categoryCarTravel: 13,
+        motorTypeCarTravel: 13,
+        ageCategoryCarTravel: 13,
+        kmCarTravelPerYear: 13,
+        kmCoachTravel: 13,
+        kmCountryTrain: 13,
+        kmPlane: 13,
+        passengersPerCarTravel: 13,
+      };
 
-      fruitsAndVegetablePercentageLocal: 13,
-    };
+      const globalVariables = {
+        DAYS_PER_YEAR: 365,
+        WEEKS_PER_YEAR: 52,
+        MEAN_SPEED_COACH: 10,
+        MEAN_SPEED_URBAN_TRAIN: 100,
+        MEAN_SPEED_URBAN_BUS: 1000,
+      };
 
-    const globalVariables = {
-      DAYS_PER_YEAR: 365,
-      WEEKS_PER_YEAR: 52,
-      DAYS_PER_WEEK: 7,
+      const expectedTransportCarbonVariables = {
+        passengersPerCarCommute: 1,
+        kmCarCommutePerYear: 365,
+        kmCoachCommutePerYear: 1040,
+        kmUrbanTrainPerYear: 15600,
+        kmUrbanBusPerYear: 208000,
 
-      MEAT_AND_FISH_KG_PER_CONSO: 10,
-      PART_OF_RED_MEAT: 0.1,
-      PART_OF_WHITE_MEAT: 0.2,
-      PART_OF_FISH: 0.7,
+        coefficientEnergyEfficientDriving: 1,
 
-      EGGS_AND_DAIRIES_KG_PER_CONSO: 20,
-      PART_OF_EGGS: 0.4,
-      PART_OF_DAIRIES: 0.6,
+        categoryCarCommute: 13,
+        motorTypeCarCommute: 13,
+        ageCategoryCarCommute: 13,
+        categoryCarTravel: 13,
+        motorTypeCarTravel: 13,
+        ageCategoryCarTravel: 13,
+        kmCarTravelPerYear: 13,
+        kmCoachTravel: 13,
+        kmCountryTrain: 13,
+        kmPlane: 13,
+        passengersPerCarTravel: 13,
+      };
 
-      TRANSFORMED_PRODUCTS_KG_PER_CONSO: 30,
+      const actualTransportCarbonVariables = computeTransportCarbonVariables(
+        surveyVariables,
+        globalVariables
+      );
 
-      MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 1,
-      EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 2,
-      TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 3,
-
-      FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY: 60,
-      FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 70,
-      FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
-      FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
-      FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
-
-      STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 60,
-      STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 70,
-      STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
-      STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
-      STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
-
-      ALCOHOL_LITER_PER_GLASS: 0.1,
-      HOT_DRINKS_LITER_PER_GLASS: 0.01,
-      JUICES_AND_SODAS_LITER_PER_GLASS: 0.001,
-    };
-
-    const expectedFoodCarbonVariables = {
-      alcoholConsoLitersPerYear: 36.5,
-      hotDrinksConsoLitersPerYear: 7.3,
-      juicesAndSodasConsoLitersPerYear: 1.095,
-
-      redMeatKgPerYear: 1460,
-      whiteMeatKgPerYear: 2920,
-      fishKgPerYear: 10220,
-
-      eggsKgPerYear: 14600,
-      dairiesKgPerYear: 21900,
-
-      transformedProductsKgPerYear: 9360,
-
-      fruitsAndVegetablesKgPerYear: 25550, // TODO : manual check of this
-      starchesAndGroceriesKgPerYear: 25550, // TODO : manual check of this
-
-      fruitsAndVegetablePercentageLocal: 13,
-    };
-
-    const actualFoodCarbonVariables = computeFoodCarbonVariables(
-      surveyVariables,
-      globalVariables
-    );
-
-    expect(actualFoodCarbonVariables).toStrictEqual(
-      expectedFoodCarbonVariables
-    );
+      expect(actualTransportCarbonVariables).toStrictEqual(
+        expectedTransportCarbonVariables
+      );
+    });
+    it('should change passengersPerCarCommute, passengersPerCarTravel if it is 0', () => {
+      const surveyVariables = {
+        passengersPerCarCommute: 0,
+        passengersPerCarTravel: 0,
+      };
+      expect(
+        computeCarbonVariables({ ...surveyVariables }, globalVariables)
+      ).toMatchObject({
+        passengersPerCarCommute: 1,
+        passengersPerCarTravel: 1,
+      });
+    });
+    it('should convert hoursUrbanBusPerWeek to kmUrbanBusPerYear', () => {
+      const surveyVariables = {
+        hoursUrbanBusPerWeek: 10,
+        hoursCoachCommutePerWeek: 20,
+        hoursUrbanTrainPerWeek: 30,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, {
+          ...globalVariables,
+          MEAN_SPEED_URBAN_BUS: 80,
+          MEAN_SPEED_COACH: 90,
+          MEAN_SPEED_URBAN_TRAIN: 100,
+        })
+      ).toMatchObject({
+        kmUrbanBusPerYear: 10 * 52 * 80,
+        kmCoachCommutePerYear: 20 * 52 * 90,
+        kmUrbanTrainPerYear: 30 * 52 * 100,
+      });
+    });
   });
+  describe('test the others-related variables', () => {
+    it('should convert activitiesPerMonth to activitiesPerYear', () => {
+      const surveyVariables = { activitiesPerMonth: 2 };
+      expect(
+        computeCarbonVariables(surveyVariables, globalVariables)
+      ).toMatchObject({
+        activitiesPerYear: 24,
+      });
+    });
+    it('should convert internetStreamingHoursPerWeek to internetStreamingHoursPerYear', () => {
+      const surveyVariables = { internetStreamingHoursPerWeek: 2 };
+      expect(
+        computeCarbonVariables(surveyVariables, globalVariables)
+      ).toMatchObject({
+        internetStreamingHoursPerYear: 104,
+      });
+    });
+  });
+  describe('test the food-related variables', () => {
+    it('tests that computeFoodCarbonVariables runs correctly', () => {
+      const surveyVariables = {
+        alcoholConsoGlassPerDay: 1,
+        hotDrinksConsoGlassPerDay: 2,
+        juicesAndSodasConsoGlassPerDay: 3,
 
-  // TODO: Add tests for Energy and Others
+        meatAndFishConsoPerDay: 4,
+        eggsAndDairiesConsoPerDay: 5,
+        transformedProductsConsoPerWeek: 6,
+
+        fruitsAndVegetablePercentageLocal: 13,
+      };
+
+      const globalVariables = {
+        DAYS_PER_YEAR: 365,
+        WEEKS_PER_YEAR: 52,
+        DAYS_PER_WEEK: 7,
+
+        MEAT_AND_FISH_KG_PER_CONSO: 10,
+        PART_OF_RED_MEAT: 0.1,
+        PART_OF_WHITE_MEAT: 0.2,
+        PART_OF_FISH: 0.7,
+
+        EGGS_AND_DAIRIES_KG_PER_CONSO: 20,
+        PART_OF_EGGS: 0.4,
+        PART_OF_DAIRIES: 0.6,
+
+        TRANSFORMED_PRODUCTS_KG_PER_CONSO: 30,
+
+        MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 1,
+        EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 2,
+        TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 3,
+
+        FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY: 60,
+        FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 70,
+        FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
+        FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
+        FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
+
+        STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 60,
+        STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 70,
+        STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
+        STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
+        STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
+
+        ALCOHOL_LITER_PER_GLASS: 0.1,
+        HOT_DRINKS_LITER_PER_GLASS: 0.01,
+        JUICES_AND_SODAS_LITER_PER_GLASS: 0.001,
+      };
+
+      const expectedFoodCarbonVariables = {
+        alcoholConsoLitersPerYear: 36.5,
+        hotDrinksConsoLitersPerYear: 7.3,
+        juicesAndSodasConsoLitersPerYear: 1.095,
+
+        redMeatKgPerYear: 1460,
+        whiteMeatKgPerYear: 2920,
+        fishKgPerYear: 10220,
+
+        eggsKgPerYear: 14600,
+        dairiesKgPerYear: 21900,
+
+        transformedProductsKgPerYear: 9360,
+
+        fruitsAndVegetablesKgPerYear: 25550,
+        starchesAndGroceriesKgPerYear: 25550,
+
+        fruitsAndVegetablePercentageLocal: 13,
+      };
+
+      const actualFoodCarbonVariables = computeFoodCarbonVariables(
+        surveyVariables,
+        globalVariables
+      );
+
+      expect(actualFoodCarbonVariables).toStrictEqual(
+        expectedFoodCarbonVariables
+      );
+    });
+    it('should split meatAndFishConsoPerDay into redMeatKgPerYear, whiteMeatKgPerYear, and fishKgPerYear', () => {
+      const surveyVariables = { meatAndFishConsoPerDay: 2 };
+      const newGlobalVariables = {
+        ...globalVariables,
+        PART_OF_RED_MEAT: 0.1,
+        PART_OF_WHITE_MEAT: 0.2,
+        PART_OF_FISH: 0.7,
+        MEAT_AND_FISH_KG_PER_CONSO: 3,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        redMeatKgPerYear: 219,
+        whiteMeatKgPerYear: 438,
+        fishKgPerYear: 1533,
+      });
+    });
+    it('should split eggsAndDairiesConsoPerDay into eggsKgPerYear and dairiesKgPerYear', () => {
+      const surveyVariables = { eggsAndDairiesConsoPerDay: 2 };
+      const newGlobalVariables = {
+        ...globalVariables,
+        PART_OF_EGGS: 0.6,
+        PART_OF_DAIRIES: 0.4,
+        EGGS_AND_DAIRIES_KG_PER_CONSO: 3,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        eggsKgPerYear: 2 * 0.6 * 365 * 3,
+        dairiesKgPerYear: 2 * 0.4 * 365 * 3,
+      });
+    });
+    it('should convert transformedProductsConsoPerWeek to transformedProductsKgPerYear', () => {
+      const surveyVariables = {
+        transformedProductsConsoPerWeek: 3,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, {
+          ...globalVariables,
+          TRANSFORMED_PRODUCTS_KG_PER_CONSO: 4,
+        })
+      ).toMatchObject({
+        transformedProductsKgPerYear: 3 * 4 * 52,
+      });
+    });
+    it('should compute fruitsAndVegetablesKgPerYear based on all other foods', () => {
+      const surveyVariables = {
+        meatAndFishConsoPerDay: 1,
+        eggsAndDairiesConsoPerDay: 1,
+        transformedProductsConsoPerWeek: 7,
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        MEAT_AND_FISH_KG_PER_CONSO: 1,
+        EGGS_AND_DAIRIES_KG_PER_CONSO: 1,
+        TRANSFORMED_PRODUCTS_KG_PER_CONSO: 1,
+
+        MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 2,
+        EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 1,
+        TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 1,
+
+        FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY: 0.5,
+        FRUITS_AND_VEGETABLES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
+        FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
+        FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        fruitsAndVegetablesKgPerYear: 2.5 * 365,
+      });
+    });
+    it('should compute starchesAndGroceriesKgPerYear based on all other foods', () => {
+      const surveyVariables = {
+        meatAndFishConsoPerDay: 1,
+        eggsAndDairiesConsoPerDay: 1,
+        transformedProductsConsoPerWeek: 7,
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        MEAT_AND_FISH_KG_PER_CONSO: 1,
+        EGGS_AND_DAIRIES_KG_PER_CONSO: 1,
+        TRANSFORMED_PRODUCTS_KG_PER_CONSO: 1,
+
+        MEAT_AND_FISH_AVG_CONSO_KG_PER_DAY: 2,
+        EGGS_AND_DAIRIES_AVG_CONSO_KG_PER_DAY: 1,
+        TRANSFORMED_PRODUCTS_AVG_CONSO_KG_PER_DAY: 1,
+
+        STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY: 0.5,
+        STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE: 2,
+        STARCHES_AND_GROCERIES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE: 2,
+        STARCHES_AND_GROCERIES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE: 2,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        starchesAndGroceriesKgPerYear: 2.5 * 365,
+      });
+    });
+    it('should set fruitsAndVegetablesKgPerYear to FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY in case I eat a lot of all other types of foods', () => {
+      const surveyVariables = {
+        meatAndFishConsoPerDay: 100,
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY: 17,
+        STARCHES_AND_GROCERIES_MIN_CONSO_KG_PER_DAY: 18,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        fruitsAndVegetablesKgPerYear: 17 * 365,
+        starchesAndGroceriesKgPerYear: 18 * 365,
+      });
+    });
+    it('should convert alcoholConsoGlassPerDay to alcoholConsoLitersPerYear', () => {
+      const surveyVariables = {
+        alcoholConsoGlassPerDay: 1,
+        hotDrinksConsoGlassPerDay: 2,
+        juicesAndSodasConsoGlassPerDay: 3,
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, {
+          ...globalVariables,
+          ALCOHOL_LITER_PER_GLASS: 4,
+          HOT_DRINKS_LITER_PER_GLASS: 5,
+          JUICES_AND_SODAS_LITER_PER_GLASS: 6,
+        })
+      ).toMatchObject({
+        alcoholConsoLitersPerYear: 1 * 4 * 365,
+        hotDrinksConsoLitersPerYear: 2 * 5 * 365,
+        juicesAndSodasConsoLitersPerYear: 3 * 6 * 365,
+      });
+    });
+  });
+  describe('test the energy-related variables', () => {
+    it('should change residentsPerHousing to 1 if it is 0', () => {
+      const surveyVariables = {
+        residentsPerHousing: 0,
+      };
+      expect(
+        computeCarbonVariables({ ...surveyVariables }, globalVariables)
+      ).toMatchObject({
+        residentsPerHousing: 1,
+      });
+    });
+    it('should set houseSurfaceArea and flatSurfaceArea depending on housingType and housingSurfaceArea', () => {
+      const surveyVariables1 = {
+        housingType: 'FLAT',
+        housingSurfaceArea: 2,
+      };
+      expect(
+        computeCarbonVariables({ ...surveyVariables1 }, globalVariables)
+      ).toMatchObject({
+        houseSurfaceArea: 0,
+        flatSurfaceArea: 2,
+      });
+      const surveyVariables2 = {
+        housingType: 'HOUSE',
+        housingSurfaceArea: 2,
+      };
+      expect(
+        computeCarbonVariables({ ...surveyVariables2 }, globalVariables)
+      ).toMatchObject({
+        houseSurfaceArea: 2,
+        flatSurfaceArea: 0,
+      });
+    });
+    it('should use average values if energyConsumptionKnowledge is false', () => {
+      const surveyVariables = {
+        energyConsumptionKnowledge: false,
+        housingSurfaceArea: 100,
+        housingType: 'HOUSE',
+        maintainanceDate: 'BEFORE_1975',
+        heatingSystemEnergyType: 'ELECTRICITY',
+        cookingAppliancesEnergyType: 'WOOD',
+        sanitoryHotWaterEnergyType: 'GAS',
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 10,
+        COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 20,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR: 30,
+        SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        EI_HOUSING_PER_SURFACE_AREA: {
+          HOUSE: {
+            BEFORE_1975: 1,
+          },
+        },
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        elecHeatingKwh: 100,
+        elecCookingKwh: 0,
+        elecLightningKwh: 20,
+        elecWaterHeatingKwh: 0,
+        woodHeatingKwh: 0,
+        woodCookingKwh: 10,
+        woodWaterHeatingKwh: 0,
+        gasHeatingKwh: 0,
+        gasCookingKwh: 0,
+        gasWaterHeatingKwh: 30,
+        fuelHeatingKwh: 0,
+        fuelCookingKwh: 0,
+        fuelWaterHeatingKwh: 0,
+        networkHeatingHeatingKwh: 0,
+        networkHeatingWaterHeatingKwh: 0,
+      });
+    });
+    it('should split elec invoice into average ratios in case the consumption is lower than average', () => {
+      const surveyVariables = {
+        energyConsumptionKnowledge: true,
+        elecKwh: 100,
+        housingSurfaceArea: 100,
+        housingType: 'HOUSE',
+        maintainanceDate: 'BEFORE_1975',
+        residentsPerHousing: 1,
+        heatingSystemEnergyType: 'ELECTRICITY',
+        cookingAppliancesEnergyType: 'ELECTRICITY',
+        sanitoryHotWaterEnergyType: 'GAS',
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 200,
+        COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 100,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        EI_HOUSING_PER_SURFACE_AREA: {
+          HOUSE: {
+            BEFORE_1975: 1,
+          },
+        },
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        elecHeatingKwh: 25,
+        elecCookingKwh: 50,
+        elecLightningKwh: 25,
+        elecWaterHeatingKwh: 0,
+      });
+    });
+    it('should attribute elec surplus to heating in case the consumption is higher than average', () => {
+      const surveyVariables = {
+        energyConsumptionKnowledge: true,
+        elecKwh: 1000,
+        housingSurfaceArea: 100,
+        housingType: 'HOUSE',
+        maintainanceDate: 'BEFORE_1975',
+        residentsPerHousing: 1,
+        heatingSystemEnergyType: 'ELECTRICITY',
+        cookingAppliancesEnergyType: 'ELECTRICITY',
+        sanitoryHotWaterEnergyType: 'GAS',
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 200,
+        COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 100,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        EI_HOUSING_PER_SURFACE_AREA: {
+          HOUSE: {
+            BEFORE_1975: 1,
+          },
+        },
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        elecHeatingKwh: 700,
+        elecCookingKwh: 200,
+        elecLightningKwh: 100,
+        elecWaterHeatingKwh: 0,
+      });
+    });
+    it('should also works with HEATING_NETWORK', () => {
+      const surveyVariables = {
+        energyConsumptionKnowledge: true,
+        elecKwh: 100,
+        heatingNetworkKwh: 200,
+        housingSurfaceArea: 100,
+        housingType: 'HOUSE',
+        maintainanceDate: 'BEFORE_1975',
+        residentsPerHousing: 1,
+        heatingSystemEnergyType: 'HEATING_NETWORK',
+        cookingAppliancesEnergyType: 'GAS',
+        sanitoryHotWaterEnergyType: 'HEATING_NETWORK',
+      };
+      const newGlobalVariables = {
+        ...globalVariables,
+        COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR: 200,
+        COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR: 100,
+        LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR: 30,
+        SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON: 0,
+        EI_HOUSING_PER_SURFACE_AREA: {
+          HOUSE: {
+            BEFORE_1975: 1,
+          },
+        },
+      };
+      expect(
+        computeCarbonVariables(surveyVariables, newGlobalVariables)
+      ).toMatchObject({
+        elecHeatingKwh: 0,
+        elecCookingKwh: 0,
+        elecLightningKwh: 100,
+        elecWaterHeatingKwh: 0,
+        networkHeatingHeatingKwh: 170,
+        networkHeatingWaterHeatingKwh: 30,
+      });
+    });
+  });
 });
 
 describe('test validateSurveyVariables', () => {

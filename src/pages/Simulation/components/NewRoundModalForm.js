@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Button, ButtonGroup, Col, Form, ToggleButton } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
@@ -7,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 
 import './simulationPage.css';
 import ActionCardItemSimple from '../../../components/ActionCardItemSimple';
+import EuroIcon from '../../../assets/EuroIcon';
 import PrimaryButton from '../../../components/PrimaryButton';
-import { COLORS } from '../../../vars';
 import {
   getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
@@ -20,17 +19,9 @@ import {
 } from '../../../selectors/actionsSelector';
 import { toggleArrayItem } from '../../../utils/helpers';
 
-const SecondaryButton = styled(Button)`
-  background-color: #fff;
-  border-color: ${COLORS.BROWN.STANDARD};
-  color: #000;
-  :hover,
-  :focus {
-    background-color: ${COLORS.BROWN.STANDARD} !important;
-    color: white !important;
-    border-color: ${COLORS.BROWN.STANDARD} !important;
-  }
-`;
+const individualCollectiveToggleStyle = 'outline-primary';
+const batchToggleStyle = 'outline-secondary';
+const budgetYearStyle = 'outline-secondary';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
@@ -123,58 +114,58 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 className="d-flex justify-content-center"
                 controlId="validationFormik00"
               >
-                <SecondaryButton
-                  className="mr-2 activable"
-                  variant="secondary"
-                  active={values.actionCardType === 'individual'}
-                  onClick={() => {
-                    setFieldValue('actionCardType', 'individual');
-                    setFieldValue(
-                      'actionCardBatches',
-                      individualActionCardBatches
-                    );
-                    setFieldValue(
-                      'checkedActionCardBatchIds',
-                      checkedIndividualActionCardsBatchIds
-                    );
-                    setFieldValue(
-                      'actionCardBatchIds',
-                      defaultBatchPreChecked('individual')
-                    );
-                  }}
-                >
-                  {t('common.individualActions')}
-                </SecondaryButton>
-                <SecondaryButton
-                  className="mr-2 activable"
-                  variant="secondary"
-                  active={values.actionCardType === 'collective'}
-                  onClick={() => {
-                    setFieldValue('actionCardType', 'collective');
-                    setFieldValue(
-                      'actionCardBatches',
-                      collectiveActionCardBatches
-                    );
-                    setFieldValue(
-                      'checkedActionCardBatchIds',
-                      checkedCollectiveActionCardsBatchIds
-                    );
-                    setFieldValue(
-                      'actionCardBatchIds',
-                      defaultBatchPreChecked('collective')
-                    );
-                  }}
-                >
-                  {t('common.collectiveActions')}
-                </SecondaryButton>
+                <ButtonGroup>
+                  <Button
+                    variant={individualCollectiveToggleStyle}
+                    active={values.actionCardType === 'individual'}
+                    onClick={() => {
+                      setFieldValue('actionCardType', 'individual');
+                      setFieldValue(
+                        'actionCardBatches',
+                        individualActionCardBatches
+                      );
+                      setFieldValue(
+                        'checkedActionCardBatchIds',
+                        checkedIndividualActionCardsBatchIds
+                      );
+                      setFieldValue(
+                        'actionCardBatchIds',
+                        defaultBatchPreChecked('individual')
+                      );
+                    }}
+                  >
+                    {t('common.individualActions')}
+                  </Button>
+                  <Button
+                    variant={individualCollectiveToggleStyle}
+                    active={values.actionCardType === 'collective'}
+                    onClick={() => {
+                      setFieldValue('actionCardType', 'collective');
+                      setFieldValue(
+                        'actionCardBatches',
+                        collectiveActionCardBatches
+                      );
+                      setFieldValue(
+                        'checkedActionCardBatchIds',
+                        checkedCollectiveActionCardsBatchIds
+                      );
+                      setFieldValue(
+                        'actionCardBatchIds',
+                        defaultBatchPreChecked('collective')
+                      );
+                    }}
+                  >
+                    {t('common.collectiveActions')}
+                  </Button>
+                </ButtonGroup>
               </Form.Group>
             </Form.Row>
             <Form.Row className="d-flex justify-content-center">
               <Form.Group as={Col}>
                 <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
                 <ButtonGroup className="mr-2">
-                  <SecondaryButton
-                    className="activable"
+                  <Button
+                    variant={budgetYearStyle}
                     onClick={() => {
                       if (values.targetedYear > currentYear + yearIncrement) {
                         setFieldValue('targetedYear', values.targetedYear - 1);
@@ -182,10 +173,16 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     -
-                  </SecondaryButton>
-                  <SecondaryButton>{values.targetedYear}</SecondaryButton>
-                  <SecondaryButton
-                    className="activable"
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
+                    className="text-dark"
+                    disabled
+                  >
+                    {values.targetedYear}
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
                     onClick={() => {
                       if (values.targetedYear < endYear) {
                         setFieldValue('targetedYear', values.targetedYear + 1);
@@ -193,57 +190,53 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     }}
                   >
                     +
-                  </SecondaryButton>
+                  </Button>
                 </ButtonGroup>
               </Form.Group>
-              {values.actionCardType === 'individual' && (
-                <Form.Group as={Col}>
-                  <Form.Label className="mr-2">
-                    {t('common.budget')}
+              <Form.Group as={Col}>
+                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
+                <ButtonGroup className="mr-2">
+                  <Button
+                    variant={budgetYearStyle}
+                    onClick={() => {
+                      if (values.individualBudget > 1) {
+                        setFieldValue(
+                          'individualBudget',
+                          values.individualBudget - 1
+                        );
+                      }
+                    }}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
+                    className="text-dark"
+                    disabled
+                  >
+                    {values.individualBudget}{' '}
                     {values.actionCardType === 'individual' && (
-                      <span className="emoji" style={{ color: 'black' }}>
-                        &#x2764;
-                      </span>
+                      <span className="emoji">&#x2764;</span>
                     )}
                     {values.actionCardType === 'collective' && (
-                      <span className="emoji" style={{ color: 'black' }}>
-                        &#x1f4b0;
-                      </span>
+                      <EuroIcon width={20} className="fill-current-color" />
                     )}
-                  </Form.Label>
-                  <ButtonGroup className="mr-2">
-                    <SecondaryButton
-                      className="activable"
-                      onClick={() => {
-                        if (values.individualBudget > 1) {
-                          setFieldValue(
-                            'individualBudget',
-                            values.individualBudget - 1
-                          );
-                        }
-                      }}
-                    >
-                      -
-                    </SecondaryButton>
-                    <SecondaryButton className="activable">
-                      {values.individualBudget}
-                    </SecondaryButton>
-                    <SecondaryButton
-                      className="activable"
-                      onClick={() => {
-                        if (values.individualBudget < 10) {
-                          setFieldValue(
-                            'individualBudget',
-                            values.individualBudget + 1
-                          );
-                        }
-                      }}
-                    >
-                      +
-                    </SecondaryButton>
-                  </ButtonGroup>
-                </Form.Group>
-              )}
+                  </Button>
+                  <Button
+                    variant={budgetYearStyle}
+                    onClick={() => {
+                      if (values.individualBudget < 10) {
+                        setFieldValue(
+                          'individualBudget',
+                          values.individualBudget + 1
+                        );
+                      }
+                    }}
+                  >
+                    +
+                  </Button>
+                </ButtonGroup>
+              </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="validationFormik02">
@@ -258,7 +251,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       disabled={values.checkedActionCardBatchIds.includes(
                         batchId
                       )}
-                      className="mr-1 btn-custom-lot"
+                      className="mr-1"
+                      variant={batchToggleStyle}
                       inline
                       label={values.actionCardBatches[batchId].name}
                       type="checkbox"
@@ -303,7 +297,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
             </Form.Row>
             <Form.Row className="d-flex justify-content-end">
               <PrimaryButton
-                className="activable"
+                // className="activable"
                 type="submit"
                 disabled={
                   !values.actionCardBatchIds.length &&

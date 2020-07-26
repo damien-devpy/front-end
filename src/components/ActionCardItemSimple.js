@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import cardIcons from './cardIcons';
-import { sectorColors } from './ActionCardItem';
+import { Emoji, sectorColors } from './ActionCardItem';
 
 // used in NewRound modal
 // when/if we allow to choose not ony lots but also cards in each lot,
@@ -15,7 +14,7 @@ const ActionCardItemSimple = ({ id, cardNumber, text, sector, cost }) => {
       sector={sector}
     >
       <div className="col-1 pl-1 mr-1">
-        <span className="emoji">{cardIcons[cardNumber]}</span>
+        <Emoji cardNumber={cardNumber} />
       </div>
       <div className="col">{text.toLowerCase()}</div>
       <span className="badge badge-danger float-right ml-auto mr-1">

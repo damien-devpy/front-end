@@ -148,7 +148,7 @@ const EvolutionCarbon = () => {
         <XAxis dataKey="year" type="number" domain={['dataMin', 2050]} />
         <YAxis className="yaxis" type="number" domain={[0, 15000]}>
           <Label
-            value="kgCO2e/an/pers"
+            value={t('simulation.yAxisLabel')}
             style={{ fontSize: '1rem' }}
             angle={-90}
             offset={0}

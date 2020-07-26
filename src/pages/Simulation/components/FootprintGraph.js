@@ -131,7 +131,7 @@ const FootprintGraph = ({ footprint }) => {
         />
         <YAxis dataKey="" domain={[0, dataMax]}>
           <Label
-            value="kgCO2e/an/pers"
+            value={t('simulation.yAxisLabel')}
             style={{ fontSize: '0.8rem' }}
             angle={-90}
             offset={0}

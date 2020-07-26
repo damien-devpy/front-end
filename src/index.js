@@ -1,8 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
+import './custom_bootstrap/bootstrap.css';
 import './i18n';
 import './index.css';
 import App from './App';

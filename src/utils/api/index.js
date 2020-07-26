@@ -97,6 +97,12 @@ export const changeParticipantApi = ({ data }) =>
     }
   );
 
+export const sendFormApi = ({ workshopId, participantId }) =>
+  handleFetch(`/workshops/${workshopId}/participants/send_form`, {
+    method: 'POST',
+    body: JSON.stringify([participantId]),
+  });
+
 export const createCoachApi = ({ data }) =>
   handleFetch('/coaches', {
     method: 'POST',

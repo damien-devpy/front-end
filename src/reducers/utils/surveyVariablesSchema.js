@@ -11,12 +11,12 @@ const surveyVariablesSchema = {
     categoryCarCommute: {
       type: 'string',
       enum: ['SPORT', 'BIG', 'URBAN', 'LOW_CARBON'],
-      default: 'NONE',
+      default: 'URBAN',
     },
     motorTypeCarCommute: {
       type: 'string',
       enum: ['HYBRID', 'FUEL', 'ELECTRIC'],
-      default: 'NONE',
+      default: 'FUEL',
     },
     ageCategoryCarCommute: {
       type: 'string',
@@ -25,7 +25,7 @@ const surveyVariablesSchema = {
         'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
         'FIFTEEN_YEARS_OR_OLDER',
       ],
-      default: 'NONE',
+      default: 'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
     },
     kmCarCommutePerDay: { type: 'number', default: 0 },
     passengersPerCarCommute: { type: 'number', default: 1 },
@@ -35,12 +35,12 @@ const surveyVariablesSchema = {
     categoryCarTravel: {
       type: 'string',
       enum: ['SPORT', 'BIG', 'URBAN', 'LOW_CARBON'],
-      default: 'NONE',
+      default: 'URBAN',
     },
     motorTypeCarTravel: {
       type: 'string',
       enum: ['HYBRID', 'FUEL', 'ELECTRIC'],
-      default: 'NONE',
+      default: 'FUEL',
     },
     ageCategoryCarTravel: {
       type: 'string',
@@ -49,7 +49,7 @@ const surveyVariablesSchema = {
         'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
         'FIFTEEN_YEARS_OR_OLDER',
       ],
-      default: 'NONE',
+      default: 'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
     },
     kmCarTravelPerYear: { type: 'number', default: 0 },
     passengersPerCarTravel: { type: 'number', default: 0 },
@@ -66,7 +66,7 @@ const surveyVariablesSchema = {
     maintainanceDate: {
       type: 'string',
       enum: ['BEFORE_1975', 'BETWEEN_1975_AND_2000', 'AFTER_2000'],
-      default: 'HOUSE',
+      default: 'BETWEEN_1975_AND_2000',
     },
     heatingSystemEnergyType: {
       type: 'string',
@@ -94,6 +94,7 @@ const surveyVariablesSchema = {
     gasKwh: { type: 'number', default: 0 },
     fuelKwh: { type: 'number', default: 0 },
     woodKwh: { type: 'number', default: 0 },
+    heatingNetworkKwh: { type: 'number', default: 0 },
     numberBigAppliances: { type: 'number', default: 0 },
     numberSmallAppliances: { type: 'number', default: 0 },
     numberBigDevices: { type: 'number', default: 0 },

@@ -3,17 +3,18 @@ import Ajv from 'ajv';
 import surveyVariablesSchema from './surveyVariablesSchema';
 
 const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
-  const matches = heatingNetworkData.filter(
-    (row) => row.name === heatingNetworkName
-  );
+  const matches = heatingNetworkData
+    ? heatingNetworkData.filter((row) => row.name === heatingNetworkName)
+    : [];
   return matches && matches.length > 0
     ? parseFloat(matches[0].emission_intensity)
     : 0;
 };
 
 const computeFoodCarbonVariables = (surveyVariables, globalVariables) => {
-  // Meat and Fish
   const { DAYS_PER_WEEK, DAYS_PER_YEAR, WEEKS_PER_YEAR } = globalVariables;
+
+  // Meat and Fish
   const { meatAndFishConsoPerDay } = surveyVariables;
   const {
     MEAT_AND_FISH_KG_PER_CONSO,
@@ -21,7 +22,6 @@ const computeFoodCarbonVariables = (surveyVariables, globalVariables) => {
     PART_OF_WHITE_MEAT,
     PART_OF_FISH,
   } = globalVariables;
-
   const meatAndFishKgPerYear =
     meatAndFishConsoPerDay * MEAT_AND_FISH_KG_PER_CONSO * DAYS_PER_YEAR; // conversion
   const redMeatKgPerYear = meatAndFishKgPerYear * PART_OF_RED_MEAT; // repartition
@@ -230,6 +230,74 @@ const computeTransportCarbonVariables = (surveyVariables, globalVariables) => {
   };
 };
 
+const splitConsumptions = (
+  energyConsumptionKnowledge,
+  energyTypes,
+  populationAverageConsoKwhAdjusted,
+  invoicesForEnergyTypes,
+  energyType
+) => {
+  // First estimation based on national average
+  const kwhEstimationsForEnergyType = {
+    hotWater:
+      energyTypes.hotWater === energyType
+        ? populationAverageConsoKwhAdjusted.hotWater
+        : 0,
+    cooking:
+      energyTypes.cooking === energyType
+        ? populationAverageConsoKwhAdjusted.cooking
+        : 0,
+    heating:
+      energyTypes.heating === energyType
+        ? populationAverageConsoKwhAdjusted.heating
+        : 0,
+    electricalAppliances:
+      energyTypes.electricalAppliances === energyType
+        ? populationAverageConsoKwhAdjusted.electricalAppliances
+        : 0,
+  };
+  console.log(energyType);
+  console.log(energyTypes);
+  console.log(populationAverageConsoKwhAdjusted);
+  console.log(kwhEstimationsForEnergyType);
+
+  if (energyConsumptionKnowledge) {
+    // If the participants filled in his energy invoices,
+    // check if they use more energy than the average, for the type of enery
+    const kwhEstimationsTotalForEnergyType =
+      kwhEstimationsForEnergyType.heating +
+      kwhEstimationsForEnergyType.hotWater +
+      kwhEstimationsForEnergyType.cooking +
+      kwhEstimationsForEnergyType.electricalAppliances;
+
+    const ratio =
+      invoicesForEnergyTypes[energyType] / kwhEstimationsTotalForEnergyType;
+    if (ratio < 1) {
+      // If they use less energy than average, just compute a ratio
+      kwhEstimationsForEnergyType.heating *= ratio;
+      kwhEstimationsForEnergyType.hotWater *= ratio;
+      kwhEstimationsForEnergyType.cooking *= ratio;
+      kwhEstimationsForEnergyType.electricalAppliances *= ratio;
+    } else {
+      // If the use more energy than average, transfer the surplus on the
+      // usageCategory with the highest variance.
+      // i.e. in that order: heating, waterHeating, cooking
+      const surplus =
+        invoicesForEnergyTypes[energyType] - kwhEstimationsTotalForEnergyType;
+      if (energyTypes.heating === energyType) {
+        kwhEstimationsForEnergyType.heating += surplus;
+      } else if (energyTypes.hotWater === energyType) {
+        kwhEstimationsForEnergyType.hotWater += surplus;
+      } else if (energyTypes.electricalAppliances === energyType) {
+        kwhEstimationsForEnergyType.electricalAppliances += surplus;
+      } else {
+        kwhEstimationsForEnergyType.cooking += surplus;
+      }
+    }
+  }
+  return kwhEstimationsForEnergyType;
+};
+
 const computeEnergyCarbonVariables = (
   surveyVariables,
   globalVariables,
@@ -245,11 +313,13 @@ const computeEnergyCarbonVariables = (
     fuelKwh,
     gasKwh,
     woodKwh,
+    heatingNetworkKwh,
 
     housingType,
     housingSurfaceArea,
     maintainanceDate,
   } = surveyVariables;
+
   const residentsPerHousing = Math.max(surveyVariables.residentsPerHousing, 1);
   const {
     SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR,
@@ -264,151 +334,107 @@ const computeEnergyCarbonVariables = (
   const houseSurfaceArea = housingType === 'HOUSE' ? housingSurfaceArea : 0;
   const flatSurfaceArea = housingType === 'FLAT' ? housingSurfaceArea : 0;
 
+  const energyTypes = {
+    heating: heatingSystemEnergyType,
+    cooking: cookingAppliancesEnergyType,
+    hotWater: sanitoryHotWaterEnergyType,
+    electricalAppliances: 'ELECTRICITY',
+  };
   // dictionnary energy type conso
   const energySurvey = {
     ELECTRICITY: elecKwh,
     FUEL_OIL: fuelKwh,
     GAS: gasKwh,
     WOOD: woodKwh,
+    HEATING_NETWORK: heatingNetworkKwh,
+    // TODO Add HEATING_NETWORK in variables
   };
 
-  // Average conso
-  const KwhMoyEcs =
-    SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR *
-    residentsPerHousing *
-    (1 - SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON);
-  const KwhMoyCh =
-    EI_HOUSING_PER_SURFACE_AREA[housingType][maintainanceDate] *
-    housingSurfaceArea;
-  const KwhMoyCui =
-    COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR *
-    residentsPerHousing *
-    (1 - COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON);
-  const KwhMoyEcEm =
-    LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR *
-    residentsPerHousing *
-    (1 - LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON);
+  const populationAverageConsoKwhAdjusted = {
+    hotWater:
+      SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR *
+      residentsPerHousing *
+      (1 -
+        residentsPerHousing *
+          SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON),
+    heating:
+      EI_HOUSING_PER_SURFACE_AREA[housingType][maintainanceDate] *
+      housingSurfaceArea,
+    cooking:
+      COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR *
+      residentsPerHousing *
+      (1 -
+        residentsPerHousing *
+          COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON),
+    electricalAppliances:
+      LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR *
+      residentsPerHousing *
+      (1 -
+        residentsPerHousing *
+          LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON),
+  };
 
-  // const energyConso = 0
-  // KwhMoyEcs
-  const partitionEcs =
-    (heatingSystemEnergyType === sanitoryHotWaterEnergyType ? KwhMoyCh : 0) +
-    (cookingAppliancesEnergyType === sanitoryHotWaterEnergyType
-      ? KwhMoyCui
-      : 0) +
-    (sanitoryHotWaterEnergyType === 'ELECTRICITY' ? KwhMoyEcs : 0);
+  const {
+    heating: elecHeatingKwh,
+    hotWater: elecWaterHeatingKwh,
+    cooking: elecCookingKwh,
+    electricalAppliances: elecLightningKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'ELECTRICITY'
+  );
+  const {
+    heating: gasHeatingKwh,
+    hotWater: gasWaterHeatingKwh,
+    cooking: gasCookingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'GAS'
+  );
+  const {
+    heating: woodHeatingKwh,
+    hotWater: woodWaterHeatingKwh,
+    cooking: woodCookingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'WOOD'
+  );
+  const {
+    heating: fuelHeatingKwh,
+    hotWater: fuelWaterHeatingKwh,
+    cooking: fuelCookingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'FUEL_OIL'
+  );
 
-  let energyConso = energySurvey[sanitoryHotWaterEnergyType];
-
-  let KwhEcs = 0;
-  if (energyConsumptionKnowledge === true) {
-    if (energyConso - partitionEcs - KwhMoyEcs > 0) {
-      if (
-        heatingSystemEnergyType === sanitoryHotWaterEnergyType ||
-        sanitoryHotWaterEnergyType === 'ELECTRICITY'
-      ) {
-        KwhEcs = KwhMoyEcs;
-      } else {
-        KwhEcs =
-          energyConso -
-          (cookingAppliancesEnergyType === sanitoryHotWaterEnergyType
-            ? KwhMoyCui
-            : 0);
-      }
-    } else {
-      KwhEcs = (KwhMoyEcs / (partitionEcs + KwhMoyEcs)) * energyConso;
-    }
-  } else {
-    KwhEcs = KwhMoyEcs;
-  }
-  const woodWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'WOOD') * KwhEcs;
-  const gasWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'GAS') * KwhEcs;
-  const fuelWaterHeatingKwh =
-    (sanitoryHotWaterEnergyType === 'FUEL_OIL') * KwhEcs;
-  const elecWaterHeatingKwh =
-    (sanitoryHotWaterEnergyType === 'ELECTRICITY') * KwhEcs;
-
-  // KwhCh
-  const partitionCh =
-    (sanitoryHotWaterEnergyType === heatingSystemEnergyType ? KwhMoyEcs : 0) +
-    (cookingAppliancesEnergyType === heatingSystemEnergyType ? KwhMoyCui : 0) +
-    (heatingSystemEnergyType === 'ELECTRICITY' ? KwhMoyCh : 0);
-
-  energyConso = energySurvey[heatingSystemEnergyType];
-
-  let KwhCh = 0;
-
-  if (energyConsumptionKnowledge) {
-    if (energyConso - partitionCh - KwhMoyCh > 0) {
-      KwhCh = energyConso;
-    } else {
-      KwhCh = (KwhMoyCh / (partitionCh + KwhMoyCh)) * energyConso;
-    }
-  } else {
-    KwhCh = KwhMoyCh;
-  }
-  const woodHeatingKwh = (heatingSystemEnergyType === 'WOOD') * KwhCh;
-  const gasHeatingKwh = (heatingSystemEnergyType === 'GAS') * KwhCh;
-  const fuelHeatingKwh = (heatingSystemEnergyType === 'FUEL') * KwhCh;
-  const elecHeatingKwh = (heatingSystemEnergyType === 'ELECTRICITY') * KwhCh;
-  const networkHeatingKwh =
-    (heatingSystemEnergyType === 'HEATING_NETWORK') * KwhCh;
+  const {
+    heating: networkHeatingHeatingKwh,
+    hotWater: networkHeatingWaterHeatingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'HEATING_NETWORK'
+  );
 
   const eiHeatingNetwork = getEiForHeatingNetwork(
     heatingNetworkData,
     surveyVariables.heatingNetworkName
   );
-  // KwhCui
-  const partitionCui =
-    (heatingSystemEnergyType === cookingAppliancesEnergyType ? KwhMoyCh : 0) +
-    (sanitoryHotWaterEnergyType === cookingAppliancesEnergyType
-      ? KwhMoyEcs
-      : 0) +
-    (cookingAppliancesEnergyType === 'ELECTRICITY' ? KwhMoyEcEm : 0);
-
-  energyConso = energySurvey[cookingAppliancesEnergyType];
-
-  let KwhCui = 0;
-
-  if (energyConsumptionKnowledge) {
-    if (energyConso - partitionCui - KwhMoyCui > 0) {
-      KwhCui = energyConso;
-    } else {
-      KwhCui = (KwhMoyCui / (partitionCui + KwhMoyCui)) * energyConso;
-    }
-  } else {
-    KwhCui = KwhMoyCui;
-  }
-  const woodCookingKwh = (cookingAppliancesEnergyType === 'WOOD') * KwhCui;
-  const gasCookingKwh = (cookingAppliancesEnergyType === 'GAS') * KwhCui;
-  const fuelCookingKwh = (cookingAppliancesEnergyType === 'FUEL') * KwhCui;
-  const elecCookingKwh =
-    (cookingAppliancesEnergyType === 'ELECTRICITY') * KwhCui;
-
-  // KwhElec
-  const partitionEcEm =
-    (heatingSystemEnergyType === 'ELECTRICITY' ? KwhMoyCh : 0) +
-    (sanitoryHotWaterEnergyType === 'ELECTRICITY' ? KwhMoyEcs : 0) +
-    (cookingAppliancesEnergyType === 'ELECTRICITY' ? KwhMoyCui : 0);
-
-  energyConso = energySurvey.ELECTRICITY;
-
-  let KwhElec = 0;
-
-  if (energyConsumptionKnowledge) {
-    if (energyConso - partitionEcEm - KwhMoyEcEm > 0) {
-      if (heatingSystemEnergyType === 'ELECTRICITY') {
-        KwhElec = KwhMoyEcEm;
-      } else {
-        KwhElec = energyConso - partitionEcEm;
-      }
-    } else {
-      KwhElec = (KwhMoyEcEm / (partitionEcEm + KwhMoyEcEm)) * energyConso;
-    }
-  } else {
-    KwhElec = KwhMoyEcEm;
-  }
-  const elecLightningKwh = KwhElec;
 
   return {
     woodHeatingKwh,
@@ -424,7 +450,9 @@ const computeEnergyCarbonVariables = (
     elecCookingKwh,
     elecLightningKwh,
     elecWaterHeatingKwh,
-    networkHeatingKwh,
+    networkHeatingHeatingKwh,
+    networkHeatingWaterHeatingKwh,
+    // TODO Change model to adapt to these changes
     eiHeatingNetwork,
 
     residentsPerHousing,
@@ -475,6 +503,7 @@ const validateAndSetDefaultsSurveyVariables = (surveyVariables) => {
   }
   return surveyVariables;
 };
+
 const computeCarbonVariables = (
   surveyVariables,
   globalVariables,

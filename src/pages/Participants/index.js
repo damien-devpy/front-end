@@ -32,7 +32,7 @@ import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import {
   selectCarbonFootprintsEntity,
-  selectCurrentWorkshopSummary,
+  selectCurrentWorkshopInfo,
   selectInitialGlobalCarbonVariables,
   selectIsCurrentWorkshopSynchronized,
   selectIsWorkshopReadyForInitialization,
@@ -69,7 +69,7 @@ const ManageParticipants = ({
     status: workshopStatus,
     startYear,
     model,
-  } = useSelector(selectCurrentWorkshopSummary);
+  } = useSelector(selectCurrentWorkshopInfo);
 
   const { t } = useTranslation();
   const participants = useSelector(selectParticipantsEntity);

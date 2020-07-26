@@ -17,8 +17,8 @@ import {
   participantsAverageFootprint,
 } from '../../selectors/footprintSelectors';
 import {
-  selectCarbonFootprintsForRound,
-  selectCitizenCarbonFootprintsForRound,
+  selectCarbonFootprintsEntityForCurrentRound,
+  selectCitizenCarbonFootprintsEntityForCurrentRound,
   selectCurrentRound,
   selectFootprintStructure,
 } from '../../selectors/workshopSelector';
@@ -34,15 +34,13 @@ const Simulation = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const currentRound = useSelector((state) =>
-    selectCurrentRound(state.workshop)
-  );
+  const currentRound = useSelector(selectCurrentRound);
   const footprintStructure = useSelector(selectFootprintStructure);
-  const currentCarbonFootprints = useSelector((state) =>
-    selectCarbonFootprintsForRound(state, currentRound)
+  const currentCarbonFootprints = useSelector(
+    selectCarbonFootprintsEntityForCurrentRound
   );
-  const currentCitizenFootprints = useSelector((state) =>
-    selectCitizenCarbonFootprintsForRound(state, currentRound)
+  const currentCitizenFootprints = useSelector(
+    selectCitizenCarbonFootprintsEntityForCurrentRound
   );
   const participantsAverageCarbonFootprint = participantsAverageFootprint(
     currentCarbonFootprints,

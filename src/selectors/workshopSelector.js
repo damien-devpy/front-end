@@ -131,11 +131,11 @@ export const selectCurrentWorkshop = (state) =>
 export const selectIsCurrentWorkshopSynchronized = (state) =>
   pathOr(false, ['workshop', 'isSynchronized'], state);
 
-export const selectCurrentWorkshopSummary = (state) =>
+export const selectCurrentWorkshopInfo = (state) =>
   pathOr({}, ['workshop', 'result'], state);
 
-export const selectCurrentRound = (workshop) =>
-  pathOr(null, ['result', 'currentYear'], workshop);
+export const selectCurrentRound = (state) =>
+  pathOr(null, ['workshop', 'result', 'currentYear'], state);
 
 export const selectCurrentYear = (state) =>
   pathOr(null, ['workshop', 'result', 'currentYear'], state);
@@ -352,14 +352,24 @@ const selectEntityForRound = (state, roundId, entity) => {
     {}
   );
 };
-export const selectCarbonFootprintsForRound = (state, roundId) =>
+export const selectCarbonFootprintsEntityForRound = (state, roundId) =>
   selectEntityForRound(state, roundId, 'carbonFootprints');
 
-export const selectCitizenCarbonFootprintsForRound = (state, roundId) =>
+export const selectCarbonFootprintsEntityForCurrentRound = (state) => {
+  const currentRound = selectCurrentRound(state);
+  return selectCarbonFootprintsEntityForRound(state, currentRound);
+};
+
+export const selectCitizenCarbonFootprintsEntityForRound = (state, roundId) =>
   selectEntityForRound(state, roundId, 'citizenCarbonFootprints');
 
+export const selectCitizenCarbonFootprintsEntityForCurrentRound = (state) => {
+  const currentRound = selectCurrentRound(state);
+  return selectCitizenCarbonFootprintsEntityForRound(state, currentRound);
+};
+
 export const selectInitialGlobalCarbonVariables = (state) => {
-  const { startYear } = selectCurrentWorkshopSummary(state);
+  const { startYear } = selectCurrentWorkshopInfo(state);
   return selectWorkshopEntity(
     selectCurrentWorkshop(state),
     'globalCarbonVariables'

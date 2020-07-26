@@ -3,10 +3,12 @@ import {
   getInitRoundBudget,
   getNumberOfChosenActionCards,
   isIndividualActionCardTakenForParticipant,
-  selectCarbonFootprintsForRound,
+  selectCarbonFootprintsEntityForCurrentRound,
+  selectCarbonFootprintsEntityForRound,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
-  selectCitizenCarbonFootprintsForRound,
+  selectCitizenCarbonFootprintsEntityForCurrentRound,
+  selectCitizenCarbonFootprintsEntityForRound,
   selectIndividualChoiceIdsForParticipant,
   selectIndividualChoicesForParticipant,
   selectIsWorkshopReadyForInitialization,
@@ -301,7 +303,7 @@ describe('Workshop selector', () => {
       expect(selectIsWorkshopReadyForInitialization()).toBe(false);
     });
   });
-  describe('Check selectCarbonFootprintsForRound and selectCitizenCarbonFootprintsForRound', () => {
+  describe('Check selectCarbonFootprintsEntityForRound and selectCitizenCarbonFootprintsEntityForRound', () => {
     const carbonFootprints2020 = ['2020-1', '2020-2'];
     const carbonFootprints2023 = ['2023-1', '2023-2'];
     const roundsEntity = {
@@ -407,39 +409,61 @@ describe('Workshop selector', () => {
           carbonFootprints: carbonFootprintsEntity,
           citizenCarbonFootprints: carbonFootprintsEntity,
         },
+        result: {
+          currentYear: 2020,
+        },
       },
     };
     it('should return carbonFootprints for round 2020', () => {
-      const result = selectCarbonFootprintsForRound(localState, 2020);
+      const result = selectCarbonFootprintsEntityForRound(localState, 2020);
       expect(result).toEqual(carbonFootprintsEntity2020);
     });
     it('should return carbonFootprints for round 2023', () => {
-      const result = selectCarbonFootprintsForRound(localState, 2023);
+      const result = selectCarbonFootprintsEntityForRound(localState, 2023);
       expect(result).toEqual(carbonFootprintsEntity2023);
     });
     it('should return empty carbonFootprints for round 2026', () => {
-      const result = selectCarbonFootprintsForRound(localState, 2026);
+      const result = selectCarbonFootprintsEntityForRound(localState, 2026);
       expect(result).toEqual({});
     });
     it('should return empty carbonFootprints if there is no parameter', () => {
-      const result = selectCarbonFootprintsForRound();
+      const result = selectCarbonFootprintsEntityForRound();
       expect(result).toEqual({});
     });
+    it('should return carbonFootprints for current round', () => {
+      const result = selectCarbonFootprintsEntityForCurrentRound(localState);
+      expect(result).toEqual(carbonFootprintsEntity2020);
+    });
     it('should return citizenCarbonFootprints for round 2020', () => {
-      const result = selectCitizenCarbonFootprintsForRound(localState, 2020);
+      const result = selectCitizenCarbonFootprintsEntityForRound(
+        localState,
+        2020
+      );
       expect(result).toEqual(carbonFootprintsEntity2020);
     });
     it('should return citizenCarbonFootprints for round 2023', () => {
-      const result = selectCitizenCarbonFootprintsForRound(localState, 2023);
+      const result = selectCitizenCarbonFootprintsEntityForRound(
+        localState,
+        2023
+      );
       expect(result).toEqual(carbonFootprintsEntity2023);
     });
     it('should return empty citizenCarbonFootprints for round 2026', () => {
-      const result = selectCitizenCarbonFootprintsForRound(localState, 2026);
+      const result = selectCitizenCarbonFootprintsEntityForRound(
+        localState,
+        2026
+      );
       expect(result).toEqual({});
     });
     it('should return empty citizenCarbonFootprints if there is no parameter', () => {
-      const result = selectCitizenCarbonFootprintsForRound();
+      const result = selectCitizenCarbonFootprintsEntityForRound();
       expect(result).toEqual({});
+    });
+    it('should return citizenCarbonFootprints for current round', () => {
+      const result = selectCitizenCarbonFootprintsEntityForCurrentRound(
+        localState
+      );
+      expect(result).toEqual(carbonFootprintsEntity2020);
     });
   });
 });

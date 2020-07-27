@@ -179,7 +179,6 @@ const ManageParticipants = ({
                 personas[participants[id].personaId].surveyVariables,
                 globalCarbonVariables,
                 heatingNetworksData
-                // todo add heating networks data
               ),
               globalCarbonVariables
             )

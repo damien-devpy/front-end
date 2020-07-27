@@ -131,7 +131,6 @@ export const setCollectiveChoices = (year, collectiveChoices) => ({
   payload: { year, collectiveChoices },
 });
 
-// TODO: Check if this action is used
 export const computeCarbonVariables = (participantId, heatNetworksData) => ({
   type: COMPUTE_CARBON_VARIABLES,
   payload: { participantId, heatNetworksData },

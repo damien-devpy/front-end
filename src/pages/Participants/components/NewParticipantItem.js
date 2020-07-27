@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import DeleteIcon from '../../../assets/DeleteIcon';
 import ParticipantStatus from './ParticipantStatus';
-import { COLORS } from '../../../vars';
 
 export const ParticipantItemForm = ({
   id,
@@ -19,6 +18,7 @@ export const ParticipantItemForm = ({
   personas,
   currentPersonaId,
   handleShowBC,
+  handleSendForm,
 }) => {
   const { t } = useTranslation();
 
@@ -50,7 +50,7 @@ export const ParticipantItemForm = ({
     });
 
     return (
-      <Form.Control
+      <Form.Control custom
         as="select"
         size="sm"
         id="dropdown"
@@ -96,6 +96,7 @@ export const ParticipantItemForm = ({
       >
         <ParticipantStatus
           value={status}
+          handleSendForm={() => handleSendForm(id)}
           handleShowBC={() => handleShowBC(id)}
         />
       </Col>
@@ -120,10 +121,7 @@ export const ParticipantsHeader = () => {
 };
 
 const StyledHeaderRow = styled.div`
-  //background-color: ${COLORS.GRAY.LIGHT};
   margin-top: 10px;
-  margin-bottom:30px;
   padding-bottom: 5px;
   font-weight: bold;
-  border-bottom:1px solid #E2E0E0;
 `;

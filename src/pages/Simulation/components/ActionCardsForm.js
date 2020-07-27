@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ActionCardItem from '../../../components/ActionCardItem';
 import { COLORS } from '../../../vars';
 
-import PrimaryButton from '../../../components/PrimaryButton';
 import {
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
 } from '../../../selectors/workshopSelector';
 
 const ActionCardsForm = ({
-  handleSubmit,
+  // handleSubmit,
   handleCardActionSelectionChange,
   handleCheckedActionCard,
   actionCardType,
@@ -50,7 +49,7 @@ const ActionCardsForm = ({
     return 0;
   }
   return (
-    <Form noValidate>
+    // <Form noValidate>
       <Form.Row>
         {
           actionCardsBatchIdsFromRounds
@@ -103,40 +102,36 @@ const ActionCardsForm = ({
           // )
         }
       </Form.Row>
-      <Form.Row className="d-flex justify-content-end">
-        <PrimaryButton onClick={handleSubmit}>
-          {t('common.validate')}
-        </PrimaryButton>
-      </Form.Row>
-    </Form>
+    // </Form>
   );
 };
 
 const BatchBadge = ({ id, text, active, handleClick }) => {
   return (
-    <StyledBatch
+    <Button
       name={id}
-      className="m-1 mb-3 p-1 btn-block text-center btn"
+      className="mb-3 p-1 btn-block text-center"
+      variant="outline-primary"
       active={active}
       onClick={() => {
         handleClick();
       }}
     >
       {text}
-    </StyledBatch>
+    </Button>
   );
 };
 
-const StyledBatch = styled.div`
-cursor: pointer;
-color: ${(props) => (props.active ? 'white' : 'black')};
-font-weight: ${(props) => (props.active ? 'bolder' : '')};
+// const StyledBatch = styled.div`
+// cursor: pointer;
+// color: ${(props) => (props.active ? 'white' : 'black')};
+// font-weight: ${(props) => (props.active ? 'bolder' : '')};
 
-/* font-size: 0.7rem; */
-/* border: ${(props) =>
-  props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) =>
-  props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
-`;
+// /* font-size: 0.7rem; */
+// /* border: ${(props) =>
+//   props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
+// background: ${(props) =>
+//   props.active ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
+// `;
 
 export default ActionCardsForm;

@@ -37,6 +37,7 @@ const AddParticipantModalForm = ({ t, handleSubmit }) => {
               <Form.Control
                 type="text"
                 name="firstName"
+                autoComplete="off"
                 value={values.firstName}
                 onChange={handleChange}
                 isInvalid={!!errors.firstName}
@@ -50,6 +51,7 @@ const AddParticipantModalForm = ({ t, handleSubmit }) => {
               <Form.Control
                 type="text"
                 name="lastName"
+                autoComplete="off"
                 value={values.lastName}
                 onChange={handleChange}
                 isInvalid={!!errors.lastName}
@@ -63,6 +65,7 @@ const AddParticipantModalForm = ({ t, handleSubmit }) => {
               <Form.Control
                 type="text"
                 name="email"
+                autoComplete="off"
                 value={values.email}
                 onChange={handleChange}
                 isInvalid={!!errors.email}

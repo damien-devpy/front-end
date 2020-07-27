@@ -46,7 +46,6 @@ const ParticipantsTable = ({
     <div>
       {participantsEntity &&
         Object.keys(participantsEntity).map((participantId) => {
-          // might make sense to simplify the component by taking the two functions outside
           const { firstName, lastName } = participantsEntity[participantId];
           const numberOfSelectedActions = getNumberOfChosenActionCards(
             individualChoices,

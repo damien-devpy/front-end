@@ -5,15 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ActionCardsForm from './ActionCardsForm';
+import EuroIcon from '../../../assets/EuroIcon';
 import ParticipantsTable from './ParticipantsTable';
+import PrimaryButton from '../../../components/PrimaryButton';
 import {
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
   getInitRoundBudget,
   getNumberOfChosenCollectiveCards,
+  isIndividualActionCardTakenForParticipant,
   selectCollectiveChoices,
-  selectIndividualChoicesForParticipant,
+  selectCollectiveChoicesEntity,
+  selectCurrentWorkshop,
+  selectIndividualChoicesEntity,
   selectNextRound,
+  selectParticipantsEntity,
 } from '../../../selectors/workshopSelector';
 import {
   initRoundAndProcessModel,
@@ -32,12 +38,9 @@ const ActionCardsEntry = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const nextRound = useSelector((state) => selectNextRound(state.workshop));
-
-  const participantsEntity = useSelector(
-    (state) => state.workshop.entities.participants
-  );
+  const currentWorkshop = useSelector(selectCurrentWorkshop);
+  const nextRound = useSelector(selectNextRound);
+  const participantsEntity = useSelector(selectParticipantsEntity);
   const [selectedParticipantId, setSelectedParticipantId] = useState(
     participantsEntity ? Object.keys(participantsEntity)[0] : -1
   );
@@ -51,17 +54,9 @@ const ActionCardsEntry = ({
   );
 
   // these are choices (from prev rounds), not cards per se
-  const individualChoicesEntity = useSelector((state) =>
-    state.workshop.entities.individualChoices
-      ? state.workshop.entities.individualChoices
-      : {}
-  );
+  const individualChoicesEntity = useSelector(selectIndividualChoicesEntity);
 
-  const collectiveChoicesEntity = useSelector((state) =>
-    state.workshop.entities.collectiveChoices
-      ? state.workshop.entities.collectiveChoices
-      : {}
-  );
+  const collectiveChoicesEntity = useSelector(selectCollectiveChoicesEntity);
 
   const budgetPerParticipant = useSelector((state) =>
     getInitRoundBudget(
@@ -95,13 +90,6 @@ const ActionCardsEntry = ({
   );
   const [currentCollectiveChoices, setCurrentCollectiveChoices] = useState(
     collectiveChoicesEntity
-  );
-  const individualChoicesFromParticipant = useSelector((state) =>
-    selectIndividualChoicesForParticipant(
-      selectedParticipantId,
-      state.workshop.entities.roundConfig,
-      state.workshop.entities.individualChoices
-    )
   );
   const chosenCollectiveActionCards = useSelector((state) =>
     selectCollectiveChoices(
@@ -197,7 +185,10 @@ const ActionCardsEntry = ({
         );
 
   const isIndividualActionCardChecked = (actionCardId) =>
-    individualChoicesFromParticipant.includes(actionCardId) ||
+    isIndividualActionCardTakenForParticipant(
+      currentWorkshop,
+      selectedParticipantId
+    )(actionCardId) ||
     (currentIndividualChoices &&
       currentIndividualChoices[
         makeYearParticipantKey(currentRound, selectedParticipantId)
@@ -219,77 +210,80 @@ const ActionCardsEntry = ({
       <Row>
         {roundActionCardType === 'individual' && (
           <Col sm={4} md={4}>
-            <Container>
-              <h4>{t('common.participants')}</h4>
-              <ParticipantsTable
-                round={currentRound}
-                participantsEntity={participantsEntity}
-                individualChoices={currentIndividualChoices}
-                selectedParticipantId={selectedParticipantId}
-                actionCardsEntity={actionCardsEntity}
-                handleSelect={handleParticipantSelect}
-                initBudgetPerParticipant={budgetPerParticipant}
-              />
-            </Container>
+            <h4>{t('common.participants')}</h4>
+            <ParticipantsTable
+              round={currentRound}
+              participantsEntity={participantsEntity}
+              individualChoices={currentIndividualChoices}
+              selectedParticipantId={selectedParticipantId}
+              actionCardsEntity={actionCardsEntity}
+              handleSelect={handleParticipantSelect}
+              initBudgetPerParticipant={budgetPerParticipant}
+            />
           </Col>
         )}
         {roundActionCardType === 'collective' && (
           <Col sm={3} md={3} className="align-self-center">
-            <Container>
-              <Row>
-                <h6>
-                  Actions{' '}
-                  {getNumberOfChosenCollectiveCards(
+            <Row>
+              <h6>
+                Actions{' '}
+                {getNumberOfChosenCollectiveCards(
+                  currentCollectiveChoices,
+                  currentRound
+                )}
+                &#10003;
+              </h6>
+            </Row>
+            <Row>
+              <h6>
+                {t('common.budget')}{' '}
+                {budgetCollective -
+                  getCostOfChosenCollectiveCards(
                     currentCollectiveChoices,
+                    actionCardsEntity,
                     currentRound
-                  )}
-                  &#10003;
-                </h6>
-              </Row>
-              <Row>
-                <h6>
-                  Budget{' '}
-                  {budgetCollective -
-                    getCostOfChosenCollectiveCards(
-                      currentCollectiveChoices,
-                      actionCardsEntity,
-                      currentRound
-                    )}
-                  <span className="emoji" style={{ color: 'black' }}>
-                    &#128176;
-                  </span>
-                </h6>
-              </Row>
-            </Container>
+                  )}{' '}
+                <EuroIcon width={18} className="fill-current-color" />
+              </h6>
+            </Row>
           </Col>
         )}
 
-        <Col sm={8} md={8}>
-          <Container>
-            <h4>{t('common.batches')}</h4>
-            {roundActionCardType === 'individual' && (
-              <ActionCardsForm
-                handleSubmit={handleSubmitIndividualChoices}
-                handleCardActionSelectionChange={handleChoicesChange(
-                  currentRound,
-                  selectedParticipantId
-                )}
-                handleCheckedActionCard={isIndividualActionCardChecked}
-                actionCardType={roundActionCardType}
-              />
-            )}
-            {roundActionCardType === 'collective' && (
-              <ActionCardsForm
-                handleSubmit={handleSubmitCollectiveChoices}
-                handleCardActionSelectionChange={handleChoicesChange(
-                  currentRound
-                )}
-                handleCheckedActionCard={isCollectiveActionCardChecked}
-                actionCardType={roundActionCardType}
-              />
-            )}
-          </Container>
+        <Col>
+          <h4>{t('common.batches')}</h4>
+          {roundActionCardType === 'individual' && (
+            <ActionCardsForm
+              // handleSubmit={handleSubmitIndividualChoices}
+              handleCardActionSelectionChange={handleChoicesChange(
+                currentRound,
+                selectedParticipantId
+              )}
+              handleCheckedActionCard={isIndividualActionCardChecked}
+              actionCardType={roundActionCardType}
+            />
+          )}
+          {roundActionCardType === 'collective' && (
+            <ActionCardsForm
+              // handleSubmit={handleSubmitCollectiveChoices}
+              handleCardActionSelectionChange={handleChoicesChange(
+                currentRound
+              )}
+              handleCheckedActionCard={isCollectiveActionCardChecked}
+              actionCardType={roundActionCardType}
+            />
+          )}
         </Col>
+      </Row>
+      <Row className="d-flex justify-content-end">
+        <PrimaryButton
+          onClick={
+            roundActionCardType === 'individual'
+              ? handleSubmitIndividualChoices
+              : handleSubmitCollectiveChoices
+          }
+        >
+          {t('common.validate')}
+        </PrimaryButton>
       </Row>
     </Container>
   );

@@ -99,7 +99,7 @@ export default (state = initialState, action) => {
     }
     case DELETE_WORKSHOP: {
       const { workshopId } = action.payload;
-      if (state.result.id === workshopId) {
+      if (pathOr(null, ['result', 'id'], state) === workshopId) {
         return initialState;
       }
       return state;
@@ -427,23 +427,25 @@ export default (state = initialState, action) => {
       const { actionCards } = state.entities;
       const currentSocialVariables =
         state.entities.rounds[yearFrom].socialVariables;
+      const nbParticipants = state.result.participants.length;
 
       const individualActionRecords =
-        state.entities.rounds[yearFrom].individualActionCards || [];
+        state.entities.rounds[yearFrom].individualChoices || [];
       const individualActions = individualActionRecords.map(
         (yearParticipantKey) =>
-          state.entities.individualActionCards[yearParticipantKey]
+          state.entities.individualChoices[yearParticipantKey]
       );
       const collectiveActionCardIds = pathOr(
         [],
-        ['entities', 'collectionChoices', yearFrom, 'actionCardIds'],
+        ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
       const newSocialVariables = computeSocialVariables(
         currentSocialVariables,
         individualActions,
         collectiveActionCardIds,
-        actionCards
+        actionCards,
+        nbParticipants
       );
       const newBudget = computeBudget(newSocialVariables.influenceScore);
       return {
@@ -768,7 +770,10 @@ export default (state = initialState, action) => {
       const oldParticipants = pathOr([], ['entities', 'participants'], state);
       const participants = {
         ...oldParticipants,
-        [participant.id]: participant,
+        [participant.id]: {
+          ...participant,
+          status: 'created',
+        },
       };
       return {
         ...state,

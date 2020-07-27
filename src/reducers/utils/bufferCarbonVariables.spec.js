@@ -3,86 +3,43 @@ import Ajv from 'ajv';
 import computeCarbonVariables, {
   computeFoodCarbonVariables,
   computeTransportCarbonVariables,
-  getEiForHeatingNetwork,
+  getEiForHeatNetwork,
 } from './bufferCarbonVariables';
 
 import surveyVariablesSchema from './surveyVariablesSchema';
 
-describe('test getEiForHeatingNetwork', () => {
-  test('getEiForHeatingNetwork returns correct result with existing parameter', () => {
-    // Given
-    const networkData = [
-      {
-        department: '1',
-        emission_intensity: '0.1',
-        location: 'city_a',
-        name: 'name_a',
-        type: 'hot',
-      },
-      {
-        department: '2',
-        emission_intensity: '0.2',
-        location: 'city_b',
-        name: 'name_b',
-        type: 'hot',
-      },
-    ];
-
-    const expectedRes = 0.1;
-
-    const res = getEiForHeatingNetwork(networkData, 'name_a');
-
-    expect(res).toStrictEqual(expectedRes);
+describe('test getEiForHeatNetwork', () => {
+  const networkData = [
+    {
+      department: '1',
+      emission_intensity: '0.1',
+      location: 'city_a',
+      name: 'name_a',
+      type: 'hot',
+    },
+    {
+      department: '2',
+      emission_intensity: '0.2',
+      location: 'city_b',
+      name: 'name_b',
+      type: 'hot',
+    },
+  ];
+  it('should return correct result with existing parameter', () => {
+    const res = getEiForHeatNetwork(networkData, 'name_a');
+    expect(res).toBe(0.1);
   });
-  test('getEiForHeatingNetwork returns 0 with non existing parameter', () => {
-    // Given
-    const networkData = [
-      {
-        department: '1',
-        emission_intensity: '0.1',
-        location: 'city_a',
-        name: 'name_a',
-        type: 'hot',
-      },
-      {
-        department: '2',
-        emission_intensity: '0.2',
-        location: 'city_b',
-        name: 'name_b',
-        type: 'hot',
-      },
-    ];
-
-    const expectedRes = 0;
-
-    const res = getEiForHeatingNetwork(networkData, 'name_that_does_not_exist');
-
-    expect(res).toStrictEqual(expectedRes);
+  it('should return 0 with non existing parameter', () => {
+    const res = getEiForHeatNetwork(networkData, 'name_that_does_not_exist');
+    expect(res).toBe(0);
   });
-  test('getEiForHeatingNetwork returns 0 with null value', () => {
-    // Given
-    const networkData = [
-      {
-        department: '1',
-        emission_intensity: '0.1',
-        location: 'city_a',
-        name: 'name_a',
-        type: 'hot',
-      },
-      {
-        department: '2',
-        emission_intensity: '0.2',
-        location: 'city_b',
-        name: 'name_b',
-        type: 'hot',
-      },
-    ];
-
-    const expectedRes = 0;
-
-    const res = getEiForHeatingNetwork(networkData, null);
-
-    expect(res).toStrictEqual(expectedRes);
+  it('should return 0 with null value', () => {
+    const res = getEiForHeatNetwork(networkData, null);
+    expect(res).toBe(0);
+  });
+  it('should return 0 with undefined value', () => {
+    const res = getEiForHeatNetwork(networkData, undefined);
+    expect(res).toBe(0);
   });
 });
 
@@ -214,7 +171,7 @@ describe('test computeCarbonVariables', () => {
       sanitoryHotWaterEnergyType: 'GAS',
       cookingAppliancesEnergyType: 'ELECTRICITY',
       electricityProvider: 'ALTERNATIVE',
-      heatingNetworkName: null,
+      heatNetworkName: null,
       energyConsumptionKnowledge: true,
       elecKwh: 5000,
       gasKwh: 2800,
@@ -228,7 +185,7 @@ describe('test computeCarbonVariables', () => {
       clothesNewItems: 10,
       activitiesPerMonth: 2,
     };
-    const heatingNetworkData = [
+    const heatNetworkData = [
       {
         department: '1',
         emission_intensity: '0.1',
@@ -256,7 +213,7 @@ describe('test computeCarbonVariables', () => {
       coefficientEnergyEfficientDriving: 1,
       dairiesKgPerYear: 80.3,
       eggsKgPerYear: 80.3,
-      eiHeatingNetwork: 0,
+      eiHeatNetwork: 0,
       elecCookingKwh: 277.11999999999995,
       elecHeatingKwh: 0,
       elecLightningKwh: 4722.88,
@@ -286,8 +243,8 @@ describe('test computeCarbonVariables', () => {
       kmUrbanTrainPerYear: 15600,
       motorTypeCarCommute: 'HYBRID',
       motorTypeCarTravel: 'HYBRID',
-      networkHeatingHeatingKwh: 0,
-      networkHeatingWaterHeatingKwh: 0,
+      heatNetworkHeatingKwh: 0,
+      heatNetworkWaterHeatingKwh: 0,
       numberBigAppliances: 2,
       numberBigDevices: 2,
       numberSmallAppliances: 2,
@@ -306,7 +263,7 @@ describe('test computeCarbonVariables', () => {
     const actualCarbonVariables = computeCarbonVariables(
       surveyVariables,
       globalVariables,
-      heatingNetworkData
+      heatNetworkData
     );
     expect(actualCarbonVariables).toStrictEqual(expectedCarbonVariables);
   });
@@ -748,8 +705,8 @@ describe('test computeCarbonVariables', () => {
         fuelHeatingKwh: 0,
         fuelCookingKwh: 0,
         fuelWaterHeatingKwh: 0,
-        networkHeatingHeatingKwh: 0,
-        networkHeatingWaterHeatingKwh: 0,
+        heatNetworkHeatingKwh: 0,
+        heatNetworkWaterHeatingKwh: 0,
       });
     });
     it('should split elec invoice into average ratios in case the consumption is lower than average', () => {
@@ -818,18 +775,18 @@ describe('test computeCarbonVariables', () => {
         elecWaterHeatingKwh: 0,
       });
     });
-    it('should also works with HEATING_NETWORK', () => {
+    it('should also works with HEAT_NETWORK', () => {
       const surveyVariables = {
         energyConsumptionKnowledge: true,
         elecKwh: 100,
-        heatingNetworkKwh: 200,
+        heatNetworkKwh: 200,
         housingSurfaceArea: 100,
         housingType: 'HOUSE',
         maintainanceDate: 'BEFORE_1975',
         residentsPerHousing: 1,
-        heatingSystemEnergyType: 'HEATING_NETWORK',
+        heatingSystemEnergyType: 'HEAT_NETWORK',
         cookingAppliancesEnergyType: 'GAS',
-        sanitoryHotWaterEnergyType: 'HEATING_NETWORK',
+        sanitoryHotWaterEnergyType: 'HEAT_NETWORK',
       };
       const newGlobalVariables = {
         ...globalVariables,
@@ -852,8 +809,8 @@ describe('test computeCarbonVariables', () => {
         elecCookingKwh: 0,
         elecLightningKwh: 100,
         elecWaterHeatingKwh: 0,
-        networkHeatingHeatingKwh: 170,
-        networkHeatingWaterHeatingKwh: 30,
+        heatNetworkHeatingKwh: 170,
+        heatNetworkWaterHeatingKwh: 30,
       });
     });
   });

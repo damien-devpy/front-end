@@ -2,9 +2,9 @@ import Ajv from 'ajv';
 
 import surveyVariablesSchema from './surveyVariablesSchema';
 
-const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
-  const matches = heatingNetworkData
-    ? heatingNetworkData.filter((row) => row.name === heatingNetworkName)
+const getEiForHeatNetwork = (heatNetworkData, heatNetworkName) => {
+  const matches = heatNetworkData
+    ? heatNetworkData.filter((row) => row.name === heatNetworkName)
     : [];
   return matches && matches.length > 0
     ? parseFloat(matches[0].emission_intensity)
@@ -256,10 +256,6 @@ const splitConsumptions = (
         ? populationAverageConsoKwhAdjusted.electricalAppliances
         : 0,
   };
-  console.log(energyType);
-  console.log(energyTypes);
-  console.log(populationAverageConsoKwhAdjusted);
-  console.log(kwhEstimationsForEnergyType);
 
   if (energyConsumptionKnowledge) {
     // If the participants filled in his energy invoices,
@@ -301,7 +297,7 @@ const splitConsumptions = (
 const computeEnergyCarbonVariables = (
   surveyVariables,
   globalVariables,
-  heatingNetworkData
+  heatNetworkData
 ) => {
   const {
     energyConsumptionKnowledge,
@@ -313,7 +309,7 @@ const computeEnergyCarbonVariables = (
     fuelKwh,
     gasKwh,
     woodKwh,
-    heatingNetworkKwh,
+    heatNetworkKwh,
 
     housingType,
     housingSurfaceArea,
@@ -346,8 +342,8 @@ const computeEnergyCarbonVariables = (
     FUEL_OIL: fuelKwh,
     GAS: gasKwh,
     WOOD: woodKwh,
-    HEATING_NETWORK: heatingNetworkKwh,
-    // TODO Add HEATING_NETWORK in variables
+    HEAT_NETWORK: heatNetworkKwh,
+    // TODO Add HEAT_NETWORK in variables
   };
 
   const populationAverageConsoKwhAdjusted = {
@@ -421,19 +417,19 @@ const computeEnergyCarbonVariables = (
   );
 
   const {
-    heating: networkHeatingHeatingKwh,
-    hotWater: networkHeatingWaterHeatingKwh,
+    heating: heatNetworkHeatingKwh,
+    hotWater: heatNetworkWaterHeatingKwh,
   } = splitConsumptions(
     energyConsumptionKnowledge,
     energyTypes,
     populationAverageConsoKwhAdjusted,
     energySurvey,
-    'HEATING_NETWORK'
+    'HEAT_NETWORK'
   );
 
-  const eiHeatingNetwork = getEiForHeatingNetwork(
-    heatingNetworkData,
-    surveyVariables.heatingNetworkName
+  const eiHeatNetwork = getEiForHeatNetwork(
+    heatNetworkData,
+    surveyVariables.heatNetworkName
   );
 
   return {
@@ -450,10 +446,9 @@ const computeEnergyCarbonVariables = (
     elecCookingKwh,
     elecLightningKwh,
     elecWaterHeatingKwh,
-    networkHeatingHeatingKwh,
-    networkHeatingWaterHeatingKwh,
-    // TODO Change model to adapt to these changes
-    eiHeatingNetwork,
+    heatNetworkHeatingKwh,
+    heatNetworkWaterHeatingKwh,
+    eiHeatNetwork,
 
     residentsPerHousing,
     houseSurfaceArea,
@@ -492,7 +487,7 @@ const computeOtherCarbonVariables = (surveyVariables, globalVariables) => {
 };
 
 const validateAndSetDefaultsSurveyVariables = (surveyVariables) => {
-  const ajv = new Ajv({ useDefaults: true, verbose: true });
+  const ajv = new Ajv({ useDefaults: true, verbose: true, coerceTypes: true });
   const isValid = ajv.validate(surveyVariablesSchema, surveyVariables);
   if (!isValid) {
     console.warn(
@@ -507,7 +502,7 @@ const validateAndSetDefaultsSurveyVariables = (surveyVariables) => {
 const computeCarbonVariables = (
   surveyVariables,
   globalVariables,
-  heatingNetworkData
+  heatNetworkData
 ) => {
   const validatedSurveyVariables = validateAndSetDefaultsSurveyVariables(
     surveyVariables
@@ -523,7 +518,7 @@ const computeCarbonVariables = (
   const energyCarbonVariables = computeEnergyCarbonVariables(
     validatedSurveyVariables,
     globalVariables,
-    heatingNetworkData
+    heatNetworkData
   );
   const otherCarbonVariables = computeOtherCarbonVariables(
     validatedSurveyVariables,
@@ -538,7 +533,7 @@ const computeCarbonVariables = (
 };
 export default computeCarbonVariables;
 export {
-  getEiForHeatingNetwork,
+  getEiForHeatNetwork,
   computeTransportCarbonVariables,
   computeFoodCarbonVariables,
   computeEnergyCarbonVariables,

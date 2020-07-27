@@ -203,9 +203,7 @@ export default {
     housingEquipment: 'Equipement',
   },
   publicServices: {
-    elecPublicServices: 'Réseau élec',
-    gasPublicServices: 'Réseau gaz',
-    otherPublicServices: 'Autres',
+    publicServices: 'Services Publics',
   },
   others: {
     clothing: 'Textile',

@@ -272,9 +272,9 @@ const ManageParticipants = ({
           handleClose={() => {
             setShowBC(false);
           }}
-          title={`${t('manageParticipants.titleBCmodal')} ${
-            participants[footprintToShow.id].firstName
-          }`}
+          title={t('manageParticipants.titleBCmodal', {
+            name: participants[footprintToShow.id].firstName,
+          })}
         >
           <h5>
             {t('manageParticipants.totalBC')} {footprintToShow.total}{' '}

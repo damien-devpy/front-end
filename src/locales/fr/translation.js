@@ -159,7 +159,7 @@ export default {
   },
   manageParticipants: {
     title: "Liste des participants de l'atelier",
-    titleBCmodal: 'Empreinte carbone de',
+    titleBCmodal: 'Empreinte carbone de {{name}}',
     titleAddNewModal: 'Ajouter un nouveau participant',
     addNew: 'Ajouter Participant',
     copied: 'Copié!',

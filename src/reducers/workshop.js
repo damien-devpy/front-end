@@ -105,7 +105,7 @@ export default (state = initialState, action) => {
       return state;
     }
     case INIT_WORKSHOP: {
-      const { year, heatingNetworksData } = action.payload;
+      const { year, heatNetworksData } = action.payload;
       const participantIds = state.result.participants;
       const citizenIds = state.result.model.citizens;
 
@@ -147,7 +147,7 @@ export default (state = initialState, action) => {
                   variables: computeCarbonVariables(
                     state.entities.participants[participantId].surveyVariables,
                     state.result.model.globalCarbonVariables,
-                    heatingNetworksData
+                    heatNetworksData
                   ),
                 },
               }),
@@ -164,7 +164,7 @@ export default (state = initialState, action) => {
                   variables: computeCarbonVariables(
                     state.entities.citizens[citizenId].surveyVariables,
                     state.result.model.globalCarbonVariables,
-                    heatingNetworksData
+                    heatNetworksData
                   ),
                 },
               }),
@@ -553,7 +553,7 @@ export default (state = initialState, action) => {
       };
     }
     case COMPUTE_CARBON_VARIABLES: {
-      const { heatingNetworksData } = action.payload;
+      const { heatNetworksData } = action.payload;
       const { globalCarbonVariables } = state.result.model;
       const newParticipants = {};
       state.result.participants.forEach((participantId) => {
@@ -563,7 +563,7 @@ export default (state = initialState, action) => {
           carbonVariables: computeCarbonVariables(
             participant.surveyVariables,
             globalCarbonVariables,
-            heatingNetworksData
+            heatNetworksData
           ),
         };
       });

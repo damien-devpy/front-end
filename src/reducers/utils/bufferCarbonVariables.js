@@ -1,28 +1,20 @@
-const getEiForHeatingNetwork = (heatingNetworkData, heatingNetworkName) => {
-  const matches = heatingNetworkData.filter(
-    (row) => row.name === heatingNetworkName
-  );
+import Ajv from 'ajv';
+
+import surveyVariablesSchema from './surveyVariablesSchema';
+
+const getEiForHeatNetwork = (heatNetworkData, heatNetworkName) => {
+  const matches = heatNetworkData
+    ? heatNetworkData.filter((row) => row.name === heatNetworkName)
+    : [];
   return matches && matches.length > 0
     ? parseFloat(matches[0].emission_intensity)
     : 0;
 };
 
-const computeCarbonVariables = (
-  surveyVariables,
-  globalVariables,
-  heatingNetworkData
-) => {
-  const {
-    WEEKS_PER_YEAR,
-    DAYS_PER_YEAR,
-    DAYS_PER_WEEK,
-    MONTHS_PER_YEAR,
-  } = globalVariables;
+const computeFoodCarbonVariables = (surveyVariables, globalVariables) => {
+  const { DAYS_PER_WEEK, DAYS_PER_YEAR, WEEKS_PER_YEAR } = globalVariables;
 
-  // ==============================================================
-  // ============================ Food ============================
-  // ==============================================================
-  // Meat and Fish ============================
+  // Meat and Fish
   const { meatAndFishConsoPerDay } = surveyVariables;
   const {
     MEAT_AND_FISH_KG_PER_CONSO,
@@ -30,14 +22,13 @@ const computeCarbonVariables = (
     PART_OF_WHITE_MEAT,
     PART_OF_FISH,
   } = globalVariables;
-
   const meatAndFishKgPerYear =
     meatAndFishConsoPerDay * MEAT_AND_FISH_KG_PER_CONSO * DAYS_PER_YEAR; // conversion
   const redMeatKgPerYear = meatAndFishKgPerYear * PART_OF_RED_MEAT; // repartition
   const whiteMeatKgPerYear = meatAndFishKgPerYear * PART_OF_WHITE_MEAT;
   const fishKgPerYear = meatAndFishKgPerYear * PART_OF_FISH;
 
-  // Eggs and diaries ============================
+  // Eggs and diaries
   const { eggsAndDairiesConsoPerDay } = surveyVariables;
   const {
     EGGS_AND_DAIRIES_KG_PER_CONSO,
@@ -50,7 +41,7 @@ const computeCarbonVariables = (
   const eggsKgPerYear = eggsAndDairiesKgPerYear * PART_OF_EGGS; // repartition
   const dairiesKgPerYear = eggsAndDairiesKgPerYear * PART_OF_DAIRIES;
 
-  // Tranformed Products ============================
+  // Tranformed Products
   const { transformedProductsConsoPerWeek } = surveyVariables;
   const { TRANSFORMED_PRODUCTS_KG_PER_CONSO } = globalVariables;
 
@@ -62,8 +53,7 @@ const computeCarbonVariables = (
     (TRANSFORMED_PRODUCTS_KG_PER_CONSO * transformedProductsConsoPerWeek) /
     DAYS_PER_WEEK;
 
-  // Local fruits and vegetables ============================
-
+  // Local fruits and vegetables
   const {
     FRUITS_AND_VEGETABLES_AVG_CONSO_KG_PER_DAY,
     FRUITS_AND_VEGETABLES_MIN_CONSO_KG_PER_DAY,
@@ -76,7 +66,6 @@ const computeCarbonVariables = (
     FRUITS_AND_VEGETABLES_FROM_EGGS_AND_DAIRIES_SUBSTITION_PERCENTAGE,
     FRUITS_AND_VEGETABLES_FROM_TRANSFORMED_PRODUCTS_SUBSTITION_PERCENTAGE,
   } = globalVariables;
-  // déjà chargés : MEAT_AND_FISH_KG_PER_CONSO, EGGS_AND_DAIRIES_KG_PER_CONSO
 
   // conversion to kg & day
   const meatAndFishKgPerDay =
@@ -101,7 +90,7 @@ const computeCarbonVariables = (
       fruitsAndVegetablesKgPerDay
     );
 
-  // Starches and groceries ============================
+  // Starches and groceries
   const {
     STARCHES_AND_GROCERIES_AVG_CONSO_KG_PER_DAY,
     STARCHES_AND_GROCERIES_FROM_MEAT_AND_FISH_SUBSTITION_PERCENTAGE,
@@ -146,261 +135,9 @@ const computeCarbonVariables = (
     JUICES_AND_SODAS_LITER_PER_GLASS *
     DAYS_PER_YEAR;
 
-  // ==============================================================
-  // ============================ Transport =======================
-  // ==============================================================
+  const { fruitsAndVegetablePercentageLocal } = surveyVariables;
 
-  // Car commute
-  const { kmCarCommutePerDay } = surveyVariables;
-  const kmCarCommutePerYear = kmCarCommutePerDay * DAYS_PER_YEAR;
-  const coefficientEnergyEfficientDriving = 1;
-  const passengersPerCarCommute = Math.max(
-    surveyVariables.passengersPerCarCommute,
-    1
-  );
-
-  // Urban bus
-  const { hoursUrbanBusPerWeek } = surveyVariables;
-  const { MEAN_SPEED_URBAN_BUS } = globalVariables;
-  const kmUrbanBusPerYear =
-    hoursUrbanBusPerWeek * WEEKS_PER_YEAR * MEAN_SPEED_URBAN_BUS;
-
-  // Coach commute
-  const { hoursCoachCommutePerWeek } = surveyVariables;
-  const { MEAN_SPEED_COACH } = globalVariables;
-  const kmCoachCommutePerYear = hoursCoachCommutePerWeek * MEAN_SPEED_COACH;
-
-  // Urban_train
-  const { hoursUrbanTrainPerWeek } = surveyVariables;
-  const { MEAN_SPEED_URBAN_TRAIN } = globalVariables;
-  const kmUrbanTrainPerYear =
-    hoursUrbanTrainPerWeek * MEAN_SPEED_URBAN_TRAIN * WEEKS_PER_YEAR;
-
-  // Car Travel
-  const passengersPerCarTravel = Math.max(
-    surveyVariables.passengersPerCarTravel,
-    1
-  );
-  // ==============================================================
-  // ============================ INTERNET ========================
-  // ==============================================================
-  const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
-  const internetStreamingHoursPerYear =
-    WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
-
-  const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
-  // ==============================================================
-  // ============================ ENERGY ==========================
-  // ==============================================================
-  // Energy
-  const {
-    energyConsumptionKnowledge,
-    heatingSystemEnergyType,
-    cookingAppliancesEnergyType,
-    sanitoryHotWaterEnergyType,
-
-    elecKwh,
-    fuelKwh,
-    gasKwh,
-    woodKwh,
-
-    housingType,
-    housingSurfaceArea,
-    maintainanceDate,
-  } = surveyVariables;
-  const residentsPerHousing = Math.max(surveyVariables.residentsPerHousing, 1);
-  const {
-    SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR,
-    SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON,
-    COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR,
-    COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON,
-    LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR,
-    LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON,
-    EI_HOUSING_PER_SURFACE_AREA,
-  } = globalVariables;
-
-  const houseSurfaceArea = housingType === 'HOUSE' ? housingSurfaceArea : 0;
-  const flatSurfaceArea = housingType === 'FLAT' ? housingSurfaceArea : 0;
-
-  // dictionnary energy type conso
-  const energySurvey = {
-    ELECTRICITY: elecKwh,
-    FUEL_OIL: fuelKwh,
-    GAS: gasKwh,
-    WOOD: woodKwh,
-  };
-
-  // Average conso
-  // BO12 : V_KwhMoyEcs
-  const KwhMoyEcs =
-    SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR *
-    residentsPerHousing *
-    (1 - SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON);
-  // BN12 : V_KwhMoyCh
-  const KwhMoyCh =
-    EI_HOUSING_PER_SURFACE_AREA[housingType][maintainanceDate] *
-    housingSurfaceArea;
-  // BP12 = V_KwhMoyCu
-  const KwhMoyCui =
-    COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR *
-    residentsPerHousing *
-    (1 - COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON);
-  // BQ12 = V_KwhMoyEcEm
-  const KwhMoyEcEm =
-    LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR *
-    residentsPerHousing *
-    (1 - LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON);
-
-  // const energyConso = 0
-  // KwhMoyEcs
-  const partitionEcs =
-    (heatingSystemEnergyType === sanitoryHotWaterEnergyType ? KwhMoyCh : 0) +
-    (cookingAppliancesEnergyType === sanitoryHotWaterEnergyType
-      ? KwhMoyCui
-      : 0) +
-    (sanitoryHotWaterEnergyType === 'ELECTRICITY' ? KwhMoyEcs : 0);
-
-  let energyConso = energySurvey[sanitoryHotWaterEnergyType];
-
-  let KwhEcs = 0;
-  if (energyConsumptionKnowledge === true) {
-    if (energyConso - partitionEcs - KwhMoyEcs > 0) {
-      if (
-        heatingSystemEnergyType === sanitoryHotWaterEnergyType ||
-        sanitoryHotWaterEnergyType === 'ELECTRICITY'
-      ) {
-        KwhEcs = KwhMoyEcs;
-      } else {
-        KwhEcs =
-          energyConso -
-          (cookingAppliancesEnergyType === sanitoryHotWaterEnergyType
-            ? KwhMoyCui
-            : 0);
-      }
-    } else {
-      KwhEcs = (KwhMoyEcs / (partitionEcs + KwhMoyEcs)) * energyConso;
-    }
-  } else {
-    KwhEcs = KwhMoyEcs;
-  }
-  const woodWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'WOOD') * KwhEcs;
-  const gasWaterHeatingKwh = (sanitoryHotWaterEnergyType === 'GAS') * KwhEcs;
-  const fuelWaterHeatingKwh =
-    (sanitoryHotWaterEnergyType === 'FUEL_OIL') * KwhEcs;
-  const elecWaterHeatingKwh =
-    (sanitoryHotWaterEnergyType === 'ELECTRICITY') * KwhEcs;
-
-  // KwhCh
-  const partitionCh =
-    (sanitoryHotWaterEnergyType === heatingSystemEnergyType ? KwhMoyEcs : 0) +
-    (cookingAppliancesEnergyType === heatingSystemEnergyType ? KwhMoyCui : 0) +
-    (heatingSystemEnergyType === 'ELECTRICITY' ? KwhMoyCh : 0);
-
-  energyConso = energySurvey[heatingSystemEnergyType];
-
-  let KwhCh = 0;
-
-  if (energyConsumptionKnowledge) {
-    if (energyConso - partitionCh - KwhMoyCh > 0) {
-      KwhCh = energyConso;
-    } else {
-      KwhCh = (KwhMoyCh / (partitionCh + KwhMoyCh)) * energyConso;
-    }
-  } else {
-    KwhCh = KwhMoyCh;
-  }
-  const woodHeatingKwh = (heatingSystemEnergyType === 'WOOD') * KwhCh;
-  const gasHeatingKwh = (heatingSystemEnergyType === 'GAS') * KwhCh;
-  const fuelHeatingKwh = (heatingSystemEnergyType === 'FUEL') * KwhCh;
-  const elecHeatingKwh = (heatingSystemEnergyType === 'ELECTRICITY') * KwhCh;
-  const networkHeatingKwh =
-    (heatingSystemEnergyType === 'HEATING_NETWORK') * KwhCh;
-
-  const eiHeatingNetwork = getEiForHeatingNetwork(
-    heatingNetworkData,
-    surveyVariables.heatingNetworkName
-  );
-  // KwhCui
-  const partitionCui =
-    (heatingSystemEnergyType === cookingAppliancesEnergyType ? KwhMoyCh : 0) +
-    (sanitoryHotWaterEnergyType === cookingAppliancesEnergyType
-      ? KwhMoyEcs
-      : 0) +
-    (cookingAppliancesEnergyType === 'ELECTRICITY' ? KwhMoyEcEm : 0);
-
-  energyConso = energySurvey[cookingAppliancesEnergyType];
-
-  let KwhCui = 0;
-
-  if (energyConsumptionKnowledge) {
-    if (energyConso - partitionCui - KwhMoyCui > 0) {
-      KwhCui = energyConso;
-    } else {
-      KwhCui = (KwhMoyCui / (partitionCui + KwhMoyCui)) * energyConso;
-    }
-  } else {
-    KwhCui = KwhMoyCui;
-  }
-  const woodCookingKwh = (cookingAppliancesEnergyType === 'WOOD') * KwhCui;
-  const gasCookingKwh = (cookingAppliancesEnergyType === 'GAS') * KwhCui;
-  const fuelCookingKwh = (cookingAppliancesEnergyType === 'FUEL') * KwhCui;
-  const elecCookingKwh =
-    (cookingAppliancesEnergyType === 'ELECTRICITY') * KwhCui;
-
-  // KwhElec
-  const partitionEcEm =
-    (heatingSystemEnergyType === 'ELECTRICITY' ? KwhMoyCh : 0) +
-    (sanitoryHotWaterEnergyType === 'ELECTRICITY' ? KwhMoyEcs : 0) +
-    (cookingAppliancesEnergyType === 'ELECTRICITY' ? KwhMoyCui : 0);
-
-  energyConso = energySurvey.ELECTRICITY;
-
-  let KwhElec = 0;
-
-  if (energyConsumptionKnowledge) {
-    if (energyConso - partitionEcEm - KwhMoyEcEm > 0) {
-      if (heatingSystemEnergyType === 'ELECTRICITY') {
-        KwhElec = KwhMoyEcEm;
-      } else {
-        KwhElec = energyConso - partitionEcEm;
-      }
-    } else {
-      KwhElec = (KwhMoyEcEm / (partitionEcEm + KwhMoyEcEm)) * energyConso;
-    }
-  } else {
-    KwhElec = KwhMoyEcEm;
-  }
-  const elecLightningKwh = KwhElec;
-
-  // variables not treated in buffer
-  const {
-    fruitsAndVegetablePercentageLocal,
-    //
-    categoryCarCommute,
-    motorTypeCarCommute,
-    ageCategoryCarCommute,
-    //
-    categoryCarTravel,
-    motorTypeCarTravel,
-    ageCategoryCarTravel,
-    //
-    kmCarTravelPerYear,
-    //
-    kmCoachTravel,
-    kmCountryTrain,
-    kmPlane,
-    //
-    numberBigAppliances,
-    numberSmallAppliances,
-    //
-    electricityProvider,
-    numberSmallDevices,
-    numberBigDevices,
-    clothesNewItems,
-  } = surveyVariables;
-
-  const carbonVariables = {
-    // Food & Drinks
+  return {
     redMeatKgPerYear,
     whiteMeatKgPerYear,
     fishKgPerYear,
@@ -416,18 +153,286 @@ const computeCarbonVariables = (
     hotDrinksConsoLitersPerYear,
     juicesAndSodasConsoLitersPerYear,
 
-    // Transport
+    fruitsAndVegetablePercentageLocal,
+  };
+};
+
+const computeTransportCarbonVariables = (surveyVariables, globalVariables) => {
+  const { DAYS_PER_YEAR, WEEKS_PER_YEAR } = globalVariables;
+
+  // Car commute
+  const { kmCarCommutePerDay } = surveyVariables;
+  const kmCarCommutePerYear = kmCarCommutePerDay * DAYS_PER_YEAR;
+  const coefficientEnergyEfficientDriving = 1;
+  const passengersPerCarCommute = Math.max(
+    surveyVariables.passengersPerCarCommute,
+    1
+  );
+
+  // Urban bus
+  const { hoursUrbanBusPerWeek } = surveyVariables;
+  const { MEAN_SPEED_URBAN_BUS } = globalVariables;
+  const kmUrbanBusPerYear =
+    hoursUrbanBusPerWeek * MEAN_SPEED_URBAN_BUS * WEEKS_PER_YEAR;
+
+  // Coach commute
+  const { hoursCoachCommutePerWeek } = surveyVariables;
+  const { MEAN_SPEED_COACH } = globalVariables;
+  const kmCoachCommutePerYear =
+    hoursCoachCommutePerWeek * MEAN_SPEED_COACH * WEEKS_PER_YEAR;
+
+  // Urban_train
+  const { hoursUrbanTrainPerWeek } = surveyVariables;
+  const { MEAN_SPEED_URBAN_TRAIN } = globalVariables;
+  const kmUrbanTrainPerYear =
+    hoursUrbanTrainPerWeek * MEAN_SPEED_URBAN_TRAIN * WEEKS_PER_YEAR;
+
+  // Car Travel
+  const passengersPerCarTravel = Math.max(
+    surveyVariables.passengersPerCarTravel,
+    1
+  );
+
+  const {
+    categoryCarCommute,
+    motorTypeCarCommute,
+    ageCategoryCarCommute,
+    //
+    categoryCarTravel,
+    motorTypeCarTravel,
+    ageCategoryCarTravel,
+    //
+    kmCarTravelPerYear,
+    //
+    kmCoachTravel,
+    kmCountryTrain,
+    kmPlane,
+  } = surveyVariables;
+
+  return {
     kmCarCommutePerYear,
     kmUrbanBusPerYear,
     kmCoachCommutePerYear,
     kmUrbanTrainPerYear,
     coefficientEnergyEfficientDriving,
+    categoryCarCommute,
+    motorTypeCarCommute,
+    ageCategoryCarCommute,
+    passengersPerCarCommute,
+    categoryCarTravel,
+    motorTypeCarTravel,
+    ageCategoryCarTravel,
+    kmCarTravelPerYear,
+    passengersPerCarTravel,
+    kmCoachTravel,
+    kmCountryTrain,
+    kmPlane,
+  };
+};
 
-    // other
-    internetStreamingHoursPerYear,
-    activitiesPerYear,
+const splitConsumptions = (
+  energyConsumptionKnowledge,
+  energyTypes,
+  populationAverageConsoKwhAdjusted,
+  invoicesForEnergyTypes,
+  energyType
+) => {
+  // First estimation based on national average
+  const kwhEstimationsForEnergyType = {
+    hotWater:
+      energyTypes.hotWater === energyType
+        ? populationAverageConsoKwhAdjusted.hotWater
+        : 0,
+    cooking:
+      energyTypes.cooking === energyType
+        ? populationAverageConsoKwhAdjusted.cooking
+        : 0,
+    heating:
+      energyTypes.heating === energyType
+        ? populationAverageConsoKwhAdjusted.heating
+        : 0,
+    electricalAppliances:
+      energyTypes.electricalAppliances === energyType
+        ? populationAverageConsoKwhAdjusted.electricalAppliances
+        : 0,
+  };
 
-    // energy
+  if (energyConsumptionKnowledge) {
+    // If the participants filled in his energy invoices,
+    // check if they use more energy than the average, for the type of enery
+    const kwhEstimationsTotalForEnergyType =
+      kwhEstimationsForEnergyType.heating +
+      kwhEstimationsForEnergyType.hotWater +
+      kwhEstimationsForEnergyType.cooking +
+      kwhEstimationsForEnergyType.electricalAppliances;
+
+    const ratio =
+      invoicesForEnergyTypes[energyType] / kwhEstimationsTotalForEnergyType;
+    if (ratio < 1) {
+      // If they use less energy than average, just compute a ratio
+      kwhEstimationsForEnergyType.heating *= ratio;
+      kwhEstimationsForEnergyType.hotWater *= ratio;
+      kwhEstimationsForEnergyType.cooking *= ratio;
+      kwhEstimationsForEnergyType.electricalAppliances *= ratio;
+    } else {
+      // If the use more energy than average, transfer the surplus on the
+      // usageCategory with the highest variance.
+      // i.e. in that order: heating, waterHeating, cooking
+      const surplus =
+        invoicesForEnergyTypes[energyType] - kwhEstimationsTotalForEnergyType;
+      if (energyTypes.heating === energyType) {
+        kwhEstimationsForEnergyType.heating += surplus;
+      } else if (energyTypes.hotWater === energyType) {
+        kwhEstimationsForEnergyType.hotWater += surplus;
+      } else if (energyTypes.electricalAppliances === energyType) {
+        kwhEstimationsForEnergyType.electricalAppliances += surplus;
+      } else {
+        kwhEstimationsForEnergyType.cooking += surplus;
+      }
+    }
+  }
+  return kwhEstimationsForEnergyType;
+};
+
+const computeEnergyCarbonVariables = (
+  surveyVariables,
+  globalVariables,
+  heatNetworkData
+) => {
+  const {
+    energyConsumptionKnowledge,
+    heatingSystemEnergyType,
+    cookingAppliancesEnergyType,
+    sanitoryHotWaterEnergyType,
+
+    elecKwh,
+    fuelKwh,
+    gasKwh,
+    woodKwh,
+    heatNetworkKwh,
+
+    housingType,
+    housingSurfaceArea,
+    maintainanceDate,
+  } = surveyVariables;
+
+  const residentsPerHousing = Math.max(surveyVariables.residentsPerHousing, 1);
+  const {
+    SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR,
+    SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON,
+    COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR,
+    COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON,
+    LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR,
+    LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON,
+    EI_HOUSING_PER_SURFACE_AREA,
+  } = globalVariables;
+
+  const houseSurfaceArea = housingType === 'HOUSE' ? housingSurfaceArea : 0;
+  const flatSurfaceArea = housingType === 'FLAT' ? housingSurfaceArea : 0;
+
+  const energyTypes = {
+    heating: heatingSystemEnergyType,
+    cooking: cookingAppliancesEnergyType,
+    hotWater: sanitoryHotWaterEnergyType,
+    electricalAppliances: 'ELECTRICITY',
+  };
+  // dictionnary energy type conso
+  const energySurvey = {
+    ELECTRICITY: elecKwh,
+    FUEL_OIL: fuelKwh,
+    GAS: gasKwh,
+    WOOD: woodKwh,
+    HEAT_NETWORK: heatNetworkKwh,
+    // TODO Add HEAT_NETWORK in variables
+  };
+
+  const populationAverageConsoKwhAdjusted = {
+    hotWater:
+      SANITARY_HOT_WATER_CONSO_KWH_PER_PERSON_PER_YEAR *
+      residentsPerHousing *
+      (1 -
+        residentsPerHousing *
+          SANITARY_HOT_WATER_REDUCTION_PERCENTAGE_PER_PERSON),
+    heating:
+      EI_HOUSING_PER_SURFACE_AREA[housingType][maintainanceDate] *
+      housingSurfaceArea,
+    cooking:
+      COOKING_APPLIANCES_KWH_PER_PERSON_PER_YEAR *
+      residentsPerHousing *
+      (1 -
+        residentsPerHousing *
+          COOKING_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON),
+    electricalAppliances:
+      LIGHTING_AND_ELECTRICAL_APPLIANCES_CONSO_KWH_PER_PERSON_PER_YEAR *
+      residentsPerHousing *
+      (1 -
+        residentsPerHousing *
+          LIGHTING_AND_ELECTRICAL_APPLIANCES_REDUCTION_PERCENTAGE_PER_PERSON),
+  };
+
+  const {
+    heating: elecHeatingKwh,
+    hotWater: elecWaterHeatingKwh,
+    cooking: elecCookingKwh,
+    electricalAppliances: elecLightningKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'ELECTRICITY'
+  );
+  const {
+    heating: gasHeatingKwh,
+    hotWater: gasWaterHeatingKwh,
+    cooking: gasCookingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'GAS'
+  );
+  const {
+    heating: woodHeatingKwh,
+    hotWater: woodWaterHeatingKwh,
+    cooking: woodCookingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'WOOD'
+  );
+  const {
+    heating: fuelHeatingKwh,
+    hotWater: fuelWaterHeatingKwh,
+    cooking: fuelCookingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'FUEL_OIL'
+  );
+
+  const {
+    heating: heatNetworkHeatingKwh,
+    hotWater: heatNetworkWaterHeatingKwh,
+  } = splitConsumptions(
+    energyConsumptionKnowledge,
+    energyTypes,
+    populationAverageConsoKwhAdjusted,
+    energySurvey,
+    'HEAT_NETWORK'
+  );
+
+  const eiHeatNetwork = getEiForHeatNetwork(
+    heatNetworkData,
+    surveyVariables.heatNetworkName
+  );
+
+  return {
     woodHeatingKwh,
     woodCookingKwh,
     woodWaterHeatingKwh,
@@ -441,40 +446,96 @@ const computeCarbonVariables = (
     elecCookingKwh,
     elecLightningKwh,
     elecWaterHeatingKwh,
-    networkHeatingKwh,
-    eiHeatingNetwork,
+    heatNetworkHeatingKwh,
+    heatNetworkWaterHeatingKwh,
+    eiHeatNetwork,
 
-    // Autre
-    fruitsAndVegetablePercentageLocal,
-    //
-    categoryCarCommute,
-    motorTypeCarCommute,
-    ageCategoryCarCommute,
-    passengersPerCarCommute,
-    //
-    categoryCarTravel,
-    motorTypeCarTravel,
-    ageCategoryCarTravel,
-    //
-    kmCarTravelPerYear,
-    passengersPerCarTravel,
-    //
-    kmCoachTravel,
-    kmCountryTrain,
-    kmPlane,
-    //
     residentsPerHousing,
     houseSurfaceArea,
     flatSurfaceArea,
+  };
+};
+
+const computeOtherCarbonVariables = (surveyVariables, globalVariables) => {
+  const { WEEKS_PER_YEAR, MONTHS_PER_YEAR } = globalVariables;
+
+  const { activitiesPerMonth, internetStreamingHoursPerWeek } = surveyVariables;
+  const internetStreamingHoursPerYear =
+    WEEKS_PER_YEAR * internetStreamingHoursPerWeek;
+  const activitiesPerYear = activitiesPerMonth * MONTHS_PER_YEAR;
+
+  const {
     numberBigAppliances,
     numberSmallAppliances,
-    //
+    electricityProvider,
+    numberSmallDevices,
+    numberBigDevices,
+    clothesNewItems,
+  } = surveyVariables;
+
+  return {
+    internetStreamingHoursPerYear,
+    activitiesPerYear,
+
+    numberBigAppliances,
+    numberSmallAppliances,
     electricityProvider,
     numberSmallDevices,
     numberBigDevices,
     clothesNewItems,
   };
-  return carbonVariables;
+};
+
+const validateAndSetDefaultsSurveyVariables = (surveyVariables) => {
+  const ajv = new Ajv({ useDefaults: true, verbose: true, coerceTypes: true });
+  const isValid = ajv.validate(surveyVariablesSchema, surveyVariables);
+  if (!isValid) {
+    console.warn(
+      'Validation error for surveyVariables',
+      surveyVariables,
+      ajv.errors
+    );
+  }
+  return surveyVariables;
+};
+
+const computeCarbonVariables = (
+  surveyVariables,
+  globalVariables,
+  heatNetworkData
+) => {
+  const validatedSurveyVariables = validateAndSetDefaultsSurveyVariables(
+    surveyVariables
+  );
+  const transportCarbonVariables = computeTransportCarbonVariables(
+    validatedSurveyVariables,
+    globalVariables
+  );
+  const foodCarbonVariables = computeFoodCarbonVariables(
+    validatedSurveyVariables,
+    globalVariables
+  );
+  const energyCarbonVariables = computeEnergyCarbonVariables(
+    validatedSurveyVariables,
+    globalVariables,
+    heatNetworkData
+  );
+  const otherCarbonVariables = computeOtherCarbonVariables(
+    validatedSurveyVariables,
+    globalVariables
+  );
+  return {
+    ...transportCarbonVariables,
+    ...foodCarbonVariables,
+    ...energyCarbonVariables,
+    ...otherCarbonVariables,
+  };
 };
 export default computeCarbonVariables;
-export { getEiForHeatingNetwork };
+export {
+  getEiForHeatNetwork,
+  computeTransportCarbonVariables,
+  computeFoodCarbonVariables,
+  computeEnergyCarbonVariables,
+  computeOtherCarbonVariables,
+};

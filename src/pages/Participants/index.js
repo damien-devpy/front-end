@@ -30,7 +30,15 @@ import {
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
 import { footprintDataToGraph } from '../../selectors/footprintSelectors';
-import { selectIsWorkshopReadyForInitialization } from '../../selectors/workshopSelector';
+import {
+  selectCarbonFootprintsEntity,
+  selectCurrentWorkshopInfo,
+  selectInitialGlobalCarbonVariables,
+  selectIsCurrentWorkshopSynchronized,
+  selectIsWorkshopReadyForInitialization,
+  selectParticipantsEntity,
+  selectPersonaEntity,
+} from '../../selectors/workshopSelector';
 import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
@@ -48,41 +56,27 @@ const ManageParticipants = ({
   },
 }) => {
   const workshop = useWorkshop(workshopId);
+  const isWorkshopReadyForInitialization = useSelector(
+    selectIsWorkshopReadyForInitialization
+  );
   const [showBC, setShowBC] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   const [footprintToShow, setFootprintToShow] = useState({});
 
-  const isSynchronized = useSelector(
-    (state) => state.workshop && state.workshop.isSynchronized
-  );
+  const isSynchronized = useSelector(selectIsCurrentWorkshopSynchronized);
+  const {
+    name: workshopTitle,
+    status: workshopStatus,
+    startYear,
+    model,
+  } = useSelector(selectCurrentWorkshopInfo);
 
-  const workshopTitle = useSelector(
-    (state) => state.workshop.result && state.workshop.result.name
-  );
-  const workshopStatus = useSelector(
-    (state) => state.workshop.result && state.workshop.result.status
-  );
-  const startYear = useSelector(
-    (state) => state.workshop.result && state.workshop.result.startYear
-  );
   const { t } = useTranslation();
-  const participants = useSelector(
-    (state) => state.workshop.entities && state.workshop.entities.participants
-  );
-  const carbonFootprints = useSelector(
-    (state) => state.workshop.result && state.workshop.entities.carbonFootprints
-  );
-  const globalCarbonVariables = useSelector(
-    (state) =>
-      state.workshop.result && state.workshop.result.model.globalCarbonVariables
-  );
-  const model = useSelector(
-    (state) => state.workshop.result && state.workshop.result.model
-  );
+  const participants = useSelector(selectParticipantsEntity);
+  const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
+  const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
 
-  const personas = useSelector(
-    (state) => state.workshop.entities && state.workshop.entities.personas
-  );
+  const personas = useSelector(selectPersonaEntity);
 
   const dispatch = useDispatch();
 
@@ -185,7 +179,6 @@ const ManageParticipants = ({
                 personas[participants[id].personaId].surveyVariables,
                 globalCarbonVariables,
                 heatingNetworksData
-                // todo add heating networks data
               ),
               globalCarbonVariables
             )
@@ -251,7 +244,7 @@ const ManageParticipants = ({
           {isSynchronized && workshopStatus === 'created' && (
             <PrimaryButton
               onClick={() => dispatch(startWorkshop(2020))}
-              disabled={!selectIsWorkshopReadyForInitialization(workshop)}
+              disabled={!isWorkshopReadyForInitialization}
             >
               {t('common.launchSimulation')}
             </PrimaryButton>

@@ -9,6 +9,7 @@ import {
   Label,
   Legend,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
@@ -131,7 +132,7 @@ const FootprintGraph = ({ footprint }) => {
         />
         <YAxis dataKey="" domain={[0, dataMax]}>
           <Label
-            value="kgCO2e/an/pers"
+            value={t('simulation.yAxisLabel')}
             style={{ fontSize: '0.8rem' }}
             angle={-90}
             offset={0}
@@ -139,7 +140,7 @@ const FootprintGraph = ({ footprint }) => {
           />
         </YAxis>
 
-        {/* <Tooltip labelFormatter={(label) => t(`common.${label}`)} /> */}
+        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
         <Legend
           layout="vertical"
           footprint={footprint}

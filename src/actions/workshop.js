@@ -32,9 +32,9 @@ export const APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS =
   'APPLY_COLLECTIVE_ACTIONS_FOR_CITIZENS';
 export const APPLY_SOCIAL_IMPACT = 'APPLY_SOCIAL_IMPACT';
 
-export const initWorkshop = (year, heatingNetworksData) => ({
+export const initWorkshop = (year, heatNetworksData) => ({
   type: INIT_WORKSHOP,
-  payload: { year, heatingNetworksData },
+  payload: { year, heatNetworksData },
 });
 
 export const workshopRetrieved = (workshop) => ({
@@ -131,10 +131,9 @@ export const setCollectiveChoices = (year, collectiveChoices) => ({
   payload: { year, collectiveChoices },
 });
 
-// TODO: Check if this action is used
-export const computeCarbonVariables = (participantId, heatingNetworksData) => ({
+export const computeCarbonVariables = (participantId, heatNetworksData) => ({
   type: COMPUTE_CARBON_VARIABLES,
-  payload: { participantId, heatingNetworksData },
+  payload: { participantId, heatNetworksData },
 });
 
 const applyIndividualActions = (yearFrom, yearTo) => ({
@@ -197,11 +196,11 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
 
 export const startWorkshop = (startYear) => {
   return (dispatch) => {
-    fetch('/data/heating_networks.csv')
+    fetch('/data/heat_networks.csv')
       .then((response) => response.text())
-      .then((text) => Papa.parse(text))
-      .then((heatingNetworksData) => {
-        dispatch(initWorkshop(startYear, heatingNetworksData.data));
+      .then((text) => Papa.parse(text, { header: true }))
+      .then((heatNetworksData) => {
+        dispatch(initWorkshop(startYear, heatNetworksData.data));
         dispatch(computeFootprints(startYear));
         dispatch(computeFootprintsForCitizen(startYear));
         dispatch((dispatch2, getState) => {

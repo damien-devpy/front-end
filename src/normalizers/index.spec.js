@@ -44,37 +44,14 @@ const normalizedWorkshopWithIndividualActions = {
 };
 
 describe('Workshop', () => {
-  it('should normalize workshop', (done) => {
+  it('should normalize workshop', () => {
     const normalizedData = normalize(
       workshopWithIndividualActions,
       workshopSchema
     );
     expect(normalizedData).toEqual(normalizedWorkshopWithIndividualActions);
-
-    // console.log(
-    //   'workshopWithIndividualActions',
-    //   JSON.stringify(workshopWithIndividualActions, null, 2)
-    // );
-    // console.log('normalizedData', JSON.stringify(normalizedData, null, 2));
-    // console.log(JSON.stringify(normalizedData.result.model.actionCards));
-    // console.log(JSON.stringify(normalizedData.result.model.actionCardBatches));
-    // console.log(
-    //   'entities.rounds',
-    //   JSON.stringify(normalizedData.entities.rounds, null, 2)
-    // );
-
-    // const { entities } = normalizedData;
-    // const input = normalizedData.result;
-    // const denormalizedData = denormalize(input, mySchema, entities);
-    // console.log('denormalizedData', JSON.stringify(denormalizedData, null, 2));
-
-    // console.log(
-    //   'entities.carbonInfo',
-    //   JSON.stringify(normalizedData.entities.carbonInfo)
-    // );
-    done();
   });
-  it('should denormalize workshop', (done) => {
+  it('should denormalize workshop', () => {
     const normalizedData = normalize(
       workshopWithIndividualActions,
       workshopSchema
@@ -82,8 +59,6 @@ describe('Workshop', () => {
     const { entities } = normalizedData;
     const input = normalizedData.result;
     const denormalizedData = denormalize(input, workshopSchema, entities);
-    // console.log("denormalizedData", JSON.stringify(denormalizedData));
     expect(denormalizedData).toEqual(workshopWithIndividualActions);
-    done();
   });
 });

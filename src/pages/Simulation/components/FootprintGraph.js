@@ -36,7 +36,9 @@ const categories = (footprint) => {
   const categs = footprint.reduce((obj, sectorData) => {
     obj[sectorData.name] = Object.keys(sectorData)
       .filter((key) => key !== 'name')
-      .sort();
+      // sorted so that vertical top element = first alphabetically
+      .sort()
+      .reverse();
     return obj;
   }, {});
   return categs;
@@ -70,9 +72,9 @@ const renderLegend = (props) => {
     <div className="legend no-gutters row">
       {/* style={{ display: 'table-row', width: '100%' }}> */}
       {footprint.map((sectorData) => {
-        newProps.payload = payload.filter((entry) =>
-          Object.keys(sectorData).includes(entry.dataKey)
-        );
+        newProps.payload = payload
+          .filter((entry) => Object.keys(sectorData).includes(entry.dataKey))
+          .reverse();
         return (
           <div
             className="legend-sector col"
@@ -98,12 +100,8 @@ const renderLegend = (props) => {
 
 const FootprintGraph = ({ footprint }) => {
   const { t } = useTranslation();
-  // const footprint = useSelector((state) =>
-  //   footprintDataToGraph(
-  //     state.workshop.entities.carbonFootprints['2020-1'].footprint
-  //   )
-  // );
   const dataMax = 5;
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -140,7 +138,12 @@ const FootprintGraph = ({ footprint }) => {
           />
         </YAxis>
 
-        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
+        <Tooltip
+          labelFormatter={(label) => t(`common.${label}`)}
+          itemSorter={(item) =>
+            Object.keys(item.payload).sort().indexOf(item.dataKey)
+          }
+        />
         <Legend
           layout="vertical"
           footprint={footprint}

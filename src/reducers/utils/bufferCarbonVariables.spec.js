@@ -153,7 +153,6 @@ describe('test computeCarbonVariables', () => {
       kmCarCommutePerDay: 0,
       passengersPerCarCommute: 1,
       hoursUrbanBusPerWeek: 0,
-      hoursCoachCommutePerWeek: 1000,
       hoursUrbanTrainPerWeek: 12,
       categoryCarTravel: 'SPORT',
       motorTypeCarTravel: 'HYBRID',
@@ -235,7 +234,6 @@ describe('test computeCarbonVariables', () => {
       juicesAndSodasConsoLitersPerYear: 0,
       kmCarCommutePerYear: 0,
       kmCarTravelPerYear: 1,
-      kmCoachCommutePerYear: 4160000,
       kmCoachTravel: 1000,
       kmCountryTrain: 5000,
       kmPlane: 18000,
@@ -311,7 +309,6 @@ describe('test computeCarbonVariables', () => {
       const surveyVariables = {
         passengersPerCarCommute: 0,
         kmCarCommutePerDay: 1,
-        hoursCoachCommutePerWeek: 2,
         hoursUrbanTrainPerWeek: 3,
         hoursUrbanBusPerWeek: 4,
 
@@ -339,7 +336,6 @@ describe('test computeCarbonVariables', () => {
       const expectedTransportCarbonVariables = {
         passengersPerCarCommute: 1,
         kmCarCommutePerYear: 365,
-        kmCoachCommutePerYear: 1040,
         kmUrbanTrainPerYear: 15600,
         kmUrbanBusPerYear: 208000,
 
@@ -382,7 +378,6 @@ describe('test computeCarbonVariables', () => {
     it('should convert hoursUrbanBusPerWeek to kmUrbanBusPerYear', () => {
       const surveyVariables = {
         hoursUrbanBusPerWeek: 10,
-        hoursCoachCommutePerWeek: 20,
         hoursUrbanTrainPerWeek: 30,
       };
       expect(
@@ -394,7 +389,6 @@ describe('test computeCarbonVariables', () => {
         })
       ).toMatchObject({
         kmUrbanBusPerYear: 10 * 52 * 80,
-        kmCoachCommutePerYear: 20 * 52 * 90,
         kmUrbanTrainPerYear: 30 * 52 * 100,
       });
     });
@@ -832,7 +826,6 @@ describe('test validateSurveyVariables', () => {
     kmCarCommutePerDay: 0,
     passengersPerCarCommute: 1,
     hoursUrbanBusPerWeek: 0,
-    hoursCoachCommutePerWeek: 1000,
     hoursUrbanTrainPerWeek: 12,
     categoryCarTravel: 'SPORT',
     motorTypeCarTravel: 'HYBRID',
@@ -864,11 +857,5 @@ describe('test validateSurveyVariables', () => {
     activitiesPerMonth: 2,
   };
   const isValid = ajv.validate(surveyVariablesSchema, surveyVariables);
-  console.log(ajv.errors);
-
   expect(isValid).toBe(true);
-  // expect(surveyVariables).toStrictEqual({
-  //   meatAndFishConsoPerDay: 0.1,
-  //   kmPlane: 0,
-  // });
 });

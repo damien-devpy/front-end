@@ -44,9 +44,9 @@ import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
 
 export const loadHeatingNetworksData = async () => {
-  const response = await fetch('/data/heating_networks.csv');
+  const response = await fetch('/data/heat_networks.csv');
   const text = await response.text();
-  const heatingNetworksData = Papa.parse(text);
+  const heatingNetworksData = Papa.parse(text, { header: true });
   return heatingNetworksData.data;
 };
 
@@ -169,6 +169,7 @@ const ManageParticipants = ({
     // valueOnAllLevels & computeFootprint are put together and
     // input variables are simplified, e.g. could be given as `model`
     loadHeatingNetworksData().then((heatingNetworksData) => {
+      console.log(heatingNetworksData, globalCarbonVariables);
       const { footprintStructure, variableFormulas } = model;
       const footprint = participants[id].personaId
         ? valueOnAllLevels(

@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
+import CommonModal from '../../components/CommonModal';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
@@ -29,7 +30,10 @@ import {
   sendFormApi,
 } from '../../utils/api';
 import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
-import { footprintDataToGraph } from '../../selectors/footprintSelectors';
+import {
+  footprintDataToGraph,
+  normaliseEmissionValue,
+} from '../../selectors/footprintSelectors';
 import {
   selectCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
@@ -169,7 +173,6 @@ const ManageParticipants = ({
     // valueOnAllLevels & computeFootprint are put together and
     // input variables are simplified, e.g. could be given as `model`
     loadHeatingNetworksData().then((heatingNetworksData) => {
-      console.log(heatingNetworksData, globalCarbonVariables);
       const { footprintStructure, variableFormulas } = model;
       const footprint = participants[id].personaId
         ? valueOnAllLevels(
@@ -188,7 +191,11 @@ const ManageParticipants = ({
 
       // 3. footprintDataToGraph should be part of FootprintGraph
       const footprintShaped = footprintDataToGraph(footprint);
-      setFootprintToShow(footprintShaped);
+      setFootprintToShow({
+        id,
+        total: normaliseEmissionValue(footprint.value),
+        footprint: footprintShaped,
+      });
       setShowBC(true);
     });
   };
@@ -257,33 +264,36 @@ const ManageParticipants = ({
           )}
         </div>
       </Card>
-      <Modal
-        size="md"
-        centered
-        show={showBC}
-        onHide={() => {
-          setShowBC(false);
-        }}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Bilan carbone</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FootprintGraph footprint={footprintToShow} />
-        </Modal.Body>
-      </Modal>
-      <Modal
+      {showBC && (
+        <CommonModal
+          size="md"
+          centered
+          show={showBC}
+          handleClose={() => {
+            setShowBC(false);
+          }}
+          title={`${t('manageParticipants.titleBCmodal')} ${
+            participants[footprintToShow.id].firstName
+          }`}
+        >
+          <h5>
+            {t('manageParticipants.totalBC')} {footprintToShow.total}{' '}
+            {t('manageParticipants.unitBC')}
+          </h5>
+          <FootprintGraph footprint={footprintToShow.footprint} />
+        </CommonModal>
+      )}
+      <CommonModal
         size="md"
         centered
         show={showAddParticipantModal}
-        onHide={() => {
+        handleClose={() => {
           setShowAddParticipantModal(false);
         }}
+        title={t('manageParticipants.titleAddNewModal')}
       >
-        <Modal.Body>
-          <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
-        </Modal.Body>
-      </Modal>
+        <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
+      </CommonModal>
     </Container>
   );
 };

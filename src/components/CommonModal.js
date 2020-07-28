@@ -10,10 +10,11 @@ const CommonModal = ({
   handleClose,
   handleAcknowledge,
   children,
+  size = 'lg',
 }) => {
   return (
     <Modal
-      size="lg"
+      size={size}
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={show}

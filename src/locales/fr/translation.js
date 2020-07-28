@@ -159,6 +159,8 @@ export default {
   },
   manageParticipants: {
     title: "Liste des participants de l'atelier",
+    titleBCmodal: 'Empreinte carbone de',
+    titleAddNewModal: 'Ajouter un nouveau participant',
     addNew: 'Ajouter Participant',
     copied: 'Copié!',
     delete: 'Enlever participant',
@@ -175,6 +177,8 @@ export default {
     sendByEmail: 'Envoyer un e-mail',
     sendByLink: 'Copier le lien',
     status: 'Statut',
+    totalBC: 'Total:',
+    unitBC: 'tCO2e/an',
   },
   simulation: {
     carbon_footprint_evolution: 'Evolution des empreintes carbones',

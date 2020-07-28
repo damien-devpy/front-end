@@ -1,6 +1,6 @@
 // we receive values in kgs and convert them to tonnes,
 // rounding to 2 decimal places
-const normaliseEmissionValue = (value) => Math.round(value / 10) / 100;
+export const normaliseEmissionValue = (value) => Math.round(value / 10) / 100;
 
 const averageFootprints = (footprints, initFootprint) => {
   const keysParticipant = Object.keys(footprints);

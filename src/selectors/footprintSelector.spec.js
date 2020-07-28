@@ -211,21 +211,21 @@ describe('Footprint selector', () => {
       const expected = [
         {
           year: 2020,
-          '1': '202000',
-          '2': '101000',
+          '1': 202,
+          '2': 101,
           // (151500 * 0.1 + (505000 + 101000) / 2 * 0.9) = 287850
-          avg_global: '287850',
+          avg_global: 287.85,
           // (202000 + 101000) / 2 = 151500
-          avg_participants: '151500',
+          avg_participants: 151.5,
         },
         {
           year: 2023,
-          '1': '50500',
-          '2': '10100',
+          '1': 50.5,
+          '2': 10.1,
           // (30300 * 0.1 + (20200 + 10100) / 2 * 0.9) = 16665
-          avg_global: '16665',
+          avg_global: 16.67,
           // (50500 + 10100) / 2 = 30300
-          avg_participants: '30300',
+          avg_participants: 30.3,
         },
       ];
       expect(result).toStrictEqual(expected);

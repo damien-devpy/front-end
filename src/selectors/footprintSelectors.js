@@ -1,15 +1,6 @@
-// const avg = (array) => {
-//   let sum = 0;
-//   for (let i = 0; i < array.length; i++) {
-//     sum += array[i];
-//   }
-//   return sum / array.length;
-// };
-
-// export const currentRound = (state) =>
-//   state.workshop.result && state.workshop.result.currentYear;
-
-// const footprintStructure = (state) => state.workshop.model.footprintStructure;
+// we receive values in kgs and convert them to tonnes,
+// rounding to 2 decimal places
+const normaliseEmissionValue = (value) => Math.round(value / 10) / 100;
 
 const averageFootprints = (footprints, initFootprint) => {
   const keysParticipant = Object.keys(footprints);
@@ -111,7 +102,7 @@ export const footprintDataToGraph = (footprintData) => {
   footprintData.children.forEach((sectorData) => {
     const sectorObject = { name: sectorData.name };
     sectorData.children.forEach((categData) => {
-      sectorObject[categData.name] = Math.round(categData.value);
+      sectorObject[categData.name] = normaliseEmissionValue(categData.value);
     });
     footprintArray.push(sectorObject);
   });
@@ -133,9 +124,9 @@ export const computeEvolutionGraph = (
       roundCarbonFootprints[carbonFootprintKey] =
         carbonFootprintsEntity[carbonFootprintKey];
       const playerId = carbonFootprintsEntity[carbonFootprintKey].participantId;
-      carbonFootprintsPerYear[playerId] = carbonFootprintsEntity[
-        carbonFootprintKey
-      ].footprint.value.toFixed(0);
+      carbonFootprintsPerYear[playerId] = normaliseEmissionValue(
+        carbonFootprintsEntity[carbonFootprintKey].footprint.value
+      );
     });
     const roundCitizenFootprints = citizenCarbonFootprints.reduce(
       (accumulator, key) => ({
@@ -144,15 +135,17 @@ export const computeEvolutionGraph = (
       }),
       {}
     );
-    carbonFootprintsPerYear.avg_participants = participantsAverageFootprint(
-      roundCarbonFootprints,
-      footprintStructure
-    ).value.toFixed(0);
-    carbonFootprintsPerYear.avg_global = globalAverageFootprint(
-      roundCarbonFootprints,
-      roundCitizenFootprints,
-      footprintStructure
-    ).value.toFixed(0);
+    carbonFootprintsPerYear.avg_participants = normaliseEmissionValue(
+      participantsAverageFootprint(roundCarbonFootprints, footprintStructure)
+        .value
+    );
+    carbonFootprintsPerYear.avg_global = normaliseEmissionValue(
+      globalAverageFootprint(
+        roundCarbonFootprints,
+        roundCitizenFootprints,
+        footprintStructure
+      ).value
+    );
     return carbonFootprintsPerYear;
   });
 };

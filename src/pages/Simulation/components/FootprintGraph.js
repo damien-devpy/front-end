@@ -103,7 +103,7 @@ const FootprintGraph = ({ footprint }) => {
   //     state.workshop.entities.carbonFootprints['2020-1'].footprint
   //   )
   // );
-  const dataMax = 5000;
+  const dataMax = 5;
   return (
     <ResponsiveContainer
       width="100%"

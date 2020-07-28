@@ -77,7 +77,7 @@ const EvolutionCarbon = () => {
     )
   );
   for (let i = 0; i < evolutionData.length; i++) {
-    evolutionData[i].objective = 2000;
+    evolutionData[i].objective = 2;
   }
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
@@ -150,7 +150,7 @@ const EvolutionCarbon = () => {
           domain={['dataMin', 2050]}
           ticks={[2030, 2040, 2050]}
         />
-        <YAxis className="yaxis" type="number" domain={[0, 15000]}>
+        <YAxis className="yaxis" type="number" domain={[0, 15]}>
           <Label
             value={t('simulation.yAxisLabel')}
             style={{ fontSize: '1rem' }}

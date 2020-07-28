@@ -153,9 +153,9 @@ const EvolutionCarbon = () => {
         <YAxis className="yaxis" type="number" domain={[0, 15]}>
           <Label
             value={t('simulation.yAxisLabel')}
-            style={{ fontSize: '1rem' }}
+            style={{ fontSize: '1rem', textAnchor: 'middle' }}
             angle={-90}
-            offset={0}
+            offset={20}
             position="insideLeft"
           />
         </YAxis>

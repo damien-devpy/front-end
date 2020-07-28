@@ -133,9 +133,9 @@ const FootprintGraph = ({ footprint }) => {
         <YAxis dataKey="" domain={[0, dataMax]}>
           <Label
             value={t('simulation.yAxisLabel')}
-            style={{ fontSize: '0.8rem' }}
+            style={{ fontSize: '0.8rem', textAnchor: 'middle' }}
             angle={-90}
-            offset={0}
+            offset={20}
             position="insideLeft"
           />
         </YAxis>

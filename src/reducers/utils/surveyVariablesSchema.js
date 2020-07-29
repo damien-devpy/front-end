@@ -30,7 +30,6 @@ const surveyVariablesSchema = {
     kmCarCommutePerDay: { type: 'number', default: 0 },
     passengersPerCarCommute: { type: 'number', default: 1 },
     hoursUrbanBusPerWeek: { type: 'number', default: 0 },
-    hoursCoachCommutePerWeek: { type: 'number', default: 0 },
     hoursUrbanTrainPerWeek: { type: 'number', default: 0 },
     categoryCarTravel: {
       type: 'string',

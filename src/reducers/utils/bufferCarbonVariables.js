@@ -175,12 +175,6 @@ const computeTransportCarbonVariables = (surveyVariables, globalVariables) => {
   const kmUrbanBusPerYear =
     hoursUrbanBusPerWeek * MEAN_SPEED_URBAN_BUS * WEEKS_PER_YEAR;
 
-  // Coach commute
-  const { hoursCoachCommutePerWeek } = surveyVariables;
-  const { MEAN_SPEED_COACH } = globalVariables;
-  const kmCoachCommutePerYear =
-    hoursCoachCommutePerWeek * MEAN_SPEED_COACH * WEEKS_PER_YEAR;
-
   // Urban_train
   const { hoursUrbanTrainPerWeek } = surveyVariables;
   const { MEAN_SPEED_URBAN_TRAIN } = globalVariables;
@@ -212,7 +206,6 @@ const computeTransportCarbonVariables = (surveyVariables, globalVariables) => {
   return {
     kmCarCommutePerYear,
     kmUrbanBusPerYear,
-    kmCoachCommutePerYear,
     kmUrbanTrainPerYear,
     coefficientEnergyEfficientDriving,
     categoryCarCommute,
@@ -415,7 +408,6 @@ const computeEnergyCarbonVariables = (
     energySurvey,
     'FUEL_OIL'
   );
-
   const {
     heating: heatNetworkHeatingKwh,
     hotWater: heatNetworkWaterHeatingKwh,

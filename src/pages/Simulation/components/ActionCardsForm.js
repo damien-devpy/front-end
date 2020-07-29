@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Col, Form, Button } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ActionCardItem from '../../../components/ActionCardItem';
-import { COLORS } from '../../../vars';
 
 import {
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
@@ -25,20 +23,7 @@ const ActionCardsForm = ({
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
-  const roundConfigEntity = useSelector(
-    (state) => state.workshop.entities.roundConfig
-  );
-  const actionCardsBatchIdsFromRounds = useSelector((state) =>
-    actionCardType === 'individual'
-      ? selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop)
-      : selectCheckedCollectiveActionCardsBatchIdsFromRounds(state.workshop)
-  );
-  // initial active == expanded lot is the last lot of the current round
-  const [activeBatch, setActiveBatch] = useState(
-    roundConfigEntity[
-      Object.keys(roundConfigEntity).slice(-1)[0]
-    ].actionCardBatchIds.slice(-1)[0]
-  );
+
   function compareName(a, b) {
     if (actionCardBatchesEntity[a].name < actionCardBatchesEntity[b].name) {
       return -1;
@@ -48,61 +33,65 @@ const ActionCardsForm = ({
     }
     return 0;
   }
+  const actionCardsBatchIdsFromRounds = useSelector((state) =>
+    (actionCardType === 'individual'
+      ? selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop)
+      : selectCheckedCollectiveActionCardsBatchIdsFromRounds(state.workshop)
+    ).sort(compareName)
+  );
+  // initial active == expanded lot is the last lot of the current round
+  const [activeBatch, setActiveBatch] = useState(
+    actionCardsBatchIdsFromRounds.slice(-1)[0]
+  );
+
   return (
-    // <Form noValidate>
-      <Form.Row>
-        {
-          actionCardsBatchIdsFromRounds
-            .sort(compareName)
-            .map((actionCardBatchId) => {
-              if (!actionCardBatchesEntity[actionCardBatchId]) {
-                return <></>;
-              }
-              const {
-                name: actionCardBatchName,
-                actionCardIds,
-              } = actionCardBatchesEntity[actionCardBatchId];
-              return (
-                <Form.Group
-                  as={Col}
-                  sm={actionCardBatchId === activeBatch ? '5' : '2'}
-                  key={actionCardBatchId}
-                >
-                  <BatchBadge
-                    text={actionCardBatchName}
-                    active={actionCardBatchId === activeBatch}
-                    handleClick={() => setActiveBatch(actionCardBatchId)}
-                  />
-                  {actionCardIds.map((actionCardId) => {
-                    const {
-                      name: actionCardName,
-                      cardNumber,
-                      sector,
-                    } = actionCardsEntity[actionCardId];
-                    return (
-                      <ActionCardItem
-                        key={actionCardId}
-                        id={cardNumber}
-                        cardNumber={cardNumber}
-                        text={actionCardName}
-                        sector={sector}
-                        category={actionCardsEntity[actionCardId].subCategory}
-                        active={actionCardBatchId === activeBatch}
-                        checked={handleCheckedActionCard(actionCardId)}
-                        cost={actionCardsEntity[actionCardId].cost}
-                        handleChange={() =>
-                          handleCardActionSelectionChange(actionCardId)
-                        }
-                      />
-                    );
-                  })}
-                </Form.Group>
-              );
-            })
-          // )
+    <Form.Row>
+      {actionCardsBatchIdsFromRounds.map((actionCardBatchId) => {
+        if (!actionCardBatchesEntity[actionCardBatchId]) {
+          return <></>;
         }
-      </Form.Row>
-    // </Form>
+        const {
+          name: actionCardBatchName,
+          actionCardIds,
+        } = actionCardBatchesEntity[actionCardBatchId];
+        return (
+          <Form.Group
+            as={Col}
+            sm={actionCardBatchId === activeBatch ? '5' : '2'}
+            key={actionCardBatchId}
+          >
+            <BatchBadge
+              text={actionCardBatchName}
+              active={actionCardBatchId === activeBatch}
+              handleClick={() => setActiveBatch(actionCardBatchId)}
+            />
+            {actionCardIds.map((actionCardId) => {
+              const {
+                name: actionCardName,
+                cardNumber,
+                sector,
+              } = actionCardsEntity[actionCardId];
+              return (
+                <ActionCardItem
+                  key={actionCardId}
+                  id={cardNumber}
+                  cardNumber={cardNumber}
+                  text={actionCardName}
+                  sector={sector}
+                  category={actionCardsEntity[actionCardId].subCategory}
+                  active={actionCardBatchId === activeBatch}
+                  checked={handleCheckedActionCard(actionCardId)}
+                  cost={actionCardsEntity[actionCardId].cost}
+                  handleChange={() =>
+                    handleCardActionSelectionChange(actionCardId)
+                  }
+                />
+              );
+            })}
+          </Form.Group>
+        );
+      })}
+    </Form.Row>
   );
 };
 

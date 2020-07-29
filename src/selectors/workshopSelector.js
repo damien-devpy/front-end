@@ -369,9 +369,5 @@ export const selectCitizenCarbonFootprintsEntityForCurrentRound = (state) => {
 };
 
 export const selectInitialGlobalCarbonVariables = (state) => {
-  const { startYear } = selectCurrentWorkshopInfo(state);
-  return selectWorkshopEntity(
-    selectCurrentWorkshop(state),
-    'globalCarbonVariables'
-  )[startYear];
+  return selectWorkshopModelStructure(state, 'globalCarbonVariables');
 };

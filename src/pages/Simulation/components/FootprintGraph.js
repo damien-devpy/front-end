@@ -36,7 +36,9 @@ const categories = (footprint) => {
   const categs = footprint.reduce((obj, sectorData) => {
     obj[sectorData.name] = Object.keys(sectorData)
       .filter((key) => key !== 'name')
-      .sort();
+      // sorted so that vertical top element = first alphabetically
+      .sort()
+      .reverse();
     return obj;
   }, {});
   return categs;
@@ -70,9 +72,9 @@ const renderLegend = (props) => {
     <div className="legend no-gutters row">
       {/* style={{ display: 'table-row', width: '100%' }}> */}
       {footprint.map((sectorData) => {
-        newProps.payload = payload.filter((entry) =>
-          Object.keys(sectorData).includes(entry.dataKey)
-        );
+        newProps.payload = payload
+          .filter((entry) => Object.keys(sectorData).includes(entry.dataKey))
+          .reverse();
         return (
           <div
             className="legend-sector col"
@@ -98,25 +100,21 @@ const renderLegend = (props) => {
 
 const FootprintGraph = ({ footprint }) => {
   const { t } = useTranslation();
-  // const footprint = useSelector((state) =>
-  //   footprintDataToGraph(
-  //     state.workshop.entities.carbonFootprints['2020-1'].footprint
-  //   )
-  // );
-  const dataMax = 5000;
+  const dataMax = 5;
+
   return (
     <ResponsiveContainer
       width="100%"
-      height="30%"
+      height="50%"
       minHeight={100}
-      aspect={3.0 / 2.0}
+      aspect={3.0 / 2.5}
     >
       <BarChart
         // width={730}
         // height={250}
         data={footprint}
         margin={{
-          top: 20,
+          top: 10,
           right: 10,
           left: 10,
           bottom: 5,
@@ -133,14 +131,19 @@ const FootprintGraph = ({ footprint }) => {
         <YAxis dataKey="" domain={[0, dataMax]}>
           <Label
             value={t('simulation.yAxisLabel')}
-            style={{ fontSize: '0.8rem' }}
+            style={{ fontSize: '0.8rem', textAnchor: 'middle' }}
             angle={-90}
-            offset={0}
+            offset={20}
             position="insideLeft"
           />
         </YAxis>
 
-        <Tooltip labelFormatter={(label) => t(`common.${label}`)} />
+        <Tooltip
+          labelFormatter={(label) => t(`common.${label}`)}
+          itemSorter={(item) =>
+            Object.keys(item.payload).sort().indexOf(item.dataKey)
+          }
+        />
         <Legend
           layout="vertical"
           footprint={footprint}

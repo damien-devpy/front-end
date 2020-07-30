@@ -13,7 +13,8 @@ import {
 const ActionCardsForm = ({
   // handleSubmit,
   handleCardActionSelectionChange,
-  handleCheckedActionCard,
+  isCheckedActionCard,
+  numberOfPreviousChoices,
   actionCardType,
 }) => {
   const { t } = useTranslation();
@@ -80,7 +81,8 @@ const ActionCardsForm = ({
                   sector={sector}
                   category={actionCardsEntity[actionCardId].subCategory}
                   active={actionCardBatchId === activeBatch}
-                  checked={handleCheckedActionCard(actionCardId)}
+                  checked={isCheckedActionCard(actionCardId)}
+                  previousChoices={numberOfPreviousChoices(actionCardId)}
                   cost={actionCardsEntity[actionCardId].cost}
                   handleChange={() =>
                     handleCardActionSelectionChange(actionCardId)

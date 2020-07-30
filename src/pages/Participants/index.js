@@ -255,12 +255,14 @@ const ManageParticipants = ({
           </div>
           <div style={{ textAlign: 'center' }}>
             {isSynchronized && workshopStatus === 'created' && (
-              <PrimaryButton
-                onClick={() => dispatch(startWorkshop(2020))}
-                disabled={!isWorkshopReadyForInitialization}
-              >
-                {t('common.launchSimulation')}
-              </PrimaryButton>
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton
+                  onClick={() => dispatch(startWorkshop(2020))}
+                  disabled={!isWorkshopReadyForInitialization}
+                >
+                  {t('common.launchSimulation')}
+                </PrimaryButton>
+              </Link>
             )}
             {workshopStatus === 'ongoing' && (
               <Link to={`/workshop/${workshopId}/simulation`}>

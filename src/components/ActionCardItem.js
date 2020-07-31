@@ -26,20 +26,18 @@ const ActionCardItem = ({
   cost,
   handleChange,
 }) => {
-  const indicators = [];
   const nIndicators = previousChoices + (checked ? 1 : 0);
-  if (nIndicators > 0) {
-    [...Array(nIndicators).keys()].forEach((key) =>
-      indicators.push(
-        <img
-          src={require('../assets/GreenIndicator.svg')}
-          width={sizeGreen}
-          height={sizeGreen}
-          key={`indicator${key}`}
-        />
-      )
-    );
-  }
+  const indicators =
+    nIndicators > 0
+      ? [...Array(nIndicators).keys()].map((key) => (
+          <img
+            src={require('../assets/GreenIndicator.svg')}
+            width={sizeGreen}
+            height={sizeGreen}
+            key={`indicator${key}`}
+          />
+        ))
+      : [];
 
   return (
     <StyledItem

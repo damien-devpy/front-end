@@ -7,12 +7,13 @@ import {
   workshopLoadError,
   workshopRetrieved,
 } from '../actions/workshop';
+import { selectCurrentWorkshop } from '../selectors/workshopSelector';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useWorkshop = (workshopId) => {
   const mounted = useRef(false);
   const dispatch = useDispatch();
-  const workshop = useSelector((state) => state.workshop);
+  const workshop = useSelector(selectCurrentWorkshop);
   useEffect(() => {
     if (!workshop || !workshop.result || workshop.result.id !== workshopId) {
       // eslint-disable-next-line no-console

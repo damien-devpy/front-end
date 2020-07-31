@@ -19,6 +19,7 @@ export const ParticipantItemForm = ({
   currentPersonaId,
   handleShowBC,
   handleSendForm,
+  disabled,
 }) => {
   const { t } = useTranslation();
 
@@ -50,13 +51,15 @@ export const ParticipantItemForm = ({
     });
 
     return (
-      <Form.Control custom
+      <Form.Control
+        custom
         as="select"
         size="sm"
         id="dropdown"
         name="persona"
         value={persona || 'None'}
         onChange={handleChangePersona}
+        disabled={disabled}
       >
         <option value="None">{t('manageParticipants.nullPersona')}</option>
         {personaOptions}
@@ -67,24 +70,26 @@ export const ParticipantItemForm = ({
   return (
     <Row id={`participant${id}`} className="align-items-center mb-2 mt-2">
       <Col xs="1" className="text-center">
-        <Form.Label>
-          <button
-            type="button"
-            className="btn btn-link text-decoration-none"
-            title={t('manageParticipants.delete')}
-            onMouseDown={handleDelete}
-          >
-            <DeleteIcon height={20} width={20} />
-          </button>
-        </Form.Label>
+        {!disabled && (
+          <Form.Label>
+            <button
+              type="button"
+              className="btn btn-link text-decoration-none"
+              title={t('manageParticipants.delete')}
+              onMouseDown={handleDelete}
+            >
+              <DeleteIcon height={20} width={20} />
+            </button>
+          </Form.Label>
+        )}
       </Col>
-      <Col>
+      <Col className="d-sm-none d-md-block">
         <Form.Label>{`${firstName} ${lastName}`}</Form.Label>
       </Col>
       <Col>
         <Form.Label>{email}</Form.Label>
       </Col>
-      <Col md="2">
+      <Col>
         <PersonaDropdown />
       </Col>
       <Col
@@ -111,9 +116,11 @@ export const ParticipantsHeader = () => {
     <StyledHeaderRow>
       <Row>
         <Col xs="1" className="text-center" />
-        <Col>{t('manageParticipants.nameSurname')}</Col>
+        <Col className="d-sm-none d-md-block">
+          {t('manageParticipants.nameSurname')}
+        </Col>
         <Col>{t('manageParticipants.email')}</Col>
-        <Col md="2">{t('manageParticipants.persona')}</Col>
+        <Col>{t('manageParticipants.persona')}</Col>
         <Col className="text-center">{t('manageParticipants.status')}</Col>
       </Row>
     </StyledHeaderRow>

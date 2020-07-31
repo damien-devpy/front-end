@@ -224,6 +224,7 @@ const ManageParticipants = ({
           currentPersonaId={p.personaId}
           handleShowBC={handleShowBC}
           handleSendForm={handleSendForm}
+          disabled={workshop.result.status !== 'created'}
         />
       );
     });

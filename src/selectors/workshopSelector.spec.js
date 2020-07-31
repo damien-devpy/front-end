@@ -1,16 +1,14 @@
 import {
+  getAllIndividualChoicesForParticipant,
   getCostOfChosenActionCards,
   getInitRoundBudget,
   getNumberOfChosenActionCards,
-  isIndividualActionCardTakenForParticipant,
   selectCarbonFootprintsEntityForCurrentRound,
   selectCarbonFootprintsEntityForRound,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
   selectCitizenCarbonFootprintsEntityForCurrentRound,
   selectCitizenCarbonFootprintsEntityForRound,
-  selectIndividualChoiceIdsForParticipant,
-  selectIndividualChoicesForParticipant,
   selectIsWorkshopReadyForInitialization,
   selectNextRound,
 } from './workshopSelector';
@@ -46,7 +44,7 @@ const individualChoicesEntity = {
   },
   '2026-1': {
     participantId: 1,
-    actionCardIds: [4],
+    actionCardIds: [4, 2],
   },
   '2026-2': {
     participantId: 2,
@@ -87,42 +85,19 @@ describe('Workshop selector', () => {
       expect(result).toEqual(2023);
     });
   });
-  describe('Test isIndividualActionCardTakenForParticipant', () => {
-    describe('Participant 1', () => {
-      const participantIndividualActionCards = isIndividualActionCardTakenForParticipant(
-        workshop,
-        1
-      );
-      it('should return true if participant has taken the given action', () => {
-        const result = participantIndividualActionCards(2);
-        expect(result).toBe(true);
-      });
-      it('should return false if participant has not taken the given action', () => {
-        const result = participantIndividualActionCards(3);
-        expect(result).toBe(false);
-      });
-    });
-    it("should return false if participant does'nt exists", () => {
-      const result = isIndividualActionCardTakenForParticipant(workshop, 0)(3);
-      expect(result).toBe(false);
-    });
-    it('should return false if there is no parameter', () => {
-      const result = isIndividualActionCardTakenForParticipant()();
-      expect(result).toBe(false);
-    });
-  });
-  describe('Test selectIndividualChoicesForParticipant', () => {
+
+  describe('Test getAllIndividualChoicesForParticipant', () => {
     it('should return array of individual actions for participant 1', () => {
-      const result = selectIndividualChoicesForParticipant(
+      const result = getAllIndividualChoicesForParticipant(
         1,
         roundConfigEntity,
         individualChoicesEntity
       );
-      const expected = [2, 4];
-      expect(result).toEqual(expected);
+      const expected = [2, 2, 4];
+      expect(result.sort()).toEqual(expected.sort());
     });
     it('should return array of individual actions for participant 2', () => {
-      const result = selectIndividualChoicesForParticipant(
+      const result = getAllIndividualChoicesForParticipant(
         2,
         roundConfigEntity,
         individualChoicesEntity
@@ -131,7 +106,7 @@ describe('Workshop selector', () => {
       expect(result).toEqual(expected);
     });
     it('should return empty array for inexisting participant (3)', () => {
-      const result = selectIndividualChoicesForParticipant(
+      const result = getAllIndividualChoicesForParticipant(
         3,
         roundConfigEntity,
         individualChoicesEntity
@@ -140,29 +115,7 @@ describe('Workshop selector', () => {
       expect(result).toEqual(expected);
     });
     it('should return empty array if there is no param', () => {
-      const result = selectIndividualChoicesForParticipant();
-      const expected = [];
-      expect(result).toEqual(expected);
-    });
-  });
-  describe('Test selectIndividualChoicesIdsForParticipant', () => {
-    it('should return array of individual actions for participant 1', () => {
-      const result = selectIndividualChoiceIdsForParticipant(workshop, 1);
-      const expected = [2, 4];
-      expect(result).toEqual(expected);
-    });
-    it('should return array of individual actions for participant 2', () => {
-      const result = selectIndividualChoiceIdsForParticipant(workshop, 2);
-      const expected = [3, 4, 6];
-      expect(result).toEqual(expected);
-    });
-    it('should return empty array for inexisting participant (3)', () => {
-      const result = selectIndividualChoiceIdsForParticipant(workshop, 3);
-      const expected = [];
-      expect(result).toEqual(expected);
-    });
-    it('should return empty array if there is no param', () => {
-      const result = selectIndividualChoiceIdsForParticipant();
+      const result = getAllIndividualChoicesForParticipant();
       const expected = [];
       expect(result).toEqual(expected);
     });
@@ -174,9 +127,11 @@ describe('Workshop selector', () => {
       participantIds,
       actionCardsEntity
     );
-    // remaing budget for participant 1 = (2020.budget + 2026.budget) - (2.cost + 4.cost) = 10 - 6 = 4
-    expect(roundBudget[1]).toEqual(4);
-    // cost for participant 2 = (2020.budget + 2026.budget) - (3.cost + 4.cost + 6.cost) = 10 - 6 = 4
+    // remaing budget for participant 1 =
+    // (2020.budget + 2026.budget) - (2.cost + 4.cost + 2.cost) = 10 - 6 = 1
+    expect(roundBudget[1]).toEqual(1);
+    // cost for participant 2 =
+    // (2020.budget + 2026.budget) - (3.cost + 4.cost + 6.cost) = 10 - 6 = 4
     expect(roundBudget[2]).toEqual(4);
   });
 

@@ -9,17 +9,17 @@ import EuroIcon from '../../../assets/EuroIcon';
 import ParticipantsTable from './ParticipantsTable';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {
+  getAllCollectiveChoices,
+  getAllIndividualChoicesForParticipant,
   getCostOfChosenActionCards,
   getCostOfChosenCollectiveCards,
   getInitRoundBudget,
   getNumberOfChosenCollectiveCards,
-  isIndividualActionCardTakenForParticipant,
-  selectCollectiveChoices,
   selectCollectiveChoicesEntity,
-  selectCurrentWorkshop,
   selectIndividualChoicesEntity,
   selectNextRound,
   selectParticipantsEntity,
+  selectRoundConfigEntity,
 } from '../../../selectors/workshopSelector';
 import {
   initRoundAndProcessModel,
@@ -38,9 +38,14 @@ const ActionCardsEntry = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentWorkshop = useSelector(selectCurrentWorkshop);
+
+  const roundConfigEntity = useSelector(selectRoundConfigEntity);
   const nextRound = useSelector(selectNextRound);
   const participantsEntity = useSelector(selectParticipantsEntity);
+  const actionCardsEntity = useSelector(
+    (state) => state.workshop.entities.actionCards
+  );
+
   const [selectedParticipantId, setSelectedParticipantId] = useState(
     participantsEntity ? Object.keys(participantsEntity)[0] : -1
   );
@@ -49,22 +54,15 @@ const ActionCardsEntry = ({
     setSelectedParticipantId(id);
   };
 
-  const actionCardsEntity = useSelector(
-    (state) => state.workshop.entities.actionCards
-  );
-
-  // these are choices (from prev rounds), not cards per se
+  // these are choices from prev rounds
   const individualChoicesEntity = useSelector(selectIndividualChoicesEntity);
-
   const collectiveChoicesEntity = useSelector(selectCollectiveChoicesEntity);
 
-  const budgetPerParticipant = useSelector((state) =>
-    getInitRoundBudget(
-      state.workshop.entities.roundConfig,
-      state.workshop.entities.individualChoices,
-      Object.keys(state.workshop.entities.participants),
-      state.workshop.entities.actionCards
-    )
+  const budgetPerParticipant = getInitRoundBudget(
+    roundConfigEntity,
+    individualChoicesEntity,
+    Object.keys(participantsEntity),
+    actionCardsEntity
   );
 
   // CollectiveBudget is automatically computed and not modifiable
@@ -76,27 +74,35 @@ const ActionCardsEntry = ({
     )
   );
 
-  // const budgetCollective = useSelector((state) =>
-  //   getInitRoundBudgetCollective(
-  //     state.workshop.entities.roundConfig,
-  //     state.workshop.entities.collectiveChoices,
-  //     state.workshop.entities.actionCards
-  //   )
-  // );
+  // these are current choices (for this round)
+  const [currentIndividualChoices, setCurrentIndividualChoices] = useState({});
+  const [currentCollectiveChoices, setCurrentCollectiveChoices] = useState({});
 
-  // these are current choices (for this round), not cards per se
-  const [currentIndividualChoices, setCurrentIndividualChoices] = useState(
-    individualChoicesEntity
-  );
-  const [currentCollectiveChoices, setCurrentCollectiveChoices] = useState(
-    collectiveChoicesEntity
-  );
-  const chosenCollectiveActionCards = useSelector((state) =>
-    selectCollectiveChoices(
-      state.workshop.entities.roundConfig,
-      state.workshop.entities.collectiveChoices
-    )
-  );
+  const isIndividualActionCardChecked = (actionCardId) =>
+    currentIndividualChoices &&
+    currentIndividualChoices[
+      makeYearParticipantKey(currentRound, selectedParticipantId)
+    ] &&
+    currentIndividualChoices[
+      makeYearParticipantKey(currentRound, selectedParticipantId)
+    ].actionCardIds.includes(actionCardId);
+
+  const isCollectiveActionCardChecked = (actionCardId) =>
+    currentCollectiveChoices &&
+    currentCollectiveChoices[currentRound] &&
+    currentCollectiveChoices[currentRound].actionCardIds.includes(actionCardId);
+
+  const numberOfPreviousIndividualChoices = (actionCardId) =>
+    getAllIndividualChoicesForParticipant(
+      selectedParticipantId,
+      roundConfigEntity,
+      individualChoicesEntity
+    ).filter((id) => id === actionCardId).length;
+
+  const numberOfPreviousCollectiveChoices = (actionCardId) =>
+    getAllCollectiveChoices(roundConfigEntity, collectiveChoicesEntity).filter(
+      (id) => id === actionCardId
+    ).length;
 
   const handleSubmitIndividualChoices = () => {
     dispatch(
@@ -108,11 +114,13 @@ const ActionCardsEntry = ({
     dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
   };
+
   const handleSubmitCollectiveChoices = () => {
     dispatch(setCollectiveChoices(currentRound, currentCollectiveChoices));
     dispatch(initRoundAndProcessModel(currentRound, nextRound));
     handleClose();
   };
+
   const toggleIndividualChoiceInMap = (
     individualChoicesMap,
     round,
@@ -184,27 +192,6 @@ const ActionCardsEntry = ({
           )
         );
 
-  const isIndividualActionCardChecked = (actionCardId) =>
-    isIndividualActionCardTakenForParticipant(
-      currentWorkshop,
-      selectedParticipantId
-    )(actionCardId) ||
-    (currentIndividualChoices &&
-      currentIndividualChoices[
-        makeYearParticipantKey(currentRound, selectedParticipantId)
-      ] &&
-      currentIndividualChoices[
-        makeYearParticipantKey(currentRound, selectedParticipantId)
-      ].actionCardIds.includes(actionCardId));
-
-  const isCollectiveActionCardChecked = (actionCardId) =>
-    chosenCollectiveActionCards.includes(actionCardId) ||
-    (currentCollectiveChoices &&
-      currentCollectiveChoices[currentRound] &&
-      currentCollectiveChoices[currentRound].actionCardIds.includes(
-        actionCardId
-      ));
-
   return (
     <Container>
       <Row>
@@ -253,22 +240,22 @@ const ActionCardsEntry = ({
           <h4>{t('common.batches')}</h4>
           {roundActionCardType === 'individual' && (
             <ActionCardsForm
-              // handleSubmit={handleSubmitIndividualChoices}
               handleCardActionSelectionChange={handleChoicesChange(
                 currentRound,
                 selectedParticipantId
               )}
-              handleCheckedActionCard={isIndividualActionCardChecked}
+              isCheckedActionCard={isIndividualActionCardChecked}
+              numberOfPreviousChoices={numberOfPreviousIndividualChoices}
               actionCardType={roundActionCardType}
             />
           )}
           {roundActionCardType === 'collective' && (
             <ActionCardsForm
-              // handleSubmit={handleSubmitCollectiveChoices}
               handleCardActionSelectionChange={handleChoicesChange(
                 currentRound
               )}
-              handleCheckedActionCard={isCollectiveActionCardChecked}
+              isCheckedActionCard={isCollectiveActionCardChecked}
+              numberOfPreviousChoices={numberOfPreviousCollectiveChoices}
               actionCardType={roundActionCardType}
             />
           )}

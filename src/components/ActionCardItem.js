@@ -22,9 +22,23 @@ const ActionCardItem = ({
   sector,
   active,
   checked,
+  previousChoices,
   cost,
   handleChange,
 }) => {
+  const nIndicators = previousChoices + (checked ? 1 : 0);
+  const indicators =
+    nIndicators > 0
+      ? [...Array(nIndicators).keys()].map((key) => (
+          <img
+            src={require('../assets/GreenIndicator.svg')}
+            width={sizeGreen}
+            height={sizeGreen}
+            key={`indicator${key}`}
+          />
+        ))
+      : [];
+
   return (
     <StyledItem
       checked={checked}
@@ -42,12 +56,8 @@ const ActionCardItem = ({
           <div className="col p-1">{text.toLowerCase()}</div>
           <div className="col-auto pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
-              {checked ? (
-                <img
-                  src={require('../assets/GreenIndicator.svg')}
-                  width={sizeGreen}
-                  height={sizeGreen}
-                />
+              {nIndicators ? (
+                indicators
               ) : (
                 <img
                   src={require('../assets/WhiteIndicator.svg')}
@@ -68,12 +78,8 @@ const ActionCardItem = ({
           </div>
           <div className="col-7 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
-              {checked ? (
-                <img
-                  src={require('../assets/GreenIndicator.svg')}
-                  width={sizeGreen}
-                  height={sizeGreen}
-                />
+              {nIndicators ? (
+                indicators
               ) : (
                 <img
                   src={require('../assets/WhiteIndicator.svg')}

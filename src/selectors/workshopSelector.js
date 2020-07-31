@@ -5,18 +5,14 @@ import { makeYearParticipantKey, sumArray } from '../utils/helpers';
 const selectWorkshopEntity = (workshop, entity) =>
   pathOr({}, ['entities', entity], workshop);
 
-export const selectIndividualChoiceIdsForParticipant = (
-  workshop,
-  participantId
-) => {
-  const individualChoicesEntity = selectWorkshopEntity(
-    workshop,
-    'individualChoices'
-  );
-  const roundConfigEntity = selectWorkshopEntity(workshop, 'roundConfig');
-  return [
-    ...new Set(
-      Object.keys(roundConfigEntity).reduce(
+// for all rounds
+export const getAllIndividualChoicesForParticipant = (
+  participantId,
+  roundConfigEntity,
+  individualChoicesEntity
+) =>
+  individualChoicesEntity
+    ? Object.keys(roundConfigEntity).reduce(
         (accumulator, year) =>
           roundConfigEntity[year].actionCardType === 'individual' &&
           individualChoicesEntity[makeYearParticipantKey(year, participantId)]
@@ -28,68 +24,21 @@ export const selectIndividualChoiceIdsForParticipant = (
             : accumulator,
         []
       )
-    ),
-  ];
-};
-
-export const isIndividualActionCardTakenForParticipant = (
-  workshop,
-  participantId
-) => {
-  const individualChoicesForParticipant = selectIndividualChoiceIdsForParticipant(
-    workshop,
-    participantId
-  );
-  return (actionCardId) => {
-    return individualChoicesForParticipant.includes(actionCardId);
-  };
-};
-
-export const selectIndividualChoicesForParticipant = (
-  participantId,
-  roundConfigEntity,
-  individualChoicesEntity
-) =>
-  individualChoicesEntity
-    ? [
-        ...new Set(
-          Object.keys(roundConfigEntity).reduce(
-            (accumulator, year) =>
-              roundConfigEntity[year].actionCardType === 'individual' &&
-              individualChoicesEntity[
-                makeYearParticipantKey(year, participantId)
-              ]
-                ? accumulator.concat(
-                    individualChoicesEntity[
-                      makeYearParticipantKey(year, participantId)
-                    ].actionCardIds
-                  )
-                : accumulator,
-            []
-          )
-        ),
-      ]
     : [];
 
-export const selectCollectiveChoices = (
+export const getAllCollectiveChoices = (
   roundConfigEntity,
   collectiveChoicesEntity
 ) =>
   collectiveChoicesEntity
-    ? [
-        ...new Set(
-          Object.keys(roundConfigEntity).reduce(
-            (accumulator, year) =>
-              roundConfigEntity[year].actionCardType === 'collective' &&
-              collectiveChoicesEntity[year]
-                ? accumulator.concat(
-                    collectiveChoicesEntity[year].actionCardIds
-                  )
-                : accumulator,
-            []
-          )
-        ),
-      ]
+    ? Object.keys(roundConfigEntity).reduce(
+        (accumulator, year) =>
+          roundConfigEntity[year].actionCardType === 'collective' &&
+          collectiveChoicesEntity[year]
+            ? accumulator.concat(collectiveChoicesEntity[year].actionCardIds)
+            : accumulator,
+        []
+      )
     : [];
 
 const selectCheckedActionCardsBatchIdsFromRounds = (
@@ -117,6 +66,7 @@ const selectCheckedActionCardsBatchIdsFromRounds = (
   ];
 };
 
+// chosen batches
 export const selectCheckedIndividualActionCardsBatchIdsFromRounds = (
   workshop
 ) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'individual');
@@ -140,12 +90,11 @@ export const selectCurrentRound = (state) =>
 export const selectCurrentYear = (state) =>
   pathOr(null, ['workshop', 'result', 'currentYear'], state);
 
+export const selectRoundConfigEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'roundConfig');
+
 export const selectNextRound = (state) => {
-  const currentWorkshop = selectCurrentWorkshop(state);
-  const roundConfigEntity = selectWorkshopEntity(
-    currentWorkshop,
-    'roundConfig'
-  );
+  const roundConfigEntity = selectRoundConfigEntity(state);
   const config = roundConfigEntity[selectCurrentYear(state)];
   return config ? config.targetedYear : null;
 };
@@ -225,7 +174,7 @@ export const getCostOfChosenCollectiveCards = (
 // computes number of hearts = budget per participant at the beginning of each round
 export const getInitRoundBudget = (
   roundConfigEntity,
-  inidividualChoicesEntity,
+  individualChoicesEntity,
   participantIds,
   actionCardsEntity
 ) => {
@@ -243,13 +192,14 @@ export const getInitRoundBudget = (
   });
   rounds.forEach((round) => {
     participantIds.forEach((id) => {
-      const cardIds = inidividualChoicesEntity
-        ? inidividualChoicesEntity[makeYearParticipantKey(round, id)]
+      const cardIds = individualChoicesEntity
+        ? individualChoicesEntity[makeYearParticipantKey(round, id)]
         : null;
-      cardIds &&
+      if (cardIds) {
         cardIds.actionCardIds.forEach((cardId) => {
           initBudgets[id] -= actionCardsEntity[cardId].cost;
         });
+      }
     });
   });
   return initBudgets;
@@ -267,6 +217,7 @@ export const getDefaultRoundType = (roundConfigEntity, currentYear) => {
       : 'individual'
     : 'individual';
 };
+
 export const getInitRoundBudgetCollective = (
   roundConfigEntity,
   collectiveChoicesEntity,
@@ -284,10 +235,11 @@ export const getInitRoundBudgetCollective = (
     const cardIds = collectiveChoicesEntity
       ? collectiveChoicesEntity[round]
       : null;
-    cardIds &&
+    if (cardIds) {
       cardIds.actionCardIds.forEach((cardId) => {
         totalBudget -= actionCardsEntity[cardId].cost;
       });
+    }
   });
   return totalBudget;
 };

@@ -86,7 +86,7 @@ export const ParticipantItemForm = ({
       <Col className="d-sm-none d-md-block">
         <Form.Label>{`${firstName} ${lastName}`}</Form.Label>
       </Col>
-      <Col>
+      <Col md="3">
         <Form.Label>{email}</Form.Label>
       </Col>
       <Col>
@@ -119,7 +119,7 @@ export const ParticipantsHeader = () => {
         <Col className="d-sm-none d-md-block">
           {t('manageParticipants.nameSurname')}
         </Col>
-        <Col>{t('manageParticipants.email')}</Col>
+        <Col md="3">{t('manageParticipants.email')}</Col>
         <Col>{t('manageParticipants.persona')}</Col>
         <Col className="text-center">{t('manageParticipants.status')}</Col>
       </Row>

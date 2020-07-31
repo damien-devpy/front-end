@@ -167,7 +167,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   <Button
                     variant={budgetYearStyle}
                     onClick={() => {
-                      if (values.targetedYear > currentYear + yearIncrement) {
+                      if (values.targetedYear > currentYear + 1) {
                         setFieldValue('targetedYear', values.targetedYear - 1);
                       }
                     }}

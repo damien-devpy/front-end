@@ -21,6 +21,7 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
     handleDelete(workshopToDelete.id);
     handleCloseModal();
   };
+
   return (
     <>
       <Table borderless>
@@ -37,7 +38,7 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
         <tbody>
           {workshops &&
             coaches &&
-            workshops.map(({ id, date, name, city, status, coachId }) => {
+            workshops.map(({ id, startAt, name, city, status, coachId }) => {
               const coachEmail = coaches.find((coach) => coach.id === coachId)
                 .email;
               const link =
@@ -46,7 +47,7 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
                   : `workshop/${id}/simulation`;
               return (
                 <StyledRow status={status} key={id}>
-                  <td>{moment(date).format('L')}</td>
+                  <td>{moment(startAt).format('DD/MM/YYYY')}</td>
                   <td>{name}</td>
                   <td>{city}</td>
                   <td>{coachEmail}</td>

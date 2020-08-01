@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { Card, Container, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -55,7 +56,12 @@ const Workshops = () => {
       });
   };
   const handleSubmit = (values) => {
-    dispatch(createAsyncWorkshop(values));
+    dispatch(
+      createAsyncWorkshop({
+        ...values,
+        startAt: moment.utc(values.startAt, 'DD/MM/YYYY'),
+      })
+    );
     setShow(false);
   };
   const deleteAsyncWorkshop = (workshopId) => (dispatchThunk) => {

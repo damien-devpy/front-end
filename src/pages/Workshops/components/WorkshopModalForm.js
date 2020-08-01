@@ -17,7 +17,7 @@ const WorkshopModalForm = ({ t, coaches, handleSubmit }) => {
       validationSchema={schema}
       onSubmit={handleSubmit}
       initialValues={{
-        startAt: moment(),
+        startAt: moment().format('DD/MM/YYYY'),
         name: '',
         coachId: coaches && coaches[0].id,
         // status: 'En préparation',
@@ -39,6 +39,19 @@ const WorkshopModalForm = ({ t, coaches, handleSubmit }) => {
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.name}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} controlId="validationFormik01">
+                <Form.Label>{t('common.date')}</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="startAt"
+                  value={values.startAt}
+                  onChange={handleChange}
+                  isInvalid={!moment(values.startAt, 'DD/MM/YYYY').isValid()}
+                />
+                <Form.Control.Feedback type="invalid">
+                  invalid date
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} controlId="validationFormik02">

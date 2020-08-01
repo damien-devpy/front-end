@@ -32,7 +32,7 @@ const Navbar = ({ links = [], type = 'home' }) => {
     firstName || lastName ? `${firstName} ${lastName}` : undefined;
   const dispatch = useDispatch();
   const isActive = (path) =>
-    location.pathname.endsWith(path) ? `badge rounded-lg navbar-link` : null;
+    location.pathname.endsWith(path) ? `rounded-lg navbar-link` : null;
 
   const handleLogout = () => {
     logout();

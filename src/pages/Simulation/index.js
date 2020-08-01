@@ -90,7 +90,7 @@ const Simulation = ({
         )}
       </div>
 
-      {currentRound && (
+      {!isLoading && currentRound && (
         <>
           <h2 className="workshop-title">{workshopTitle}</h2>
 

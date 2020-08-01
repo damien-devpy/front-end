@@ -60,6 +60,7 @@ export const updateWorkshopApi = ({ workshopId, data }) => {
   return handleFetch(`/workshops/${workshopId}`, {
     method: 'PUT',
     body: JSON.stringify(denormalizedWorkshop),
+    type: 'empty',
   });
 };
 

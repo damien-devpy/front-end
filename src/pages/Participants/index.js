@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import { Card, Container, Modal } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
+import Loading from '../../components/Loading';
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import {
@@ -59,7 +60,7 @@ const ManageParticipants = ({
     params: { workshopId },
   },
 }) => {
-  const workshop = useWorkshop(workshopId);
+  const { error, isLoading } = useWorkshop(workshopId);
   const isWorkshopReadyForInitialization = useSelector(
     selectIsWorkshopReadyForInitialization
   );
@@ -230,74 +231,81 @@ const ManageParticipants = ({
     });
 
   return (
-    <Container>
-      <h2 className="workshop-title">{workshopTitle}</h2>
-      <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
-        <CardHeader>
-          <h3>{t('manageParticipants.title')}</h3>
-          <AddNewButton
-            disabled={disableModifications}
-            onClick={() => {
-              setShowAddParticipantModal(true);
-            }}
-          >
-            {t('manageParticipants.addNew')}
-          </AddNewButton>
-        </CardHeader>
-        <hr />
-
-        <div className="container">
-          <ParticipantsHeader />
-          {participantItems}
-          <hr />
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          {isSynchronized && workshopStatus === 'created' && (
-            <PrimaryButton
-              onClick={() => dispatch(startWorkshop(2020))}
-              disabled={!isWorkshopReadyForInitialization}
+    <Loading error={error} isLoading={isLoading}>
+      <Container>
+        <h2 className="workshop-title">{workshopTitle}</h2>
+        <Card
+          className="p-5 border-light shadow-sm"
+          style={{ borderRadius: 10 }}
+        >
+          <CardHeader>
+            <h3>{t('manageParticipants.title')}</h3>
+            <AddNewButton
+              disabled={disableModifications}
+              onClick={() => {
+                setShowAddParticipantModal(true);
+              }}
             >
-              {t('common.launchSimulation')}
-            </PrimaryButton>
-          )}
-          {workshopStatus === 'ongoing' && (
-            <Link to={`/workshop/${workshopId}/simulation`}>
-              <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
-            </Link>
-          )}
-        </div>
-      </Card>
-      {showBC && (
+              {t('manageParticipants.addNew')}
+            </AddNewButton>
+          </CardHeader>
+          <hr />
+
+          <div className="container">
+            <ParticipantsHeader />
+            {participantItems}
+            <hr />
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            {isSynchronized && workshopStatus === 'created' && (
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton
+                  onClick={() => dispatch(startWorkshop(2020))}
+                  disabled={!isWorkshopReadyForInitialization}
+                >
+                  {t('common.launchSimulation')}
+                </PrimaryButton>
+              </Link>
+            )}
+            {workshopStatus === 'ongoing' && (
+              <Link to={`/workshop/${workshopId}/simulation`}>
+                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
+              </Link>
+            )}
+          </div>
+        </Card>
+        {showBC && (
+          <CommonModal
+            size="md"
+            centered
+            show={showBC}
+            handleClose={() => {
+              setShowBC(false);
+            }}
+            title={t('manageParticipants.titleBCmodal', {
+              name: participants[footprintToShow.id].firstName,
+            })}
+          >
+            <h5>
+              {t('manageParticipants.totalBC')} {footprintToShow.total}{' '}
+              {t('manageParticipants.unitBC')}
+            </h5>
+            <FootprintGraph footprint={footprintToShow.footprint} />
+          </CommonModal>
+        )}
         <CommonModal
           size="md"
           centered
-          show={showBC}
+          show={showAddParticipantModal}
           handleClose={() => {
-            setShowBC(false);
+            setShowAddParticipantModal(false);
           }}
-          title={t('manageParticipants.titleBCmodal', {
-            name: participants[footprintToShow.id].firstName,
-          })}
+          title={t('manageParticipants.titleAddNewModal')}
         >
-          <h5>
-            {t('manageParticipants.totalBC')} {footprintToShow.total}{' '}
-            {t('manageParticipants.unitBC')}
-          </h5>
-          <FootprintGraph footprint={footprintToShow.footprint} />
+          <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
         </CommonModal>
-      )}
-      <CommonModal
-        size="md"
-        centered
-        show={showAddParticipantModal}
-        handleClose={() => {
-          setShowAddParticipantModal(false);
-        }}
-        title={t('manageParticipants.titleAddNewModal')}
-      >
-        <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
-      </CommonModal>
-    </Container>
+      </Container>
+    </Loading>
   );
 };
 

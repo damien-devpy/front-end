@@ -201,6 +201,7 @@ const ManageParticipants = ({
     });
   };
 
+  const disableModifications = workshopStatus !== 'created';
   const participantItems = [];
 
   participants &&
@@ -224,7 +225,7 @@ const ManageParticipants = ({
           currentPersonaId={p.personaId}
           handleShowBC={handleShowBC}
           handleSendForm={handleSendForm}
-          disabled={workshopStatus !== 'created'}
+          disabled={disableModifications}
         />
       );
     });
@@ -240,6 +241,7 @@ const ManageParticipants = ({
           <CardHeader>
             <h3>{t('manageParticipants.title')}</h3>
             <AddNewButton
+              disabled={disableModifications}
               onClick={() => {
                 setShowAddParticipantModal(true);
               }}

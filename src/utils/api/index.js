@@ -40,12 +40,15 @@ export const login = (data) =>
     body: data,
   });
 
-export const changePassword = ({ password }) =>
-  handleFetch(`/reset_password?access_token=${getAccessToken()}`, {
-    method: 'POST',
-    body: JSON.stringify({ password }),
-    type: 'empty',
-  });
+export const changePassword = ({ password, accessToken }) =>
+  handleFetch(
+    `/reset_password?access_token=${accessToken || getAccessToken()}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+      type: 'empty',
+    }
+  );
 
 export const getCoaches = () =>
   handleFetch(`/coaches`, {

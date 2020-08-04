@@ -38,6 +38,9 @@ const colorsPalet = [
   'darkgreen',
   'orange',
 ];
+
+const mainCategories = ['avg_global', 'avg_participants', 'objective'];
+
 const players = (obj) =>
   (obj && Object.keys(obj) && Object.keys(obj).filter((k) => k !== 'year')) ||
   [];
@@ -52,23 +55,18 @@ const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
   const participants = useSelector(selectParticipantsEntity);
+  console.log(participants);
 
   const participantName = (participantId) => {
-    if (Object.keys(participants).includes(participantId)) {
-      return `${participants[participantId].firstName} ${
-        participants[participantId].lastName.split('')[0]
-      }.`;
-    }
-    if (
-      participantId.toString().startsWith('avg_') ||
-      participantId.toString().startsWith('obj')
-    ) {
-      return t(`common.${participantId}`);
-    }
-    return participantId;
+    console.log(participantId);
+    return mainCategories.includes(participantId.toString())
+      ? t(`common.${participantId}`)
+      : `${participants[participantId].firstName} ${
+          participants[participantId].lastName.split('')[0]
+        }.`;
   };
 
-  const evolutionData = useSelector((state) =>
+  let evolutionData = useSelector((state) =>
     computeEvolutionGraph(
       selectRoundsEntity(state),
       selectCarbonFootprintsEntity(state),
@@ -77,13 +75,22 @@ const EvolutionCarbon = () => {
     )
   );
   for (let i = 0; i < evolutionData.length; i++) {
-    evolutionData[i].objective = 2;
+    evolutionData[i].objective =
+      evolutionData[0].avg_global -
+      ((evolutionData[0].avg_global - 2) * (evolutionData[i].year - 2020)) /
+        (2050 - 2020);
   }
+  evolutionData[0].objective = evolutionData[0].avg_global;
+  evolutionData = [...evolutionData, { year: 2050, objective: 2 }];
+
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
-  const curveColors = Object.fromEntries(
-    dataKeysArray.map((key, i) => [key, colorsPalet[i]])
-  );
+  const curveColors = Object.fromEntries([
+    ...mainCategories.map((key, i) => [key, colorsPalet[i]]),
+    ...dataKeysArray
+      .filter((key) => !mainCategories.includes(key))
+      .map((key, i) => [key, colorsPalet[i + mainCategories.length]]),
+  ]);
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
@@ -160,7 +167,11 @@ const EvolutionCarbon = () => {
           />
         </YAxis>
 
-        <Tooltip labelFormatter={(player_id) => participantName(player_id)} />
+        <Tooltip
+          labelFormatter={(labelId) =>
+            dataKeysArray.includes(labelId) ? participantName(labelId) : labelId
+          }
+        />
         <Legend
           align="left"
           verticalAlign="middle"
@@ -173,30 +184,32 @@ const EvolutionCarbon = () => {
           onBlur={handleMouseOut}
         />
         {dataKeysArray.map((player) => {
-          let dotSize = 5;
+          // let dotSize = 5;
           let strokeWidth = width[player];
           let dot = true;
+          let strokeDasharray = '';
           if (player.startsWith('avg')) {
-            dotSize = 5;
+            // dotSize = 5;
             strokeWidth = width[player] + 4;
             dot = true;
           } else if (player.startsWith('objective')) {
-            dotSize = 0;
-            strokeWidth = width[player] - 3;
+            // dotSize = 0;
             dot = false;
+            strokeDasharray = '5 5';
           }
           return (
             <Line
+              key={`line${player}`}
               type="monotone"
               dataKey={dataKeys[player]}
               name={participantName(player)}
               strokeOpacity={opacity[player]}
               stroke={colors[player]}
-              activeDot={dotSize}
+              // activeDot={dotSize}
               dot={dot}
               // isAnimationActive={false}
               strokeWidth={strokeWidth}
-              // onMouseEnter={}
+              strokeDasharray={strokeDasharray}
             />
           );
         })}

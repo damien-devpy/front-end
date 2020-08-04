@@ -25,28 +25,53 @@ import {
   selectRoundsEntity,
 } from '../../../selectors/workshopSelector';
 
-const colorsPalet = [
-  'brown',
-  'black',
-  '#3869B1',
-  '#409852',
-  '#DA7E30',
-  '#6C4D9B',
-  COLORS.GOLD,
-  'darkblue',
-  'pink',
-  'darkgreen',
-  'orange',
+// 18 individual colors generated using http://phrogz.net/css/distinct-colors.html
+const colorsPalette = [
+  COLORS.BLUE.STANDARD,
+  COLORS.RED.STANDARD,
+  COLORS.BROWN.DARK,
+  '#ff6d57',
+  '#ffcc00',
+  '#4ce060',
+  '#00eeff',
+  '#3754a3',
+  '#a31c76',
+  '#ff802b',
+  '#a38e37',
+  '#37a371',
+  '#377fa3',
+  '#2b48ff',
+  '#ff2b80',
+  '#a3641c',
+  '#d1e000',
+  '#00ffcc',
+  '#57b0ff',
+  '#dd57ff',
+  '#c20034',
 ];
+
+const mainCategories = ['avg_global', 'avg_participants', 'objective'];
+
 const players = (obj) =>
   (obj && Object.keys(obj) && Object.keys(obj).filter((k) => k !== 'year')) ||
   [];
-// const sum = (obj) =>
-//   players(obj).reduce(
-//     (accumulator, currentValue) =>
-//       accumulator + parseInt(obj[currentValue], 10),
-//     0
-//   );
+
+const addObjectiveTrajectory = (evolutionData) => {
+  const newEvolutionData = [...evolutionData];
+  const global2020 = evolutionData[0].avg_global;
+  const objective = 2;
+  const initYear = evolutionData[0].year;
+  const finalYear = 2050;
+
+  for (let i = 0; i < evolutionData.length; i += 1) {
+    const value =
+      global2020 -
+      ((global2020 - objective) * (evolutionData[i].year - initYear)) /
+        (finalYear - initYear);
+    newEvolutionData[i].objective = Math.round(value * 100) / 100;
+  }
+  return [...newEvolutionData, { year: finalYear, objective }];
+};
 
 const EvolutionCarbon = () => {
   // Compute data
@@ -54,21 +79,14 @@ const EvolutionCarbon = () => {
   const participants = useSelector(selectParticipantsEntity);
 
   const participantName = (participantId) => {
-    if (Object.keys(participants).includes(participantId)) {
-      return `${participants[participantId].firstName} ${
-        participants[participantId].lastName.split('')[0]
-      }.`;
-    }
-    if (
-      participantId.toString().startsWith('avg_') ||
-      participantId.toString().startsWith('obj')
-    ) {
-      return t(`common.${participantId}`);
-    }
-    return participantId;
+    return mainCategories.includes(participantId.toString())
+      ? t(`common.${participantId}`)
+      : `${participants[participantId].firstName} ${
+          participants[participantId].lastName.split('')[0]
+        }.`;
   };
 
-  const evolutionData = useSelector((state) =>
+  let evolutionData = useSelector((state) =>
     computeEvolutionGraph(
       selectRoundsEntity(state),
       selectCarbonFootprintsEntity(state),
@@ -76,14 +94,17 @@ const EvolutionCarbon = () => {
       selectFootprintStructure(state)
     )
   );
-  for (let i = 0; i < evolutionData.length; i++) {
-    evolutionData[i].objective = 2;
-  }
+
+  evolutionData = addObjectiveTrajectory(evolutionData);
+
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
-  const curveColors = Object.fromEntries(
-    dataKeysArray.map((key, i) => [key, colorsPalet[i]])
-  );
+  const curveColors = Object.fromEntries([
+    ...mainCategories.map((key, i) => [key, colorsPalette[i]]),
+    ...dataKeysArray
+      .filter((key) => !mainCategories.includes(key))
+      .map((key, i) => [key, colorsPalette[i + mainCategories.length]]),
+  ]);
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(
     Object.fromEntries(dataKeysArray.map((key) => [key, key]))
@@ -160,7 +181,11 @@ const EvolutionCarbon = () => {
           />
         </YAxis>
 
-        <Tooltip labelFormatter={(player_id) => participantName(player_id)} />
+        <Tooltip
+          labelFormatter={(labelId) =>
+            dataKeysArray.includes(labelId) ? participantName(labelId) : labelId
+          }
+        />
         <Legend
           align="left"
           verticalAlign="middle"
@@ -173,30 +198,30 @@ const EvolutionCarbon = () => {
           onBlur={handleMouseOut}
         />
         {dataKeysArray.map((player) => {
-          let dotSize = 5;
           let strokeWidth = width[player];
           let dot = true;
+          let strokeDasharray = '';
           if (player.startsWith('avg')) {
-            dotSize = 5;
+            // dotSize = 5;
             strokeWidth = width[player] + 4;
-            dot = true;
+            // dot = true;
           } else if (player.startsWith('objective')) {
-            dotSize = 0;
-            strokeWidth = width[player] - 3;
             dot = false;
+            strokeDasharray = '5 5';
           }
           return (
             <Line
+              key={`line${player}`}
               type="monotone"
               dataKey={dataKeys[player]}
               name={participantName(player)}
               strokeOpacity={opacity[player]}
               stroke={colors[player]}
-              activeDot={dotSize}
+              activeDot={dot}
               dot={dot}
               // isAnimationActive={false}
               strokeWidth={strokeWidth}
-              // onMouseEnter={}
+              strokeDasharray={strokeDasharray}
             />
           );
         })}

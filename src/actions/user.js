@@ -41,12 +41,18 @@ const passwordChanged = () => ({
   payload: {},
 });
 
-export const changeCurrentUserPassword = (password) => {
+export const changeCurrentUserPassword = (password, accessToken, callback) => {
   return (dispatch) => {
     dispatch(requestChangePassword());
-    return changePassword({ password }).then(() => {
-      dispatch(logoutCurrentUser());
-      dispatch(passwordChanged());
-    });
+    return changePassword({ password, accessToken })
+      .then(() => {
+        dispatch(logoutCurrentUser());
+        dispatch(passwordChanged());
+        if (callback) callback();
+      })
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(e);
+      });
   };
 };

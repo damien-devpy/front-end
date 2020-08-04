@@ -23,8 +23,8 @@ import { useAuthentication } from './hooks/authentication';
 
 const AppRouter = ({ currentUser }) => {
   const dispatch = useDispatch();
-  const handleChangePassword = (password) =>
-    dispatch(changeCurrentUserPassword(password));
+  const handleChangePassword = (password, accessToken, callback) =>
+    dispatch(changeCurrentUserPassword(password, accessToken, callback));
 
   return (
     <BrowserRouter>

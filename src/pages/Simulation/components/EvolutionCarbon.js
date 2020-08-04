@@ -55,10 +55,8 @@ const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
   const participants = useSelector(selectParticipantsEntity);
-  console.log(participants);
 
   const participantName = (participantId) => {
-    console.log(participantId);
     return mainCategories.includes(participantId.toString())
       ? t(`common.${participantId}`)
       : `${participants[participantId].firstName} ${
@@ -74,6 +72,7 @@ const EvolutionCarbon = () => {
       selectFootprintStructure(state)
     )
   );
+
   for (let i = 0; i < evolutionData.length; i++) {
     evolutionData[i].objective =
       evolutionData[0].avg_global -

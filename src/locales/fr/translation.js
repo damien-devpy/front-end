@@ -160,7 +160,10 @@ export default {
     deleteWorkshop: "Impossible de supprimer l'atelier {{workshopName}}",
     createCoach: "Impossible d'ajouter l'animateur {{coachName}}",
     deleteCoach: "Impossible de supprimer l'animateur {{coachName}}",
-    passwordsAreDifferent: 'Les deux mots de passe ne sont pas identiques',
+    fieldMandatory: 'Champ obligatoire',
+    passwordsAreDifferent: 'Les deux mots de passe doivent être identiques',
+    passwordMin8Characters:
+      'Le mot de passe doit contenir au minimum 8 caractères',
   },
   manageParticipants: {
     title: "Liste des participants de l'atelier",

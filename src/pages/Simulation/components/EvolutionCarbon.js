@@ -25,18 +25,29 @@ import {
   selectRoundsEntity,
 } from '../../../selectors/workshopSelector';
 
-const colorsPalet = [
-  'brown',
-  'black',
-  '#3869B1',
-  '#409852',
-  '#DA7E30',
-  '#6C4D9B',
-  COLORS.GOLD,
-  'darkblue',
-  'pink',
-  'darkgreen',
-  'orange',
+// 18 individual colors generated using http://phrogz.net/css/distinct-colors.html
+const colorsPalette = [
+  COLORS.BLUE.STANDARD,
+  COLORS.RED.STANDARD,
+  COLORS.BROWN.DARK,
+  '#ff6d57',
+  '#ffcc00',
+  '#4ce060',
+  '#00eeff',
+  '#3754a3',
+  '#a31c76',
+  '#ff802b',
+  '#a38e37',
+  '#37a371',
+  '#377fa3',
+  '#2b48ff',
+  '#ff2b80',
+  '#a3641c',
+  '#d1e000',
+  '#00ffcc',
+  '#57b0ff',
+  '#dd57ff',
+  '#c20034',
 ];
 
 const mainCategories = ['avg_global', 'avg_participants', 'objective'];
@@ -53,10 +64,11 @@ const addObjectiveTrajectory = (evolutionData) => {
   const finalYear = 2050;
 
   for (let i = 0; i < evolutionData.length; i += 1) {
-    newEvolutionData[i].objective =
+    const value =
       global2020 -
       ((global2020 - objective) * (evolutionData[i].year - initYear)) /
         (finalYear - initYear);
+    newEvolutionData[i].objective = Math.round(value * 100) / 100;
   }
   return [...newEvolutionData, { year: finalYear, objective }];
 };
@@ -88,10 +100,10 @@ const EvolutionCarbon = () => {
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
   const curveColors = Object.fromEntries([
-    ...mainCategories.map((key, i) => [key, colorsPalet[i]]),
+    ...mainCategories.map((key, i) => [key, colorsPalette[i]]),
     ...dataKeysArray
       .filter((key) => !mainCategories.includes(key))
-      .map((key, i) => [key, colorsPalet[i + mainCategories.length]]),
+      .map((key, i) => [key, colorsPalette[i + mainCategories.length]]),
   ]);
   const [opacity, setOpacity] = useState(initialState);
   const [dataKeys, setDataKeys] = useState(

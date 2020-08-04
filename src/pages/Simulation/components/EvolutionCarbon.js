@@ -44,12 +44,22 @@ const mainCategories = ['avg_global', 'avg_participants', 'objective'];
 const players = (obj) =>
   (obj && Object.keys(obj) && Object.keys(obj).filter((k) => k !== 'year')) ||
   [];
-// const sum = (obj) =>
-//   players(obj).reduce(
-//     (accumulator, currentValue) =>
-//       accumulator + parseInt(obj[currentValue], 10),
-//     0
-//   );
+
+const addObjectiveTrajectory = (evolutionData) => {
+  const newEvolutionData = [...evolutionData];
+  const global2020 = evolutionData[0].avg_global;
+  const objective = 2;
+  const initYear = evolutionData[0].year;
+  const finalYear = 2050;
+
+  for (let i = 0; i < evolutionData.length; i += 1) {
+    newEvolutionData[i].objective =
+      global2020 -
+      ((global2020 - objective) * (evolutionData[i].year - initYear)) /
+        (finalYear - initYear);
+  }
+  return [...newEvolutionData, { year: finalYear, objective }];
+};
 
 const EvolutionCarbon = () => {
   // Compute data
@@ -73,14 +83,7 @@ const EvolutionCarbon = () => {
     )
   );
 
-  for (let i = 0; i < evolutionData.length; i++) {
-    evolutionData[i].objective =
-      evolutionData[0].avg_global -
-      ((evolutionData[0].avg_global - 2) * (evolutionData[i].year - 2020)) /
-        (2050 - 2020);
-  }
-  evolutionData[0].objective = evolutionData[0].avg_global;
-  evolutionData = [...evolutionData, { year: 2050, objective: 2 }];
+  evolutionData = addObjectiveTrajectory(evolutionData);
 
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
@@ -183,16 +186,14 @@ const EvolutionCarbon = () => {
           onBlur={handleMouseOut}
         />
         {dataKeysArray.map((player) => {
-          // let dotSize = 5;
           let strokeWidth = width[player];
           let dot = true;
           let strokeDasharray = '';
           if (player.startsWith('avg')) {
             // dotSize = 5;
             strokeWidth = width[player] + 4;
-            dot = true;
+            // dot = true;
           } else if (player.startsWith('objective')) {
-            // dotSize = 0;
             dot = false;
             strokeDasharray = '5 5';
           }
@@ -204,7 +205,7 @@ const EvolutionCarbon = () => {
               name={participantName(player)}
               strokeOpacity={opacity[player]}
               stroke={colors[player]}
-              // activeDot={dotSize}
+              activeDot={dot}
               dot={dot}
               // isAnimationActive={false}
               strokeWidth={strokeWidth}

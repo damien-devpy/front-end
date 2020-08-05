@@ -15,6 +15,7 @@ import {
   COMPUTE_CARBON_VARIABLES,
   COMPUTE_FOOTPRINTS,
   COMPUTE_FOOTPRINTS_FOR_CITIZENS,
+  END_WORKSHOP,
   INIT_ROUND,
   INIT_WORKSHOP,
   PERSIST_WORKSHOP,
@@ -180,6 +181,15 @@ export default (state = initialState, action) => {
           status: 'ongoing',
           rounds: [year],
           currentYear: year,
+        },
+      };
+    }
+    case END_WORKSHOP: {
+      return {
+        ...state,
+        result: {
+          ...state.result,
+          status: 'ended',
         },
       };
     }

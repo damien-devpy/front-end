@@ -99,6 +99,12 @@ export const selectNextRound = (state) => {
   return config ? config.targetedYear : null;
 };
 
+export const selectCurrentRoundActionCardType = (state) => {
+  const roundConfigEntity = selectRoundConfigEntity(state);
+  const currentRound = selectCurrentRound(state);
+  return pathOr(null, [currentRound, 'actionCardType'], roundConfigEntity);
+};
+
 export const selectIndividualRoundIds = (roundConfigEntity) =>
   Object.keys(roundConfigEntity).filter(
     (roundConfigId) =>

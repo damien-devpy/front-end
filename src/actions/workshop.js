@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 
 import { denormalizeWorkshop, updateWorkshopApi } from '../utils/api';
+import { selectCurrentWorkshopInfo } from '../selectors/workshopSelector';
 import { throwError } from './errors';
 
 // Workshop actions
@@ -9,6 +10,7 @@ export const UPDATE_WORKSHOP = 'UPDATE_WORKSHOP';
 export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
 export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
 export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
+export const END_WORKSHOP = 'END_WORKSHOP';
 
 // Round actions
 export const INIT_ROUND = 'INIT_ROUND';
@@ -176,6 +178,11 @@ const applySocialImpact = (yearFrom, yearTo) => ({
   payload: { yearFrom, yearTo },
 });
 
+export const endWorkshop = () => ({
+  type: END_WORKSHOP,
+  payload: {},
+});
+
 export const initRoundAndProcessModel = (yearFrom, yearTo) => {
   return (dispatch) => {
     dispatch(initRound(yearTo));
@@ -188,7 +195,22 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
     dispatch(computeFootprints(yearTo));
     dispatch(computeFootprintsForCitizen(yearTo));
     dispatch((dispatch2, getState) => {
-      dispatch2(persistWorkshop(getState().workshop));
+      const { currentYear, endYear, status } = selectCurrentWorkshopInfo(
+        getState()
+      );
+      if (currentYear === endYear) {
+        // The workshop reaches the last year (2050)
+        // End the workshop and save it for the last time
+        dispatch2(endWorkshop());
+        dispatch2(persistWorkshop(getState().workshop));
+      }
+      if (status !== 'ended') {
+        // Save workshop only if it is not ended
+        dispatch2(persistWorkshop(getState().workshop));
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('Workshop ended. Do not save it');
+      }
     });
     // dispatch(persistWorkshopOfflineWithCurrentState());
   };
@@ -204,7 +226,8 @@ export const startWorkshop = (startYear) => {
         dispatch(computeFootprints(startYear));
         dispatch(computeFootprintsForCitizen(startYear));
         dispatch((dispatch2, getState) => {
-          dispatch2(persistWorkshop(getState().workshop));
+          const { workshop } = getState();
+          dispatch2(persistWorkshop(workshop));
         });
       });
   };

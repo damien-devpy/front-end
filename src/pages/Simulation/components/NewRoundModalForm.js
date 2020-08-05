@@ -253,7 +253,6 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                       )}
                       className="mr-1"
                       variant={batchToggleStyle}
-                      inline
                       label={values.actionCardBatches[batchId].name}
                       type="checkbox"
                       id={batchId}

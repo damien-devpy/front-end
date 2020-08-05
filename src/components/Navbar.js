@@ -16,7 +16,6 @@ import CloudDone from '../assets/CloudDone';
 import CloudUpload from '../assets/CloudUpload';
 import ExitIcon from '../assets/ExitIcon';
 import { COLORS } from '../vars';
-import { logout } from '../utils/auth';
 import { logoutCurrentUser } from '../actions/user';
 import { resetError } from '../actions/errors';
 
@@ -35,7 +34,6 @@ const Navbar = ({ links = [], type = 'home' }) => {
     location.pathname.endsWith(path) ? `rounded-lg navbar-link` : null;
 
   const handleLogout = () => {
-    logout();
     dispatch(logoutCurrentUser());
   };
   return (
@@ -108,7 +106,10 @@ const Navbar = ({ links = [], type = 'home' }) => {
                   {t('common.coaches')}
                 </NavDropdown.Item>
                 <NavDropdown.Divider /> */}
-                <NavDropdown.Item eventKey={3.2} onClick={handleLogout}>
+                <NavDropdown.Item eventKey={3.2} as={Link} to="/changePassword">
+                  {t('common.changePassword')}
+                </NavDropdown.Item>
+                <NavDropdown.Item eventKey={3.3} onClick={handleLogout}>
                   {t('common.logout')}
                 </NavDropdown.Item>
               </StyledNavDropDown>

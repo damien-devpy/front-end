@@ -1,6 +1,7 @@
 import { denormalize } from 'normalizr';
 
 import handleFetch from './handleFetch';
+import { getAccessToken } from '../auth';
 import { workshopSchema } from '../../normalizers';
 
 const cleanWorkshop = (workshop) => {
@@ -38,6 +39,16 @@ export const login = (data) =>
     method: 'POST',
     body: data,
   });
+
+export const changePassword = ({ password, accessToken }) =>
+  handleFetch(
+    `/reset_password?access_token=${accessToken || getAccessToken()}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+      type: 'empty',
+    }
+  );
 
 export const getCoaches = () =>
   handleFetch(`/coaches`, {

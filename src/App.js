@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
+import ChangePassword from './pages/ChangePassword';
 import Coaches from './pages/Coaches';
-import CommonModal from './components/CommonModal';
 import Data from './pages/Data';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -17,10 +17,15 @@ import Results from './pages/Results';
 import Simulation from './pages/Simulation';
 import Workshops from './pages/Workshops';
 import { COLORS } from './vars';
+import { changeCurrentUserPassword } from './actions/user';
 import { getAccessToken } from './utils/auth';
 import { useAuthentication } from './hooks/authentication';
 
 const AppRouter = ({ currentUser }) => {
+  const dispatch = useDispatch();
+  const handleChangePassword = (password, accessToken, callback) =>
+    dispatch(changeCurrentUserPassword(password, accessToken, callback));
+
   return (
     <BrowserRouter>
       <Switch>
@@ -44,22 +49,25 @@ const AppRouter = ({ currentUser }) => {
         <Route path="/coaches" component={Coaches} />
         <Route path="/workshops" component={Workshops} />
         <Route path="/resources" component={Resources} />
+        <Route path="/changePassword">
+          <ChangePassword
+            handleChangePassword={handleChangePassword}
+            // handleClose={handleClose}
+          />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
 };
 
-const LoginRouter = ({ t, handleLogin }) => (
+const LoginRouter = ({ handleLogin }) => (
   <BrowserRouter>
     <Navbar />
-    <CommonModal title={t('common.login')} show>
-      <Login handleLogin={handleLogin} />
-    </CommonModal>
+    <Login handleLogin={handleLogin} />
   </BrowserRouter>
 );
 
 const App = () => {
-  const { t } = useTranslation();
   const [token, setToken] = useState(getAccessToken());
   const { user, signedIn, isLoading } = useAuthentication(token);
   useEffect(() => {
@@ -78,7 +86,7 @@ const App = () => {
     return <AppRouter currentUser={user} />;
   }
 
-  return <LoginRouter t={t} handleLogin={handleLogin} />;
+  return <LoginRouter handleLogin={handleLogin} />;
 };
 
 export default App;

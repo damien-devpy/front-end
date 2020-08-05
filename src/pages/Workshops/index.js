@@ -94,7 +94,7 @@ const Workshops = () => {
             </AddNewButton>
           )}
         </CardHeader>
-        <hr/>
+        <hr />
 
         {loadError && <p>{t('common.loadError')}</p>}
         {isLoading && (

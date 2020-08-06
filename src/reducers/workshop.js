@@ -439,11 +439,17 @@ export default (state = initialState, action) => {
         state.entities.rounds[yearFrom].socialVariables;
       const nbParticipants = state.result.participants.length;
 
-      const individualActionRecords =
+      const participantIndividualChoiceRecords =
         state.entities.rounds[yearFrom].individualChoices || [];
-      const individualActions = individualActionRecords.map(
+      const participantIndividualChoices = participantIndividualChoiceRecords.map(
         (yearParticipantKey) =>
           state.entities.individualChoices[yearParticipantKey]
+      );
+      const citizenIndividualChoiceRecords =
+        state.entities.rounds[yearFrom].individualChoices || [];
+      const citizenIndividualChoices = citizenIndividualChoiceRecords.map(
+        (yearCitizenKey) =>
+          state.entities.citizenIndividualChoices[yearCitizenKey]
       );
       const collectiveActionCardIds = pathOr(
         [],
@@ -452,7 +458,8 @@ export default (state = initialState, action) => {
       );
       const newSocialVariables = computeSocialVariables(
         currentSocialVariables,
-        individualActions,
+        participantIndividualChoices,
+        citizenIndividualChoices,
         collectiveActionCardIds,
         actionCards,
         nbParticipants

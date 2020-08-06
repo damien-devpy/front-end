@@ -4,9 +4,9 @@ import {
   makeYearParticipantKey,
 } from '../../utils/helpers';
 
-const NB_MAX_HEARTS = 46;
+const NB_MAX_HEARTS = 24;
 const MAX_INFLUENCE_SCORE = 10;
-const PERCENTAGE_CITIZENS = 0.9;
+const RATE_PARTICIPANTS = 0.1;
 
 const computeNewCarbonVariables = (
   oldCarbonVariables,
@@ -72,34 +72,41 @@ const valueOnAllLevels = (footprintStructure) => sumTree(footprintStructure);
 
 const computeSocialVariables = (
   oldSocialVariables,
-  individualActions,
+  participantIndividualChoices,
+  citizenIndividualChoices,
   collectiveActionCardIds,
   actionCards,
   nbParticipants
 ) => {
   let { socialScore, influenceScore } = oldSocialVariables;
-  const nbTotalPersonsSimulated = nbParticipants / (1 - PERCENTAGE_CITIZENS);
-  const nbCitizensSimulated = nbTotalPersonsSimulated - nbParticipants;
-
-  individualActions.forEach((participantAction) => {
-    participantAction.actionCardIds.forEach((actionCardId) => {
+  const nbTotalPersonsSimulated = Math.round(
+    nbParticipants / RATE_PARTICIPANTS
+  );
+  const individualActions = [
+    ...participantIndividualChoices,
+    ...citizenIndividualChoices,
+  ];
+  individualActions.forEach((personAction) => {
+    personAction.actionCardIds.forEach((actionCardId) => {
       socialScore +=
         actionCards[actionCardId].peerInspirationScore /
-        (nbTotalPersonsSimulated * NB_MAX_HEARTS);
+        (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
+        2;
       socialScore +=
-        actionCards[actionCardId].peerAwarenessScore / nbCitizensSimulated;
+        actionCards[actionCardId].peerAwarenessScore / nbTotalPersonsSimulated;
       influenceScore +=
         actionCards[actionCardId].systemicWeakSignals /
-        (nbTotalPersonsSimulated * NB_MAX_HEARTS);
+        (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
+        2;
       influenceScore +=
-        actionCards[actionCardId].systemicPressureScore / MAX_INFLUENCE_SCORE;
+        actionCards[actionCardId].systemicPressureScore /
+        nbParticipants /
+        MAX_INFLUENCE_SCORE /
+        2;
     });
   });
   collectiveActionCardIds.forEach((actionCardId) => {
-    socialScore += actionCards[actionCardId].peerInspirationScore;
     socialScore += actionCards[actionCardId].peerAwarenessScore;
-    influenceScore += actionCards[actionCardId].systemicWeakSignals;
-    influenceScore += actionCards[actionCardId].systemicPressureScore;
   });
   return { socialScore, influenceScore };
 };
@@ -156,11 +163,14 @@ const computeCitizenIndividualChoices = (
 };
 
 const computeBudget = (influenceScore) => {
-  const startingBudget = 2;
-  const minBudget = 2;
+  const startingBudget = 3;
+  const minBudget = 3;
   const maxBudget = 8;
+  const offset = 15;
+  // Every 20 influence point, add 1 budget
+  const rateBudgetOverInfluenceScore = 20;
   const approximativeBudget = Math.floor(
-    (influenceScore + 10) / 15 + startingBudget
+    startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
   );
   return Math.max(Math.min(approximativeBudget, maxBudget), minBudget);
 };

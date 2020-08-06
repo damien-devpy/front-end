@@ -101,6 +101,7 @@ export default {
     entryOfCollectiveActions: 'Saisie des actions collectives',
     entryOfIndividualActions: 'Saisie des actions individuelles',
     environmentalInitiatives: 'ECOGESTES',
+    extraRound: 'Tour supplémentaire',
     firstName: 'Prénom',
     food: 'Alimentation',
     home: 'Accueil',

@@ -12,6 +12,7 @@ import {
   getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
+  selectCurrentWorkshopInfo,
 } from '../../../selectors/workshopSelector';
 import {
   selectCollectiveBatches,
@@ -25,8 +26,8 @@ const budgetYearStyle = 'outline-secondary';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
-  const { currentYear, endYear, yearIncrement } = useSelector(
-    (state) => state.workshop.result
+  const { currentYear, endYear, yearIncrement, status } = useSelector(
+    selectCurrentWorkshopInfo
   );
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
@@ -184,7 +185,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   <Button
                     variant={budgetYearStyle}
                     onClick={() => {
-                      if (values.targetedYear < endYear) {
+                      if (status === 'ended' || values.targetedYear < endYear) {
                         setFieldValue('targetedYear', values.targetedYear + 1);
                       }
                     }}

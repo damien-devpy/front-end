@@ -20,6 +20,7 @@ import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
 import {
   selectCarbonFootprintsEntity,
   selectCitizenCarbonFootprintsEntity,
+  selectCurrentWorkshopInfo,
   selectFootprintStructure,
   selectParticipantsEntity,
   selectRoundsEntity,
@@ -56,27 +57,11 @@ const players = (obj) =>
   (obj && Object.keys(obj) && Object.keys(obj).filter((k) => k !== 'year')) ||
   [];
 
-const addObjectiveTrajectory = (evolutionData) => {
-  const newEvolutionData = [...evolutionData];
-  const global2020 = evolutionData[0].avg_global;
-  const objective = 2;
-  const initYear = evolutionData[0].year;
-  const finalYear = 2050;
-
-  for (let i = 0; i < evolutionData.length; i += 1) {
-    const value =
-      global2020 -
-      ((global2020 - objective) * (evolutionData[i].year - initYear)) /
-        (finalYear - initYear);
-    newEvolutionData[i].objective = Math.round(value * 100) / 100;
-  }
-  return [...newEvolutionData, { year: finalYear, objective }];
-};
-
 const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
   const participants = useSelector(selectParticipantsEntity);
+  const { startYear, endYear } = useSelector(selectCurrentWorkshopInfo);
 
   const participantName = (participantId) => {
     return mainCategories.includes(participantId.toString())
@@ -95,7 +80,22 @@ const EvolutionCarbon = () => {
     )
   );
 
-  evolutionData = addObjectiveTrajectory(evolutionData);
+  // add objective trajectory
+  const initGlobal = evolutionData[0].avg_global;
+  const objective = 2;
+
+  for (let i = 0; i < evolutionData.length; i += 1) {
+    const value =
+      evolutionData[i].year >= endYear
+        ? objective
+        : initGlobal -
+          ((initGlobal - objective) * (evolutionData[i].year - startYear)) /
+            (endYear - startYear);
+    evolutionData[i].objective = Math.round(value * 100) / 100;
+  }
+  if (evolutionData[evolutionData.length - 1].year < endYear) {
+    evolutionData = [...evolutionData, { year: endYear, objective }];
+  }
 
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
@@ -168,7 +168,7 @@ const EvolutionCarbon = () => {
         <XAxis
           dataKey="year"
           type="number"
-          domain={['dataMin', 2050]}
+          domain={['dataMin', endYear]}
           ticks={[2030, 2040, 2050]}
         />
         <YAxis className="yaxis" type="number" domain={[0, 15]}>

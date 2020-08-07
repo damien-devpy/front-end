@@ -20,6 +20,8 @@ import {
   selectCarbonFootprintsEntityForCurrentRound,
   selectCitizenCarbonFootprintsEntityForCurrentRound,
   selectCurrentRound,
+  selectCurrentRoundActionCardType,
+  selectCurrentWorkshopInfo,
   selectFootprintStructure,
 } from '../../selectors/workshopSelector';
 import { startRound } from '../../actions/workshop';
@@ -51,18 +53,10 @@ const Simulation = ({
     currentCitizenFootprints,
     footprintStructure
   );
-  const workshopTitle = useSelector(
-    (state) => state.workshop.result && state.workshop.result.name
+  const { name: workshopTitle, status } = useSelector(
+    selectCurrentWorkshopInfo
   );
-  const roundActionCardType = useSelector(
-    (state) =>
-      currentRound &&
-      state.workshop &&
-      state.workshop.entities &&
-      state.workshop.entities.roundConfig &&
-      state.workshop.entities.roundConfig[currentRound] &&
-      state.workshop.entities.roundConfig[currentRound].actionCardType
-  );
+  const roundActionCardType = useSelector(selectCurrentRoundActionCardType);
   // NewRoundModal
   const [showNewRoundModal, setShowNewRoundModal] = useState(false);
   const handleCloseNewRoundModal = () => setShowNewRoundModal(false);
@@ -105,7 +99,9 @@ const Simulation = ({
                   variant="primary"
                   onClick={handleShowNewRoundModal}
                 >
-                  {t('common.nextRound')}
+                  {status === 'ended'
+                    ? t('common.extraRound')
+                    : t('common.nextRound')}
                 </PrimaryButton>
               </CardHeader>
               {!isLoading && (

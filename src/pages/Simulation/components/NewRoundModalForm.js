@@ -27,7 +27,7 @@ const budgetYearStyle = 'outline-secondary';
 
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
-  const { currentYear, endYear, yearIncrement } = useSelector(
+  const { currentYear, endYear, yearIncrement, status } = useSelector(
     selectCurrentWorkshopInfo
   );
   const { collectiveBudget } = useSelector(selectRoundsEntity)[currentYear];
@@ -189,7 +189,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   <Button
                     variant={budgetYearStyle}
                     onClick={() => {
-                      if (values.targetedYear < endYear) {
+                      if (status === 'ended' || values.targetedYear < endYear) {
                         setFieldValue('targetedYear', values.targetedYear + 1);
                       }
                     }}

@@ -15,6 +15,7 @@ import {
   COMPUTE_CARBON_VARIABLES,
   COMPUTE_FOOTPRINTS,
   COMPUTE_FOOTPRINTS_FOR_CITIZENS,
+  END_WORKSHOP,
   INIT_ROUND,
   INIT_WORKSHOP,
   PERSIST_WORKSHOP,
@@ -183,6 +184,15 @@ export default (state = initialState, action) => {
         },
       };
     }
+    case END_WORKSHOP: {
+      return {
+        ...state,
+        result: {
+          ...state.result,
+          status: 'ended',
+        },
+      };
+    }
     case INIT_ROUND: {
       const { year } = action.payload;
       const newRound = {
@@ -194,8 +204,8 @@ export default (state = initialState, action) => {
         entities: {
           ...state.entities,
           rounds: {
-            [year]: newRound,
             ...state.entities.rounds,
+            [year]: newRound,
           },
         },
         result: {

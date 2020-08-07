@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@axa-ch/json-logic-js": "^2.2.2",
     "@redux-offline/redux-offline": "^2.6.0",
     "ajv": "^6.12.3",
     "bootstrap": "^4.4.1",
@@ -14,6 +13,7 @@
     "formik": "^2.1.4",
     "i18next": "^19.3.4",
     "i18next-intervalplural-postprocessor": "^1.0.3",
+    "json-logic-js": "^1.2.2",
     "jsoneditor": "^9.0.3",
     "jsoneditor-react": "^3.0.0",
     "moment": "^2.24.0",

@@ -12,6 +12,8 @@ import {
   getDefaultRoundType,
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
+  selectCurrentWorkshopInfo,
+  selectRoundsEntity,
 } from '../../../selectors/workshopSelector';
 import {
   selectCollectiveBatches,
@@ -26,8 +28,10 @@ const budgetYearStyle = 'outline-secondary';
 const NewRoundModalForm = ({ handleSubmit }) => {
   const { t } = useTranslation();
   const { currentYear, endYear, yearIncrement } = useSelector(
-    (state) => state.workshop.result
+    selectCurrentWorkshopInfo
   );
+  const { collectiveBudget } = useSelector(selectRoundsEntity)[currentYear];
+
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
@@ -93,7 +97,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
         actionCardType: defaultRoundType,
         currentYear,
         targetedYear: currentYear + yearIncrement,
-        individualBudget: 4,
+        individualBudget: 6,
+        collectiveBudget,
         actionCardBatches:
           defaultRoundType === 'individual'
             ? individualActionCardBatches
@@ -206,6 +211,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                         );
                       }
                     }}
+                    disabled={values.actionCardType === 'collective'}
                   >
                     -
                   </Button>
@@ -214,12 +220,17 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                     className="text-dark"
                     disabled
                   >
-                    {values.individualBudget}{' '}
                     {values.actionCardType === 'individual' && (
-                      <span className="emoji">&#x2764;</span>
+                      <div>
+                        {values.individualBudget}{' '}
+                        <span className="emoji">&#x2764;</span>
+                      </div>
                     )}
                     {values.actionCardType === 'collective' && (
-                      <EuroIcon width={20} className="fill-current-color" />
+                      <div>
+                        {values.collectiveBudget}{' '}
+                        <EuroIcon width={20} className="fill-current-color" />
+                      </div>
                     )}
                   </Button>
                   <Button
@@ -232,6 +243,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                         );
                       }
                     }}
+                    disabled={values.actionCardType === 'collective'}
                   >
                     +
                   </Button>

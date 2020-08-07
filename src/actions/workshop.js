@@ -110,7 +110,7 @@ const persistWorkshop = (workshop) => {
 //   };
 // };
 
-const initRound = (year) => ({
+export const initRound = (year) => ({
   type: INIT_ROUND,
   payload: { year },
 });

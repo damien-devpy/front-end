@@ -57,25 +57,6 @@ const players = (obj) =>
   (obj && Object.keys(obj) && Object.keys(obj).filter((k) => k !== 'year')) ||
   [];
 
-const addObjectiveTrajectory = (evolutionData, startYear, endYear) => {
-  const newEvolutionData = [...evolutionData];
-  const initGlobal = evolutionData[0].avg_global;
-  const objective = 2;
-
-  for (let i = 0; i < evolutionData.length; i += 1) {
-    const value =
-      evolutionData[i].year >= endYear
-        ? objective
-        : initGlobal -
-          ((initGlobal - objective) * (evolutionData[i].year - startYear)) /
-            (endYear - startYear);
-    newEvolutionData[i].objective = Math.round(value * 100) / 100;
-  }
-  return evolutionData[evolutionData.length - 1].year >= endYear
-    ? newEvolutionData
-    : [...newEvolutionData, { year: endYear, objective }];
-};
-
 const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
@@ -99,7 +80,22 @@ const EvolutionCarbon = () => {
     )
   );
 
-  evolutionData = addObjectiveTrajectory(evolutionData, startYear, endYear);
+  // add objective trajectory
+  const initGlobal = evolutionData[0].avg_global;
+  const objective = 2;
+
+  for (let i = 0; i < evolutionData.length; i += 1) {
+    const value =
+      evolutionData[i].year >= endYear
+        ? objective
+        : initGlobal -
+          ((initGlobal - objective) * (evolutionData[i].year - startYear)) /
+            (endYear - startYear);
+    evolutionData[i].objective = Math.round(value * 100) / 100;
+  }
+  if (evolutionData[evolutionData.length - 1].year < endYear) {
+    evolutionData = [...evolutionData, { year: endYear, objective }];
+  }
 
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));

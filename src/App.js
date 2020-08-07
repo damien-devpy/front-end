@@ -8,7 +8,6 @@ import Coaches from './pages/Coaches';
 import Data from './pages/Data';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Model from './pages/Model';
 import Navbar from './components/Navbar';
 import NavbarHome from './components/NavbarHome';
 import NavbarWorkshop from './components/NavbarWorkshop';
@@ -16,6 +15,7 @@ import Participants from './pages/Participants';
 import Resources from './pages/Resources';
 import Results from './pages/Results';
 import Simulation from './pages/Simulation';
+import WorkshopEditor from './pages/WorkshopEditor';
 import Workshops from './pages/Workshops';
 import { COLORS } from './vars';
 import { changeCurrentUserPassword } from './actions/user';
@@ -43,7 +43,10 @@ const AppRouter = ({ currentUser }) => {
         <Route path="/workshop/:workshopId/data" component={Data} />
         <Route path="/workshop/:workshopId/simulation" component={Simulation} />
         <Route path="/workshop/:workshopId/results" component={Results} />
-        <Route path="/workshop/:workshopId/model" component={Model} />
+        <Route
+          path="/workshop/:workshopId/workshopEditor"
+          component={WorkshopEditor}
+        />
         <Route exact path="/">
           <Redirect to="/workshops" />
         </Route>
@@ -84,10 +87,9 @@ const App = () => {
   if (isLoading) {
     return <Spinner animation="border" className="pt-3 mx-auto mt-5" />;
   }
-  if (true) {
+  if (signedIn) {
     return <AppRouter currentUser={user} />;
   }
-
   return <LoginRouter handleLogin={handleLogin} />;
 };
 

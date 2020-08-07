@@ -1,4 +1,4 @@
-import jsonLogic from '@axa-ch/json-logic-js';
+import jsonLogic from 'json-logic-js';
 import {
   getYearAndParticipantFromKey,
   makeYearParticipantKey,

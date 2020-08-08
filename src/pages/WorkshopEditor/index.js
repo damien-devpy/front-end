@@ -1,14 +1,12 @@
-import 'jsoneditor-react/es/editor.min.css';
 import Ajv from 'ajv';
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import { JsonEditor as Editor } from 'jsoneditor-react';
 
+import DataEditor from '../../components/DataEditor';
 import Loading from '../../components/Loading';
 import { denormalizeWorkshopWithoutClean } from '../../utils/api';
 import { useWorkshop } from '../../hooks/workshop';
 
-const WorkshopEditor = ({
+const Data = ({
   match: {
     params: { workshopId },
   },
@@ -20,16 +18,12 @@ const WorkshopEditor = ({
 
   return (
     <Loading loadError={loadError} isLoading={isLoading}>
-      <Container>
-        <Editor
-          value={denormalizedWorkshop}
-          // onChange={this.handleChange}
-          ajv={ajv}
-          // schema={schema}
-        />
-      </Container>
+      <DataEditor
+        data={denormalizedWorkshop}
+        // onChange={this.handleChange}
+        ajv={ajv}
+      />
     </Loading>
   );
 };
-
-export default WorkshopEditor;
+export default Data;

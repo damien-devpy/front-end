@@ -15,6 +15,7 @@ import Participants from './pages/Participants';
 import Resources from './pages/Resources';
 import Results from './pages/Results';
 import Simulation from './pages/Simulation';
+import WorkshopEditor from './pages/WorkshopEditor';
 import Workshops from './pages/Workshops';
 import { COLORS } from './vars';
 import { changeCurrentUserPassword } from './actions/user';
@@ -42,6 +43,10 @@ const AppRouter = ({ currentUser }) => {
         <Route path="/workshop/:workshopId/data" component={Data} />
         <Route path="/workshop/:workshopId/simulation" component={Simulation} />
         <Route path="/workshop/:workshopId/results" component={Results} />
+        <Route
+          path="/workshop/:workshopId/workshopEditor"
+          component={WorkshopEditor}
+        />
         <Route exact path="/">
           <Redirect to="/workshops" />
         </Route>
@@ -85,7 +90,6 @@ const App = () => {
   if (signedIn) {
     return <AppRouter currentUser={user} />;
   }
-
   return <LoginRouter handleLogin={handleLogin} />;
 };
 

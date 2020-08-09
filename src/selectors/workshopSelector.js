@@ -280,6 +280,9 @@ const selectWorkshopModelStructure = (state, structure) =>
 export const selectFootprintStructure = (state) =>
   selectWorkshopModelStructure(state, 'footprintStructure');
 
+export const selectVariableFormulasStructure = (state) =>
+  selectWorkshopModelStructure(state, 'variableFormulas');
+
 export const selectIsWorkshopReadyForInitialization = (state) => {
   const participants = selectParticipantsEntity(state);
   const participantIds = pathOr(

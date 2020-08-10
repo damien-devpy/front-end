@@ -196,8 +196,8 @@ const ActionCardsEntry = ({
     <Container>
       <Row>
         {roundActionCardType === 'individual' && (
-          <Col sm={4} md={4}>
-            <h4>{t('common.participants')}</h4>
+          <Col sm={4} md={4} className="pl-0 pr-0">
+            <h5>{t('common.participants')}</h5>
             <ParticipantsTable
               round={currentRound}
               participantsEntity={participantsEntity}
@@ -210,19 +210,19 @@ const ActionCardsEntry = ({
           </Col>
         )}
         {roundActionCardType === 'collective' && (
-          <Col sm={3} md={3} className="align-self-center">
+          <Col sm={4} md={4}>
             <Row>
-              <h6>
-                Actions{' '}
+              <h5>
+                {t('common.actions')}{' '}
                 {getNumberOfChosenCollectiveCards(
                   currentCollectiveChoices,
                   currentRound
-                )}
+                )}{' '}
                 &#10003;
-              </h6>
+              </h5>
             </Row>
             <Row>
-              <h6>
+              <h5>
                 {t('common.budget')}{' '}
                 {budgetCollective -
                   getCostOfChosenCollectiveCards(
@@ -231,13 +231,12 @@ const ActionCardsEntry = ({
                     currentRound
                   )}{' '}
                 <EuroIcon width={18} className="fill-current-color" />
-              </h6>
+              </h5>
             </Row>
           </Col>
         )}
 
         <Col>
-          <h4>{t('common.batches')}</h4>
           {roundActionCardType === 'individual' && (
             <ActionCardsForm
               handleCardActionSelectionChange={handleChoicesChange(
@@ -263,6 +262,7 @@ const ActionCardsEntry = ({
       </Row>
       <Row className="d-flex justify-content-end">
         <PrimaryButton
+          size="lg"
           onClick={
             roundActionCardType === 'individual'
               ? handleSubmitIndividualChoices

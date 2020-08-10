@@ -344,7 +344,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
             </Form.Row>
             <Form.Row className="d-flex justify-content-end">
               <PrimaryButton
-                // className="activable"
+                size="lg"
                 type="submit"
                 disabled={
                   !values.actionCardBatchIds.length &&

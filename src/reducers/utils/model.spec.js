@@ -155,14 +155,15 @@ describe('valueOnAllLevels', () => {
 
 describe('computeBudget returns correct results', () => {
   const testValues = [
-    { influenceScore: 0, expectedBudget: 2 },
-    { influenceScore: 1.5, expectedBudget: 2 },
-    { influenceScore: 5, expectedBudget: 3 },
-    { influenceScore: 20, expectedBudget: 4 },
-    { influenceScore: 25, expectedBudget: 4 },
-    { influenceScore: 95, expectedBudget: 8 },
+    { influenceScore: 0, expectedBudget: 3 },
+    { influenceScore: 0.015, expectedBudget: 3 },
+    { influenceScore: 0.05, expectedBudget: 4 },
+    { influenceScore: 0.1, expectedBudget: 4 },
+    { influenceScore: 0.2, expectedBudget: 4 },
+    { influenceScore: 0.25, expectedBudget: 5 },
+    { influenceScore: 0.95, expectedBudget: 8 },
     { influenceScore: 1000, expectedBudget: 8 },
-    { influenceScore: -1000, expectedBudget: 2 },
+    { influenceScore: -1000, expectedBudget: 3 },
   ];
 
   testValues.forEach((params) => {
@@ -173,64 +174,86 @@ describe('computeBudget returns correct results', () => {
 
 describe('computeSocialVariables returns correct results', () => {
   const oldSocialVariables = {
-    socialScore: 1,
+    socialScore: 2,
     influenceScore: 1,
   };
 
   const actionCards = {
     1: {
+      // individual
       peerInspirationScore: 1,
       peerAwarenessScore: 1,
       systemicWeakSignals: 1,
       systemicPressureScore: 1,
     },
     2: {
+      // individual
       peerInspirationScore: 1,
       peerAwarenessScore: 1,
       systemicWeakSignals: 1,
       systemicPressureScore: 1,
     },
     3: {
-      peerInspirationScore: 0,
+      // collective
+      peerInspirationScore: 50,
       peerAwarenessScore: 2,
-      systemicWeakSignals: 0,
-      systemicPressureScore: 0,
+      systemicWeakSignals: 50,
+      systemicPressureScore: 50,
     },
   };
   const nbParticipants = 2;
 
   test('individualActions', () => {
-    const individualActions = [
-      { actionCardIds: [1, 2] },
-      { actionCardIds: [1] },
-    ];
+    const participantIndividualChoices = [{ actionCardIds: [1, 2] }];
+    const citizenIndividualChoices = [{ actionCardIds: [1] }];
+
     const collectiveActionCardIds = [];
     const actualSocialVariables = computeSocialVariables(
       oldSocialVariables,
-      individualActions,
+      participantIndividualChoices,
+      citizenIndividualChoices,
       collectiveActionCardIds,
       actionCards,
       nbParticipants
     );
     const expectedSocialVariables = {
-      influenceScore: 1.3032608695652175,
-      socialScore: 1.169927536231884,
+      // 2 + ((1 + 1 + 1) / (24 * 20) / 2) + ((1 + 1 + 1) / 20)
+      // scoreInitial + (inspirationScore + inspirationScore + inspirationScore)
+      //                      / (NB_MAX_HEARTS * nbTotalPersonsSimulated) / 2
+      //              + (awarenessScore + awarenessScore + awarenessScore)
+      //                      / (nbTotalPersonsSimulated)
+      socialScore: 2.153125,
+      // 1 + ((1 + 1 + 1) / (24 * 20) / 2) + ((1 + 1 + 1) / (2 * 10 * 2))
+      // scoreInitial + (weakSignals + weakSignals + weakSignals)
+      //                    / (NB_MAX_HEARTS * nbTotalPersonsSimulated) / 2
+      //              + (systemicPressure + systemicPressure + systemicPressure)
+      //                    / (nbParticipants * MAX_INFLUENCE_SCORE) / 2
+      influenceScore: 1.078125,
     };
-    expect(actualSocialVariables).toStrictEqual(expectedSocialVariables);
+    expect(actualSocialVariables.socialScore).toBeCloseTo(
+      expectedSocialVariables.socialScore
+    );
+    expect(actualSocialVariables.influenceScore).toBeCloseTo(
+      expectedSocialVariables.influenceScore
+    );
   });
   test('individualActions', () => {
-    const individualActions = [];
+    const participantIndividualChoices = [];
+    const citizenIndividualChoices = [];
     const collectiveActionCardIds = [3];
     const actualSocialVariables = computeSocialVariables(
       oldSocialVariables,
-      individualActions,
+      participantIndividualChoices,
+      citizenIndividualChoices,
       collectiveActionCardIds,
       actionCards,
       nbParticipants
     );
     const expectedSocialVariables = {
+      // unchanged
       influenceScore: 1,
-      socialScore: 3,
+      // 2 + 2
+      socialScore: 4,
     };
     expect(actualSocialVariables).toStrictEqual(expectedSocialVariables);
   });

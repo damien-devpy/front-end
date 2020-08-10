@@ -153,9 +153,9 @@ const computeFootprints = (year) => ({
   payload: { year },
 });
 
-const setActionsForCitizens = (year) => ({
+const setActionsForCitizens = (yearFrom, yearTo) => ({
   type: SET_ACTIONS_FOR_CITIZENS,
-  payload: { year },
+  payload: { yearFrom, yearTo },
 });
 
 const computeFootprintsForCitizen = (year) => ({
@@ -189,9 +189,9 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
     dispatch(applyIndividualActions(yearFrom, yearTo));
     dispatch(applyCollectiveActions(yearFrom, yearTo));
     dispatch(applySocialImpact(yearFrom, yearTo));
-    dispatch(setActionsForCitizens(yearTo));
+    dispatch(setActionsForCitizens(yearFrom, yearTo));
     dispatch(applyIndivdualActionsForCitizens(yearFrom, yearTo));
-    dispatch(applyCollectiveActionsForCitizens(yearFrom, yearTo));
+    dispatch(applyCollectiveActionsForCitizens(yearTo, yearTo)); // yearTo, yearTo : Use variables computed in applyIndivdualActionsForCitizens
     dispatch(computeFootprints(yearTo));
     dispatch(computeFootprintsForCitizen(yearTo));
     dispatch((dispatch2, getState) => {

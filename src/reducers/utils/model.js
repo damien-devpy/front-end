@@ -5,7 +5,7 @@ import {
 } from '../../utils/helpers';
 
 const NB_MAX_HEARTS = 24;
-const MAX_INFLUENCE_SCORE = 10;
+const MAX_INFLUENCE_POINTS = 10;
 const RATE_PARTICIPANTS = 0.1;
 
 const computeNewCarbonVariables = (
@@ -101,7 +101,7 @@ const computeSocialVariables = (
       influenceScore +=
         actionCards[actionCardId].systemicPressureScore /
         nbParticipants /
-        MAX_INFLUENCE_SCORE /
+        MAX_INFLUENCE_POINTS /
         2;
     });
   });
@@ -129,46 +129,48 @@ const getActionsTakenBeforeYear = (
   return actionsTakenBeforeYear;
 };
 const computeCitizenIndividualChoices = (
-  year,
+  yearFrom,
   socialVariables,
-  citizenIndividualActionCards,
+  previousCitizenIndividualChoices,
   citizens,
   actionCards
 ) => {
-  const newCitizenIndividualActionCards = {};
+  const newCitizenIndividualChoices = {};
   citizens.forEach((citizen) => {
-    const alreadyTalenActionIds = getActionsTakenBeforeYear(
-      citizenIndividualActionCards,
+    const alreadyTakenActionIds = getActionsTakenBeforeYear(
+      previousCitizenIndividualChoices,
       citizen,
-      year
+      yearFrom
     );
-    const newActionCardIds = [];
+    const newActionCardIdsForCitizen = [];
     actionCards.forEach((actionCard) => {
-      if (
+      const isSocialScoreBigEnough =
         socialVariables.socialScore >
-          citizen.reluctancy + actionCard.reluctancyForCitizens &&
-        !alreadyTalenActionIds.includes(actionCard.id)
+        citizen.reluctancy + actionCard.reluctancyForCitizens;
+      if (
+        isSocialScoreBigEnough &&
+        !alreadyTakenActionIds.includes(actionCard.id)
       ) {
-        newActionCardIds.push(actionCard.id);
+        newActionCardIdsForCitizen.push(actionCard.id);
       }
     });
-    newCitizenIndividualActionCards[
-      makeYearParticipantKey(year, citizen.id)
+    newCitizenIndividualChoices[
+      makeYearParticipantKey(yearFrom, citizen.id)
     ] = {
       citizenId: citizen.id,
-      actionCardIds: newActionCardIds,
+      actionCardIds: newActionCardIdsForCitizen,
     };
   });
-  return newCitizenIndividualActionCards;
+  return newCitizenIndividualChoices;
 };
 
 const computeBudget = (influenceScore) => {
   const startingBudget = 3;
   const minBudget = 3;
   const maxBudget = 8;
-  const offset = 15;
-  // Every 20 influence point, add 1 budget
-  const rateBudgetOverInfluenceScore = 20;
+  const offset = 0.15;
+  // Every 0.2 influence point, add 1 budget
+  const rateBudgetOverInfluenceScore = 0.2;
   const approximativeBudget = Math.floor(
     startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
   );

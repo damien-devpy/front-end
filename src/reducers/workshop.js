@@ -446,7 +446,7 @@ export default (state = initialState, action) => {
           state.entities.individualChoices[yearParticipantKey]
       );
       const citizenIndividualChoiceRecords =
-        state.entities.rounds[yearFrom].individualChoices || [];
+        state.entities.rounds[yearFrom].citizenIndividualChoices || [];
       const citizenIndividualChoices = citizenIndividualChoiceRecords.map(
         (yearCitizenKey) =>
           state.entities.citizenIndividualChoices[yearCitizenKey]
@@ -593,10 +593,10 @@ export default (state = initialState, action) => {
       };
     }
     case SET_ACTIONS_FOR_CITIZENS: {
-      const { year } = action.payload;
+      const { yearFrom, yearTo } = action.payload;
       const newCitizenIndividualChoices = computeCitizenIndividualChoices(
-        year,
-        state.entities.rounds[year].socialVariables,
+        yearFrom,
+        state.entities.rounds[yearTo].socialVariables,
         state.entities.citizenIndividualChoices || {},
         state.result.model.citizens.map((id) => state.entities.citizens[id]),
         state.result.model.actionCards.map(
@@ -613,10 +613,11 @@ export default (state = initialState, action) => {
           },
           rounds: {
             ...state.entities.rounds,
-            [year]: {
-              ...state.entities.rounds[year],
+            [yearFrom]: {
+              ...state.entities.rounds[yearFrom],
               citizenIndividualChoices: [
-                ...(state.entities.rounds[year].citizenIndividualChoices || []),
+                ...(state.entities.rounds[yearFrom].citizenIndividualChoices ||
+                  []),
                 ...Object.keys(newCitizenIndividualChoices),
               ],
             },
@@ -629,20 +630,20 @@ export default (state = initialState, action) => {
       const currentCitizenCarbonVariables =
         state.entities.citizenCarbonVariables;
       const { citizens } = state.result.model;
-
       const newCarbonVariables = {};
       citizens.forEach((citizenId) => {
-        const yearParticipantKey = makeYearParticipantKey(yearFrom, citizenId);
-        const nextYearParticipantKey = makeYearParticipantKey(
-          yearTo,
+        const yearFromParticipantKey = makeYearParticipantKey(
+          yearFrom,
           citizenId
         );
+        const yearToParticipantKey = makeYearParticipantKey(yearTo, citizenId);
+
         const actionCardIds = pathOr(
           [],
           [
             'entities',
             'citizenIndividualChoices',
-            yearParticipantKey,
+            yearFromParticipantKey,
             'actionCardIds',
           ],
           state
@@ -650,15 +651,16 @@ export default (state = initialState, action) => {
         const takenActionCards = actionCardIds.map(
           (actionId) => state.entities.actionCards[actionId]
         );
-        newCarbonVariables[nextYearParticipantKey] = {
+        const newCarbonVariablesForYearAndCitizen = computeNewCarbonVariables(
+          currentCitizenCarbonVariables[yearFromParticipantKey].variables,
+          takenActionCards,
+          state.entities.globalCarbonVariables[yearFrom]
+        );
+        newCarbonVariables[yearToParticipantKey] = {
           citizenId,
           variables: {
-            ...currentCitizenCarbonVariables[yearParticipantKey].variables,
-            ...computeNewCarbonVariables(
-              currentCitizenCarbonVariables[yearParticipantKey].variables,
-              takenActionCards,
-              state.entities.globalCarbonVariables[yearFrom]
-            ),
+            ...currentCitizenCarbonVariables[yearFromParticipantKey].variables,
+            ...newCarbonVariablesForYearAndCitizen,
           },
         };
       });

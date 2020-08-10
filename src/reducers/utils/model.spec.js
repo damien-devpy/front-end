@@ -156,12 +156,12 @@ describe('valueOnAllLevels', () => {
 describe('computeBudget returns correct results', () => {
   const testValues = [
     { influenceScore: 0, expectedBudget: 3 },
-    { influenceScore: 1.5, expectedBudget: 3 },
-    { influenceScore: 5, expectedBudget: 4 },
-    { influenceScore: 10, expectedBudget: 4 },
-    { influenceScore: 20, expectedBudget: 4 },
-    { influenceScore: 25, expectedBudget: 5 },
-    { influenceScore: 95, expectedBudget: 8 },
+    { influenceScore: 0.015, expectedBudget: 3 },
+    { influenceScore: 0.05, expectedBudget: 4 },
+    { influenceScore: 0.1, expectedBudget: 4 },
+    { influenceScore: 0.2, expectedBudget: 4 },
+    { influenceScore: 0.25, expectedBudget: 5 },
+    { influenceScore: 0.95, expectedBudget: 8 },
     { influenceScore: 1000, expectedBudget: 8 },
     { influenceScore: -1000, expectedBudget: 3 },
   ];

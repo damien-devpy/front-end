@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, ButtonGroup, Col, Form, ToggleButton } from 'react-bootstrap';
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Form,
+  Row,
+  ToggleButton,
+} from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +20,7 @@ import {
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
   selectCheckedIndividualActionCardsBatchIdsFromRounds,
   selectCurrentWorkshopInfo,
+  selectRoundsEntity,
 } from '../../../selectors/workshopSelector';
 import {
   selectCollectiveBatches,
@@ -29,6 +37,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   const { currentYear, endYear, yearIncrement, status } = useSelector(
     selectCurrentWorkshopInfo
   );
+  const { collectiveBudget } = useSelector(selectRoundsEntity)[currentYear];
+
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
@@ -87,6 +97,62 @@ const NewRoundModalForm = ({ handleSubmit }) => {
     handleSubmit(newValues);
   };
 
+  const batchColumns = (actionCardBatches, actionCardBatchIds) =>
+    Object.keys(actionCardBatches).map(
+      (batchId) =>
+        actionCardBatchIds.includes(batchId) && (
+          <Form.Group as={Col} sm="3" key={batchId}>
+            {actionCardBatches[batchId].actionCardIds.map((actionCardId) => (
+              <ActionCardItemSimple
+                id={actionCardId}
+                key={actionCardId}
+                cardNumber={actionCardsEntity[actionCardId].cardNumber}
+                text={actionCardsEntity[actionCardId].name}
+                category={actionCardsEntity[actionCardId].category}
+                sector={actionCardsEntity[actionCardId].sector}
+                cost={actionCardsEntity[actionCardId].cost}
+              />
+            ))}
+          </Form.Group>
+        )
+    );
+
+  const batchChoiceCheckboxes = (
+    actionCardBatches,
+    actionCardBatchIds,
+    checkedActionCardBatchIds, // used in previous rounds
+    setFieldValue
+  ) => (
+    <Form.Group as={Col} controlId="validationFormik02">
+      <Form.Label>{t('common.batches')}</Form.Label> <br />
+      <ButtonGroup key="inline-checkbox" className="mb-3" toggle>
+        {Object.keys(actionCardBatches).map((batchId) => (
+          <ToggleButton
+            checked={
+              actionCardBatchIds.includes(batchId) ||
+              checkedActionCardBatchIds.includes(batchId)
+            }
+            disabled={checkedActionCardBatchIds.includes(batchId)}
+            className="mr-1"
+            variant={batchToggleStyle}
+            label={actionCardBatches[batchId].name}
+            type="checkbox"
+            id={batchId}
+            key={batchId}
+            onChange={() =>
+              setFieldValue(
+                'actionCardBatchIds',
+                toggleArrayItem(actionCardBatchIds, batchId)
+              )
+            }
+          >
+            {actionCardBatches[batchId].name}
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+    </Form.Group>
+  );
+
   return (
     <Formik
       onSubmit={handleFormSubmit}
@@ -94,7 +160,8 @@ const NewRoundModalForm = ({ handleSubmit }) => {
         actionCardType: defaultRoundType,
         currentYear,
         targetedYear: currentYear + yearIncrement,
-        individualBudget: 4,
+        individualBudget: 6,
+        collectiveBudget,
         actionCardBatches:
           defaultRoundType === 'individual'
             ? individualActionCardBatches
@@ -161,143 +228,123 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                 </ButtonGroup>
               </Form.Group>
             </Form.Row>
-            <Form.Row className="d-flex justify-content-center">
-              <Form.Group as={Col}>
-                <Form.Label className="mr-2">{t('common.toYear')}</Form.Label>
-                <ButtonGroup className="mr-2">
-                  <Button
-                    variant={budgetYearStyle}
-                    onClick={() => {
-                      if (values.targetedYear > currentYear + 1) {
-                        setFieldValue('targetedYear', values.targetedYear - 1);
-                      }
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Button
-                    variant={budgetYearStyle}
-                    className="text-dark"
-                    disabled
-                  >
-                    {values.targetedYear}
-                  </Button>
-                  <Button
-                    variant={budgetYearStyle}
-                    onClick={() => {
-                      if (status === 'ended' || values.targetedYear < endYear) {
-                        setFieldValue('targetedYear', values.targetedYear + 1);
-                      }
-                    }}
-                  >
-                    +
-                  </Button>
-                </ButtonGroup>
-              </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label className="mr-2">{t('common.budget')}</Form.Label>
-                <ButtonGroup className="mr-2">
-                  <Button
-                    variant={budgetYearStyle}
-                    onClick={() => {
-                      if (values.individualBudget > 1) {
-                        setFieldValue(
-                          'individualBudget',
-                          values.individualBudget - 1
-                        );
-                      }
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Button
-                    variant={budgetYearStyle}
-                    className="text-dark"
-                    disabled
-                  >
-                    {values.individualBudget}{' '}
-                    {values.actionCardType === 'individual' && (
-                      <span className="emoji">&#x2764;</span>
-                    )}
-                    {values.actionCardType === 'collective' && (
-                      <EuroIcon width={20} className="fill-current-color" />
-                    )}
-                  </Button>
-                  <Button
-                    variant={budgetYearStyle}
-                    onClick={() => {
-                      if (values.individualBudget < 10) {
-                        setFieldValue(
-                          'individualBudget',
-                          values.individualBudget + 1
-                        );
-                      }
-                    }}
-                  >
-                    +
-                  </Button>
-                </ButtonGroup>
-              </Form.Group>
-            </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId="validationFormik02">
-                <Form.Label>{t('common.batches')}</Form.Label> <br />
-                <ButtonGroup key="inline-checkbox" className="mb-3" toggle>
-                  {Object.keys(values.actionCardBatches).map((batchId) => (
-                    <ToggleButton
-                      checked={
-                        values.actionCardBatchIds.includes(batchId) ||
-                        values.checkedActionCardBatchIds.includes(batchId)
-                      }
-                      disabled={values.checkedActionCardBatchIds.includes(
-                        batchId
-                      )}
-                      className="mr-1"
-                      variant={batchToggleStyle}
-                      label={values.actionCardBatches[batchId].name}
-                      type="checkbox"
-                      id={batchId}
-                      key={batchId}
-                      onChange={() =>
-                        setFieldValue(
-                          'actionCardBatchIds',
-                          toggleArrayItem(values.actionCardBatchIds, batchId)
-                        )
-                      }
+              <Col>
+                {batchChoiceCheckboxes(
+                  values.actionCardBatches,
+                  values.actionCardBatchIds,
+                  values.checkedActionCardBatchIds,
+                  setFieldValue
+                )}
+              </Col>
+              <Col>
+                <Form.Group as={Row}>
+                  <Form.Label as={Col} className="col-4">
+                    {t('common.toYear')}
+                  </Form.Label>
+                  <ButtonGroup as={Col} className="col-5">
+                    <Button
+                      variant={budgetYearStyle}
+                      onClick={() => {
+                        if (values.targetedYear > currentYear + 1) {
+                          setFieldValue(
+                            'targetedYear',
+                            values.targetedYear - 1
+                          );
+                        }
+                      }}
                     >
-                      {values.actionCardBatches[batchId].name}
-                    </ToggleButton>
-                  ))}
-                </ButtonGroup>
-              </Form.Group>
+                      -
+                    </Button>
+                    <Button
+                      variant={budgetYearStyle}
+                      className="text-dark"
+                      disabled
+                    >
+                      {values.targetedYear}
+                    </Button>
+                    <Button
+                      variant={budgetYearStyle}
+                      onClick={() => {
+                        if (
+                          status === 'ended' ||
+                          values.targetedYear < endYear
+                        ) {
+                          setFieldValue(
+                            'targetedYear',
+                            values.targetedYear + 1
+                          );
+                        }
+                      }}
+                    >
+                      +
+                    </Button>
+                  </ButtonGroup>
+                </Form.Group>
+                <Form.Group as={Row}>
+                  <Form.Label as={Col} className="col-4">
+                    {t('common.budget')}
+                  </Form.Label>
+                  <ButtonGroup as={Col} className="col-5">
+                    <Button
+                      variant={budgetYearStyle}
+                      onClick={() => {
+                        if (values.individualBudget > 1) {
+                          setFieldValue(
+                            'individualBudget',
+                            values.individualBudget - 1
+                          );
+                        }
+                      }}
+                      disabled={values.actionCardType === 'collective'}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      variant={budgetYearStyle}
+                      className="text-dark"
+                      disabled
+                    >
+                      {values.actionCardType === 'individual' && (
+                        <div>
+                          {values.individualBudget}{' '}
+                          <span className="emoji">&#x2764;</span>
+                        </div>
+                      )}
+                      {values.actionCardType === 'collective' && (
+                        <div>
+                          {values.collectiveBudget}{' '}
+                          <EuroIcon width={20} className="fill-current-color" />
+                        </div>
+                      )}
+                    </Button>
+                    <Button
+                      variant={budgetYearStyle}
+                      onClick={() => {
+                        if (values.individualBudget < 10) {
+                          setFieldValue(
+                            'individualBudget',
+                            values.individualBudget + 1
+                          );
+                        }
+                      }}
+                      disabled={values.actionCardType === 'collective'}
+                    >
+                      +
+                    </Button>
+                  </ButtonGroup>
+                </Form.Group>
+              </Col>
             </Form.Row>
             <Form.Row>
-              {Object.keys(values.actionCardBatches).map(
-                (batchId) =>
-                  values.actionCardBatchIds.includes(batchId) && (
-                    <Form.Group as={Col} sm="3" key={batchId}>
-                      {values.actionCardBatches[batchId].actionCardIds.map(
-                        (actionCardId) => (
-                          <ActionCardItemSimple
-                            id={actionCardId}
-                            key={actionCardId}
-                            cardNumber={
-                              actionCardsEntity[actionCardId].cardNumber
-                            }
-                            text={actionCardsEntity[actionCardId].name}
-                            category={actionCardsEntity[actionCardId].category}
-                            sector={actionCardsEntity[actionCardId].sector}
-                            cost={actionCardsEntity[actionCardId].cost}
-                          />
-                        )
-                      )}
-                    </Form.Group>
-                  )
+              {batchColumns(
+                values.actionCardBatches,
+                values.actionCardBatchIds
               )}
             </Form.Row>
             <Form.Row className="d-flex justify-content-end">
               <PrimaryButton
-                // className="activable"
+                size="lg"
                 type="submit"
                 disabled={
                   !values.actionCardBatchIds.length &&

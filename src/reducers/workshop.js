@@ -204,8 +204,8 @@ export default (state = initialState, action) => {
         entities: {
           ...state.entities,
           rounds: {
-            [year]: newRound,
             ...state.entities.rounds,
+            [year]: newRound,
           },
         },
         result: {

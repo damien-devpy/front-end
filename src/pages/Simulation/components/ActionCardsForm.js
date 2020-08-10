@@ -47,6 +47,9 @@ const ActionCardsForm = ({
 
   return (
     <Form.Row>
+      {/* empty column to add space between left and right parts of the modal, 
+      gives 12 cols total with 4 lots = 1 active and 3 non-active */}
+      <Col sm={1} />
       {actionCardsBatchIdsFromRounds.map((actionCardBatchId) => {
         if (!actionCardBatchesEntity[actionCardBatchId]) {
           return <></>;

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import { Card, Container } from 'react-bootstrap';
+import { Button, Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -74,6 +74,7 @@ const ManageParticipants = ({
     status: workshopStatus,
     startYear,
     model,
+    carbonFormUrl,
   } = useSelector(selectCurrentWorkshopInfo);
 
   const { t } = useTranslation();
@@ -233,7 +234,16 @@ const ManageParticipants = ({
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container>
-        <h2 className="workshop-title">{workshopTitle}</h2>
+        <h2 className="workshop-title">
+          {workshopTitle}{' '}
+          <a
+            href={carbonFormUrl}
+            title={t('manageParticipants.carbonForm')}
+            className="badge badge-info float-right text-decoration-none"
+          >
+            <span className="emoji">&#x1F4C3;</span>
+          </a>
+        </h2>
         <Card
           className="p-5 border-light shadow-sm"
           style={{ borderRadius: 10 }}

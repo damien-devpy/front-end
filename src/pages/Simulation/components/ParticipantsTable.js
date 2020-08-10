@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { COLORS } from '../../../vars';
 import {
   getCostOfChosenActionCards,
   getNumberOfChosenActionCards,
@@ -28,7 +27,7 @@ const ParticipantsTable = ({
       <StyledItem
         name={id}
         value={id}
-        className="pl-3 pr-3 p-1 btn-block rounded-pill"
+        className="pl-2 pr-2 p-1 btn-block rounded-pill"
         selected={selected}
         onClick={() => {
           handleSelect(id);
@@ -77,16 +76,11 @@ const ParticipantsTable = ({
 };
 
 const StyledItem = styled.div`
-cursor: pointer;
-margin: 15;
-color:  ${(props) => (props.selected ? 'white' : 'black')};
-font-size: ${(props) => (props.selected ? '1.1rem' : '1rem')};
-font-weight: ${(props) => (props.selected ? 'bolder' : '')};
-width: ${(props) => (props.selected ? '230px' : '210px')};
-/* border: ${(props) =>
-  props.selected ? '3pt solid palegreen' : '3pt solid white'}; */
-background: ${(props) =>
-  props.selected ? COLORS.PRIMARY : COLORS.GRAY.STANDARD};
+  cursor: pointer;
+  color: ${(props) => (props.selected ? 'white' : 'black')};
+  font-weight: ${(props) => (props.selected ? 'bolder' : '')};
+  background: ${(props) =>
+    props.selected ? 'var(--primary)' : 'var(--light)'};
 `;
 
 export default ParticipantsTable;

@@ -16,13 +16,13 @@
   --bgColor: #ffffff;
   /* --primary: #BA947E; */
   /* --primaryDark: #A87456; */
-  --primary: #A87456;
+  /* --primary: #A87456; */
   --primaryDark: #965735;
   /* --primaryLight: #FAF6F2; */
   --primaryLight: #E6DBD0;
   --secondaryDark: #092C06;
   --secondaryLight: #2B9126;
-  --secondary: #11580D;
+  /* --secondary: #11580D; */
 }
 
 body {

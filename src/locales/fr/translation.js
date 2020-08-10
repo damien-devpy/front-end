@@ -59,7 +59,7 @@ export default {
     avg_global: 'Moy. nationale',
     avg_participants: 'Moy. participants',
     awareness: 'SENSIBILISATION',
-    batches: 'Lots',
+    batches: 'Choix des lots',
     budget: 'Budget',
     bus: 'Bus',
     cancel: 'Annuler',

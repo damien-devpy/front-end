@@ -115,10 +115,19 @@ export const changeParticipantApi = ({ data }) =>
   );
 
 export const sendFormApi = ({ workshopId, participantId }) =>
-  handleFetch(`/workshops/${workshopId}/participants/send_form`, {
-    method: 'POST',
-    body: JSON.stringify([participantId]),
-  });
+  // old API
+  // handleFetch(`/workshops/${workshopId}/participants/send_form`, {
+  //   method: 'POST',
+  //   body: JSON.stringify([participantId]),
+  // });
+
+  // current API
+  handleFetch(
+    `/workshops/${workshopId}/participants/${participantId}/send_form`,
+    {
+      method: 'POST',
+    }
+  );
 
 export const createCoachApi = ({ data }) =>
   handleFetch('/coaches', {

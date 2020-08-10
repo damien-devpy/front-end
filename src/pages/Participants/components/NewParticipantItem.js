@@ -57,11 +57,11 @@ export const ParticipantItemForm = ({
         size="sm"
         id="dropdown"
         name="persona"
-        value={persona || 'None'}
+        value={persona || null}
         onChange={handleChangePersona}
         disabled={disabled}
       >
-        <option value="None">{t('manageParticipants.nullPersona')}</option>
+        <option value={null}>{t('manageParticipants.nullPersona')}</option>
         {personaOptions}
       </Form.Control>
     );

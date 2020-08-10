@@ -24,7 +24,7 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
 
   return (
     <>
-      <Table borderless>
+      <Table borderless responsive>
         <thead>
           <tr>
             <th>{t('common.date')}</th>

@@ -32,6 +32,11 @@ export const denormalizeWorkshop = (workshop) => {
   return cleanWorkshop(denormalize(result, workshopSchema, entities));
 };
 
+export const denormalizeWorkshopWithoutClean = (workshop) => {
+  const { entities, result } = workshop;
+  return denormalize(result, workshopSchema, entities);
+};
+
 export const getCurrentUser = () => handleFetch('/users/me');
 
 export const login = (data) =>

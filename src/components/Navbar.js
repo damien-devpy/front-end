@@ -19,7 +19,7 @@ import { COLORS } from '../vars';
 import { logoutCurrentUser } from '../actions/user';
 import { resetError } from '../actions/errors';
 
-const Navbar = ({ links = [], type = 'home' }) => {
+const Navbar = ({ links = [], debugLinks = [], type = 'home' }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { msg } = useSelector((state) => state.error);
@@ -101,17 +101,23 @@ const Navbar = ({ links = [], type = 'home' }) => {
                 }
                 id="basic-nav-dropdown"
               >
-                {/* <NavDropdown.Header>{t('common.admins')}</NavDropdown.Header> 
-                <NavDropdown.Item href="/coaches">
-                  {t('common.coaches')}
-                </NavDropdown.Item>
-                <NavDropdown.Divider /> */}
                 <NavDropdown.Item eventKey={3.2} as={Link} to="/changePassword">
                   {t('common.changePassword')}
                 </NavDropdown.Item>
                 <NavDropdown.Item eventKey={3.3} onClick={handleLogout}>
                   {t('common.logout')}
                 </NavDropdown.Item>
+                {debugLinks.length > 0 && (
+                  <>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Header>{t('common.debug')}</NavDropdown.Header>
+                    {debugLinks.map(({ id, link }) => (
+                      <NavDropdown.Item key={id} as={Link} to={link}>
+                        {t(`common.${id}`)}
+                      </NavDropdown.Item>
+                    ))}
+                  </>
+                )}
               </StyledNavDropDown>
             </div>
           </NavigBar.Collapse>

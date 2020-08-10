@@ -27,10 +27,10 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
       <Table borderless>
         <thead>
           <tr>
-            <th>{t('common.date')}</th>
+            <th className="d-none d-md-block">{t('common.date')}</th>
             <th>{t('common.workshopName')}</th>
-            <th>{t('common.workshopCity')}</th>
-            <th>{t('common.coach')}</th>
+            <th className="">{t('common.workshopCity')}</th>
+            <th className="d-none d-md-block">{t('common.coach')}</th>
             <th>{t('common.workshopStatus')}</th>
             <th>{t('common.actions')}</th>
           </tr>
@@ -47,10 +47,12 @@ const WorkshopTable = ({ workshops, coaches, t, handleDelete }) => {
                   : `workshop/${id}/simulation`;
               return (
                 <StyledRow status={status} key={id}>
-                  <td>{moment(startAt).format('DD/MM/YYYY')}</td>
+                  <td className="d-none d-md-block">
+                    {moment(startAt).format('DD/MM/YYYY')}
+                  </td>
                   <td>{name}</td>
-                  <td>{city}</td>
-                  <td>{coachEmail}</td>
+                  <td className="">{city}</td>
+                  <td className="d-none d-md-block">{coachEmail}</td>
                   <td>{t(`workshop.status.${status}`)}</td>
                   <td>
                     <Link to={link}>

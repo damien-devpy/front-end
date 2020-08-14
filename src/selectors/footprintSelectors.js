@@ -216,6 +216,7 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
   return roundIds.map((roundId) => {
     const roundEntity = roundsEntity[roundId];
     const {
+      year,
       carbonFootprints: carbonFootprintIds,
       citizenCarbonFootprints: citizenCarbonFootprintIds,
     } = roundEntity;
@@ -242,7 +243,7 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
       {}
     );
     return {
-      year: roundEntity.year,
+      year,
       ...participantFootprints,
       avg_participants: carbonFootprintSum / carbonFootprintIds.length,
       avg_citizens:

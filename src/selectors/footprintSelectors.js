@@ -1,4 +1,12 @@
 // we receive values in kgs and convert them to tonnes,
+
+import {
+  selectCarbonFootprintsEntity,
+  selectCitizenCarbonFootprintsEntity,
+  selectCurrentWorkshopInfo,
+  selectRoundsEntity,
+} from './workshopSelector';
+
 // rounding to 2 decimal places
 export const normaliseEmissionValue = (value) => Math.round(value / 10) / 100;
 
@@ -151,3 +159,101 @@ export const computeEvolutionGraph = (
 };
 // var total footptints : récupérer les totaux ds footprint à partir de ceux du rounds
 // var = {year: round.year, round.carbonFootprints.forEach(key=> key.split("-")[1]: state.carbonFootprints[key].footprint.value) }
+
+export const selectIndividualCarbonFootprintReduction = (state) => {
+  return 16.5;
+};
+
+const selectCarbonFootprintSum = (
+  carbonFootprintIds,
+  carbonFootprintsEntity
+) => {
+  const totalCarbonFootprint = carbonFootprintIds.reduce(
+    (accumulator, carbonFootprintId) =>
+      accumulator + carbonFootprintsEntity[carbonFootprintId].footprint.value,
+    0
+  );
+  return normaliseEmissionValue(totalCarbonFootprint);
+};
+
+const selectWeightedCarbonFootprintAverage = (
+  carbonFootprintSum,
+  carbonFootprintPercentage,
+  carbonFootprintLength,
+  citizenCarbonFootprintSum,
+  citizenCarbonFootprintLength
+) =>
+  parseFloat(
+    (
+      (carbonFootprintSum * carbonFootprintPercentage) /
+        100 /
+        carbonFootprintLength +
+      (citizenCarbonFootprintSum * (100 - carbonFootprintPercentage)) /
+        100 /
+        citizenCarbonFootprintLength
+    ).toFixed(2)
+  );
+
+const selectCarbonFootprintIdsForParticipantId = (
+  participantId,
+  carbonFootprintIds,
+  carbonFootprintsEntity
+) =>
+  carbonFootprintIds.filter(
+    (carbonFootprintId) =>
+      carbonFootprintsEntity[carbonFootprintId].participantId === participantId
+  );
+export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
+  const roundsEntity = selectRoundsEntity(state);
+  const carbonFootprintsEntity = selectCarbonFootprintsEntity(state);
+  const citizenCarbonFootprintsEntity = selectCitizenCarbonFootprintsEntity(
+    state
+  );
+  const {
+    rounds: roundIds,
+    participants: participantIds,
+  } = selectCurrentWorkshopInfo(state);
+  return roundIds.map((roundId) => {
+    const roundEntity = roundsEntity[roundId];
+    const {
+      carbonFootprints: carbonFootprintIds,
+      citizenCarbonFootprints: citizenCarbonFootprintIds,
+    } = roundEntity;
+    const carbonFootprintSum = selectCarbonFootprintSum(
+      carbonFootprintIds,
+      carbonFootprintsEntity
+    );
+    const citizenCarbonFootprintSum = selectCarbonFootprintSum(
+      citizenCarbonFootprintIds,
+      citizenCarbonFootprintsEntity
+    );
+    const participantFootprints = participantIds.reduce(
+      (accumulator, participantId) => ({
+        ...accumulator,
+        [participantId]: selectCarbonFootprintSum(
+          selectCarbonFootprintIdsForParticipantId(
+            participantId,
+            carbonFootprintIds,
+            carbonFootprintsEntity
+          ),
+          carbonFootprintsEntity
+        ),
+      }),
+      {}
+    );
+    return {
+      year: roundEntity.year,
+      ...participantFootprints,
+      avg_participants: carbonFootprintSum / carbonFootprintIds.length,
+      avg_citizens:
+        citizenCarbonFootprintSum / citizenCarbonFootprintIds.length,
+      avg_global: selectWeightedCarbonFootprintAverage(
+        carbonFootprintSum,
+        10,
+        carbonFootprintIds.length,
+        citizenCarbonFootprintSum,
+        citizenCarbonFootprintIds.length
+      ),
+    };
+  });
+};

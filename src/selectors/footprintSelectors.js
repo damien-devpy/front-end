@@ -4,6 +4,7 @@ import {
   selectCarbonFootprintsEntity,
   selectCitizenCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
+  selectRoundConfigEntity,
   selectRoundsEntity,
 } from './workshopSelector';
 
@@ -160,10 +161,6 @@ export const computeEvolutionGraph = (
 // var total footptints : récupérer les totaux ds footprint à partir de ceux du rounds
 // var = {year: round.year, round.carbonFootprints.forEach(key=> key.split("-")[1]: state.carbonFootprints[key].footprint.value) }
 
-export const selectIndividualCarbonFootprintReduction = (state) => {
-  return 16.5;
-};
-
 const selectCarbonFootprintSum = (
   carbonFootprintIds,
   carbonFootprintsEntity
@@ -205,6 +202,7 @@ const selectCarbonFootprintIdsForParticipantId = (
   );
 export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
   const roundsEntity = selectRoundsEntity(state);
+  const roundConfigEntity = selectRoundConfigEntity(state);
   const carbonFootprintsEntity = selectCarbonFootprintsEntity(state);
   const citizenCarbonFootprintsEntity = selectCitizenCarbonFootprintsEntity(
     state
@@ -217,9 +215,12 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
     const roundEntity = roundsEntity[roundId];
     const {
       year,
+      roundConfig: roundConfigId,
       carbonFootprints: carbonFootprintIds,
       citizenCarbonFootprints: citizenCarbonFootprintIds,
     } = roundEntity;
+    const { actionCardType, targetedYear } =
+      roundConfigEntity[roundConfigId] || {};
     const carbonFootprintSum = selectCarbonFootprintSum(
       carbonFootprintIds,
       carbonFootprintsEntity
@@ -244,11 +245,18 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
     );
     return {
       year,
+      actionCardType,
+      targetedYear,
       ...participantFootprints,
-      avg_participants: carbonFootprintSum / carbonFootprintIds.length,
-      avg_citizens:
-        citizenCarbonFootprintSum / citizenCarbonFootprintIds.length,
-      avg_global: selectWeightedCarbonFootprintAverage(
+      avgParticipants: parseFloat(
+        (carbonFootprintSum / carbonFootprintIds.length).toFixed(2)
+      ),
+      avgCitizens: parseFloat(
+        (citizenCarbonFootprintSum / citizenCarbonFootprintIds.length).toFixed(
+          2
+        )
+      ),
+      avgGlobal: selectWeightedCarbonFootprintAverage(
         carbonFootprintSum,
         10,
         carbonFootprintIds.length,
@@ -257,4 +265,141 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
       ),
     };
   });
+};
+
+export const selectCarbonFootprintReductionGroupByRounds = (state) => {
+  const carbonFootprintAveragesGroupByRounds = selectCarbonFootprintAveragesGroupByRounds(
+    state
+  );
+  return carbonFootprintAveragesGroupByRounds.reduce(
+    (accumulator, carbonFootprintAveragesForRound, index) => {
+      const {
+        year,
+        targetedYear,
+        actionCardType,
+        avgGlobal: avgGlobalCurrentRound,
+        avgParticipants: avgParticipantsCurrentRound,
+        avgCitizens: avgCitizensCurrentRound,
+      } = carbonFootprintAveragesForRound;
+      const carbonFootprintAveragesForNextRound =
+        carbonFootprintAveragesGroupByRounds[index + 1];
+      return carbonFootprintAveragesForNextRound
+        ? [
+            ...accumulator,
+            {
+              yearFrom: year,
+              yearTo: targetedYear,
+              actionCardType,
+              avgGlobalReduction: parseFloat(
+                (
+                  avgGlobalCurrentRound -
+                  carbonFootprintAveragesForNextRound.avgGlobal
+                ).toFixed(2)
+              ),
+              avgParticipantsReduction: parseFloat(
+                (
+                  avgParticipantsCurrentRound -
+                  carbonFootprintAveragesForNextRound.avgParticipants
+                ).toFixed(2)
+              ),
+              avgCitizensReduction: parseFloat(
+                (
+                  avgCitizensCurrentRound -
+                  carbonFootprintAveragesForNextRound.avgCitizens
+                ).toFixed(2)
+              ),
+            },
+          ]
+        : accumulator;
+    },
+    []
+  );
+};
+
+export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
+  const [
+    carbonFootprintAveragesGroupByRounds,
+  ] = selectCarbonFootprintAveragesGroupByRounds(state);
+  const {
+    avgGlobal,
+    avgParticipants,
+    avgCitizens,
+  } = carbonFootprintAveragesGroupByRounds;
+  const carbonFootprintReductionGroupByRounds = selectCarbonFootprintReductionGroupByRounds(
+    state
+  );
+  const initStructure = {
+    participants: {
+      avgTotal: avgParticipants,
+      avgIndividualReduction: 0,
+      avgCollectiveReduction: 0,
+    },
+    citizens: {
+      avgTotal: avgCitizens,
+      avgIndividualReduction: 0,
+      avgCollectiveReduction: 0,
+    },
+    global: {
+      avgTotal: avgGlobal,
+      avgIndividualReduction: 0,
+      avgCollectiveReduction: 0,
+    },
+  };
+  return carbonFootprintReductionGroupByRounds.reduce((accumulator, round) => {
+    const {
+      actionCardType,
+      avgGlobalReduction,
+      avgParticipantsReduction,
+      avgCitizensReduction,
+    } = round;
+    switch (actionCardType) {
+      case 'individual': {
+        return {
+          ...accumulator,
+          citizens: {
+            ...accumulator.citizens,
+            avgIndividualReduction:
+              accumulator.citizens.avgIndividualReduction +
+              avgCitizensReduction,
+          },
+          participants: {
+            ...accumulator.participants,
+            avgIndividualReduction:
+              accumulator.participants.avgIndividualReduction +
+              avgParticipantsReduction,
+          },
+          global: {
+            ...accumulator.global,
+            avgIndividualReduction:
+              accumulator.global.avgIndividualReduction + avgGlobalReduction,
+          },
+        };
+      }
+      case 'collective': {
+        return {
+          ...accumulator,
+          citizens: {
+            ...accumulator.citizens,
+            avgCollectiveReduction:
+              accumulator.citizens.avgCollectiveReduction +
+              avgCitizensReduction,
+          },
+          participants: {
+            ...accumulator.participants,
+            avgCollectiveReduction:
+              accumulator.participants.avgCollectiveReduction +
+              avgParticipantsReduction,
+          },
+          global: {
+            ...accumulator.global,
+            avgCollectiveReduction:
+              accumulator.global.avgCollectiveReduction + avgGlobalReduction,
+          },
+        };
+      }
+      default: {
+        return accumulator;
+      }
+    }
+  }, initStructure);
 };

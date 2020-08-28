@@ -29,7 +29,7 @@ const FootprintDistribution = ({ population, t }) => (
       <YAxis dataKey="">
         <Label style={{ fontSize: '0.8rem', textAnchor: 'middle' }} />
       </YAxis>
-      <Tooltip />
+      <Tooltip itemStyle={{ fontSize: '0.8rem' }} />
       <Legend layout="vertical" />
       <Bar
         name={t('results.avgTotal')}

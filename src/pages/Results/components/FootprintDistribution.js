@@ -12,7 +12,7 @@ import {
   YAxis,
 } from 'recharts';
 
-const FootprintDistribution = ({ population, t }) => (
+const FootprintDistribution = ({ population, t, legend }) => (
   <ResponsiveContainer width="100%" height="200%" minHeight={100} aspect={0.7}>
     <BarChart
       data={population}
@@ -30,7 +30,7 @@ const FootprintDistribution = ({ population, t }) => (
         <Label style={{ fontSize: '0.8rem', textAnchor: 'middle' }} />
       </YAxis>
       <Tooltip itemStyle={{ fontSize: '0.8rem' }} />
-      <Legend layout="vertical" />
+      {legend && <Legend layout="vertical" />}
       <Bar
         name={t('results.avgTotal')}
         dataKey="avgTotal"

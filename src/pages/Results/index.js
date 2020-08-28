@@ -23,19 +23,19 @@ const Results = ({
     <Loading loadError={loadError} isLoading={isLoading}>
       <Container>
         <Row style={{ height: '100vh' }}>
-          <Col sm={4} md={4} className="graph-col">
+          <Col sm={12} lg={4}>
             <Container className="graph-card">
               <h4> {t('results.participants')} </h4>
               <FootprintDistribution population={participants} t={t} />
             </Container>
           </Col>
-          <Col sm={4} md={4} className="graph-col">
+          <Col sm={12} lg={4}>
             <Container className="graph-card">
               <h4> {t('results.citizens')} </h4>
-              <FootprintDistribution population={citizens} t={t} />
+              <FootprintDistribution population={citizens} t={t} legend />
             </Container>
           </Col>
-          <Col sm={4} md={4} className="graph-col">
+          <Col sm={12} lg={4}>
             <Container className="graph-card">
               <h4> {t('results.global')} </h4>
               <FootprintDistribution population={global} t={t} />

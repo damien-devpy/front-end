@@ -362,9 +362,10 @@ export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
               avgTotal: twoDigitRounded(
                 accumulator.citizens.avgTotal - avgCitizensReduction
               ),
-              avgIndividualReduction:
+              avgIndividualReduction: twoDigitRounded(
                 accumulator.citizens.avgIndividualReduction +
-                avgCitizensReduction,
+                  avgCitizensReduction
+              ),
               year: yearTo,
             },
             participants: {
@@ -372,9 +373,10 @@ export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
               avgTotal: twoDigitRounded(
                 accumulator.participants.avgTotal - avgParticipantsReduction
               ),
-              avgIndividualReduction:
+              avgIndividualReduction: twoDigitRounded(
                 accumulator.participants.avgIndividualReduction +
-                avgParticipantsReduction,
+                  avgParticipantsReduction
+              ),
               year: yearTo,
             },
             global: {
@@ -382,8 +384,9 @@ export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
               avgTotal: twoDigitRounded(
                 accumulator.global.avgTotal - avgGlobalReduction
               ),
-              avgIndividualReduction:
-                accumulator.global.avgIndividualReduction + avgGlobalReduction,
+              avgIndividualReduction: twoDigitRounded(
+                accumulator.global.avgIndividualReduction + avgGlobalReduction
+              ),
               year: yearTo,
             },
           };
@@ -396,9 +399,10 @@ export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
               avgTotal: twoDigitRounded(
                 accumulator.citizens.avgTotal - avgCitizensReduction
               ),
-              avgCollectiveReduction:
+              avgCollectiveReduction: twoDigitRounded(
                 accumulator.citizens.avgCollectiveReduction +
-                avgCitizensReduction,
+                  avgCitizensReduction
+              ),
               year: yearTo,
             },
             participants: {
@@ -406,9 +410,10 @@ export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
               avgTotal: twoDigitRounded(
                 accumulator.participants.avgTotal - avgParticipantsReduction
               ),
-              avgCollectiveReduction:
+              avgCollectiveReduction: twoDigitRounded(
                 accumulator.participants.avgCollectiveReduction +
-                avgParticipantsReduction,
+                  avgParticipantsReduction
+              ),
               year: yearTo,
             },
             global: {
@@ -416,8 +421,9 @@ export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
               avgTotal: twoDigitRounded(
                 accumulator.global.avgTotal - avgGlobalReduction
               ),
-              avgCollectiveReduction:
-                accumulator.global.avgCollectiveReduction + avgGlobalReduction,
+              avgCollectiveReduction: twoDigitRounded(
+                accumulator.global.avgCollectiveReduction + avgGlobalReduction
+              ),
               year: yearTo,
             },
           };

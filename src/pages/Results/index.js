@@ -26,19 +26,19 @@ const Results = ({
           <Col sm={4} md={4} className="graph-col">
             <Container className="graph-card">
               <h4> {t('results.participants')} </h4>
-              <FootprintDistribution population={participants} />
+              <FootprintDistribution population={participants} t={t} />
             </Container>
           </Col>
           <Col sm={4} md={4} className="graph-col">
             <Container className="graph-card">
               <h4> {t('results.citizens')} </h4>
-              <FootprintDistribution population={citizens} />
+              <FootprintDistribution population={citizens} t={t} />
             </Container>
           </Col>
           <Col sm={4} md={4} className="graph-col">
             <Container className="graph-card">
               <h4> {t('results.global')} </h4>
-              <FootprintDistribution population={global} />
+              <FootprintDistribution population={global} t={t} />
             </Container>
           </Col>
         </Row>

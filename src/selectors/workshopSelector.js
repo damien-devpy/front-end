@@ -90,6 +90,9 @@ export const selectCurrentRound = (state) =>
 export const selectCurrentYear = (state) =>
   pathOr(null, ['workshop', 'result', 'currentYear'], state);
 
+export const selectStartYear = (state) =>
+  pathOr(null, ['workshop', 'result', 'startYear'], state);
+
 export const selectRoundConfigEntity = (state) =>
   selectWorkshopEntity(selectCurrentWorkshop(state), 'roundConfig');
 

@@ -6,7 +6,10 @@ import {
   selectCurrentWorkshopInfo,
   selectRoundConfigEntity,
   selectRoundsEntity,
+  selectStartYear,
 } from './workshopSelector';
+
+const twoDigitRounded = (value) => parseFloat(value.toFixed(2));
 
 // rounding to 2 decimal places
 export const normaliseEmissionValue = (value) => Math.round(value / 10) / 100;
@@ -180,15 +183,13 @@ const selectWeightedCarbonFootprintAverage = (
   citizenCarbonFootprintSum,
   citizenCarbonFootprintLength
 ) =>
-  parseFloat(
-    (
-      (carbonFootprintSum * carbonFootprintPercentage) /
-        100 /
-        carbonFootprintLength +
+  twoDigitRounded(
+    (carbonFootprintSum * carbonFootprintPercentage) /
+      100 /
+      carbonFootprintLength +
       (citizenCarbonFootprintSum * (100 - carbonFootprintPercentage)) /
         100 /
         citizenCarbonFootprintLength
-    ).toFixed(2)
   );
 
 const selectCarbonFootprintIdsForParticipantId = (
@@ -208,7 +209,7 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
     state
   );
   const {
-    rounds: roundIds,
+    rounds: roundIds = [],
     participants: participantIds,
   } = selectCurrentWorkshopInfo(state);
   return roundIds.map((roundId) => {
@@ -248,13 +249,11 @@ export const selectCarbonFootprintAveragesGroupByRounds = (state) => {
       actionCardType,
       targetedYear,
       ...participantFootprints,
-      avgParticipants: parseFloat(
-        (carbonFootprintSum / carbonFootprintIds.length).toFixed(2)
+      avgParticipants: twoDigitRounded(
+        carbonFootprintSum / carbonFootprintIds.length
       ),
-      avgCitizens: parseFloat(
-        (citizenCarbonFootprintSum / citizenCarbonFootprintIds.length).toFixed(
-          2
-        )
+      avgCitizens: twoDigitRounded(
+        citizenCarbonFootprintSum / citizenCarbonFootprintIds.length
       ),
       avgGlobal: selectWeightedCarbonFootprintAverage(
         carbonFootprintSum,
@@ -290,23 +289,17 @@ export const selectCarbonFootprintReductionGroupByRounds = (state) => {
               yearFrom: year,
               yearTo: targetedYear,
               actionCardType,
-              avgGlobalReduction: parseFloat(
-                (
-                  avgGlobalCurrentRound -
+              avgGlobalReduction: twoDigitRounded(
+                avgGlobalCurrentRound -
                   carbonFootprintAveragesForNextRound.avgGlobal
-                ).toFixed(2)
               ),
-              avgParticipantsReduction: parseFloat(
-                (
-                  avgParticipantsCurrentRound -
+              avgParticipantsReduction: twoDigitRounded(
+                avgParticipantsCurrentRound -
                   carbonFootprintAveragesForNextRound.avgParticipants
-                ).toFixed(2)
               ),
-              avgCitizensReduction: parseFloat(
-                (
-                  avgCitizensCurrentRound -
+              avgCitizensReduction: twoDigitRounded(
+                avgCitizensCurrentRound -
                   carbonFootprintAveragesForNextRound.avgCitizens
-                ).toFixed(2)
               ),
             },
           ]
@@ -317,89 +310,138 @@ export const selectCarbonFootprintReductionGroupByRounds = (state) => {
 };
 
 export const selectCarbonFootprintReductionGroupByPopulation = (state) => {
+  const startYear = selectStartYear(state);
   const [
-    carbonFootprintAveragesGroupByRounds,
+    carbonFootprintAveragesGroupByRounds = {},
   ] = selectCarbonFootprintAveragesGroupByRounds(state);
   const {
-    avgGlobal,
-    avgParticipants,
-    avgCitizens,
+    avgGlobal = 0,
+    avgParticipants = 0,
+    avgCitizens = 0,
   } = carbonFootprintAveragesGroupByRounds;
   const carbonFootprintReductionGroupByRounds = selectCarbonFootprintReductionGroupByRounds(
     state
   );
   const initStructure = {
     participants: {
+      name: 'participants',
       avgTotal: avgParticipants,
       avgIndividualReduction: 0,
       avgCollectiveReduction: 0,
     },
+
     citizens: {
+      name: 'citizens',
       avgTotal: avgCitizens,
       avgIndividualReduction: 0,
       avgCollectiveReduction: 0,
     },
+
     global: {
+      name: 'global',
       avgTotal: avgGlobal,
       avgIndividualReduction: 0,
       avgCollectiveReduction: 0,
     },
   };
-  return carbonFootprintReductionGroupByRounds.reduce((accumulator, round) => {
-    const {
-      actionCardType,
-      avgGlobalReduction,
-      avgParticipantsReduction,
-      avgCitizensReduction,
-    } = round;
-    switch (actionCardType) {
-      case 'individual': {
-        return {
-          ...accumulator,
-          citizens: {
-            ...accumulator.citizens,
-            avgIndividualReduction:
-              accumulator.citizens.avgIndividualReduction +
-              avgCitizensReduction,
-          },
-          participants: {
-            ...accumulator.participants,
-            avgIndividualReduction:
-              accumulator.participants.avgIndividualReduction +
-              avgParticipantsReduction,
-          },
-          global: {
-            ...accumulator.global,
-            avgIndividualReduction:
-              accumulator.global.avgIndividualReduction + avgGlobalReduction,
-          },
-        };
+  const carbonFootprintReductionGroupByPopulation = carbonFootprintReductionGroupByRounds.reduce(
+    (accumulator, round) => {
+      const {
+        actionCardType,
+        avgGlobalReduction,
+        avgParticipantsReduction,
+        avgCitizensReduction,
+        yearTo,
+      } = round;
+      switch (actionCardType) {
+        case 'individual': {
+          return {
+            ...accumulator,
+            citizens: {
+              ...accumulator.citizens,
+              avgTotal: twoDigitRounded(
+                accumulator.citizens.avgTotal - avgCitizensReduction
+              ),
+              avgIndividualReduction:
+                accumulator.citizens.avgIndividualReduction +
+                avgCitizensReduction,
+              year: yearTo,
+            },
+            participants: {
+              ...accumulator.participants,
+              avgTotal: twoDigitRounded(
+                accumulator.participants.avgTotal - avgParticipantsReduction
+              ),
+              avgIndividualReduction:
+                accumulator.participants.avgIndividualReduction +
+                avgParticipantsReduction,
+              year: yearTo,
+            },
+            global: {
+              ...accumulator.global,
+              avgTotal: twoDigitRounded(
+                accumulator.global.avgTotal - avgGlobalReduction
+              ),
+              avgIndividualReduction:
+                accumulator.global.avgIndividualReduction + avgGlobalReduction,
+              year: yearTo,
+            },
+          };
+        }
+        case 'collective': {
+          return {
+            ...accumulator,
+            citizens: {
+              ...accumulator.citizens,
+              avgTotal: twoDigitRounded(
+                accumulator.citizens.avgTotal - avgCitizensReduction
+              ),
+              avgCollectiveReduction:
+                accumulator.citizens.avgCollectiveReduction +
+                avgCitizensReduction,
+              year: yearTo,
+            },
+            participants: {
+              ...accumulator.participants,
+              avgTotal: twoDigitRounded(
+                accumulator.participants.avgTotal - avgParticipantsReduction
+              ),
+              avgCollectiveReduction:
+                accumulator.participants.avgCollectiveReduction +
+                avgParticipantsReduction,
+              year: yearTo,
+            },
+            global: {
+              ...accumulator.global,
+              avgTotal: twoDigitRounded(
+                accumulator.global.avgTotal - avgGlobalReduction
+              ),
+              avgCollectiveReduction:
+                accumulator.global.avgCollectiveReduction + avgGlobalReduction,
+              year: yearTo,
+            },
+          };
+        }
+        default: {
+          return accumulator;
+        }
       }
-      case 'collective': {
-        return {
-          ...accumulator,
-          citizens: {
-            ...accumulator.citizens,
-            avgCollectiveReduction:
-              accumulator.citizens.avgCollectiveReduction +
-              avgCitizensReduction,
-          },
-          participants: {
-            ...accumulator.participants,
-            avgCollectiveReduction:
-              accumulator.participants.avgCollectiveReduction +
-              avgParticipantsReduction,
-          },
-          global: {
-            ...accumulator.global,
-            avgCollectiveReduction:
-              accumulator.global.avgCollectiveReduction + avgGlobalReduction,
-          },
-        };
-      }
-      default: {
-        return accumulator;
-      }
-    }
-  }, initStructure);
+    },
+    initStructure
+  );
+
+  return {
+    participants: [
+      { name: 'participants', year: startYear, avgTotal: avgParticipants },
+      carbonFootprintReductionGroupByPopulation.participants,
+    ],
+    citizens: [
+      { name: 'citizens', year: startYear, avgTotal: avgCitizens },
+      carbonFootprintReductionGroupByPopulation.citizens,
+    ],
+    global: [
+      { name: 'global', year: startYear, avgTotal: avgGlobal },
+      carbonFootprintReductionGroupByPopulation.global,
+    ],
+  };
 };

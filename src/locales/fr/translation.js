@@ -235,4 +235,12 @@ export default {
       ended: 'Terminé',
     },
   },
+  results: {
+    participants: 'Bilan des participants',
+    citizens: 'Bilan du reste de la population',
+    global: 'Bilan de toute la population',
+    avgTotal: 'Total',
+    avgIndividualReduction: 'Réduction par les écogestes',
+    avgCollectiveReduction: 'Réduction par les actions collectives',
+  },
 };

@@ -838,6 +838,7 @@ describe('Footprint selector', () => {
           citizenCarbonFootprints: citizenCarbonFootprintsEntity,
         },
         result: {
+          startYear: 2020,
           currentYear: 2032,
           rounds: Object.keys(roundsEntity),
           participants: [1, 2],
@@ -886,21 +887,48 @@ describe('Footprint selector', () => {
     test('Should give the number of Tons of CO2 reduced for participants, citizens and all group by action cards type (individual or collective)', () => {
       const result = selectCarbonFootprintReductionGroupByPopulation(initState);
       const expected = {
-        participants: {
-          avgTotal: 10,
-          avgIndividualReduction: 2.5,
-          avgCollectiveReduction: 4.5,
-        },
-        citizens: {
-          avgTotal: 20,
-          avgIndividualReduction: 5,
-          avgCollectiveReduction: 9,
-        },
-        global: {
-          avgTotal: 19,
-          avgIndividualReduction: 4.75,
-          avgCollectiveReduction: 8.55,
-        },
+        participants: [
+          {
+            name: 'participants',
+            avgTotal: 10,
+            year: 2020,
+          },
+          {
+            name: 'participants',
+            avgTotal: 10 - 4.5 - 2.5,
+            avgIndividualReduction: 2.5,
+            avgCollectiveReduction: 4.5,
+            year: 2032,
+          },
+        ],
+        citizens: [
+          {
+            name: 'citizens',
+            avgTotal: 20,
+            year: 2020,
+          },
+          {
+            name: 'citizens',
+            avgTotal: 20 - 5 - 9,
+            avgIndividualReduction: 5,
+            avgCollectiveReduction: 9,
+            year: 2032,
+          },
+        ],
+        global: [
+          {
+            name: 'global',
+            avgTotal: 19,
+            year: 2020,
+          },
+          {
+            name: 'global',
+            avgTotal: 5.7,
+            avgIndividualReduction: 4.75,
+            avgCollectiveReduction: 8.55,
+            year: 2032,
+          },
+        ],
       };
       expect(result).toStrictEqual(expected);
     });

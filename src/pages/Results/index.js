@@ -26,7 +26,7 @@ const Results = ({
           <Col sm={12} lg={4}>
             <Container className="graph-card">
               <h4> {t('results.participants')} </h4>
-              <FootprintDistribution population={participants} t={t} />
+              <FootprintDistribution population={participants} t={t} legend />
             </Container>
           </Col>
           <Col sm={12} lg={4}>
@@ -38,7 +38,7 @@ const Results = ({
           <Col sm={12} lg={4}>
             <Container className="graph-card">
               <h4> {t('results.global')} </h4>
-              <FootprintDistribution population={global} t={t} />
+              <FootprintDistribution population={global} t={t} legend />
             </Container>
           </Col>
         </Row>

@@ -78,14 +78,14 @@ const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
           <span className="badge alert-success" role="alert">
             {t('manageParticipants.ready')}
           </span>{' '}
-          <a
+          {/* <a
             href="#"
             title={t('manageParticipants.seeBC')}
             className="badge"
             onClick={handleShowBC}
           >
             &#x1f50d;
-          </a>
+          </a> */}
         </div>
       );
 

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Dropdown, Toast } from 'react-bootstrap';
+import PrimaryButton from '../../../components/PrimaryButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
+import {BsEnvelope} from "react-icons/bs"; 
 
 const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
   const { t } = useTranslation();
@@ -18,9 +20,9 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
 
     case 'created':
       return (
-        <Button variant="warning" size="sm" onClick={handleSendForm}>
-          {t('manageParticipants.sendBCForm')}
-        </Button>
+        <PrimaryButton size="sm" onClick={handleSendForm} style={{fontSize: 12}}>
+       <span style={{fontWeight: "bolder", fontSize: 16, marginRight: 5}}>&#x2709;</span> 	 {t('manageParticipants.sendBCForm')}
+        </PrimaryButton>
         // <Dropdown as={ButtonGroup}>
         //   <Button variant="warning" size="sm" onClick={handleSendForm}>
         //     {t('manageParticipants.sendBCForm')}
@@ -62,21 +64,22 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
     // not handled yet in backend
     case 'form_sent':
       return (
-        <Button variant="warning" size="sm" onClick={handleSendForm}>
-        {t('manageParticipants.resendBCForm')}
+        <Button variant="warning" size="sm" onClick={handleSendForm} style={{fontSize: 12}}>
+       <span style={{fontWeight: "bolder", fontSize: 16, marginRight: 5}}>&#x2709;</span>    {t('manageParticipants.resendBCForm')}
       </Button>
       );
 
     case 'data_to_check':
       return(     // onclick go to participant data
-      <Button variant="light" size="sm" onClick={}> 
-      {t('manageParticipants.data')}
+      <Button variant="light" size="sm" style={{fontSize: 16}}> 
+      &#128065;  {"  "}
+      {/* {t('manageParticipants.data')} */}
     </Button>)
 
     case 'ready':
       return (
-        <Button variant="light" size="sm" onClick={handleShowBC}> 
-            &#x1f50d;
+        <Button variant="light" size="sm" onClick={handleShowBC} style={{fontSize: 16}}> 
+          	&#128202;
         </Button>
       );
 

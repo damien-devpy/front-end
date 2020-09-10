@@ -187,7 +187,7 @@ export default {
     carbonForm: 'Formulaire BC',
     seeBC: 'voir Bilan Carbone',
     sendBCForm: 'Envoyer formulaire',
-    resendEmail: 'Renvoyer formulaire',
+    resendBCForm: 'Renvoyer formulaire',
     toSendBCForm: 'Formulaire à envoyer',
     sendByEmail: 'Envoyer un e-mail',
     checkData: "Vérifier les données",

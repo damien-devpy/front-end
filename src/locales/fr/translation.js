@@ -187,6 +187,7 @@ export default {
     seeBC: 'voir Bilan Carbone',
     sendBCForm: 'Envoyer formulaire',
     sendByEmail: 'Envoyer un e-mail',
+    checkData: "Vérifier les données",
     sendByLink: 'Copier le lien',
     status: 'Statut',
     totalBC: 'Total:',

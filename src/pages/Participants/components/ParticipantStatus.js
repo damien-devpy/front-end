@@ -60,12 +60,17 @@ const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
         // </Dropdown>
       );
     // not handled yet in backend
-    case 'EMAIL_SENT':
+    case 'form_sent':
       return (
         <span className="badge alert-warning">
           {t('manageParticipants.emailSent')}
         </span>
       );
+
+    case 'data_to_check':
+      return(<span className="badge alert-info">
+      {t('manageParticipants.checkData')}
+    </span>)
 
     case 'ready':
       return (

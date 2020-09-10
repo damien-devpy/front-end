@@ -4,6 +4,7 @@ import PrimaryButton from '../../../components/PrimaryButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 import {BsEnvelope} from "react-icons/bs"; 
+import SendMailButton from '../../../components/SendMailButton';
 
 const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
   const { t } = useTranslation();
@@ -20,9 +21,9 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
 
     case 'created':
       return (
-        <PrimaryButton size="sm" onClick={handleSendForm} style={{fontSize: 12}}>
-       <span style={{fontWeight: "bolder", fontSize: 16, marginRight: 5}}>&#x2709;</span> 	 {t('manageParticipants.sendBCForm')}
-        </PrimaryButton>
+        <SendMailButton size="sm" variant="info" onClick={handleSendForm} style={{fontSize: 10}} color="#000">
+      	 {t('manageParticipants.sendBCForm')}
+        </SendMailButton>
         // <Dropdown as={ButtonGroup}>
         //   <Button variant="warning" size="sm" onClick={handleSendForm}>
         //     {t('manageParticipants.sendBCForm')}
@@ -64,9 +65,9 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
     // not handled yet in backend
     case 'form_sent':
       return (
-        <Button variant="warning" size="sm" onClick={handleSendForm} style={{fontSize: 12}}>
-       <span style={{fontWeight: "bolder", fontSize: 16, marginRight: 5}}>&#x2709;</span>    {t('manageParticipants.resendBCForm')}
-      </Button>
+        <SendMailButton size="sm" variant="warning" onClick={handleSendForm} style={{fontSize: 10}} color="#000">
+         {t('manageParticipants.resendBCForm')}
+       </SendMailButton>
       );
 
     case 'data_to_check':

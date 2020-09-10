@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Dropdown, Toast } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 
-const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
+const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
   const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
@@ -18,9 +18,9 @@ const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
 
     case 'created':
       return (
-        <span className="badge alert-secondary">
-          {t('manageParticipants.toSendBCForm')}
-        </span>
+        <Button variant="warning" size="sm" onClick={handleSendForm}>
+          {t('manageParticipants.sendBCForm')}
+        </Button>
         // <Dropdown as={ButtonGroup}>
         //   <Button variant="warning" size="sm" onClick={handleSendForm}>
         //     {t('manageParticipants.sendBCForm')}
@@ -62,36 +62,27 @@ const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
     // not handled yet in backend
     case 'form_sent':
       return (
-        <span className="badge alert-warning">
-          {t('manageParticipants.emailSent')}
-        </span>
+        <Button variant="warning" size="sm" onClick={handleSendForm}>
+        {t('manageParticipants.resendBCForm')}
+      </Button>
       );
 
     case 'data_to_check':
-      return(<span className="badge alert-info">
-      {t('manageParticipants.checkData')}
-    </span>)
+      return(     // onclick go to participant data
+      <Button variant="light" size="sm" onClick={}> 
+      {t('manageParticipants.data')}
+    </Button>)
 
     case 'ready':
       return (
-        <div>
-          <span className="badge alert-success" role="alert">
-            {t('manageParticipants.ready')}
-          </span>{' '}
-          <a
-            href="#"
-            title={t('manageParticipants.seeBC')}
-            className="badge"
-            onClick={handleShowBC}
-          >
+        <Button variant="light" size="sm" onClick={handleShowBC}> 
             &#x1f50d;
-          </a>
-        </div>
+        </Button>
       );
 
     default:
-      return <span className="badge alert-danger">missing status</span>;
+      return <span className="badge alert-danger">{t('manageParticipants.missing_status')}</span>;
   }
 };
 
-export default ParticipantStatus;
+export default ParticipantStatusAction;

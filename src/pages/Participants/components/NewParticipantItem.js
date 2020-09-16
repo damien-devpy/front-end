@@ -105,9 +105,8 @@ export const ParticipantItemForm = ({
           handleSendForm={() => handleSendForm(id)}
           handleShowBC={() => handleShowBC(id)}
         />
-              </Col>
-
-          <Col
+      </Col>
+      <Col
         className="text-center"
         onClick={(e) => {
           e.stopPropagation();
@@ -137,7 +136,6 @@ export const ParticipantsHeader = () => {
         <Col>{t('manageParticipants.persona')}</Col>
         <Col className="text-center">{t('manageParticipants.status')}</Col>
         <Col className="text-center">{t('manageParticipants.actions')}</Col>
-
       </Row>
     </StyledHeaderRow>
   );

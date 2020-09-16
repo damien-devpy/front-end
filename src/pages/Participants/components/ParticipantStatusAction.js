@@ -3,7 +3,6 @@ import { Button, ButtonGroup, Dropdown, Toast } from 'react-bootstrap';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
-import {BsEnvelope} from "react-icons/bs"; 
 import SendMailButton from '../../../components/SendMailButton';
 
 const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
@@ -21,7 +20,7 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
 
     case 'created':
       return (
-        <SendMailButton size="sm" variant="info" onClick={handleSendForm} style={{fontSize: 10}} color="#000">
+        <SendMailButton size="sm" variant="info" onClick={handleSendForm} style={{fontSize: 12}} color="#000">
       	 {t('manageParticipants.sendBCForm')}
         </SendMailButton>
         // <Dropdown as={ButtonGroup}>
@@ -65,7 +64,7 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
     // not handled yet in backend
     case 'form_sent':
       return (
-        <SendMailButton size="sm" variant="warning" onClick={handleSendForm} style={{fontSize: 10}} color="#000">
+        <SendMailButton size="sm" variant="warning" onClick={handleSendForm} style={{fontSize: 12}} color="#000">
          {t('manageParticipants.resendBCForm')}
        </SendMailButton>
       );

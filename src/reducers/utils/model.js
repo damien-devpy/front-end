@@ -106,7 +106,7 @@ const computeSocialVariables = (
     });
   });
   collectiveActionCardIds.forEach((actionCardId) => {
-    socialScore += actionCards[actionCardId].peerAwarenessScore;
+    socialScore += actionCards[actionCardId].peerAwarenessScore / 10;
   });
   return { socialScore, influenceScore };
 };
@@ -146,7 +146,7 @@ const computeCitizenIndividualChoices = (
     const newActionCardIdsForCitizen = [];
     actionCards.forEach((actionCard) => {
       const isSocialScoreBigEnough =
-        socialVariables.socialScore * 10 >=
+        socialVariables.socialScore * 100 >=
         citizen.reluctancy + actionCard.reluctancyForCitizens;
       if (
         isSocialScoreBigEnough &&

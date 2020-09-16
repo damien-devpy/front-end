@@ -6,19 +6,20 @@ import { Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+
 import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import Loading from '../../components/Loading';
+
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import {
   ParticipantItemForm,
   ParticipantsHeader,
 } from './components/NewParticipantItem';
-import ParticipantsFootprintCards from "./components/ParticipantsFootprintCards"
 import {
   addParticipant,
   deleteParticipant,
@@ -251,7 +252,6 @@ const ManageParticipants = ({
           <CardHeader>
             <h3>{t('manageParticipants.title')}</h3>
 
-            <ParticipantsFootprintCards />
             <AddNewButton
               disabled={disableModifications}
               onClick={() => {

@@ -12,6 +12,7 @@ import Navbar from './components/Navbar';
 import NavbarHome from './components/NavbarHome';
 import NavbarWorkshop from './components/NavbarWorkshop';
 import Participants from './pages/Participants';
+import ParticipantsFootprintFile from './pages/ParticipantsFootprintFile';
 import Resources from './pages/Resources';
 import Results from './pages/Results';
 import Simulation from './pages/Simulation';
@@ -39,6 +40,10 @@ const AppRouter = ({ currentUser }) => {
         <Route
           path="/workshop/:workshopId/participants"
           component={Participants}
+        />
+        <Route
+          path="/workshop/:workshopId/participants_file"
+          component={ParticipantsFootprintFile}
         />
         <Route path="/workshop/:workshopId/data" component={Data} />
         <Route path="/workshop/:workshopId/simulation" component={Simulation} />

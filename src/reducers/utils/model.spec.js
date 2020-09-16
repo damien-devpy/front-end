@@ -271,8 +271,8 @@ describe('computeSocialVariables returns correct results', () => {
     const expectedSocialVariables = {
       // unchanged
       influenceScore: 1,
-      // 2 + 2
-      socialScore: 4,
+      // 2 + 0.2
+      socialScore: 2.2,
     };
     expect(actualSocialVariables).toStrictEqual(expectedSocialVariables);
   });

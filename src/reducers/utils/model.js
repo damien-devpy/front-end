@@ -122,8 +122,9 @@ const getActionsTakenBeforeYear = (
       citizenYearKey
     );
     if (yearForAction < year && citizenId === citizenIdForAction) {
-      actionsTakenBeforeYear +=
-        citizenIndividualActionCards[citizenYearKey].actionCardIds;
+      actionsTakenBeforeYear = actionsTakenBeforeYear.concat(
+        citizenIndividualActionCards[citizenYearKey].actionCardIds
+      );
     }
   });
   return actionsTakenBeforeYear;
@@ -139,18 +140,21 @@ const computeCitizenIndividualChoices = (
   citizens.forEach((citizen) => {
     const alreadyTakenActionIds = getActionsTakenBeforeYear(
       previousCitizenIndividualChoices,
-      citizen,
+      citizen.id,
       yearFrom
     );
     const newActionCardIdsForCitizen = [];
     actionCards.forEach((actionCard) => {
       const isSocialScoreBigEnough =
-        socialVariables.socialScore >
+        socialVariables.socialScore * 10 >=
         citizen.reluctancy + actionCard.reluctancyForCitizens;
       if (
         isSocialScoreBigEnough &&
         !alreadyTakenActionIds.includes(actionCard.id)
       ) {
+        console.log(
+          `Citizen ${citizen.firstName} takes action ${actionCard.key}`
+        );
         newActionCardIdsForCitizen.push(actionCard.id);
       }
     });

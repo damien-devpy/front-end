@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-import { Button, ButtonGroup, Dropdown, Toast } from 'react-bootstrap';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
+const ParticipantStatus = ({ value }) => {
   const { t } = useTranslation();
-
-  const [show, setShow] = useState(false);
 
   switch (value) {
     // case 'MISSING_INFO':
@@ -68,9 +64,11 @@ const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
       );
 
     case 'data_to_check':
-      return(<span className="badge alert-info">
-      {t('manageParticipants.checkData')}
-    </span>)
+      return (
+        <span className="badge alert-info">
+          {t('manageParticipants.checkData')}
+        </span>
+      );
 
     case 'ready':
       return (
@@ -90,7 +88,11 @@ const ParticipantStatus = ({ value, handleShowBC, handleSendForm }) => {
       );
 
     default:
-      return <span className="badge alert-danger">missing status</span>;
+      return (
+        <span className="badge alert-danger">
+          {t('manageParticipants.missing_status')}
+        </span>
+      );
   }
 };
 

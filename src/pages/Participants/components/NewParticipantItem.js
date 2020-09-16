@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import DeleteIcon from '../../../assets/DeleteIcon';
 import ParticipantStatus from './ParticipantStatus';
+import ParticipantStatusAction from './ParticipantStatusAction';
 
 export const ParticipantItemForm = ({
   id,
@@ -105,6 +106,18 @@ export const ParticipantItemForm = ({
           handleShowBC={() => handleShowBC(id)}
         />
       </Col>
+      <Col
+        className="text-center"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
+        <ParticipantStatusAction
+          value={status}
+          handleShowBC={() => handleShowBC(id)}
+        />
+      </Col>
     </Row>
   );
 };
@@ -122,6 +135,7 @@ export const ParticipantsHeader = () => {
         <Col md="3">{t('manageParticipants.email')}</Col>
         <Col>{t('manageParticipants.persona')}</Col>
         <Col className="text-center">{t('manageParticipants.status')}</Col>
+        <Col className="text-center">{t('manageParticipants.actions')}</Col>
       </Row>
     </StyledHeaderRow>
   );

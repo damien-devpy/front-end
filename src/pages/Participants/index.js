@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import { Button, Card, Container } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';

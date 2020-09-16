@@ -154,6 +154,7 @@ describe('valueOnAllLevels', () => {
 });
 
 describe('computeBudget returns correct results', () => {
+  const actionCards = { '1': { cost: 2 } };
   const testValues = [
     { influenceScore: 0, expectedBudget: 3 },
     { influenceScore: 0.015, expectedBudget: 3 },
@@ -164,10 +165,28 @@ describe('computeBudget returns correct results', () => {
     { influenceScore: 0.95, expectedBudget: 8 },
     { influenceScore: 1000, expectedBudget: 8 },
     { influenceScore: -1000, expectedBudget: 3 },
+    { influenceScore: 0, oldBudget: 3, expectedBudget: 6 },
+    {
+      influenceScore: 0,
+      oldBudget: 3,
+      collectiveActionCardIds: [1],
+      expectedBudget: 4,
+    },
+    {
+      influenceScore: 1000,
+      oldBudget: 3,
+      roundType: 'individual',
+      expectedBudget: 3,
+    },
   ];
-
   testValues.forEach((params) => {
-    const actualResult = computeBudget(params.influenceScore);
+    const actualResult = computeBudget(
+      params.influenceScore,
+      params.oldBudget,
+      params.collectiveActionCardIds,
+      actionCards,
+      params.roundType
+    );
     expect(actualResult).toBe(params.expectedBudget);
   });
 });

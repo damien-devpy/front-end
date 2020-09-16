@@ -134,7 +134,8 @@ export default (state = initialState, action) => {
               globalCarbonVariables: year,
               socialVariables: initSocialVariables,
               collectiveBudget: computeBudget(
-                initSocialVariables.influenceScore
+                initSocialVariables.influenceScore,
+                0
               ),
             },
           },
@@ -439,15 +440,21 @@ export default (state = initialState, action) => {
         state.entities.rounds[yearFrom].socialVariables;
       const nbParticipants = state.result.participants.length;
 
-      const participantIndividualChoiceRecords =
-        state.entities.rounds[yearFrom].individualChoices || [];
-      const participantIndividualChoices = participantIndividualChoiceRecords.map(
+      const participantIndividualChoiceIds = pathOr(
+        [],
+        ['entities', 'rounds', yearFrom, 'individualChoices'],
+        state
+      );
+      const participantIndividualChoices = participantIndividualChoiceIds.map(
         (yearParticipantKey) =>
           state.entities.individualChoices[yearParticipantKey]
       );
-      const citizenIndividualChoiceRecords =
-        state.entities.rounds[yearFrom].citizenIndividualChoices || [];
-      const citizenIndividualChoices = citizenIndividualChoiceRecords.map(
+      const citizenIndividualChoiceIds = pathOr(
+        [],
+        ['entities', 'rounds', yearFrom, 'citizenIndividualChoices'],
+        state
+      );
+      const citizenIndividualChoices = citizenIndividualChoiceIds.map(
         (yearCitizenKey) =>
           state.entities.citizenIndividualChoices[yearCitizenKey]
       );
@@ -456,6 +463,12 @@ export default (state = initialState, action) => {
         ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
+      const oldBudget = pathOr(
+        [],
+        ['entities', 'rounds', yearFrom, 'collectiveBudget'],
+        state
+      );
+      const roundType = state.entities.roundConfig[yearFrom].actionCardType;
       const newSocialVariables = computeSocialVariables(
         currentSocialVariables,
         participantIndividualChoices,
@@ -464,7 +477,13 @@ export default (state = initialState, action) => {
         actionCards,
         nbParticipants
       );
-      const newBudget = computeBudget(newSocialVariables.influenceScore);
+      const newBudget = computeBudget(
+        newSocialVariables.influenceScore,
+        oldBudget,
+        collectiveActionCardIds,
+        actionCards,
+        roundType
+      );
       return {
         ...state,
         entities: {

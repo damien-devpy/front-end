@@ -122,8 +122,9 @@ const getActionsTakenBeforeYear = (
       citizenYearKey
     );
     if (yearForAction < year && citizenId === citizenIdForAction) {
-      actionsTakenBeforeYear +=
-        citizenIndividualActionCards[citizenYearKey].actionCardIds;
+      actionsTakenBeforeYear = actionsTakenBeforeYear.concat(
+        citizenIndividualActionCards[citizenYearKey].actionCardIds
+      );
     }
   });
   return actionsTakenBeforeYear;
@@ -139,18 +140,21 @@ const computeCitizenIndividualChoices = (
   citizens.forEach((citizen) => {
     const alreadyTakenActionIds = getActionsTakenBeforeYear(
       previousCitizenIndividualChoices,
-      citizen,
+      citizen.id,
       yearFrom
     );
     const newActionCardIdsForCitizen = [];
     actionCards.forEach((actionCard) => {
       const isSocialScoreBigEnough =
-        socialVariables.socialScore >
+        socialVariables.socialScore * 10 >=
         citizen.reluctancy + actionCard.reluctancyForCitizens;
       if (
         isSocialScoreBigEnough &&
         !alreadyTakenActionIds.includes(actionCard.id)
       ) {
+        console.log(
+          `Citizen ${citizen.firstName} takes action ${actionCard.key}`
+        );
         newActionCardIdsForCitizen.push(actionCard.id);
       }
     });
@@ -164,17 +168,33 @@ const computeCitizenIndividualChoices = (
   return newCitizenIndividualChoices;
 };
 
-const computeBudget = (influenceScore) => {
-  const startingBudget = 3;
-  const minBudget = 3;
-  const maxBudget = 8;
-  const offset = 0.15;
-  // Every 0.2 influence point, add 1 budget
-  const rateBudgetOverInfluenceScore = 0.2;
-  const approximativeBudget = Math.floor(
-    startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
-  );
-  return Math.max(Math.min(approximativeBudget, maxBudget), minBudget);
+const computeBudget = (
+  influenceScore,
+  oldBudget = 0,
+  collectiveActionCardIds = [],
+  actionCards = [],
+  roundType = 'collective'
+) => {
+  if (roundType === 'collective') {
+    const startingBudget = 3;
+    const minBudget = 3;
+    const maxBudget = 8;
+    const offset = 0.15;
+    // Every 0.2 influence point, add 1 budget
+    const rateBudgetOverInfluenceScore = 0.2;
+    const approximativeBudget = Math.floor(
+      startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
+    );
+    const additionalBudget = Math.max(
+      Math.min(approximativeBudget, maxBudget),
+      minBudget
+    );
+    const usedBudget = collectiveActionCardIds
+      .map((id) => actionCards[id].cost)
+      .reduce((a, b) => a + b, 0);
+    return oldBudget + additionalBudget - usedBudget;
+  }
+  return oldBudget;
 };
 
 export {

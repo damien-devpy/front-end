@@ -41,6 +41,9 @@ export const getAllCollectiveChoices = (
       )
     : [];
 
+export const actionCardBatches = (state) =>
+  state.workshop.entities && state.workshop.entities.actionCardBatches;
+
 const selectCheckedActionCardsBatchIdsFromRounds = (
   workshop,
   actionCardType

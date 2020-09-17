@@ -2,8 +2,9 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import { Card, Container } from 'react-bootstrap';
+import { Button, Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -11,8 +12,11 @@ import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
+import DownloadIcon from '../../assets/DownloadIcon';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import Loading from '../../components/Loading';
+
+import ParticipantsFootprintFile from '../ParticipantsFootprintFile';
 
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
@@ -203,6 +207,12 @@ const ManageParticipants = ({
     });
   };
 
+  // const PDFParticipantsFile = () => (
+  //   <PDFViewer>
+  //     <ParticipantsFootprintFile worshopId={workshopId} />
+  //   </PDFViewer>
+  // );
+
   const disableModifications = workshopStatus !== 'created';
   const participantItems = [];
 
@@ -244,6 +254,16 @@ const ManageParticipants = ({
           >
             <span className="emoji">&#x1F4C3;</span>
           </a>
+          {/* <PDFParticipantsFile 
+          // className="badge badge-info float-right text-decoration-none"
+          /> */}
+          {/* {t('manageParticipants.participantsFootprintFile')} */}
+          <Link to={`/workshop/${workshopId}/participants_file`}>
+            <Button className="badge badge-info float-right text-decoration-none">
+              <DownloadIcon />
+              {/* {t('manageParticipants.participantsFootprintFile')} */}
+            </Button>
+          </Link>
         </h2>
         <Card
           className="p-5 border-light shadow-sm"

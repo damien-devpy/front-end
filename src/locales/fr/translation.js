@@ -197,6 +197,7 @@ export default {
     totalBC: 'Total:',
     unitBC: 'tCO2e/an',
     missing_status: 'Erreur',
+    participantsFootprintFile: 'Fiches des participants',
   },
   simulation: {
     carbon_footprint_evolution: 'Evolution des empreintes carbones',

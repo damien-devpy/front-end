@@ -98,20 +98,18 @@ const renderLegend = (props) => {
   );
 };
 
-const FootprintGraph = ({ footprint }) => {
+const FootprintGraph = ({ footprint, width = '100%', height = '50%', ref }) => {
   const { t } = useTranslation();
   const dataMax = 5;
 
   return (
     <ResponsiveContainer
-      width="100%"
-      height="50%"
+      width={width}
+      height={height}
       minHeight={100}
       aspect={3.0 / 2.5}
     >
       <BarChart
-        // width={730}
-        // height={250}
         data={footprint}
         margin={{
           top: 10,
@@ -120,6 +118,7 @@ const FootprintGraph = ({ footprint }) => {
           bottom: 5,
         }}
         barCategoryGap="10"
+        ref={ref}
       >
         <CartesianGrid strokeDasharray="3" />
         <XAxis

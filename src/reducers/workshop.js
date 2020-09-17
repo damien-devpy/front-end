@@ -721,7 +721,6 @@ export default (state = initialState, action) => {
 
       const newCitizenCarbonVariables = {};
       citizens.forEach((citizenId) => {
-        const yearParticipantKey = makeYearParticipantKey(yearFrom, citizenId);
         const nextYearParticipantKey = makeYearParticipantKey(
           yearTo,
           citizenId
@@ -729,9 +728,9 @@ export default (state = initialState, action) => {
         newCitizenCarbonVariables[nextYearParticipantKey] = {
           citizenId,
           variables: {
-            ...currentCitizenCarbonVariables[yearParticipantKey].variables,
+            ...currentCitizenCarbonVariables[nextYearParticipantKey].variables,
             ...computeNewCarbonVariables(
-              currentCitizenCarbonVariables[yearParticipantKey].variables,
+              currentCitizenCarbonVariables[nextYearParticipantKey].variables,
               takenActionCardsThatApplyToEveryone
             ),
           },

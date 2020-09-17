@@ -14,7 +14,7 @@ const Data = ({
   const workshop = useWorkshop(workshopId);
   const { loadError, isLoading } = workshop;
   const surveyVariablesGrid = useSelector((state) =>
-    selectSurveyVariablesGrid(state, '118acffecdf04230a69cb4f8ad7c65f5')
+    selectSurveyVariablesGrid(state)
   );
 
   return (

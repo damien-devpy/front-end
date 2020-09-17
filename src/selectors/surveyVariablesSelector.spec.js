@@ -1,4 +1,4 @@
-import { selectSurveyVariablesGrid } from './surveyVariablesSelector';
+import { computeSurveyVariablesGridValues } from './surveyVariablesSelector';
 
 describe('SurveyVariables selector', () => {
   const surveyVariables = {
@@ -11,54 +11,195 @@ describe('SurveyVariables selector', () => {
     juicesAndSodasConsoGlassPerDay: 2,
   };
   const expected = [
-    [{ colSpan: 7, readOnly: true, translate: true, value: 'food.food' }],
     [
-      { readOnly: true, translate: true, value: 'food.meatAndFish' },
-      { readOnly: true, translate: true, value: 'food.eggsAndDairies' },
-      { colSpan: 2, readOnly: true, translate: true, value: 'food.other' },
-      { colSpan: 3, readOnly: true, translate: true, value: 'food.drinks' },
-    ],
-    [
-      { readOnly: true, translate: true, value: 'food.consumption' },
-      { readOnly: true, translate: true, value: 'food.consumption' },
       {
+        value: 'John McEnroe',
+        readOnly: true,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: 'common.personified',
         readOnly: true,
         translate: true,
-        value: 'food.fruitsAndVegetableLocal',
+        colSpan: 1,
+        rowSpan: 1,
       },
-      { readOnly: true, translate: true, value: 'food.transformedProducts' },
-      { readOnly: true, translate: true, value: 'food.alcohol' },
-      { readOnly: true, translate: true, value: 'food.hotDrinks' },
-      { readOnly: true, translate: true, value: 'food.juicesAndSodas' },
-    ],
-    [
-      { readOnly: true, translate: true, value: 'food.consumptionPerDay' },
-      { readOnly: true, translate: true, value: 'food.consumptionPerDay' },
       {
-        readOnly: true,
-        translate: true,
-        value: 'food.percentageFruitsAndVegetableLocal',
+        value: 0.4,
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
       },
-      { readOnly: true, translate: true, value: 'food.consumptionPerWeek' },
-      { readOnly: true, translate: true, value: 'food.consumptionPerDay' },
-      { readOnly: true, translate: true, value: 'food.consumptionPerDay' },
-      { readOnly: true, translate: true, value: 'food.consumptionPerDay' },
-    ],
-    [
-      { value: 0.4 },
-      { value: 0.5 },
-      { value: 0.6 },
-      { value: 3 },
-      { value: 0 },
-      { value: 1 },
-      { value: 2 },
+      {
+        value: 0.5,
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: 0.6,
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: 3,
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: 0,
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: 2,
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
+      {
+        value: '',
+        readOnly: false,
+        translate: false,
+        colSpan: 1,
+        rowSpan: 1,
+      },
     ],
   ];
   const state = {
-    workshop: { entities: { participants: { '1': { surveyVariables } } } },
+    workshop: {
+      entities: {
+        participants: {
+          '1': { firstName: 'John', lastName: 'McEnroe', surveyVariables },
+        },
+      },
+    },
   };
   test('should return SurveyVariables Grid', () => {
-    const result = selectSurveyVariablesGrid(state, '1');
+    const result = computeSurveyVariablesGridValues(state);
     expect(result).toEqual(expected);
   });
 });

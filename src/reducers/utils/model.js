@@ -15,11 +15,13 @@ const computeNewCarbonVariables = (
 ) => {
   const newCarbonVariables = {};
   actions.forEach((action) => {
+    const carbonVariablesBeforeAction = { ...newCarbonVariables };
     action.operations.forEach((operation) => {
       newCarbonVariables[operation.variable] = jsonLogic.apply(
         operation.operation,
         {
           ...oldCarbonVariables,
+          ...carbonVariablesBeforeAction,
           ...globalVariables,
         }
       );

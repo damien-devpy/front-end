@@ -92,6 +92,8 @@ export default {
     resources: 'Ressources',
     results: 'Bilans',
     role: 'Rôle',
+    saveAndValidate: 'Enregistrer et valider',
+    saveOnly: 'Enregistrer sans valider',
     seeWorkshop: "Voir l'atelier",
     selectAWorkshop:
       'Veuillez sélectionner un atelier dans la liste des ateliers et démarrer la simulation',

@@ -24,6 +24,7 @@ import {
   SET_COLLECTIVE_CHOICES,
   SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
   START_ROUND,
+  SURVEY_VARIABLES_UPDATED,
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
@@ -820,6 +821,22 @@ export default (state = initialState, action) => {
           ...state.result,
           participants: [...state.result.participants, participant.id],
         },
+      };
+    }
+
+    case SURVEY_VARIABLES_UPDATED: {
+      const { surveyVariables } = action.payload;
+      const oldParticipants = pathOr([], ['entities', 'participants'], state);
+      const participants = {
+        ...oldParticipants,
+        [surveyVariables.participantId]: {
+          ...oldParticipants[surveyVariables.participantId],
+          surveyVariables: surveyVariables.answers,
+        },
+      };
+      return {
+        ...state,
+        entities: { ...state.entities, participants },
       };
     }
 

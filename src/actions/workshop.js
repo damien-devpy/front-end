@@ -1,6 +1,10 @@
 import Papa from 'papaparse';
 
-import { denormalizeWorkshop, updateWorkshopApi } from '../utils/api';
+import {
+  denormalizeWorkshop,
+  updateSurveyVariablesApi,
+  updateWorkshopApi,
+} from '../utils/api';
 import { selectCurrentWorkshopInfo } from '../selectors/workshopSelector';
 import { throwError } from './errors';
 
@@ -11,6 +15,10 @@ export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
 export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
 export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
 export const END_WORKSHOP = 'END_WORKSHOP';
+
+// SurveyVariables
+export const UPDATE_SURVEY_VARIABLES = 'UPDATE_SURVEY_VARIABLES';
+export const SURVEY_VARIABLES_UPDATED = 'SURVEY_VARIABLES_UPDATED';
 
 // Round actions
 export const INIT_ROUND = 'INIT_ROUND';
@@ -230,5 +238,45 @@ export const startWorkshop = (startYear) => {
           dispatch2(persistWorkshop(workshop));
         });
       });
+  };
+};
+
+const updateAsyncSurveyVariables = (
+  workshopId,
+  participantId,
+  surveyVariables
+) => ({
+  type: UPDATE_SURVEY_VARIABLES,
+  payload: { workshopId, participantId, surveyVariables },
+});
+
+export const updateSurveyVariables = (
+  workshopId,
+  participantsModifiedSurveyVariables
+) => {
+  return (dispatch) => {
+    participantsModifiedSurveyVariables.forEach(
+      (participantSurveyVariables) => {
+        const { participantId, surveyVariables } = participantSurveyVariables;
+        dispatch(
+          updateAsyncSurveyVariables(workshopId, participantId, surveyVariables)
+        );
+        updateSurveyVariablesApi({
+          workshopId,
+          participantId,
+          data: surveyVariables,
+        })
+          .then((res) => {
+            dispatch({
+              type: SURVEY_VARIABLES_UPDATED,
+              payload: { surveyVariables: res },
+            });
+            return res;
+          })
+          .catch((error) => {
+            dispatch(throwError(error.message));
+          });
+      }
+    );
   };
 };

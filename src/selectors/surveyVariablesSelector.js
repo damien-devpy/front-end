@@ -63,6 +63,15 @@ const generateCellTitle = (value, colSpan, rowSpan) =>
 const generateCellValue = (value, readOnly = false, translate = false) =>
   generateCell(value, readOnly, translate);
 
+const generateSurveyVariableCellValue = (participant, surveyVariableKey) => {
+  const value = pathOr('', ['surveyVariables', surveyVariableKey], participant);
+  return {
+    value,
+    originalValue: value,
+    surveyVariableKey,
+  };
+};
+
 // Participant
 const computeParticipantHeaderFirstRow = () => [
   generateCellTitle('common.participant'),
@@ -70,11 +79,25 @@ const computeParticipantHeaderFirstRow = () => [
 ];
 
 const computeParticipantNameAndPersonaRows = (participant, personaEntity) => {
-  const { firstName = '', lastName = '', personaId } = participant;
+  const { firstName = '', lastName = '', personaId, id } = participant;
   const persona = pathOr({}, [personaId], personaEntity);
   const { firstName: personaFirstName, lastName: personaLastname } = persona;
   return [
-    generateCellValue(`${firstName} ${lastName}`, true),
+    // generateCellValue(`${firstName} ${lastName}`, true),
+    { value: `${firstName} ${lastName}`, readOnly: true, participantId: id },
+    // const generateCell = (
+    //   value = '',
+    //   readOnly = false,
+    //   translate = false,
+    //   colSpan = 1,
+    //   rowSpan = 1
+    // ) => ({
+    //   value,
+    //   readOnly,
+    //   translate,
+    //   colSpan,
+    //   rowSpan,
+    // });
     personaFirstName
       ? generateCellValue(`${personaFirstName} ${personaLastname}`, true)
       : generateCellValue('common.personified', true, true),
@@ -111,19 +134,24 @@ const computeFoodHeaderForthRow = () => [
   generateCellTitle('food.consumptionPerDay'),
 ];
 
-const computeFoodValues = (participant) => {
-  const surveyVariables = pathOr({}, ['surveyVariables'], participant);
-  const getValue = (key) => surveyVariables[key];
-  return [
-    generateCellValue(getValue('meatAndFishConsoPerDay')),
-    generateCellValue(getValue('eggsAndDairiesConsoPerDay')),
-    generateCellValue(getValue('fruitsAndVegetablePercentageLocal')),
-    generateCellValue(getValue('transformedProductsConsoPerWeek')),
-    generateCellValue(getValue('alcoholConsoGlassPerDay')),
-    generateCellValue(getValue('hotDrinksConsoGlassPerDay')),
-    generateCellValue(getValue('juicesAndSodasConsoGlassPerDay')),
-  ];
-};
+const computeFoodValues = (participant) => [
+  generateSurveyVariableCellValue(participant, 'meatAndFishConsoPerDay'),
+  generateSurveyVariableCellValue(participant, 'eggsAndDairiesConsoPerDay'),
+  generateSurveyVariableCellValue(
+    participant,
+    'fruitsAndVegetablePercentageLocal'
+  ),
+  generateSurveyVariableCellValue(
+    participant,
+    'transformedProductsConsoPerWeek'
+  ),
+  generateSurveyVariableCellValue(participant, 'alcoholConsoGlassPerDay'),
+  generateSurveyVariableCellValue(participant, 'hotDrinksConsoGlassPerDay'),
+  generateSurveyVariableCellValue(
+    participant,
+    'juicesAndSodasConsoGlassPerDay'
+  ),
+];
 
 // Transports
 const computeTransportHeaderFirstRow = () => [
@@ -178,28 +206,24 @@ const computeTransportHeaderForthRow = () => [
   generateCellTitle('transports.kmPerYear'),
 ];
 
-const computeTransportValues = (participant) => {
-  const surveyVariables = pathOr({}, ['surveyVariables'], participant);
-  const getValue = (key) => surveyVariables[key];
-  return [
-    generateCellValue(getValue('categoryCarCommute')),
-    generateCellValue(getValue('motorTypeCarCommute')),
-    generateCellValue(getValue('ageCategoryCarCommute')),
-    generateCellValue(getValue('kmCarCommutePerDay')),
-    generateCellValue(getValue('passengersPerCarCommute')),
-    generateCellValue(getValue('hoursUrbanBusPerWeek')),
-    generateCellValue(getValue('hoursCoachCommutePerWeek')),
-    generateCellValue(getValue('hoursUrbanTrainPerWeek')),
-    generateCellValue(getValue('categoryCarTravel')),
-    generateCellValue(getValue('motorTypeCarTravel')),
-    generateCellValue(getValue('ageCategoryCarTravel')),
-    generateCellValue(getValue('kmCarTravelPerYear')),
-    generateCellValue(getValue('passengersPerCarTravel')),
-    generateCellValue(getValue('kmCoachTravel')),
-    generateCellValue(getValue('kmCountryTrain')),
-    generateCellValue(getValue('kmPlane')),
-  ];
-};
+const computeTransportValues = (participant) => [
+  generateSurveyVariableCellValue(participant, 'categoryCarCommute'),
+  generateSurveyVariableCellValue(participant, 'motorTypeCarCommute'),
+  generateSurveyVariableCellValue(participant, 'ageCategoryCarCommute'),
+  generateSurveyVariableCellValue(participant, 'kmCarCommutePerDay'),
+  generateSurveyVariableCellValue(participant, 'passengersPerCarCommute'),
+  generateSurveyVariableCellValue(participant, 'hoursUrbanBusPerWeek'),
+  generateSurveyVariableCellValue(participant, 'hoursCoachCommutePerWeek'),
+  generateSurveyVariableCellValue(participant, 'hoursUrbanTrainPerWeek'),
+  generateSurveyVariableCellValue(participant, 'categoryCarTravel'),
+  generateSurveyVariableCellValue(participant, 'motorTypeCarTravel'),
+  generateSurveyVariableCellValue(participant, 'ageCategoryCarTravel'),
+  generateSurveyVariableCellValue(participant, 'kmCarTravelPerYear'),
+  generateSurveyVariableCellValue(participant, 'passengersPerCarTravel'),
+  generateSurveyVariableCellValue(participant, 'kmCoachTravel'),
+  generateSurveyVariableCellValue(participant, 'kmCountryTrain'),
+  generateSurveyVariableCellValue(participant, 'kmPlane'),
+];
 
 // Grid Headers
 const computeSurveyVariablesGridHeaders = () => {
@@ -255,10 +279,41 @@ export const computeSurveyVariablesGridValues = (state) => {
   });
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const selectSurveyVariablesGrid = (state) => {
   return [
     ...computeSurveyVariablesGridHeaders(),
     ...computeSurveyVariablesGridValues(state),
   ];
 };
+
+export const selectSurveyVariables = (surveyVariablesRow) => {
+  // The first row contains participant information
+  const [participantRow] = surveyVariablesRow;
+  const { participantId } = participantRow;
+  const surveyVariables = surveyVariablesRow.reduce(
+    (accumulator, cell) =>
+      cell.surveyVariableKey
+        ? { ...accumulator, [cell.surveyVariableKey]: cell.value }
+        : accumulator,
+    {}
+  );
+  return {
+    participantId,
+    surveyVariables,
+  };
+};
+
+const isSurveyVariablesRowModified = (surveyVariablesRow) =>
+  surveyVariablesRow.some(
+    ({ value, originalValue, surveyVariableKey }) =>
+      surveyVariableKey && value !== originalValue
+  );
+
+export const selectModifiedSurveyVariables = (surveyVariablesGrid) =>
+  surveyVariablesGrid.reduce(
+    (accumulator, surveyVariablesRow) =>
+      isSurveyVariablesRowModified(surveyVariablesRow)
+        ? [...accumulator, selectSurveyVariables(surveyVariablesRow)]
+        : accumulator,
+    []
+  );

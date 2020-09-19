@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 import { useTable } from 'react-table';
 import { useTranslation } from 'react-i18next';
 
-import CardHeader from '../../components/CardHeader';
-import Loading from '../../components/Loading';
-import { selectParticipantsEntity } from '../../selectors/workshopSelector';
-import { useWorkshop } from '../../hooks/workshop';
+import CardHeader from '../../../components/CardHeader';
+import Loading from '../../../components/Loading';
+import { selectParticipantsEntity } from '../../../selectors/workshopSelector';
+import { useWorkshop } from '../../../hooks/workshop';
 
 function CustomTable({ columns, data }) {
   const {

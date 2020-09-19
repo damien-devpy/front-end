@@ -55,6 +55,7 @@ export const workshopLoadError = (error) => ({
 });
 
 const persistWorkshop = (workshop) => {
+  // eslint-disable-next-line no-console
   console.log('persistWorkshop', workshop);
   return (dispatch) => {
     const {

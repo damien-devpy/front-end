@@ -439,7 +439,12 @@ export default (state = initialState, action) => {
       const currentSocialVariables =
         state.entities.rounds[yearFrom].socialVariables;
       const nbParticipants = state.result.participants.length;
+      const nbDisctinctCitizens = state.result.model.citizens.length;
 
+      const previousRounds = state.result.rounds
+        .filter((year) => year < yearFrom)
+        .sort();
+      const previousRound = previousRounds[previousRounds.length - 1];
       const participantIndividualChoiceIds = pathOr(
         [],
         ['entities', 'rounds', yearFrom, 'individualChoices'],
@@ -451,9 +456,10 @@ export default (state = initialState, action) => {
       );
       const citizenIndividualChoiceIds = pathOr(
         [],
-        ['entities', 'rounds', yearFrom, 'citizenIndividualChoices'],
+        ['entities', 'rounds', previousRound, 'citizenIndividualChoices'],
         state
       );
+
       const citizenIndividualChoices = citizenIndividualChoiceIds.map(
         (yearCitizenKey) =>
           state.entities.citizenIndividualChoices[yearCitizenKey]
@@ -463,6 +469,7 @@ export default (state = initialState, action) => {
         ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
+
       const oldBudget = pathOr(
         [],
         ['entities', 'rounds', yearFrom, 'collectiveBudget'],
@@ -475,7 +482,8 @@ export default (state = initialState, action) => {
         citizenIndividualChoices,
         collectiveActionCardIds,
         actionCards,
-        nbParticipants
+        nbParticipants,
+        nbDisctinctCitizens
       );
       const newBudget = computeBudget(
         newSocialVariables.influenceScore,

@@ -70,44 +70,82 @@ const sumTree = (node, valueAccessor = (n) => n.value, key = 'value') => {
 };
 const valueOnAllLevels = (footprintStructure) => sumTree(footprintStructure);
 
+const computePeerAwarenessScore = (actionCard, nbTotalPersonsSimulated) =>
+  actionCard.peerAwarenessScore / nbTotalPersonsSimulated;
+
+const computePeerInspirationScore = (actionCard, nbTotalPersonsSimulated) =>
+  actionCard.peerInspirationScore /
+  (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
+  2;
+
+const computePressureScore = (actionCard, nbParticipants) =>
+  actionCard.systemicPressureScore / nbParticipants / MAX_INFLUENCE_POINTS / 2;
+
+const computeWeakSignalScore = (actionCard, nbTotalPersonsSimulated) =>
+  actionCard.systemicWeakSignals /
+  (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
+  2;
+
 const computeSocialVariables = (
   oldSocialVariables,
   participantIndividualChoices,
   citizenIndividualChoices,
   collectiveActionCardIds,
   actionCards,
-  nbParticipants
+  nbParticipants,
+  nbDisctinctCitizens
 ) => {
   let { socialScore, influenceScore } = oldSocialVariables;
   const nbTotalPersonsSimulated = Math.round(
     nbParticipants / RATE_PARTICIPANTS
   );
-  const individualActions = [
-    ...participantIndividualChoices,
-    ...citizenIndividualChoices,
-  ];
-  individualActions.forEach((personAction) => {
+  const ratioCitizens =
+    (nbTotalPersonsSimulated - nbParticipants) / nbDisctinctCitizens;
+  participantIndividualChoices.forEach((personAction) => {
     personAction.actionCardIds.forEach((actionCardId) => {
       socialScore +=
-        actionCards[actionCardId].peerInspirationScore /
-        (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
-        2;
+        computePeerAwarenessScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        ) +
+        computePeerInspirationScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        );
+      influenceScore +=
+        computePressureScore(actionCards[actionCardId], nbParticipants) +
+        computeWeakSignalScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        );
+    });
+  });
+  citizenIndividualChoices.forEach((personAction) => {
+    personAction.actionCardIds.forEach((actionCardId) => {
       socialScore +=
-        actionCards[actionCardId].peerAwarenessScore / nbTotalPersonsSimulated;
+        computePeerAwarenessScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        ) +
+        ratioCitizens *
+          computePeerInspirationScore(
+            actionCards[actionCardId],
+            nbTotalPersonsSimulated
+          );
       influenceScore +=
-        actionCards[actionCardId].systemicWeakSignals /
-        (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
-        2;
-      influenceScore +=
-        actionCards[actionCardId].systemicPressureScore /
-        nbParticipants /
-        MAX_INFLUENCE_POINTS /
-        2;
+        computePressureScore(actionCards[actionCardId], nbParticipants) +
+        ratioCitizens *
+          computeWeakSignalScore(
+            actionCards[actionCardId],
+            nbTotalPersonsSimulated
+          );
     });
   });
   collectiveActionCardIds.forEach((actionCardId) => {
     socialScore += actionCards[actionCardId].peerAwarenessScore / 10;
   });
+  // eslint-disable-next-line no-console
+  console.log('socialScores: ', { socialScore, influenceScore });
   return { socialScore, influenceScore };
 };
 
@@ -152,6 +190,7 @@ const computeCitizenIndividualChoices = (
         isSocialScoreBigEnough &&
         !alreadyTakenActionIds.includes(actionCard.id)
       ) {
+        // eslint-disable-next-line no-console
         console.log(
           `Citizen ${citizen.firstName} takes action ${actionCard.key}`
         );

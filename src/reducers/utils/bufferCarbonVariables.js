@@ -482,6 +482,7 @@ const validateAndSetDefaultsSurveyVariables = (surveyVariables) => {
   const ajv = new Ajv({ useDefaults: true, verbose: true, coerceTypes: true });
   const isValid = ajv.validate(surveyVariablesSchema, surveyVariables);
   if (!isValid) {
+    // eslint-disable-next-line no-console
     console.warn(
       'Validation error for surveyVariables',
       surveyVariables,

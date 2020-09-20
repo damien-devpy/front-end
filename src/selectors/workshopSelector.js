@@ -268,6 +268,16 @@ export const selectCollectiveChoicesEntity = (state) =>
 export const selectCarbonFootprintsEntity = (state) =>
   selectWorkshopEntity(selectCurrentWorkshop(state), 'carbonFootprints');
 
+export const selectOneFootprint = (state, candidateId, year) =>
+  selectCarbonFootprintsEntity(state)[makeYearParticipantKey(year, candidateId)]
+    .footprint;
+
+export const selectCarbonVariablesEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'carbonFootprints');
+
+export const selectOneCarbonVariablesObject = (state, candidateId, year) =>
+  selectCarbonVariablesEntity(state)[makeYearParticipantKey(year, candidateId)];
+
 export const selectParticipantsEntity = (state) =>
   selectWorkshopEntity(selectCurrentWorkshop(state), 'participants');
 

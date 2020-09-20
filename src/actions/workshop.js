@@ -55,6 +55,7 @@ export const workshopLoadError = (error) => ({
 });
 
 const persistWorkshop = (workshop) => {
+  // eslint-disable-next-line no-console
   console.log('persistWorkshop', workshop);
   return (dispatch) => {
     const {
@@ -163,7 +164,7 @@ const computeFootprintsForCitizen = (year) => ({
   payload: { year },
 });
 
-const applyIndivdualActionsForCitizens = (yearFrom, yearTo) => ({
+const applyIndividualActionsForCitizens = (yearFrom, yearTo) => ({
   type: APPLY_INDIVIDUAL_ACTIONS_FOR_CITIZENS,
   payload: { yearFrom, yearTo },
 });
@@ -190,8 +191,8 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
     dispatch(applyCollectiveActions(yearFrom, yearTo));
     dispatch(applySocialImpact(yearFrom, yearTo));
     dispatch(setActionsForCitizens(yearFrom, yearTo));
-    dispatch(applyIndivdualActionsForCitizens(yearFrom, yearTo));
-    dispatch(applyCollectiveActionsForCitizens(yearTo, yearTo)); // yearTo, yearTo : Use variables computed in applyIndivdualActionsForCitizens
+    dispatch(applyIndividualActionsForCitizens(yearFrom, yearTo));
+    dispatch(applyCollectiveActionsForCitizens(yearFrom, yearTo));
     dispatch(computeFootprints(yearTo));
     dispatch(computeFootprintsForCitizen(yearTo));
     dispatch((dispatch2, getState) => {

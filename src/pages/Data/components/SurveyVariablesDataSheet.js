@@ -5,9 +5,12 @@ import React, { useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+import { mergeGrids } from '../../../selectors/surveyVariablesSelector';
+import { useFlexLayout } from 'react-table';
+
 const SurveyVariablesDataSheet = ({
   surveyVariablesGrid,
-  selectParticipantsGrid,
+  participantsGrid,
   handleSave,
 }) => {
   const { t } = useTranslation();
@@ -16,26 +19,65 @@ const SurveyVariablesDataSheet = ({
     setEditableSurveyVariablesGrid,
   ] = useState(surveyVariablesGrid);
 
-  const [modifiedRows, setModifiedRows] = useState(new Set());
+  const [selectedRows, setSelectedRows] = useState([]);
+  const handleSelectAllChanged = (selected) => {
+    const selections = selectedRows.map((s) => selected);
+    setSelectedRows(selections);
+  };
+
+  const handleSelectChanged = (index, selected) => {
+    const selections = [...selectedRows];
+    selections[index] = selected;
+    setSelectedRows(selections);
+  };
+
+  const CheckRenderer = ({ value }) => {
+    return (
+      <div style={{ height: '2rem', whiteSpace: 'nowrap' }}>
+        <input
+          type="checkbox"
+          checked={value}
+          //  onChange={(e) => onChange(e.target.checked)}
+        />
+      </div>
+    );
+  };
+
+  const selectionGrid = [
+    [{ value: true, valueViewer: CheckRenderer }],
+    [{ value: true, valueViewer: CheckRenderer }],
+    [{ value: true, valueViewer: CheckRenderer }],
+  ];
 
   const saveSurveyVariables = () => {
-    const modifiedSurveyVariablesGrid = [...modifiedRows].map((rowId) => {
-      return editableSurveyVariablesGrid[rowId];
-    });
-    console.log('modifiedSurveyVariablesGrid', modifiedSurveyVariablesGrid);
-    handleSave(modifiedSurveyVariablesGrid);
+    handleSave(mergeGrids(participantsGrid, editableSurveyVariablesGrid));
   };
   return (
     <Container>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', border: '1px solid' }}>
         {/* <DataSheet
-          data={selectParticipantsGrid}
+          data={selectionGrid}
           valueRenderer={(cell) =>
             cell.translate ? t(`${cell.value}`) : cell.value
           }
         /> */}
+        <DataSheet
+          data={participantsGrid}
+          valueRenderer={(cell) =>
+            cell.translate ? t(`${cell.value}`) : cell.value
+          }
+          valueViewer={({ cell, row, col, value }) => {
+            const style = { height: '2rem', whiteSpace: 'nowrap' };
+            return (
+              <span className="value-viewer" style={style}>
+                {value}
+              </span>
+            );
+          }}
+        />
         <div style={{ overflowX: 'auto' }}>
-          <div style={{ paddingBottom: '0.6rem' }}>
+          {/* <div style={{ paddingBottom: '0.6rem' }}> */}
+          <div>
             <DataSheet
               data={editableSurveyVariablesGrid}
               valueRenderer={(cell) =>
@@ -54,14 +96,11 @@ const SurveyVariablesDataSheet = ({
                   console.log(`grid[${row}][${col}] before`, grid[row][col]);
                   grid[row][col] = { ...grid[row][col], value };
                   console.log(`grid[${row}][${col}] after `, grid[row][col]);
-
-                  const newModifiedRows = new Set(modifiedRows);
-                  setModifiedRows(newModifiedRows.add(row));
                 });
                 setEditableSurveyVariablesGrid(grid);
               }}
               valueViewer={({ cell, row, col, value }) => {
-                const style = {};
+                const style = { height: '2rem', whiteSpace: 'nowrap' };
                 const floatValue = parseFloat(cell.value, 10);
                 if (
                   (floatValue !== undefined &&

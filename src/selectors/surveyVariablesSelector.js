@@ -193,7 +193,12 @@ const computeFoodValues = (participant) => [
     min: 0,
     max: 10,
   }),
-  generateSurveyVariableCellValue(participant, 'alcoholConsoGlassPerDay', 0, 5),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'alcoholConsoGlassPerDay',
+    min: 0,
+    max: 5,
+  }),
   generateSurveyVariableCellValue({
     participant,
     surveyVariableKey: 'hotDrinksConsoGlassPerDay',
@@ -262,22 +267,70 @@ const computeTransportHeaderForthRow = () => [
 ];
 
 const computeTransportValues = (participant) => [
-  generateSurveyVariableCellValue(participant, 'categoryCarCommute'),
-  generateSurveyVariableCellValue(participant, 'motorTypeCarCommute'),
-  generateSurveyVariableCellValue(participant, 'ageCategoryCarCommute'),
-  generateSurveyVariableCellValue(participant, 'kmCarCommutePerDay'),
-  generateSurveyVariableCellValue(participant, 'passengersPerCarCommute'),
-  generateSurveyVariableCellValue(participant, 'hoursUrbanBusPerWeek'),
-  generateSurveyVariableCellValue(participant, 'hoursCoachCommutePerWeek'),
-  generateSurveyVariableCellValue(participant, 'hoursUrbanTrainPerWeek'),
-  generateSurveyVariableCellValue(participant, 'categoryCarTravel'),
-  generateSurveyVariableCellValue(participant, 'motorTypeCarTravel'),
-  generateSurveyVariableCellValue(participant, 'ageCategoryCarTravel'),
-  generateSurveyVariableCellValue(participant, 'kmCarTravelPerYear'),
-  generateSurveyVariableCellValue(participant, 'passengersPerCarTravel'),
-  generateSurveyVariableCellValue(participant, 'kmCoachTravel'),
-  generateSurveyVariableCellValue(participant, 'kmCountryTrain'),
-  generateSurveyVariableCellValue(participant, 'kmPlane'),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'categoryCarCommute',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'motorTypeCarCommute',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'ageCategoryCarCommute',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'kmCarCommutePerDay',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'passengersPerCarCommute',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'hoursUrbanBusPerWeek',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'hoursCoachCommutePerWeek',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'hoursUrbanTrainPerWeek',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'categoryCarTravel',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'motorTypeCarTravel',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'ageCategoryCarTravel',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'kmCarTravelPerYear',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'passengersPerCarTravel',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'kmCoachTravel',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'kmCountryTrain',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'kmPlane',
+  }),
 ];
 
 // Housing
@@ -328,21 +381,63 @@ const computeHousingHeaderForthRow = () => [
 ];
 
 const computeHousingValues = (participant) => [
-  generateSurveyVariableCellValue(participant, 'residentsPerHousing'),
-  generateSurveyVariableCellValue(participant, 'housingType'),
-  generateSurveyVariableCellValue(participant, 'maintainanceDate'),
-  generateSurveyVariableCellValue(participant, 'heatingSystemEnergyType'),
-  generateSurveyVariableCellValue(participant, 'sanitoryHotWaterEnergyType'),
-  generateSurveyVariableCellValue(participant, 'cookingAppliancesEnergyType'),
-  generateSurveyVariableCellValue(participant, 'electricityProvider'),
-  generateSurveyVariableCellValue(participant, 'energyConsumptionKnowledge'),
-  generateSurveyVariableCellValue(participant, 'elecKwh'),
-  generateSurveyVariableCellValue(participant, 'gasKwh'),
-  generateSurveyVariableCellValue(participant, 'fuelKwh'),
-  generateSurveyVariableCellValue(participant, 'woodKwh'),
-  generateSurveyVariableCellValue(participant, 'heatNetworkKwh'),
-  generateSurveyVariableCellValue(participant, 'numberBigAppliances'),
-  generateSurveyVariableCellValue(participant, 'numberSmallAppliances'),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'residentsPerHousing',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'housingType',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'maintainanceDate',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'heatingSystemEnergyType',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'sanitoryHotWaterEnergyType',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'cookingAppliancesEnergyType',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'electricityProvider',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'energyConsumptionKnowledge',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'elecKwh',
+  }),
+  generateSurveyVariableCellValue({ participant, surveyVariableKey: 'gasKwh' }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'fuelKwh',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'woodKwh',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'heatNetworkKwh',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'numberBigAppliances',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'numberSmallAppliances',
+  }),
 ];
 
 // Consumption
@@ -375,45 +470,60 @@ const computeConsumptionHeaderForthRow = () => [
 ];
 
 const computeConsumptionValues = (participant) => [
-  generateSurveyVariableCellValue(participant, 'numberBigDevices'),
-  generateSurveyVariableCellValue(participant, 'numberSmallDevices'),
-  generateSurveyVariableCellValue(participant, 'internetStreamingHoursPerWeek'),
-  generateSurveyVariableCellValue(participant, 'activitiesPerMonth'),
-  generateSurveyVariableCellValue(participant, 'clothesNewItems'),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'numberBigDevices',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'numberSmallDevices',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'internetStreamingHoursPerWeek',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'activitiesPerMonth',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    surveyVariableKey: 'clothesNewItems',
+  }),
 ];
 
 // Grid Headers
 const computeSurveyVariablesGridHeaders = () => {
   return [
     [
-      generateCellTitle(),
-      generateCellTitle(),
-      generateCellTitle(),
+      // generateCellTitle(),
+      // generateCellTitle(),
+      // generateCellTitle(),
       ...computeFoodHeaderFirstRow(),
       ...computeTransportHeaderFirstRow(),
       ...computeHousingHeaderFirstRow(),
       ...computeConsumptionHeaderFirstRow(),
     ],
     [
-      generateCellTitle(),
-      generateCellTitle(),
-      generateCellTitle(),
+      // generateCellTitle(),
+      // generateCellTitle(),
+      // generateCellTitle(),
       ...computeFoodHeaderSecondRow(),
       ...computeTransportHeaderSecondRow(),
       ...computeHousingHeaderSecondRow(),
       ...computeConsumptionHeaderSecondRow(),
     ],
     [
-      generateCellTitle(),
-      generateCellTitle(),
-      generateCellTitle(),
+      // generateCellTitle(),
+      // generateCellTitle(),
+      // generateCellTitle(),
       ...computeFoodHeaderThirdRow(),
       ...computeTransportHeaderThirdRow(),
       ...computeHousingHeaderThirdRow(),
       ...computeConsumptionHeaderThirdRow(),
     ],
     [
-      ...computeParticipantHeaderFirstRow(),
+      // ...computeParticipantHeaderFirstRow(),
       ...computeFoodHeaderForthRow(),
       ...computeTransportHeaderForthRow(),
       ...computeHousingHeaderForthRow(),
@@ -436,7 +546,7 @@ const computeSurveyVariablesGridValuesForParticipant = (
   personaEntity
 ) => {
   return [
-    ...computeParticipantInformationRows(participant, personaEntity),
+    // ...computeParticipantInformationRows(participant, personaEntity),
     ...computeFoodValues(participant),
     ...computeTransportValues(participant),
     ...computeHousingValues(participant),
@@ -511,3 +621,7 @@ export const selectModifiedSurveyVariables = (surveyVariablesGrid) =>
         : accumulator,
     []
   );
+
+export const mergeGrids = (grid1, grid2) => {
+  return grid1.map((row, index) => [...row, ...grid2[index]]);
+};

@@ -1,5 +1,6 @@
 import {
   computeSurveyVariablesGridValues,
+  mergeGrids,
   selectModifiedSurveyVariables,
   selectSurveyVariables,
 } from './surveyVariablesSelector';
@@ -156,7 +157,7 @@ describe('SurveyVariables selector', () => {
     expect(result).toEqual(expected);
   });
   test('should transform SurveyVariables Grid to SurveyVariables map', () => {
-    const surveyVariablesGrid = [
+    const surveyVariablesRow = [
       {
         value: 'Nicolas G',
         readOnly: true,
@@ -241,7 +242,7 @@ describe('SurveyVariables selector', () => {
         juicesAndSodasConsoGlassPerDay: '1',
       },
     };
-    const result = selectSurveyVariables(surveyVariablesGrid);
+    const result = selectSurveyVariables(surveyVariablesRow);
     expect(result).toEqual(expected);
   });
   test('should return the list of modified surveyVariables', () => {
@@ -377,5 +378,115 @@ describe('SurveyVariables selector', () => {
       },
     ];
     expect(result3).toEqual(expected3);
+  });
+  test('should merge 2 grids', () => {
+    const participantGrid = [
+      [
+        {
+          value: 'Participant1',
+          readOnly: true,
+          participantId: 1,
+        },
+        {
+          value: 'Persona 1',
+          readOnly: true,
+          translate: false,
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+      [
+        {
+          value: 'Participant2',
+          readOnly: true,
+          participantId: 1,
+        },
+        {
+          value: 'Persona 2',
+          readOnly: true,
+          translate: false,
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
+    const surveyVariablesGrid = [
+      [
+        {
+          value: '1.5',
+          originalValue: '1.5',
+          surveyVariableKey: 'meatAndFishConsoPerDay',
+        },
+        {
+          value: '2',
+          originalValue: '2',
+          surveyVariableKey: 'eggsAndDairiesConsoPerDay',
+        },
+      ],
+      [
+        {
+          value: '1.5',
+          originalValue: '1.5',
+          surveyVariableKey: 'meatAndFishConsoPerDay',
+        },
+        {
+          value: '2',
+          originalValue: '2',
+          surveyVariableKey: 'eggsAndDairiesConsoPerDay',
+        },
+      ],
+    ];
+    const expectedGrid = [
+      [
+        {
+          value: 'Participant1',
+          readOnly: true,
+          participantId: 1,
+        },
+        {
+          value: 'Persona 1',
+          readOnly: true,
+          translate: false,
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          value: '1.5',
+          originalValue: '1.5',
+          surveyVariableKey: 'meatAndFishConsoPerDay',
+        },
+        {
+          value: '2',
+          originalValue: '2',
+          surveyVariableKey: 'eggsAndDairiesConsoPerDay',
+        },
+      ],
+      [
+        {
+          value: 'Participant2',
+          readOnly: true,
+          participantId: 1,
+        },
+        {
+          value: 'Persona 2',
+          readOnly: true,
+          translate: false,
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          value: '1.5',
+          originalValue: '1.5',
+          surveyVariableKey: 'meatAndFishConsoPerDay',
+        },
+        {
+          value: '2',
+          originalValue: '2',
+          surveyVariableKey: 'eggsAndDairiesConsoPerDay',
+        },
+      ],
+    ];
+    const result = mergeGrids(participantGrid, surveyVariablesGrid);
+    expect(result).toEqual(expectedGrid);
   });
 });

@@ -39,11 +39,19 @@ const Data = ({
     );
   };
 
+  const handleSaveAndValidate = (workshopIdentifier) => (
+    modifiedSurveyVariablesGrid
+  ) => {
+    const participantsModifiedSurveyVariables = selectModifiedSurveyVariables(
+      modifiedSurveyVariablesGrid
+    );
+  };
+
   return (
     <Loading loadError={loadError} isLoading={isLoading}>
       <SurveyVariablesDataSheet
         surveyVariablesGrid={surveyVariablesGrid}
-        selectParticipantsGrid={participantsGrid}
+        participantsGrid={participantsGrid}
         handleSave={handleSave(workshopId)}
       />
     </Loading>

@@ -1,3 +1,4 @@
+import { max } from 'lodash';
 import { pathOr } from 'ramda';
 
 import computeCarbonVariables from './utils/bufferCarbonVariables';
@@ -469,13 +470,22 @@ export default (state = initialState, action) => {
         ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
-
+      const { rounds } = state.result;
+      const lastCollectiveRound = max(
+        rounds.filter(
+          (year) =>
+            pathOr(
+              'none',
+              ['entities', 'roundConfig', year, 'actionCardType'],
+              state
+            ) === 'collective'
+        )
+      );
       const oldBudget = pathOr(
-        [],
-        ['entities', 'rounds', yearFrom, 'collectiveBudget'],
+        0,
+        ['entities', 'rounds', lastCollectiveRound, 'collectiveBudget'],
         state
       );
-      const roundType = state.entities.roundConfig[yearFrom].actionCardType;
       const newSocialVariables = computeSocialVariables(
         currentSocialVariables,
         participantIndividualChoices,
@@ -489,8 +499,7 @@ export default (state = initialState, action) => {
         newSocialVariables.influenceScore,
         oldBudget,
         collectiveActionCardIds,
-        actionCards,
-        roundType
+        actionCards
       );
       return {
         ...state,

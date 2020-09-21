@@ -241,13 +241,9 @@ export const startWorkshop = (startYear) => {
   };
 };
 
-const updateAsyncSurveyVariables = (
-  workshopId,
-  participantId,
-  surveyVariables
-) => ({
+const updateAsyncSurveyVariables = (workshopId) => ({
   type: UPDATE_SURVEY_VARIABLES,
-  payload: { workshopId, participantId, surveyVariables },
+  payload: { workshopId },
 });
 
 export const updateSurveyVariables = (
@@ -255,12 +251,10 @@ export const updateSurveyVariables = (
   participantsModifiedSurveyVariables
 ) => {
   return (dispatch) => {
+    dispatch(updateAsyncSurveyVariables(workshopId));
     participantsModifiedSurveyVariables.forEach(
       (participantSurveyVariables) => {
         const { participantId, surveyVariables } = participantSurveyVariables;
-        dispatch(
-          updateAsyncSurveyVariables(workshopId, participantId, surveyVariables)
-        );
         updateSurveyVariablesApi({
           workshopId,
           participantId,

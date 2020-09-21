@@ -5,6 +5,7 @@ import Loading from '../../components/Loading';
 import SurveyVariablesDataSheet from './components/SurveyVariablesDataSheet';
 import {
   selectModifiedSurveyVariables,
+  selectParticipantsGrid,
   selectSurveyVariablesGrid,
 } from '../../selectors/surveyVariablesSelector';
 import { updateSurveyVariables } from '../../actions/workshop';
@@ -17,9 +18,9 @@ const Data = ({
 }) => {
   const workshop = useWorkshop(workshopId);
   const { loadError, isLoading } = workshop;
-  const surveyVariablesGrid = useSelector((state) =>
-    selectSurveyVariablesGrid(state)
-  );
+  const surveyVariablesGrid = useSelector(selectSurveyVariablesGrid);
+  const participantsGrid = useSelector(selectParticipantsGrid);
+
   const dispatch = useDispatch();
 
   const handleSave = (workshopIdentifier) => (modifiedSurveyVariablesGrid) => {
@@ -42,6 +43,7 @@ const Data = ({
     <Loading loadError={loadError} isLoading={isLoading}>
       <SurveyVariablesDataSheet
         surveyVariablesGrid={surveyVariablesGrid}
+        selectParticipantsGrid={participantsGrid}
         handleSave={handleSave(workshopId)}
       />
     </Loading>

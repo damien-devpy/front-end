@@ -98,7 +98,12 @@ const renderLegend = (props) => {
   );
 };
 
-const FootprintGraph = ({ footprint, width = '100%', height = '50%', ref }) => {
+const FootprintGraph = ({
+  footprint,
+  width = '100%',
+  height = '50%',
+  sref,
+}) => {
   const { t } = useTranslation();
   const dataMax = 5;
 
@@ -109,7 +114,16 @@ const FootprintGraph = ({ footprint, width = '100%', height = '50%', ref }) => {
       minHeight={100}
       aspect={3.0 / 2.5}
     >
+      {/* {totalEmissions && (
+        <h5>
+          {t('manageParticipants.totalBC')}
+          {toString(totalEmissions)}
+          {t('manageParticipants.unitBC')};
+        </h5>
+      )} */}
+
       <BarChart
+        ref={sref}
         data={footprint}
         margin={{
           top: 10,
@@ -118,7 +132,6 @@ const FootprintGraph = ({ footprint, width = '100%', height = '50%', ref }) => {
           bottom: 5,
         }}
         barCategoryGap="10"
-        ref={ref}
       >
         <CartesianGrid strokeDasharray="3" />
         <XAxis

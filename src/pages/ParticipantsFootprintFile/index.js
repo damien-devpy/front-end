@@ -1,27 +1,19 @@
 import Papa from 'papaparse';
 import React, { Component, PropTypes, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 import {
   Canvas,
   Document,
   Image,
+  PDFDownloadLink,
   PDFViewer,
   Page,
   StyleSheet,
   Text,
   View,
 } from '@react-pdf/renderer';
-import { Card, Col, Container, Form } from 'react-bootstrap';
-import { getPngData } from 'recharts-to-png';
-
 import { Link } from 'react-router-dom';
-import { pdfjs } from 'react-pdf';
-import { saveAs } from 'file-saver';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import ActionCardItem from '../../components/ActionCardItem';
-import { useWorkshop } from '../../hooks/workshop';
-
-import Loading from '../../components/Loading';
 import {
   ParticipantCarbonGraph,
   ParticipantImageGraph,
@@ -42,6 +34,17 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../selectors/footprintSelectors';
+import { getPngData } from 'recharts-to-png';
+import { pdfjs } from 'react-pdf';
+import { saveAs } from 'file-saver';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import img from '../../assets/graph1.png';
+
+import ActionCardItem from '../../components/ActionCardItem';
+import DownloadIcon from '../../assets/DownloadIcon';
+import Loading from '../../components/Loading';
+import { useWorkshop } from '../../hooks/workshop';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -63,9 +66,6 @@ const ParticipantsFootprintFile = ({
 }) => {
   const { error, isLoading } = useWorkshop(workshopId);
   const { t } = useTranslation();
-  const participants = useSelector(selectParticipantsEntity);
-  const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
-  const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -76,22 +76,24 @@ const ParticipantsFootprintFile = ({
     startYear,
     model,
   } = useSelector(selectCurrentWorkshopInfo);
-  console.log('participants : ', participants);
   const participantCarbonGraphs = [];
-
+  const participants = useSelector(selectParticipantsEntity);
+  const carbonVariables = useSelector(selectInitialGlobalCarbonVariables);
+  const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
+  const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
   participants &&
     Object.keys(participants).forEach((id) => {
       if (participants[id].status == 'ready') {
         participantCarbonGraphs.push(
-          <ParticipantImageGraph
+          <ParticipantCarbonGraph
+            carbonVariables={carbonVariables}
+            globalCarbonVariables={globalCarbonVariables}
+            personas={personas}
             id={id}
             participants={participants}
             model={model}
-            personas={personas}
-            carbonFootprints={carbonFootprints}
-            globalCarbonVariables={globalCarbonVariables}
             startYear={startYear}
-            t={t}
+            carbonFootprints={carbonFootprints}
           />
         );
       }
@@ -109,26 +111,62 @@ const ParticipantsFootprintFile = ({
   //   }, [chart]);
 
   return (
+    // <Document>
+    //   <Page size="A4" style={styles.page}>
+    //     <View style={styles.section}>
+    //       <Text className="workshop-title">{workshopTitle} </Text>
+    <Loading error={error} isLoading={isLoading}>
+      <Container>
+        {!isLoading && <Container>{participantCarbonGraphs}</Container>}
+        <Container>
+          {!isLoading && (
+            <Button className="badge badge-info float-right text-decoration-none">
+              <DownloadIcon />{' '}
+              <PDFDownloadLink
+                document={
+                  <PDFFile
+                    workshopId={workshopId}
+                    workshopTitle={workshopTitle}
+                    t={t}
+                  />
+                }
+                fileName="movielist.pdf"
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? 'Loading document...' : 'Download Pdf'
+                }
+              </PDFDownloadLink>
+            </Button>
+          )}
+        </Container>
+      </Container>
+    </Loading>
+  );
+};
+
+const PDFFile = ({ workshopTitle, t }) => {
+  //   const [chart, setChart] = React.useState();
+
+  return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text className="workshop-title">{workshopTitle} </Text>
-          {participantCarbonGraphs}
+          <Text className="workshop-title">
+            {t('manageParticipants.participantsFile')}
+          </Text>
+          <Text className="workshop-title">{workshopTitle}</Text>
+          {/* {participantCarbonGraphs} */}
         </View>
         <View style={styles.section}>
+          <Image src={img} />
           <Text>Section #2</Text>
         </View>
       </Page>
     </Document>
   );
 };
-// ideally
-// 1. carbon variables should be pre-computed for each persona
-// 2. add higher-level function where
-// valueOnAllLevels & computeFootprint are put together and
-// input variables are simplified, e.g. could be given as `model`
 
-export default ParticipantsFootprintFile;
+export { ParticipantsFootprintFile, PDFFile };
 
 /* <Form.Row> 
             {!isLoading &&

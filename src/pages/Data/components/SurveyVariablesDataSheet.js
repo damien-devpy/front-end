@@ -1,17 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import 'react-datasheet/lib/react-datasheet.css';
+import './react-datasheet.css';
 import DataSheet from 'react-datasheet';
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { mergeGrids } from '../../../selectors/surveyVariablesSelector';
-import { useFlexLayout } from 'react-table';
+import {
+  mergeGrids,
+  selectModifiedSurveyVariables,
+  selectParticipantIdsToCheck,
+} from '../../../selectors/surveyVariablesSelector';
 
 const SurveyVariablesDataSheet = ({
   surveyVariablesGrid,
   participantsGrid,
   handleSave,
+  handleValidate,
 }) => {
   const { t } = useTranslation();
   const [
@@ -19,55 +23,29 @@ const SurveyVariablesDataSheet = ({
     setEditableSurveyVariablesGrid,
   ] = useState(surveyVariablesGrid);
 
-  const [selectedRows, setSelectedRows] = useState([]);
-  const handleSelectAllChanged = (selected) => {
-    const selections = selectedRows.map((s) => selected);
-    setSelectedRows(selections);
-  };
+  const modifiedSurveyVariables = selectModifiedSurveyVariables(
+    editableSurveyVariablesGrid
+  );
 
-  const handleSelectChanged = (index, selected) => {
-    const selections = [...selectedRows];
-    selections[index] = selected;
-    setSelectedRows(selections);
-  };
-
-  const CheckRenderer = ({ value }) => {
-    return (
-      <div style={{ height: '2rem', whiteSpace: 'nowrap' }}>
-        <input
-          type="checkbox"
-          checked={value}
-          //  onChange={(e) => onChange(e.target.checked)}
-        />
-      </div>
-    );
-  };
-
-  const selectionGrid = [
-    [{ value: true, valueViewer: CheckRenderer }],
-    [{ value: true, valueViewer: CheckRenderer }],
-    [{ value: true, valueViewer: CheckRenderer }],
-  ];
+  const participantIds = selectParticipantIdsToCheck(participantsGrid);
 
   const saveSurveyVariables = () => {
     handleSave(mergeGrids(participantsGrid, editableSurveyVariablesGrid));
   };
+
+  const validateParticipants = () => {
+    handleValidate(participantIds);
+  };
   return (
     <Container>
       <div style={{ display: 'flex', border: '1px solid' }}>
-        {/* <DataSheet
-          data={selectionGrid}
-          valueRenderer={(cell) =>
-            cell.translate ? t(`${cell.value}`) : cell.value
-          }
-        /> */}
         <DataSheet
           data={participantsGrid}
           valueRenderer={(cell) =>
             cell.translate ? t(`${cell.value}`) : cell.value
           }
           valueViewer={({ cell, row, col, value }) => {
-            const style = { height: '2rem', whiteSpace: 'nowrap' };
+            const style = { height: '1.5rem', whiteSpace: 'nowrap' };
             return (
               <span className="value-viewer" style={style}>
                 {value}
@@ -100,7 +78,7 @@ const SurveyVariablesDataSheet = ({
                 setEditableSurveyVariablesGrid(grid);
               }}
               valueViewer={({ cell, row, col, value }) => {
-                const style = { height: '2rem', whiteSpace: 'nowrap' };
+                const style = { height: '1.5rem', whiteSpace: 'nowrap' };
                 const floatValue = parseFloat(cell.value, 10);
                 if (
                   (floatValue !== undefined &&
@@ -133,17 +111,22 @@ const SurveyVariablesDataSheet = ({
       <br />
       <div className="d-flex justify-content-end">
         <ButtonGroup className="mr-2">
-          <Button size="lg" onClick={saveSurveyVariables}>
-            {t('common.saveOnly')}
+          <Button
+            size="lg"
+            disabled={modifiedSurveyVariables.length === 0}
+            onClick={saveSurveyVariables}
+          >
+            {t('common.save')}
           </Button>
         </ButtonGroup>
         <ButtonGroup className="mr-2">
           <Button
             size="lg"
             variant="success"
-            // onClick={handleShowNewRoundModal}
+            disabled={participantIds.length === 0}
+            onClick={validateParticipants}
           >
-            {t('common.saveAndValidate')}
+            {t('common.validate')}
           </Button>
         </ButtonGroup>
       </div>

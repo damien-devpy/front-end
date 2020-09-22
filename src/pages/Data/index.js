@@ -8,7 +8,10 @@ import {
   selectParticipantsGrid,
   selectSurveyVariablesGrid,
 } from '../../selectors/surveyVariablesSelector';
-import { updateSurveyVariables } from '../../actions/workshop';
+import {
+  updateSurveyVariables,
+  validateParticipants,
+} from '../../actions/workshop';
 import { useWorkshop } from '../../hooks/workshop';
 
 const Data = ({
@@ -24,27 +27,17 @@ const Data = ({
   const dispatch = useDispatch();
 
   const handleSave = (workshopIdentifier) => (modifiedSurveyVariablesGrid) => {
-    const participantsModifiedSurveyVariables = selectModifiedSurveyVariables(
+    const modifiedSurveyVariables = selectModifiedSurveyVariables(
       modifiedSurveyVariablesGrid
     );
-    console.log(
-      'participantsModifiedSurveyVariables',
-      participantsModifiedSurveyVariables
-    );
+    console.log('modifiedSurveyVariables', modifiedSurveyVariables);
     dispatch(
-      updateSurveyVariables(
-        workshopIdentifier,
-        participantsModifiedSurveyVariables
-      )
+      updateSurveyVariables(workshopIdentifier, modifiedSurveyVariables)
     );
   };
 
-  const handleSaveAndValidate = (workshopIdentifier) => (
-    modifiedSurveyVariablesGrid
-  ) => {
-    const participantsModifiedSurveyVariables = selectModifiedSurveyVariables(
-      modifiedSurveyVariablesGrid
-    );
+  const handleValidate = (workshopIdentifier) => (participantIds) => {
+    dispatch(validateParticipants(workshopIdentifier, participantIds));
   };
 
   return (
@@ -53,6 +46,7 @@ const Data = ({
         surveyVariablesGrid={surveyVariablesGrid}
         participantsGrid={participantsGrid}
         handleSave={handleSave(workshopId)}
+        handleValidate={handleValidate(workshopId)}
       />
     </Loading>
   );

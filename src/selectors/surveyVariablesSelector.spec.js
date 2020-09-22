@@ -2,6 +2,8 @@ import {
   computeSurveyVariablesGridValues,
   mergeGrids,
   selectModifiedSurveyVariables,
+  selectParticipantIdsToCheck,
+  selectParticipantsGrid,
   selectSurveyVariables,
 } from './surveyVariablesSelector';
 
@@ -399,7 +401,7 @@ describe('SurveyVariables selector', () => {
         {
           value: 'Participant2',
           readOnly: true,
-          participantId: 1,
+          participantId: 2,
         },
         {
           value: 'Persona 2',
@@ -465,7 +467,7 @@ describe('SurveyVariables selector', () => {
         {
           value: 'Participant2',
           readOnly: true,
-          participantId: 1,
+          participantId: 2,
         },
         {
           value: 'Persona 2',
@@ -488,5 +490,43 @@ describe('SurveyVariables selector', () => {
     ];
     const result = mergeGrids(participantGrid, surveyVariablesGrid);
     expect(result).toEqual(expectedGrid);
+  });
+  test('should return participant Ids to check', () => {
+    const participantGrid = [
+      [
+        {
+          value: 'Participant1',
+          readOnly: true,
+          participantId: 1,
+        },
+        {
+          value: 'Persona 1',
+          readOnly: true,
+          translate: false,
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        { value: 'data_to_check' },
+      ],
+      [
+        {
+          value: 'Participant2',
+          readOnly: true,
+          participantId: 2,
+        },
+        {
+          value: 'Persona 2',
+          readOnly: true,
+          translate: false,
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        { value: 'ready' },
+      ],
+    ];
+    const expected = [1];
+
+    const result = selectParticipantIdsToCheck(participantGrid);
+    expect(result).toEqual(expected);
   });
 });

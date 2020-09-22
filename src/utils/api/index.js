@@ -150,5 +150,6 @@ export const updateSurveyVariablesApi = ({ data, workshopId, participantId }) =>
 export const validateParticipantApi = ({ data, workshopId }) =>
   handleFetch(`/workshops/${workshopId}/validate_participants`, {
     method: 'POST',
+    type: 'empty',
     body: JSON.stringify({ participantIds: data }),
   });

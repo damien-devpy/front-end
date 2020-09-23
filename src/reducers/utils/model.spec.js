@@ -172,20 +172,13 @@ describe('computeBudget returns correct results', () => {
       collectiveActionCardIds: [1],
       expectedBudget: 4,
     },
-    {
-      influenceScore: 1000,
-      oldBudget: 3,
-      roundType: 'individual',
-      expectedBudget: 3,
-    },
   ];
   testValues.forEach((params) => {
     const actualResult = computeBudget(
       params.influenceScore,
       params.oldBudget,
       params.collectiveActionCardIds,
-      actionCards,
-      params.roundType
+      actionCards
     );
     expect(actualResult).toBe(params.expectedBudget);
   });

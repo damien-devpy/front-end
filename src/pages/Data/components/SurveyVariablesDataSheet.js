@@ -81,6 +81,13 @@ const SurveyVariablesDataSheet = ({
                 const style = { height: '1.5rem', whiteSpace: 'nowrap' };
                 const floatValue = parseFloat(cell.value, 10);
                 if (
+                  cell.value &&
+                  cell.originalValue &&
+                  cell.value !== cell.originalValue
+                ) {
+                  style.backgroundColor = '#d4edda';
+                }
+                if (
                   (floatValue !== undefined &&
                     cell.min !== undefined &&
                     floatValue < cell.min) ||
@@ -89,14 +96,6 @@ const SurveyVariablesDataSheet = ({
                     floatValue > cell.max)
                 ) {
                   style.backgroundColor = 'orange';
-                }
-                if (
-                  cell.value &&
-                  cell.originalValue &&
-                  cell.value !== cell.originalValue
-                ) {
-                  style.color = 'green';
-                  style.fontWeight = 'bold';
                 }
                 return (
                   <span className="value-viewer" style={style}>

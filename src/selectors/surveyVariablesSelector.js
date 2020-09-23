@@ -171,53 +171,53 @@ const computeFoodHeaderForthRow = () => [
   generateCellTitle({ value: 'food.consumptionPerDay' }),
 ];
 
-const computeFoodValues = (participant, isPersona) => {
+const computeFoodValues = (participant, readOnly) => {
   return [
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'meatAndFishConsoPerDay',
       min: 0,
       max: 2,
     }),
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'eggsAndDairiesConsoPerDay',
       min: 0,
       max: 3,
     }),
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'fruitsAndVegetablePercentageLocal',
       min: 0.01,
       max: 1,
     }),
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'transformedProductsConsoPerWeek',
       min: 0,
       max: 10,
     }),
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'alcoholConsoGlassPerDay',
       min: 0,
       max: 5,
     }),
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'hotDrinksConsoGlassPerDay',
       min: 0,
       max: 5,
     }),
     generateSurveyVariableCellValue({
       participant,
-      readOnly: isPersona,
+      readOnly,
       surveyVariableKey: 'juicesAndSodasConsoGlassPerDay',
       min: 0,
       max: 5,
@@ -278,85 +278,85 @@ const computeTransportHeaderForthRow = () => [
   generateCellTitle({ value: 'transports.kmPerYear' }),
 ];
 
-const computeTransportValues = (participant, isPersona) => [
+const computeTransportValues = (participant, readOnly) => [
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'categoryCarCommute',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'motorTypeCarCommute',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'ageCategoryCarCommute',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'kmCarCommutePerDay',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'passengersPerCarCommute',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'hoursUrbanBusPerWeek',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'hoursCoachCommutePerWeek',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'hoursUrbanTrainPerWeek',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'categoryCarTravel',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'motorTypeCarTravel',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'ageCategoryCarTravel',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'kmCarTravelPerYear',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'passengersPerCarTravel',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'kmCoachTravel',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'kmCountryTrain',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'kmPlane',
   }),
 ];
@@ -408,80 +408,80 @@ const computeHousingHeaderForthRow = () => [
   generateCellTitle({ value: 'housing.number' }),
 ];
 
-const computeHousingValues = (participant, isPersona) => [
+const computeHousingValues = (participant, readOnly) => [
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'residentsPerHousing',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'housingType',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'maintainanceDate',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'heatingSystemEnergyType',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'sanitoryHotWaterEnergyType',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'cookingAppliancesEnergyType',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'electricityProvider',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'energyConsumptionKnowledge',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'elecKwh',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'gasKwh',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'fuelKwh',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'woodKwh',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'heatNetworkKwh',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'numberBigAppliances',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'numberSmallAppliances',
   }),
 ];
@@ -515,30 +515,30 @@ const computeConsumptionHeaderForthRow = () => [
   generateCellTitle({ value: 'consumption.numberPerYear' }),
 ];
 
-const computeConsumptionValues = (participant, isPersona) => [
+const computeConsumptionValues = (participant, readOnly) => [
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'numberBigDevices',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'numberSmallDevices',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'internetStreamingHoursPerWeek',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'activitiesPerMonth',
   }),
   generateSurveyVariableCellValue({
     participant,
-    readOnly: isPersona,
+    readOnly,
     surveyVariableKey: 'clothesNewItems',
   }),
 ];
@@ -583,13 +583,16 @@ const computeParticipantGridHeaders = () => {
 };
 // Grid values
 const computeSurveyVariablesGridValuesForParticipant = (participant) => {
-  const isPersona = participant.personaId !== undefined;
-
+  const { personaId, status } = participant;
+  const isPersona = personaId !== undefined;
+  const areSurveyVariablesModifiables =
+    status === 'data_to_check' || status === 'ready';
+  const readOnly = isPersona || !areSurveyVariablesModifiables;
   return [
-    ...computeFoodValues(participant, isPersona),
-    ...computeTransportValues(participant, isPersona),
-    ...computeHousingValues(participant, isPersona),
-    ...computeConsumptionValues(participant, isPersona),
+    ...computeFoodValues(participant, readOnly),
+    ...computeTransportValues(participant, readOnly),
+    ...computeHousingValues(participant, readOnly),
+    ...computeConsumptionValues(participant, readOnly),
   ];
 };
 

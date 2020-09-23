@@ -140,3 +140,16 @@ export const deleteCoachApi = ({ coachId }) =>
     method: 'DELETE',
     type: 'empty',
   });
+
+export const updateSurveyVariablesApi = ({ data, workshopId, participantId }) =>
+  handleFetch(`/carbon_footprint_form_answers/${workshopId}/${participantId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ answers: data }),
+  });
+
+export const validateParticipantApi = ({ data, workshopId }) =>
+  handleFetch(`/workshops/${workshopId}/validate_participants`, {
+    method: 'POST',
+    type: 'empty',
+    body: JSON.stringify({ participantIds: data }),
+  });

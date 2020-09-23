@@ -1,9 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Loading from '../../components/Loading';
-import SurveyVariablesDataSheet from './SurveyVariablesDataSheet';
-import { selectSurveyVariablesGrid } from '../../selectors/surveyVariablesSelector';
+import SurveyVariablesDataSheet from './components/SurveyVariablesDataSheet';
+import {
+  selectModifiedSurveyVariables,
+  selectParticipantsGrid,
+  selectSurveyVariablesGrid,
+} from '../../selectors/surveyVariablesSelector';
+import {
+  updateSurveyVariables,
+  validateParticipants,
+} from '../../actions/workshop';
 import { useWorkshop } from '../../hooks/workshop';
 
 const Data = ({
@@ -13,13 +21,33 @@ const Data = ({
 }) => {
   const workshop = useWorkshop(workshopId);
   const { loadError, isLoading } = workshop;
-  const surveyVariablesGrid = useSelector((state) =>
-    selectSurveyVariablesGrid(state)
-  );
+  const surveyVariablesGrid = useSelector(selectSurveyVariablesGrid);
+  const participantsGrid = useSelector(selectParticipantsGrid);
+
+  const dispatch = useDispatch();
+
+  const handleSave = (workshopIdentifier) => (modifiedSurveyVariablesGrid) => {
+    const modifiedSurveyVariables = selectModifiedSurveyVariables(
+      modifiedSurveyVariablesGrid
+    );
+    console.log('modifiedSurveyVariables', modifiedSurveyVariables);
+    dispatch(
+      updateSurveyVariables(workshopIdentifier, modifiedSurveyVariables)
+    );
+  };
+
+  const handleValidate = (workshopIdentifier) => (participantIds) => {
+    dispatch(validateParticipants(workshopIdentifier, participantIds));
+  };
 
   return (
     <Loading loadError={loadError} isLoading={isLoading}>
-      <SurveyVariablesDataSheet surveyVariablesGrid={surveyVariablesGrid} />
+      <SurveyVariablesDataSheet
+        surveyVariablesGrid={surveyVariablesGrid}
+        participantsGrid={participantsGrid}
+        handleSave={handleSave(workshopId)}
+        handleValidate={handleValidate(workshopId)}
+      />
     </Loading>
   );
 };

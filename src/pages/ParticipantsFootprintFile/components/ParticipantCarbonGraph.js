@@ -56,8 +56,6 @@ const ParticipantCarbonGraph = ({
   carbonFootprints,
   globalCarbonVariables,
 }) => {
-  const { t } = useTranslation();
-
   // const handleShowBC = (id) => {
   // ideally
   // 1. carbon variables should be pre-computed for each persona
@@ -83,6 +81,7 @@ const ParticipantCarbonGraph = ({
       : carbonFootprints[`${startYear}-${id}`].footprint;
 
     const footprintShaped = footprintDataToGraph(footprint);
+
     setFootprintParticipant({
       footprint: footprintShaped,
       total: normaliseEmissionValue(footprint.value),
@@ -90,8 +89,9 @@ const ParticipantCarbonGraph = ({
   });
 
   const downloadPng = React.useCallback(async () => {
-    const chartos = document.getElementById(`node-to-convert_${id}`)
-      .children[0];
+    const chartos =
+      document.getElementById(`node-to-convert_${id}`) &&
+      document.getElementById(`node-to-convert_${id}`).children[0];
     if (chartos !== undefined) {
       // Send the chart to getPngData
       const pngData = await getPngData(chartos);
@@ -106,20 +106,21 @@ const ParticipantCarbonGraph = ({
     // downloadPng();
     setTimeout(() => {
       downloadPng();
-      console.log(
-        'document.getElementById(`node-to-convert_${id})',
-        document.getElementById(`node-to-convert_${id}`).children[0]
-      );
     }, 2000);
   }, []);
   // 3. footprintDataToGraph should be part of FootprintGraph
+
   return (
-    <Container>
-      <FootprintGraph
-        footprint={footprintParticipant.footprint}
-        totalEmissions={footprintParticipant.total}
-      />
-    </Container>
+    <div id={`node-to-convert_${id}`}>
+      <Container>
+        {!Object.keys(footprintParticipant).length === 0 && (
+          <FootprintGraph
+            footprint={footprintParticipant.footprint}
+            totalEmissions={footprintParticipant.total}
+          />
+        )}
+      </Container>
+    </div>
   );
 };
 // const ParticipantImageGraph = ({

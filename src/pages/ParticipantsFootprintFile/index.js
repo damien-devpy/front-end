@@ -14,6 +14,12 @@ import {
   View,
 } from '@react-pdf/renderer';
 import { Link } from 'react-router-dom';
+
+import { getPngData } from 'recharts-to-png';
+import ActionCardItem from '../../components/ActionCardItem';
+import DownloadIcon from '../../assets/DownloadIcon';
+import Loading from '../../components/Loading';
+import img from '../../assets/graph1.png';
 import {
   ParticipantCarbonGraph,
   ParticipantImageGraph,
@@ -34,16 +40,10 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../selectors/footprintSelectors';
-import { getPngData } from 'recharts-to-png';
 import { pdfjs } from 'react-pdf';
 import { saveAs } from 'file-saver';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import img from '../../assets/graph1.png';
-
-import ActionCardItem from '../../components/ActionCardItem';
-import DownloadIcon from '../../assets/DownloadIcon';
-import Loading from '../../components/Loading';
 import { useWorkshop } from '../../hooks/workshop';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -81,6 +81,7 @@ const ParticipantsFootprintFile = ({
   const carbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
+
   participants &&
     Object.keys(participants).forEach((id) => {
       if (participants[id].status == 'ready') {
@@ -128,6 +129,7 @@ const ParticipantsFootprintFile = ({
                     workshopId={workshopId}
                     workshopTitle={workshopTitle}
                     t={t}
+                    participants={participants}
                   />
                 }
                 fileName="movielist.pdf"
@@ -144,8 +146,21 @@ const ParticipantsFootprintFile = ({
   );
 };
 
-const PDFFile = ({ workshopTitle, t }) => {
+const PDFFile = ({ workshopTitle, t, participants }) => {
   //   const [chart, setChart] = React.useState();
+  // const downloadPng = React.useCallback(async (id) => {
+  //   setTimeout(async () => {
+  //     const chartos =
+  //       document.getElementById(`node-to-convert_${id}`) &&
+  //       document.getElementById(`node-to-convert_${id}`).children[0];
+  //     if (chartos !== undefined) {
+  //       // Send the chart to getPngData
+  //       const pngData = await getPngData(chartos);
+  //       // Use FileSaver to download the PNG
+  //       return pngData;
+  //     }
+  //   }, 2000);
+  // }, []);
 
   return (
     <Document>
@@ -158,7 +173,12 @@ const PDFFile = ({ workshopTitle, t }) => {
           {/* {participantCarbonGraphs} */}
         </View>
         <View style={styles.section}>
+          {/* {participants &&
+            Object.keys(participants).map((id) => (
+              <Image src={downloadPng(id)} />
+            ))} */}
           <Image src={img} />
+
           <Text>Section #2</Text>
         </View>
       </Page>

@@ -372,7 +372,7 @@ const generateHousingCellTitle = (props) =>
   generateCellTitle({ ...props, className: 'housing' });
 
 const computeHousingHeaderFirstRow = () => [
-  generateHousingCellTitle({ value: 'housing.housing', colSpan: 15 }),
+  generateHousingCellTitle({ value: 'housing.housing', colSpan: 16 }),
 ];
 
 const computeHousingHeaderSecondRow = () => [

@@ -8,7 +8,7 @@ import {
   selectPersonaEntity,
 } from './workshopSelector';
 
-const { properties: surveyVariablesProperties } = surveyVariablesSchema;
+const { properties: surveyVariablesSchemaProperties } = surveyVariablesSchema;
 
 // const selectSurveyVariablesForParticipant = (state, participantId) => {
 //   const participantsEntity = selectParticipantsEntity(state);
@@ -95,14 +95,12 @@ const generateSurveyVariableCellValue = ({
   participant,
   readOnly,
   surveyVariableKey,
-  min,
-  max,
 }) => {
   const value = pathOr('', ['surveyVariables', surveyVariableKey], participant);
-  const availableKeys = pathOr(
+  const { enum: availableKeys = [], min, max } = pathOr(
     [],
-    [surveyVariableKey, 'enum'],
-    surveyVariablesProperties
+    [surveyVariableKey],
+    surveyVariablesSchemaProperties
   );
   const availableKeysValues = availableKeys.map((availableKey) => ({
     key: availableKey,
@@ -196,50 +194,36 @@ const computeFoodValues = (participant, readOnly) => {
       participant,
       readOnly,
       surveyVariableKey: 'meatAndFishConsoPerDay',
-      min: 0,
-      max: 2,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'eggsAndDairiesConsoPerDay',
-      min: 0,
-      max: 3,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'fruitsAndVegetablePercentageLocal',
-      min: 0.01,
-      max: 1,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'transformedProductsConsoPerWeek',
-      min: 0,
-      max: 10,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'alcoholConsoGlassPerDay',
-      min: 0,
-      max: 5,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'hotDrinksConsoGlassPerDay',
-      min: 0,
-      max: 5,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'juicesAndSodasConsoGlassPerDay',
-      min: 0,
-      max: 5,
     }),
   ];
 };

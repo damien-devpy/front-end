@@ -79,23 +79,8 @@ const SurveyVariablesDataSheet = ({
 
   const handleCellsChanged = (changes) => {
     const grid = editableSurveyVariablesGrid.map((row) => [...row]);
-    console.log('handleCellsChanged grid', grid);
     changes.forEach(({ cell, row, col, value }) => {
-      console.log(
-        'handleCellsChanged DataSheet',
-        `cell: ${JSON.stringify(
-          cell
-        )}, row: ${row}, col: ${col}, value: ${value}`
-      );
-      console.log(
-        `handleCellsChanged grid[${row}][${col}] before`,
-        grid[row][col]
-      );
       grid[row][col] = { ...grid[row][col], value };
-      console.log(
-        `handleCellsChanged grid[${row}][${col}] after `,
-        grid[row][col]
-      );
     });
     setEditableSurveyVariablesGrid(grid);
   };

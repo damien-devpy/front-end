@@ -3,7 +3,6 @@ import {
   mergeGrids,
   selectModifiedSurveyVariables,
   selectParticipantIdsToCheck,
-  selectParticipantsGrid,
   selectSurveyVariables,
 } from './surveyVariablesSelector';
 
@@ -81,36 +80,61 @@ describe('SurveyVariables selector', () => {
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'categoryCarCommute',
+          availableKeysValues: [
+            { key: 'SPORT', value: 'SPORT' },
+            { key: 'BIG', value: 'MONOSPACE' },
+            { key: 'URBAN', value: 'URBAINE' },
+            { key: 'LOW_CARBON', value: 'BAS CARBONE' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'motorTypeCarCommute',
+          availableKeysValues: [
+            { key: 'HYBRID', value: 'HYBRIDE' },
+            { key: 'FUEL', value: 'ESSENCE' },
+            { key: 'ELECTRIC', value: 'ELECTRIQUE' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'ageCategoryCarCommute',
+          availableKeysValues: [
+            { key: 'TEN_YEARS_OR_YOUNGER', value: 'MOINS DE 10 ANS' },
+            {
+              key: 'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
+              value: 'ENTRE 10 ET 15 ANS',
+            },
+            { key: 'FIFTEEN_YEARS_OR_OLDER', value: 'PLUS DE 15 ANS' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'kmCarCommutePerDay',
+          min: 0,
+          max: 100,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'passengersPerCarCommute',
+          min: 1,
+          max: 5,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'hoursUrbanBusPerWeek',
+          min: 0,
+          max: 15,
         },
         {
           value: '',
@@ -123,54 +147,85 @@ describe('SurveyVariables selector', () => {
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'hoursUrbanTrainPerWeek',
+          min: 0,
+          max: 15,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'categoryCarTravel',
+          availableKeysValues: [
+            { key: 'SPORT', value: 'SPORT' },
+            { key: 'BIG', value: 'MONOSPACE' },
+            { key: 'URBAN', value: 'URBAINE' },
+            { key: 'LOW_CARBON', value: 'BAS CARBONE' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'motorTypeCarTravel',
+          availableKeysValues: [
+            { key: 'HYBRID', value: 'HYBRIDE' },
+            { key: 'FUEL', value: 'ESSENCE' },
+            { key: 'ELECTRIC', value: 'ELECTRIQUE' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'ageCategoryCarTravel',
+          availableKeysValues: [
+            { key: 'TEN_YEARS_OR_YOUNGER', value: 'MOINS DE 10 ANS' },
+            {
+              key: 'BEETWEEN_TEN_AND_FIFTEEN_YEARS',
+              value: 'ENTRE 10 ET 15 ANS',
+            },
+            { key: 'FIFTEEN_YEARS_OR_OLDER', value: 'PLUS DE 15 ANS' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'kmCarTravelPerYear',
+          min: 0,
+          max: 10000,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'passengersPerCarTravel',
+          min: 1,
+          max: 5,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'kmCoachTravel',
+          min: 0,
+          max: 10000,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'kmCountryTrain',
+          min: 0,
+          max: 10000,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'kmPlane',
+          min: 0,
+          max: 20000,
         },
         {
           value: '',
@@ -182,37 +237,77 @@ describe('SurveyVariables selector', () => {
           value: '',
           originalValue: '',
           readOnly: true,
+          surveyVariableKey: 'housingSurfaceArea',
+        },
+        {
+          value: '',
+          originalValue: '',
+          readOnly: true,
           surveyVariableKey: 'housingType',
+          availableKeysValues: [
+            { key: 'HOUSE', value: 'MAISON' },
+            { key: 'FLAT', value: 'APPARTEMENT' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'maintainanceDate',
+          availableKeysValues: [
+            { key: 'BEFORE_1975', value: 'AVANT 1975' },
+            { key: 'BETWEEN_1975_AND_2000', value: 'ENTRE 1975 ET 2000' },
+            { key: 'AFTER_2000', value: 'APRES 2000' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'heatingSystemEnergyType',
+          availableKeysValues: [
+            { key: 'GAS', value: 'GAZ' },
+            { key: 'FUEL_OIL', value: 'FIOUL' },
+            { key: 'ELECTRICITY', value: 'ELECTRICITE' },
+            { key: 'HEAT_NETWORK', value: 'RESEAU DE CHALEUR' },
+            { key: 'WOOD', value: 'BOIS' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'sanitoryHotWaterEnergyType',
+          availableKeysValues: [
+            { key: 'GAS', value: 'GAZ' },
+            { key: 'FUEL_OIL', value: 'FIOUL' },
+            { key: 'ELECTRICITY', value: 'ELECTRICITE' },
+            { key: 'HEAT_NETWORK', value: 'RESEAU DE CHALEUR' },
+            { key: 'WOOD', value: 'BOIS' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'cookingAppliancesEnergyType',
+          availableKeysValues: [
+            { key: 'GAS', value: 'GAZ' },
+            { key: 'FUEL_OIL', value: 'FIOUL' },
+            { key: 'ELECTRICITY', value: 'ELECTRICITE' },
+            { key: 'HEAT_NETWORK', value: 'RESEAU DE CHALEUR' },
+            { key: 'WOOD', value: 'BOIS' },
+          ],
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'electricityProvider',
+          availableKeysValues: [
+            { key: 'ALTERNATIVE', value: 'ALTERNATIF' },
+            { key: 'CONVENTIONAL', value: 'CONVENTIONNEL' },
+          ],
         },
         {
           value: '',
@@ -267,30 +362,40 @@ describe('SurveyVariables selector', () => {
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'numberBigDevices',
+          min: 0,
+          max: 5,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'numberSmallDevices',
+          min: 0,
+          max: 10,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'internetStreamingHoursPerWeek',
+          min: 2,
+          max: 20,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'activitiesPerMonth',
+          min: 5,
+          max: 20,
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'clothesNewItems',
+          min: 5,
+          max: 20,
         },
       ],
     ];
@@ -309,7 +414,7 @@ describe('SurveyVariables selector', () => {
       },
     };
     const result = computeSurveyVariablesGridValues(state);
-    // console.log(result);
+    // console.log(JSON.stringify(result));
     expect(result).toEqual(expected);
   });
   test('should transform SurveyVariables Grid to SurveyVariables map', () => {

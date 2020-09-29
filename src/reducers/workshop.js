@@ -19,6 +19,7 @@ import {
   END_WORKSHOP,
   INIT_ROUND,
   INIT_WORKSHOP,
+  PARTICIPANTS_VALIDATED,
   PERSIST_WORKSHOP,
   RETRIEVE_WORKSHOP,
   SET_ACTIONS_FOR_CITIZENS,
@@ -27,6 +28,7 @@ import {
   START_ROUND,
   SURVEY_VARIABLES_UPDATED,
   UPDATE_SURVEY_VARIABLES,
+  VALIDATE_PARTICIPANTS,
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
@@ -841,6 +843,41 @@ export default (state = initialState, action) => {
       };
     }
 
+    case VALIDATE_PARTICIPANTS: {
+      return {
+        ...state,
+        isLoading: true,
+        loadError: false,
+        loadErrorDetails: null,
+      };
+    }
+    case PARTICIPANTS_VALIDATED: {
+      const { participantIds } = action.payload;
+      const participants = pathOr([], ['entities', 'participants'], state);
+      const updatedParticipants = participantIds.reduce(
+        (accumulator, participantId) => ({
+          ...accumulator,
+          [participantId]: { ...accumulator[participantId], status: 'ready' },
+        }),
+        participants
+      );
+      return {
+        ...state,
+        isLoading: false,
+        loadError: false,
+        loadErrorDetails: null,
+        isSynchronized: true,
+        entities: { ...state.entities, participants: updatedParticipants },
+      };
+    }
+    case UPDATE_SURVEY_VARIABLES: {
+      return {
+        ...state,
+        isLoading: true,
+        loadError: false,
+        loadErrorDetails: null,
+      };
+    }
     case SURVEY_VARIABLES_UPDATED: {
       const { surveyVariables } = action.payload;
       const oldParticipants = pathOr([], ['entities', 'participants'], state);
@@ -853,6 +890,10 @@ export default (state = initialState, action) => {
       };
       return {
         ...state,
+        isLoading: false,
+        loadError: false,
+        loadErrorDetails: null,
+        isSynchronized: true,
         entities: { ...state.entities, participants },
       };
     }

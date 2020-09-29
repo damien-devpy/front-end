@@ -1,11 +1,14 @@
-import { isNil, pathOr, reject } from 'ramda';
+import { allPass, anyPass, isEmpty, isNil, pathOr, reject } from 'ramda';
 
+import ParticipantStatus from '../pages/Participants/components/ParticipantStatus';
+import i18n from '../i18n';
+import surveyVariablesSchema from '../reducers/utils/surveyVariablesSchema';
 import {
   selectParticipantsEntity,
   selectPersonaEntity,
 } from './workshopSelector';
 
-import ParticipantStatus from '../pages/Participants/components/ParticipantStatus';
+const { properties: surveyVariablesSchemaProperties } = surveyVariablesSchema;
 
 // const selectSurveyVariablesForParticipant = (state, participantId) => {
 //   const participantsEntity = selectParticipantsEntity(state);
@@ -52,14 +55,16 @@ const generateCell = ({
   colSpan = 1,
   rowSpan = 1,
   valueViewer,
+  className,
 }) =>
-  reject(isNil, {
+  reject(anyPass([isNil, allPass([Array.isArray, isEmpty])]), {
     value,
     readOnly,
     translate,
     colSpan,
     rowSpan,
     valueViewer,
+    className,
   });
 
 const generateCellTitle = ({
@@ -67,6 +72,7 @@ const generateCellTitle = ({
   colSpan,
   rowSpan,
   valueViewer,
+  className,
 } = {}) =>
   generateCell({
     value,
@@ -75,6 +81,7 @@ const generateCellTitle = ({
     colSpan,
     rowSpan,
     valueViewer,
+    className: `header ${className || ''}`,
   });
 
 const generateCellValue = ({
@@ -88,19 +95,26 @@ const generateSurveyVariableCellValue = ({
   participant,
   readOnly,
   surveyVariableKey,
-  min,
-  max,
-  availableValues,
 }) => {
   const value = pathOr('', ['surveyVariables', surveyVariableKey], participant);
-  return reject(isNil, {
+  const { enum: availableKeys = [], min, max } = pathOr(
+    [],
+    [surveyVariableKey],
+    surveyVariablesSchemaProperties
+  );
+  const availableKeysValues = availableKeys.map((availableKey) => ({
+    key: availableKey,
+    value: i18n.t(`surveyVariables.${surveyVariableKey}.${availableKey}`),
+  }));
+
+  return reject(anyPass([isNil, allPass([Array.isArray, isEmpty])]), {
     value,
     originalValue: value,
     readOnly,
     surveyVariableKey,
     min,
     max,
-    availableValues,
+    availableKeysValues,
   });
 };
 
@@ -140,35 +154,38 @@ const computeParticipantInformationRows = (participant, personaEntity) => {
 };
 
 // Food
+const generateFoodCellTitle = (props) =>
+  generateCellTitle({ ...props, className: 'food' });
+
 const computeFoodHeaderFirstRow = () => [
-  generateCellTitle({ value: 'food.food', colSpan: 7 }),
+  generateFoodCellTitle({ value: 'food.food', colSpan: 7 }),
 ];
 
 const computeFoodHeaderSecondRow = () => [
-  generateCellTitle({ value: 'food.meatAndFish' }),
-  generateCellTitle({ value: 'food.eggsAndDairies' }),
-  generateCellTitle({ value: 'food.other', colSpan: 2 }),
-  generateCellTitle({ value: 'food.drinks', colSpan: 3 }),
+  generateFoodCellTitle({ value: 'food.meatAndFish' }),
+  generateFoodCellTitle({ value: 'food.eggsAndDairies' }),
+  generateFoodCellTitle({ value: 'food.other', colSpan: 2 }),
+  generateFoodCellTitle({ value: 'food.drinks', colSpan: 3 }),
 ];
 
 const computeFoodHeaderThirdRow = () => [
-  generateCellTitle({ value: 'food.consumption' }),
-  generateCellTitle({ value: 'food.consumption' }),
-  generateCellTitle({ value: 'food.fruitsAndVegetableLocal' }),
-  generateCellTitle({ value: 'food.transformedProducts' }),
-  generateCellTitle({ value: 'food.alcohol' }),
-  generateCellTitle({ value: 'food.hotDrinks' }),
-  generateCellTitle({ value: 'food.juicesAndSodas' }),
+  generateFoodCellTitle({ value: 'food.consumption' }),
+  generateFoodCellTitle({ value: 'food.consumption' }),
+  generateFoodCellTitle({ value: 'food.fruitsAndVegetableLocal' }),
+  generateFoodCellTitle({ value: 'food.transformedProducts' }),
+  generateFoodCellTitle({ value: 'food.alcohol' }),
+  generateFoodCellTitle({ value: 'food.hotDrinks' }),
+  generateFoodCellTitle({ value: 'food.juicesAndSodas' }),
 ];
 
 const computeFoodHeaderForthRow = () => [
-  generateCellTitle({ value: 'food.consumptionPerDay' }),
-  generateCellTitle({ value: 'food.consumptionPerDay' }),
-  generateCellTitle({ value: 'food.percentageFruitsAndVegetableLocal' }),
-  generateCellTitle({ value: 'food.consumptionPerWeek' }),
-  generateCellTitle({ value: 'food.consumptionPerDay' }),
-  generateCellTitle({ value: 'food.consumptionPerDay' }),
-  generateCellTitle({ value: 'food.consumptionPerDay' }),
+  generateFoodCellTitle({ value: 'food.consumptionPerDay' }),
+  generateFoodCellTitle({ value: 'food.consumptionPerDay' }),
+  generateFoodCellTitle({ value: 'food.percentageFruitsAndVegetableLocal' }),
+  generateFoodCellTitle({ value: 'food.consumptionPerWeek' }),
+  generateFoodCellTitle({ value: 'food.consumptionPerDay' }),
+  generateFoodCellTitle({ value: 'food.consumptionPerDay' }),
+  generateFoodCellTitle({ value: 'food.consumptionPerDay' }),
 ];
 
 const computeFoodValues = (participant, readOnly) => {
@@ -177,105 +194,94 @@ const computeFoodValues = (participant, readOnly) => {
       participant,
       readOnly,
       surveyVariableKey: 'meatAndFishConsoPerDay',
-      min: 0,
-      max: 2,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'eggsAndDairiesConsoPerDay',
-      min: 0,
-      max: 3,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'fruitsAndVegetablePercentageLocal',
-      min: 0.01,
-      max: 1,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'transformedProductsConsoPerWeek',
-      min: 0,
-      max: 10,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'alcoholConsoGlassPerDay',
-      min: 0,
-      max: 5,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'hotDrinksConsoGlassPerDay',
-      min: 0,
-      max: 5,
     }),
     generateSurveyVariableCellValue({
       participant,
       readOnly,
       surveyVariableKey: 'juicesAndSodasConsoGlassPerDay',
-      min: 0,
-      max: 5,
     }),
   ];
 };
 
 // Transports
+const generateTransportCellTitle = (props) =>
+  generateCellTitle({ ...props, className: 'transport' });
+
 const computeTransportHeaderFirstRow = () => [
-  generateCellTitle({ value: 'transports.transport', colSpan: 16 }),
+  generateTransportCellTitle({ value: 'transports.transport', colSpan: 16 }),
 ];
 
 const computeTransportHeaderSecondRow = () => [
-  generateCellTitle({ value: 'transports.carDaily', colSpan: 5 }),
-  generateCellTitle({ value: 'transports.busDaily', colSpan: 2 }),
-  generateCellTitle({ value: 'transports.trainDaily' }),
-  generateCellTitle({ value: 'transports.carTravel', colSpan: 5 }),
-  generateCellTitle({ value: 'transports.busTravel' }),
-  generateCellTitle({ value: 'transports.trainTravel' }),
-  generateCellTitle({ value: 'transports.plane' }),
+  generateTransportCellTitle({ value: 'transports.carDaily', colSpan: 5 }),
+  generateTransportCellTitle({ value: 'transports.busDaily', colSpan: 2 }),
+  generateTransportCellTitle({ value: 'transports.trainDaily' }),
+  generateTransportCellTitle({ value: 'transports.carTravel', colSpan: 5 }),
+  generateTransportCellTitle({ value: 'transports.busTravel' }),
+  generateTransportCellTitle({ value: 'transports.trainTravel' }),
+  generateTransportCellTitle({ value: 'transports.plane' }),
 ];
 
 const computeTransportHeaderThirdRow = () => [
-  generateCellTitle({ value: 'transports.carCategory' }),
-  generateCellTitle({ value: 'transports.carMotorType' }),
-  generateCellTitle({ value: 'transports.carAgeCategory' }),
-  generateCellTitle({ value: 'transports.distances' }),
-  generateCellTitle({ value: 'transports.passengers' }),
-  generateCellTitle({ value: 'transports.busDistances' }),
-  generateCellTitle({ value: 'transports.coachDistances' }),
-  generateCellTitle({ value: 'transports.distances' }),
-  generateCellTitle({ value: 'transports.carCategory' }),
-  generateCellTitle({ value: 'transports.carMotorType' }),
-  generateCellTitle({ value: 'transports.carAgeCategory' }),
-  generateCellTitle({ value: 'transports.distances' }),
-  generateCellTitle({ value: 'transports.passengers' }),
-  generateCellTitle({ value: 'transports.distances' }),
-  generateCellTitle({ value: 'transports.distances' }),
-  generateCellTitle({ value: 'transports.distances' }),
+  generateTransportCellTitle({ value: 'transports.carCategory' }),
+  generateTransportCellTitle({ value: 'transports.carMotorType' }),
+  generateTransportCellTitle({ value: 'transports.carAgeCategory' }),
+  generateTransportCellTitle({ value: 'transports.distances' }),
+  generateTransportCellTitle({ value: 'transports.passengers' }),
+  generateTransportCellTitle({ value: 'transports.busDistances' }),
+  generateTransportCellTitle({ value: 'transports.coachDistances' }),
+  generateTransportCellTitle({ value: 'transports.distances' }),
+  generateTransportCellTitle({ value: 'transports.carCategory' }),
+  generateTransportCellTitle({ value: 'transports.carMotorType' }),
+  generateTransportCellTitle({ value: 'transports.carAgeCategory' }),
+  generateTransportCellTitle({ value: 'transports.distances' }),
+  generateTransportCellTitle({ value: 'transports.passengers' }),
+  generateTransportCellTitle({ value: 'transports.distances' }),
+  generateTransportCellTitle({ value: 'transports.distances' }),
+  generateTransportCellTitle({ value: 'transports.distances' }),
 ];
 
 const computeTransportHeaderForthRow = () => [
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle({ value: 'transports.kmPerDay' }),
-  generateCellTitle({ value: 'transports.number' }),
-  generateCellTitle({ value: 'transports.hourPerWeek' }),
-  generateCellTitle({ value: 'transports.hourPerWeek' }),
-  generateCellTitle({ value: 'transports.hourPerWeek' }),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle({ value: 'transports.kmPerYear' }),
-  generateCellTitle({ value: 'transports.number' }),
-  generateCellTitle({ value: 'transports.kmPerYear' }),
-  generateCellTitle({ value: 'transports.kmPerYear' }),
-  generateCellTitle({ value: 'transports.kmPerYear' }),
+  generateTransportCellTitle(),
+  generateTransportCellTitle(),
+  generateTransportCellTitle(),
+  generateTransportCellTitle({ value: 'transports.kmPerDay' }),
+  generateTransportCellTitle({ value: 'transports.number' }),
+  generateTransportCellTitle({ value: 'transports.hourPerWeek' }),
+  generateTransportCellTitle({ value: 'transports.hourPerWeek' }),
+  generateTransportCellTitle({ value: 'transports.hourPerWeek' }),
+  generateTransportCellTitle(),
+  generateTransportCellTitle(),
+  generateTransportCellTitle(),
+  generateTransportCellTitle({ value: 'transports.kmPerYear' }),
+  generateTransportCellTitle({ value: 'transports.number' }),
+  generateTransportCellTitle({ value: 'transports.kmPerYear' }),
+  generateTransportCellTitle({ value: 'transports.kmPerYear' }),
+  generateTransportCellTitle({ value: 'transports.kmPerYear' }),
 ];
 
 const computeTransportValues = (participant, readOnly) => [
@@ -362,50 +368,55 @@ const computeTransportValues = (participant, readOnly) => [
 ];
 
 // Housing
+const generateHousingCellTitle = (props) =>
+  generateCellTitle({ ...props, className: 'housing' });
+
 const computeHousingHeaderFirstRow = () => [
-  generateCellTitle({ value: 'housing.housing', colSpan: 15 }),
+  generateHousingCellTitle({ value: 'housing.housing', colSpan: 15 }),
 ];
 
 const computeHousingHeaderSecondRow = () => [
-  generateCellTitle({ value: 'housing.transverse', colSpan: 2 }),
-  generateCellTitle({ value: 'housing.energy', colSpan: 11 }),
-  generateCellTitle({ value: 'housing.equipments', colSpan: 2 }),
+  generateHousingCellTitle({ value: 'housing.transverse', colSpan: 3 }),
+  generateHousingCellTitle({ value: 'housing.energy', colSpan: 11 }),
+  generateHousingCellTitle({ value: 'housing.equipments', colSpan: 2 }),
 ];
 
 const computeHousingHeaderThirdRow = () => [
-  generateCellTitle({ value: 'housing.inhabitants' }),
-  generateCellTitle({ value: 'housing.surface' }),
-  generateCellTitle({ value: 'housing.maintainanceDate' }),
-  generateCellTitle({ value: 'housing.heatingSystemEnergyType' }),
-  generateCellTitle({ value: 'housing.sanitoryHotWaterEnergyType' }),
-  generateCellTitle({ value: 'housing.cookingAppliancesEnergyType' }),
-  generateCellTitle({ value: 'housing.electricityProvider' }),
-  generateCellTitle({ value: 'housing.energyConsumptionKnowledge' }),
-  generateCellTitle({ value: 'housing.electricityConsumption' }),
-  generateCellTitle({ value: 'housing.gasConsumption' }),
-  generateCellTitle({ value: 'housing.fuelConsumption' }),
-  generateCellTitle({ value: 'housing.woodConsumption' }),
-  generateCellTitle({ value: 'housing.heatNetworkConsumption' }),
-  generateCellTitle({ value: 'housing.bigAppliances' }),
-  generateCellTitle({ value: 'housing.smallAppliances' }),
+  generateHousingCellTitle({ value: 'housing.inhabitants' }),
+  generateHousingCellTitle({ value: 'housing.surface' }),
+  generateHousingCellTitle({ value: 'housing.type' }),
+  generateHousingCellTitle({ value: 'housing.maintainanceDate' }),
+  generateHousingCellTitle({ value: 'housing.heatingSystemEnergyType' }),
+  generateHousingCellTitle({ value: 'housing.sanitoryHotWaterEnergyType' }),
+  generateHousingCellTitle({ value: 'housing.cookingAppliancesEnergyType' }),
+  generateHousingCellTitle({ value: 'housing.electricityProvider' }),
+  generateHousingCellTitle({ value: 'housing.energyConsumptionKnowledge' }),
+  generateHousingCellTitle({ value: 'housing.electricityConsumption' }),
+  generateHousingCellTitle({ value: 'housing.gasConsumption' }),
+  generateHousingCellTitle({ value: 'housing.fuelConsumption' }),
+  generateHousingCellTitle({ value: 'housing.woodConsumption' }),
+  generateHousingCellTitle({ value: 'housing.heatNetworkConsumption' }),
+  generateHousingCellTitle({ value: 'housing.bigAppliances' }),
+  generateHousingCellTitle({ value: 'housing.smallAppliances' }),
 ];
 
 const computeHousingHeaderForthRow = () => [
-  generateCellTitle({ value: 'housing.number' }),
-  generateCellTitle({ value: 'housing.squareMeter' }),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle(),
-  generateCellTitle({ value: 'housing.kwhPerYear' }),
-  generateCellTitle({ value: 'housing.kwhPerYear' }),
-  generateCellTitle({ value: 'housing.kwhPerYear' }),
-  generateCellTitle({ value: 'housing.kwhPerYear' }),
-  generateCellTitle({ value: 'housing.kwhPerYear' }),
-  generateCellTitle({ value: 'housing.number' }),
-  generateCellTitle({ value: 'housing.number' }),
+  generateHousingCellTitle({ value: 'housing.number' }),
+  generateHousingCellTitle({ value: 'housing.squareMeter' }),
+  generateHousingCellTitle(),
+  generateHousingCellTitle(),
+  generateHousingCellTitle(),
+  generateHousingCellTitle(),
+  generateHousingCellTitle(),
+  generateHousingCellTitle(),
+  generateHousingCellTitle(),
+  generateHousingCellTitle({ value: 'housing.kwhPerYear' }),
+  generateHousingCellTitle({ value: 'housing.kwhPerYear' }),
+  generateHousingCellTitle({ value: 'housing.kwhPerYear' }),
+  generateHousingCellTitle({ value: 'housing.kwhPerYear' }),
+  generateHousingCellTitle({ value: 'housing.kwhPerYear' }),
+  generateHousingCellTitle({ value: 'housing.number' }),
+  generateHousingCellTitle({ value: 'housing.number' }),
 ];
 
 const computeHousingValues = (participant, readOnly) => [
@@ -413,6 +424,11 @@ const computeHousingValues = (participant, readOnly) => [
     participant,
     readOnly,
     surveyVariableKey: 'residentsPerHousing',
+  }),
+  generateSurveyVariableCellValue({
+    participant,
+    readOnly,
+    surveyVariableKey: 'housingSurfaceArea',
   }),
   generateSurveyVariableCellValue({
     participant,
@@ -487,32 +503,38 @@ const computeHousingValues = (participant, readOnly) => [
 ];
 
 // Consumption
+const generateConsumptionCellTitle = (props) =>
+  generateCellTitle({ ...props, className: 'consumption' });
+
 const computeConsumptionHeaderFirstRow = () => [
-  generateCellTitle({ value: 'consumption.consumption', colSpan: 5 }),
+  generateConsumptionCellTitle({
+    value: 'consumption.consumption',
+    colSpan: 5,
+  }),
 ];
 
 const computeConsumptionHeaderSecondRow = () => [
-  generateCellTitle({ value: 'consumption.digital' }),
-  generateCellTitle({ value: 'consumption.digital' }),
-  generateCellTitle({ value: 'consumption.digital' }),
-  generateCellTitle({ value: 'consumption.other' }),
-  generateCellTitle({ value: 'consumption.clothes' }),
+  generateConsumptionCellTitle({ value: 'consumption.digital' }),
+  generateConsumptionCellTitle({ value: 'consumption.digital' }),
+  generateConsumptionCellTitle({ value: 'consumption.digital' }),
+  generateConsumptionCellTitle({ value: 'consumption.other' }),
+  generateConsumptionCellTitle({ value: 'consumption.clothes' }),
 ];
 
 const computeConsumptionHeaderThirdRow = () => [
-  generateCellTitle({ value: 'consumption.bigDevices' }),
-  generateCellTitle({ value: 'consumption.smallDevices' }),
-  generateCellTitle({ value: 'consumption.streaming' }),
-  generateCellTitle({ value: 'consumption.activities' }),
-  generateCellTitle({ value: 'consumption.newItems' }),
+  generateConsumptionCellTitle({ value: 'consumption.bigDevices' }),
+  generateConsumptionCellTitle({ value: 'consumption.smallDevices' }),
+  generateConsumptionCellTitle({ value: 'consumption.streaming' }),
+  generateConsumptionCellTitle({ value: 'consumption.activities' }),
+  generateConsumptionCellTitle({ value: 'consumption.newItems' }),
 ];
 
 const computeConsumptionHeaderForthRow = () => [
-  generateCellTitle({ value: 'consumption.number' }),
-  generateCellTitle({ value: 'consumption.number' }),
-  generateCellTitle({ value: 'consumption.hourPerWeek' }),
-  generateCellTitle({ value: 'consumption.numberPerMonth' }),
-  generateCellTitle({ value: 'consumption.numberPerYear' }),
+  generateConsumptionCellTitle({ value: 'consumption.number' }),
+  generateConsumptionCellTitle({ value: 'consumption.number' }),
+  generateConsumptionCellTitle({ value: 'consumption.hourPerWeek' }),
+  generateConsumptionCellTitle({ value: 'consumption.numberPerMonth' }),
+  generateConsumptionCellTitle({ value: 'consumption.numberPerYear' }),
 ];
 
 const computeConsumptionValues = (participant, readOnly) => [

@@ -290,6 +290,74 @@ export default {
     the_participants: 'Les participants',
     yAxisLabel: 'tCO2e/an/personne',
   },
+  surveyVariables: {
+    categoryCarCommute: {
+      SPORT: 'SPORT',
+      BIG: 'MONOSPACE',
+      URBAN: 'URBAINE',
+      LOW_CARBON: 'BAS CARBONE',
+    },
+    motorTypeCarCommute: {
+      HYBRID: 'HYBRIDE',
+      FUEL: 'ESSENCE',
+      ELECTRIC: 'ELECTRIQUE',
+    },
+    ageCategoryCarCommute: {
+      TEN_YEARS_OR_YOUNGER: 'MOINS DE 10 ANS',
+      BEETWEEN_TEN_AND_FIFTEEN_YEARS: 'ENTRE 10 ET 15 ANS',
+      FIFTEEN_YEARS_OR_OLDER: 'PLUS DE 15 ANS',
+    },
+    categoryCarTravel: {
+      SPORT: 'SPORT',
+      BIG: 'MONOSPACE',
+      URBAN: 'URBAINE',
+      LOW_CARBON: 'BAS CARBONE',
+    },
+    motorTypeCarTravel: {
+      HYBRID: 'HYBRIDE',
+      FUEL: 'ESSENCE',
+      ELECTRIC: 'ELECTRIQUE',
+    },
+    ageCategoryCarTravel: {
+      TEN_YEARS_OR_YOUNGER: 'MOINS DE 10 ANS',
+      BEETWEEN_TEN_AND_FIFTEEN_YEARS: 'ENTRE 10 ET 15 ANS',
+      FIFTEEN_YEARS_OR_OLDER: 'PLUS DE 15 ANS',
+    },
+    housingType: {
+      HOUSE: 'MAISON',
+      FLAT: 'APPARTEMENT',
+    },
+    maintainanceDate: {
+      BEFORE_1975: 'AVANT 1975',
+      BETWEEN_1975_AND_2000: 'ENTRE 1975 ET 2000',
+      AFTER_2000: 'APRES 2000',
+    },
+    heatingSystemEnergyType: {
+      GAS: 'GAZ',
+      FUEL_OIL: 'FIOUL',
+      ELECTRICITY: 'ELECTRICITE',
+      HEAT_NETWORK: 'RESEAU DE CHALEUR',
+      WOOD: 'BOIS',
+    },
+    sanitoryHotWaterEnergyType: {
+      GAS: 'GAZ',
+      FUEL_OIL: 'FIOUL',
+      ELECTRICITY: 'ELECTRICITE',
+      HEAT_NETWORK: 'RESEAU DE CHALEUR',
+      WOOD: 'BOIS',
+    },
+    cookingAppliancesEnergyType: {
+      GAS: 'GAZ',
+      FUEL_OIL: 'FIOUL',
+      ELECTRICITY: 'ELECTRICITE',
+      HEAT_NETWORK: 'RESEAU DE CHALEUR',
+      WOOD: 'BOIS',
+    },
+    electricityProvider: {
+      ALTERNATIVE: 'ALTERNATIF',
+      CONVENTIONAL: 'CONVENTIONNEL',
+    },
+  },
   transports: {
     bus: 'Bus',
     busDaily: 'Bus (Quotidien)',

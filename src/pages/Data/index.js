@@ -30,7 +30,6 @@ const Data = ({
     const modifiedSurveyVariables = selectModifiedSurveyVariables(
       modifiedSurveyVariablesGrid
     );
-    console.log('modifiedSurveyVariables', modifiedSurveyVariables);
     dispatch(
       updateSurveyVariables(workshopIdentifier, modifiedSurveyVariables)
     );

@@ -16,6 +16,7 @@ export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
 export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
 export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
 export const END_WORKSHOP = 'END_WORKSHOP';
+export const VALIDATE_PARTICIPANTS = 'VALIDATE_PARTICIPANTS';
 export const PARTICIPANTS_VALIDATED = 'PARTICIPANTS_VALIDATED';
 
 // SurveyVariables
@@ -278,12 +279,19 @@ export const updateSurveyVariables = (
   };
 };
 
+const validateAsyncParticipants = (workshopId) => ({
+  type: VALIDATE_PARTICIPANTS,
+  payload: { workshopId },
+});
+
 export const validateParticipants = (workshopId, participantIds) => {
   return (dispatch) => {
+    dispatch(validateAsyncParticipants(workshopId));
     validateParticipantApi({ data: participantIds, workshopId })
       .then((res) => {
         dispatch({
           type: PARTICIPANTS_VALIDATED,
+          payload: { participantIds },
         });
         return res;
       })

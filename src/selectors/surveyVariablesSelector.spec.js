@@ -1,3 +1,6 @@
+import Ajv from 'ajv';
+
+import surveyVariablesSchema from '../reducers/utils/surveyVariablesSchema';
 import {
   computeSurveyVariablesGridValues,
   mergeGrids,
@@ -682,5 +685,14 @@ describe('SurveyVariables selector', () => {
 
     const result = selectParticipantIdsToCheck(participantGrid);
     expect(result).toEqual(expected);
+  });
+  test('should give schema constraints for a surveyVariable', () => {
+    const ajv = new Ajv({
+      useDefaults: true,
+      verbose: true,
+      coerceTypes: true,
+    });
+    ajv.addSchema(surveyVariablesSchema);
+    console.log(ajv.getSchema('categoryCarCommute'));
   });
 });

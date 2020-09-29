@@ -35,7 +35,7 @@ span.data-grid-container:focus {
 .data-grid-container .data-grid .cell.read-only {
   background: whitesmoke;
   color: #999;
-  text-align: center;
+  text-align: right;
 }
 
 .data-grid-container .data-grid .cell > .text {
@@ -56,9 +56,9 @@ span.data-grid-container:focus {
   display: block;
 }
 
-.data-grid-container .data-grid .cell {
+/* .data-grid-container .data-grid .cell {
   vertical-align: bottom;
-}
+} */
 
 .data-grid-container .data-grid .cell,
 .data-grid-container .data-grid.wrap .cell,
@@ -90,4 +90,34 @@ span.data-grid-container:focus {
 .data-grid-container .data-grid .cell .value-viewer,
 .data-grid-container .data-grid .cell .data-editor {
   display: block;
+  height: 1.5rem;
+  white-space: nowrap;
+  /* padding: 3px; */
+}
+
+.header {
+  text-align: center;
+  color: black;
+}
+
+.food {
+  background-color: #b58d0d;
+}
+.transport {
+  background-color: #c00001;
+  /* background-color: #ee0303; */
+}
+.housing {
+  background-color: #2e75b6;
+}
+.consumption {
+  background-color: #70ad47;
+}
+
+.cell > .modified {
+  background-color: #d4edda;
+}
+
+.cell > .notInRange {
+  background-color: orange;
 }

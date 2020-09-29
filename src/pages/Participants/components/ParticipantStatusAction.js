@@ -2,20 +2,17 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-// import PrimaryButton from '../../../components/PrimaryButton';
 import SendMailButton from '../../../components/SendMailButton';
 
-const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
+const ParticipantStatusAction = ({
+  value,
+  handleShowBC,
+  handleSendForm,
+  handleNavigateToData,
+}) => {
   const { t } = useTranslation();
 
   switch (value) {
-    // case 'MISSING_INFO':
-    //   return (
-    //     <span className="badge alert-danger">
-    //       {t('manageParticipants.missingInfo')}
-    //     </span>
-    //   );
-
     case 'created':
       return (
         <SendMailButton
@@ -45,9 +42,13 @@ const ParticipantStatusAction = ({ value, handleShowBC, handleSendForm }) => {
     case 'data_to_check':
       return (
         // onclick go to participant data
-        <Button variant="light" size="sm" style={{ fontSize: 16 }}>
-          &#128065; {'  '}
-          {/* {t('manageParticipants.data')} */}
+        <Button
+          variant="light"
+          size="sm"
+          style={{ fontSize: 16 }}
+          onClick={handleNavigateToData}
+        >
+          &#128065;
         </Button>
       );
 

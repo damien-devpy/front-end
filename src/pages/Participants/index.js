@@ -3,8 +3,9 @@
 import Papa from 'papaparse';
 import React, { useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useTranslation } from 'react-i18next';
 
 import AddNewButton from '../../components/AddNewButton';
@@ -78,6 +79,8 @@ const ManageParticipants = ({
   } = useSelector(selectCurrentWorkshopInfo);
 
   const { t } = useTranslation();
+  const history = useHistory();
+
   const participants = useSelector(selectParticipantsEntity);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
@@ -202,6 +205,10 @@ const ManageParticipants = ({
     });
   };
 
+  const handleNavigateToData = () => {
+    history.push(`/workshop/${workshopId}/data`);
+  };
+
   const disableModifications = workshopStatus !== 'created';
   const participantItems = [];
 
@@ -227,6 +234,7 @@ const ManageParticipants = ({
           handleShowBC={handleShowBC}
           handleSendForm={handleSendForm}
           disabled={disableModifications}
+          handleNavigateToData={handleNavigateToData}
         />
       );
     });

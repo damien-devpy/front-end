@@ -21,6 +21,7 @@ export const ParticipantItemForm = ({
   handleShowBC,
   handleSendForm,
   disabled,
+  handleNavigateToData,
 }) => {
   const { t } = useTranslation();
 
@@ -116,6 +117,7 @@ export const ParticipantItemForm = ({
         <ParticipantStatusAction
           value={status}
           handleShowBC={() => handleShowBC(id)}
+          handleNavigateToData={handleNavigateToData}
         />
       </Col>
     </Row>

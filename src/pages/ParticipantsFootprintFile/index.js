@@ -162,7 +162,7 @@ const ParticipantsFootprintFile = ({
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
         <Container>
-          {!isLoading && participantsReadyIds.length === images2.length && (
+          {!isLoading && participantsReadyIds.length === images.length && (
             <Button className="badge badge-info float-right text-decoration-none">
               <DownloadIcon />{' '}
               <PDFDownloadLink

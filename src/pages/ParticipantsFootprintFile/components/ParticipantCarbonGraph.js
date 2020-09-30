@@ -62,7 +62,10 @@ const ParticipantCarbonGraph = ({
   // 2. add higher-level function where
   // valueOnAllLevels & computeFootprint are put together and
   // input variables are simplified, e.g. could be given as `model`
-  const [footprintParticipant, setFootprintParticipant] = useState({});
+  const [footprintParticipant, setFootprintParticipant] = useState({
+    total: 0,
+    footprint: {},
+  });
   loadHeatingNetworksData().then((heatingNetworksData) => {
     const { footprintStructure, variableFormulas } = model;
     const footprint = participants[id].personaId
@@ -88,32 +91,19 @@ const ParticipantCarbonGraph = ({
     });
   });
 
-  const downloadPng = React.useCallback(async () => {
-    const chartos =
-      document.getElementById(`node-to-convert_${id}`) &&
-      document.getElementById(`node-to-convert_${id}`).children[0];
-    if (chartos !== undefined) {
-      // Send the chart to getPngData
-      const pngData = await getPngData(chartos);
-      // Use FileSaver to download the PNG
-      saveAs(pngData, `graph_${id}.png`);
-      return pngData;
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log('use effect');
-    // downloadPng();
-    setTimeout(() => {
-      downloadPng();
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   console.log('use effect');
+  //   // downloadPng();
+  //   setTimeout(() => {
+  //     downloadPng();
+  //   }, 2000);
+  // }, []);
   // 3. footprintDataToGraph should be part of FootprintGraph
 
   return (
     <div id={`node-to-convert_${id}`}>
       <Container>
-        {!Object.keys(footprintParticipant).length === 0 && (
+        {footprintParticipant.total > 0 && (
           <FootprintGraph
             footprint={footprintParticipant.footprint}
             totalEmissions={footprintParticipant.total}

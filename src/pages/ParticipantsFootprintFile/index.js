@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import React, { Component, PropTypes, useState } from 'react';
+import React, { Component, PropTypes, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 import {
@@ -19,6 +19,7 @@ import { getPngData } from 'recharts-to-png';
 import ActionCardItem from '../../components/ActionCardItem';
 import DownloadIcon from '../../assets/DownloadIcon';
 import Loading from '../../components/Loading';
+import blob from './components/Blob';
 import img from '../../assets/graph1.png';
 import {
   ParticipantCarbonGraph,
@@ -40,13 +41,10 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../selectors/footprintSelectors';
-import { pdfjs } from 'react-pdf';
 import { saveAs } from 'file-saver';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useWorkshop } from '../../hooks/workshop';
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const styles = StyleSheet.create({
   page: {
@@ -57,6 +55,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     flexGrow: 1,
+    flex: 1,
   },
 });
 const ParticipantsFootprintFile = ({
@@ -68,7 +67,8 @@ const ParticipantsFootprintFile = ({
   const { t } = useTranslation();
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-
+  const [images, setImages] = useState([]);
+  const [downloadedIds, setDonwloadedIds] = useState([]);
   const personas = useSelector(selectPersonaEntity);
   const {
     name: workshopTitle,
@@ -76,29 +76,71 @@ const ParticipantsFootprintFile = ({
     startYear,
     model,
   } = useSelector(selectCurrentWorkshopInfo);
-  const participantCarbonGraphs = [];
   const participants = useSelector(selectParticipantsEntity);
   const carbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
 
-  participants &&
-    Object.keys(participants).forEach((id) => {
-      if (participants[id].status == 'ready') {
-        participantCarbonGraphs.push(
-          <ParticipantCarbonGraph
-            carbonVariables={carbonVariables}
-            globalCarbonVariables={globalCarbonVariables}
-            personas={personas}
-            id={id}
-            participants={participants}
-            model={model}
-            startYear={startYear}
-            carbonFootprints={carbonFootprints}
-          />
-        );
+  const participantsReadyIds = Object.keys(participants).filter(
+    (id) => participants[id].status === 'ready'
+  );
+
+  console.log('participantsReady', participantsReadyIds);
+
+  const participantCarbonGraphs =
+    participants &&
+    participantsReadyIds.map((id) => (
+      <ParticipantCarbonGraph
+        carbonVariables={carbonVariables}
+        globalCarbonVariables={globalCarbonVariables}
+        personas={personas}
+        id={id}
+        participants={participants}
+        model={model}
+        startYear={startYear}
+        carbonFootprints={carbonFootprints}
+      />
+    ));
+
+  const downloadPng = React.useCallback(async (id) => {
+    if (!downloadedIds.includes(id)) {
+      console.log('converting png ...', id);
+      const chartos =
+        document.getElementById(`node-to-convert_${id}`) &&
+        document.getElementById(`node-to-convert_${id}`).children[0];
+
+      if (chartos !== undefined) {
+        // Send the chart to getPngData
+        const pngData = await getPngData(chartos);
+
+        // Use FileSaver to download the PNG
+        // saveAs(pngData);
+        // /////////
+        setImages([...images, pngData]);
+        console.log('     png converted...', id);
+        console.log('images length', images.length);
+        setDonwloadedIds([...downloadedIds, id]);
+        console.log('downlaodedIds added', downloadedIds);
+
+        return pngData;
       }
-    });
+    }
+  }, []);
+  // const id = 'b558accd02534dae958ffec7bded6a62';
+  // useEffect(() => {
+  setTimeout(() => {
+    console.log('use effect');
+    // downloadPng();
+    const images2 = participantsReadyIds.map((id) => downloadPng(id));
+    console.log('images2222 length', images2);
+  }, 3000);
+  console.log('images length', images.length);
+
+  console.log('downlaodedIds', downloadedIds);
+
+  // }, []);
+
+  // console.log('last image 2', images[images.length - 1]);
 
   //   const [chart, setChart] = React.useState();
 
@@ -120,7 +162,7 @@ const ParticipantsFootprintFile = ({
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
         <Container>
-          {!isLoading && (
+          {!isLoading && participantsReadyIds.length === images2.length && (
             <Button className="badge badge-info float-right text-decoration-none">
               <DownloadIcon />{' '}
               <PDFDownloadLink
@@ -130,6 +172,7 @@ const ParticipantsFootprintFile = ({
                     workshopTitle={workshopTitle}
                     t={t}
                     participants={participants}
+                    images={images}
                   />
                 }
                 fileName="movielist.pdf"
@@ -146,22 +189,7 @@ const ParticipantsFootprintFile = ({
   );
 };
 
-const PDFFile = ({ workshopTitle, t, participants }) => {
-  //   const [chart, setChart] = React.useState();
-  // const downloadPng = React.useCallback(async (id) => {
-  //   setTimeout(async () => {
-  //     const chartos =
-  //       document.getElementById(`node-to-convert_${id}`) &&
-  //       document.getElementById(`node-to-convert_${id}`).children[0];
-  //     if (chartos !== undefined) {
-  //       // Send the chart to getPngData
-  //       const pngData = await getPngData(chartos);
-  //       // Use FileSaver to download the PNG
-  //       return pngData;
-  //     }
-  //   }, 2000);
-  // }, []);
-
+const PDFFile = ({ workshopTitle, t, participants, images }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -177,9 +205,33 @@ const PDFFile = ({ workshopTitle, t, participants }) => {
             Object.keys(participants).map((id) => (
               <Image src={downloadPng(id)} />
             ))} */}
-          <Image src={img} />
-
           <Text>Section #2</Text>
+          {/* <View style={styles.section}>
+               <Image
+                style={{
+                  width: 'auto',
+                }}
+                src={img}
+              />
+            </View>
+            <View style={styles.section}>
+              <Image
+                style={{
+                  width: 'auto',
+                }}
+                src={blob}
+              />
+            </View> */}
+          {images.map((image) => (
+            <View style={styles.section}>
+              <Image
+                style={{
+                  width: 'auto',
+                }}
+                src={image}
+              />
+            </View>
+          ))}
         </View>
       </Page>
     </Document>

@@ -40,11 +40,19 @@ const SurveyVariablesDataSheet = ({
   };
 
   const translateValue = (cell) => {
-    if (cell.availableKeysValues) {
+    if (cell.availableKeysValues && cell.value) {
       const valueObject = cell.availableKeysValues.find(
         (availableKeyValue) => availableKeyValue.key === cell.value
       );
-
+      if (!valueObject) {
+        // eslint-disable-next-line no-console
+        console.info(
+          `Cannot find key ${cell.value} in ${JSON.stringify(
+            cell.availableKeysValues
+          )}`
+        );
+        return '';
+      }
       return valueObject.value;
     }
     return cell.translate ? t(`${cell.value}`) : cell.value;

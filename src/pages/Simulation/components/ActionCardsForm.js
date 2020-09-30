@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ActionCardItem from '../../../components/ActionCardItem';
+import EuroIcon from '../../../assets/EuroIcon';
 
 import {
   selectCheckedCollectiveActionCardsBatchIdsFromRounds,
@@ -75,6 +76,21 @@ const ActionCardsForm = ({
                 cardNumber,
                 sector,
               } = actionCardsEntity[actionCardId];
+              const cost =
+                actionCardType === 'individual' ? (
+                  <div>&#x2764; {actionCardsEntity[actionCardId].cost}</div>
+                ) : (
+                  <div>
+                    <EuroIcon
+                      width={15}
+                      height={15}
+                      className="fill-current-color pb-1"
+                    />
+                    <span height={14}>
+                      {actionCardsEntity[actionCardId].cost}
+                    </span>
+                  </div>
+                );
               return (
                 <ActionCardItem
                   key={actionCardId}
@@ -86,7 +102,7 @@ const ActionCardsForm = ({
                   active={actionCardBatchId === activeBatch}
                   checked={isCheckedActionCard(actionCardId)}
                   previousChoices={numberOfPreviousChoices(actionCardId)}
-                  cost={actionCardsEntity[actionCardId].cost}
+                  cost={cost}
                   handleChange={() =>
                     handleCardActionSelectionChange(actionCardId)
                   }

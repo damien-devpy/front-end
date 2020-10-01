@@ -351,7 +351,7 @@ const NewRoundModalForm = ({ handleSubmit }) => {
                   !values.checkedActionCardBatchIds.length
                 }
               >
-                {t('common.validate')}
+                {t('common.startTheRound')}
               </PrimaryButton>
             </Form.Row>
           </Form>

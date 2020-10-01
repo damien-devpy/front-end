@@ -131,7 +131,7 @@ const Simulation = ({
             </Container>
           </StyledSimulation>
           <CommonModal
-            title={t('common.nextRound')}
+            title={t('common.nextRoundConfiguration')}
             show={showNewRoundModal}
             handleClose={handleCloseNewRoundModal}
           >

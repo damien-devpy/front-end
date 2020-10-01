@@ -48,6 +48,9 @@ const { properties: surveyVariablesSchemaProperties } = surveyVariablesSchema;
 //   ],
 // ];
 
+const removeNilValuesAndEmptyArrays = (data) =>
+  reject(anyPass([isNil, allPass([Array.isArray, isEmpty])]), data);
+
 const generateCell = ({
   value = '',
   readOnly = false,
@@ -57,7 +60,7 @@ const generateCell = ({
   valueViewer,
   className,
 }) =>
-  reject(anyPass([isNil, allPass([Array.isArray, isEmpty])]), {
+  removeNilValuesAndEmptyArrays({
     value,
     readOnly,
     translate,
@@ -97,7 +100,7 @@ const generateSurveyVariableCellValue = ({
   surveyVariableKey,
 }) => {
   const value = pathOr('', ['surveyVariables', surveyVariableKey], participant);
-  const { enum: availableKeys = [], min, max } = pathOr(
+  const { enum: availableKeys = [], min, max, type } = pathOr(
     [],
     [surveyVariableKey],
     surveyVariablesSchemaProperties
@@ -107,7 +110,7 @@ const generateSurveyVariableCellValue = ({
     value: i18n.t(`surveyVariables.${surveyVariableKey}.${availableKey}`),
   }));
 
-  return reject(anyPass([isNil, allPass([Array.isArray, isEmpty])]), {
+  return removeNilValuesAndEmptyArrays({
     value,
     originalValue: value,
     readOnly,
@@ -115,6 +118,7 @@ const generateSurveyVariableCellValue = ({
     min,
     max,
     availableKeysValues,
+    type,
   });
 };
 

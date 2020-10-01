@@ -26,6 +26,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'meatAndFishConsoPerDay',
           min: 0,
           max: 2,
+          type: 'number',
         },
         {
           value: 0.5,
@@ -34,6 +35,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'eggsAndDairiesConsoPerDay',
           min: 0,
           max: 3,
+          type: 'number',
         },
         {
           value: 0.6,
@@ -42,6 +44,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'fruitsAndVegetablePercentageLocal',
           min: 0.01,
           max: 1,
+          type: 'number',
         },
         {
           value: 3,
@@ -50,6 +53,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'transformedProductsConsoPerWeek',
           min: 0,
           max: 10,
+          type: 'number',
         },
         {
           value: 0,
@@ -58,6 +62,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'alcoholConsoGlassPerDay',
           min: 0,
           max: 5,
+          type: 'number',
         },
         {
           value: '',
@@ -66,6 +71,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'hotDrinksConsoGlassPerDay',
           min: 0,
           max: 5,
+          type: 'number',
         },
         {
           value: 2,
@@ -74,6 +80,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'juicesAndSodasConsoGlassPerDay',
           min: 0,
           max: 5,
+          type: 'number',
         },
         {
           value: '',
@@ -86,6 +93,7 @@ describe('SurveyVariables selector', () => {
             { key: 'URBAN', value: 'URBAINE' },
             { key: 'LOW_CARBON', value: 'BAS CARBONE' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -97,6 +105,7 @@ describe('SurveyVariables selector', () => {
             { key: 'FUEL', value: 'ESSENCE' },
             { key: 'ELECTRIC', value: 'ELECTRIQUE' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -111,6 +120,7 @@ describe('SurveyVariables selector', () => {
             },
             { key: 'FIFTEEN_YEARS_OR_OLDER', value: 'PLUS DE 15 ANS' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -119,6 +129,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'kmCarCommutePerDay',
           min: 0,
           max: 100,
+          type: 'number',
         },
         {
           value: '',
@@ -127,6 +138,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'passengersPerCarCommute',
           min: 1,
           max: 5,
+          type: 'number',
         },
         {
           value: '',
@@ -135,6 +147,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'hoursUrbanBusPerWeek',
           min: 0,
           max: 15,
+          type: 'number',
         },
         {
           value: '',
@@ -149,6 +162,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'hoursUrbanTrainPerWeek',
           min: 0,
           max: 15,
+          type: 'number',
         },
         {
           value: '',
@@ -161,6 +175,7 @@ describe('SurveyVariables selector', () => {
             { key: 'URBAN', value: 'URBAINE' },
             { key: 'LOW_CARBON', value: 'BAS CARBONE' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -172,6 +187,7 @@ describe('SurveyVariables selector', () => {
             { key: 'FUEL', value: 'ESSENCE' },
             { key: 'ELECTRIC', value: 'ELECTRIQUE' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -186,6 +202,7 @@ describe('SurveyVariables selector', () => {
             },
             { key: 'FIFTEEN_YEARS_OR_OLDER', value: 'PLUS DE 15 ANS' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -194,6 +211,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'kmCarTravelPerYear',
           min: 0,
           max: 10000,
+          type: 'number',
         },
         {
           value: '',
@@ -202,6 +220,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'passengersPerCarTravel',
           min: 1,
           max: 5,
+          type: 'number',
         },
         {
           value: '',
@@ -210,6 +229,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'kmCoachTravel',
           min: 0,
           max: 10000,
+          type: 'number',
         },
         {
           value: '',
@@ -218,6 +238,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'kmCountryTrain',
           min: 0,
           max: 10000,
+          type: 'number',
         },
         {
           value: '',
@@ -226,18 +247,21 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'kmPlane',
           min: 0,
           max: 20000,
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'residentsPerHousing',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'housingSurfaceArea',
+          type: 'number',
         },
         {
           value: '',
@@ -248,6 +272,7 @@ describe('SurveyVariables selector', () => {
             { key: 'HOUSE', value: 'MAISON' },
             { key: 'FLAT', value: 'APPARTEMENT' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -259,6 +284,7 @@ describe('SurveyVariables selector', () => {
             { key: 'BETWEEN_1975_AND_2000', value: 'ENTRE 1975 ET 2000' },
             { key: 'AFTER_2000', value: 'APRES 2000' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -272,6 +298,7 @@ describe('SurveyVariables selector', () => {
             { key: 'HEAT_NETWORK', value: 'RESEAU DE CHALEUR' },
             { key: 'WOOD', value: 'BOIS' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -285,6 +312,7 @@ describe('SurveyVariables selector', () => {
             { key: 'HEAT_NETWORK', value: 'RESEAU DE CHALEUR' },
             { key: 'WOOD', value: 'BOIS' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -298,6 +326,7 @@ describe('SurveyVariables selector', () => {
             { key: 'HEAT_NETWORK', value: 'RESEAU DE CHALEUR' },
             { key: 'WOOD', value: 'BOIS' },
           ],
+          type: 'string',
         },
         {
           value: '',
@@ -308,54 +337,63 @@ describe('SurveyVariables selector', () => {
             { key: 'ALTERNATIVE', value: 'ALTERNATIF' },
             { key: 'CONVENTIONAL', value: 'CONVENTIONNEL' },
           ],
+          type: 'string',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'energyConsumptionKnowledge',
+          type: 'boolean',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'elecKwh',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'gasKwh',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'fuelKwh',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'woodKwh',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'heatNetworkKwh',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'numberBigAppliances',
+          type: 'number',
         },
         {
           value: '',
           originalValue: '',
           readOnly: true,
           surveyVariableKey: 'numberSmallAppliances',
+          type: 'number',
         },
         {
           value: '',
@@ -364,6 +402,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'numberBigDevices',
           min: 0,
           max: 5,
+          type: 'number',
         },
         {
           value: '',
@@ -372,6 +411,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'numberSmallDevices',
           min: 0,
           max: 10,
+          type: 'number',
         },
         {
           value: '',
@@ -380,6 +420,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'internetStreamingHoursPerWeek',
           min: 2,
           max: 20,
+          type: 'number',
         },
         {
           value: '',
@@ -388,6 +429,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'activitiesPerMonth',
           min: 5,
           max: 20,
+          type: 'number',
         },
         {
           value: '',
@@ -396,6 +438,7 @@ describe('SurveyVariables selector', () => {
           surveyVariableKey: 'clothesNewItems',
           min: 5,
           max: 20,
+          type: 'number',
         },
       ],
     ];

@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import './react-datasheet.css';
-import DataSheet, { DataEditor } from 'react-datasheet';
+import DataSheet from 'react-datasheet';
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+import DataEditor from './DataEditor';
+import ValueEditor from './ValueEditor';
 import {
   mergeGrids,
   selectModifiedSurveyVariables,
   selectParticipantIdsToCheck,
 } from '../../../selectors/surveyVariablesSelector';
-
-import ValueEditor from './ValueEditor';
 
 const SurveyVariablesDataSheet = ({
   surveyVariablesGrid,
@@ -88,7 +88,10 @@ const SurveyVariablesDataSheet = ({
   const handleCellsChanged = (changes) => {
     const grid = editableSurveyVariablesGrid.map((row) => [...row]);
     changes.forEach(({ cell, row, col, value }) => {
-      grid[row][col] = { ...grid[row][col], value };
+      const modifiedValue =
+        cell.type && cell.type === 'number' ? parseFloat(value) : value;
+
+      grid[row][col] = { ...grid[row][col], value: modifiedValue };
     });
     setEditableSurveyVariablesGrid(grid);
   };

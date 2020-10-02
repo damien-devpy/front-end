@@ -469,13 +469,14 @@ export default (state = initialState, action) => {
         (yearCitizenKey) =>
           state.entities.citizenIndividualChoices[yearCitizenKey]
       );
+
       const collectiveActionCardIds = pathOr(
         [],
         ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
       const { rounds } = state.result;
-      const lastCollectiveRound = max(
+      const previousCollectiveRound = max(
         rounds.filter(
           (year) =>
             pathOr(
@@ -485,9 +486,19 @@ export default (state = initialState, action) => {
             ) === 'collective'
         )
       );
-      const oldBudget = pathOr(
+      const previousBudget = pathOr(
         0,
-        ['entities', 'rounds', lastCollectiveRound, 'collectiveBudget'],
+        ['entities', 'rounds', previousCollectiveRound, 'collectiveBudget'],
+        state
+      );
+      const collectiveActionCardIdsPreviousCollectiveRound = pathOr(
+        [],
+        [
+          'entities',
+          'collectiveChoices',
+          previousCollectiveRound,
+          'actionCardIds',
+        ],
         state
       );
       const newSocialVariables = computeSocialVariables(
@@ -501,8 +512,8 @@ export default (state = initialState, action) => {
       );
       const newBudget = computeBudget(
         newSocialVariables.influenceScore,
-        oldBudget,
-        collectiveActionCardIds,
+        previousBudget,
+        collectiveActionCardIdsPreviousCollectiveRound,
         actionCards
       );
       return {

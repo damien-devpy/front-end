@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import JSZip from 'jszip';
 import wildstring from 'wildstring';
 import { normalize } from 'normalizr';
 
@@ -84,8 +85,33 @@ export default function handleFetch(url, options = {}) {
     ...rest,
   };
 
+  const getContentEncodingHeaderValue = (response) =>
+    R.pathOr('', ['headers', 'Content-Encoding'], response);
+
+  const zipBodyIfNeededPromise = (body) => {
+    const zip = new JSZip();
+    zip.file('body', body);
+    return zip.generateAsync({ type: 'blob' });
+  };
+
   return fetch(`${API_BASE_URL}${url}`, fetchOptions)
     .then(handleErrors)
+    .then((response) => {
+      console.log('fetch response ', response);
+      const contentEncodingValue = getContentEncodingHeaderValue(response);
+      console.log(
+        'fetch response headers Content-Encoding',
+        contentEncodingValue
+      );
+      if (contentEncodingValue === 'gzip') {
+        // eslint-disable-next-line no-console
+        console.log(
+          'fetch response headers contains Content-Encoding with gzip'
+        );
+        return response.blob().then((data) => JSZip.loadAsync(data));
+      }
+      return new Promise((resolve) => resolve(response));
+    })
     .then((response) => {
       switch (type) {
         case 'json':

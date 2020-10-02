@@ -77,12 +77,14 @@ export const updateWorkshopApi = ({ workshopId, data }) => {
     method: 'PUT',
     body: JSON.stringify(denormalizedWorkshop),
     type: 'empty',
+    headers: { 'Content-Encoding': 'gzip' },
   });
 };
 
 export const getWorkshop = ({ workshopId }) =>
   handleFetch(`/workshops/${workshopId}`, {
     normalizer: workshopSchema,
+    headers: { 'Accept-Encoding': 'gzip' },
     // useMock: true, // TO REMOVE AFTER BACKEND READY
     // mockOptions: { workshopId },
   });

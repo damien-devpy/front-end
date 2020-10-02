@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-// import { useTranslation } from "react-i18next";
 import {
   CartesianGrid,
   Label,
@@ -12,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import './simulationPage.css';
@@ -119,7 +118,7 @@ const EvolutionCarbon = () => {
     setWidth({ ...width, [dataKey]: w + 5 });
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
-  const handleMouseOut = (o) => {
+  const handleMouseOut = () => {
     // console.log("Mouse Out", o);
     // const { dataKey } = o;
     // var w = width[dataKey];
@@ -152,10 +151,10 @@ const EvolutionCarbon = () => {
   };
 
   return (
-    <ResponsiveContainer width="100%" minWidth={800} aspect={5.0 / 3.0}>
+    <ResponsiveContainer width="100%" aspect={5.0 / 3.0}>
       <LineChart
-        minWidth={200}
-        minHeight={300}
+        // minWidth={200}
+        // minHeight={300}
         data={evolutionData}
         margin={{
           top: 5,

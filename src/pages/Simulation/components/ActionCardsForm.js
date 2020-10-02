@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
 import ActionCardItem from '../../../components/ActionCardItem';
 import EuroIcon from '../../../assets/EuroIcon';
@@ -18,7 +17,6 @@ const ActionCardsForm = ({
   numberOfPreviousChoices,
   actionCardType,
 }) => {
-  const { t } = useTranslation();
   const actionCardBatchesEntity = useSelector(
     (state) => state.workshop.entities.actionCardBatches
   );

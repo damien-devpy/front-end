@@ -2,6 +2,7 @@
 export const SET_PARTICIPANT_PERSONA = 'SET_PARTICIPANT_PERSONA';
 export const ADD_PARTICIPANT = 'ADD_PARTICIPANT';
 export const DELETE_PARTICIPANT = 'DELETE_PARTICIPANT';
+export const FORM_SENT_TO_PARTICIPANT = 'FORM_SENT_TO_PARTICIPANT';
 
 export const setParticipantPersona = (
   participantId,
@@ -25,5 +26,10 @@ export const addParticipant = (participant) => ({
 
 export const deleteParticipant = (id) => ({
   type: DELETE_PARTICIPANT,
+  payload: { id },
+});
+
+export const formSentToParticipant = (id) => ({
+  type: FORM_SENT_TO_PARTICIPANT,
   payload: { id },
 });

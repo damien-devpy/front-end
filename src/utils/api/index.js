@@ -126,6 +126,7 @@ export const sendFormApi = ({ workshopId, participantId }) =>
     `/workshops/${workshopId}/participants/${participantId}/send_form`,
     {
       method: 'POST',
+      type: 'empty',
     }
   );
 

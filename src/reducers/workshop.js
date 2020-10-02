@@ -5,6 +5,7 @@ import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
+  FORM_SENT_TO_PARTICIPANT,
   SET_PARTICIPANT_PERSONA,
 } from '../actions/participants';
 import {
@@ -879,6 +880,19 @@ export default (state = initialState, action) => {
         loadErrorDetails: null,
         isSynchronized: true,
         entities: { ...state.entities, participants: updatedParticipants },
+      };
+    }
+    case FORM_SENT_TO_PARTICIPANT: {
+      const { id } = action.payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          participants: {
+            ...state.entities.participants,
+            [id]: { ...state.entities.participants[id], status: 'form_sent' },
+          },
+        },
       };
     }
     case UPDATE_SURVEY_VARIABLES: {

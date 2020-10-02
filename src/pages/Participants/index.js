@@ -23,6 +23,7 @@ import {
 import {
   addParticipant,
   deleteParticipant,
+  formSentToParticipant,
   setParticipantPersona,
 } from '../../actions/participants';
 import {
@@ -109,15 +110,19 @@ const ManageParticipants = ({
   };
 
   const sendFormAsync = (participantId) => (dispatchThunk) => {
-    sendFormApi({ workshopId, participantId }).catch(() => {
-      dispatchThunk(
-        throwError(
-          t('errors.sendForm', {
-            participantId,
-          })
-        )
-      );
-    });
+    sendFormApi({ workshopId, participantId })
+      .then(() => {
+        dispatchThunk(formSentToParticipant(participantId));
+      })
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.sendForm', {
+              participantId,
+            })
+          )
+        );
+      });
   };
   const handleSendForm = (participantId) => {
     console.log('Send form participant', participantId);

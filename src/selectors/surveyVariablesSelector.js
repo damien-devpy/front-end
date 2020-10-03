@@ -4,6 +4,7 @@ import ParticipantStatus from '../pages/Participants/components/ParticipantStatu
 import i18n from '../i18n';
 import surveyVariablesSchema from '../reducers/utils/surveyVariablesSchema';
 import {
+  selectCurrentWorkshopInfo,
   selectParticipantsEntity,
   selectPersonaEntity,
 } from './workshopSelector';
@@ -608,12 +609,16 @@ const computeParticipantGridHeaders = () => {
   ];
 };
 // Grid values
-const computeSurveyVariablesGridValuesForParticipant = (participant) => {
+const computeSurveyVariablesGridValuesForParticipant = (
+  participant,
+  readOnlyWorkshop
+) => {
   const { personaId, status } = participant;
-  const isPersona = personaId !== undefined;
-  const areSurveyVariablesModifiables =
+  const isPersona = () => personaId !== undefined;
+  const areSurveyVariablesModifiables = () =>
     status === 'data_to_check' || status === 'ready';
-  const readOnly = isPersona || !areSurveyVariablesModifiables;
+  const readOnly =
+    readOnlyWorkshop || isPersona() || !areSurveyVariablesModifiables();
   return [
     ...computeFoodValues(participant, readOnly),
     ...computeTransportValues(participant, readOnly),
@@ -624,10 +629,14 @@ const computeSurveyVariablesGridValuesForParticipant = (participant) => {
 
 export const computeSurveyVariablesGridValues = (state) => {
   const participantsEntity = selectParticipantsEntity(state);
-
+  const { status: workshopStatus } = selectCurrentWorkshopInfo(state);
+  const readOnlyWorkshop = workshopStatus !== 'created';
   return Object.keys(participantsEntity).map((participantId) => {
     const participant = participantsEntity[participantId];
-    return computeSurveyVariablesGridValuesForParticipant(participant);
+    return computeSurveyVariablesGridValuesForParticipant(
+      participant,
+      readOnlyWorkshop
+    );
   });
 };
 

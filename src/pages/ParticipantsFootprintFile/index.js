@@ -42,7 +42,7 @@ import {
 
 const styles = StyleSheet.create({
   page: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     backgroundColor: '#FFF',
   },
   section: {
@@ -54,7 +54,11 @@ const styles = StyleSheet.create({
   titleBar: {
     backgroundColor: '#25433B',
     width: '100%',
-    height: '30px',
+    height: '50px',
+    margin: 10,
+    padding: 10,
+    color: 'white',
+    float: 'left',
   },
   logo: {
     height: '40px',
@@ -64,8 +68,6 @@ const styles = StyleSheet.create({
   bodyView: {
     margin: 10,
     padding: 10,
-    flexGrow: 1,
-    flex: 1,
     height: '80%',
     width: '80%',
   },
@@ -244,30 +246,30 @@ const PDFFile = ({ workshopTitle, t, images }) => {
       <Page size="A4" style={styles.page}>
         <View style={styles.titleBar}>
           <Image src={logo2T} style={styles.logo} />
-          <Text> </Text>
         </View>
-        <View style={styles.section}>
-          <Text className="workshop-title">
-            {t('manageParticipants.participantsFile')}
-          </Text>
+        <View style={styles.bodyView}>
+          <Text>{t('manageParticipants.participantsFile')}</Text>
           <Text className="workshop-title">{workshopTitle}</Text>
-          {/* {participantCarbonGraphs} */}
         </View>
       </Page>
       {images.map((imageObject) => (
         <Page size="A4" style={styles.page} key={imageObject.id}>
           <View style={styles.titleBar}>
             <Image src={logo2T} style={styles.logo} />
-            <Text>
+            <Text
+              style={{ color: 'orange', position: 'relative', float: 'left' }}
+            >
               {t('participantsFootprintFile.personalFootprint')}{' '}
               {imageObject.total}
             </Text>
-            <Image src={imageObject.image} style={styles.graph} />
           </View>
           <View style={styles.bodyView}>
-            <Text>Should be there {imageObject.id}</Text>
             <Image src={imageObject.image} style={styles.graph} />
           </View>
+          {/* <View style={styles.bodyView}>
+            <Text>Should be there {imageObject.id}</Text>
+            <Image src={imageObject.image} style={styles.graph} />
+          </View> */}
         </Page>
       ))}
     </Document>

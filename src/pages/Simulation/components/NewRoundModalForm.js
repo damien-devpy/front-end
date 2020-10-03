@@ -42,22 +42,16 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   const actionCardsEntity = useSelector(
     (state) => state.workshop.entities.actionCards
   );
-  const individualActionCardBatches = useSelector((state) =>
-    selectIndividualBatches(state.workshop.entities.actionCardBatches)
-  );
-  const collectiveActionCardBatches = useSelector((state) =>
-    selectCollectiveBatches(state.workshop.entities.actionCardBatches)
-  );
-  const checkedIndividualActionCardsBatchIds = useSelector((state) =>
-    selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop)
+  const individualActionCardBatches = useSelector(selectIndividualBatches);
+  const collectiveActionCardBatches = useSelector(selectCollectiveBatches);
+  const checkedIndividualActionCardsBatchIds = useSelector(
+    selectCheckedIndividualActionCardsBatchIdsFromRounds
   );
   // prev checked (to disable) array of batchIds
-  const checkedCollectiveActionCardsBatchIds = useSelector((state) =>
-    selectCheckedCollectiveActionCardsBatchIdsFromRounds(state.workshop)
+  const checkedCollectiveActionCardsBatchIds = useSelector(
+    selectCheckedCollectiveActionCardsBatchIdsFromRounds
   );
-  const defaultRoundType = useSelector((state) =>
-    getDefaultRoundType(state.workshop.entities.roundConfig, currentYear)
-  );
+  const defaultRoundType = useSelector(getDefaultRoundType);
 
   const defaultBatchPreChecked = (roundType) =>
     roundType === 'individual'

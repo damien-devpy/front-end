@@ -74,7 +74,11 @@ export const selectCurrentRoundActionCardType = (state) => {
   return pathOr(null, [currentRound, 'actionCardType'], roundConfigEntity);
 };
 
-const selectCheckedActionCardsBatchIdsFromRounds = (state, actionCardType) => {
+const selectCheckedActionCardsBatchIdsFromRounds = (
+  state,
+  actionCardType,
+  removeCurrentRound = false
+) => {
   const workshop = selectCurrentWorkshop(state);
   const roundConfigEntity = pathOr([], ['entities', 'roundConfig'], workshop);
   const currentRoundId = selectCurrentRound(state);
@@ -82,7 +86,8 @@ const selectCheckedActionCardsBatchIdsFromRounds = (state, actionCardType) => {
     ...new Set(
       Object.keys(roundConfigEntity).reduce(
         (accumulator, roundConfigId) =>
-          currentRoundId !== parseInt(roundConfigId, 10) &&
+          (!removeCurrentRound ||
+            currentRoundId !== parseInt(roundConfigId, 10)) &&
           roundConfigEntity[roundConfigId].actionCardBatchIds &&
           (!actionCardType ||
             actionCardType === roundConfigEntity[roundConfigId].actionCardType)
@@ -104,6 +109,14 @@ export const selectCheckedIndividualActionCardsBatchIdsFromRounds = (state) =>
 
 export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (state) =>
   selectCheckedActionCardsBatchIdsFromRounds(state, 'collective');
+
+export const selectCheckedIndividualActionCardsBatchIdsFromPreviousRounds = (
+  state
+) => selectCheckedActionCardsBatchIdsFromRounds(state, 'individual', true);
+
+export const selectCheckedCollectiveActionCardsBatchIdsFromPreviousRounds = (
+  state
+) => selectCheckedActionCardsBatchIdsFromRounds(state, 'collective', true);
 
 export const getNumberOfChosenActionCards = (
   individualChoicesEntity,

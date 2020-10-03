@@ -17,8 +17,8 @@ import EuroIcon from '../../../assets/EuroIcon';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {
   getDefaultRoundType,
-  selectCheckedCollectiveActionCardsBatchIdsFromRounds,
-  selectCheckedIndividualActionCardsBatchIdsFromRounds,
+  selectCheckedCollectiveActionCardsBatchIdsFromPreviousRounds,
+  selectCheckedIndividualActionCardsBatchIdsFromPreviousRounds,
   selectCurrentWorkshopInfo,
   selectRoundsEntity,
 } from '../../../selectors/workshopSelector';
@@ -45,11 +45,11 @@ const NewRoundModalForm = ({ handleSubmit }) => {
   const individualActionCardBatches = useSelector(selectIndividualBatches);
   const collectiveActionCardBatches = useSelector(selectCollectiveBatches);
   const checkedIndividualActionCardsBatchIds = useSelector(
-    selectCheckedIndividualActionCardsBatchIdsFromRounds
+    selectCheckedIndividualActionCardsBatchIdsFromPreviousRounds
   );
   // prev checked (to disable) array of batchIds
   const checkedCollectiveActionCardsBatchIds = useSelector(
-    selectCheckedCollectiveActionCardsBatchIdsFromRounds
+    selectCheckedCollectiveActionCardsBatchIdsFromPreviousRounds
   );
   const defaultRoundType = useSelector(getDefaultRoundType);
 

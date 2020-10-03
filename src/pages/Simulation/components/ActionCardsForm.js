@@ -35,8 +35,8 @@ const ActionCardsForm = ({
   }
   const actionCardsBatchIdsFromRounds = useSelector((state) =>
     (actionCardType === 'individual'
-      ? selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop)
-      : selectCheckedCollectiveActionCardsBatchIdsFromRounds(state.workshop)
+      ? selectCheckedIndividualActionCardsBatchIdsFromRounds(state)
+      : selectCheckedCollectiveActionCardsBatchIdsFromRounds(state)
     ).sort(compareName)
   );
   // initial active == expanded lot is the last lot of the current round

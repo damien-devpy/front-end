@@ -1,18 +1,24 @@
-const selectBatchesByType = (actionCardBatches, type) =>
-  (actionCardBatches &&
-    Object.keys(actionCardBatches)
-      .filter((id) => actionCardBatches[id].type === type)
-      .reduce(
-        (accumulator, actionCardBatchId) => ({
-          ...accumulator,
-          [actionCardBatchId]: actionCardBatches[actionCardBatchId],
-        }),
-        {}
-      )) ||
-  {};
+import { selectActionCardBatchesEntity } from './workshopSelector';
 
-export const selectIndividualBatches = (actionCardBatches) =>
-  selectBatchesByType(actionCardBatches, 'individual');
+const selectBatchesByType = (state, type) => {
+  const actionCardBatches = selectActionCardBatchesEntity(state);
+  return (
+    (actionCardBatches &&
+      Object.keys(actionCardBatches)
+        .filter((id) => actionCardBatches[id].type === type)
+        .reduce(
+          (accumulator, actionCardBatchId) => ({
+            ...accumulator,
+            [actionCardBatchId]: actionCardBatches[actionCardBatchId],
+          }),
+          {}
+        )) ||
+    {}
+  );
+};
 
-export const selectCollectiveBatches = (actionCardBatches) =>
-  selectBatchesByType(actionCardBatches, 'collective');
+export const selectIndividualBatches = (state) =>
+  selectBatchesByType(state, 'individual');
+
+export const selectCollectiveBatches = (state) =>
+  selectBatchesByType(state, 'collective');

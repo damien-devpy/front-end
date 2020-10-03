@@ -41,40 +41,6 @@ export const getAllCollectiveChoices = (
       )
     : [];
 
-const selectCheckedActionCardsBatchIdsFromRounds = (
-  workshop,
-  actionCardType
-) => {
-  const roundConfigEntity = pathOr([], ['entities', 'roundConfig'], workshop);
-  return [
-    ...new Set(
-      Object.keys(roundConfigEntity).reduce(
-        (accumulator, roundConfigId) =>
-          roundConfigEntity[roundConfigId].actionCardBatchIds &&
-          (!actionCardType ||
-            actionCardType === roundConfigEntity[roundConfigId].actionCardType)
-            ? accumulator.concat(
-                roundConfigEntity[roundConfigId].actionCardBatchIds.filter(
-                  // Remove null elements with filtering
-                  (e) => e
-                )
-              )
-            : accumulator,
-        []
-      )
-    ),
-  ];
-};
-
-// chosen batches
-export const selectCheckedIndividualActionCardsBatchIdsFromRounds = (
-  workshop
-) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'individual');
-
-export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (
-  workshop
-) => selectCheckedActionCardsBatchIdsFromRounds(workshop, 'collective');
-
 export const selectCurrentWorkshop = (state) =>
   pathOr(null, ['workshop'], state);
 
@@ -108,17 +74,36 @@ export const selectCurrentRoundActionCardType = (state) => {
   return pathOr(null, [currentRound, 'actionCardType'], roundConfigEntity);
 };
 
-export const selectIndividualRoundIds = (roundConfigEntity) =>
-  Object.keys(roundConfigEntity).filter(
-    (roundConfigId) =>
-      roundConfigEntity[roundConfigId].actionCardType === 'individual'
-  );
+const selectCheckedActionCardsBatchIdsFromRounds = (state, actionCardType) => {
+  const workshop = selectCurrentWorkshop(state);
+  const roundConfigEntity = pathOr([], ['entities', 'roundConfig'], workshop);
+  const currentRoundId = selectCurrentRound(state);
+  return [
+    ...new Set(
+      Object.keys(roundConfigEntity).reduce(
+        (accumulator, roundConfigId) =>
+          currentRoundId !== parseInt(roundConfigId, 10) &&
+          roundConfigEntity[roundConfigId].actionCardBatchIds &&
+          (!actionCardType ||
+            actionCardType === roundConfigEntity[roundConfigId].actionCardType)
+            ? accumulator.concat(
+                roundConfigEntity[roundConfigId].actionCardBatchIds.filter(
+                  // Remove null elements with filtering
+                  (e) => e
+                )
+              )
+            : accumulator,
+        []
+      )
+    ),
+  ];
+};
+// chosen batches
+export const selectCheckedIndividualActionCardsBatchIdsFromRounds = (state) =>
+  selectCheckedActionCardsBatchIdsFromRounds(state, 'individual');
 
-export const selectCollectiveRoundIds = (roundConfigEntity) =>
-  Object.keys(roundConfigEntity).filter(
-    (roundConfigId) =>
-      roundConfigEntity[roundConfigId].actionCardType === 'collective'
-  );
+export const selectCheckedCollectiveActionCardsBatchIdsFromRounds = (state) =>
+  selectCheckedActionCardsBatchIdsFromRounds(state, 'collective');
 
 export const getNumberOfChosenActionCards = (
   individualChoicesEntity,
@@ -214,7 +199,9 @@ export const getInitRoundBudget = (
   return initBudgets;
 };
 
-export const getDefaultRoundType = (roundConfigEntity, currentYear) => {
+export const getDefaultRoundType = (state) => {
+  const roundConfigEntity = selectRoundConfigEntity(state);
+  const currentYear = selectCurrentYear(state);
   if (!roundConfigEntity) return 'individual';
   const rounds = Object.keys(roundConfigEntity).filter(
     (round) => round !== currentYear // currentYear could be number
@@ -276,6 +263,12 @@ export const selectCitizenCarbonFootprintsEntity = (state) =>
 
 export const selectPersonaEntity = (state) =>
   selectWorkshopEntity(selectCurrentWorkshop(state), 'personas');
+
+export const selectActionCardBatchesEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'actionCardBatches');
+
+export const selectActionCardsEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'actionCards');
 
 const selectWorkshopModelStructure = (state, structure) =>
   pathOr({}, ['workshop', 'result', 'model', structure], state);

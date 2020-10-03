@@ -23,6 +23,7 @@ import { useWorkshop } from '../../hooks/workshop';
 import ActionCardItem from '../../components/ActionCardItem';
 import DownloadIcon from '../../assets/DownloadIcon';
 import Loading from '../../components/Loading';
+import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import logo2T from '../../assets/logo.png';
 import { ParticipantCarbonGraph } from './components/ParticipantCarbonGraph';
@@ -60,9 +61,18 @@ const styles = StyleSheet.create({
     width: '30px',
     float: 'left',
   },
+  bodyView: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+    flex: 1,
+    height: '80%',
+    width: '80%',
+  },
   graph: {
-    height: '400px',
-    width: '400px',
+    margin: 20,
+    height: 400,
+    width: 400,
   },
 });
 
@@ -126,7 +136,8 @@ const ParticipantsFootprintFile = ({
     const chart =
       document.getElementById(`node-to-convert_${id}`) &&
       document.getElementById(`node-to-convert_${id}`).children[0] &&
-      document.getElementById(`node-to-convert_${id}`).children[0].children[0];
+      document.getElementById(`node-to-convert_${id}`).children[0].children[0]
+        .children[0];
     console.log('finding chart : ', chart);
     const total = document
       .getElementById(`node-to-convert_${id}`)
@@ -142,7 +153,7 @@ const ParticipantsFootprintFile = ({
       // saveAs(pngData);
       // /////////
       // setImages([...images, pngData]);
-      console.log('     png converted...', id);
+      console.log(' png converted...', id);
       // console.log('images length', images.length);
       // setDonwloadedIds([...downloadedIds, id]);
       // console.log('downlaodedIds added', downloadedIds);
@@ -150,21 +161,23 @@ const ParticipantsFootprintFile = ({
       imageOutput.id = id;
       imageOutput.image = pngData;
       imageOutput.total = total;
-
+      console.log('imageOutput', imageOutput);
       return imageOutput;
     }
   };
   // const id = 'b558accd02534dae958ffec7bded6a62';
   // useEffect(() => {
   if (participantsReadyIds.length !== images.length) {
+    console.log('use effect');
+    // downloadPng()
     setTimeout(() => {
-      console.log('use effect');
-      // downloadPng();
       const images2 = participantsReadyIds.map((id) => downloadPng(id));
-      Promise.all(images2).then((values) => {
-        console.log('set image :', values);
-        setImages(values);
-      });
+      setTimeout(() => {
+        Promise.all(images2).then((values) => {
+          console.log('set image :', values);
+          setImages(values);
+        });
+      }, 2000);
 
       // setImages(images2);
     }, 4000);
@@ -188,7 +201,7 @@ const ParticipantsFootprintFile = ({
   //       saveAs(pngData, 'test.png');
   //     }
   //   }, [chart]);
-
+  console.log('images', images);
   return (
     // <Document>
     //   <Page size="A4" style={styles.page}>
@@ -199,7 +212,7 @@ const ParticipantsFootprintFile = ({
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
         <Container>
           {!isLoading && participantsReadyIds.length === images.length && (
-            <Button className="badge badge-info float-right text-decoration-none">
+            <PrimaryButton className="badge badge-info float-right text-decoration-none">
               <DownloadIcon />{' '}
               <PDFDownloadLink
                 document={
@@ -217,7 +230,7 @@ const ParticipantsFootprintFile = ({
                   loading ? 'Loading document...' : 'Download Pdf'
                 }
               </PDFDownloadLink>
-            </Button>
+            </PrimaryButton>
           )}
         </Container>
       </Container>
@@ -225,7 +238,7 @@ const ParticipantsFootprintFile = ({
   );
 };
 
-const PDFFile = ({ workshopTitle, t, footprintParticipants, images }) => {
+const PDFFile = ({ workshopTitle, t, images }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -249,8 +262,11 @@ const PDFFile = ({ workshopTitle, t, footprintParticipants, images }) => {
               {t('participantsFootprintFile.personalFootprint')}{' '}
               {imageObject.total}
             </Text>
+            <Text>Should be there maybe{imageObject.id}</Text>
+            <Image src={imageObject.image} style={styles.graph} />
           </View>
-          <View>
+          <View style={styles.bodyView}>
+            <Text>Should be there {imageObject.id}</Text>
             <Image src={imageObject.image} style={styles.graph} />
           </View>
         </Page>

@@ -20,18 +20,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useWorkshop } from '../../hooks/workshop';
 
-import ActionCardItem from '../../components/ActionCardItem';
 import DownloadIcon from '../../assets/DownloadIcon';
 import Loading from '../../components/Loading';
 import PrimaryButton from '../../components/PrimaryButton';
-import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import logo2T from '../../assets/logo.png';
 import { ParticipantCarbonGraph } from './components/ParticipantCarbonGraph';
-import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
-import {
-  footprintDataToGraph,
-  normaliseEmissionValue,
-} from '../../selectors/footprintSelectors';
 import {
   selectCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
@@ -95,7 +88,6 @@ const ParticipantsFootprintFile = ({
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [images, setImages] = useState([]);
-  const [downloadedIds, setDonwloadedIds] = useState([]);
   const personas = useSelector(selectPersonaEntity);
   const {
     name: workshopTitle,
@@ -104,7 +96,6 @@ const ParticipantsFootprintFile = ({
     model,
   } = useSelector(selectCurrentWorkshopInfo);
   const participants = useSelector(selectParticipantsEntity);
-  const carbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
 
@@ -133,7 +124,6 @@ const ParticipantsFootprintFile = ({
     });
 
   const downloadPng = async (id) => {
-    // if (!downloadedIds.includes(id)) {
     console.log('converting png ...', id);
     const chart =
       document.getElementById(`node-to-convert_${id}`) &&
@@ -150,15 +140,8 @@ const ParticipantsFootprintFile = ({
     if (chart !== undefined) {
       // Send the chart to getPngData
       const pngData = await getPngData(chart);
-
-      // Use FileSaver to download the PNG
-      // saveAs(pngData);
-      // /////////
-      // setImages([...images, pngData]);
       console.log(' png converted...', id);
       // console.log('images length', images.length);
-      // setDonwloadedIds([...downloadedIds, id]);
-      // console.log('downlaodedIds added', downloadedIds);
       const imageOutput = {};
       imageOutput.id = id;
       imageOutput.image = pngData;
@@ -183,10 +166,6 @@ const ParticipantsFootprintFile = ({
 
       // setImages(images2);
     }, 4000);
-    console.log('images length', images.length);
-    console.log('images value', images);
-
-    console.log('downlaodedIds', downloadedIds);
   }
 
   // }, []);

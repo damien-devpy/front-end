@@ -262,7 +262,6 @@ const PDFFile = ({ workshopTitle, t, images }) => {
               {t('participantsFootprintFile.personalFootprint')}{' '}
               {imageObject.total}
             </Text>
-            <Text>Should be there maybe{imageObject.id}</Text>
             <Image src={imageObject.image} style={styles.graph} />
           </View>
           <View style={styles.bodyView}>

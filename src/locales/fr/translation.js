@@ -251,4 +251,7 @@ export default {
     avgIndividualReduction: 'Réduction par les écogestes',
     avgCollectiveReduction: 'Réduction par les actions collectives',
   },
+  participantsFootprintFile: {
+    personalFootprint: 'Mon empreinte carbone personnelle :  ',
+  },
 };

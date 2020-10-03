@@ -17,7 +17,7 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../../selectors/footprintSelectors';
-// import { loadHeatingNetworksData } from '../../Participants/index';
+
 import {
   selectCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
@@ -62,6 +62,15 @@ const ParticipantCarbonGraph = ({
   // 2. add higher-level function where
   // valueOnAllLevels & computeFootprint are put together and
   // input variables are simplified, e.g. could be given as `model`
+
+  // useEffect(() => {
+  //   console.log('use effect');
+  //   // downloadPng();
+  //   setTimeout(() => {
+  //     downloadPng();
+  //   }, 2000);
+  // }, []);
+  // 3. footprintDataToGraph should be part of FootprintGraph
   const [footprintParticipant, setFootprintParticipant] = useState({
     total: 0,
     footprint: {},
@@ -90,18 +99,8 @@ const ParticipantCarbonGraph = ({
       total: normaliseEmissionValue(footprint.value),
     });
   });
-
-  // useEffect(() => {
-  //   console.log('use effect');
-  //   // downloadPng();
-  //   setTimeout(() => {
-  //     downloadPng();
-  //   }, 2000);
-  // }, []);
-  // 3. footprintDataToGraph should be part of FootprintGraph
-
   return (
-    <div id={`node-to-convert_${id}`}>
+    <div id={`node-to-convert_${id}`} data-total={footprintParticipant.total}>
       <Container>
         {footprintParticipant.total > 0 && (
           <FootprintGraph

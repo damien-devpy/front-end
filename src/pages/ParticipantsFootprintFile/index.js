@@ -14,42 +14,35 @@ import {
   View,
 } from '@react-pdf/renderer';
 import { Link } from 'react-router-dom';
-
 import { getPngData } from 'recharts-to-png';
-import ActionCardItem from '../../components/ActionCardItem';
-import DownloadIcon from '../../assets/DownloadIcon';
-import Loading from '../../components/Loading';
-import blob from './components/Blob';
-import img from '../../assets/graph1.png';
-import {
-  ParticipantCarbonGraph,
-  ParticipantImageGraph,
-} from './components/ParticipantCarbonGraph';
-import {
-  actionCardBatches,
-  selectCarbonFootprintsEntity,
-  selectCheckedCollectiveActionCardsBatchIdsFromRounds,
-  selectCheckedIndividualActionCardsBatchIdsFromRounds,
-  selectCurrentWorkshopInfo,
-  selectInitialGlobalCarbonVariables,
-  selectIsCurrentWorkshopSynchronized,
-  selectIsWorkshopReadyForInitialization,
-  selectParticipantsEntity,
-  selectPersonaEntity,
-} from '../../selectors/workshopSelector';
-import {
-  footprintDataToGraph,
-  normaliseEmissionValue,
-} from '../../selectors/footprintSelectors';
 import { saveAs } from 'file-saver';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useWorkshop } from '../../hooks/workshop';
 
+import ActionCardItem from '../../components/ActionCardItem';
+import DownloadIcon from '../../assets/DownloadIcon';
+import Loading from '../../components/Loading';
+import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
+import logo2T from '../../assets/logo.png';
+import { ParticipantCarbonGraph } from './components/ParticipantCarbonGraph';
+import { computeFootprint, valueOnAllLevels } from '../../reducers/utils/model';
+import {
+  footprintDataToGraph,
+  normaliseEmissionValue,
+} from '../../selectors/footprintSelectors';
+import {
+  selectCarbonFootprintsEntity,
+  selectCurrentWorkshopInfo,
+  selectInitialGlobalCarbonVariables,
+  selectParticipantsEntity,
+  selectPersonaEntity,
+} from '../../selectors/workshopSelector';
+
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: '#E4E4E4',
+    backgroundColor: '#FFF',
   },
   section: {
     margin: 10,
@@ -57,7 +50,29 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flex: 1,
   },
+  titleBar: {
+    backgroundColor: '#25433B',
+    width: '100%',
+    height: '30px',
+  },
+  logo: {
+    height: '40px',
+    width: '30px',
+    float: 'left',
+  },
+  graph: {
+    height: '400px',
+    width: '400px',
+  },
 });
+
+export const loadHeatingNetworksData = async () => {
+  const response = await fetch('/data/heat_networks.csv');
+  const text = await response.text();
+  const heatingNetworksData = Papa.parse(text, { header: true });
+  return heatingNetworksData.data;
+};
+
 const ParticipantsFootprintFile = ({
   match: {
     params: { workshopId },
@@ -85,58 +100,79 @@ const ParticipantsFootprintFile = ({
     (id) => participants[id].status === 'ready'
   );
 
+  // Calculate footprints
+
   console.log('participantsReady', participantsReadyIds);
 
   const participantCarbonGraphs =
     participants &&
-    participantsReadyIds.map((id) => (
-      <ParticipantCarbonGraph
-        carbonVariables={carbonVariables}
-        globalCarbonVariables={globalCarbonVariables}
-        personas={personas}
-        id={id}
-        participants={participants}
-        model={model}
-        startYear={startYear}
-        carbonFootprints={carbonFootprints}
-      />
-    ));
+    participantsReadyIds.map((id) => {
+      return (
+        <ParticipantCarbonGraph
+          id={id}
+          model={model}
+          participants={participants}
+          startYear={startYear}
+          personas={personas}
+          carbonFootprints={carbonFootprints}
+          globalCarbonVariables={globalCarbonVariables}
+        />
+      );
+    });
 
-  const downloadPng = React.useCallback(async (id) => {
-    if (!downloadedIds.includes(id)) {
-      console.log('converting png ...', id);
-      const chartos =
-        document.getElementById(`node-to-convert_${id}`) &&
-        document.getElementById(`node-to-convert_${id}`).children[0];
+  const downloadPng = async (id) => {
+    // if (!downloadedIds.includes(id)) {
+    console.log('converting png ...', id);
+    const chart =
+      document.getElementById(`node-to-convert_${id}`) &&
+      document.getElementById(`node-to-convert_${id}`).children[0] &&
+      document.getElementById(`node-to-convert_${id}`).children[0].children[0];
+    console.log('finding chart : ', chart);
+    const total = document
+      .getElementById(`node-to-convert_${id}`)
+      .getAttribute('data-total');
 
-      if (chartos !== undefined) {
-        // Send the chart to getPngData
-        const pngData = await getPngData(chartos);
+    console.log('finding total : ', total);
 
-        // Use FileSaver to download the PNG
-        // saveAs(pngData);
-        // /////////
-        setImages([...images, pngData]);
-        console.log('     png converted...', id);
-        console.log('images length', images.length);
-        setDonwloadedIds([...downloadedIds, id]);
-        console.log('downlaodedIds added', downloadedIds);
+    if (chart !== undefined) {
+      // Send the chart to getPngData
+      const pngData = await getPngData(chart);
 
-        return pngData;
-      }
+      // Use FileSaver to download the PNG
+      // saveAs(pngData);
+      // /////////
+      // setImages([...images, pngData]);
+      console.log('     png converted...', id);
+      // console.log('images length', images.length);
+      // setDonwloadedIds([...downloadedIds, id]);
+      // console.log('downlaodedIds added', downloadedIds);
+      const imageOutput = {};
+      imageOutput.id = id;
+      imageOutput.image = pngData;
+      imageOutput.total = total;
+
+      return imageOutput;
     }
-  }, []);
+  };
   // const id = 'b558accd02534dae958ffec7bded6a62';
   // useEffect(() => {
-  setTimeout(() => {
-    console.log('use effect');
-    // downloadPng();
-    const images2 = participantsReadyIds.map((id) => downloadPng(id));
-    console.log('images2222 length', images2);
-  }, 3000);
-  console.log('images length', images.length);
+  if (participantsReadyIds.length !== images.length) {
+    setTimeout(() => {
+      console.log('use effect');
+      // downloadPng();
+      const images2 = participantsReadyIds.map((id) => downloadPng(id));
+      Promise.all(images2).then((values) => {
+        console.log('set image :', values);
+        setImages(values);
+      });
 
-  console.log('downlaodedIds', downloadedIds);
+      // setImages(images2);
+    }, 4000);
+    console.log('images length', images.length);
+    console.log('images value', images);
+
+    console.log('downlaodedIds', downloadedIds);
+  }
 
   // }, []);
 
@@ -189,10 +225,14 @@ const ParticipantsFootprintFile = ({
   );
 };
 
-const PDFFile = ({ workshopTitle, t, participants, images }) => {
+const PDFFile = ({ workshopTitle, t, footprintParticipants, images }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <View style={styles.titleBar}>
+          <Image src={logo2T} style={styles.logo} />
+          <Text> </Text>
+        </View>
         <View style={styles.section}>
           <Text className="workshop-title">
             {t('manageParticipants.participantsFile')}
@@ -200,40 +240,21 @@ const PDFFile = ({ workshopTitle, t, participants, images }) => {
           <Text className="workshop-title">{workshopTitle}</Text>
           {/* {participantCarbonGraphs} */}
         </View>
-        <View style={styles.section}>
-          {/* {participants &&
-            Object.keys(participants).map((id) => (
-              <Image src={downloadPng(id)} />
-            ))} */}
-          <Text>Section #2</Text>
-          {/* <View style={styles.section}>
-               <Image
-                style={{
-                  width: 'auto',
-                }}
-                src={img}
-              />
-            </View>
-            <View style={styles.section}>
-              <Image
-                style={{
-                  width: 'auto',
-                }}
-                src={blob}
-              />
-            </View> */}
-          {images.map((image) => (
-            <View style={styles.section}>
-              <Image
-                style={{
-                  width: 'auto',
-                }}
-                src={image}
-              />
-            </View>
-          ))}
-        </View>
       </Page>
+      {images.map((imageObject) => (
+        <Page size="A4" style={styles.page} key={imageObject.id}>
+          <View style={styles.titleBar}>
+            <Image src={logo2T} style={styles.logo} />
+            <Text>
+              {t('participantsFootprintFile.personalFootprint')}{' '}
+              {imageObject.total}
+            </Text>
+          </View>
+          <View>
+            <Image src={imageObject.image} style={styles.graph} />
+          </View>
+        </Page>
+      ))}
     </Document>
   );
 };

@@ -85,43 +85,57 @@ export default function handleFetch(url, options = {}) {
     ...rest,
   };
 
-  const getContentEncodingHeaderValue = (response) =>
-    R.pathOr('', ['headers', 'Content-Encoding'], response);
+  const getContentEncodingHeaderValue = (httpHeaders) =>
+    R.pathOr('', ['Content-Encoding'], httpHeaders);
 
-  const zipBodyIfNeededPromise = (body) => {
-    const zip = new JSZip();
-    zip.file('body', body);
-    return zip.generateAsync({ type: 'blob' });
+  const zipBodyIfNeeded = ({
+    headers: requestHeaders,
+    body,
+    ...otherFetchOptions
+  }) => {
+    const contentEncodingHeader = getContentEncodingHeaderValue(requestHeaders);
+    // console.log('contentEncodingHeader = ', contentEncodingHeader);
+    if (contentEncodingHeader === 'gzip') {
+      const zip = new JSZip();
+      return zip
+        .file('body', body)
+        .generateAsync({ type: 'base64' })
+        .then((zippedBody) => {
+          // console.log('zippedBody', {
+          //   headers: requestHeaders,
+          //   body: zippedBody,
+          //   ...otherFetchOptions,
+          // });
+          return {
+            headers: requestHeaders,
+            body: zippedBody,
+            ...otherFetchOptions,
+          };
+        });
+    }
+    return new Promise((resolve) => resolve(fetchOptions));
   };
 
-  return fetch(`${API_BASE_URL}${url}`, fetchOptions)
-    .then(handleErrors)
-    .then((response) => {
-      console.log('fetch response ', response);
-      const contentEncodingValue = getContentEncodingHeaderValue(response);
-      console.log(
-        'fetch response headers Content-Encoding',
-        contentEncodingValue
-      );
-      if (contentEncodingValue === 'gzip') {
-        // eslint-disable-next-line no-console
-        console.log(
-          'fetch response headers contains Content-Encoding with gzip'
-        );
-        return response.blob().then((data) => JSZip.loadAsync(data));
-      }
-      return new Promise((resolve) => resolve(response));
+  return zipBodyIfNeeded(fetchOptions)
+    .then((updatedFetchOptions) => {
+      return fetch(`${API_BASE_URL}${url}`, updatedFetchOptions);
     })
+    .then(handleErrors)
     .then((response) => {
       switch (type) {
         case 'json':
-          return response
-            .json()
-            .then((data) => (normalizer ? normalize(data, normalizer) : data))
-            .catch((e) => console.error(e));
+          return (
+            response
+              .json()
+              .then((data) => (normalizer ? normalize(data, normalizer) : data))
+              // eslint-disable-next-line no-console
+              .catch((e) => console.error(e))
+          );
         case 'blob':
+          // eslint-disable-next-line no-console
           return response.blob().catch((e) => console.error(e));
         case 'text':
+          // eslint-disable-next-line no-console
           return response.text().catch((e) => console.error(e));
         case 'empty':
         default:

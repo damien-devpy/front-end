@@ -3,19 +3,22 @@ import React from 'react';
 import DownloadIcon from '../assets/DownloadIcon';
 import PrimaryButton from './PrimaryButton';
 
-const DownloadButton = ({ onClick, children, colorIcon }) => {
+const DownloadButton = ({ onClick, children, colorIcon, disabled }) => {
+  if (disabled) return <PrimaryButton disabled>{children}</PrimaryButton>;
   return (
     <PrimaryButton onClick={onClick}>
-      <DownloadIcon
-        width={20}
-        height={20}
-        style={{
-          position: 'relative',
-          transform: 'translateY(-5%)',
-          color: colorIcon,
-        }}
-        className="fill-current-color"
-      />
+      {!disabled && (
+        <DownloadIcon
+          width={20}
+          height={20}
+          style={{
+            position: 'relative',
+            transform: 'translateY(-5%)',
+            color: colorIcon,
+          }}
+          className="fill-current-color"
+        />
+      )}
       {'  '}
       {children}
     </PrimaryButton>

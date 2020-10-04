@@ -186,8 +186,11 @@ const ParticipantsFootprintFile = ({
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container style={{ margin: 30, color: '#FFF', textAlign: 'center' }}>
-        {!isLoading && participantsReadyIds.length === images.length && (
-          <DownloadButton colorIcon="#FFF">
+        {!isLoading && (
+          <DownloadButton
+            colorIcon="#FFF"
+            disabled={participantsReadyIds.length !== images.length}
+          >
             <PDFDownloadLink
               style={{ color: '#FFF' }}
               document={
@@ -202,7 +205,9 @@ const ParticipantsFootprintFile = ({
               fileName={`Fiche participants - ${workshopTitle}.pdf`}
             >
               {({ blob, url, loading, error }) =>
-                loading ? t('common.loadingDoc') : t('common.downloadPdf')
+                participantsReadyIds.length !== images.length || loading
+                  ? t('common.loadingDoc')
+                  : t('common.downloadPdf')
               }
             </PDFDownloadLink>
           </DownloadButton>
@@ -247,8 +252,12 @@ const PDFFile = ({ workshopTitle, t, images }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.firstPage}>
-          <Text>{t('manageParticipants.participantsFile')}</Text>
-          <Text className="workshop-title">{workshopTitle}</Text>
+          <Text style={{ color: '', fontWeight: 'bold', margin: 20 }}>
+            {t('manageParticipants.participantsFile')}
+          </Text>
+          <Text style={{ color: '#25433B', fontWeight: 'bold', margin: 20 }}>
+            {workshopTitle}
+          </Text>
         </View>
       </Page>
       {pairImages.map((pairImage) => (

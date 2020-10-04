@@ -100,12 +100,18 @@ const ParticipantCarbonGraph = ({
     });
   });
   return (
-    <div id={`node-to-convert_${id}`} data-total={footprintParticipant.total}>
-      <Container>
+    <div
+      id={`node-to-convert_${id}`}
+      data-total={footprintParticipant.total}
+      style={{ maxHeight: '600px', textAlign: 'center' }}
+    >
+      <Container style={{ margin: 'auto' }}>
         {footprintParticipant.total > 0 && (
           <FootprintGraph
             footprint={footprintParticipant.footprint}
             totalEmissions={footprintParticipant.total}
+            width="60%"
+            height="40%"
           />
         )}
       </Container>

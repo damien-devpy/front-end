@@ -253,5 +253,6 @@ export default {
   },
   participantsFootprintFile: {
     personalFootprint: 'Mon empreinte carbone personnelle :  ',
+    personalFootprintUnit: 'tCO2eq',
   },
 };

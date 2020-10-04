@@ -23,6 +23,7 @@ import { useWorkshop } from '../../hooks/workshop';
 import DownloadIcon from '../../assets/DownloadIcon';
 import Loading from '../../components/Loading';
 import PrimaryButton from '../../components/PrimaryButton';
+import imageVerso from '../../assets/participantsFootprintFile_verso.jpg';
 import logo2T from '../../assets/logo.png';
 import { ParticipantCarbonGraph } from './components/ParticipantCarbonGraph';
 import {
@@ -38,6 +39,13 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
     backgroundColor: '#FFF',
   },
+  firstPage: {
+    marginTop: 200,
+    textAlign: 'center',
+    fontSize: 22,
+    color: '#25433B',
+    fontWeight: 'bold',
+  },
   section: {
     margin: 10,
     padding: 10,
@@ -47,27 +55,30 @@ const styles = StyleSheet.create({
   titleBar: {
     backgroundColor: '#25433B',
     width: '100%',
-    height: '50px',
-    margin: 10,
-    padding: 10,
+    height: '40px',
     color: 'white',
     float: 'left',
+    textAlign: 'center',
+    flexDirection: 'row',
+    flexGrow: 1,
+    flex: 1,
   },
   logo: {
-    height: '40px',
-    width: '30px',
+    height: '45px',
+    width: '45px',
     float: 'left',
   },
-  bodyView: {
-    margin: 10,
-    padding: 10,
-    height: '80%',
-    width: '80%',
+  halfPageView: {
+    width: '100%',
+    height: '50%',
+    border: '1px solid #25433B',
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   graph: {
-    margin: 20,
-    height: 400,
-    width: 400,
+    margin: 'auto',
+    textAlign: 'center',
+    width: '50%',
   },
 });
 
@@ -150,8 +161,7 @@ const ParticipantsFootprintFile = ({
       return imageOutput;
     }
   };
-  // const id = 'b558accd02534dae958ffec7bded6a62';
-  // useEffect(() => {
+
   if (participantsReadyIds.length !== images.length) {
     console.log('use effect');
     // downloadPng()
@@ -163,31 +173,16 @@ const ParticipantsFootprintFile = ({
           setImages(values);
         });
       }, 2000);
-
-      // setImages(images2);
     }, 4000);
   }
 
-  // }, []);
-
-  // console.log('last image 2', images[images.length - 1]);
-
-  //   const [chart, setChart] = React.useState();
-
-  //   const handleDownload = React.useCallback(async () => {
-  //     if (chart !== undefined) {
-  //       // Send the chart to getPngData
-  //       const pngData = await getPngData(chart);
-  //       // Use FileSaver to download the PNG
-  //       saveAs(pngData, 'test.png');
-  //     }
-  //   }, [chart]);
   console.log('images', images);
+  const pairImages = images.reduce((result, value, index, array) => {
+    if (index % 2 === 0) result.push(array.slice(index, index + 2));
+    return result;
+  }, []);
+  console.log('pairImages', pairImages);
   return (
-    // <Document>
-    //   <Page size="A4" style={styles.page}>
-    //     <View style={styles.section}>
-    //       <Text className="workshop-title">{workshopTitle} </Text>
     <Loading error={error} isLoading={isLoading}>
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
@@ -205,7 +200,7 @@ const ParticipantsFootprintFile = ({
                     images={images}
                   />
                 }
-                fileName="movielist.pdf"
+                fileName={`Fiche participants - ${workshopTitle}.pdf`}
               >
                 {({ blob, url, loading, error }) =>
                   loading ? 'Loading document...' : 'Download Pdf'
@@ -219,37 +214,51 @@ const ParticipantsFootprintFile = ({
   );
 };
 
+const GraphElement = ({ graph, t }) => (
+  <>
+    <View style={styles.titleBar}>
+      <Image src={logo2T} style={styles.logo} />
+      <Text
+        style={{
+          color: '#FFD9BA',
+          position: 'relative',
+          float: 'left',
+          fontWeight: 'bolder',
+        }}
+      >
+        {t('participantsFootprintFile.personalFootprint')} {graph.total}{' '}
+        {t('participantsFootprintFile.personalFootprintUnit')}
+      </Text>
+    </View>
+    <View style={styles.halfPageView}>
+      <Image src={graph.image} style={styles.graph} />
+    </View>
+  </>
+);
+
 const PDFFile = ({ workshopTitle, t, images }) => {
+  const pairImages = images.reduce((result, value, index, array) => {
+    if (index % 2 === 0) result.push(array.slice(index, index + 2));
+    return result;
+  }, []);
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.titleBar}>
-          <Image src={logo2T} style={styles.logo} />
-        </View>
-        <View style={styles.bodyView}>
+        <View style={styles.firstPage}>
           <Text>{t('manageParticipants.participantsFile')}</Text>
           <Text className="workshop-title">{workshopTitle}</Text>
         </View>
       </Page>
-      {images.map((imageObject) => (
-        <Page size="A4" style={styles.page} key={imageObject.id}>
-          <View style={styles.titleBar}>
-            <Image src={logo2T} style={styles.logo} />
-            <Text
-              style={{ color: 'orange', position: 'relative', float: 'left' }}
-            >
-              {t('participantsFootprintFile.personalFootprint')}{' '}
-              {imageObject.total}
-            </Text>
-          </View>
-          <View style={styles.bodyView}>
-            <Image src={imageObject.image} style={styles.graph} />
-          </View>
-          {/* <View style={styles.bodyView}>
-            <Text>Should be there {imageObject.id}</Text>
-            <Image src={imageObject.image} style={styles.graph} />
-          </View> */}
-        </Page>
+      {pairImages.map((pairImage) => (
+        <>
+          <Page size="A4" style={styles.page} key={pairImage[0].id}>
+            <GraphElement graph={pairImage[0]} t={t} />
+            <GraphElement graph={pairImage[1]} t={t} />
+          </Page>
+          <Page size="A4" style={styles.page}>
+            <Image src={imageVerso} />
+          </Page>
+        </>
       ))}
     </Document>
   );

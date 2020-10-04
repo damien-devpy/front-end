@@ -113,6 +113,7 @@ const FootprintGraph = ({
       height={height}
       minHeight={100}
       aspect={3.0 / 2.5}
+      style={{ margin: 'auto' }}
     >
       {/* {totalEmissions && (
         <h5>

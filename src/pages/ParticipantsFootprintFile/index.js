@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   titleBar: {
     backgroundColor: '#25433B',
     width: '100%',
-    height: '40px',
+    maxHeight: '40px',
     color: 'white',
     float: 'left',
     textAlign: 'center',
@@ -220,29 +220,31 @@ const ParticipantsFootprintFile = ({
   );
 };
 
-const GraphElement = ({ graph, t }) => (
-  <>
-    <View style={styles.titleBar}>
-      <Image src={logo2T} style={styles.logo} />
-      <Text
-        style={{
-          marginTop: 10,
-          color: '#FFD9BA',
-          position: 'relative',
-          float: 'left',
-          fontWeight: 'bolder',
-        }}
-      >
-        {t('participantsFootprintFile.personalFootprint')} {graph.total}{' '}
-        {t('participantsFootprintFile.personalFootprintUnit')}
-      </Text>
-    </View>
-    <View style={styles.halfPageView}>
-      <Image src={graph.image} style={styles.graph} />
-    </View>
-  </>
-);
-
+const GraphElement = ({ graph, t }) => {
+  if (!graph) return <></>;
+  return (
+    <>
+      <View style={styles.titleBar}>
+        <Image src={logo2T} style={styles.logo} />
+        <Text
+          style={{
+            marginTop: 10,
+            color: '#FFD9BA',
+            position: 'relative',
+            float: 'left',
+            fontWeight: 'bolder',
+          }}
+        >
+          {t('participantsFootprintFile.personalFootprint')} {graph.total}{' '}
+          {t('participantsFootprintFile.personalFootprintUnit')}
+        </Text>
+      </View>
+      <View style={styles.halfPageView}>
+        <Image src={graph.image} style={styles.graph} />
+      </View>
+    </>
+  );
+};
 const PDFFile = ({ workshopTitle, t, images }) => {
   const pairImages = images.reduce((result, value, index, array) => {
     if (index % 2 === 0) result.push(array.slice(index, index + 2));

@@ -1,9 +1,10 @@
 import React from 'react';
 
-const DownloadIcon = ({ height = 20, width = 20 }) => (
+const DownloadIcon = ({ height = 20, width = 20, color = '#FFF' }) => (
   <svg
     height={height}
-    widtg={width}
+    width={width}
+    fill={color}
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     x="0px"

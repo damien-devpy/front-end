@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useWorkshop } from '../../hooks/workshop';
 
+import DownloadButton from '../../components/DownloadButton';
 import DownloadIcon from '../../assets/DownloadIcon';
 import Loading from '../../components/Loading';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   graph: {
     margin: 'auto',
     textAlign: 'center',
-    width: '50%',
+    width: '70%',
   },
 });
 
@@ -172,8 +173,8 @@ const ParticipantsFootprintFile = ({
           console.log('set image :', values);
           setImages(values);
         });
-      }, 2000);
-    }, 4000);
+      }, 1000);
+    }, 2000);
   }
 
   console.log('images', images);
@@ -184,31 +185,31 @@ const ParticipantsFootprintFile = ({
   console.log('pairImages', pairImages);
   return (
     <Loading error={error} isLoading={isLoading}>
+      <Container style={{ margin: 30, color: '#FFF', textAlign: 'center' }}>
+        {!isLoading && participantsReadyIds.length === images.length && (
+          <DownloadButton colorIcon="#FFF">
+            <PDFDownloadLink
+              style={{ color: '#FFF' }}
+              document={
+                <PDFFile
+                  workshopId={workshopId}
+                  workshopTitle={workshopTitle}
+                  t={t}
+                  participants={participants}
+                  images={images}
+                />
+              }
+              fileName={`Fiche participants - ${workshopTitle}.pdf`}
+            >
+              {({ blob, url, loading, error }) =>
+                loading ? t('common.loadingDoc') : t('common.downloadPdf')
+              }
+            </PDFDownloadLink>
+          </DownloadButton>
+        )}
+      </Container>
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
-        <Container>
-          {!isLoading && participantsReadyIds.length === images.length && (
-            <PrimaryButton className="badge badge-info float-right text-decoration-none">
-              <DownloadIcon />{' '}
-              <PDFDownloadLink
-                document={
-                  <PDFFile
-                    workshopId={workshopId}
-                    workshopTitle={workshopTitle}
-                    t={t}
-                    participants={participants}
-                    images={images}
-                  />
-                }
-                fileName={`Fiche participants - ${workshopTitle}.pdf`}
-              >
-                {({ blob, url, loading, error }) =>
-                  loading ? 'Loading document...' : 'Download Pdf'
-                }
-              </PDFDownloadLink>
-            </PrimaryButton>
-          )}
-        </Container>
       </Container>
     </Loading>
   );
@@ -220,6 +221,7 @@ const GraphElement = ({ graph, t }) => (
       <Image src={logo2T} style={styles.logo} />
       <Text
         style={{
+          marginTop: 10,
           color: '#FFD9BA',
           position: 'relative',
           float: 'left',

@@ -93,6 +93,7 @@ export default {
     deleteWorkshopConfirmation:
       "Etes vous sûr de vouloir supprimer l'atelier {{workshopName}} ?",
     digital: 'Numérique',
+    downloadPdf: 'Télécharger le PDF',
     drinks: 'Boissons',
     editCoach: "Editer l'animateur",
     eggsAndDairies: 'Oeufs et laitiers',
@@ -115,6 +116,7 @@ export default {
     launchSimulation: 'Lancer la simulation',
     loadError: 'Erreur de chargement',
     loading: 'Recherche ...',
+    loadingDoc: 'Génération du PDF...',
     lobby: 'LOBBY',
     login: 'Connexion',
     logout: 'Déconnexion',

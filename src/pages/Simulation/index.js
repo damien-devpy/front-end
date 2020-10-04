@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +12,6 @@ import CommonModal from '../../components/CommonModal';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
 import NewRoundModalForm from './components/NewRoundModalForm';
-import PrimaryButton from '../../components/PrimaryButton';
 import {
   globalAverageFootprint,
   participantsAverageFootprint,
@@ -94,7 +94,7 @@ const Simulation = ({
                 <h3>
                   <small>{t('common.weAreIn')}</small> {currentRound}
                 </h3>
-                <PrimaryButton
+                <Button
                   size="lg"
                   variant="primary"
                   onClick={handleShowNewRoundModal}
@@ -102,7 +102,7 @@ const Simulation = ({
                   {status === 'ended'
                     ? t('common.extraRound')
                     : t('common.nextRound')}
-                </PrimaryButton>
+                </Button>
               </CardHeader>
               {!isLoading && (
                 <Row style={{ height: '100vh' }}>

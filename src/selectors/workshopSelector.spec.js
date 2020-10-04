@@ -174,13 +174,13 @@ describe('Workshop selector', () => {
   });
   it('should return already selected individual actionCardBatches', () => {
     const returnedActionCardsBatchIds = selectCheckedIndividualActionCardsBatchIdsFromRounds(
-      { entities: { roundConfig: roundConfigEntity } }
+      { workshop: { entities: { roundConfig: roundConfigEntity } } }
     );
     expect(returnedActionCardsBatchIds).toEqual(['1', '2']);
   });
   it('should return already selected collective actionCardBatches', () => {
     const returnedActionCardsBatchIds = selectCheckedCollectiveActionCardsBatchIdsFromRounds(
-      { entities: { roundConfig: roundConfigEntity } }
+      { workshop: { entities: { roundConfig: roundConfigEntity } } }
     );
     expect(returnedActionCardsBatchIds).toEqual(['10']);
   });
@@ -200,7 +200,13 @@ describe('Workshop selector', () => {
       },
     };
     const returnedActionCardsBatchIds = selectCheckedIndividualActionCardsBatchIdsFromRounds(
-      { entities: { roundConfig: roundConfigEntityWithNullActionCardBatchIds } }
+      {
+        workshop: {
+          entities: {
+            roundConfig: roundConfigEntityWithNullActionCardBatchIds,
+          },
+        },
+      }
     );
     expect(returnedActionCardsBatchIds).toEqual(['1']);
   });

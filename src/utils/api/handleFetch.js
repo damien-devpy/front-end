@@ -6,7 +6,7 @@ import mock from '../mock';
 import { getAccessToken } from '../auth';
 import { paramsToQuery } from '../helpers';
 
-export const API_BASE_URL = 'https://api-preprod.2tonnes.org/api/v1';
+export const { REACT_APP_API_URL } = process.env;
 
 const buildHeaders = (forcedToken, customHeaders = {}) => {
   const token = getAccessToken();
@@ -39,10 +39,8 @@ export default function handleFetch(url, options = {}) {
     normalizer,
     ...rest
   } = options;
-  if (method === 'GET' && query) {
-    const queryparams = paramsToQuery(query);
-    url += queryparams;
-  }
+  const urlWithQueryParams =
+    method === 'GET' && query ? `${url}${paramsToQuery(query)}` : url;
   if (
     rest.body &&
     typeof rest.body !== 'string' &&
@@ -51,9 +49,9 @@ export default function handleFetch(url, options = {}) {
     rest.body = JSON.stringify(rest.body);
   }
   if (useMock) {
-    const matchingMockUrl = R.find((mockUrl) => wildstring.match(mockUrl, url))(
-      R.keys(mock)
-    );
+    const matchingMockUrl = R.find((mockUrl) =>
+      wildstring.match(mockUrl, urlWithQueryParams)
+    )(R.keys(mock));
 
     if (matchingMockUrl) {
       return new Promise((resolve) => {
@@ -66,7 +64,7 @@ export default function handleFetch(url, options = {}) {
         const timeout = setTimeout(() => {
           // eslint-disable-next-line no-console
           console.log(`mock`, {
-            url: `/${method} ${url}`,
+            url: `/${method} ${urlWithQueryParams}`,
             params: mockOptions,
             data: normalizedResult,
           });
@@ -84,18 +82,23 @@ export default function handleFetch(url, options = {}) {
     ...rest,
   };
 
-  return fetch(`${API_BASE_URL}${url}`, fetchOptions)
+  return fetch(`${REACT_APP_API_URL}${urlWithQueryParams}`, fetchOptions)
     .then(handleErrors)
     .then((response) => {
       switch (type) {
         case 'json':
-          return response
-            .json()
-            .then((data) => (normalizer ? normalize(data, normalizer) : data))
-            .catch((e) => console.error(e));
+          return (
+            response
+              .json()
+              .then((data) => (normalizer ? normalize(data, normalizer) : data))
+              // eslint-disable-next-line no-console
+              .catch((e) => console.error(e))
+          );
         case 'blob':
+          // eslint-disable-next-line no-console
           return response.blob().catch((e) => console.error(e));
         case 'text':
+          // eslint-disable-next-line no-console
           return response.text().catch((e) => console.error(e));
         case 'empty':
         default:

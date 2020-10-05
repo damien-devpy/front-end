@@ -117,6 +117,7 @@ const Simulation = ({
                       <h4> {t('simulation.global_average')} </h4>
                       <FootprintGraphType
                         carbonFootprint={globalAverageCarbonFootprint}
+                        legend={false}
                         width="100%"
                         aspect={2.38}
                       />
@@ -125,7 +126,6 @@ const Simulation = ({
                       <h4> {t('simulation.the_participants')} </h4>
                       <FootprintGraphType
                         carbonFootprint={participantsAverageCarbonFootprint}
-                        legend
                         width="100%"
                         aspect={1.5}
                       />

@@ -100,7 +100,12 @@ const renderLegend = (props) => {
   );
 };
 
-const FootprintGraph = ({ footprint, legend, width = '100%', aspect = 1 }) => {
+const FootprintGraph = ({
+  footprint,
+  legend = true,
+  width = '100%',
+  aspect = 1,
+}) => {
   const { t } = useTranslation();
   const dataMax = 5;
 

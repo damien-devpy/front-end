@@ -229,7 +229,7 @@ const ParticipantsFootprintFile = ({
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
       </Container>
-      <Container style={{ width: 'auto', margin: 'auto' }}>
+      {/* <Container style={{ width: 'auto', margin: 'auto' }}>
         <PDFViewer style={{ height: '30cm', width: '21cm' }}>
           {participants && images && (
             <PDFFile
@@ -242,7 +242,7 @@ const ParticipantsFootprintFile = ({
             />
           )}
         </PDFViewer>
-      </Container>
+      </Container> */}
     </Loading>
   );
 };

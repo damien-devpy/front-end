@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
   titleBar: {
     backgroundColor: '#25433B',
     width: '100%',
-    maxHeight: '40px',
-    color: 'white',
+    maxHeight: '45px',
     float: 'left',
     textAlign: 'center',
+    verticalAlign: 'top',
     flexDirection: 'row',
     margin: 0,
     flexGrow: 1,
@@ -61,21 +61,24 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
     maxHeight: '50%',
-    minHeight: '50%',
-    border: '1px solid #25433B',
+    // border: '1px solid #25433B',
     textAlign: 'center',
-    justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    margin: 0,
     padding: 0,
+    verticalAlign: 'top',
   },
   graph: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    textAlign: 'center',
-    width: '60%',
-    maxHeight: 300,
-    maxWidth: 450,
+    marginTop: 0,
+  },
+  imgGraph: {
+    marginTop: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '70%',
+    maxHeight: 400,
+    maxWidth: 400,
   },
   textName0: {
     marginTop: 20,
@@ -248,28 +251,30 @@ const GraphElement = ({ graph, t }) => {
   if (!graph) return <></>;
   return (
     <>
-      <View style={styles.titleBar}>
-        <Image src={logo2T} style={styles.logo} />
-        <Text
-          style={{
-            marginTop: 10,
-            color: '#FFD9BA',
-            position: 'relative',
-            float: 'left',
-            fontWeight: 'bolder',
-          }}
-        >
-          {t('participantsFootprintFile.personalFootprint')} {graph.total}{' '}
-          {t('participantsFootprintFile.personalFootprintUnit')}
-        </Text>
-      </View>
       <View style={styles.halfPageView}>
-        <Image src={graph.image} style={styles.graph} />
+        <View style={styles.titleBar}>
+          <Image src={logo2T} style={styles.logo} />
+          <Text
+            style={{
+              marginTop: 10,
+              color: '#FFD9BA',
+              position: 'relative',
+              float: 'left',
+              fontWeight: 'bolder',
+            }}
+          >
+            {t('participantsFootprintFile.personalFootprint')} {graph.total}{' '}
+            {t('participantsFootprintFile.personalFootprintUnit')}
+          </Text>
+        </View>
+        <View style={styles.graph}>
+          <Image src={graph.image} style={styles.imgGraph} />
+        </View>
       </View>
     </>
   );
 };
-const PDFFile = ({ workshopTitle, t, images, fullNames }) => {
+const PDFFile = ({ t, images, fullNames }) => {
   const pairImages = images.reduce((result, value, index, array) => {
     if (index % 2 === 0) result.push(array.slice(index, index + 2));
     return result;

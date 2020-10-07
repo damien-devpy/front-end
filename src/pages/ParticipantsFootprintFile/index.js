@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
+import { saveAs } from 'file-saver';
 import {
   Document,
   Image,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     verticalAlign: 'top',
     flexDirection: 'row',
-    margin: 0,
+    marginBottom: 10,
     flexGrow: 1,
     flex: 1,
   },
@@ -101,13 +102,6 @@ const styles = StyleSheet.create({
     // display: 'block',
   },
 });
-
-export const loadHeatingNetworksData = async () => {
-  const response = await fetch('/data/heat_networks.csv');
-  const text = await response.text();
-  const heatingNetworksData = Papa.parse(text, { header: true });
-  return heatingNetworksData.data;
-};
 
 const ParticipantsFootprintFile = ({
   match: {
@@ -183,14 +177,17 @@ const ParticipantsFootprintFile = ({
     console.log('use effect');
     // downloadPng()
     setTimeout(() => {
-      const images2 = participantsReadyIds.map((id) => downloadPng(id));
-      setTimeout(() => {
-        Promise.all(images2).then((values) => {
-          setImages(values);
-        });
-      }, 1000);
-    }, 2000);
+      const convertGraphs = participantsReadyIds.map((id) => downloadPng(id));
+      Promise.all(convertGraphs).then((values) => {
+        setImages(values);
+      });
+    }, 3000);
   }
+  const downloadGraphs = () =>
+    images.map((image, i) =>
+      saveAs(image.image, `${fullNames[i]}_initial_graph.png`)
+    );
+
   useEffect(() => {
     setIsReady(true);
   }, []);
@@ -198,31 +195,41 @@ const ParticipantsFootprintFile = ({
     <Loading error={error} isLoading={isLoading}>
       <Container style={{ margin: 30, color: '#FFF', textAlign: 'center' }}>
         {!isLoading && isReady && (
-          <DownloadButton
-            colorIcon="#FFF"
-            disabled={participantsReadyIds.length !== images.length}
-          >
-            <PDFDownloadLink
-              style={{ color: '#FFF' }}
-              document={
-                <PDFFile
-                  workshopId={workshopId}
-                  workshopTitle={workshopTitle}
-                  t={t}
-                  participants={participants}
-                  images={images}
-                  fullNames={fullNames}
-                />
-              }
-              fileName={`Fiche participants - ${workshopTitle}.pdf`}
+          <>
+            <DownloadButton
+              colorIcon="#FFF"
+              disabled={participantsReadyIds.length !== images.length}
             >
-              {({ blob, url, loading, error }) =>
-                participantsReadyIds.length !== images.length || loading
-                  ? t('common.loadingDoc')
-                  : t('common.downloadPdf')
-              }
-            </PDFDownloadLink>
-          </DownloadButton>
+              <PDFDownloadLink
+                style={{ color: '#FFF' }}
+                document={
+                  <PDFFile
+                    workshopId={workshopId}
+                    workshopTitle={workshopTitle}
+                    t={t}
+                    participants={participants}
+                    images={images}
+                    fullNames={fullNames}
+                  />
+                }
+                fileName={`Fiche participants - ${workshopTitle}.pdf`}
+              >
+                {({ blob, url, loading, error }) =>
+                  participantsReadyIds.length !== images.length || loading
+                    ? t('common.loadingDoc')
+                    : t('common.downloadPdf')
+                }
+              </PDFDownloadLink>
+            </DownloadButton>
+            <DownloadButton
+              style={{ marginLeft: 20 }}
+              colorIcon="#FFF"
+              disabled={participantsReadyIds.length !== images.length}
+              onClick={downloadGraphs}
+            >
+              {t('common.downloadGraphs')}
+            </DownloadButton>
+          </>
         )}
       </Container>
 

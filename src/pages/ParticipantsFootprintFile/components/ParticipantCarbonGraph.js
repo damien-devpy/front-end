@@ -68,6 +68,7 @@ const ParticipantCarbonGraph = ({
           <FootprintGraph
             footprint={footprintParticipant.footprint}
             totalEmissions={footprintParticipant.total}
+            aspect={1.5}
             width="60%"
             height="40%"
           />

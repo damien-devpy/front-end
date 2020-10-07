@@ -11,15 +11,9 @@ import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
-import DownloadIcon from '../../assets/DownloadIcon';
+import DownloadButton from '../../components/DownloadButton';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import Loading from '../../components/Loading';
-
-import {
-  PDFFile,
-  ParticipantsFootprintFile,
-} from '../ParticipantsFootprintFile';
-
 import PrimaryButton from '../../components/PrimaryButton';
 import computeCarbonVariables from '../../reducers/utils/bufferCarbonVariables';
 import {
@@ -251,10 +245,12 @@ const ManageParticipants = ({
           </a>
           {!isLoading && (
             <Link to={`/workshop/${workshopId}/participants_file`}>
-              <Button className="badge badge-info float-right text-decoration-none">
-                <DownloadIcon />
-                {/* {t('manageParticipants.participantsFootprintFile')} */}
-              </Button>
+              <DownloadButton
+                style={{ float: 'right', marginRight: 10 }}
+                colorIcon="#FFF"
+              >
+                {t('common.participantsFootprintFile')}
+              </DownloadButton>
             </Link>
           )}
         </h2>

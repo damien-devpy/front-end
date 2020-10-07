@@ -133,6 +133,7 @@ export default {
     oldPassword: 'Ancien mot de passe',
     others: 'Autres',
     participants: 'Participants',
+    participantsFootprintFile: 'Fiches participants',
     password: 'Mot de passe',
     password_confirmation: 'Confirmation mot de passe',
     plane: 'Avion',

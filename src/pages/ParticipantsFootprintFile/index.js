@@ -276,16 +276,6 @@ const PDFFile = ({ workshopTitle, t, images, fullNames }) => {
   }, []);
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.firstPage}>
-          <Text style={{ color: '#B9885F', fontWeight: 'bold', margin: 22 }}>
-            {t('manageParticipants.participantsFile')}
-          </Text>
-          <Text style={{ color: '#25433B', fontWeight: 'bold', margin: 20 }}>
-            {workshopTitle}
-          </Text>
-        </View>
-      </Page>
       {pairImages.map((pairImage, index) => (
         <>
           <Page size="A4" style={styles.page} key={pairImage[0].id}>

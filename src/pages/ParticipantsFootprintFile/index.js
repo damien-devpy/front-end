@@ -1,18 +1,17 @@
-import Papa from 'papaparse';
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { saveAs } from 'file-saver';
 import {
   Document,
   Image,
   PDFDownloadLink,
-  PDFViewer,
+  // PDFViewer,
   Page,
   StyleSheet,
   Text,
   View,
 } from '@react-pdf/renderer';
 import { getPngData } from 'recharts-to-png';
+import { saveAs } from 'file-saver';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useWorkshop } from '../../hooks/workshop';
@@ -126,8 +125,6 @@ const ParticipantsFootprintFile = ({
 
   // Calculate footprints
 
-  console.log('participantsReady', participantsReadyIds);
-
   const fullNames =
     participants &&
     participantsReadyIds.map(
@@ -158,23 +155,20 @@ const ParticipantsFootprintFile = ({
     const total = document
       .getElementById(`node-to-convert_${id}`)
       .getAttribute('data-total');
+    const imageOutput = {};
 
     if (chart !== undefined) {
       // Send the chart to getPngData
       const pngData = await getPngData(chart);
-      console.log(' png converted...', id);
       // console.log('images length', images.length);
-      const imageOutput = {};
       imageOutput.id = id;
       imageOutput.image = pngData;
       imageOutput.total = total;
-      console.log('imageOutput', imageOutput);
-      return imageOutput;
     }
+    return imageOutput;
   };
 
   if (participantsReadyIds.length !== images.length) {
-    console.log('use effect');
     // downloadPng()
     setTimeout(() => {
       const convertGraphs = participantsReadyIds.map((id) => downloadPng(id));
@@ -194,7 +188,7 @@ const ParticipantsFootprintFile = ({
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container style={{ margin: 30, color: '#FFF', textAlign: 'center' }}>
-        {!isLoading && isReady && (
+        {!isLoading && isReady && images && (
           <>
             <DownloadButton
               colorIcon="#FFF"
@@ -214,7 +208,7 @@ const ParticipantsFootprintFile = ({
                 }
                 fileName={`Fiche participants - ${workshopTitle}.pdf`}
               >
-                {({ blob, url, loading, error }) =>
+                {({ loading }) =>
                   participantsReadyIds.length !== images.length || loading
                     ? t('common.loadingDoc')
                     : t('common.downloadPdf')

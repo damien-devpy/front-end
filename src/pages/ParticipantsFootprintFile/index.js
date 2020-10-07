@@ -118,7 +118,7 @@ const ParticipantsFootprintFile = ({
   const participants = useSelector(selectParticipantsEntity);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
-
+  console.log('carbonFootprints', carbonFootprints);
   const participantsReadyIds = Object.keys(participants).filter(
     (id) => participants[id].status === 'ready'
   );
@@ -131,7 +131,7 @@ const ParticipantsFootprintFile = ({
       (id) => `${participants[id].firstName} ${participants[id].lastName}`
     );
   const participantCarbonGraphs =
-    participants &&
+    participants && participantsReadyIds &&
     participantsReadyIds.map((id) => {
       return (
         <ParticipantCarbonGraph
@@ -150,22 +150,22 @@ const ParticipantsFootprintFile = ({
     const chart =
       document.getElementById(`node-to-convert_${id}`) &&
       document.getElementById(`node-to-convert_${id}`).children[0] &&
-      document.getElementById(`node-to-convert_${id}`).children[0].children[0]
-        .children[0];
+      document.getElementById(`node-to-convert_${id}`).children[0].children[0];
     const total = document
       .getElementById(`node-to-convert_${id}`)
       .getAttribute('data-total');
-    const imageOutput = {};
 
     if (chart !== undefined) {
+      const imageOutput = {};
+
       // Send the chart to getPngData
       const pngData = await getPngData(chart);
       // console.log('images length', images.length);
       imageOutput.id = id;
       imageOutput.image = pngData;
       imageOutput.total = total;
+      return imageOutput;
     }
-    return imageOutput;
   };
 
   if (participantsReadyIds.length !== images.length) {
@@ -188,47 +188,53 @@ const ParticipantsFootprintFile = ({
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container style={{ margin: 30, color: '#FFF', textAlign: 'center' }}>
-        {!isLoading && isReady && images && (
-          <>
-            <DownloadButton
-              colorIcon="#FFF"
-              disabled={participantsReadyIds.length !== images.length}
-            >
-              <PDFDownloadLink
-                style={{ color: '#FFF' }}
-                document={
-                  <PDFFile
-                    workshopId={workshopId}
-                    workshopTitle={workshopTitle}
-                    t={t}
-                    participants={participants}
-                    images={images}
-                    fullNames={fullNames}
-                  />
-                }
-                fileName={`Fiche participants - ${workshopTitle}.pdf`}
+        {!isLoading &&
+          isReady &&
+          images &&
+          participants &&
+          participantsReadyIds && fullNames && (
+            <>
+              <DownloadButton
+                colorIcon="#FFF"
+                disabled={participantsReadyIds.length !== images.length}
               >
-                {({ loading }) =>
-                  participantsReadyIds.length !== images.length || loading
-                    ? t('common.loadingDoc')
-                    : t('common.downloadPdf')
-                }
-              </PDFDownloadLink>
-            </DownloadButton>
-            <DownloadButton
-              style={{ marginLeft: 20 }}
-              colorIcon="#FFF"
-              disabled={participantsReadyIds.length !== images.length}
-              onClick={downloadGraphs}
-            >
-              {t('common.downloadGraphs')}
-            </DownloadButton>
-          </>
-        )}
+                <PDFDownloadLink
+                  style={{ color: '#FFF' }}
+                  document={
+                    <PDFFile
+                      workshopId={workshopId}
+                      workshopTitle={workshopTitle}
+                      t={t}
+                      participants={participants}
+                      images={images}
+                      fullNames={fullNames}
+                    />
+                  }
+                  fileName={`Fiche participants - ${workshopTitle}.pdf`}
+                >
+                  {({ loading }) =>
+                    participantsReadyIds.length !== images.length || loading
+                      ? t('common.loadingDoc')
+                      : t('common.downloadPdf')
+                  }
+                </PDFDownloadLink>
+              </DownloadButton>
+              <DownloadButton
+                style={{ marginLeft: 20 }}
+                colorIcon="#FFF"
+                disabled={participantsReadyIds.length !== images.length}
+                onClick={downloadGraphs}
+              >
+                {t('common.downloadGraphs')}
+              </DownloadButton>
+            </>
+          )}
       </Container>
 
       <Container>
-        {!isLoading && <Container>{participantCarbonGraphs}</Container>}
+        {!isLoading && isReady && (
+          <Container>{participantCarbonGraphs}</Container>
+        )}
       </Container>
       {/* <Container style={{ width: 'auto', margin: 'auto' }}>
         <PDFViewer style={{ height: '30cm', width: '21cm' }}>

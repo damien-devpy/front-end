@@ -261,6 +261,7 @@ const ManageParticipants = ({
               <DownloadButton
                 style={{ float: 'right', marginRight: 10 }}
                 colorIcon="#FFF"
+                disable={!isWorkshopReadyForInitialization}
               >
                 {t('common.participantsFootprintFile')}
               </DownloadButton>

@@ -72,14 +72,17 @@ const styles = StyleSheet.create({
   halfPageView: {
     width: '100%',
     height: '50%',
+    maxHeight: '50%',
+    minHeight: '50%',
     border: '1px solid #25433B',
     textAlign: 'center',
     justifyContent: 'center',
   },
   graph: {
-    margin: 'auto',
+    margin: '0 auto 0 auto',
     textAlign: 'center',
     width: '70%',
+    maxHeight: '',
   },
 });
 
@@ -100,6 +103,7 @@ const ParticipantsFootprintFile = ({
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [images, setImages] = useState([]);
+  const [isReady, setIsReady] = useState(false);
   const personas = useSelector(selectPersonaEntity);
   const {
     name: workshopTitle,
@@ -178,15 +182,13 @@ const ParticipantsFootprintFile = ({
   }
 
   console.log('images', images);
-  const pairImages = images.reduce((result, value, index, array) => {
-    if (index % 2 === 0) result.push(array.slice(index, index + 2));
-    return result;
+  useEffect(() => {
+    setIsReady(true);
   }, []);
-  console.log('pairImages', pairImages);
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container style={{ margin: 30, color: '#FFF', textAlign: 'center' }}>
-        {!isLoading && (
+        {!isLoading && isReady && (
           <DownloadButton
             colorIcon="#FFF"
             disabled={participantsReadyIds.length !== images.length}
@@ -213,6 +215,7 @@ const ParticipantsFootprintFile = ({
           </DownloadButton>
         )}
       </Container>
+      h
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
       </Container>

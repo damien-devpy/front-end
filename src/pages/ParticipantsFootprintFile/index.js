@@ -1,9 +1,7 @@
 import Papa from 'papaparse';
-import React, { Component, PropTypes, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 import {
-  Canvas,
   Document,
   Image,
   PDFDownloadLink,
@@ -13,17 +11,13 @@ import {
   Text,
   View,
 } from '@react-pdf/renderer';
-import { Link } from 'react-router-dom';
 import { getPngData } from 'recharts-to-png';
-import { saveAs } from 'file-saver';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useWorkshop } from '../../hooks/workshop';
 
 import DownloadButton from '../../components/DownloadButton';
-import DownloadIcon from '../../assets/DownloadIcon';
 import Loading from '../../components/Loading';
-import PrimaryButton from '../../components/PrimaryButton';
 import imageVerso from '../../assets/participantsFootprintFile_verso.jpg';
 import logo2T from '../../assets/logo.png';
 import { ParticipantCarbonGraph } from './components/ParticipantCarbonGraph';
@@ -44,14 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 200,
     textAlign: 'center',
     fontSize: 22,
-    color: '#25433B',
     fontWeight: 'bold',
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-    flex: 1,
   },
   titleBar: {
     backgroundColor: '#25433B',
@@ -61,6 +48,7 @@ const styles = StyleSheet.create({
     float: 'left',
     textAlign: 'center',
     flexDirection: 'row',
+    margin: 0,
     flexGrow: 1,
     flex: 1,
   },
@@ -77,12 +65,37 @@ const styles = StyleSheet.create({
     border: '1px solid #25433B',
     textAlign: 'center',
     justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: 0,
   },
   graph: {
-    margin: '0 auto 0 auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     textAlign: 'center',
-    width: '70%',
-    maxHeight: '',
+    width: '60%',
+    maxHeight: 300,
+    maxWidth: 450,
+  },
+  textName0: {
+    marginTop: 20,
+    marginRight: 60,
+    position: 'absolute',
+    textAlign: 'right',
+    color: '#FFD9BA',
+    verticalAlign: '95%',
+  },
+  textName1: {
+    marginTop: '73%',
+    marginRight: 60,
+    position: 'absolute',
+    color: '#FFD9BA',
+    textAlign: 'right',
+  },
+  fixImage: {
+    // position: 'absolute',
+    verticalAlign: 'top',
+    // display: 'block',
   },
 });
 
@@ -100,17 +113,12 @@ const ParticipantsFootprintFile = ({
 }) => {
   const { error, isLoading } = useWorkshop(workshopId);
   const { t } = useTranslation();
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
   const [images, setImages] = useState([]);
   const [isReady, setIsReady] = useState(false);
   const personas = useSelector(selectPersonaEntity);
-  const {
-    name: workshopTitle,
-    status: workshopStatus,
-    startYear,
-    model,
-  } = useSelector(selectCurrentWorkshopInfo);
+  const { name: workshopTitle, startYear, model } = useSelector(
+    selectCurrentWorkshopInfo
+  );
   const participants = useSelector(selectParticipantsEntity);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
@@ -123,6 +131,11 @@ const ParticipantsFootprintFile = ({
 
   console.log('participantsReady', participantsReadyIds);
 
+  const fullNames =
+    participants &&
+    participantsReadyIds.map(
+      (id) => `${participants[id].firstName} ${participants[id].lastName}`
+    );
   const participantCarbonGraphs =
     participants &&
     participantsReadyIds.map((id) => {
@@ -140,18 +153,14 @@ const ParticipantsFootprintFile = ({
     });
 
   const downloadPng = async (id) => {
-    console.log('converting png ...', id);
     const chart =
       document.getElementById(`node-to-convert_${id}`) &&
       document.getElementById(`node-to-convert_${id}`).children[0] &&
       document.getElementById(`node-to-convert_${id}`).children[0].children[0]
         .children[0];
-    console.log('finding chart : ', chart);
     const total = document
       .getElementById(`node-to-convert_${id}`)
       .getAttribute('data-total');
-
-    console.log('finding total : ', total);
 
     if (chart !== undefined) {
       // Send the chart to getPngData
@@ -174,14 +183,11 @@ const ParticipantsFootprintFile = ({
       const images2 = participantsReadyIds.map((id) => downloadPng(id));
       setTimeout(() => {
         Promise.all(images2).then((values) => {
-          console.log('set image :', values);
           setImages(values);
         });
       }, 1000);
     }, 2000);
   }
-
-  console.log('images', images);
   useEffect(() => {
     setIsReady(true);
   }, []);
@@ -202,6 +208,7 @@ const ParticipantsFootprintFile = ({
                   t={t}
                   participants={participants}
                   images={images}
+                  fullNames={fullNames}
                 />
               }
               fileName={`Fiche participants - ${workshopTitle}.pdf`}
@@ -215,9 +222,23 @@ const ParticipantsFootprintFile = ({
           </DownloadButton>
         )}
       </Container>
-      h
+
       <Container>
         {!isLoading && <Container>{participantCarbonGraphs}</Container>}
+      </Container>
+      <Container style={{ width: 'auto', margin: 'auto' }}>
+        <PDFViewer style={{ height: '30cm', width: '21cm' }}>
+          {participants && images && (
+            <PDFFile
+              workshopId={workshopId}
+              workshopTitle={workshopTitle}
+              t={t}
+              participants={participants}
+              images={images}
+              fullNames={fullNames}
+            />
+          )}
+        </PDFViewer>
       </Container>
     </Loading>
   );
@@ -248,7 +269,7 @@ const GraphElement = ({ graph, t }) => {
     </>
   );
 };
-const PDFFile = ({ workshopTitle, t, images }) => {
+const PDFFile = ({ workshopTitle, t, images, fullNames }) => {
   const pairImages = images.reduce((result, value, index, array) => {
     if (index % 2 === 0) result.push(array.slice(index, index + 2));
     return result;
@@ -257,7 +278,7 @@ const PDFFile = ({ workshopTitle, t, images }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.firstPage}>
-          <Text style={{ color: '', fontWeight: 'bold', margin: 20 }}>
+          <Text style={{ color: '#B9885F', fontWeight: 'bold', margin: 22 }}>
             {t('manageParticipants.participantsFile')}
           </Text>
           <Text style={{ color: '#25433B', fontWeight: 'bold', margin: 20 }}>
@@ -265,14 +286,18 @@ const PDFFile = ({ workshopTitle, t, images }) => {
           </Text>
         </View>
       </Page>
-      {pairImages.map((pairImage) => (
+      {pairImages.map((pairImage, index) => (
         <>
           <Page size="A4" style={styles.page} key={pairImage[0].id}>
             <GraphElement graph={pairImage[0]} t={t} />
             <GraphElement graph={pairImage[1]} t={t} />
           </Page>
-          <Page size="A4" style={styles.page}>
-            <Image src={imageVerso} />
+          <Page size="A4" style={styles.page} key={`verso_${pairImage[0].id}`}>
+            <Image src={imageVerso} style={styles.fixImage} />
+            <Text style={styles.textName0}> {fullNames[index * 2 + 0]} </Text>
+            <Text style={styles.textName1}>
+              {fullNames[index * 2 + 1] ? fullNames[index * 2 + 1] : ''}
+            </Text>
           </Page>
         </>
       ))}
@@ -281,62 +306,3 @@ const PDFFile = ({ workshopTitle, t, images }) => {
 };
 
 export { ParticipantsFootprintFile, PDFFile };
-
-/* <Form.Row> 
-            {!isLoading &&
-              actionCardsBatchIdsFromRounds.map((actionCardBatchId) => {
-                const {
-                  name: actionCardBatchName,
-                  actionCardIds,
-                } = actionCardBatchesEntity[actionCardBatchId];
-                return (
-                  <Form.Group as={Col} sm={5} key={actionCardBatchId}>
-                    {actionCardIds.map((actionCardId) => {
-                      const {
-                        name: actionCardName,
-                        cardNumber,
-                        sector,
-                      } = actionCardsEntity[actionCardId];
-                      return (
-                        <ActionCardItem
-                          key={actionCardId}
-                          id={cardNumber}
-                          cardNumber={cardNumber}
-                          text={actionCardName}
-                          sector={sector}
-                          category={actionCardsEntity[actionCardId].subCategory}
-                          active
-                          checked={false}
-                          // previousChoices={numberOfPreviousChoices(actionCardId)}
-                          cost={actionCardsEntity[actionCardId].cost}
-                          // handleChange={() =>
-                          //   handleCardActionSelectionChange(actionCardId)
-                          // }
-                        />
-                      );
-                    })}
-                  </Form.Group>
-                );
-              })}
-            </Form.Row> */
-// const actionCardBatchesEntity = useSelector(actionCardBatches);
-//   const actionCardsEntity = useSelector(
-//     (state) => state.workshop.entities && state.workshop.entities.actionCards
-//   );
-//   function compareName(a, b) {
-//     if (actionCardBatchesEntity[a].name < actionCardBatchesEntity[b].name) {
-//       return -1;
-//     }
-//     if (actionCardBatchesEntity[a].name > actionCardBatchesEntity[b].name) {
-//       return 1;
-//     }
-//     return 0;
-//   }
-//   const actionCardsBatchIdsFromRounds = useSelector((state) =>
-//     selectCheckedIndividualActionCardsBatchIdsFromRounds(state.workshop).sort(
-//       compareName
-//     )
-//   );
-//   function onDocumentLoadSuccess({ numPages }) {
-//     setNumPages(numPages);
-//   }

@@ -96,7 +96,7 @@ export default {
     downloadPdf: 'Télécharger le PDF',
     drinks: 'Boissons',
     editCoach: "Editer l'animateur",
-    eggsAndDairies: 'Oeufs et laitiers',
+    eggsAndDairies: 'Oeufs,laitiers',
     email: 'Email',
     email_address: 'Adresse e-mail',
     energies: 'Energies',

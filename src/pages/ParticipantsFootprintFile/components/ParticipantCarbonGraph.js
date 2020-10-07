@@ -1,14 +1,8 @@
 import Papa from 'papaparse';
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Container } from 'react-bootstrap';
-import { getPngData } from 'recharts-to-png';
-import { saveAs } from 'file-saver';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-
-import FootprintGraph from '../../Simulation/components/FootprintGraph';
+import React, { useState } from 'react';
 import computeCarbonVariables from '../../../reducers/utils/bufferCarbonVariables';
+import { Container } from 'react-bootstrap';
+import FootprintGraph from '../../Simulation/components/FootprintGraph';
 import {
   computeFootprint,
   valueOnAllLevels,
@@ -17,16 +11,6 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../../selectors/footprintSelectors';
-
-import {
-  selectCarbonFootprintsEntity,
-  selectCurrentWorkshopInfo,
-  selectInitialGlobalCarbonVariables,
-  selectIsCurrentWorkshopSynchronized,
-  selectIsWorkshopReadyForInitialization,
-  selectParticipantsEntity,
-  selectPersonaEntity,
-} from '../../../selectors/workshopSelector';
 
 export const loadHeatingNetworksData = async () => {
   const response = await fetch('/data/heat_networks.csv');
@@ -103,7 +87,7 @@ const ParticipantCarbonGraph = ({
     <div
       id={`node-to-convert_${id}`}
       data-total={footprintParticipant.total}
-      style={{ maxHeight: '600px', textAlign: 'center' }}
+      style={{ maxHeight: '500px', textAlign: 'center' }}
     >
       <Container style={{ margin: 'auto' }}>
         {footprintParticipant.total > 0 && (

@@ -21,6 +21,7 @@ export const ParticipantItemForm = ({
   handleShowBC,
   handleSendForm,
   disabled,
+  handleNavigateToData,
 }) => {
   const { t } = useTranslation();
 
@@ -100,14 +101,9 @@ export const ParticipantItemForm = ({
           e.preventDefault();
         }}
       >
-        <ParticipantStatus
-          value={status}
-          handleSendForm={() => handleSendForm(id)}
-          handleShowBC={() => handleShowBC(id)}
-        />
-              </Col>
-
-          <Col
+        <ParticipantStatus value={status} />
+      </Col>
+      <Col
         className="text-center"
         onClick={(e) => {
           e.stopPropagation();
@@ -116,7 +112,9 @@ export const ParticipantItemForm = ({
       >
         <ParticipantStatusAction
           value={status}
+          handleSendForm={() => handleSendForm(id)}
           handleShowBC={() => handleShowBC(id)}
+          handleNavigateToData={handleNavigateToData}
         />
       </Col>
     </Row>
@@ -137,7 +135,6 @@ export const ParticipantsHeader = () => {
         <Col>{t('manageParticipants.persona')}</Col>
         <Col className="text-center">{t('manageParticipants.status')}</Col>
         <Col className="text-center">{t('manageParticipants.actions')}</Col>
-
       </Row>
     </StyledHeaderRow>
   );

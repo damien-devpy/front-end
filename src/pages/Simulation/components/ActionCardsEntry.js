@@ -269,7 +269,7 @@ const ActionCardsEntry = ({
               : handleSubmitCollectiveChoices
           }
         >
-          {t('common.validate')}
+          {t('common.endTheRound')}
         </PrimaryButton>
       </Row>
     </Container>

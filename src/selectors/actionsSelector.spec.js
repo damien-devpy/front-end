@@ -75,28 +75,28 @@ describe('Workshop selectors', () => {
     },
   };
   const initState = {
-    entities: {
-      actionCards: {
-        ...actionCard1,
-        ...actionCard2,
-        ...actionCard3,
-        ...actionCard4,
-        ...actionCard5,
+    workshop: {
+      entities: {
+        actionCards: {
+          ...actionCard1,
+          ...actionCard2,
+          ...actionCard3,
+          ...actionCard4,
+          ...actionCard5,
+        },
+        actionCardBatches: {
+          ...actionCardBatch1,
+          ...actionCardBatch2,
+          ...actionCardBatch3,
+        },
       },
-      actionCardBatches: {
-        ...actionCardBatch1,
-        ...actionCardBatch2,
-        ...actionCardBatch3,
-      },
+      result: { model: { actionCardBatches: [1, 2, 3] } },
     },
-    result: { model: { actionCardBatches: [1, 2, 3] } },
   };
   describe('Select actions from batches', () => {
     describe('Individual batches', () => {
       it('should return individual batches', (done) => {
-        const individualBatches = selectIndividualBatches(
-          initState.entities.actionCardBatches
-        );
+        const individualBatches = selectIndividualBatches(initState);
         expect(individualBatches).toEqual({
           ...actionCardBatch1,
           ...actionCardBatch2,
@@ -111,9 +111,7 @@ describe('Workshop selectors', () => {
     });
     describe('Collective batches', () => {
       it('should return collective batches', (done) => {
-        const collectiveBatches = selectCollectiveBatches(
-          initState.entities.actionCardBatches
-        );
+        const collectiveBatches = selectCollectiveBatches(initState);
         expect(collectiveBatches).toEqual({
           ...actionCardBatch3,
         });

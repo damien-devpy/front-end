@@ -412,6 +412,13 @@ describe('Test effect of redux actions related to model on the workshop state', 
               km_plane: 2000,
             },
           },
+          '2020-3': {
+            participantId: 3,
+            variables: {
+              km_bus: 200,
+              km_plane: 2000,
+            },
+          },
         },
         carbonFootprints: {
           '2020-1': {
@@ -452,6 +459,25 @@ describe('Test effect of redux actions related to model on the workshop state', 
               value: 202000,
             },
           },
+          '2020-3': {
+            participantId: 3,
+            footprint: {
+              name: 'transport',
+              children: [
+                {
+                  name: 'bus',
+                  cfKey: 'cf_bus',
+                  value: 2000,
+                },
+                {
+                  name: 'plane',
+                  cfKey: 'cf_plane',
+                  value: 200000,
+                },
+              ],
+              value: 202000,
+            },
+          },
         },
         globalCarbonVariables: {
           2020: {
@@ -474,8 +500,8 @@ describe('Test effect of redux actions related to model on the workshop state', 
         rounds: {
           2020: {
             year: 2020,
-            carbonVariables: ['2020-1', '2020-2'],
-            carbonFootprints: ['2020-1', '2020-2'],
+            carbonVariables: ['2020-1', '2020-2', '2020-3'],
+            carbonFootprints: ['2020-1', '2020-2', '2020-3'],
             roundConfig: '2020',
           },
           2023: {
@@ -504,6 +530,19 @@ describe('Test effect of redux actions related to model on the workshop state', 
             role: 'participant',
             status: 'registered',
             carbonFootprintId: '123456678',
+            surveyVariables: {
+              hours_urban_bus_per_week: 5,
+              km_car_commute_per_day: 25,
+            },
+          },
+          3: {
+            id: 3,
+            firstName: 'Barack',
+            lastName: 'Obama',
+            email: 'oba@whitehouse.fr',
+            role: 'participant',
+            status: 'registered',
+            carbonFootprintId: '123456679',
             surveyVariables: {
               hours_urban_bus_per_week: 5,
               km_car_commute_per_day: 25,
@@ -549,6 +588,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
             participantId: 2,
             actionCardIds: ['less_plane'],
           },
+          '2020-3': {
+            key: '2020-3',
+            participantId: 3,
+            actionCardIds: ['less_plane', 'plane_to_bus'],
+          },
         },
       },
       result: {
@@ -578,7 +622,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
           actionCards: [1],
           actionCardBatches: [1],
         },
-        participants: [1, 2],
+        participants: [1, 2, 3],
         rounds: [2020],
       },
     };
@@ -603,6 +647,13 @@ describe('Test effect of redux actions related to model on the workshop state', 
               km_plane: 2000,
             },
           },
+          '2020-3': {
+            participantId: 3,
+            variables: {
+              km_bus: 200,
+              km_plane: 2000,
+            },
+          },
           '2023-1': {
             participantId: 1,
             variables: {
@@ -615,6 +666,13 @@ describe('Test effect of redux actions related to model on the workshop state', 
             variables: {
               km_bus: 200,
               km_plane: 1000,
+            },
+          },
+          '2023-3': {
+            participantId: 3,
+            variables: {
+              km_bus: 700,
+              km_plane: 500,
             },
           },
         },
@@ -640,6 +698,25 @@ describe('Test effect of redux actions related to model on the workshop state', 
           },
           '2020-2': {
             participantId: 2,
+            footprint: {
+              name: 'transport',
+              children: [
+                {
+                  name: 'bus',
+                  cfKey: 'cf_bus',
+                  value: 2000,
+                },
+                {
+                  name: 'plane',
+                  cfKey: 'cf_plane',
+                  value: 200000,
+                },
+              ],
+              value: 202000,
+            },
+          },
+          '2020-3': {
+            participantId: 3,
             footprint: {
               name: 'transport',
               children: [
@@ -687,13 +764,13 @@ describe('Test effect of redux actions related to model on the workshop state', 
         rounds: {
           2020: {
             year: 2020,
-            carbonVariables: ['2020-1', '2020-2'],
-            carbonFootprints: ['2020-1', '2020-2'],
+            carbonVariables: ['2020-1', '2020-2', '2020-3'],
+            carbonFootprints: ['2020-1', '2020-2', '2020-3'],
             roundConfig: '2020',
           },
           2023: {
             year: 2023,
-            carbonVariables: ['2023-1', '2023-2'],
+            carbonVariables: ['2023-1', '2023-2', '2023-3'],
           },
         },
         participants: {
@@ -718,6 +795,19 @@ describe('Test effect of redux actions related to model on the workshop state', 
             role: 'participant',
             status: 'registered',
             carbonFootprintId: '123456678',
+            surveyVariables: {
+              hours_urban_bus_per_week: 5,
+              km_car_commute_per_day: 25,
+            },
+          },
+          3: {
+            id: 3,
+            firstName: 'Barack',
+            lastName: 'Obama',
+            email: 'oba@whitehouse.fr',
+            role: 'participant',
+            status: 'registered',
+            carbonFootprintId: '123456679',
             surveyVariables: {
               hours_urban_bus_per_week: 5,
               km_car_commute_per_day: 25,
@@ -763,6 +853,11 @@ describe('Test effect of redux actions related to model on the workshop state', 
             participantId: 2,
             actionCardIds: ['less_plane'],
           },
+          '2020-3': {
+            key: '2020-3',
+            participantId: 3,
+            actionCardIds: ['less_plane', 'plane_to_bus'],
+          },
         },
       },
       result: {
@@ -792,7 +887,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
           actionCards: [1],
           actionCardBatches: [1],
         },
-        participants: [1, 2],
+        participants: [1, 2, 3],
         rounds: [2020],
       },
     };
@@ -1349,11 +1444,23 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 },
               ],
             },
+            cleaner_bus: {
+              id: 'cleaner_bus',
+              cost: 2,
+              type: 'collective',
+              impactType: 'global',
+              operations: [
+                {
+                  variable: 'EI_BUS',
+                  operation: { '/': [{ var: 'EI_BUS' }, 5] },
+                },
+              ],
+            },
           },
           collectiveChoices: {
             2020: {
               key: 2020,
-              actionCardIds: ['clean_bus'],
+              actionCardIds: ['clean_bus', 'cleaner_bus'],
             },
           },
         },
@@ -1438,7 +1545,7 @@ describe('Test effect of redux actions related to model on the workshop state', 
               DAYS_PER_YEAR: 365,
               DAYS_PER_WEEK: 7,
               MONTHS_PER_YEAR: 12,
-              EI_BUS: 5,
+              EI_BUS: 1,
               EI_PLANE: 100,
             },
           },
@@ -1558,11 +1665,23 @@ describe('Test effect of redux actions related to model on the workshop state', 
                 },
               ],
             },
+            cleaner_bus: {
+              id: 'cleaner_bus',
+              cost: 2,
+              type: 'collective',
+              impactType: 'global',
+              operations: [
+                {
+                  variable: 'EI_BUS',
+                  operation: { '/': [{ var: 'EI_BUS' }, 5] },
+                },
+              ],
+            },
           },
           collectiveChoices: {
             2020: {
               key: 2020,
-              actionCardIds: ['clean_bus'],
+              actionCardIds: ['clean_bus', 'cleaner_bus'],
             },
           },
         },

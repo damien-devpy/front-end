@@ -32,21 +32,23 @@ const colors = {
 //     else return sectorData.value = sectorData.children.value
 //   }
 // };
-const categories = (footprint) => {
-  const categs = footprint.reduce((obj, sectorData) => {
-    obj[sectorData.name] = Object.keys(sectorData)
-      .filter((key) => key !== 'name')
-      // sorted so that vertical top element = first alphabetically
-      .sort()
-      .reverse();
-    return obj;
-  }, {});
-  return categs;
-};
+
+const categories = (footprint) =>
+  footprint.reduce(
+    (accumulator, sectorData) => ({
+      ...accumulator,
+      [sectorData.name]: Object.keys(sectorData)
+        .filter((key) => key !== 'name')
+        // sorted so that vertical top element = first alphabetically
+        .sort()
+        .reverse(),
+    }),
+    {}
+  );
 
 const footprintDataBar = (footprint, t) => {
   const graphBars = [];
-  Object.keys(categories(footprint)).forEach((sector, s) =>
+  Object.keys(categories(footprint)).forEach((sector) =>
     categories(footprint)[sector].forEach((categ, c) => {
       graphBars.push(
         <Bar
@@ -100,72 +102,64 @@ const renderLegend = (props) => {
 
 const FootprintGraph = ({
   footprint,
+  legend = true,
   width = '100%',
-  height = '50%',
-  sref,
+  aspect = 1,
 }) => {
   const { t } = useTranslation();
   const dataMax = 5;
 
   return (
-    <ResponsiveContainer
-      width={width}
-      height={height}
-      minHeight={100}
-      aspect={3.0 / 2.5}
-      style={{ margin: 'auto' }}
-    >
-      {/* {totalEmissions && (
-        <h5>
-          {t('manageParticipants.totalBC')}
-          {toString(totalEmissions)}
-          {t('manageParticipants.unitBC')};
-        </h5>
-      )} */}
-
-      <BarChart
-        ref={sref}
-        data={footprint}
-        margin={{
-          top: 10,
-          right: 10,
-          left: 10,
-          bottom: 5,
-        }}
-        barCategoryGap="10"
-      >
-        <CartesianGrid strokeDasharray="3" />
-        <XAxis
-          dataKey="name"
-          // tickFormatter={(label) => t(`common.${label}`)}
-          tickFormatter={(label) => ''}
-          // type="number"
-        />
-        <YAxis dataKey="" domain={[0, dataMax]}>
-          <Label
-            value={t('simulation.yAxisLabel')}
-            style={{ fontSize: '0.8rem', textAnchor: 'middle' }}
-            angle={-90}
-            offset={20}
-            position="insideLeft"
+    // <div style={{ width: 500, height: 300 }}>
+    <div>
+      <ResponsiveContainer width={width} minHeight={100} aspect={aspect}>
+        <BarChart
+          // width={500}
+          // height={200}
+          data={footprint}
+          margin={{
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: 5,
+          }}
+          barCategoryGap="10"
+        >
+          <CartesianGrid strokeDasharray="3" />
+          <XAxis
+            dataKey="name"
+            // tickFormatter={(label) => t(`common.${label}`)}
+            tickFormatter={() => ''}
+            // type="number"
           />
-        </YAxis>
+          <YAxis dataKey="" domain={[0, dataMax]}>
+            <Label
+              value={t('simulation.yAxisLabel')}
+              style={{ fontSize: '0.8rem', textAnchor: 'middle' }}
+              angle={-90}
+              offset={20}
+              position="insideLeft"
+            />
+          </YAxis>
 
-        <Tooltip
-          labelFormatter={(label) => t(`common.${label}`)}
-          itemSorter={(item) =>
-            Object.keys(item.payload).sort().indexOf(item.dataKey)
-          }
-        />
-        <Legend
-          layout="vertical"
-          footprint={footprint}
-          content={renderLegend}
-          t={t}
-        />
-        {footprintDataBar(footprint, t)}
-      </BarChart>
-    </ResponsiveContainer>
+          <Tooltip
+            labelFormatter={(label) => t(`common.${label}`)}
+            itemSorter={(item) =>
+              Object.keys(item.payload).sort().indexOf(item.dataKey)
+            }
+          />
+          {legend && (
+            <Legend
+              layout="vertical"
+              footprint={footprint}
+              content={renderLegend}
+              t={t}
+            />
+          )}
+          {footprintDataBar(footprint, t)}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

@@ -2,9 +2,10 @@
 /* eslint-disable no-unused-expressions */
 import Papa from 'papaparse';
 import React, { useState } from 'react';
-import { Button, Card, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card, Container } from 'react-bootstrap';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useTranslation } from 'react-i18next';
 
 import AddNewButton from '../../components/AddNewButton';
@@ -23,6 +24,7 @@ import {
 import {
   addParticipant,
   deleteParticipant,
+  formSentToParticipant,
   setParticipantPersona,
 } from '../../actions/participants';
 import {
@@ -79,6 +81,8 @@ const ManageParticipants = ({
   } = useSelector(selectCurrentWorkshopInfo);
 
   const { t } = useTranslation();
+  const history = useHistory();
+
   const participants = useSelector(selectParticipantsEntity);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
@@ -107,15 +111,19 @@ const ManageParticipants = ({
   };
 
   const sendFormAsync = (participantId) => (dispatchThunk) => {
-    sendFormApi({ workshopId, participantId }).catch(() => {
-      dispatchThunk(
-        throwError(
-          t('errors.sendForm', {
-            participantId,
-          })
-        )
-      );
-    });
+    sendFormApi({ workshopId, participantId })
+      .then(() => {
+        dispatchThunk(formSentToParticipant(participantId));
+      })
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.sendForm', {
+              participantId,
+            })
+          )
+        );
+      });
   };
   const handleSendForm = (participantId) => {
     console.log('Send form participant', participantId);
@@ -203,6 +211,10 @@ const ManageParticipants = ({
     });
   };
 
+  const handleNavigateToData = () => {
+    history.push(`/workshop/${workshopId}/data`);
+  };
+
   const disableModifications = workshopStatus !== 'created';
   const participantItems = [];
 
@@ -228,6 +240,7 @@ const ManageParticipants = ({
           handleShowBC={handleShowBC}
           handleSendForm={handleSendForm}
           disabled={disableModifications}
+          handleNavigateToData={handleNavigateToData}
         />
       );
     });

@@ -50,8 +50,11 @@ const ActionCardItem = ({
     >
       {active ? (
         <div className="row align-items-center">
-          <div className="col-2 p-1">
-            <Emoji cardNumber={cardNumber} />
+          <div className="col-2 p-1 d-flex flex-column justify-content-center">
+            <div>#{id}</div>
+            <div className="">
+              <Emoji cardNumber={cardNumber} />
+            </div>
           </div>
           <div className="col p-1">{text.toLowerCase()}</div>
           <div className="col-auto pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
@@ -66,16 +69,20 @@ const ActionCardItem = ({
                 />
               )}
             </div>
-            <div className="mt-auto">
-              <b>{cost}</b>
-            </div>
+            <div className="mt-auto">{cost}</div>
           </div>
         </div>
       ) : (
         <div className="row align-items-center">
-          <div className="col-5 p-1">
-            <Emoji cardNumber={cardNumber} />
+          <div className="col-5 p-1 d-flex flex-column justify-content-center">
+            <div>#{id}</div>
+            <div className="">
+              <Emoji cardNumber={cardNumber} />
+            </div>
           </div>
+          {/* <div className="col-5 p-1">
+            <Emoji cardNumber={cardNumber} />
+          </div> */}
           <div className="col-7 pl-0 pr-1 d-flex align-items-end align-self-stretch flex-column">
             <div>
               {nIndicators ? (

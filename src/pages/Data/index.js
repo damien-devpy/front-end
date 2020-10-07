@@ -1,10 +1,17 @@
-import Ajv from 'ajv';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import DataEditor from '../../components/DataEditor';
 import Loading from '../../components/Loading';
-import participantsSchema from '../../reducers/utils/participantsSchema';
-import { denormalizeWorkshopWithoutClean } from '../../utils/api';
+import SurveyVariablesDataSheet from './components/SurveyVariablesDataSheet';
+import {
+  selectModifiedSurveyVariables,
+  selectParticipantsGrid,
+  selectSurveyVariablesGrid,
+} from '../../selectors/surveyVariablesSelector';
+import {
+  updateSurveyVariables,
+  validateParticipants,
+} from '../../actions/workshop';
 import { useWorkshop } from '../../hooks/workshop';
 
 const Data = ({
@@ -14,18 +21,31 @@ const Data = ({
 }) => {
   const workshop = useWorkshop(workshopId);
   const { loadError, isLoading } = workshop;
-  const denormalizedWorkshop = denormalizeWorkshopWithoutClean(workshop);
-  const participants =
-    denormalizedWorkshop && denormalizedWorkshop.participants;
-  const ajv = new Ajv({ allErrors: true, verbose: true });
+  const surveyVariablesGrid = useSelector(selectSurveyVariablesGrid);
+  const participantsGrid = useSelector(selectParticipantsGrid);
+
+  const dispatch = useDispatch();
+
+  const handleSave = (workshopIdentifier) => (modifiedSurveyVariablesGrid) => {
+    const modifiedSurveyVariables = selectModifiedSurveyVariables(
+      modifiedSurveyVariablesGrid
+    );
+    dispatch(
+      updateSurveyVariables(workshopIdentifier, modifiedSurveyVariables)
+    );
+  };
+
+  const handleValidate = (workshopIdentifier) => (participantIds) => {
+    dispatch(validateParticipants(workshopIdentifier, participantIds));
+  };
 
   return (
     <Loading loadError={loadError} isLoading={isLoading}>
-      <DataEditor
-        data={participants}
-        // onChange={this.handleChange}
-        ajv={ajv}
-        schema={participantsSchema}
+      <SurveyVariablesDataSheet
+        surveyVariablesGrid={surveyVariablesGrid}
+        participantsGrid={participantsGrid}
+        handleSave={handleSave(workshopId)}
+        handleValidate={handleValidate(workshopId)}
       />
     </Loading>
   );

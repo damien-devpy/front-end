@@ -15,11 +15,13 @@ const computeNewCarbonVariables = (
 ) => {
   const newCarbonVariables = {};
   actions.forEach((action) => {
+    const carbonVariablesBeforeAction = { ...newCarbonVariables };
     action.operations.forEach((operation) => {
       newCarbonVariables[operation.variable] = jsonLogic.apply(
         operation.operation,
         {
           ...oldCarbonVariables,
+          ...carbonVariablesBeforeAction,
           ...globalVariables,
         }
       );
@@ -70,44 +72,82 @@ const sumTree = (node, valueAccessor = (n) => n.value, key = 'value') => {
 };
 const valueOnAllLevels = (footprintStructure) => sumTree(footprintStructure);
 
+const computePeerAwarenessScore = (actionCard, nbTotalPersonsSimulated) =>
+  actionCard.peerAwarenessScore / nbTotalPersonsSimulated;
+
+const computePeerInspirationScore = (actionCard, nbTotalPersonsSimulated) =>
+  actionCard.peerInspirationScore /
+  (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
+  2;
+
+const computePressureScore = (actionCard, nbParticipants) =>
+  actionCard.systemicPressureScore / nbParticipants / MAX_INFLUENCE_POINTS / 2;
+
+const computeWeakSignalScore = (actionCard, nbTotalPersonsSimulated) =>
+  actionCard.systemicWeakSignals /
+  (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
+  2;
+
 const computeSocialVariables = (
   oldSocialVariables,
   participantIndividualChoices,
   citizenIndividualChoices,
   collectiveActionCardIds,
   actionCards,
-  nbParticipants
+  nbParticipants,
+  nbDisctinctCitizens
 ) => {
   let { socialScore, influenceScore } = oldSocialVariables;
   const nbTotalPersonsSimulated = Math.round(
     nbParticipants / RATE_PARTICIPANTS
   );
-  const individualActions = [
-    ...participantIndividualChoices,
-    ...citizenIndividualChoices,
-  ];
-  individualActions.forEach((personAction) => {
+  const ratioCitizens =
+    (nbTotalPersonsSimulated - nbParticipants) / nbDisctinctCitizens;
+  participantIndividualChoices.forEach((personAction) => {
     personAction.actionCardIds.forEach((actionCardId) => {
       socialScore +=
-        actionCards[actionCardId].peerInspirationScore /
-        (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
-        2;
+        computePeerAwarenessScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        ) +
+        computePeerInspirationScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        );
+      influenceScore +=
+        computePressureScore(actionCards[actionCardId], nbParticipants) +
+        computeWeakSignalScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        );
+    });
+  });
+  citizenIndividualChoices.forEach((personAction) => {
+    personAction.actionCardIds.forEach((actionCardId) => {
       socialScore +=
-        actionCards[actionCardId].peerAwarenessScore / nbTotalPersonsSimulated;
+        computePeerAwarenessScore(
+          actionCards[actionCardId],
+          nbTotalPersonsSimulated
+        ) +
+        ratioCitizens *
+          computePeerInspirationScore(
+            actionCards[actionCardId],
+            nbTotalPersonsSimulated
+          );
       influenceScore +=
-        actionCards[actionCardId].systemicWeakSignals /
-        (nbTotalPersonsSimulated * NB_MAX_HEARTS) /
-        2;
-      influenceScore +=
-        actionCards[actionCardId].systemicPressureScore /
-        nbParticipants /
-        MAX_INFLUENCE_POINTS /
-        2;
+        computePressureScore(actionCards[actionCardId], nbParticipants) +
+        ratioCitizens *
+          computeWeakSignalScore(
+            actionCards[actionCardId],
+            nbTotalPersonsSimulated
+          );
     });
   });
   collectiveActionCardIds.forEach((actionCardId) => {
-    socialScore += actionCards[actionCardId].peerAwarenessScore;
+    socialScore += actionCards[actionCardId].peerAwarenessScore / 10;
   });
+  // eslint-disable-next-line no-console
+  console.log('socialScores: ', { socialScore, influenceScore });
   return { socialScore, influenceScore };
 };
 
@@ -122,8 +162,9 @@ const getActionsTakenBeforeYear = (
       citizenYearKey
     );
     if (yearForAction < year && citizenId === citizenIdForAction) {
-      actionsTakenBeforeYear +=
-        citizenIndividualActionCards[citizenYearKey].actionCardIds;
+      actionsTakenBeforeYear = actionsTakenBeforeYear.concat(
+        citizenIndividualActionCards[citizenYearKey].actionCardIds
+      );
     }
   });
   return actionsTakenBeforeYear;
@@ -139,18 +180,22 @@ const computeCitizenIndividualChoices = (
   citizens.forEach((citizen) => {
     const alreadyTakenActionIds = getActionsTakenBeforeYear(
       previousCitizenIndividualChoices,
-      citizen,
+      citizen.id,
       yearFrom
     );
     const newActionCardIdsForCitizen = [];
     actionCards.forEach((actionCard) => {
       const isSocialScoreBigEnough =
-        socialVariables.socialScore >
+        socialVariables.socialScore * 100 >=
         citizen.reluctancy + actionCard.reluctancyForCitizens;
       if (
         isSocialScoreBigEnough &&
         !alreadyTakenActionIds.includes(actionCard.id)
       ) {
+        // eslint-disable-next-line no-console
+        console.log(
+          `Citizen ${citizen.firstName} takes action ${actionCard.key}`
+        );
         newActionCardIdsForCitizen.push(actionCard.id);
       }
     });
@@ -164,7 +209,12 @@ const computeCitizenIndividualChoices = (
   return newCitizenIndividualChoices;
 };
 
-const computeBudget = (influenceScore) => {
+const computeBudget = (
+  influenceScore,
+  oldBudget = 0,
+  collectiveActionCardIds = [],
+  actionCards = []
+) => {
   const startingBudget = 3;
   const minBudget = 3;
   const maxBudget = 8;
@@ -174,7 +224,14 @@ const computeBudget = (influenceScore) => {
   const approximativeBudget = Math.floor(
     startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
   );
-  return Math.max(Math.min(approximativeBudget, maxBudget), minBudget);
+  const additionalBudget = Math.max(
+    Math.min(approximativeBudget, maxBudget),
+    minBudget
+  );
+  const usedBudget = collectiveActionCardIds
+    .map((id) => actionCards[id].cost)
+    .reduce((a, b) => a + b, 0);
+  return oldBudget + additionalBudget - usedBudget;
 };
 
 export {

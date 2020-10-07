@@ -18,9 +18,9 @@ import { useWorkshop } from '../../hooks/workshop';
 
 import DownloadButton from '../../components/DownloadButton';
 import Loading from '../../components/Loading';
+import ParticipantCarbonGraph from './components/ParticipantCarbonGraph';
 import imageVerso from '../../assets/participantsFootprintFile_verso.jpg';
 import logo2T from '../../assets/logo.png';
-import { ParticipantCarbonGraph } from './components/ParticipantCarbonGraph';
 import {
   selectCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,

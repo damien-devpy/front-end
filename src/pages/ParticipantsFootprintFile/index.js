@@ -154,19 +154,17 @@ const ParticipantsFootprintFile = ({
     const total = document
       .getElementById(`node-to-convert_${id}`)
       .getAttribute('data-total');
+    const imageOutput = {};
 
     if (chart !== undefined) {
-      const imageOutput = {};
-
       // Send the chart to getPngData
       const pngData = await getPngData(chart);
       // console.log('images length', images.length);
       imageOutput.id = id;
       imageOutput.image = pngData;
       imageOutput.total = total;
-      return imageOutput;
     }
-    return null;
+    return imageOutput;
   };
 
   if (participantsReadyIds.length !== images.length) {
@@ -179,8 +177,9 @@ const ParticipantsFootprintFile = ({
     }, 3000);
   }
   const downloadGraphs = () =>
-    images.map((image, i) =>
-      saveAs(image.image, `${fullNames[i]}_initial_graph.png`)
+    images.map(
+      (image, i) =>
+        image.image && saveAs(image.image, `${fullNames[i]}_initial_graph.png`)
     );
 
   useEffect(() => {
@@ -276,9 +275,11 @@ const GraphElement = ({ graph, t }) => {
             {t('participantsFootprintFile.personalFootprintUnit')}
           </Text>
         </View>
-        <View style={styles.graph}>
-          <Image src={graph.image} style={styles.imgGraph} />
-        </View>
+        {graph.image && (
+          <View style={styles.graph}>
+            <Image src={graph.image} style={styles.imgGraph} />
+          </View>
+        )}
       </View>
     </>
   );

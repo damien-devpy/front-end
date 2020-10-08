@@ -14,7 +14,6 @@ import { getPngData } from 'recharts-to-png';
 import { saveAs } from 'file-saver';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useWorkshop } from '../../hooks/workshop';
 
 import DownloadButton from '../../components/DownloadButton';
 import Loading from '../../components/Loading';
@@ -28,6 +27,7 @@ import {
   selectParticipantsEntity,
   selectPersonaEntity,
 } from '../../selectors/workshopSelector';
+import { useWorkshop } from '../../hooks/workshop';
 
 const styles = StyleSheet.create({
   page: {
@@ -118,7 +118,6 @@ const ParticipantsFootprintFile = ({
   const participants = useSelector(selectParticipantsEntity);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
-  console.log('carbonFootprints', carbonFootprints);
   const participantsReadyIds = Object.keys(participants).filter(
     (id) => participants[id].status === 'ready'
   );
@@ -131,7 +130,8 @@ const ParticipantsFootprintFile = ({
       (id) => `${participants[id].firstName} ${participants[id].lastName}`
     );
   const participantCarbonGraphs =
-    participants && participantsReadyIds &&
+    participants &&
+    participantsReadyIds &&
     participantsReadyIds.map((id) => {
       return (
         <ParticipantCarbonGraph
@@ -166,6 +166,7 @@ const ParticipantsFootprintFile = ({
       imageOutput.total = total;
       return imageOutput;
     }
+    return null;
   };
 
   if (participantsReadyIds.length !== images.length) {
@@ -192,7 +193,8 @@ const ParticipantsFootprintFile = ({
           isReady &&
           images &&
           participants &&
-          participantsReadyIds && fullNames && (
+          participantsReadyIds &&
+          fullNames && (
             <>
               <DownloadButton
                 colorIcon="#FFF"

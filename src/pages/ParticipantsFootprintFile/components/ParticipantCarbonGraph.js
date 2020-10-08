@@ -13,7 +13,7 @@ import {
   normaliseEmissionValue,
 } from '../../../selectors/footprintSelectors';
 
-export const loadHeatingNetworksData = async () => {
+const loadHeatingNetworksData = async () => {
   const response = await fetch('/data/heat_networks.csv');
   const text = await response.text();
   const heatingNetworksData = Papa.parse(text, { header: true });

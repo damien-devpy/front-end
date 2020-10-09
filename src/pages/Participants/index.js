@@ -12,6 +12,7 @@ import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
+import DownloadButton from '../../components/DownloadButton';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import Loading from '../../components/Loading';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -243,7 +244,6 @@ const ManageParticipants = ({
         />
       );
     });
-
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container>
@@ -256,6 +256,17 @@ const ManageParticipants = ({
           >
             <span className="emoji">&#x1F4C3;</span>
           </a>
+          {!isLoading && (
+            <Link to={`/workshop/${workshopId}/participants_file`}>
+              <DownloadButton
+                style={{ float: 'right', marginRight: 10 }}
+                colorIcon="#FFF"
+                disable={!isWorkshopReadyForInitialization}
+              >
+                {t('common.participantsFootprintFile')}
+              </DownloadButton>
+            </Link>
+          )}
         </h2>
         <Card
           className="p-5 border-light shadow-sm"
@@ -263,6 +274,7 @@ const ManageParticipants = ({
         >
           <CardHeader>
             <h3>{t('manageParticipants.title')}</h3>
+
             <AddNewButton
               disabled={disableModifications}
               onClick={() => {

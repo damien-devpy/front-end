@@ -18,6 +18,7 @@ import Simulation from './pages/Simulation';
 import WorkshopEditor from './pages/WorkshopEditor';
 import Workshops from './pages/Workshops';
 import { COLORS } from './vars';
+import { ParticipantsFootprintFile } from './pages/ParticipantsFootprintFile';
 import { changeCurrentUserPassword } from './actions/user';
 import { getAccessToken } from './utils/auth';
 import { useAuthentication } from './hooks/authentication';
@@ -39,6 +40,10 @@ const AppRouter = ({ currentUser }) => {
         <Route
           path="/workshop/:workshopId/participants"
           component={Participants}
+        />
+        <Route
+          path="/workshop/:workshopId/participants_file"
+          component={ParticipantsFootprintFile}
         />
         <Route path="/workshop/:workshopId/data" component={Data} />
         <Route path="/workshop/:workshopId/simulation" component={Simulation} />

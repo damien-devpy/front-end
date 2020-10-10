@@ -221,7 +221,7 @@ const ParticipantsFootprintFile = ({
                 </PDFDownloadLink>
               </DownloadButton>
               <DownloadButton
-                style={{ marginLeft: 20 }}
+                style={{ marginLeft: 50 }}
                 colorIcon="#FFF"
                 disabled={participantsReadyIds.length !== images.length}
                 onClick={downloadGraphs}

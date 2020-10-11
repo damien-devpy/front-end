@@ -168,13 +168,16 @@ const ParticipantsFootprintFile = ({
   };
 
   if (participantsReadyIds.length !== images.length) {
+    console.log('Start timer');
     // downloadPng()
     setTimeout(() => {
       const convertGraphs = participantsReadyIds.map((id) => downloadPng(id));
       Promise.all(convertGraphs).then((values) => {
+        console.log('All promise done. Size = ', values.length);
+
         setImages(values);
       });
-    }, 3000);
+    }, 10000);
   }
   const downloadGraphs = () =>
     images.map(

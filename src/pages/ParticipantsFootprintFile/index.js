@@ -167,18 +167,6 @@ const ParticipantsFootprintFile = ({
     return imageOutput;
   };
 
-  if (participantsReadyIds.length !== images.length) {
-    console.log('Start timer');
-    // downloadPng()
-    setTimeout(() => {
-      const convertGraphs = participantsReadyIds.map((id) => downloadPng(id));
-      Promise.all(convertGraphs).then((values) => {
-        console.log('All promise done. Size = ', values.length);
-
-        setImages(values);
-      });
-    }, 10000);
-  }
   const downloadGraphs = () =>
     images.map(
       (image, i) =>
@@ -186,6 +174,16 @@ const ParticipantsFootprintFile = ({
     );
 
   useEffect(() => {
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.log('Start 10 seconds timer');
+      const convertGraphs = participantsReadyIds.map((id) => downloadPng(id));
+      Promise.all(convertGraphs).then((values) => {
+        // eslint-disable-next-line no-console
+        console.log('All promise done. Size = ', values.length);
+        setImages(values);
+      });
+    }, 10000);
     setIsReady(true);
   }, []);
   return (

@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 
 import FootprintGraph from '../../Simulation/components/FootprintGraph';
@@ -33,30 +33,35 @@ const ParticipantCarbonGraph = ({
     total: 0,
     footprint: {},
   });
-  loadHeatingNetworksData().then((heatingNetworksData) => {
-    const { footprintStructure, variableFormulas } = model;
-    const footprint = participants[id].personaId
-      ? valueOnAllLevels(
-          computeFootprint(
-            footprintStructure,
-            variableFormulas,
-            computeCarbonVariables(
-              personas[participants[id].personaId].surveyVariables,
-              globalCarbonVariables,
-              heatingNetworksData
-            ),
-            globalCarbonVariables
-          )
-        )
-      : carbonFootprints[`${startYear}-${id}`].footprint;
+  useEffect(() => {
+    if (model) {
+      loadHeatingNetworksData().then((heatingNetworksData) => {
+        const { footprintStructure, variableFormulas } = model;
+        const footprint = participants[id].personaId
+          ? valueOnAllLevels(
+              computeFootprint(
+                footprintStructure,
+                variableFormulas,
+                computeCarbonVariables(
+                  personas[participants[id].personaId].surveyVariables,
+                  globalCarbonVariables,
+                  heatingNetworksData
+                ),
+                globalCarbonVariables
+              )
+            )
+          : carbonFootprints[`${startYear}-${id}`].footprint;
 
-    const footprintShaped = footprintDataToGraph(footprint);
+        const footprintShaped = footprintDataToGraph(footprint);
 
-    setFootprintParticipant({
-      footprint: footprintShaped,
-      total: normaliseEmissionValue(footprint.value),
-    });
-  });
+        setFootprintParticipant({
+          footprint: footprintShaped,
+          total: normaliseEmissionValue(footprint.value),
+        });
+      });
+    }
+  }, []);
+
   return (
     <div
       id={`node-to-convert_${id}`}
@@ -68,8 +73,8 @@ const ParticipantCarbonGraph = ({
           <FootprintGraph
             footprint={footprintParticipant.footprint}
             totalEmissions={footprintParticipant.total}
-            aspect={1.5}
-            width="90%"
+            aspect={1.2}
+            width="100%"
           />
         )}
       </Container>

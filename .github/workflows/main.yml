@@ -40,8 +40,8 @@ on:
     branches:
       - master
 
-name: front
-  build-push:
+name: front-rpdo
+  build-push-prod:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0

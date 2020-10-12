@@ -11,7 +11,7 @@ const carbonFootprints = {
       value: 17,
       children: [
         {
-          name: 'transports',
+          name: 'transports_1',
           children: [
             {
               name: 'plane',
@@ -21,12 +21,17 @@ const carbonFootprints = {
           ],
         },
         {
-          name: 'transports',
+          name: 'transports_2',
           children: [
             {
-              name: 'plane',
+              name: 'boat',
               cfKey: 'cf_boat',
               value: 0,
+            },
+            {
+              name: 'other',
+              cfKey: 'cf_other',
+              value: 3,
             },
           ],
         },
@@ -109,37 +114,41 @@ describe('carbonVariablesSelector', () => {
         state,
         'cf_plane'
       );
-      const expectedVariablesArray = new Set(['kmPlane', 'EI_PLANE']);
-      expect(actualVariablesArray).toEqual(expectedVariablesArray);
+      const expectedVariablesArray = ['kmPlane', 'EI_PLANE'];
+      expect(actualVariablesArray.sort()).toEqual(
+        expectedVariablesArray.sort()
+      );
     });
     test('should list all variables used to compute this CfKey', () => {
       const actualVariablesArray = selectVariablesUsedInCfKey(
         state,
         'cf_car_commute'
       );
-      const expectedVariablesArray = new Set([
+      const expectedVariablesArray = [
         'kmCarCommutePerYear',
         'categoryCarCommute',
         'motorTypeCarCommute',
         'ageCategoryCarCommute',
         'coefficientEnergyEfficientDriving',
         'passengersPerCarCommute',
-      ]);
-      expect(actualVariablesArray).toEqual(expectedVariablesArray);
+      ];
+      expect(actualVariablesArray.sort()).toEqual(
+        expectedVariablesArray.sort()
+      );
     });
   });
   describe('test selectFootprintValue ', () => {
-    test('Works for easy case', () => {
-      const actualValue = selectFootprintValue(state, 1, 2020, 'cf_plane');
+    test('Returns correct value when given the name of a footprint category', () => {
+      const actualValue = selectFootprintValue(state, 1, 2020, 'plane');
       expect(actualValue).toBe(2);
     });
-    test('Work s with 0 value', () => {
-      const actualValue = selectFootprintValue(state, 1, 2020, 'cf_boat');
+    test('Returns 0 if value is 0', () => {
+      const actualValue = selectFootprintValue(state, 1, 2020, 'boat');
       expect(actualValue).toBe(0);
     });
-    test('Works with root', () => {
-      const actualValue = selectFootprintValue(state, 1, 2020, 'cf_plane');
-      expect(actualValue).toBe(2);
+    test('Returns null if not found', () => {
+      const actualValue = selectFootprintValue(state, 1, 2020, 'missing_name');
+      expect(actualValue).toBe(null);
     });
   });
 });

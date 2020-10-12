@@ -84,6 +84,9 @@ export const selectIsCurrentWorkshopSynchronized = (state) =>
 export const selectCurrentWorkshopInfo = (state) =>
   pathOr({}, ['workshop', 'result'], state);
 
+export const selectRounds = (state) =>
+  pathOr([], ['workshop', 'result', 'rounds'], state);
+
 export const selectCurrentRound = (state) =>
   pathOr(null, ['workshop', 'result', 'currentYear'], state);
 
@@ -268,15 +271,27 @@ export const selectCollectiveChoicesEntity = (state) =>
 export const selectCarbonFootprintsEntity = (state) =>
   selectWorkshopEntity(selectCurrentWorkshop(state), 'carbonFootprints');
 
-export const selectOneFootprint = (state, candidateId, year) =>
-  selectCarbonFootprintsEntity(state)[makeYearParticipantKey(year, candidateId)]
-    .footprint;
+export const selectOneFootprint = (state, participantId, year) =>
+  pathOr(
+    {},
+    [makeYearParticipantKey(year, participantId), 'footprint'],
+    selectCarbonFootprintsEntity(state)
+  );
 
 export const selectCarbonVariablesEntity = (state) =>
-  selectWorkshopEntity(selectCurrentWorkshop(state), 'carbonFootprints');
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'carbonVariables');
+export const selectGlobalCarbonVariablesEntity = (state) =>
+  selectWorkshopEntity(selectCurrentWorkshop(state), 'globalCarbonVariables');
 
-export const selectOneCarbonVariablesObject = (state, candidateId, year) =>
-  selectCarbonVariablesEntity(state)[makeYearParticipantKey(year, candidateId)];
+export const selectOneCarbonVariablesObject = (state, participantId, year) =>
+  pathOr(
+    {},
+    [makeYearParticipantKey(year, participantId), 'variables'],
+    selectCarbonVariablesEntity(state)
+  );
+
+export const selectOneGlobalCarbonVariablesObject = (state, year) =>
+  pathOr({}, [year], selectGlobalCarbonVariablesEntity(state));
 
 export const selectParticipantsEntity = (state) =>
   selectWorkshopEntity(selectCurrentWorkshop(state), 'participants');

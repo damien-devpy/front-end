@@ -41,43 +41,33 @@ const selectVariableFormula = (state, cfKey) => {
 };
 const selectVariablesUsedInCfKey = (state, cfKey) => {
   const formula = selectVariableFormula(state, cfKey);
-  return getAllVariablesFromFormula(formula);
+  return Array.from(getAllVariablesFromFormula(formula));
 };
 
-const getCfKeyInCarbonFootprint = (node, cfKey, key = 'value') => {
+const getCategoryInCarbonFootprint = (node, name) => {
   let res;
-  if (node.cfKey === cfKey) {
+  if (node.name === name) {
     return node.value;
   }
   if (node.children) {
     let i;
     // eslint-disable-next-line no-plusplus
     for (i = 0; i < node.children.length; i++) {
-      res = getCfKeyInCarbonFootprint(node.children[i], cfKey, key);
-      if (res) {
-        break;
+      res = getCategoryInCarbonFootprint(node.children[i], name);
+      if (res !== null) {
+        return res;
       }
     }
-    return res;
   }
   return null;
 };
-const selectFootprintValue = (state, participantId, year, cfKey) => {
+const selectFootprintValue = (state, participantId, year, name) => {
   const footprint = selectOneFootprint(state, participantId, year);
-  return getCfKeyInCarbonFootprint(footprint, cfKey);
-};
-
-const selectCarbonVariableValue = (state, participantId, year, key) => {
-  const carbonVariablesDict = selectOneCarbonVariablesObject(
-    state,
-    participantId,
-    year
-  );
-  return carbonVariablesDict[key];
+  return getCategoryInCarbonFootprint(footprint, name);
 };
 
 export {
   selectVariablesUsedInCfKey,
   selectFootprintValue,
-  selectCarbonVariableValue,
+  selectOneCarbonVariablesObject,
 };

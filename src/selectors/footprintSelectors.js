@@ -110,14 +110,15 @@ export const participantFootprint = (
 
 export const footprintDataToGraph = (footprintData) => {
   const footprintArray = [];
-
-  footprintData.children.forEach((sectorData) => {
-    const sectorObject = { name: sectorData.name };
-    sectorData.children.forEach((categData) => {
-      sectorObject[categData.name] = normaliseEmissionValue(categData.value);
+  if (footprintData.children) {
+    footprintData.children.forEach((sectorData) => {
+      const sectorObject = { name: sectorData.name };
+      sectorData.children.forEach((categData) => {
+        sectorObject[categData.name] = normaliseEmissionValue(categData.value);
+      });
+      footprintArray.push(sectorObject);
     });
-    footprintArray.push(sectorObject);
-  });
+  }
   return footprintArray;
 };
 

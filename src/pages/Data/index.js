@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { Card, Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 import CfKeyInspector from './CarbonVariablesDataDisplay';
 import CfKeySelector from './CfKeySelector';
+import FootprintGraph from '../Simulation/components/FootprintGraph';
 import Loading from '../../components/Loading';
 import ParticipantDropdown from './ParticipantDropdown';
 import SurveyVariablesDataSheet from './SurveyVariablesDataSheet';
 import YearDropDown from './YearDropDown';
+import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import {
   selectFootprintStructure,
+  selectOneFootprint,
   selectOneGlobalCarbonVariablesObject,
   selectParticipantsEntity,
   selectRounds,
@@ -42,6 +46,13 @@ const Data = ({
   const [year, setYear] = useState(years[0]);
   const [selectedNode, setSelectedNode] = useState(footprintStructure);
 
+  const footprint = useSelector(
+    (state) => (selectedParticipantId, selectedYear) =>
+      footprintDataToGraph(
+        selectOneFootprint(state, selectedParticipantId, selectedYear)
+      )
+  )(participantId, year, selectedNode.name);
+
   const footprintValue = useSelector(
     (state) => (selectedParticipantId, selectedYear, categoryName) =>
       selectFootprintValue(
@@ -66,31 +77,53 @@ const Data = ({
 
   return (
     <Loading loadError={loadError} isLoading={isLoading}>
-      <SurveyVariablesDataSheet
-        surveyVariablesGrid={surveyVariablesGrid}
-        resetOpenNodesOnDataUpdate={false}
-        hasSearch={false}
-        isOpen={false}
-      />
+      <Container>
+        <SurveyVariablesDataSheet
+          surveyVariablesGrid={surveyVariablesGrid}
+          resetOpenNodesOnDataUpdate={false}
+          hasSearch={false}
+          isOpen={false}
+        />
+        <Card>
+          <Container>
+            <Row>
+              <div className="col-md-4">
+                <ParticipantDropdown
+                  selectedParticipantId={participantId}
+                  participants={participants}
+                  setParticipantId={setParticipantId}
+                />
+                <YearDropDown
+                  selectedYear={year}
+                  years={years}
+                  setYear={setYear}
+                />
+              </div>
+              <div className="col-md-8">
+                <FootprintGraph footprint={footprint} />
+              </div>
+            </Row>
+          </Container>
 
-      <CfKeySelector
-        footprintStructure={footprintStructure}
-        selectedNode={selectedNode}
-        setSelectedNode={setSelectedNode}
-      />
-
-      <ParticipantDropdown
-        selectedParticipantId={participantId}
-        participants={participants}
-        setParticipantId={setParticipantId}
-      />
-      <YearDropDown selectedYear={year} years={years} setYear={setYear} />
-      <CfKeyInspector
-        footprintValue={footprintValue}
-        carbonVariables={carbonVariables}
-        globalCarbonVariables={globalCarbonVariables}
-        variableNames={variableNames}
-      />
+          <Row>
+            <div className="col-md-4">
+              <CfKeySelector
+                footprintStructure={footprintStructure}
+                selectedNode={selectedNode}
+                setSelectedNode={setSelectedNode}
+              />
+            </div>
+            <div className="col-md-8">
+              <CfKeyInspector
+                footprintValue={footprintValue}
+                carbonVariables={carbonVariables}
+                globalCarbonVariables={globalCarbonVariables}
+                variableNames={variableNames}
+              />
+            </div>
+          </Row>
+        </Card>
+      </Container>
     </Loading>
   );
 };

@@ -4,12 +4,11 @@ import { useSelector } from 'react-redux';
 
 import CfKeyInspector from './CarbonVariablesDataDisplay';
 import CfKeySelector from './CfKeySelector';
-import FootprintGraph from '../Simulation/components/FootprintGraph';
+import FootprintGraphType from '../Simulation/components/FootprintGraphType';
 import Loading from '../../components/Loading';
 import ParticipantDropdown from './ParticipantDropdown';
 import SurveyVariablesDataSheet from './SurveyVariablesDataSheet';
 import YearDropDown from './YearDropDown';
-import { footprintDataToGraph } from '../../selectors/footprintSelectors';
 import {
   selectFootprintStructure,
   selectOneFootprint,
@@ -48,9 +47,7 @@ const Data = ({
 
   const footprint = useSelector(
     (state) => (selectedParticipantId, selectedYear) =>
-      footprintDataToGraph(
-        selectOneFootprint(state, selectedParticipantId, selectedYear)
-      )
+      selectOneFootprint(state, selectedParticipantId, selectedYear)
   )(participantId, year, selectedNode.name);
 
   const footprintValue = useSelector(
@@ -100,7 +97,7 @@ const Data = ({
                 />
               </div>
               <div className="col-md-8">
-                <FootprintGraph footprint={footprint} />
+                <FootprintGraphType carbonFootprint={footprint} />
               </div>
             </Row>
           </Container>

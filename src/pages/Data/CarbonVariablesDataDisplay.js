@@ -7,9 +7,6 @@ import { useTranslation } from 'react-i18next';
 import CardHeader from '../../components/CardHeader';
 
 const CfKeyInspector = ({
-  participantName,
-  year,
-  node,
   footprintValue,
   globalCarbonVariables,
   carbonVariables,
@@ -22,7 +19,7 @@ const CfKeyInspector = ({
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
         <CardHeader>
           <h2>
-            {participantName} - {year} - {node.name}
+            Données de la catégorie carbone, pour ce participant et cette année
           </h2>
         </CardHeader>
         <h3>
@@ -36,7 +33,8 @@ const CfKeyInspector = ({
             .filter((key) => key in carbonVariables)
             .map((key) => (
               <li>
-                {t(`cf.${key}`)} : {carbonVariables[key]}
+                {t(`carbonVariables.${key}`)} :{' '}
+                {Math.round(carbonVariables[key] * 100) / 100}
               </li>
             ))}
         </ul>
@@ -46,7 +44,8 @@ const CfKeyInspector = ({
             .filter((key) => key in globalCarbonVariables)
             .map((key) => (
               <li key={key}>
-                {key} : {globalCarbonVariables[key]}
+                {t(`globalCarbonVariables.${key}`)} :{' '}
+                {Math.round(globalCarbonVariables[key] * 100) / 100}
               </li>
             ))}
         </ul>

@@ -63,7 +63,7 @@ const getCategoryInCarbonFootprint = (node, name) => {
 };
 const selectFootprintValue = (state, participantId, year, name) => {
   const footprint = selectOneFootprint(state, participantId, year);
-  return getCategoryInCarbonFootprint(footprint, name);
+  return Math.round(getCategoryInCarbonFootprint(footprint, name) * 100) / 100;
 };
 
 export {

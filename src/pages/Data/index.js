@@ -86,9 +86,6 @@ const Data = ({
       />
       <YearDropDown selectedYear={year} years={years} setYear={setYear} />
       <CfKeyInspector
-        participantName={participantId}
-        year={year}
-        node={selectedNode}
         footprintValue={footprintValue}
         carbonVariables={carbonVariables}
         globalCarbonVariables={globalCarbonVariables}

@@ -162,8 +162,7 @@ export default {
     AsI_TC: 'REMPLACER LA VOITURE PAR LES TRANSPORTS EN COMMUN',
   },
   data: {
-    carbonVariablesDisplayTitle:
-      'Valeur pour ce candidat : {{footprintValue}} kg de CO2',
+    carbonVariablesDisplayTitle: 'Valeur : {{footprintValue}} kg de CO2',
     individualCarbonVariablesDisplayTitle:
       'Variables individuelles du participant',
     globalCarbonVariablesDisplayTitle:
@@ -258,6 +257,210 @@ export default {
     elecPublicServices: 'Service publics - électricité',
     gasPublicServices: 'Services publics - gaz',
     otherPublicServices: 'Services publics - autres',
+  },
+  carbonVariables: {
+    kmCarCommutePerYear:
+      'Distance parcourue en voiture pour les trajets quotidiens (en km/an)',
+    kmUrbanBusPerYear: 'Distance parcourue en bus (en km/an)',
+    kmUrbanTrainPerYear: 'Distance parcourue en RER (en km/an)',
+    coefficientEnergyEfficientDriving: "Coefficient d'efficience de conduite",
+    categoryCarCommute:
+      'Catégorie de la voiture utilisée pour les trajets quotidiens',
+    motorTypeCarCommute:
+      'Type de moteur de la voiture utilisée pour les trajets quotidiens',
+    ageCategoryCarCommute:
+      "Catégorie d'âge de la voiture utilisée pour les trajets quotidiens",
+    passengersPerCarCommute:
+      'Nombre de passagers dans la voiture pour les trajets quotidiens',
+    categoryCarTravel:
+      'Catégorie de la voiture utilisée pour les trajets exceptionnels',
+    motorTypeCarTravel:
+      'Type de moteur de la voiture utilisée pour les trajets exceptionnels',
+    ageCategoryCarTravel:
+      "Catégorie d'âge de la voiture utilisée pour les trajets exceptionnels",
+    kmCarTravelPerYear:
+      'Distance parcourue en voiture pour les trajets exceptionnels (en km/an)',
+    passengersPerCarTravel:
+      'Nombre de passagers dans la voiture pour les trajets exceptionnels',
+    kmCoachTravel: 'Distance parcourue en car (en km/an)',
+    kmCountryTrain: 'Distance parcourue en train (en km/an)',
+    kmPlane: 'Distance parcourue en avion (en km/an)',
+    redMeatKgPerYear: 'Quantité de viande rouge (en kg/an)',
+    whiteMeatKgPerYear: 'Quantité de viande blanche (en kg/an)',
+    fishKgPerYear: 'Quantité de poisson (en kg/an)',
+    eggsKgPerYear: "Quantité d'oeufs (en kg/an)",
+    dairiesKgPerYear: 'Quantité de produits laitiers (en kg/an)',
+    transformedProductsKgPerYear: 'Quantité de produits transformés (en kg/an)',
+    fruitsAndVegetablesKgPerYear: 'Quantité de fruits et légumes (en kg/an)',
+    starchesAndGroceriesKgPerYear:
+      'Quantité de féculents et épicerie (en kg/an)',
+    alcoholConsoLitersPerYear: "Quantité d'alcool (en L/an)",
+    hotDrinksConsoLitersPerYear: 'Quantité de boissons chaudes (en L/an)',
+    juicesAndSodasConsoLitersPerYear: 'Quantité de jus et sodas (en L/an)',
+    fruitsAndVegetablePercentageLocal:
+      'Pourcentage de fruits et légumes locaux',
+    woodHeatingKwh: 'Énergie utilisée pour le chauffage au bois (en kWh)',
+    woodCookingKwh: 'Énergie utilisée pour la cuisson au bois (en kWh)',
+    woodWaterHeatingKwh:
+      "Énergie utilisée pour le chauffage de l'eau au bois (en kWh)",
+    gasHeatingKwh: 'Énergie utilisée pour le chauffage au gaz (en kWh)',
+    gasCookingKwh: 'Énergie utilisée pour la cuisson au gaz (en kWh)',
+    gasWaterHeatingKwh:
+      "Énergie utilisée pour le chauffage de l'eau au gaz (en kWh)",
+    fuelHeatingKwh: 'Énergie utilisée pour le chauffage au fioul (en kWh)',
+    fuelCookingKwh: 'Énergie utilisée pour la cuisson au fioul (en kWh)',
+    fuelWaterHeatingKwh:
+      "Énergie utilisée pour le chauffage de l'eau au fioul (en kWh)",
+    elecHeatingKwh:
+      "Énergie utilisée pour le chauffage à l'électicité (en kWh)",
+    elecCookingKwh: "Énergie utilisée pour la cuisson à l'électicité (en kWh)",
+    elecWaterHeatingKwh:
+      "Énergie utilisée pour le chauffage de l'eau à l'électicité (en kWh)",
+    elecLightningKwh:
+      'Énergie utilisée pour les appareils électriques (en kWh)',
+    heatNetworkHeatingKwh:
+      'Énergie utilisée pour le chauffage au réseau de chaleur (en kWh)',
+    heatNetworkWaterHeatingKwh:
+      "Énergie utilisée pour le chauffage de l'eau au réseau de chaleur (en kWh)",
+    eiHeatNetwork: "Facteur d'émission réseau de chaleur (en kgCO2/kWh)",
+    residentsPerHousing: 'Nombre de personnes habitant dans le logement',
+    houseSurfaceArea: 'Surface maison (en m2)',
+    flatSurfaceArea: 'Surface appartement (en m2)',
+    internetStreamingHoursPerYear: 'Temps de streaming internet (en h)',
+    activitiesPerYear: "Nombre d'activités et sorties par an",
+    numberBigAppliances: 'Nombre de gros appareils éléctroménagers',
+    numberSmallAppliances: 'Nombre de petits appareils éléctroménagers',
+    electricityProvider: "Type de fournisseur d'électricité",
+    numberSmallDevices: 'Nombre de petits appreils électroniques',
+    numberBigDevices: 'Nombre de gros appreils électroniques',
+    clothesNewItems: 'Nombre de nouveaux vêtements par an',
+  },
+  globalCarbonVariables: {
+    WEEKS_PER_YEAR: 'Nombre de semaines dans une année',
+    DAYS_PER_YEAR: 'Nombre de jours dans une année',
+    DAYS_PER_WEEK: 'Nombre de jours dans une semaine',
+    MONTHS_PER_YEAR: 'Nombre de mois dans une année',
+    EI_URBAN_BUS: "Facteur d'émission - bus (en kgCO2/km)",
+    EI_COACH: "Facteur d'émission - car (en kgCO2/km)",
+    EI_RED_MEAT: "Facteur d'émission - viande rouge (en kgCO2/kg)",
+    EI_WHITE_MEAT: "Facteur d'émission - viande blanche (en kgCO2/kg)",
+    EI_FISH: "Facteur d'émission - poisson (en kgCO2/kg)",
+    EI_EGGS: "Facteur d'émission - oeufs (en kgCO2/kg)",
+    EI_DAIRIES: "Facteur d'émission - produits laitiers (en kgCO2/kg)",
+    EI_LOCAL_FRUITS_AND_VEGETABLES:
+      "Facteur d'émission - fruits et légumes locaux (en kgCO2/kg)",
+    EI_IMPORTED_FRUITS_AND_VEGETABLES:
+      "Facteur d'émission - fruits et légumes importés (en kgCO2/kg)",
+    EI_TRANSFORMED_PRODUCTS:
+      "Facteur d'émission - produits transformés (en kgCO2/kg)",
+    EI_STARCHES_AND_GROCERIES:
+      "Facteur d'émission - féculents et épicerie (en kgCO2/kg)",
+    EI_ALCOHOL: "Facteur d'émission - alcool (en kgCO2/L)",
+    EI_HOT_DRINKS: "Facteur d'émission - boissons chaudes (en kgCO2/L)",
+    EI_JUICES_AND_SODAS: "Facteur d'émission - jus et sodas (en kgCO2/L)",
+    EI_URBAN_TRAIN: "Facteur d'émission - métro (en kgCO2/km)",
+    EI_COUNTRY_TRAIN: "Facteur d'émission - train (en kgCO2/km)",
+    EI_PLANE: "Facteur d'émission - avion (en kgCO2/km)",
+    EI_BIG_APPLIANCE:
+      "Facteur d'émission - gros électroménager (en kgCO2/unité)",
+    EI_SMALL_APPLIANCE:
+      "Facteur d'émission - petit électroménager (en kgCO2/unité)",
+    CF_BOILER: "Empreinte carbone annuelle d'une chaudière (en kgCO2)",
+    EI_FURNITURES_PER_SQUARE_METER:
+      "Facteur d'émission - mobilier supplémentaire (en kgCO2/m2)",
+    CF_FURNITURES_MIN_ONE_RESIDENT:
+      "Facteur d'émission - mobilier élémentaire pour une personne (en kgCO2)",
+    EI_CONSTRUCTION_HOUSE_PER_SQUARE_METER:
+      "Facteur d'émission - construction maison (en kgCO2/m2)",
+    EI_CONSTRUCTION_FLAT_PER_SQUARE_METER:
+      "Facteur d'émission - construction appartement (en kgCO2/m2)",
+    EI_MAINTENANCE_PER_SQUARE_METER:
+      "Facteur d'émission - entretien logement (en kgCO2/m2)",
+    EI_WATER_PER_LITER: "Facteur d'émission - consommation d'eau (en kgCO2/L)",
+    WATER_CONSO_LITER_PER_YEAR_PER_PERSON:
+      "Consommation d'eau anuelle moyenne (en L)",
+    EI_CONVENTIONAL_ELEC_PER_KWH:
+      "Facteur d'émission - électricité conventionnelle (en kgCO2/kWh)",
+    EI_ALTERNATIVE_ELEC_PER_KWH:
+      "Facteur d'émission - électricité alternative (en kgCO2/kWh)",
+    EI_GAS_PER_KWH: "Facteur d'émission - gaz (en kgCO2/kWh)",
+    EI_FUEL_OIL_PER_KWH: "Facteur d'émission - fioul (en kgCO2/kWh)",
+    EI_WOOD_PER_KWH: "Facteur d'émission - bois (en kgCO2/kWh)",
+    EI_INTERNET_STREAMING:
+      "Facteur d'émission - streaming internet (en kgCO2/h)",
+    CF_INTERNET_OTHERS:
+      'Empreinte carbone - internet hors streaming (en kgCO2)',
+    EI_BIG_DEVICES:
+      "Facteur d'émission - petits appareils électroniques (en kgCO2/unité)",
+    EI_SMALL_DEVICES:
+      "Facteur d'émission - gros appareils électroniques (en kgCO2/unité)",
+    CF_SERVICES_GAS: 'lksdjf',
+    CF_SERVICES_ELECTRICITY: 'lksdjf',
+    CF_GOODS_AND_SERVICES_WITHOUT_ENERGY: 'lksdjf',
+    EI_ACTIVITIES_GAS:
+      "Facteur d'émission - activités (gaz) (en kgCO2/activité)",
+    EI_ACTIVITIES_ELEC:
+      "Facteur d'émission - activités (électricité) (en kgCO2/activité)",
+    EI_ACTIVITIES_WITHOUT_ENERGY:
+      "Facteur d'émission - activités (autres) (en kgCO2/activité)",
+    EI_CLOTHES_PER_ITEM: "Facteur d'émission - vêtements (en kgCO2/unité)",
+    // EI_HOUSING_PER_SURFACE_AREA: {
+    //   HOUSE: {
+    //     BEFORE_1975: 232.5,
+    //     BETWEEN_1975_AND_2000: 142.5,
+    //     AFTER_2000: 72.5,
+    //   },
+    //   FLAT: {
+    //     BEFORE_1975: 205.1,
+    //     BETWEEN_1975_AND_2000: 115.1,
+    //     AFTER_2000: 45.1,
+    //   },
+    // },
+    // EI_CAR: {
+    //   URBAN: {
+    //     FUEL: 0.232,
+    //     ELECTRIC: 0.09915,
+    //     HYBRID: 0.171,
+    //   },
+    //   BIG: {
+    //     FUEL: 0.2665,
+    //     ELECTRIC: 0.139,
+    //     HYBRID: 0.2245,
+    //   },
+    //   SPORT: {
+    //     FUEL: 0.344,
+    //     ELECTRIC: 0.3125,
+    //     HYBRID: 0.3125,
+    //   },
+    //   LOW_CARBON: {
+    //     FUEL: 0.1,
+    //     ELECTRIC: 0.1,
+    //     HYBRID: 0.1,
+    //   },
+    // },
+    // MOTOR_AGING_FACTOR: {
+    //   FUEL: {
+    //     TEN_YEARS_OR_YOUNGER: 0.94329,
+    //     BEETWEEN_TEN_AND_FIFTEEN_YEARS: 1.10134,
+    //     FIFTEEN_YEARS_OR_OLDER: 1.16487,
+    //   },
+    //   ELECTRIC: {
+    //     TEN_YEARS_OR_YOUNGER: NumberInt(1),
+    //     BEETWEEN_TEN_AND_FIFTEEN_YEARS: NumberInt(1),
+    //     FIFTEEN_YEARS_OR_OLDER: NumberInt(1),
+    //   },
+    //   HYBRID: {
+    //     TEN_YEARS_OR_YOUNGER: NumberInt(1),
+    //     BEETWEEN_TEN_AND_FIFTEEN_YEARS: NumberInt(1),
+    //     FIFTEEN_YEARS_OR_OLDER: NumberInt(1),
+    //   },
+    // },
+    CF_GAS_SERVICES:
+      'Empreinte carbone - services publics (gaz) (en kgCO2/activité)',
+    CF_ELEC_SERVICES:
+      'Empreinte carbone - services publics (électricité) (en kgCO2/activité)',
+    CF_OTHER_SERVICES:
+      'Empreinte carbone - services publics (autres) (en kgCO2/activité)',
   },
   errors: {
     createCoach: "Impossible d'ajouter l'animateur {{coachName}}",

@@ -14,6 +14,11 @@ const CfKeyInspector = ({
 }) => {
   const { t } = useTranslation();
 
+  const formatVariableValue = (value) => {
+    return Number.isNaN(Number(value))
+      ? String(value)
+      : Math.round(value * 100) / 100;
+  };
   return (
     <Container>
       <Card className="p-5 border-light shadow-sm" style={{ borderRadius: 10 }}>
@@ -34,7 +39,7 @@ const CfKeyInspector = ({
             .map((key) => (
               <li>
                 {t(`carbonVariables.${key}`)} :{' '}
-                {Math.round(carbonVariables[key] * 100) / 100}
+                <b>{formatVariableValue(carbonVariables[key])}</b>
               </li>
             ))}
         </ul>
@@ -45,7 +50,7 @@ const CfKeyInspector = ({
             .map((key) => (
               <li key={key}>
                 {t(`globalCarbonVariables.${key}`)} :{' '}
-                {Math.round(globalCarbonVariables[key] * 100) / 100}
+                <b>{formatVariableValue(globalCarbonVariables[key])}</b>
               </li>
             ))}
         </ul>

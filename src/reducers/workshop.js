@@ -212,8 +212,8 @@ export default (state = initialState, action) => {
         ...state,
         isSynchronized: false,
         entities: {
-          actionsCards: state.entities.actionsCards,
-          actionsCardsBatches: state.entities.actionsCardsBatches,
+          actionCards: state.entities.actionCards,
+          actionCardBatches: state.entities.actionCardBatches,
           personas: state.entities.personas,
           citizens: state.entities.citizens,
           participants: state.entities.participants,

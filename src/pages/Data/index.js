@@ -81,27 +81,29 @@ const Data = ({
           hasSearch={false}
           isOpen={false}
         />
-        <Card>
-          <Container>
-            <Row>
-              <div className="col-md-4">
-                <ParticipantDropdown
-                  selectedParticipantId={participantId}
-                  participants={participants}
-                  setParticipantId={setParticipantId}
-                />
-                <YearDropDown
-                  selectedYear={year}
-                  years={years}
-                  setYear={setYear}
-                />
-              </div>
-              <div className="col-md-8">
-                <FootprintGraphType carbonFootprint={footprint} />
-              </div>
-            </Row>
-          </Container>
-
+        <Card
+          className="p-5 border-light shadow-sm"
+          style={{ borderRadius: 10 }}
+        >
+          <Row>
+            <div className="col-md-4">
+              <ParticipantDropdown
+                selectedParticipantId={participantId}
+                participants={participants}
+                setParticipantId={setParticipantId}
+              />
+              <YearDropDown
+                selectedYear={year}
+                years={years}
+                setYear={setYear}
+              />
+            </div>
+            <div className="col-md-8">
+              <FootprintGraphType carbonFootprint={footprint} />
+            </div>
+          </Row>
+        </Card>
+        <Card className="p-5 border-light shadow-sm">
           <Row>
             <div className="col-md-4">
               <CfKeySelector

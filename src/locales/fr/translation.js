@@ -97,7 +97,7 @@ export default {
     publicServices: 'Services Publics',
     resetSimulation: 'Réinitialiser la simulation',
     resetSimulationConfirmation:
-      'Si vous confirmez, les actions individuelles et collectives déjà saisies seront perdues et la simulation sera réinitialisée en 2020',
+      "Si vous confirmez, les bilans carbone des participants seront conservés et l’atelier repassera dans l’état 'En préparation'. En revanche, les actions individuelles et collectives déjà saisies seront perdues",
     resetSimulationTitle: 'Réinitialisation de la simulation',
     resources: 'Ressources',
     results: 'Bilans',

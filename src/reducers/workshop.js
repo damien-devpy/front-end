@@ -28,12 +28,14 @@ import {
   SET_COLLECTIVE_CHOICES,
   SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
   START_ROUND,
+  START_WORKSHOP,
   SURVEY_VARIABLES_UPDATED,
   UPDATE_SURVEY_VARIABLES,
   VALIDATE_PARTICIPANTS,
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
+  WORKSHOP_STARTED,
 } from '../actions/workshop';
 import { DELETE_WORKSHOP } from '../actions/workshops';
 import {
@@ -190,6 +192,18 @@ export default (state = initialState, action) => {
           rounds: [year],
           currentYear: year,
         },
+      };
+    }
+    case START_WORKSHOP: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case WORKSHOP_STARTED: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
     case RESET_WORKSHOP: {

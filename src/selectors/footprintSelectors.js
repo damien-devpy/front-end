@@ -4,6 +4,7 @@ import {
   selectCarbonFootprintsEntity,
   selectCitizenCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
+  selectFootprintStructure,
   selectRoundConfigEntity,
   selectRoundsEntity,
   selectStartYear,
@@ -18,7 +19,6 @@ const averageFootprints = (footprints, initFootprint) => {
   const keysParticipant = Object.keys(footprints);
   const weight = 1 / keysParticipant.length;
   const footprintAverage = JSON.parse(JSON.stringify(initFootprint));
-
   keysParticipant.forEach((key) => {
     const element = footprints[key].footprint;
     if (element.value) {
@@ -121,12 +121,11 @@ export const footprintDataToGraph = (footprintData) => {
   return footprintArray;
 };
 
-export const computeEvolutionGraph = (
-  roundsEntity,
-  carbonFootprintsEntity,
-  citizenFootprintsEntity,
-  footprintStructure
-) => {
+export const computeEvolutionGraph = (state) => {
+  const roundsEntity = selectRoundsEntity(state);
+  const carbonFootprintsEntity = selectCarbonFootprintsEntity(state);
+  const citizenFootprintsEntity = selectCitizenCarbonFootprintsEntity(state);
+  const footprintStructure = selectFootprintStructure(state);
   return Object.keys(roundsEntity).map((roundKey) => {
     const roundCarbonFootprints = {};
     const roundEntity = roundsEntity[roundKey];
@@ -161,6 +160,128 @@ export const computeEvolutionGraph = (
     return carbonFootprintsPerYear;
   });
 };
+
+const getRoundCarbonFootprints = (
+  roundsEntity,
+  carbonFootprintsEntity,
+  roundKey
+) => {
+  const roundEntity = roundsEntity[roundKey];
+  const { carbonFootprints: carbonFootprintKeys = [] } = roundEntity;
+  const roundCarbonFootprints = carbonFootprintKeys.reduce(
+    (accumulator, key) => ({
+      ...accumulator,
+      [key]: carbonFootprintsEntity[key],
+    }),
+    {}
+  );
+  return roundCarbonFootprints;
+};
+
+const getRoundCitizenCarbonFootprints = (
+  roundsEntity,
+  citizenCarbonFootprintsEntity,
+  roundKey
+) => {
+  const roundEntity = roundsEntity[roundKey];
+  const {
+    citizenCarbonFootprints: citizenCarbonFootprintKeys = [],
+  } = roundEntity;
+  const roundCarbonFootprints = citizenCarbonFootprintKeys.reduce(
+    (accumulator, key) => ({
+      ...accumulator,
+      [key]: citizenCarbonFootprintsEntity[key],
+    }),
+    {}
+  );
+  return roundCarbonFootprints;
+};
+
+const computeInitialGlobalAverageFootprint = (state) => {
+  const { startYear } = selectCurrentWorkshopInfo(state);
+  const roundsEntity = selectRoundsEntity(state);
+  const carbonFootprintsEntity = selectCarbonFootprintsEntity(state);
+  const citizenCarbonFootprintsEntity = selectCitizenCarbonFootprintsEntity(
+    state
+  );
+  const footprintStructure = selectFootprintStructure(state);
+  const roundKey = startYear;
+  const roundCarbonFootprints = getRoundCarbonFootprints(
+    roundsEntity,
+    carbonFootprintsEntity,
+    roundKey
+  );
+  const roundCitizenCarbonFootprints = getRoundCitizenCarbonFootprints(
+    roundsEntity,
+    citizenCarbonFootprintsEntity,
+    roundKey
+  );
+  const initialGlobalAverageFootprint = normaliseEmissionValue(
+    globalAverageFootprint(
+      roundCarbonFootprints,
+      roundCitizenCarbonFootprints,
+      footprintStructure
+    ).value
+  );
+  return initialGlobalAverageFootprint;
+};
+
+export const computeEvolutionGraphWithObjective = (state) => {
+  const objective = 2;
+  // Calculate initial global average footprint
+  const initialGlobalAverageFootprint = computeInitialGlobalAverageFootprint(
+    state
+  );
+  const { startYear, endYear } = selectCurrentWorkshopInfo(state);
+  const roundsEntity = selectRoundsEntity(state);
+  const carbonFootprintsEntity = selectCarbonFootprintsEntity(state);
+  const citizenCarbonFootprintsEntity = selectCitizenCarbonFootprintsEntity(
+    state
+  );
+  const footprintStructure = selectFootprintStructure(state);
+  const evolutionGraphValues = Object.keys(roundsEntity).map((roundKey) => {
+    const roundCarbonFootprints = {};
+    const roundEntity = roundsEntity[roundKey];
+    const { year: roundYear } = roundEntity;
+    const carbonFootprintsPerYear = { year: roundYear };
+    const { carbonFootprints: carbonFootprintKeys = [] } = roundEntity;
+    carbonFootprintKeys.forEach((carbonFootprintKey) => {
+      roundCarbonFootprints[carbonFootprintKey] =
+        carbonFootprintsEntity[carbonFootprintKey];
+      const playerId = carbonFootprintsEntity[carbonFootprintKey].participantId;
+      carbonFootprintsPerYear[playerId] = normaliseEmissionValue(
+        carbonFootprintsEntity[carbonFootprintKey].footprint.value
+      );
+    });
+    const roundCitizenCarbonFootprints = getRoundCitizenCarbonFootprints(
+      roundsEntity,
+      citizenCarbonFootprintsEntity,
+      roundKey
+    );
+    carbonFootprintsPerYear.avg_participants = normaliseEmissionValue(
+      participantsAverageFootprint(roundCarbonFootprints, footprintStructure)
+        .value
+    );
+    carbonFootprintsPerYear.avg_global = normaliseEmissionValue(
+      globalAverageFootprint(
+        roundCarbonFootprints,
+        roundCitizenCarbonFootprints,
+        footprintStructure
+      ).value
+    );
+    const value =
+      roundYear >= endYear
+        ? objective
+        : initialGlobalAverageFootprint -
+          ((initialGlobalAverageFootprint - objective) *
+            (roundYear - startYear)) /
+            (endYear - startYear);
+    carbonFootprintsPerYear.objective = Math.round(value * 100) / 100;
+    return carbonFootprintsPerYear;
+  });
+  return [...evolutionGraphValues, { year: endYear, objective }];
+};
+
 // var total footptints : récupérer les totaux ds footprint à partir de ceux du rounds
 // var = {year: round.year, round.carbonFootprints.forEach(key=> key.split("-")[1]: state.carbonFootprints[key].footprint.value) }
 

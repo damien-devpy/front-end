@@ -11,6 +11,8 @@ import { throwError } from './errors';
 
 // Workshop actions
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
+export const START_WORKSHOP = 'START_WORKSHOP';
+export const WORKSHOP_STARTED = 'WORKSHOP_STARTED';
 export const RESET_WORKSHOP = 'RESET_WORKSHOP';
 export const UPDATE_WORKSHOP = 'UPDATE_WORKSHOP';
 export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
@@ -243,6 +245,9 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
 
 export const startWorkshop = (startYear) => {
   return (dispatch) => {
+    dispatch({
+      type: START_WORKSHOP,
+    });
     fetch('/data/heat_networks.csv')
       .then((response) => response.text())
       .then((text) => Papa.parse(text, { header: true }))
@@ -250,6 +255,9 @@ export const startWorkshop = (startYear) => {
         dispatch(initWorkshop(startYear, heatNetworksData.data));
         dispatch(computeFootprints(startYear));
         dispatch(computeFootprintsForCitizen(startYear));
+        dispatch({
+          type: WORKSHOP_STARTED,
+        });
         dispatch((dispatch2, getState) => {
           const { workshop } = getState();
           dispatch2(persistWorkshop(workshop));

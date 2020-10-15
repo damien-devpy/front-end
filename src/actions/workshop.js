@@ -11,6 +11,7 @@ import { throwError } from './errors';
 
 // Workshop actions
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
+export const RESET_WORKSHOP = 'RESET_WORKSHOP';
 export const UPDATE_WORKSHOP = 'UPDATE_WORKSHOP';
 export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
 export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
@@ -89,6 +90,18 @@ const persistWorkshop = (workshop) => {
   };
 };
 
+const resetWorkshop = () => ({
+  type: RESET_WORKSHOP,
+});
+
+export const resetAndSaveWorkshop = () => {
+  return (dispatch) => {
+    dispatch(resetWorkshop());
+    dispatch((dispatch2, getState) => {
+      dispatch2(persistWorkshop(getState().workshop));
+    });
+  };
+};
 // const persistWorkshopOffline = (workshopId, workshop) => {
 //   return {
 //     type: PERSIST_WORKSHOP,

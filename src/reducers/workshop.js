@@ -22,6 +22,7 @@ import {
   INIT_WORKSHOP,
   PARTICIPANTS_VALIDATED,
   PERSIST_WORKSHOP,
+  RESET_WORKSHOP,
   RETRIEVE_WORKSHOP,
   SET_ACTIONS_FOR_CITIZENS,
   SET_COLLECTIVE_CHOICES,
@@ -188,6 +189,25 @@ export default (state = initialState, action) => {
           status: 'ongoing',
           rounds: [year],
           currentYear: year,
+        },
+      };
+    }
+    case RESET_WORKSHOP: {
+      const { currentYear, ...resultWithoutCurrentYear } = state.result;
+      return {
+        ...state,
+        isSynchronized: false,
+        entities: {
+          actionsCards: state.entities.actionsCards,
+          actionsCardsBatches: state.entities.actionsCardsBatches,
+          personas: state.entities.personas,
+          citizens: state.entities.citizens,
+          participants: state.entities.participants,
+        },
+        result: {
+          ...resultWithoutCurrentYear,
+          status: 'created',
+          rounds: [],
         },
       };
     }

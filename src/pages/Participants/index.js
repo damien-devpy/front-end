@@ -38,6 +38,7 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../selectors/footprintSelectors';
+import { resetAndSaveWorkshop, startWorkshop } from '../../actions/workshop';
 import {
   selectCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
@@ -47,7 +48,6 @@ import {
   selectParticipantsEntity,
   selectPersonaEntity,
 } from '../../selectors/workshopSelector';
-import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
 
@@ -68,6 +68,7 @@ const ManageParticipants = ({
     selectIsWorkshopReadyForInitialization
   );
   const [showBC, setShowBC] = useState(false);
+  const [showResetSimulation, setShowResetSimulation] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   const [footprintToShow, setFootprintToShow] = useState({});
 
@@ -211,6 +212,11 @@ const ManageParticipants = ({
     });
   };
 
+  const handleResetSimulation = () => {
+    setShowResetSimulation(false);
+    dispatch(resetAndSaveWorkshop());
+  };
+
   const handleNavigateToData = () => {
     history.push(`/workshop/${workshopId}/data`);
   };
@@ -303,9 +309,23 @@ const ManageParticipants = ({
               </Link>
             )}
             {workshopStatus === 'ongoing' && (
-              <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
-              </Link>
+              <>
+                <PrimaryButton
+                  className="mr-2"
+                  onClick={() => setShowResetSimulation(true)}
+                  disabled={!isWorkshopReadyForInitialization}
+                >
+                  {t('common.resetSimulation')}
+                </PrimaryButton>
+                <Link
+                  to={`/workshop/${workshopId}/simulation`}
+                  className="mr-2"
+                >
+                  <PrimaryButton>
+                    {t('common.continueSimulation')}
+                  </PrimaryButton>
+                </Link>
+              </>
             )}
           </div>
         </Card>
@@ -338,6 +358,17 @@ const ManageParticipants = ({
           title={t('manageParticipants.titleAddNewModal')}
         >
           <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
+        </CommonModal>
+        <CommonModal
+          t={t}
+          title={t('common.resetSimulationTitle')}
+          show={showResetSimulation}
+          handleAcknowledge={handleResetSimulation}
+          handleClose={() => {
+            setShowResetSimulation(false);
+          }}
+        >
+          <p>{t('common.resetSimulationConfirmation')}</p>
         </CommonModal>
       </Container>
     </Loading>

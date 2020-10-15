@@ -22,17 +22,6 @@ const colors = {
   publicServices: ['#B37850', '#ED7D31', '#FCAC76'],
 };
 
-// console.log("layout.sum", layout.sum());
-
-// const reduceFootprint = (footprintData) => {
-//   footprintData.map(sectorData => {
-//     if (sectorData.children.length > 1) {
-//       sectorData.value = sectorData.children.reduce((acc, element)=> acc + element[value])
-//     }
-//     else return sectorData.value = sectorData.children.value
-//   }
-// };
-
 const categories = (footprint) =>
   footprint.reduce(
     (accumulator, sectorData) => ({
@@ -52,6 +41,7 @@ const footprintDataBar = (footprint, t) => {
     categories(footprint)[sector].forEach((categ, c) => {
       graphBars.push(
         <Bar
+          key={`${sector}.${categ}`}
           name={t(`${sector}.${categ}`)}
           dataKey={categ}
           stackId="a"
@@ -64,21 +54,16 @@ const footprintDataBar = (footprint, t) => {
 };
 
 const renderLegend = (props) => {
-  const { payload, footprint, t } = props;
-  // console.log('payload', payload);
-  // console.log('footprint', footprint);
-
-  const newProps = props;
-  newProps.layout = 'vertical';
+  const { payload, footprint, t, content, ...rest } = props;
   return (
     <div className="legend no-gutters row">
-      {/* style={{ display: 'table-row', width: '100%' }}> */}
       {footprint.map((sectorData) => {
-        newProps.payload = payload
+        const newPayload = payload
           .filter((entry) => Object.keys(sectorData).includes(entry.dataKey))
           .reverse();
         return (
           <div
+            key={sectorData.name}
             className="legend-sector col"
             style={{
               display: 'table-cell',
@@ -92,7 +77,8 @@ const renderLegend = (props) => {
             <span style={{ fontSize: '0.9vw', fontWeight: '500' }}>
               {t(`common.${sectorData.name}`)}
             </span>
-            <DefaultLegendContent {...newProps} />
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <DefaultLegendContent {...rest} payload={newPayload} />
           </div>
         );
       })}

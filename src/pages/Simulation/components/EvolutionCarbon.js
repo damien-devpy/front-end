@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-// import { useTranslation } from "react-i18next";
 import {
   CartesianGrid,
   Label,
@@ -12,18 +10,15 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import './simulationPage.css';
 import { COLORS } from '../../../vars';
-import { computeEvolutionGraph } from '../../../selectors/footprintSelectors';
+import { computeEvolutionGraphWithObjective } from '../../../selectors/footprintSelectors';
 import {
-  selectCarbonFootprintsEntity,
-  selectCitizenCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
-  selectFootprintStructure,
   selectParticipantsEntity,
-  selectRoundsEntity,
 } from '../../../selectors/workshopSelector';
 
 // 18 individual colors generated using http://phrogz.net/css/distinct-colors.html
@@ -61,7 +56,7 @@ const EvolutionCarbon = () => {
   // Compute data
   const { t } = useTranslation();
   const participants = useSelector(selectParticipantsEntity);
-  const { startYear, endYear } = useSelector(selectCurrentWorkshopInfo);
+  const { endYear } = useSelector(selectCurrentWorkshopInfo);
 
   const participantName = (participantId) => {
     return mainCategories.includes(participantId.toString())
@@ -71,31 +66,7 @@ const EvolutionCarbon = () => {
         }.`;
   };
 
-  let evolutionData = useSelector((state) =>
-    computeEvolutionGraph(
-      selectRoundsEntity(state),
-      selectCarbonFootprintsEntity(state),
-      selectCitizenCarbonFootprintsEntity(state),
-      selectFootprintStructure(state)
-    )
-  );
-
-  // add objective trajectory
-  const initGlobal = evolutionData[0].avg_global;
-  const objective = 2;
-
-  for (let i = 0; i < evolutionData.length; i += 1) {
-    const value =
-      evolutionData[i].year >= endYear
-        ? objective
-        : initGlobal -
-          ((initGlobal - objective) * (evolutionData[i].year - startYear)) /
-            (endYear - startYear);
-    evolutionData[i].objective = Math.round(value * 100) / 100;
-  }
-  if (evolutionData[evolutionData.length - 1].year < endYear) {
-    evolutionData = [...evolutionData, { year: endYear, objective }];
-  }
+  const evolutionData = useSelector(computeEvolutionGraphWithObjective);
 
   const dataKeysArray = players(evolutionData[0]);
   const initialState = Object.fromEntries(dataKeysArray.map((key) => [key, 1]));
@@ -119,7 +90,7 @@ const EvolutionCarbon = () => {
     setWidth({ ...width, [dataKey]: w + 5 });
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
-  const handleMouseOut = (o) => {
+  const handleMouseOut = () => {
     // console.log("Mouse Out", o);
     // const { dataKey } = o;
     // var w = width[dataKey];
@@ -152,10 +123,10 @@ const EvolutionCarbon = () => {
   };
 
   return (
-    <ResponsiveContainer width="100%" minWidth={800} aspect={5.0 / 3.0}>
+    <ResponsiveContainer width="100%" aspect={5.0 / 3.0}>
       <LineChart
-        minWidth={200}
-        minHeight={300}
+        // minWidth={200}
+        // minHeight={300}
         data={evolutionData}
         margin={{
           top: 5,

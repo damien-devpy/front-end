@@ -1,9 +1,11 @@
+import { max } from 'lodash';
 import { pathOr } from 'ramda';
 
 import computeCarbonVariables from './utils/bufferCarbonVariables';
 import {
   ADD_PARTICIPANT,
   DELETE_PARTICIPANT,
+  FORM_SENT_TO_PARTICIPANT,
   SET_PARTICIPANT_PERSONA,
 } from '../actions/participants';
 import {
@@ -18,15 +20,22 @@ import {
   END_WORKSHOP,
   INIT_ROUND,
   INIT_WORKSHOP,
+  PARTICIPANTS_VALIDATED,
   PERSIST_WORKSHOP,
+  RESET_WORKSHOP,
   RETRIEVE_WORKSHOP,
   SET_ACTIONS_FOR_CITIZENS,
   SET_COLLECTIVE_CHOICES,
   SET_INDIVIDUAL_CHOICES_FOR_ALL_PARTICIPANTS,
   START_ROUND,
+  START_WORKSHOP,
+  SURVEY_VARIABLES_UPDATED,
+  UPDATE_SURVEY_VARIABLES,
+  VALIDATE_PARTICIPANTS,
   WORKSHOP_LOAD_ERROR,
   WORKSHOP_PERSISTED,
   WORKSHOP_RETRIEVED,
+  WORKSHOP_STARTED,
 } from '../actions/workshop';
 import { DELETE_WORKSHOP } from '../actions/workshops';
 import {
@@ -182,6 +191,37 @@ export default (state = initialState, action) => {
           status: 'ongoing',
           rounds: [year],
           currentYear: year,
+        },
+      };
+    }
+    case START_WORKSHOP: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case WORKSHOP_STARTED: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case RESET_WORKSHOP: {
+      const { currentYear, ...resultWithoutCurrentYear } = state.result;
+      return {
+        ...state,
+        isSynchronized: false,
+        entities: {
+          actionCards: state.entities.actionCards,
+          actionCardBatches: state.entities.actionCardBatches,
+          personas: state.entities.personas,
+          citizens: state.entities.citizens,
+          participants: state.entities.participants,
+        },
+        result: {
+          ...resultWithoutCurrentYear,
+          status: 'created',
+          rounds: [],
         },
       };
     }
@@ -464,18 +504,38 @@ export default (state = initialState, action) => {
         (yearCitizenKey) =>
           state.entities.citizenIndividualChoices[yearCitizenKey]
       );
+
       const collectiveActionCardIds = pathOr(
         [],
         ['entities', 'collectiveChoices', yearFrom, 'actionCardIds'],
         state
       );
-
-      const oldBudget = pathOr(
-        [],
-        ['entities', 'rounds', yearFrom, 'collectiveBudget'],
+      const { rounds } = state.result;
+      const previousCollectiveRound = max(
+        rounds.filter(
+          (year) =>
+            pathOr(
+              'none',
+              ['entities', 'roundConfig', year, 'actionCardType'],
+              state
+            ) === 'collective'
+        )
+      );
+      const previousBudget = pathOr(
+        0,
+        ['entities', 'rounds', previousCollectiveRound, 'collectiveBudget'],
         state
       );
-      const roundType = state.entities.roundConfig[yearFrom].actionCardType;
+      const collectiveActionCardIdsPreviousCollectiveRound = pathOr(
+        [],
+        [
+          'entities',
+          'collectiveChoices',
+          previousCollectiveRound,
+          'actionCardIds',
+        ],
+        state
+      );
       const newSocialVariables = computeSocialVariables(
         currentSocialVariables,
         participantIndividualChoices,
@@ -487,10 +547,9 @@ export default (state = initialState, action) => {
       );
       const newBudget = computeBudget(
         newSocialVariables.influenceScore,
-        oldBudget,
-        collectiveActionCardIds,
-        actionCards,
-        roundType
+        previousBudget,
+        collectiveActionCardIdsPreviousCollectiveRound,
+        actionCards
       );
       return {
         ...state,
@@ -827,6 +886,74 @@ export default (state = initialState, action) => {
           ...state.result,
           participants: [...state.result.participants, participant.id],
         },
+      };
+    }
+
+    case VALIDATE_PARTICIPANTS: {
+      return {
+        ...state,
+        isLoading: true,
+        loadError: false,
+        loadErrorDetails: null,
+      };
+    }
+    case PARTICIPANTS_VALIDATED: {
+      const { participantIds } = action.payload;
+      const participants = pathOr([], ['entities', 'participants'], state);
+      const updatedParticipants = participantIds.reduce(
+        (accumulator, participantId) => ({
+          ...accumulator,
+          [participantId]: { ...accumulator[participantId], status: 'ready' },
+        }),
+        participants
+      );
+      return {
+        ...state,
+        isLoading: false,
+        loadError: false,
+        loadErrorDetails: null,
+        isSynchronized: true,
+        entities: { ...state.entities, participants: updatedParticipants },
+      };
+    }
+    case FORM_SENT_TO_PARTICIPANT: {
+      const { id } = action.payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          participants: {
+            ...state.entities.participants,
+            [id]: { ...state.entities.participants[id], status: 'form_sent' },
+          },
+        },
+      };
+    }
+    case UPDATE_SURVEY_VARIABLES: {
+      return {
+        ...state,
+        isLoading: true,
+        loadError: false,
+        loadErrorDetails: null,
+      };
+    }
+    case SURVEY_VARIABLES_UPDATED: {
+      const { surveyVariables } = action.payload;
+      const oldParticipants = pathOr([], ['entities', 'participants'], state);
+      const participants = {
+        ...oldParticipants,
+        [surveyVariables.participantId]: {
+          ...oldParticipants[surveyVariables.participantId],
+          surveyVariables: surveyVariables.answers,
+        },
+      };
+      return {
+        ...state,
+        isLoading: false,
+        loadError: false,
+        loadErrorDetails: null,
+        isSynchronized: true,
+        entities: { ...state.entities, participants },
       };
     }
 

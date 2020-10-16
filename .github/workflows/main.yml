@@ -17,7 +17,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository:  2tons/front-end/web
           tag_with_ref: true
-          tags: latest
+
   deploy:
     needs: [build-push]
     name: deploy to cluster

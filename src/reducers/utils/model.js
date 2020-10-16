@@ -213,29 +213,25 @@ const computeBudget = (
   influenceScore,
   oldBudget = 0,
   collectiveActionCardIds = [],
-  actionCards = [],
-  roundType = 'collective'
+  actionCards = []
 ) => {
-  if (roundType === 'collective') {
-    const startingBudget = 3;
-    const minBudget = 3;
-    const maxBudget = 8;
-    const offset = 0.15;
-    // Every 0.2 influence point, add 1 budget
-    const rateBudgetOverInfluenceScore = 0.2;
-    const approximativeBudget = Math.floor(
-      startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
-    );
-    const additionalBudget = Math.max(
-      Math.min(approximativeBudget, maxBudget),
-      minBudget
-    );
-    const usedBudget = collectiveActionCardIds
-      .map((id) => actionCards[id].cost)
-      .reduce((a, b) => a + b, 0);
-    return oldBudget + additionalBudget - usedBudget;
-  }
-  return oldBudget;
+  const startingBudget = 3;
+  const minBudget = 3;
+  const maxBudget = 8;
+  const offset = 0.15;
+  // Every 0.2 influence point, add 1 budget
+  const rateBudgetOverInfluenceScore = 0.2;
+  const approximativeBudget = Math.floor(
+    startingBudget + (influenceScore + offset) / rateBudgetOverInfluenceScore
+  );
+  const additionalBudget = Math.max(
+    Math.min(approximativeBudget, maxBudget),
+    minBudget
+  );
+  const usedBudget = collectiveActionCardIds
+    .map((id) => actionCards[id].cost)
+    .reduce((a, b) => a + b, 0);
+  return oldBudget + additionalBudget - usedBudget;
 };
 
 export {

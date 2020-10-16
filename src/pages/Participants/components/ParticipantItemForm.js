@@ -29,6 +29,7 @@ export const ParticipantItemForm = ({
   currentPersonaId,
   isValid,
   handleShowBC,
+  handleSendForm,
 }) => {
   const { t } = useTranslation();
 
@@ -187,10 +188,7 @@ export const ParticipantItemForm = ({
           e.preventDefault();
         }}
       >
-        <ParticipantStatus
-          value={status}
-          handleShowBC={() => handleShowBC(id)}
-        />
+        <ParticipantStatus value={status} />
       </Col>
       <Col
         className="text-center"
@@ -202,6 +200,7 @@ export const ParticipantItemForm = ({
         <ParticipantStatusAction
           value={status}
           handleShowBC={() => handleShowBC(id)}
+          handleSendForm={() => handleSendForm(id)}
         />
       </Col>
     </Row>
@@ -220,7 +219,6 @@ export const ParticipantsHeader = () => {
         <Col md="2">{t('manageParticipants.persona')}</Col>
         <Col className="text-center">{t('manageParticipants.status')}</Col>
         <Col className="text-center">{t('manageParticipants.actions')}</Col>
-
       </Row>
     </StyledHeaderRow>
   );

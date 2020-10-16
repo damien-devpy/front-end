@@ -1,16 +1,30 @@
 import Papa from 'papaparse';
 
-import { denormalizeWorkshop, updateWorkshopApi } from '../utils/api';
+import {
+  denormalizeWorkshop,
+  updateSurveyVariablesApi,
+  updateWorkshopApi,
+  validateParticipantApi,
+} from '../utils/api';
 import { selectCurrentWorkshopInfo } from '../selectors/workshopSelector';
 import { throwError } from './errors';
 
 // Workshop actions
 export const INIT_WORKSHOP = 'INIT_WORKSHOP';
+export const START_WORKSHOP = 'START_WORKSHOP';
+export const WORKSHOP_STARTED = 'WORKSHOP_STARTED';
+export const RESET_WORKSHOP = 'RESET_WORKSHOP';
 export const UPDATE_WORKSHOP = 'UPDATE_WORKSHOP';
 export const WORKSHOP_UPDATED = 'WORKSHOP_UPDATED';
 export const PERSIST_WORKSHOP = 'PERSIST_WORKSHOP';
 export const WORKSHOP_PERSISTED = 'WORKSHOP_PERSISTED';
 export const END_WORKSHOP = 'END_WORKSHOP';
+export const VALIDATE_PARTICIPANTS = 'VALIDATE_PARTICIPANTS';
+export const PARTICIPANTS_VALIDATED = 'PARTICIPANTS_VALIDATED';
+
+// SurveyVariables
+export const UPDATE_SURVEY_VARIABLES = 'UPDATE_SURVEY_VARIABLES';
+export const SURVEY_VARIABLES_UPDATED = 'SURVEY_VARIABLES_UPDATED';
 
 // Round actions
 export const INIT_ROUND = 'INIT_ROUND';
@@ -78,6 +92,18 @@ const persistWorkshop = (workshop) => {
   };
 };
 
+const resetWorkshop = () => ({
+  type: RESET_WORKSHOP,
+});
+
+export const resetAndSaveWorkshop = () => {
+  return (dispatch) => {
+    dispatch(resetWorkshop());
+    dispatch((dispatch2, getState) => {
+      dispatch2(persistWorkshop(getState().workshop));
+    });
+  };
+};
 // const persistWorkshopOffline = (workshopId, workshop) => {
 //   return {
 //     type: PERSIST_WORKSHOP,
@@ -219,6 +245,9 @@ export const initRoundAndProcessModel = (yearFrom, yearTo) => {
 
 export const startWorkshop = (startYear) => {
   return (dispatch) => {
+    dispatch({
+      type: START_WORKSHOP,
+    });
     fetch('/data/heat_networks.csv')
       .then((response) => response.text())
       .then((text) => Papa.parse(text, { header: true }))
@@ -226,10 +255,69 @@ export const startWorkshop = (startYear) => {
         dispatch(initWorkshop(startYear, heatNetworksData.data));
         dispatch(computeFootprints(startYear));
         dispatch(computeFootprintsForCitizen(startYear));
+        dispatch({
+          type: WORKSHOP_STARTED,
+        });
         dispatch((dispatch2, getState) => {
           const { workshop } = getState();
           dispatch2(persistWorkshop(workshop));
         });
+      });
+  };
+};
+
+const updateAsyncSurveyVariables = (workshopId) => ({
+  type: UPDATE_SURVEY_VARIABLES,
+  payload: { workshopId },
+});
+
+export const updateSurveyVariables = (
+  workshopId,
+  participantsModifiedSurveyVariables
+) => {
+  return (dispatch) => {
+    dispatch(updateAsyncSurveyVariables(workshopId));
+    participantsModifiedSurveyVariables.forEach(
+      (participantSurveyVariables) => {
+        const { participantId, surveyVariables } = participantSurveyVariables;
+        updateSurveyVariablesApi({
+          workshopId,
+          participantId,
+          data: surveyVariables,
+        })
+          .then((res) => {
+            dispatch({
+              type: SURVEY_VARIABLES_UPDATED,
+              payload: { surveyVariables: res },
+            });
+            return res;
+          })
+          .catch((error) => {
+            dispatch(throwError(error.message));
+          });
+      }
+    );
+  };
+};
+
+const validateAsyncParticipants = (workshopId) => ({
+  type: VALIDATE_PARTICIPANTS,
+  payload: { workshopId },
+});
+
+export const validateParticipants = (workshopId, participantIds) => {
+  return (dispatch) => {
+    dispatch(validateAsyncParticipants(workshopId));
+    validateParticipantApi({ data: participantIds, workshopId })
+      .then((res) => {
+        dispatch({
+          type: PARTICIPANTS_VALIDATED,
+          payload: { participantIds },
+        });
+        return res;
+      })
+      .catch((error) => {
+        dispatch(throwError(error.message));
       });
   };
 };

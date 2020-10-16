@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +12,6 @@ import CommonModal from '../../components/CommonModal';
 import EvolutionCarbon from './components/EvolutionCarbon';
 import FootprintGraphType from './components/FootprintGraphType';
 import NewRoundModalForm from './components/NewRoundModalForm';
-import PrimaryButton from '../../components/PrimaryButton';
 import {
   globalAverageFootprint,
   participantsAverageFootprint,
@@ -94,7 +94,7 @@ const Simulation = ({
                 <h3>
                   <small>{t('common.weAreIn')}</small> {currentRound}
                 </h3>
-                <PrimaryButton
+                <Button
                   size="lg"
                   variant="primary"
                   onClick={handleShowNewRoundModal}
@@ -102,7 +102,7 @@ const Simulation = ({
                   {status === 'ended'
                     ? t('common.extraRound')
                     : t('common.nextRound')}
-                </PrimaryButton>
+                </Button>
               </CardHeader>
               {!isLoading && (
                 <Row style={{ height: '100vh' }}>
@@ -117,12 +117,17 @@ const Simulation = ({
                       <h4> {t('simulation.global_average')} </h4>
                       <FootprintGraphType
                         carbonFootprint={globalAverageCarbonFootprint}
+                        legend={false}
+                        width="100%"
+                        aspect={2.38}
                       />
                     </Container>
                     <Container className="graph-card">
                       <h4> {t('simulation.the_participants')} </h4>
                       <FootprintGraphType
                         carbonFootprint={participantsAverageCarbonFootprint}
+                        width="100%"
+                        aspect={1.5}
                       />
                     </Container>
                   </Col>
@@ -131,7 +136,7 @@ const Simulation = ({
             </Container>
           </StyledSimulation>
           <CommonModal
-            title={t('common.nextRound')}
+            title={t('common.nextRoundConfiguration')}
             show={showNewRoundModal}
             handleClose={handleCloseNewRoundModal}
           >

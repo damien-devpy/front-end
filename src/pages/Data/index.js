@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Loading from '../../components/Loading';
 import SimulationData from './SimulationData';
 import SurveyVariablesDataSheet from './SurveyData/SurveyVariablesDataSheet';
+import {
+  selectModifiedSurveyVariables,
+  selectParticipantsGrid,
+  selectSurveyVariablesGrid,
+} from '../../selectors/surveyVariablesSelector';
 
-import { selectSurveyVariablesGrid } from '../../selectors/surveyVariablesSelector';
+import {
+  updateSurveyVariables,
+  validateParticipants,
+} from '../../actions/workshop';
 import { useWorkshop } from '../../hooks/workshop';
 
 const Data = ({
@@ -19,9 +27,23 @@ const Data = ({
   const workshop = useWorkshop(workshopId);
 
   const { loadError, isLoading } = workshop;
-  const surveyVariablesGrid = useSelector((state) =>
-    selectSurveyVariablesGrid(state)
-  );
+  const surveyVariablesGrid = useSelector(selectSurveyVariablesGrid);
+  const participantsGrid = useSelector(selectParticipantsGrid);
+
+  const dispatch = useDispatch();
+
+  const handleSave = (workshopIdentifier) => (modifiedSurveyVariablesGrid) => {
+    const modifiedSurveyVariables = selectModifiedSurveyVariables(
+      modifiedSurveyVariablesGrid
+    );
+    dispatch(
+      updateSurveyVariables(workshopIdentifier, modifiedSurveyVariables)
+    );
+  };
+
+  const handleValidate = (workshopIdentifier) => (participantIds) => {
+    dispatch(validateParticipants(workshopIdentifier, participantIds));
+  };
 
   const [activeComponent, setActiveComponent] = useState('surveyData');
 
@@ -52,9 +74,9 @@ const Data = ({
         {activeComponent === 'surveyData' && (
           <SurveyVariablesDataSheet
             surveyVariablesGrid={surveyVariablesGrid}
-            resetOpenNodesOnDataUpdate={false}
-            hasSearch={false}
-            isOpen={false}
+            participantsGrid={participantsGrid}
+            handleSave={handleSave(workshopId)}
+            handleValidate={handleValidate(workshopId)}
           />
         )}
         {activeComponent === 'simulationData' && (

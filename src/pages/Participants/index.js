@@ -3,14 +3,16 @@
 import Papa from 'papaparse';
 import React, { useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useTranslation } from 'react-i18next';
 
 import AddNewButton from '../../components/AddNewButton';
 import AddParticipantModalForm from './components/AddParticipantModalForm';
 import CardHeader from '../../components/CardHeader';
 import CommonModal from '../../components/CommonModal';
+import DownloadButton from '../../components/DownloadButton';
 import FootprintGraph from '../Simulation/components/FootprintGraph';
 import Loading from '../../components/Loading';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -22,6 +24,7 @@ import {
 import {
   addParticipant,
   deleteParticipant,
+  formSentToParticipant,
   setParticipantPersona,
 } from '../../actions/participants';
 import {
@@ -35,6 +38,7 @@ import {
   footprintDataToGraph,
   normaliseEmissionValue,
 } from '../../selectors/footprintSelectors';
+import { resetAndSaveWorkshop, startWorkshop } from '../../actions/workshop';
 import {
   selectCarbonFootprintsEntity,
   selectCurrentWorkshopInfo,
@@ -44,7 +48,6 @@ import {
   selectParticipantsEntity,
   selectPersonaEntity,
 } from '../../selectors/workshopSelector';
-import { startWorkshop } from '../../actions/workshop';
 import { throwError } from '../../actions/errors';
 import { useWorkshop } from '../../hooks/workshop';
 
@@ -65,6 +68,7 @@ const ManageParticipants = ({
     selectIsWorkshopReadyForInitialization
   );
   const [showBC, setShowBC] = useState(false);
+  const [showResetSimulation, setShowResetSimulation] = useState(false);
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   const [footprintToShow, setFootprintToShow] = useState({});
 
@@ -78,6 +82,8 @@ const ManageParticipants = ({
   } = useSelector(selectCurrentWorkshopInfo);
 
   const { t } = useTranslation();
+  const history = useHistory();
+
   const participants = useSelector(selectParticipantsEntity);
   const carbonFootprints = useSelector(selectCarbonFootprintsEntity);
   const globalCarbonVariables = useSelector(selectInitialGlobalCarbonVariables);
@@ -106,15 +112,19 @@ const ManageParticipants = ({
   };
 
   const sendFormAsync = (participantId) => (dispatchThunk) => {
-    sendFormApi({ workshopId, participantId }).catch(() => {
-      dispatchThunk(
-        throwError(
-          t('errors.sendForm', {
-            participantId,
-          })
-        )
-      );
-    });
+    sendFormApi({ workshopId, participantId })
+      .then(() => {
+        dispatchThunk(formSentToParticipant(participantId));
+      })
+      .catch(() => {
+        dispatchThunk(
+          throwError(
+            t('errors.sendForm', {
+              participantId,
+            })
+          )
+        );
+      });
   };
   const handleSendForm = (participantId) => {
     console.log('Send form participant', participantId);
@@ -202,6 +212,15 @@ const ManageParticipants = ({
     });
   };
 
+  const handleResetSimulation = () => {
+    setShowResetSimulation(false);
+    dispatch(resetAndSaveWorkshop());
+  };
+
+  const handleNavigateToData = () => {
+    history.push(`/workshop/${workshopId}/data`);
+  };
+
   const disableModifications = workshopStatus !== 'created';
   const participantItems = [];
 
@@ -227,10 +246,10 @@ const ManageParticipants = ({
           handleShowBC={handleShowBC}
           handleSendForm={handleSendForm}
           disabled={disableModifications}
+          handleNavigateToData={handleNavigateToData}
         />
       );
     });
-
   return (
     <Loading error={error} isLoading={isLoading}>
       <Container>
@@ -243,6 +262,17 @@ const ManageParticipants = ({
           >
             <span className="emoji">&#x1F4C3;</span>
           </a>
+          {!isLoading && (
+            <Link to={`/workshop/${workshopId}/participants_file`}>
+              <DownloadButton
+                style={{ float: 'right', marginRight: 10 }}
+                colorIcon="#FFF"
+                disable={!isWorkshopReadyForInitialization}
+              >
+                {t('common.participantsFootprintFile')}
+              </DownloadButton>
+            </Link>
+          )}
         </h2>
         <Card
           className="p-5 border-light shadow-sm"
@@ -250,6 +280,7 @@ const ManageParticipants = ({
         >
           <CardHeader>
             <h3>{t('manageParticipants.title')}</h3>
+
             <AddNewButton
               disabled={disableModifications}
               onClick={() => {
@@ -278,9 +309,23 @@ const ManageParticipants = ({
               </Link>
             )}
             {workshopStatus === 'ongoing' && (
-              <Link to={`/workshop/${workshopId}/simulation`}>
-                <PrimaryButton>{t('common.continueSimulation')}</PrimaryButton>
-              </Link>
+              <>
+                <PrimaryButton
+                  className="mr-2"
+                  onClick={() => setShowResetSimulation(true)}
+                  disabled={!isWorkshopReadyForInitialization}
+                >
+                  {t('common.resetSimulation')}
+                </PrimaryButton>
+                <Link
+                  to={`/workshop/${workshopId}/simulation`}
+                  className="mr-2"
+                >
+                  <PrimaryButton>
+                    {t('common.continueSimulation')}
+                  </PrimaryButton>
+                </Link>
+              </>
             )}
           </div>
         </Card>
@@ -313,6 +358,17 @@ const ManageParticipants = ({
           title={t('manageParticipants.titleAddNewModal')}
         >
           <AddParticipantModalForm t={t} handleSubmit={handleAddParticipant} />
+        </CommonModal>
+        <CommonModal
+          t={t}
+          title={t('common.resetSimulationTitle')}
+          show={showResetSimulation}
+          handleAcknowledge={handleResetSimulation}
+          handleClose={() => {
+            setShowResetSimulation(false);
+          }}
+        >
+          <p>{t('common.resetSimulationConfirmation')}</p>
         </CommonModal>
       </Container>
     </Loading>

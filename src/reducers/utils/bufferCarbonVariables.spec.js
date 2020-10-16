@@ -296,6 +296,12 @@ describe('test computeCarbonVariables', () => {
       coefficientEnergyEfficientDriving: 1,
     });
   });
+  it('should set default values for missing fields', () => {
+    const a = computeCarbonVariables({}, globalVariables);
+    expect(a).toMatchObject({
+      motorTypeCarCommute: 'FUEL',
+    });
+  });
   describe('test the transport-related variables', () => {
     it('should convert kmCarCommutePerWeek to kmCarCommutePerYear', () => {
       const surveyVariables = { kmCarCommutePerDay: 10 };

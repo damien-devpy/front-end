@@ -167,6 +167,8 @@ export default {
       'Variables individuelles du participant',
     globalCarbonVariablesDisplayTitle:
       'Variables communes à tous les participants',
+    surveyData: 'Données du questionnaire',
+    simulationData: 'Données de la simulation',
   },
   footprintCategories: {
     totalFootprint: 'Total',
